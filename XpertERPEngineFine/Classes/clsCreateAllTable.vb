@@ -23957,6 +23957,7 @@ Public Class clsCreateAllTable
             coll.Add("Page_No", "Integer NULL")
             coll.Add("Arrival_Time", "Datetime NULL")
             coll.Add("Weighment_Time", "Datetime NULL")
+            coll.Add("Is_Drip_Saver", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)

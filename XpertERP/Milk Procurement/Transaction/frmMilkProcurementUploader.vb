@@ -28,7 +28,7 @@ Public Class frmMilkProcurementUploader
     Const colPageNo As String = "colPageNo"
     Const colArrivalTime As String = "colArrivalTime"
     Const colWeighmentTime As String = "colWeighmentTime"
-
+    Const colIsDripSaver As String = "colIsDripSaver"
 
     Const ReportID As String = "BatchInvIn"
 
@@ -377,6 +377,17 @@ Public Class frmMilkProcurementUploader
         repoDateBox.IsVisible = False
         repoDateBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoDateBox)
+
+        Dim repoIsDripSaver As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoIsDripSaver = New GridViewDecimalColumn()
+        repoIsDripSaver.FormatString = ""
+        repoIsDripSaver.HeaderText = "Is Drip Saver"
+        repoIsDripSaver.Name = colIsDripSaver
+        repoIsDripSaver.Width = 80
+        repoIsDripSaver.IsVisible = False
+        repoIsDripSaver.ReadOnly = True
+        repoIsDripSaver.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoIsDripSaver)
 
         loadBlankParameterGrid()
 
@@ -859,6 +870,8 @@ Public Class frmMilkProcurementUploader
                         If clsCommon.myLen(gv1.Rows(ii).Cells(colWeighmentTime).Value) > 0 Then
                             objTr.Weighment_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colWeighmentTime).Value)
                         End If
+                        objTr.Is_Drip_Saver = clsCommon.myCdbl(gv1.Rows(ii).Cells(colIsDripSaver).Value)
+
                         For jj As Integer = 0 To gv1.Columns.Count - 1
                             If gv1.Rows(ii).Cells(jj).Tag <> gv1.Rows(ii).Cells(jj).Value Then
                                 objTr.IsUpdate = True
@@ -984,7 +997,8 @@ Public Class frmMilkProcurementUploader
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colArrivalTime).Tag = objTr.Arrival_Time
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentTime).Value = objTr.Weighment_Time
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentTime).Tag = objTr.Weighment_Time
-
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsDripSaver).Value = objTr.Is_Drip_Saver
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsDripSaver).Tag = objTr.Is_Drip_Saver
                         TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     Next
                     txtTotalQty.Value = TotQty

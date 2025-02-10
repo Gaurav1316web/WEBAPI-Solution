@@ -22,10 +22,12 @@ Partial Class rptBankSavingAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtMCC = New common.UserControls.txtFinder()
         Me.chkIfscno = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -35,17 +37,18 @@ Partial Class rptBankSavingAdvice
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtMCC = New common.UserControls.txtFinder()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIfscno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,10 +58,10 @@ Partial Class rptBankSavingAdvice
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +78,7 @@ Partial Class rptBankSavingAdvice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -110,6 +114,41 @@ Partial Class rptBankSavingAdvice
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 352)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(3, 62)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel4.TabIndex = 440
+        Me.MyLabel4.Text = "MCC"
+        '
+        'txtMCC
+        '
+        Me.txtMCC.CalculationExpression = Nothing
+        Me.txtMCC.FieldCode = Nothing
+        Me.txtMCC.FieldDesc = Nothing
+        Me.txtMCC.FieldMaxLength = 0
+        Me.txtMCC.FieldName = Nothing
+        Me.txtMCC.isCalculatedField = False
+        Me.txtMCC.IsSourceFromTable = False
+        Me.txtMCC.IsSourceFromValueList = False
+        Me.txtMCC.IsUnique = False
+        Me.txtMCC.Location = New System.Drawing.Point(121, 62)
+        Me.txtMCC.MendatroryField = True
+        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC.MyLinkLable1 = Nothing
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.MyReadOnly = False
+        Me.txtMCC.MyShowMasterFormButton = False
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.ReferenceFieldDesc = Nothing
+        Me.txtMCC.ReferenceFieldName = Nothing
+        Me.txtMCC.ReferenceTableName = Nothing
+        Me.txtMCC.Size = New System.Drawing.Size(380, 18)
+        Me.txtMCC.TabIndex = 439
+        Me.txtMCC.Value = ""
         '
         'chkIfscno
         '
@@ -225,7 +264,7 @@ Partial Class rptBankSavingAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -233,6 +272,16 @@ Partial Class rptBankSavingAdvice
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(161, 12)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 155
+        Me.btnPrint.Text = "Print"
         '
         'btnGo
         '
@@ -254,50 +303,21 @@ Partial Class rptBankSavingAdvice
         Me.btnReset.TabIndex = 154
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel4
+        'btnSplitExport
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(3, 62)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel4.TabIndex = 440
-        Me.MyLabel4.Text = "MCC"
+        Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
+        Me.btnSplitExport.Location = New System.Drawing.Point(238, 12)
+        Me.btnSplitExport.Name = "btnSplitExport"
+        Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
+        Me.btnSplitExport.TabIndex = 158
+        Me.btnSplitExport.Text = "Export"
         '
-        'txtMCC
+        'rmiExcel
         '
-        Me.txtMCC.CalculationExpression = Nothing
-        Me.txtMCC.FieldCode = Nothing
-        Me.txtMCC.FieldDesc = Nothing
-        Me.txtMCC.FieldMaxLength = 0
-        Me.txtMCC.FieldName = Nothing
-        Me.txtMCC.isCalculatedField = False
-        Me.txtMCC.IsSourceFromTable = False
-        Me.txtMCC.IsSourceFromValueList = False
-        Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(121, 62)
-        Me.txtMCC.MendatroryField = True
-        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCC.MyLinkLable1 = Nothing
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyReadOnly = False
-        Me.txtMCC.MyShowMasterFormButton = False
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.ReferenceFieldDesc = Nothing
-        Me.txtMCC.ReferenceFieldName = Nothing
-        Me.txtMCC.ReferenceTableName = Nothing
-        Me.txtMCC.Size = New System.Drawing.Size(380, 18)
-        Me.txtMCC.TabIndex = 439
-        Me.txtMCC.Value = ""
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(161, 12)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 155
-        Me.btnPrint.Text = "Print"
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
         '
         'rptBankSavingAdvice
         '
@@ -318,6 +338,7 @@ Partial Class rptBankSavingAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIfscno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -327,10 +348,10 @@ Partial Class rptBankSavingAdvice
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -353,4 +374,6 @@ Partial Class rptBankSavingAdvice
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtMCC As common.UserControls.txtFinder
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnSplitExport As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
 End Class

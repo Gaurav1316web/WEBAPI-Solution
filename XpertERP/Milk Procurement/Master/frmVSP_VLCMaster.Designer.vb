@@ -37,11 +37,13 @@ Partial Class frmVSP_VLCMaster
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportRoute = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportRoutee = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ImportRoute = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Import = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -310,8 +312,8 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.DtpEndBillingDate = New common.Controls.MyDateTimePicker()
         Me.DtpBillingDate = New common.Controls.MyDateTimePicker()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.ClsMyPrintDocument1 = New XpertERPEngine.clsMyPrintDocument()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         CType(Me.btnclear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -592,24 +594,17 @@ Partial Class frmVSP_VLCMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'MenuClose
+        'ExportRoute
         '
-        Me.MenuClose.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
-        Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem4})
-        Me.MenuClose.Name = "MenuClose"
-        Me.MenuClose.Text = "File"
-        '
-        'MenuImport
-        '
-        Me.MenuImport.AccessibleDescription = "MenuImport"
-        Me.MenuImport.AccessibleName = "RadMenuItem2"
-        Me.MenuImport.Name = "MenuImport"
-        Me.MenuImport.Text = "Import"
+        Me.ExportRoute.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
+        Me.ExportRoute.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuExport, Me.MenuImport, Me.RadMenuItem4})
+        Me.ExportRoute.Name = "ExportRoute"
+        Me.ExportRoute.Text = "File"
         '
         'MenuExport
         '
         Me.MenuExport.AccessibleDescription = "MenuExport"
-        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportBlankSheet})
+        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportRoutee})
         Me.MenuExport.Name = "MenuExport"
         Me.MenuExport.Text = "Export"
         '
@@ -618,10 +613,28 @@ Partial Class frmVSP_VLCMaster
         Me.ExportData.Name = "ExportData"
         Me.ExportData.Text = "Export Data"
         '
-        'ExportBlankSheet
+        'ExportRoutee
         '
-        Me.ExportBlankSheet.Name = "ExportBlankSheet"
-        Me.ExportBlankSheet.Text = "Export Blank Sheet"
+        Me.ExportRoutee.Name = "ExportRoutee"
+        Me.ExportRoutee.Text = "Export Route"
+        '
+        'MenuImport
+        '
+        Me.MenuImport.AccessibleDescription = "MenuImport"
+        Me.MenuImport.AccessibleName = "RadMenuItem2"
+        Me.MenuImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ImportRoute, Me.Import})
+        Me.MenuImport.Name = "MenuImport"
+        Me.MenuImport.Text = "Import"
+        '
+        'ImportRoute
+        '
+        Me.ImportRoute.Name = "ImportRoute"
+        Me.ImportRoute.Text = "Import Route"
+        '
+        'Import
+        '
+        Me.Import.Name = "Import"
+        Me.Import.Text = "Import"
         '
         'RadMenuItem4
         '
@@ -5267,14 +5280,6 @@ Partial Class frmVSP_VLCMaster
         Me.DtpBillingDate.Text = "25/06/2014"
         Me.DtpBillingDate.Value = New Date(2014, 6, 25, 13, 49, 46, 666)
         '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
-        Me.RadMenu1.TabIndex = 0
-        '
         'ClsMyPrintDocument1
         '
         Me.ClsMyPrintDocument1.FooterFont = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5286,6 +5291,14 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
         Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportRoute})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
+        Me.RadMenu1.TabIndex = 0
         '
         'frmVSP_VLCMaster
         '
@@ -5575,7 +5588,7 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents ToolTipvendor As System.Windows.Forms.ToolTip
-    Friend WithEvents MenuClose As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents ExportRoute As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
@@ -5585,9 +5598,7 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents DtpEndBillingDate As common.Controls.MyDateTimePicker
     Friend WithEvents DtpBillingDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
-    Friend WithEvents RadMenu1 As RadMenu
     Friend WithEvents ExportData As RadMenuItem
-    Friend WithEvents ExportBlankSheet As RadMenuItem
     Friend WithEvents ClsMyPrintDocument1 As clsMyPrintDocument
     Friend WithEvents pageCus As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
@@ -5849,5 +5860,9 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents MyLabel59 As common.Controls.MyLabel
     Friend WithEvents txtShiftCowLimit As common.MyNumBox
     Friend WithEvents chkIntegrated As RadCheckBox
+    Friend WithEvents ExportRoutee As RadMenuItem
+    Friend WithEvents ImportRoute As RadMenuItem
+    Friend WithEvents Import As RadMenuItem
+    Friend WithEvents RadMenu1 As RadMenu
 End Class
 

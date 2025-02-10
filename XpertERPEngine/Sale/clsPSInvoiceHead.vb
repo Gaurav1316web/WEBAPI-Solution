@@ -9230,6 +9230,7 @@ Public Class clsSaleRegisterParameterType
     Public Unit_Code As String = ""
     Public Other_Cond As String = ""
     Public strPivotForFinalOuterQuery As String = ""
+    Public strCustomerAmountWiseTaxQuery As String = ""
     Public MiscSaleSubCategory As String = ""
     ''-----------------------Monika 11/04/2017
     Public rbtnCategorySected As Boolean = True

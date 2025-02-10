@@ -1454,7 +1454,7 @@ Public Class frmVSP_VLCMaster
         Try
             trans = clsDBFuncationality.GetTransactin()
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             Dim Registered As Integer = 0
             If objCommonVar.GSTApplicable Then
@@ -1779,6 +1779,7 @@ Public Class frmVSP_VLCMaster
             'End If
 
             UcAttachment1.SaveData(fndvendorNo.Value)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
             myMessages.update()
         Catch ex As Exception
             trans.Rollback()
@@ -3846,7 +3847,11 @@ Public Class frmVSP_VLCMaster
     End Sub
 
 
-    Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
+    'Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
+    '    funImport()
+    'End Sub
+
+    Private Sub RadMenuItem1_Click_1(sender As Object, e As EventArgs) Handles Import.Click
         funImport()
     End Sub
     Public Sub funImport()
@@ -3860,151 +3865,414 @@ Public Class frmVSP_VLCMaster
                 clsCommon.ProgressBarShow()
                 Dim obj As New clsfrmVLCMaster
                 Dim arr As New List(Of clsfrmVLCMaster)
+
                 Dim strCode As String = ""
                 Dim strName As String = ""
                 Dim strUploader_No As String = ""
                 Dim strZone As String = ""
                 Dim duplicateUploader As String = Nothing
+                Dim dtError As New DataTable
+                Dim ii As Integer = 0
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
-                    For Each grow As GridViewRowInfo In gv.Rows
-                        linno += 1
-                        'If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("DCS Code").Value))) Then
-                        '    Throw New Exception("DCS Code cannot be empty" + clsCommon.myCstr(linno) + ".")
-                        'Else
-                        obj.vlcCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
-                        obj.vlcName = clsCommon.myCstr(grow.Cells("DCS Name").Value)
-                        obj.mainvillname = clsCommon.myCstr(grow.Cells("DCS Name").Value)
-                        obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
+                    If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        For Each grow As GridViewRowInfo In gv.Rows
+                            Try
+                                linno += 1
+                                clsCommon.ProgressBarPercentUpdate(ii, gv.Rows.Count, "Validating Data...")
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Code Desc").Value)) <= 0 Then
+                                    Throw New Exception("Bank Code Desc can't be blank !")
+                                End If
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Current Company Bank").Value)) <= 0 Then
+                                '    Throw New Exception("Current Company Bank Code can't be blank !")
+                                'End If
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Saving Company Bank").Value)) <= 0 Then
+                                '    Throw New Exception("Saving Company Bank Number can't be blank !")
+                                'End If
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Security Charges 1").Value)) <= 0 Then
+                                '    Throw New Exception("Security Charges 1 can't be blank !")
+                                'End If
 
-                        Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'", trans))
-                        'If Count > 0 Then
-                        '    'clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader :" + obj.VLC_CODE_VLC_UPLOADER)
-                        '    If clsCommon.myLen(duplicateUploader) > 0 Then
-                        '        duplicateUploader += ", " + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
-                        '    Else
-                        '        duplicateUploader = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
-                        '    End If
-                        '    Continue For
-                        'End If
-                        'txtpan.Text = clsCommon.myCstr(grow.Cells("PAN No").Value)
-                        obj.Gender = clsCommon.myCstr(grow.Cells("Gender").Value)
-                        If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
-                            obj.Apply_Cow_Price = True
-                            obj.ApplyCowPriceDate = clsCommon.myCDate(grow.Cells("Apply Cow Price Date").Value)
-                            obj.Shift_Cow_Limit = clsCommon.myCdbl(grow.Cells("Shift Cow Quantity Limit").Value)
-                        Else
-                            obj.Apply_Cow_Price = False
-                            obj.ApplyCowPriceDate = Nothing
-                        End If
 
-                        obj.Loyalty_Rate = clsCommon.myCdbl(grow.Cells("Loyalty Rate").Value)
-                        If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "" Then
-                            obj.Registered_PDCS_CLUSTER = "PDCS"
-                        Else
-                            obj.Registered_PDCS_CLUSTER = clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value)
-                        End If
-                        obj.RegistrationNo = clsCommon.myCstr(grow.Cells("Registration No").Value)
-                        'obj.RegistrationDate = clsCommon.myCDate(grow.Cells("Registration Date").Value, "dd/MM/yyyy")
-                        obj.MCCCOde = clsCommon.myCstr(grow.Cells("MCC").Value)
-                        obj.routecode = clsCommon.myCstr(grow.Cells("DCS Route Code").Value)
-                        obj.Supervisor = clsCommon.myCstr(grow.Cells("Supervisor").Value)
-                        obj.DistrictCode = clsCommon.myCstr(grow.Cells("District Code").Value)
-                        obj.BlockCode = clsCommon.myCstr(grow.Cells("Block Code").Value)
-                        obj.ZoneCode = clsCommon.myCstr(grow.Cells("Zone Code").Value)
-                        obj.RevenueVillageCode = clsCommon.myCstr(grow.Cells("Revenue Village Code").Value)
-                        obj.GrampanchayatCode = clsCommon.myCstr(grow.Cells("Grampanchayat Code").Value)
-                        obj.PanchayatSamitiCode = clsCommon.myCstr(grow.Cells("Panchayat Samiti Code").Value)
-                        obj.VidhanSabhaCode = clsCommon.myCstr(grow.Cells("Vidhan Sabha Code").Value)
-                        'If clsCommon.myLen(obj.routecode) > 0 Then
-                        '    OpenRouteAccRouteCode(obj.routecode)
-                        'End If
-                        'txtroutename.Text = clsCommon.myCstr(grow.Cells("DCS Route Name").Value)
-                        If clsCommon.myCdbl(grow.Cells("Own BMC").Value) = 1 Then
-                            obj.TFOwnBMC = True
-                            obj.OwnBMCDate = clsCommon.myCDate(grow.Cells("Own BMC Date").Value)
-                        Else
-                            obj.TFOwnBMC = False
-                            obj.OwnBMCDate = Nothing
-                        End If
+                                '--bank1 
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Code 1").Value)) <= 0 Then
+                                    Throw New Exception("Bank Code 1 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Name 1").Value)) <= 0 Then
+                                    Throw New Exception("Bank Name 1 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Branch Name 1").Value)) <= 0 Then
+                                    Throw New Exception("Branch Name 1 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)) <= 0 Then
+                                    Throw New Exception("IFSC Code 1 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account No 1").Value)) <= 0 Then
+                                    Throw New Exception("Account No 1 can't be blank !")
+                                End If
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account Type 1").Value)) <= 0 Then
+                                '    Throw New Exception("Account Type 1 can't be blank !")
+                                'End If
+                                '---
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Credit Limit 1").Value)) <= 0 Then
+                                '    Throw New Exception("Credit Limit 1 can't be blank !")
+                                'End If
 
-                        If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
-                            obj.HeadLoad = True
-                            If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
-                                obj.HeadLoadBasis = "%(Percentage)"
-                            ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
-                                obj.HeadLoadBasis = "Rate/Kg"
-                            ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
-                                obj.HeadLoadBasis = "Rate/Ltr"
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Security Charges 1").Value)) <= 0 Then
+                                '    Throw New Exception("Account Number can't be blank !")
+                                'End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Code 2").Value)) <= 0 Then
+                                    Throw New Exception("Bank Code 2 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Name 2").Value)) <= 0 Then
+                                    Throw New Exception("Bank Name 2 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Branch Name 2").Value)) <= 0 Then
+                                    Throw New Exception("Branch Name 2 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)) <= 0 Then
+                                    Throw New Exception("IFSC Code 2 can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account No 2").Value)) <= 0 Then
+                                    Throw New Exception("Account No 2 can't be blank !")
+                                End If
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account Type 2").Value)) <= 0 Then
+                                '    Throw New Exception("Account Type 2 can't be blank !")
+                                'End If
+                                'If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("DCS Code").Value))) Then
+                                '    Throw New Exception("DCS Code cannot be empty" + clsCommon.myCstr(linno) + ".")
+                                'Else
+                                obj.vlcCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                                obj.vlcName = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+                                obj.mainvillname = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+                                obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
+
+                                Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'", trans))
+                                'If Count > 0 Then
+                                '    'clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader :" + obj.VLC_CODE_VLC_UPLOADER)
+                                '    If clsCommon.myLen(duplicateUploader) > 0 Then
+                                '        duplicateUploader += ", " + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
+                                '    Else
+                                '        duplicateUploader = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
+                                '    End If
+                                '    Continue For
+                                'End If
+                                'txtpan.Text = clsCommon.myCstr(grow.Cells("PAN No").Value)
+                                obj.Gender = clsCommon.myCstr(grow.Cells("Gender").Value)
+                                If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
+                                    obj.Apply_Cow_Price = True
+                                    obj.ApplyCowPriceDate = clsCommon.myCDate(grow.Cells("Apply Cow Price Date").Value)
+                                    obj.Shift_Cow_Limit = clsCommon.myCdbl(grow.Cells("Shift Cow Quantity Limit").Value)
+                                Else
+                                    obj.Apply_Cow_Price = False
+                                    obj.ApplyCowPriceDate = Nothing
+                                End If
+
+                                obj.Loyalty_Rate = clsCommon.myCdbl(grow.Cells("Loyalty Rate").Value)
+                                If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "" Then
+                                    obj.Registered_PDCS_CLUSTER = "PDCS"
+                                Else
+                                    obj.Registered_PDCS_CLUSTER = clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value)
+                                End If
+                                obj.RegistrationNo = clsCommon.myCstr(grow.Cells("Registration No").Value)
+                                'obj.RegistrationDate = clsCommon.myCDate(grow.Cells("Registration Date").Value, "dd/MM/yyyy")
+                                obj.MCCCOde = clsCommon.myCstr(grow.Cells("MCC").Value)
+                                obj.routecode = clsCommon.myCstr(grow.Cells("DCS Route Code").Value)
+                                obj.Supervisor = clsCommon.myCstr(grow.Cells("Supervisor").Value)
+                                obj.DistrictCode = clsCommon.myCstr(grow.Cells("District Code").Value)
+                                obj.BlockCode = clsCommon.myCstr(grow.Cells("Block Code").Value)
+                                obj.ZoneCode = clsCommon.myCstr(grow.Cells("Zone Code").Value)
+                                obj.RevenueVillageCode = clsCommon.myCstr(grow.Cells("Revenue Village Code").Value)
+                                obj.GrampanchayatCode = clsCommon.myCstr(grow.Cells("Grampanchayat Code").Value)
+                                obj.PanchayatSamitiCode = clsCommon.myCstr(grow.Cells("Panchayat Samiti Code").Value)
+                                obj.VidhanSabhaCode = clsCommon.myCstr(grow.Cells("Vidhan Sabha Code").Value)
+                                'If clsCommon.myLen(obj.routecode) > 0 Then
+                                '    OpenRouteAccRouteCode(obj.routecode)
+                                'End If
+                                'txtroutename.Text = clsCommon.myCstr(grow.Cells("DCS Route Name").Value)
+                                If clsCommon.myCdbl(grow.Cells("Own BMC").Value) = 1 Then
+                                    obj.TFOwnBMC = True
+                                    obj.OwnBMCDate = clsCommon.myCDate(grow.Cells("Own BMC Date").Value)
+                                Else
+                                    obj.TFOwnBMC = False
+                                    obj.OwnBMCDate = Nothing
+                                End If
+
+                                If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
+                                    obj.HeadLoad = True
+                                    If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
+                                        obj.HeadLoadBasis = "%(Percentage)"
+                                    ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
+                                        obj.HeadLoadBasis = "Rate/Kg"
+                                    ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
+                                        obj.HeadLoadBasis = "Rate/Ltr"
+                                    End If
+                                    obj.HeadLoadRate = clsCommon.myCdbl(grow.Cells("Head Load Rate").Value)
+                                Else
+                                    obj.HeadLoad = False
+                                    obj.HeadLoadBasis = ""
+                                    obj.HeadLoadRate = 0
+                                End If
+
+                                If clsCommon.myCdbl(grow.Cells("Active").Value) = 1 Then
+                                    obj.Active = True
+                                Else
+                                    obj.Active = False
+                                End If
+
+                                'obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+
+                                obj.Bank_Code = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
+                                obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+                                obj.Bank_Branch = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
+                                obj.IFSC_Code = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
+                                obj.Account_No = clsCommon.myCstr(grow.Cells("Account No 1").Value)
+                                obj.Account_Type = clsCommon.myCstr(grow.Cells("Account Type 1").Value)
+                                obj.Bank_Credit = clsCommon.myCDecimal(grow.Cells("Credit Limit 1").Value)
+                                obj.Security_Charges = clsCommon.myCDecimal(grow.Cells("Security Charges 1").Value)
+                                obj.Company_Bank = clsCommon.myCstr(grow.Cells("Saving Company Bank").Value)
+                                obj.Bank_Code2 = clsCommon.myCstr(grow.Cells("Bank Code 2").Value)
+                                obj.Bank_Name2 = clsCommon.myCstr(grow.Cells("Bank Name 2").Value)
+                                obj.Bank_Branch2 = clsCommon.myCstr(grow.Cells("Branch Name 2").Value)
+                                obj.IFSC_Code2 = clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)
+                                obj.AccNo2 = clsCommon.myCstr(grow.Cells("Account No 2").Value)
+                                obj.Account_Type2 = clsCommon.myCstr(grow.Cells("Account Type 2").Value)
+                                obj.Security_Charges2 = clsCommon.myCDecimal(grow.Cells("Security Charges 2").Value)
+                                obj.Bank2_Credit2 = clsCommon.myCDecimal(grow.Cells("Credit Limit 2").Value)
+
+                                obj.Company_Bank_Current = clsCommon.myCstr(grow.Cells("Current Company Bank").Value)
+                                obj.Bank_Code_Desc = clsCommon.myCstr(grow.Cells("Bank Code Desc").Value)
+
+                                ' ImportBankDetails(obj, trans)
+
+                                'CreateMasterByImport(obj, trans)
+                                Dim objVCode As New clsfrmVillageMaster
+                                If clsCommon.myLen(objVCode.villcode) > 0 Then
+                                    obj.mainvillcode = objVCode.villcode
+                                Else
+                                    obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
+                                End If
+                                arr.Add(obj)
+                            Catch ex As Exception
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("RowNo") = ii
+                                dr("Error") = ex.Message
+                                dtError.Rows.Add(dr)
+                            End Try
+                        Next
+                        clsCommon.ProgressBarPercentHide()
+                    End If
+                    ' End If
+                    'clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
+                    Try
+
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = "MilkShiftUploader"
+                            ff.Text = "DCS Master Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
+                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(arr.Count) + "] Do You want to Proceed"
+                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                clsCommon.ProgressBarPercentShow()
+                                ii = 0
+                                'Dim trans1 As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                Try
+
+                                    For Each obj1 As clsfrmVLCMaster In arr
+                                        ii += 1
+                                        clsCommon.ProgressBarPercentUpdate(ii, arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
+                                        clsfrmVLCMaster.SaveDataBankDetail(Nothing, False, obj1, arr, trans)
+                                    Next
+                                    trans.Commit()
+                                Catch ex As Exception
+                                    trans.Rollback()
+                                    Throw New Exception(ex.Message)
+                                Finally
+                                    clsCommon.ProgressBarPercentHide()
+                                End Try
+                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                             End If
-                            obj.HeadLoadRate = clsCommon.myCdbl(grow.Cells("Head Load Rate").Value)
                         Else
-                            obj.HeadLoad = False
-                            obj.HeadLoadBasis = ""
-                            obj.HeadLoadRate = 0
+                            Throw New Exception("No Valid Rows Found to Save")
                         End If
-
-                        If clsCommon.myCdbl(grow.Cells("Active").Value) = 1 Then
-                            obj.Active = True
-                        Else
-                            obj.Active = False
-                        End If
-                        'obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
-
-                        obj.Bank_Code = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
-                        obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
-                        obj.Bank_Branch = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
-                        obj.IFSC_Code = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
-                        obj.Account_No = clsCommon.myCstr(grow.Cells("Account No 1").Value)
-                        obj.Account_Type = clsCommon.myCstr(grow.Cells("Account Type 1").Value)
-                        obj.Bank_Credit = clsCommon.myCDecimal(grow.Cells("Credit Limit 1").Value)
-                        obj.Security_Charges = clsCommon.myCDecimal(grow.Cells("Security Charges 1").Value)
-                        obj.Company_Bank = clsCommon.myCstr(grow.Cells("Saving Company Bank").Value)
-                        obj.Bank_Code2 = clsCommon.myCstr(grow.Cells("Bank Code 2").Value)
-                        obj.Bank_Name2 = clsCommon.myCstr(grow.Cells("Bank Name 2").Value)
-                        obj.Bank_Branch2 = clsCommon.myCstr(grow.Cells("Branch Name 2").Value)
-                        obj.IFSC_Code2 = clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)
-                        obj.AccNo2 = clsCommon.myCstr(grow.Cells("Account No 2").Value)
-                        obj.Account_Type2 = clsCommon.myCstr(grow.Cells("Account Type 2").Value)
-                        obj.Security_Charges2 = clsCommon.myCDecimal(grow.Cells("Security Charges 2").Value)
-                        obj.Bank2_Credit2 = clsCommon.myCDecimal(grow.Cells("Credit Limit 2").Value)
-                        obj.Company_Bank_Current = clsCommon.myCstr(grow.Cells("Current Company Bank").Value)
-                        obj.Bank_Code_Desc = clsCommon.myCstr(grow.Cells("Bank Code Desc").Value)
-
-                        ' ImportBankDetails(obj, trans)
-
-                        'CreateMasterByImport(obj, trans)
-                        Dim objVCode As New clsfrmVillageMaster
-                        If clsCommon.myLen(objVCode.villcode) > 0 Then
-                            obj.mainvillcode = objVCode.villcode
-                        Else
-                            obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
-                        End If
-                        'End If
-                        'clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
-                        clsfrmVLCMaster.SaveDataBankDetail(Nothing, False, obj, arr, trans)
-
-                    Next
-                    trans.Commit()
-                    clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-                    'If clsCommon.myLen(duplicateUploader) > 0 Then
-                    '    clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Uploader Code !" + Environment.NewLine + duplicateUploader + "", Me.Text, MessageBoxButtons.OK)
-                    'End If
+                    Catch ex As Exception
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
                 Catch ex As Exception
-                    trans.Rollback()
-                    clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    Throw New Exception(ex.Message)
                 End Try
+                'Next
+                'clsCommon.ProgressBarPercentHide()
             End If
-            Me.Controls.Remove(gv)
-        Catch ex As Exception
+            'trans.Commit()
             'clsCommon.ProgressBarHide()
-            clsCommon.ProgressBarHide()
+        Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            'myMessages.myExceptions(ex)
         End Try
     End Sub
+    'Public Sub funImport()
+    '    Try
+    '        Dim gv As New RadGridView()
+    '        Me.Controls.Add(gv)
+    '        Dim currentdate As Date = Date.Today
+    '        If transportSql.importExcel(gv, "Bank Code Desc", "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "REIL Integrated", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
+    '            Dim linno As Integer = 0
+    '            Dim TempNewRecord As Boolean = False
+    '            clsCommon.ProgressBarShow()
+    '            Dim obj As New clsfrmVLCMaster
+    '            Dim arr As New List(Of clsfrmVLCMaster)
+    '            Dim strCode As String = ""
+    '            Dim strName As String = ""
+    '            Dim strUploader_No As String = ""
+    '            Dim strZone As String = ""
+    '            Dim duplicateUploader As String = Nothing
+    '            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '            Try
+    '                For Each grow As GridViewRowInfo In gv.Rows
+    '                    linno += 1
+    '                    'If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("DCS Code").Value))) Then
+    '                    '    Throw New Exception("DCS Code cannot be empty" + clsCommon.myCstr(linno) + ".")
+    '                    'Else
+    '                    obj.vlcCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+    '                    obj.vlcName = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+    '                    obj.mainvillname = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+    '                    obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
+
+    '                    Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'", trans))
+    '                    'If Count > 0 Then
+    '                    '    'clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader :" + obj.VLC_CODE_VLC_UPLOADER)
+    '                    '    If clsCommon.myLen(duplicateUploader) > 0 Then
+    '                    '        duplicateUploader += ", " + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
+    '                    '    Else
+    '                    '        duplicateUploader = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
+    '                    '    End If
+    '                    '    Continue For
+    '                    'End If
+    '                    'txtpan.Text = clsCommon.myCstr(grow.Cells("PAN No").Value)
+    '                    obj.Gender = clsCommon.myCstr(grow.Cells("Gender").Value)
+    '                    If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
+    '                        obj.Apply_Cow_Price = True
+    '                        obj.ApplyCowPriceDate = clsCommon.myCDate(grow.Cells("Apply Cow Price Date").Value)
+    '                        obj.Shift_Cow_Limit = clsCommon.myCdbl(grow.Cells("Shift Cow Quantity Limit").Value)
+    '                    Else
+    '                        obj.Apply_Cow_Price = False
+    '                        obj.ApplyCowPriceDate = Nothing
+    '                    End If
+
+    '                    obj.Loyalty_Rate = clsCommon.myCdbl(grow.Cells("Loyalty Rate").Value)
+    '                    If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "" Then
+    '                        obj.Registered_PDCS_CLUSTER = "PDCS"
+    '                    Else
+    '                        obj.Registered_PDCS_CLUSTER = clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value)
+    '                    End If
+    '                    obj.RegistrationNo = clsCommon.myCstr(grow.Cells("Registration No").Value)
+    '                    'obj.RegistrationDate = clsCommon.myCDate(grow.Cells("Registration Date").Value, "dd/MM/yyyy")
+    '                    obj.MCCCOde = clsCommon.myCstr(grow.Cells("MCC").Value)
+    '                    obj.routecode = clsCommon.myCstr(grow.Cells("DCS Route Code").Value)
+    '                    obj.Supervisor = clsCommon.myCstr(grow.Cells("Supervisor").Value)
+    '                    obj.DistrictCode = clsCommon.myCstr(grow.Cells("District Code").Value)
+    '                    obj.BlockCode = clsCommon.myCstr(grow.Cells("Block Code").Value)
+    '                    obj.ZoneCode = clsCommon.myCstr(grow.Cells("Zone Code").Value)
+    '                    obj.RevenueVillageCode = clsCommon.myCstr(grow.Cells("Revenue Village Code").Value)
+    '                    obj.GrampanchayatCode = clsCommon.myCstr(grow.Cells("Grampanchayat Code").Value)
+    '                    obj.PanchayatSamitiCode = clsCommon.myCstr(grow.Cells("Panchayat Samiti Code").Value)
+    '                    obj.VidhanSabhaCode = clsCommon.myCstr(grow.Cells("Vidhan Sabha Code").Value)
+    '                    'If clsCommon.myLen(obj.routecode) > 0 Then
+    '                    '    OpenRouteAccRouteCode(obj.routecode)
+    '                    'End If
+    '                    'txtroutename.Text = clsCommon.myCstr(grow.Cells("DCS Route Name").Value)
+    '                    If clsCommon.myCdbl(grow.Cells("Own BMC").Value) = 1 Then
+    '                        obj.TFOwnBMC = True
+    '                        obj.OwnBMCDate = clsCommon.myCDate(grow.Cells("Own BMC Date").Value)
+    '                    Else
+    '                        obj.TFOwnBMC = False
+    '                        obj.OwnBMCDate = Nothing
+    '                    End If
+
+    '                    If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
+    '                        obj.HeadLoad = True
+    '                        If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
+    '                            obj.HeadLoadBasis = "%(Percentage)"
+    '                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
+    '                            obj.HeadLoadBasis = "Rate/Kg"
+    '                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
+    '                            obj.HeadLoadBasis = "Rate/Ltr"
+    '                        End If
+    '                        obj.HeadLoadRate = clsCommon.myCdbl(grow.Cells("Head Load Rate").Value)
+    '                    Else
+    '                        obj.HeadLoad = False
+    '                        obj.HeadLoadBasis = ""
+    '                        obj.HeadLoadRate = 0
+    '                    End If
+
+    '                    If clsCommon.myCdbl(grow.Cells("Active").Value) = 1 Then
+    '                        obj.Active = True
+    '                    Else
+    '                        obj.Active = False
+    '                    End If
+    '                    'obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+
+    '                    obj.Bank_Code = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
+    '                    obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+
+    '                    obj.Bank_Branch = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
+
+    '                    obj.IFSC_Code = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
+    '                    obj.Account_No = clsCommon.myCstr(grow.Cells("Account No 1").Value)
+    '                    obj.Account_Type = clsCommon.myCstr(grow.Cells("Account Type 1").Value)
+    '                    obj.Bank_Credit = clsCommon.myCDecimal(grow.Cells("Credit Limit 1").Value)
+    '                    obj.Security_Charges = clsCommon.myCDecimal(grow.Cells("Security Charges 1").Value)
+    '                    obj.Company_Bank = clsCommon.myCstr(grow.Cells("Saving Company Bank").Value)
+    '                    obj.Bank_Code2 = clsCommon.myCstr(grow.Cells("Bank Code 2").Value)
+    '                    obj.Bank_Name2 = clsCommon.myCstr(grow.Cells("Bank Name 2").Value)
+    '                    obj.Bank_Branch2 = clsCommon.myCstr(grow.Cells("Branch Name 2").Value)
+    '                    obj.IFSC_Code2 = clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)
+    '                    obj.AccNo2 = clsCommon.myCstr(grow.Cells("Account No 2").Value)
+    '                    obj.Account_Type2 = clsCommon.myCstr(grow.Cells("Account Type 2").Value)
+    '                    obj.Security_Charges2 = clsCommon.myCDecimal(grow.Cells("Security Charges 2").Value)
+    '                    obj.Bank2_Credit2 = clsCommon.myCDecimal(grow.Cells("Credit Limit 2").Value)
+    '                    obj.Company_Bank_Current = clsCommon.myCstr(grow.Cells("Current Company Bank").Value)
+    '                    obj.Bank_Code_Desc = clsCommon.myCstr(grow.Cells("Bank Code Desc").Value)
+
+    '                    ' ImportBankDetails(obj, trans)
+
+    '                    'CreateMasterByImport(obj, trans)
+    '                    Dim objVCode As New clsfrmVillageMaster
+    '                    If clsCommon.myLen(objVCode.villcode) > 0 Then
+    '                        obj.mainvillcode = objVCode.villcode
+    '                    Else
+    '                        obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
+    '                    End If
+    '                    'End If
+    '                    'clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
+    '                    clsfrmVLCMaster.SaveDataBankDetail(Nothing, False, obj, arr, trans)
+
+    '                Next
+    '                trans.Commit()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+    '                'If clsCommon.myLen(duplicateUploader) > 0 Then
+    '                '    clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Uploader Code !" + Environment.NewLine + duplicateUploader + "", Me.Text, MessageBoxButtons.OK)
+    '                'End If
+    '            Catch ex As Exception
+    '                trans.Rollback()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '            End Try
+    '        End If
+    '        Me.Controls.Remove(gv)
+    '    Catch ex As Exception
+    '        'clsCommon.ProgressBarHide()
+    '        clsCommon.ProgressBarHide()
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        'myMessages.myExceptions(ex)
+    '    End Try
+    'End Sub
 
     Sub CreateMasterByImport(ByVal obj As clsfrmVLCMaster, ByVal trans As SqlTransaction)
         Dim qry As String = ""
@@ -6360,7 +6628,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Private Sub ExportBlankSheet_Click(sender As Object, e As EventArgs) Handles ExportBlankSheet.Click
+    Private Sub ExportBlankSheet_Click(sender As Object, e As EventArgs)
         Try
             If clsCommon.myLen(txtroutecode.Value) > 0 Then
                 OpenRouteAccRouteCode(txtroutecode.Value)
@@ -6390,13 +6658,88 @@ Public Class frmVSP_VLCMaster
                 'Else
                 '    clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, ExportSheet)
             End If
-
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
+
+    'Private Sub ExportDcs_Click(sender As Object, e As EventArgs) Handles ExportDcs.Click
+    '    Try
+    '        If clsCommon.myLen(txtroutecode.Value) > 0 Then
+    '            OpenRouteAccRouteCode(txtroutecode.Value)
+    '        End If
+    '        Dim ExportSheet As String = "FillDataSheet"
+    '        Dim MultiDCSCodeName As ArrayList = Nothing
+    '        Dim Qry As String = Nothing
+    '        Qry = "Select TSPL_VENDOR_MASTER.Vendor_Code As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As 'Uploader Code',TSPL_VLC_MASTER_HEAD.Route_Code as 'Route Code'  from TSPL_VENDOR_MASTER 
+    '               Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code"
+    '        MultiDCSCodeName = clsCommon.ShowMultipleSelectForm("DCSMulSelect", Qry, "DCS Code", "DCS Name", MultiDCSCodeName, MultiDCSCodeName)
+    '        If clsCommon.myLen(MultiDCSCodeName) > 0 Then
+    '            clsfrmVLCMaster.ExportDataTableDcsCode(MultiDCSCodeName, Me, ExportSheet)
+    '        End If
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+    '    End Try
+    'End Sub
+
+    'Private Sub ExportDcsBlank_Click(sender As Object, e As EventArgs) Handles ExportDcsBlank.Click
+    '    Try
+    '        If clsCommon.myLen(txtroutecode.Value) > 0 Then
+    '            OpenRouteAccRouteCode(txtroutecode.Value)
+    '        End If
+    '        Dim ExportSheet As String = "BlankSheet"
+    '        clsfrmVLCMaster.ExportDataTableDcsCode(Nothing, Me, ExportSheet)
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+    '    End Try
+    'End Sub
+
+    'Private Sub ImportDcs_Click(sender As Object, e As EventArgs)
+    '    Try
+    '        Dim gv As New RadGridView()
+    '        Me.Controls.Add(gv)
+    '        Dim currentdate As Date = Date.Today
+    '        If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "Route Code") Then
+    '            Dim linno As Integer = 0
+    '            Dim TempNewRecord As Boolean = False
+    '            clsCommon.ProgressBarShow()
+    '            Dim obj As New clsfrmVLCMaster
+    '            Dim arr As New List(Of clsfrmVLCMaster)
+    '            Dim duplicateUploader As String = Nothing
+    '            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '            Try
+    '                For Each grow As GridViewRowInfo In gv.Rows
+    '                    linno += 1
+    '                    obj.vlcCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+    '                    obj.vlcName = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+    '                    obj.mainvillname = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+    '                    obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
+    '                    obj.routecode = clsCommon.myCstr(grow.Cells("Route Code").Value)
+    '                    Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'", trans))
+    '                    Dim objVCode As New clsfrmVillageMaster
+    '                    If clsCommon.myLen(objVCode.villcode) > 0 Then
+    '                        obj.mainvillcode = objVCode.villcode
+    '                    Else
+    '                        obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
+    '                    End If
+    '                    clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
+    '                    clsfrmVLCMaster.SaveDataBankDetail(Nothing, False, obj, arr, trans)
+    '                Next
+    '                trans.Commit()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+    '            Catch ex As Exception
+    '                trans.Rollback()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '            End Try
+    '        End If
+    '        Me.Controls.Remove(gv)
+    '    Catch ex As Exception
+    '        clsCommon.ProgressBarHide()
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
     Private Sub txtRegistrationDate_ValueChanged(sender As Object, e As EventArgs) Handles txtRegistrationDate.ValueChanged
 
@@ -6413,12 +6756,12 @@ Public Class frmVSP_VLCMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select VSP Code", Me.Text)
-                Exit Sub
+                Throw New Exception("Select VSP Code")
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6573,6 +6916,270 @@ Public Class frmVSP_VLCMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub ExportRoutee_Click(sender As Object, e As EventArgs) Handles ExportRoutee.Click
+        Dim qry As String = "select Vendor_Code as [DCS Code]"
+        For j As Integer = 1 To 1
+            qry += " ,Vendor_Name As [DCS Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Uploader Code],TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code]"
+        Next
+        qry += " from TSPL_VENDOR_MASTER   Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.form_type='VSP' "
+        ListImpExpColumnsMandatory = New List(Of String)({"DCS Code"})
+        ListImpExpColumnsSuperMandatory = New List(Of String)({"DCS Code"})
+        transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
+    End Sub
+
+    Private Sub ImportRoute_Click(sender As Object, e As EventArgs) Handles ImportRoute.Click
+        Dim gv1 As New RadGridView()
+        Me.Controls.Add(gv1)
+        Dim qry As String = ""
+        Dim check As Integer = 0
+        Dim DCS_Code As String = ""
+        Dim Route_Code As String = ""
+        Dim Uploader_Code As String = ""
+        Dim lineno As Integer = 1
+        Dim Arr As New List(Of clsfrmVLCMaster)
+        If transportSql.importExcel(gv1, "DCS Code", "DCS Name", "Uploader Code", "Route Code") Then
+
+            'DCS_Code = gv1.Rows(0).Cells("DCS Code").Value
+            'Route_Code = gv1.Rows(0).Cells("Route Code").Value
+            'Uploader_Code = gv1.Rows(0).Cells("Uploader Code").Value
+            'Dim count As String
+            Dim ii As Integer = 0
+            'Dim qry As String = ""
+            Dim dtError As New DataTable
+            dtError.Columns.Add("RowNo", GetType(Integer))
+            dtError.Columns.Add("Error", GetType(String))
+            Try
+
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                    clsCommon.ProgressBarPercentShow()
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        Try
+                            ii += 1
+                            DCS_Code = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                            Route_Code = (clsCommon.myCstr(grow.Cells("Route Code").Value))
+                            Uploader_Code = (clsCommon.myCstr(grow.Cells("Uploader Code").Value))
+                            clsCommon.ProgressBarPercentUpdate(ii, gv1.Rows.Count, "Validating Data...")
+
+                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("DCS Code").Value)) <= 0 Then
+                                Throw New Exception("DCS Code can't be blank !")
+                            ElseIf clsCommon.myLen(DCS_Code) > 0 Then
+                                qry = "select Count(VSP_Code) from TSPL_VLC_MASTER_HEAD where VSP_Code='" + DCS_Code + "'"
+                                check = clsDBFuncationality.getSingleValue(qry)
+                                If check <= 0 Then
+                                    Throw New Exception("Filled DCS code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
+                                End If
+                            End If
+                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Uploader Code").Value)) <= 0 Then
+                                Throw New Exception("Uploader Code can't be blank !")
+                            End If
+                            Route_Code = (clsCommon.myCstr(grow.Cells("Route Code").Value))
+                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Route Code").Value)) > 0 Then
+                                qry = "select Count(ROUTE_NO) from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + Route_Code + "'"
+                                check = clsDBFuncationality.getSingleValue(qry)
+                                If check <= 0 Then
+                                    Throw New Exception("Filled Route Code " + clsCommon.myCstr(Route_Code) + " does not exist ")
+                                End If
+                            End If
+                            Dim obj As New clsfrmVLCMaster
+                            'Dim obj As New clsfrmVLCMaster
+                            obj.vspCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                            obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("Uploader Code").Value)
+                            obj.routecode = clsCommon.myCstr(grow.Cells("Route Code").Value)
+                            Arr.Add(obj)
+                        Catch ex As Exception
+                            Dim dr As DataRow = dtError.NewRow()
+                            dr("RowNo") = ii
+                            dr("Error") = ex.Message
+                            dtError.Rows.Add(dr)
+                        End Try
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                End If
+
+                Try
+                    If dtError.Rows.Count > 0 Then
+                        Dim ff As New FrmFreeGrid
+                        ff.ReportID = "Import DCS"
+                        ff.Text = "Secratary DCS Master"
+                        ff.dt = dtError
+                        ff.ShowDialog()
+                    ElseIf Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        Try
+                            Dim qryy As String = "Valid Row [" + clsCommon.myCstr(Arr.Count) + "] Do You want to Proceed"
+                            'Dim DCS_Code As String = ""
+                            'Dim Route_Code As String = ""
+                            'Dim Uploader_Code As String = ""
+                            'Dim lineno As Integer = 1
+                            'Dim qry As String = ""
+                            'Dim check As Integer = 0
+                            clsCommon.ProgressBarPercentShow()
+                            ii = 0
+
+                            ii += 1
+                                clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+                            For Each grow As GridViewRowInfo In gv1.Rows
+                                For Each obj As clsfrmVLCMaster In Arr
+                                    lineno = clsCommon.myCstr(grow.Index + 2)
+                                    ii += 1
+                                    clsCommon.ProgressBarPercentUpdate((ii * 100) / gv1.RowCount - 1, "Importing " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
+                                    'DCS_Code = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                                    'If clsCommon.myLen(DCS_Code) <= 0 Then
+                                    '    Throw New Exception("Please fill DCS code at line no. " + clsCommon.myCstr(lineno) + "")
+                                    'ElseIf clsCommon.myLen(DCS_Code) > 0 Then
+                                    '    qry = "select Count(VSP_Code) from TSPL_VLC_MASTER_HEAD where VSP_Code='" + DCS_Code + "'"
+                                    '    check = clsDBFuncationality.getSingleValue(qry, trans)
+                                    '    If check <= 0 Then
+                                    '        Throw New Exception("Filled DCS code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
+                                    '    End If
+                                    'End If
+                                    'Uploader_Code = clsCommon.myCstr(grow.Cells("Uploader Code").Value)
+                                    'If clsCommon.myLen(Uploader_Code) <= 0 Then
+                                    '    Throw New Exception("Please fill DCS code at line no. " + clsCommon.myCstr(lineno) + "")
+                                    'End If
+                                    'Route_Code = clsCommon.myCstr(grow.Cells("Route Code").Value)
+                                    'If clsCommon.myLen(Route_Code) <= 0 Then
+                                    '    Throw New Exception("Please fill DCS code at line no. " + clsCommon.myCstr(lineno) + "")
+                                    'ElseIf clsCommon.myLen(Route_Code) > 0 Then
+                                    '    qry = "select Count(Route_Code) from TSPL_VLC_MASTER_HEAD where Route_Code='" + Route_Code + "'"
+                                    '    check = clsDBFuncationality.getSingleValue(qry, trans)
+                                    '    If check <= 0 Then
+                                    '        Throw New Exception("Please Check Route")
+                                    '    End If
+                                    'End If
+                                    qry = "update TSPL_VLC_MASTER_HEAD set VLC_Code_VLC_Uploader='" + obj.VLC_CODE_VLC_UPLOADER + "',Route_Code='" + obj.routecode + "' where VSP_Code='" + obj.vspCode + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(DCS_Code), "TSPL_VLC_MASTER_HEAD", "VSP_Code", trans)
+                                    'trans = clsDBFuncationality.GetTransactin()
+                                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.vspCode), "TSPL_VLC_MASTER_HEAD", "Vendor_Code", trans)
+                                Next
+                                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, grow.Cells("DCS Code").Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+                            Next
+                            trans.Commit()
+                            clsCommon.ProgressBarPercentHide()
+                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
+                        Catch ex As Exception
+                            trans.Rollback()
+                            Throw New Exception(ex.Message)
+                        End Try
+                    End If
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    Throw New Exception(ex.Message)
+                End Try
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+            End Try
+        End If
+        Me.Controls.Remove(gv1)
+    End Sub
+
+
+    'Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click
+    '    Try
+    '        Dim gv As New RadGridView()
+    '        Me.Controls.Add(gv)
+    '        If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
+    '            Dim ii As Integer = 0
+    '            Dim Arr As New List(Of clsMpMaster)
+    '            Dim dtError As New DataTable
+    '            dtError.Columns.Add("RowNo", GetType(Integer))
+    '            dtError.Columns.Add("Error", GetType(String))
+    '            Try
+
+    '                If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+    '                    clsCommon.ProgressBarPercentShow()
+    '                    For Each grow As GridViewRowInfo In gv.Rows
+    '                        Try
+    '                            ii += 1
+    '                            clsCommon.ProgressBarPercentUpdate(ii, gv.Rows.Count, "Validating Data...")
+
+    '                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("MP Code").Value)) <= 0 Then
+    '                                Throw New Exception("MP Code can't be blank !")
+    '                            End If
+    '                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code").Value)) <= 0 Then
+    '                                Throw New Exception("IFSC Code can't be blank !")
+    '                            End If
+    '                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account Number").Value)) <= 0 Then
+    '                                Throw New Exception("Account Number can't be blank !")
+    '                            End If
+
+    '                            Dim obj As New clsMpMaster
+    '                            obj.MP_Code = clsCommon.myCstr(grow.Cells("MP Code").Value)
+    '                            obj.IFCICode = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
+    '                            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BANK,BRANCH,STATE,CITY from TSPL_MASTER.dbo.TSPL_IFSC where IFSC='" + obj.IFCICode + "'")
+    '                            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+    '                                Throw New Exception("Invalid IFSC Code [" + obj.IFCICode + "]")
+    '                            Else
+    '                                obj.BankName = clsCommon.myCstr(dt.Rows(0)("BANK"))
+    '                                obj.BankBranch = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
+    '                                obj.BankStateCode = clsCommon.myCstr(dt.Rows(0)("STATE"))
+    '                                obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
+    '                            End If
+    '                            obj.AccountNO = clsCommon.myCstr(grow.Cells("Account Number").Value)
+    '                            Dim chkCount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + clsCommon.myCstr(obj.MP_Code) + "'"))
+    '                            If chkCount > 0 Then
+    '                            Else
+    '                                Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
+    '                            End If
+    '                            Arr.Add(obj)
+    '                        Catch ex As Exception
+    '                            Dim dr As DataRow = dtError.NewRow()
+    '                            dr("RowNo") = ii
+    '                            dr("Error") = ex.Message
+    '                            dtError.Rows.Add(dr)
+    '                        End Try
+    '                    Next
+    '                    clsCommon.ProgressBarPercentHide()
+    '                End If
+
+    '                Try
+    '                    If dtError.Rows.Count > 0 Then
+    '                        Dim ff As New FrmFreeGrid
+    '                        ff.ReportID = "MilkShiftUploader"
+    '                        ff.Text = "MP Master Errors"
+    '                        ff.dt = dtError
+    '                        ff.ShowDialog()
+    '                    ElseIf Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+    '                        Dim qry As String = "Valid Row [" + clsCommon.myCstr(Arr.Count) + "] Do You want to Proceed"
+    '                        If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+    '                            clsCommon.ProgressBarPercentShow()
+    '                            ii = 0
+    '                            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '                            Try
+    '                                For Each obj As clsMpMaster In Arr
+    '                                    ii += 1
+    '                                    clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+
+    '                                    Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
+    '                                    clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
+    '                                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
+    '                                Next
+    '                                trans.Commit()
+    '                            Catch ex As Exception
+    '                                trans.Rollback()
+    '                                Throw New Exception(ex.Message)
+    '                            Finally
+    '                                clsCommon.ProgressBarPercentHide()
+    '                            End Try
+    '                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+    '                        End If
+    '                    Else
+    '                        Throw New Exception("No Valid Rows Found to Save")
+    '                    End If
+    '                Catch ex As Exception
+    '                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '                End Try
+    '            Catch ex As Exception
+    '                Throw New Exception(ex.Message)
+    '            End Try
+    '        End If
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
     Private Sub txtCurrentCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCurrentCompanyBank._MYValidating
         Try

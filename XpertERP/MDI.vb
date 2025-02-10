@@ -7495,6 +7495,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmItemCapacityLimt
                         frm = New FrmItemCapacityLimit
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBoothRouteMapping
+                        frm = New FrmBoothRouteMapping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDayBook
                         frm = New frmDayBook
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
