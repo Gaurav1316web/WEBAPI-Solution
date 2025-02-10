@@ -22,12 +22,12 @@ Partial Class FrmBoothRouteMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -65,6 +65,7 @@ Partial Class FrmBoothRouteMapping
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnLatestExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -107,7 +108,7 @@ Partial Class FrmBoothRouteMapping
         '
         'btnExport
         '
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnGExport, Me.RadBExport})
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnGExport, Me.RadBExport, Me.btnLatestExport})
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
         Me.btnExport.UseCompatibleTextRendering = False
@@ -254,13 +255,13 @@ Partial Class FrmBoothRouteMapping
         Me.cmbItemType.IsSourceFromTable = False
         Me.cmbItemType.IsSourceFromValueList = False
         Me.cmbItemType.IsUnique = False
-        RadListDataItem6.Selected = True
-        RadListDataItem6.Text = "MILK"
-        RadListDataItem7.Text = "Product"
-        RadListDataItem8.Text = "Ice-cream"
-        Me.cmbItemType.Items.Add(RadListDataItem6)
-        Me.cmbItemType.Items.Add(RadListDataItem7)
-        Me.cmbItemType.Items.Add(RadListDataItem8)
+        RadListDataItem1.Selected = True
+        RadListDataItem1.Text = "MILK"
+        RadListDataItem2.Text = "Product"
+        RadListDataItem3.Text = "Ice-cream"
+        Me.cmbItemType.Items.Add(RadListDataItem1)
+        Me.cmbItemType.Items.Add(RadListDataItem2)
+        Me.cmbItemType.Items.Add(RadListDataItem3)
         Me.cmbItemType.Location = New System.Drawing.Point(579, 27)
         Me.cmbItemType.MendatroryField = False
         Me.cmbItemType.MyLinkLable1 = Nothing
@@ -315,11 +316,11 @@ Partial Class FrmBoothRouteMapping
         Me.cmbShiftType.IsSourceFromTable = False
         Me.cmbShiftType.IsSourceFromValueList = False
         Me.cmbShiftType.IsUnique = False
-        RadListDataItem1.Selected = True
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.cmbShiftType.Items.Add(RadListDataItem1)
-        Me.cmbShiftType.Items.Add(RadListDataItem2)
+        RadListDataItem4.Selected = True
+        RadListDataItem4.Text = "Morning"
+        RadListDataItem5.Text = "Evening"
+        Me.cmbShiftType.Items.Add(RadListDataItem4)
+        Me.cmbShiftType.Items.Add(RadListDataItem5)
         Me.cmbShiftType.Location = New System.Drawing.Point(579, 6)
         Me.cmbShiftType.MendatroryField = False
         Me.cmbShiftType.MyLinkLable1 = Nothing
@@ -470,7 +471,7 @@ Partial Class FrmBoothRouteMapping
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(830, 253)
         Me.gv1.TabIndex = 0
@@ -555,6 +556,11 @@ Partial Class FrmBoothRouteMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(851, 20)
         Me.RadMenu1.TabIndex = 10
+        '
+        'btnLatestExport
+        '
+        Me.btnLatestExport.Name = "btnLatestExport"
+        Me.btnLatestExport.Text = "Latest Export by Route"
         '
         'FrmBoothRouteMapping
         '
@@ -642,4 +648,5 @@ Partial Class FrmBoothRouteMapping
     Friend WithEvents gv1 As RadGridView
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents btnLatestExport As RadMenuItem
 End Class
