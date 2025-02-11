@@ -845,6 +845,26 @@ Public Class clsPSInvoiceHead
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+    Public Shared Function PrintEWayBill(ByVal strDoc As String, ByVal strCust As String) As String
+        Dim strInvoiceNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & strDoc & "'  and Customer_Code='" & strCust & "') and EWayBillNo is not null "))
+        If clsCommon.myLen(strInvoiceNO) <= 0 Then
+            Throw New Exception("Document not found !")
+        End If
+        Dim Qry As String = " select cast(TSPL_SD_SALE_INVOICE_HEAD.EWayBill_QR_Code as image) as EWayBill_QR_Code,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.ewayBillDate,TSPL_COMPANY_MASTER.GSTReg_No +' ' + TSPL_COMPANY_MASTER.Comp_Name as Generated_By,TSPL_SD_SALE_INVOICE_HEAD.EWayBillValidDate,
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillRemarks,TSPL_SD_SALE_INVOICE_HEAD.Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_CUSTOMER_MASTER.GSTNO+' '+ TSPL_CUSTOMER_MASTER.Customer_Name+' '+TSPL_CUSTOMER_MASTER.City_Code as GSTIN_Of_Recipient,TSPL_COMPANY_MASTER.City_Code+' - '+TSPL_COMPANY_MASTER.State+' - '+TSPL_COMPANY_MASTER.Pincode as Place_Of_Dispatch, TSPL_CUSTOMER_MASTER.City_Code+' '+TSPL_CUSTOMER_MASTER.State +' '+CONVERT(varchar(10),isNull(TSPL_CUSTOMER_MASTER.PIN_Code,'')) as Place_Of_delivery,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'Regular' as Transaction_Type,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,TSPL_ITEM_MASTER.HSN_Code +' '+TSPL_ITEM_MASTER.Short_Description  as HsnCode,
+--convert(VARCHAR(10), case when(select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1>0 then (select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1  else '' end) as countofItem,
+'Outward - Supply' as ResonofTransport,TSPL_SD_SALE_INVOICE_HEAD.Trans_Type,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,'Road' As Mode_of_Trans,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+from TSPL_SD_SALE_INVOICE_HEAD
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE= TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
+        Return Qry
+    End Function
+
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal strInvoiceType As String, ByVal NavType As NavigatorType) As clsPSInvoiceHead
         Return GetData(strDocumentNo, NavType, strInvoiceType, Nothing)
     End Function
@@ -9589,5 +9609,4 @@ Public Class clsPSInvoiceHeadDetail
         Dim qry As String = "update TSPL_SD_SALE_INVOICE_DETAIL set Status=1 where Document_Code='" + strDoccode + "' and Line_No='" + clsCommon.myCstr(LineNo) + "' and Item_Code='" + strICode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function
-
 End Class
