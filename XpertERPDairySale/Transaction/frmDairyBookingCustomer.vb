@@ -3294,10 +3294,6 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 End If
             End If
 
-
-
-
-
             'UpdateAllTotals()
             'Return True
         Catch ex As Exception
@@ -3340,6 +3336,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If chkcashsale.Checked Then
                     obj.Payment_Terms = cmbPaymentType.Text
                     obj.ChequeNo = txtChequeNo.Text
+                    'Else
+                    '    obj.Payment_Terms = "CREDIT"
                 End If
                 obj.ReceiverName = txtReceiverName.Text
                 If clsCommon.myLen(txtReceipt.Value) > 0 Then
@@ -4955,9 +4953,10 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
     End Sub
     ' Ticket : TEC/05/09/19-001000 By Prabhakar
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,convert(varchar(12),TSPL_BOOKING_MATSER.Document_date,103) as Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date] from TSPL_BOOKING_MATSER" &
+        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No], CONVERT(VARCHAR(12), TSPL_BOOKING_MATSER.Document_date, 103) AS Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date] from TSPL_BOOKING_MATSER" &
          " left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code " &
+         " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join (select distinct Document_No,isnull (Delivery_No,'') as Delivery_No from TSPL_BOOKING_DETAIL  ) as TBL_DELIVERY_NO on TBL_DELIVERY_NO.Document_No = TSPL_BOOKING_MATSER.Document_No "
         Dim whrClas As String = " From_Screen_code='" & clsUserMgtCode.frmDairyBookingCustomer & "'"
         '-------richa 17/12/2019 show customer according to customer permission Ticket No. ---------
@@ -4969,7 +4968,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
         If ShowDemandDoc Then
             whrClas += " and TSPL_BOOKING_MATSER.Against_DemandBooking_No is null "
         End If
-        Dim strDocNo As String = clsCommon.ShowSelectForm("PSBookingOrderNoFndd", qry, "DocumentNo", whrClas, txtDocNo.Value, "DocumentNo", isButtonClicked, "Document_date")
+        Dim strDocNo As String = clsCommon.ShowSelectForm("PSBookingOrderNoFndd", qry, "DocumentNo", whrClas, txtDocNo.Value, "DocumentNo", isButtonClicked, "TSPL_BOOKING_MATSER.Document_date")
         If clsCommon.myLen(strDocNo) > 0 Then
             LoadData(strDocNo, NavigatorType.Current)
         End If
@@ -9708,43 +9707,14 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
 
     Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
         Try
-            Dim strInvoiceNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "') and EWayBillNo is not null "))
-            If clsCommon.myLen(strInvoiceNO) > 0 Then
-                Dim strqry As String = " 
-select cast(TSPL_SD_SALE_INVOICE_HEAD.EWayBill_QR_Code as image) as EWayBill_QR_Code,
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,
-TSPL_SD_SALE_INVOICE_HEAD.ewayBillDate,
-TSPL_COMPANY_MASTER.GSTReg_No +' ' + TSPL_COMPANY_MASTER.Comp_Name as Generated_By,
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillValidDate,
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillRemarks,
-TSPL_SD_SALE_INVOICE_HEAD.Freight_Distance,
-TSPL_SD_SALE_INVOICE_HEAD.IRN_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,
-TSPL_CUSTOMER_MASTER.GSTNO+' '+ TSPL_CUSTOMER_MASTER.Customer_Name+' '+TSPL_CUSTOMER_MASTER.City_Code as GSTIN_Of_Recipient,
-TSPL_COMPANY_MASTER.City_Code+' - '+TSPL_COMPANY_MASTER.State+' - '+TSPL_COMPANY_MASTER.Pincode as Place_Of_Dispatch, TSPL_CUSTOMER_MASTER.City_Code+' '+TSPL_CUSTOMER_MASTER.State +' '+CONVERT(varchar(10),isNull(TSPL_CUSTOMER_MASTER.PIN_Code,'')) as Place_Of_delivery,
-TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'Regular' as Transaction_Type,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,
-TSPL_ITEM_MASTER.HSN_Code +' '+TSPL_ITEM_MASTER.Short_Description  as HsnCode,
---convert(VARCHAR(10), case when(select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1>0 then (select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1  else '' end) as countofItem,
-'Outward - Supply' as ResonofTransport,
-TSPL_SD_SALE_INVOICE_HEAD.Trans_Type,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,'Road' As Mode_of_Trans,
-TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-from TSPL_SD_SALE_INVOICE_HEAD
-left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE= TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='ALW'
-left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    frmCRV = Nothing
-                Else
-                    Throw New Exception("No Data Found ")
-                End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
             Else
-                Throw New Exception("No Data Found!")
+                Throw New Exception("No Data Found ")
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

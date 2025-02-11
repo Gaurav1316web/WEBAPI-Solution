@@ -3528,7 +3528,7 @@ Public Class frmScrapSaleReturn
         Dim dblTotalTaxAmt As Double = 0
         For ii As Integer = 1 To 10
             Dim Strii As String = clsCommon.myCstr(ii)
-            If rbtnTaxCalAutomatic.IsChecked Then
+            If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                 Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
                 If clsCommon.myLen(strTaxCode) > 0 Then
                     Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
@@ -3549,7 +3549,25 @@ Public Class frmScrapSaleReturn
                         dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
                     End If
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
-                    dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                    If rbtnManualTCS.IsChecked Then
+                        If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            Dim dblTotAmt As Double = 0
+                            Dim dblTaxAmtt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                            For jj As Integer = 0 To gv1.Rows.Count - 1
+                                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            Next
+                            Dim dblCurrCalTax As Double = 0
+                            If dblTotAmt <> 0 Then
+                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmtt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            End If
+                            dblTaxAmt = dblCurrCalTax
+                        Else
+                            dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                        End If
+                    Else
+                        dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                    End If
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
                     If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                         arrTaxableAuth.Add(strTaxCode.ToUpper())
@@ -3737,7 +3755,7 @@ Public Class frmScrapSaleReturn
         Next
 
 
-        If rbtnTaxCalAutomatic.IsChecked Then
+        If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
             For ii As Integer = 1 To gv2.Rows.Count
                 Select Case (ii)
                     Case 1
@@ -4607,6 +4625,13 @@ Public Class frmScrapSaleReturn
             If e.Column.Index >= 0 Then
                 If (e.Column Is gv2.Columns(colTTaxAmt)) Then
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
+                    If rbtnManualTCS.IsChecked Then
+                        If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
+                        Else
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
+                        End If
+                    End If
                 End If
 
                 Dim cell As GridDataCellElement = TryCast(e.CellElement, GridDataCellElement)
@@ -4636,8 +4661,16 @@ Public Class frmScrapSaleReturn
 
     Private Sub rbtnTaxCalManual_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalManual.ToggleStateChanged, rbtnTaxCalAutomatic.ToggleStateChanged
         If Not isInsideLoadData Then
-            If rbtnTaxCalAutomatic.IsChecked Then
+            If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                 SetTaxDetails()
+                If rbtnManualTCS.IsChecked Then
+                    For intRowNo As Integer = 0 To gv2.Rows.Count - 1
+                        If clsCommon.CompairString(gv2.Rows(intRowNo).Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.Rows(intRowNo).Cells(colTTaxAmt).Value = Nothing
+                            gv2.Rows(intRowNo).Cells(colTTaxRate).Value = 0
+                        End If
+                    Next
+                End If
             ElseIf rbtnTaxCalManual.IsChecked Then
                 For intRowNo As Integer = 0 To gv2.Rows.Count - 1
                     gv2.Rows(intRowNo).Cells(colTTaxRate).Value = Nothing
@@ -4654,6 +4687,34 @@ Public Class frmScrapSaleReturn
             End If
         End If
     End Sub
+    Private Sub UpdateManualTCS(ByVal IntRowNo As Integer)
+        Try
+            For ii As Integer = 1 To 10
+                Dim Strii As String = clsCommon.myCstr(ii)
+                If rbtnManualTCS.IsChecked Then
+                    If gv2.Rows.Count >= ii Then
+                        Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+                        If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            Dim dblTaxAmt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                            Dim dblTotAmt As Double = 0
+                            For jj As Integer = 0 To gv1.Rows.Count - 1
+                                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            Next
+                            Dim dblCurrCalTax As Double = 0
+                            If dblTotAmt <> 0 Then
+                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            End If
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                            UpdateCurrentRow(IntRowNo)
+                        End If
+                    End If
+                End If
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     Private Sub gv2_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellValueChanged
         Try
@@ -4663,6 +4724,11 @@ Public Class frmScrapSaleReturn
                     If (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnTaxCalManual.IsChecked) Then
                         For ii As Integer = 0 To gv1.Rows.Count - 1
                             UpdateCurrentRow(ii)
+                        Next
+                        UpdateAllTotals()
+                    ElseIf (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnManualTCS.IsChecked) Then
+                        For ii As Integer = 0 To gv1.Rows.Count - 1
+                            UpdateManualTCS(ii)
                         Next
                         UpdateAllTotals()
                     End If

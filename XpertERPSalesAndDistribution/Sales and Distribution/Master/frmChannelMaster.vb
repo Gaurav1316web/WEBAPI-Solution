@@ -121,7 +121,7 @@ Public Class frmChannelMaster
                 End If
             End If
             'connectSql.RunSp("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
-            clsDBFuncationality.UpdateInAllDatabase("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.insert()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -130,7 +130,7 @@ Public Class frmChannelMaster
     'This  function is used for update data
     Public Sub funupdate()
         Try
-            clsDBFuncationality.UpdateInAllDatabase("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -139,7 +139,7 @@ Public Class frmChannelMaster
     'This function is used to delete Data
     Public Sub fundelete()
         Try
-            clsDBFuncationality.UpdateInAllDatabase("sp_Channelmaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_Channelmaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try

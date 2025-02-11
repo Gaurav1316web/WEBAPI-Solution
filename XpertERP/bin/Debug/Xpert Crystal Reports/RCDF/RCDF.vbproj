@@ -1775,6 +1775,7 @@
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance3.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance4.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAPInvc.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptBankSavingDraftSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCanceledSaleInvoice.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscCrosstab.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscountDetail.rpt" />
