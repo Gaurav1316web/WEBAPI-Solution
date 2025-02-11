@@ -34,6 +34,7 @@ Public Class frmPurchaseOrder
     Public isInsideLoadDatamt As Boolean = False
     Public SendMailForAdvancePaymenTerms As Boolean = False
     Dim arrLoc As String = ""
+    Dim isCopy As Boolean = False
     'Public isInsideLoadDataAC As Boolean = False
 
     Const colLineNo As String = "COLLNO"
@@ -953,57 +954,7 @@ Public Class frmPurchaseOrder
         lblAmtAfterTax.Text = ""
         MyLabel7.Text = ""
         txtKindAttentation.Text = ""
-        Try
-            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing)) = 1 Then
-                Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,Comment1,Comment2,Comment3,Comment4,Comment5,Comment6,Comment7,Comment8,Comment9,Comment10,Comment11,Comment12,Comment13,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt.Rows.Count > 0 Then
-                    txtComment.Rtf = clsCommon.myCstr(dt.Rows(i)("Comments"))
-                    txtCmt1.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment1"))
-                    txtCmt2.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment2"))
-                    txtCmt3.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment3"))
-                    txtCmt4.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment4"))
-                    txtCmt5.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment5"))
-                    txtCmt6.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment6"))
-                    txtCmt7.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment7"))
-                    txtCmt8.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment8"))
-                    txtCmt9.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment9"))
-                    txtCmt10.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment10"))
-                    txtCmt11.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment11"))
-                    txtCmt12.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment12"))
-                    txtCmt13.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment13"))
-                    'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
-                    txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
-                    txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
-                End If
-            Else
-                txtFreight.Text = ""
-                txtComment.Rtf = ""
-                txtCmt1.Rtf = ""
-                txtCmt2.Rtf = ""
-                txtCmt3.Rtf = ""
-                txtCmt4.Rtf = ""
-                txtCmt5.Rtf = ""
-                txtCmt6.Rtf = ""
-                txtCmt7.Rtf = ""
-                txtCmt8.Rtf = ""
-                txtCmt9.Rtf = ""
-                txtCmt10.Rtf = ""
-                txtCmt11.Rtf = ""
-                txtCmt12.Rtf = ""
-                txtCmt13.Rtf = ""
-                'txtCmt14.Text = ""
-                'RTComment.Text = ""
-                txtSubject.Text = ""
-                txtContentSubject.Text = ""
-                txtPaymentTerm.Text = ""
-                txtInsuranceTerms.Text = ""
-                txtPackingForward.Text = ""
-                txtInsurance.Text = ""
-            End If
-        Catch ex As Exception
-        End Try
-
+        fillComments(Nothing)
         txtDelivery_Code.Value = ""
         txtDeliveryDesc.Text = ""
         Chkroadpermit.Checked = False
@@ -1157,6 +1108,63 @@ Public Class frmPurchaseOrder
         txtReferencePO.Text = "/DMM//Stores/"
         ''-----------------
         '--------------------------------------
+    End Sub
+
+    Sub fillComments(ByVal strCode As String)
+        Try
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing)) = 1 Then
+                Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,Comment1,Comment2,Comment3,Comment4,Comment5,Comment6,Comment7,Comment8,Comment9,Comment10,Comment11,Comment12,Comment13,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD "
+                If strCode IsNot Nothing AndAlso clsCommon.myLen(strCode) > 0 Then
+                    qry += " Where PurchaseOrder_No='" + strCode + "'"
+                End If
+                qry += " ORDER BY PurchaseOrder_Date DESC"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt.Rows.Count > 0 Then
+                    txtComment.Rtf = clsCommon.myCstr(dt.Rows(i)("Comments"))
+                    txtCmt1.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment1"))
+                    txtCmt2.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment2"))
+                    txtCmt3.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment3"))
+                    txtCmt4.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment4"))
+                    txtCmt5.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment5"))
+                    txtCmt6.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment6"))
+                    txtCmt7.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment7"))
+                    txtCmt8.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment8"))
+                    txtCmt9.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment9"))
+                    txtCmt10.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment10"))
+                    txtCmt11.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment11"))
+                    txtCmt12.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment12"))
+                    txtCmt13.Rtf = clsCommon.myCstr(dt.Rows(i)("Comment13"))
+                    'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
+                    txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
+                    txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
+                End If
+            Else
+                txtFreight.Text = ""
+                txtComment.Rtf = ""
+                txtCmt1.Rtf = ""
+                txtCmt2.Rtf = ""
+                txtCmt3.Rtf = ""
+                txtCmt4.Rtf = ""
+                txtCmt5.Rtf = ""
+                txtCmt6.Rtf = ""
+                txtCmt7.Rtf = ""
+                txtCmt8.Rtf = ""
+                txtCmt9.Rtf = ""
+                txtCmt10.Rtf = ""
+                txtCmt11.Rtf = ""
+                txtCmt12.Rtf = ""
+                txtCmt13.Rtf = ""
+                'txtCmt14.Text = ""
+                'RTComment.Text = ""
+                txtSubject.Text = ""
+                txtContentSubject.Text = ""
+                txtPaymentTerm.Text = ""
+                txtInsuranceTerms.Text = ""
+                txtPackingForward.Text = ""
+                txtInsurance.Text = ""
+            End If
+        Catch ex As Exception
+        End Try
     End Sub
     Sub LoadWorkOrderValueGrid()
         'gvCategoryValue.Rows.Clear()
@@ -6159,26 +6167,28 @@ Public Class frmPurchaseOrder
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
-            dtpRenewal.Enabled = True
-            btnSave.Enabled = True
-            btnPost.Enabled = True
-            btn_Cancels.Enabled = True
-            btnAmendment.Enabled = False
-            btnDelete.Enabled = True
-            isInsideLoadData = True
-            cboPOType.Enabled = True
-            isNewEntry = False
-            btnSave.Text = "Update"
-            'btn_Cancels.Enabled = True
-            BlankAllControls()
-            LoadBlankGrid()
-            LoadBlankGridSchedule()
-            LoadBlankGridTax()
-            LoadBlankGridAC()
-            LoadBlankGridACInsurance()
-            IsLoadOk = True
-            cboItemType.Enabled = True
-            txtBillToLocation.Enabled = True
+            If isCopy = False Then
+                dtpRenewal.Enabled = True
+                btnSave.Enabled = True
+                btnPost.Enabled = True
+                btn_Cancels.Enabled = True
+                btnAmendment.Enabled = False
+                btnDelete.Enabled = True
+                isInsideLoadData = True
+                cboPOType.Enabled = True
+                isNewEntry = False
+                btnSave.Text = "Update"
+                'btn_Cancels.Enabled = True
+                BlankAllControls()
+                LoadBlankGrid()
+                LoadBlankGridSchedule()
+                LoadBlankGridTax()
+                LoadBlankGridAC()
+                LoadBlankGridACInsurance()
+                IsLoadOk = True
+                cboItemType.Enabled = True
+                txtBillToLocation.Enabled = True
+            End If
             'ShowPOCancelButton = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCancelButtonPO, clsFixedParameterCode.ShowCancelButtonPO, Nothing)) = "1", True, False))
             'If ShowPOCancelButton Then
             '    btn_cancel.Visible = True
@@ -6193,7 +6203,7 @@ Public Class frmPurchaseOrder
             obj = clsPurchaseOrderHead.GetData(strCode, NavTyep, arrLoc, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"), FORMTYPE)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PurchaseOrder_No) > 0) Then
-                If obj.Status = ERPTransactionStatus.Approved Then
+                If isCopy = False AndAlso obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
@@ -6213,7 +6223,7 @@ Public Class frmPurchaseOrder
                     'repoBalQty.IsVisible = True
                 End If
 
-                If CInt(obj.IsCancel) = CInt(1) Then
+                If isCopy = False AndAlso CInt(obj.IsCancel) = CInt(1) Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
@@ -6229,7 +6239,7 @@ Public Class frmPurchaseOrder
                 chkOpenPO.Checked = clsCommon.myCBool(IIf(obj.Is_Open_PO = 1, True, False))
                 dtpRenewal.Checked = False
                 dtpRenewal.Text = Nothing
-                If clsCommon.myLen(obj.Renewal_Date) > 0 Then
+                If isCopy = False AndAlso clsCommon.myLen(obj.Renewal_Date) > 0 Then
                     dtpRenewal.Checked = True
                     dtpRenewal.Text = obj.Renewal_Date
                     dtpRenewal.Enabled = False
@@ -6257,13 +6267,14 @@ Public Class frmPurchaseOrder
                     lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.PurchaseOrder_No, Nothing)
                 End If
                 '================end here=================
-                UsLock1.Status = obj.Status
-                txtDocNo.Value = obj.PurchaseOrder_No
-                txtDate.Value = obj.PurchaseOrder_Date
-                If clsCommon.myLen(obj.Delivery_date) > 0 Then
-                    txtDeliveryDate.Value = obj.Delivery_date
+                If isCopy = False Then
+                    UsLock1.Status = obj.Status
+                    txtDocNo.Value = obj.PurchaseOrder_No
+                    txtDate.Value = obj.PurchaseOrder_Date
+                    If clsCommon.myLen(obj.Delivery_date) > 0 Then
+                        txtDeliveryDate.Value = obj.Delivery_date
+                    End If
                 End If
-
                 '----------------------------------------------
                 If obj.Auto_PO = "1" Then
                     MyLabel7.Text = "System Generated Purchase Order"
@@ -6373,7 +6384,7 @@ Public Class frmPurchaseOrder
                 txtTermCode.Value = obj.Terms_Code
                 txtTermRemark.Text = obj.Terms_Remark
                 'lblTermName.Text = obj.Terms_Description
-                If clsCommon.myLen(obj.Due_Date) > 0 Then
+                If isCopy = False AndAlso clsCommon.myLen(obj.Due_Date) > 0 Then
                     txtDueDate.Value = obj.Due_Date
                 End If
 
@@ -6412,7 +6423,7 @@ Public Class frmPurchaseOrder
                 fndProject.Value = obj.PROJECT_ID
                 lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
 
-                If obj.Abandonment_No > 0 Then
+                If isCopy = False AndAlso obj.Abandonment_No > 0 Then
                     lblAbandonmentNo.Text = clsCommon.myCstr(obj.Abandonment_No)
                     lblAmbendmentNoCaption.Visible = True
                 End If
@@ -6421,7 +6432,7 @@ Public Class frmPurchaseOrder
                 Else
                     txtReqNo.Value = obj.Against_Requisition
                 End If
-                If clsCommon.myLen(txtReqNo.Value) > 0 Then
+                If isCopy = False AndAlso clsCommon.myLen(txtReqNo.Value) > 0 Then
                     lblProject.Enabled = False
                     fndProject.Enabled = False
                     ddl_category.Enabled = False
@@ -6482,7 +6493,7 @@ Public Class frmPurchaseOrder
                 cmbAdvanceType.SelectedValue = obj.MT_Advance_Type
                 ChkPartPayment.Checked = clsCommon.myCBool(IIf(obj.MT_is_Partpayment = "Y", True, False))
                 txtAdvance_Pers.Value = clsCommon.myCdbl(obj.MT_PT_Advance_Amount)
-                If clsCommon.myLen(obj.MT_PI_Due_Date) > 0 Then
+                If isCopy = False AndAlso clsCommon.myLen(obj.MT_PI_Due_Date) > 0 Then
                     txtPIDueDate.Value = clsCommon.myCDate(obj.MT_PI_Due_Date)
                 Else
                     txtPIDueDate.Value = clsCommon.GETSERVERDATE(Nothing)
@@ -6497,7 +6508,7 @@ Public Class frmPurchaseOrder
 
                 txtBillNo.Text = obj.ServiceBill_No
                 dtBillDate.Value = clsCommon.myCDate(obj.ServiceBill_Date)
-                If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.WorkOrderEng) = CompairStringResult.Equal Then
+                If isCopy = False AndAlso clsCommon.CompairString(FORMTYPE, clsUserMgtCode.WorkOrderEng) = CompairStringResult.Equal Then
                     txtRefTendorNo.Text = obj.RefTendorNo
                 Else
                     txtTenderNo.Value = obj.RefTendorNo
@@ -6507,7 +6518,7 @@ Public Class frmPurchaseOrder
 
 
                 txtCarrier.Text = obj.MT_Carrier
-                If clsCommon.myLen(txtPINo.Value) > 0 Then
+                If isCopy = False AndAlso clsCommon.myLen(txtPINo.Value) > 0 Then
                     chkAcceptance.Enabled = False
                     dtpAcceptance.Enabled = False
                     chkPartshipment.Enabled = False
@@ -7045,7 +7056,7 @@ Public Class frmPurchaseOrder
                     btnForm_Update.Enabled = False
                     lblBillToLocation.Text = obj.BillToLocationName
                     lblShipToLocation.Text = obj.ShipToLocationName
-                    If obj.Status = ERPTransactionStatus.Approved Then
+                    If isCopy = False AndAlso obj.Status = ERPTransactionStatus.Approved Then
                         btnForm_Update.Enabled = True
                         ''richa agarwal 08/04/2015
                         txtVendorNo.Enabled = False
@@ -7056,7 +7067,7 @@ Public Class frmPurchaseOrder
                         txtBillToLocation.Enabled = False
                         ''------------------
                     End If
-                    If obj.Status = ERPTransactionStatus.Pending OrElse obj.Status = ERPTransactionStatus.Approved Then
+                    If  obj.Status = ERPTransactionStatus.Pending OrElse obj.Status = ERPTransactionStatus.Approved Then
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
@@ -7248,7 +7259,7 @@ Public Class frmPurchaseOrder
                         End If
                     End If
 
-                 
+
                     Dim objPO As New clsPurchaseOrderHead()
                     If (objPO.PostData(MyBase.Form_ID, txtDocNo.Value, True, Schedule_ON, arrLoc)) Then ''pass schedule value for creating auto schedule
                         msg = "Successfully Posted"
@@ -8924,53 +8935,59 @@ Public Class frmPurchaseOrder
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
             Dim objReq As clsPurchaseOrderHead = clsPurchaseOrderHead.GetData(frm.strFirstPO, NavigatorType.Current, "", IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"), FORMTYPE)
             If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.PurchaseOrder_No) > 0 Then
-                If (clsCommon.myLen(txtVendorNo.Value) <= 0) Then
-                    txtVendorNo.Value = objReq.Vendor_Code
-                    lblVendorName.Text = objReq.Vendor_Name
-                End If
-                If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
-                    txtBillToLocation.Value = objReq.Bill_To_Location
-                    lblBillToLocation.Text = objReq.BillToLocationName
-                End If
+                isCopy = True
+                LoadData(objReq.PurchaseOrder_No, NavigatorType.Current)
+                isCopy = False
+            End If
+            'If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.PurchaseOrder_No) > 0 Then
+            '    If (clsCommon.myLen(txtVendorNo.Value) <= 0) Then
+            '        txtVendorNo.Value = objReq.Vendor_Code
+            '        lblVendorName.Text = objReq.Vendor_Name
+            '    End If
+            '    If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
+            '        txtBillToLocation.Value = objReq.Bill_To_Location
+            '        lblBillToLocation.Text = objReq.BillToLocationName
+            '    End If
 
-                If (clsCommon.myLen(cboPOType.SelectedValue) <= 0) Then
-                    cboPOType.SelectedValue = objReq.PurchaseOrder_Type
-                End If
-                If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
-                    cboItemType.SelectedValue = objReq.Item_Type
-                End If
-                If (clsCommon.myLen(cboModeOfTransport.Text) <= 0) Then
-                    cboModeOfTransport.Text = objReq.Mode_Of_Transport
-                End If
-                If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
-                    txtRemarks.Text = objReq.Remarks
-                End If
-                If (clsCommon.myLen(txtTaxGroup.Value) <= 0) Then
-                    txtTaxGroup.Value = objReq.Tax_Group
-                    lblTaxGrpName.Text = objReq.TaxGroupName
-                    SetTaxDetails()
-                End If
-            End If
-            If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
-                gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
-            End If
-            For Each obj As clsPurchaseOrderDetail In frm.ArrReturn
-                gv1.Rows.AddNew()
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.Balance_Qty
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
-                gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsVendorItemDetail.GetRate(txtVendorNo.Value, obj.Item_Code, obj.Unit_code, obj.MRP)
-                SetitemWiseTaxSetting(True, True)
-                UpdateCurrentRow(gv1.Rows.Count - 1)
-            Next
+            '    If (clsCommon.myLen(cboPOType.SelectedValue) <= 0) Then
+            '        cboPOType.SelectedValue = objReq.PurchaseOrder_Type
+            '    End If
+            '    If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
+            '        cboItemType.SelectedValue = objReq.Item_Type
+            '    End If
+            '    If (clsCommon.myLen(cboModeOfTransport.Text) <= 0) Then
+            '        cboModeOfTransport.Text = objReq.Mode_Of_Transport
+            '    End If
+            '    If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
+            '        txtRemarks.Text = objReq.Remarks
+            '    End If
+            '    If (clsCommon.myLen(txtTaxGroup.Value) <= 0) Then
+            '        txtTaxGroup.Value = objReq.Tax_Group
+            '        lblTaxGrpName.Text = objReq.TaxGroupName
+            '        SetTaxDetails()
+            '    End If
+            '    fillComments(objReq.PurchaseOrder_No)
+            'End If
+            'If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
+            '    gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
+            'End If
+            'For Each obj As clsPurchaseOrderDetail In frm.ArrReturn
+            '    gv1.Rows.AddNew()
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.Balance_Qty
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
+            '    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsVendorItemDetail.GetRate(txtVendorNo.Value, obj.Item_Code, obj.Unit_code, obj.MRP)
+            '    SetitemWiseTaxSetting(True, True)
+            '    UpdateCurrentRow(gv1.Rows.Count - 1)
+            'Next
         End If
         isInsideLoadData = False
         UpdateAllTotals()

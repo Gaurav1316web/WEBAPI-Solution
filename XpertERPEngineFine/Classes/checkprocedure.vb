@@ -60,11 +60,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailSystemAdmin, "System Administrator Audit Trail Report", "1.00.03.09", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDeleteHistoryReport, "Delete History Report", "1.00.03.10", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.RCDFDashboard, "Dashboard", "1.00.03.11", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
-        InsertDefaultValue(clsUserMgtCode.Complainfeedback, "Complain feedback", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
-        InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.13", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
-        InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.14", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
-        InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDBTDashboard, "DBT Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RCDFUnionDashboard, "Union Dashboard", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.Complainfeedback, "Complain feedback", "1.00.03.13", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.14", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.16", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTDashboard, "DBT Dashboard", "1.00.03.17", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -2962,6 +2963,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.12", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmUnionLastGstInvoice, "Union wise Last GST invoice", "1.49.03.13", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptCattleFeedProduction, "Cattle Feed Production", "1.49.03.17", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

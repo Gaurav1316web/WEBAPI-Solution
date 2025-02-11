@@ -1515,73 +1515,98 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         End If
     End Sub
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
+        Reverse()
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim NextDayDocNo As String = ""
+        'Dim NextDayDocNo As String = ""
 
-        Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim isDispatch As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "')"))
-                If isDispatch >= 1 Then
-                    Throw New Exception("Dispatch already Created!")
-                End If
-            Else
-                Throw New Exception("Please Select Document")
+        'Try
+        '    If clsCommon.myLen(txtDocNo.Value) > 0 Then
+        '        Dim isDispatch As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "')"))
+        '        If isDispatch >= 1 Then
+        '            Throw New Exception("Dispatch already Created!")
+        '        End If
+        '    Else
+        '        Throw New Exception("Please Select Document")
 
-            End If
-            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
-                NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
-            End If
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
-            'End If
-            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                '' REASON FOR DELETE 
-                Dim Reason As String = ""
-                Dim qry As String = ""
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Reverse"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Exit Sub
-                Else
-                    Reason = frm.strRmks
-                End If
-                If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
-                    qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
-                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
-                        Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
-                    End If
-                    Dim dt As DataTable = Nothing
-                    '' to check gatepass or truck sheet generated
-                    Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
-                    Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
-                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
-                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
-                    End If
-                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
-                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
-                    End If
-                End If
-                If clsCommon.myLen(NextDayDocNo) > 0 Then
-                    If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
-                        If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
-                            saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
-                            LoadData(txtDocNo.Value, NavigatorType.Current)
-                        End If
-                    End If
-                Else
-                    If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
-                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
-                        LoadData(txtDocNo.Value, NavigatorType.Current)
-                    End If
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        '    End If
+        '    If objCommonVar.ApplyBoothRouteMapping Then
+        '        NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+        '        If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+        '            Dim Reason As String = ""
+        '            Dim qry As String = ""
+        '            Dim frm As New FrmFreeTxtBox1
+        '            frm.Text = "Remarks for Reverse"
+        '            frm.ShowDialog()
+        '            If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '                Exit Sub
+        '            Else
+        '                Reason = frm.strRmks
+        '            End If
+        '            If clsDemandBookingSale.ReverseMultipleDOC(txtDocNo.Value, txtRouteNo.Value, clsCommon.GetPrintDate(txtDate.Value.AddDays(1)), txtLocation.Value, IIf(rbtnMorning.IsChecked, "Morning", "Evening")) Then
+        '                saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+        '                common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+        '                LoadData(txtDocNo.Value, NavigatorType.Current)
+        '            End If
+        '        End If
+
+        '    Else
+        '        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+        '            NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+        '        End If
+        '        'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
+        '        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
+        '        'End If
+        '        If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+        '            '' REASON FOR DELETE 
+        '            Dim Reason As String = ""
+        '            Dim qry As String = ""
+        '            Dim frm As New FrmFreeTxtBox1
+        '            frm.Text = "Remarks for Reverse"
+        '            frm.ShowDialog()
+        '            If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '                Exit Sub
+        '            Else
+        '                Reason = frm.strRmks
+        '            End If
+        '            If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
+        '                qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
+        '                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
+        '                    Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
+        '                End If
+        '                Dim dt As DataTable = Nothing
+        '                '' to check gatepass or truck sheet generated
+        '                Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
+        '                Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
+        '                If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
+        '                    Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+        '                End If
+        '                If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
+        '                    Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+        '                End If
+        '            End If
+        '            If clsCommon.myLen(NextDayDocNo) > 0 Then
+        '                If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+        '                    If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+        '                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+        '                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+        '                        LoadData(txtDocNo.Value, NavigatorType.Current)
+        '                    End If
+        '                End If
+        '            Else
+        '                If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+        '                    saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+        '                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+        '                    LoadData(txtDocNo.Value, NavigatorType.Current)
+        '                End If
+        '            End If
+        '        End If
+
+
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
     Private Sub rbtn_Ambient_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Ambient.ToggleStateChanged
         Try
@@ -1770,10 +1795,11 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Dim MainQry As String = ""
             Dim qry As String = ""
             If objCommonVar.ApplyBoothRouteMapping Then
-                Dim BRM_DocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
+                qry = "select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
 left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
 where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_Booth_Route_Mapping_Head.Route_No='" + strtRouteCode + "' 
-and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 order by Document_No desc"))
+and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 order by Document_No desc"
+                Dim BRM_DocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                 qry = " select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code 
 where Document_No='" + BRM_DocNO + "' "
@@ -1789,7 +1815,16 @@ where Document_No='" + BRM_DocNO + "' "
                 ' group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
                 '                End If
                 '                MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
-                MainQry = qry
+                MainQry = qry + "  order by TSPL_Booth_Route_Mapping_Detail.Serial_No "
+                Dim isPosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'  and Posted=1")) = 1, True, False)
+                If isPosted Then
+                    MainQry = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
+                left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
+                 group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code order by Serial_No "
+                End If
             Else
                 qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
                 If chkIndividualCustomer.Checked = True Then
@@ -5155,7 +5190,73 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
 
     End Sub
     Sub Reverse()
+        'Dim NextDayDocNo As String = ""
+        'Try
+        '    If clsCommon.myLen(txtDocNo.Value) > 0 Then
+        '        Dim isDispatch As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "')"))
+        '        If isDispatch >= 1 Then
+        '            Throw New Exception("Dispatch already Created!")
+        '        End If
+        '    Else
+        '        Throw New Exception("Please Select Document")
+
+        '    End If
+        '    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+        '        NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+        '    End If
+        '    'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
+        '    'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
+        '    'End If
+        '    If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+        '        ' REASON FOR DELETE 
+        '        Dim Reason As String = ""
+        '        Dim qry As String = ""
+        '        Dim frm As New FrmFreeTxtBox1
+        '        frm.Text = "Remarks for Reverse"
+        '        frm.ShowDialog()
+        '        If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '            Exit Sub
+        '        Else
+        '            Reason = frm.strRmks
+        '        End If
+        '        If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
+        '            qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
+        '            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
+        '                Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
+        '            End If
+        '            Dim dt As DataTable = Nothing
+        '            '' to check gatepass or truck sheet generated
+        '            Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
+        '            Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
+        '            If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
+        '                Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+        '            End If
+        '            If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
+        '                Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+        '            End If
+        '        End If
+        '        If clsCommon.myLen(NextDayDocNo) > 0 Then
+        '            If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+        '                If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+        '                    saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+        '                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+        '                    LoadData(txtDocNo.Value, NavigatorType.Current)
+        '                End If
+        '            End If
+        '        Else
+        '            If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+        '                saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+        '                common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+        '                LoadData(txtDocNo.Value, NavigatorType.Current)
+        '            End If
+        '        End If
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
         Dim NextDayDocNo As String = ""
+
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim isDispatch As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "')"))
@@ -5166,56 +5267,80 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
                 Throw New Exception("Please Select Document")
 
             End If
-            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+            If objCommonVar.ApplyBoothRouteMapping Then
                 NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
-            End If
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
-            'End If
-            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                ' REASON FOR DELETE 
-                Dim Reason As String = ""
-                Dim qry As String = ""
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Reverse"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Exit Sub
-                Else
-                    Reason = frm.strRmks
-                End If
-                If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
-                    qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
-                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
-                        Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
+                If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Dim Reason As String = ""
+                    Dim qry As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Reverse"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
                     End If
-                    Dim dt As DataTable = Nothing
-                    '' to check gatepass or truck sheet generated
-                    Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
-                    Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
-                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
-                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
-                    End If
-                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
-                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+                    If clsDemandBookingSale.ReverseMultipleDOC(txtDocNo.Value, txtRouteNo.Value, clsCommon.GetPrintDate(txtDate.Value.AddDays(1)), txtLocation.Value, IIf(rbtnMorning.IsChecked, "Morning", "Evening")) Then
+                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
-                If clsCommon.myLen(NextDayDocNo) > 0 Then
-                    If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+
+            Else
+                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                    NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+                End If
+                'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
+                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
+                'End If
+                If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim qry As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Reverse"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                    If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
+                        qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
+                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
+                            Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
+                        End If
+                        Dim dt As DataTable = Nothing
+                        '' to check gatepass or truck sheet generated
+                        Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
+                        Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
+                        If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
+                            Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+                        End If
+                        If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
+                            Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+                        End If
+                    End If
+                    If clsCommon.myLen(NextDayDocNo) > 0 Then
+                        If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+                            If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+                                saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                                common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                                LoadData(txtDocNo.Value, NavigatorType.Current)
+                            End If
+                        End If
+                    Else
                         If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
                             saveCancelLog(Reason, "Reverse And Recreate", Nothing)
                             common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
-                Else
-                    If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
-                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
-                        LoadData(txtDocNo.Value, NavigatorType.Current)
-                    End If
                 End If
+
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
