@@ -7495,6 +7495,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmItemCapacityLimt
                         frm = New FrmItemCapacityLimit
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBoothRouteMapping
+                        frm = New FrmBoothRouteMapping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDayBook
                         frm = New frmDayBook
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9217,6 +9220,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTUnionPayment
                         frm = New frmDBTUnionPayment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptCattleFeedProduction
+                        frm = New rptCattleFeedProduction()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmUnionLastGstInvoice
                         frm = New frmUnionLastGstInvoice()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9657,6 +9663,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RCDFUnionDashboard
+                        frm = New RCDFUnionDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.Complainfeedback
                         frm = New RptComplainfeedback
