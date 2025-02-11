@@ -2527,6 +2527,7 @@ Public Class clsUserMgtCode
     Public Const frmDailyDemand As String = "DAI-DEM"
     Public Const frmDBTUnionPayment As String = "DBT-UPAY"
     Public Const frmUnionLastGstInvoice As String = "DBT-GST_INV"
+    Public Const rptCattleFeedProduction As String = "CF-PROD"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
@@ -2666,12 +2667,14 @@ Public Class clsUserMgtCode
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"
     Public Const FrmItemCapacityLimt As String = "ITM-CAP-LMT"
+    Public Const FrmBoothRouteMapping As String = "BTH-ROT-MAP"
     Public Const frmDayBook As String = "DAY-BOOK"
     Public Const VehicleMasterForProductSale As String = "VM_PS"
     Public Const frmMRPForProduction As String = "PP_MRP"
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
     Public Const rptDeleteHistoryReport As String = "DEL-HIST"
     Public Const RCDFDashboard As String = "RCDF-DSB"
+    Public Const RCDFUnionDashboard As String = "RCDF-UN-DSB"
     Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
     Public Const DairySaleDashboard As String = "DAR-DSB"

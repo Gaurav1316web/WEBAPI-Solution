@@ -2487,7 +2487,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             End If
             sQueryDD += " union all 
                             select TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as DOCNO, TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,
-                            TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,"
+                            TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,(case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description else TSPL_DEDUCTION_MASTER.Code end) as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryDD += " TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,"
             End If

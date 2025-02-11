@@ -535,6 +535,7 @@ Public Class clsSaleRegisterDetail
         Dim strCodeDescColumn As String = ""
         Dim strCodeDescColumnMax As String = ""
         Dim strPivotForFinalOuterQuery As String = ""
+        Dim strCustomerAmountWiseTaxQuery As String = ""
         Dim strCategoryTable As String = ""
         Dim MIS_Item_Group As String = GetMIS_ITem_GroupColumn()
         Dim dtCategory As New DataTable
@@ -542,7 +543,7 @@ Public Class clsSaleRegisterDetail
         Dim ItemCategoryCondQry As String = GetTrasactionItemCodeQry(obj)
         Dim Batch_Wise As Boolean = obj.BatchWise
         ''====================Monika 11/04/2017
-        If obj.rbtnCategorySected OrElse (clsCommon.CompairString(obj.ReportType, "Document Info Level") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.ReportType, "Document Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.ReportType, "Net Sale") = CompairStringResult.Equal) Then ''if categories are checked from screen only then show as pivot.Or if document detail/info report opened then category pivot run
+        If obj.rbtnCategorySected OrElse (clsCommon.CompairString(obj.ReportType, "Document Info Level") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.ReportType, "Customer Amount Wise") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.ReportType, "Document Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.ReportType, "Net Sale") = CompairStringResult.Equal) Then ''if categories are checked from screen only then show as pivot.Or if document detail/info report opened then category pivot run
             dtCategory = clsDBFuncationality.GetDataTable("select ITEM_CATEGORY_CODE AS CodeColumn,ITEM_CATEGORY_CODE+' Desc' as CodeDescColumn,DESCRIPTION as DescColumn  from TSPL_ITEM_CATEGORY_LEVEL order by CATEGORY_LEVEL")
             If dtCategory IsNot Nothing AndAlso dtCategory.Rows.Count > 0 Then
                 For ii As Integer = 0 To dtCategory.Rows.Count - 1
@@ -632,12 +633,19 @@ Public Class clsSaleRegisterDetail
             If dtTax.Rows.IndexOf(dr) = dtTax.Rows.Count - 1 Then
                 'strPivotForFinalOuterQuery = strPivotForFinalOuterQuery & "xx.[" & clsCommon.myCstr(dr.Item("TAX1")) & "]"
                 strPivotForFinalOuterQuery = strPivotForFinalOuterQuery & " case when Scheme_Item='Y' then 0 else " & "xx.[" & clsCommon.myCstr(dr.Item("TAX1")) & "]" & " end " & "[" & clsCommon.myCstr(dr.Item("TAX1")) & "]"
+                'strCustomerAmountWiseTaxQuery = " Sum ([" & clsCommon.myCstr(dr.Item("TAX1")) & "]) [" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
+                strCustomerAmountWiseTaxQuery = strCustomerAmountWiseTaxQuery & " Sum ([" & clsCommon.myCstr(dr.Item("TAX1")) & "]) [" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
+
             Else
                 'strPivotForFinalOuterQuery = strPivotForFinalOuterQuery & "xx.[" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
                 strPivotForFinalOuterQuery = strPivotForFinalOuterQuery & " case when Scheme_Item='Y' then 0 else " & "xx.[" & clsCommon.myCstr(dr.Item("TAX1")) & "]" & " end " & "[" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
+                'strCustomerAmountWiseTaxQuery = " Sum ([" & clsCommon.myCstr(dr.Item("TAX1")) & "]) [" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
+                strCustomerAmountWiseTaxQuery = strCustomerAmountWiseTaxQuery & " Sum ([" & clsCommon.myCstr(dr.Item("TAX1")) & "]) [" & clsCommon.myCstr(dr.Item("TAX1")) & "],"
+
             End If
         Next
         obj.strPivotForFinalOuterQuery = strPivotForFinalOuterQuery
+        obj.strCustomerAmountWiseTaxQuery = strCustomerAmountWiseTaxQuery
         'Dim strPivotForFinalOuterPercent As String
         'strPivotForFinalOuterPercent = " select distinct (select  Distinct ',xx.['+tax1+'%'+']' from ( " & qryTaxQuery
         'strPivotForFinalOuterPercent += " )aa where len(isnull(TAX1,''))>0 for xml path('') )"
@@ -1005,39 +1013,41 @@ Public Class clsSaleRegisterDetail
                 strMCCMaterial += "  cast(( case when isnull(Rate_Stock_SU.Conversion_Factor,0)<=0 then ([Item Cost]) else ([Item Cost] * Rate_select_SU.Conversion_Factor)/ Rate_Stock_SU.Conversion_Factor end )"
                 strMCCMaterial += " as Numeric(18,3)) end as [Item Rate]"
             End If
-            strMCCMaterial += " ,case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [Fat Per] else Item.STD_FATPER end as [FAT %],case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [SNF Per] else Item.STD_SNFPer end as [SNF %],(case when coalesce(StockKG.Conversion_Factor,0)=0 then 0 else cast(([Quantity]* (case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [Fat Per] else Item.STD_FATPER end) *Stock_SU.Conversion_Factor)/(coalesce(StockKG.Conversion_Factor,1)*100) as numeric(18,3)) end) as [FAT KG],(case when coalesce(StockKG.Conversion_Factor,0)=0 then 0 else cast(([Quantity]* (case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [SNF Per] else Item.STD_SNFPer end) *Stock_SU.Conversion_Factor)/(coalesce(StockKG.Conversion_Factor,1)*100) as Numeric(18,3)) end) as [SNF KG],(case when Scheme_Item='Y' then 0 else Amount+cast(Additional_Charge as numeric(18,2)) end) as Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],case when Scheme_Item='Y' then 0 else [Amount Less Discount]+cast(Additional_Charge as numeric(18,2)) end as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ", " &
+
+
+            strMCCMaterial += " ,Case When [trans type] In ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [Fat Per] else Item.STD_FATPER end as [FAT %],case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [SNF Per] else Item.STD_SNFPer end as [SNF %],(case when coalesce(StockKG.Conversion_Factor,0)=0 then 0 else cast(([Quantity]* (case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [Fat Per] else Item.STD_FATPER end) *Stock_SU.Conversion_Factor)/(coalesce(StockKG.Conversion_Factor,1)*100) as numeric(18,3)) end) as [FAT KG],(case when coalesce(StockKG.Conversion_Factor,0)=0 then 0 else cast(([Quantity]* (case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [SNF Per] else Item.STD_SNFPer end) *Stock_SU.Conversion_Factor)/(coalesce(StockKG.Conversion_Factor,1)*100) as Numeric(18,3)) end) as [SNF KG],(case when Scheme_Item='Y' then 0 else Amount+cast(Additional_Charge as numeric(18,2)) end) as Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],case when Scheme_Item='Y' then 0 else [Amount Less Discount]+cast(Additional_Charge as numeric(18,2)) end as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ", " &
                     " Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else case when [trans type]='Fresh Sale Return' then [Amount Less Discount]+cast(Additional_Charge as numeric(18,2))  else ([Total Amount]-[Total Tax Amount]+cast(Additional_Charge as numeric(18,2))) end end) as [Sale Amount],Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else ([Total Amount]-[Total Tax Amount]+MANDI_TAX_AMT+cast(Additional_Charge as numeric(18,2))) end) as [Sale Amount GST]," &
                     " case when Scheme_Item='Y' then 0 else [Total Tax Amount] end as [Total Tax Amount], " &
                     " Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else (cast(Additional_Charge as numeric(18,2))+[Total Amount]) end) as [Total Amount],"
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                strMCCMaterial += "([Total Amount] + isnull(Security_Amt,0)+ isnull(Transporter_Commission_Amt,0)) as [Gross Amount], "
-            Else
-                'strMCCMaterial += " ([Total Amount] + isnull(Security_Amt,0)) as [Gross Amount], "
-                strMCCMaterial += " ([Total Amount]  - TotalSubsidyAmt) as [Gross Amount], "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    strMCCMaterial += "([Total Amount] + isnull(Security_Amt,0)+ isnull(Transporter_Commission_Amt,0)) as [Gross Amount], "
+                Else
+                    'strMCCMaterial += " ([Total Amount] + isnull(Security_Amt,0)) as [Gross Amount], "
+                    strMCCMaterial += " ([Total Amount]  - TotalSubsidyAmt) as [Gross Amount], "
+                End If
+                strMCCMaterial += " [Ack No],CONVERT(varchar, ([ACK Date]), 103)[ACK Date],[IRN No],CustomerType,PaymentType,Payment_Terms as [Payment Terms],[Narration], " &
+                    " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], " &
+                     "  case when [trans type] in ('CSA Sale','CSA Sale Return') then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end) else case when [trans type] in ('Dairy Sale Return','Product Sale Return', 'Fresh Sale Return') then left(Item.Sales_Return_Account , Len(Item.Sales_Return_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end  end as [Sales Account], " &
+                    " [GR No],convert(varchar,[GR Date],103) as [GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code],[Scheme Type] as [Schemes Type] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling,"
+
+                If obj.ReportType = "Document Detail" OrElse obj.ReportType = "Customer Wise" Then
+                    strMCCMaterial += " case when Sampling=1 then cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3))*case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end else 0 end  as [Sampling Amount], Cust.[RSM Code] as [RSM Code] ,Cust.[RSM Name] as [RSM Name] ,Cust.[ZSM Code] as [ZSM Code] ,cust.[ZSM Name] as [ZSM Name] ,Cust.[ASM Code] as [ASM Code] ,Cust.[ASM Name] as [ASM Name] ,Cust.[ASO Code]  as [ASO Code] ,Cust.[ASO Name] as [ASO Name] , "
+                End If
+
+                strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as numeric(18,2)) as [Transporter Amt] "
+                    ' strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],dcscode as [DCS Uploader Code] "
+                Else
+                    strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt] "
+                End If
+
             End If
-            strMCCMaterial += " [Ack No],CONVERT(varchar, ([ACK Date]), 103)[ACK Date],[IRN No],CustomerType,PaymentType,Payment_Terms as [Payment Terms],[Narration], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], " &
-                 "  case when [trans type] in ('CSA Sale','CSA Sale Return') then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end) else case when [trans type] in ('Dairy Sale Return','Product Sale Return', 'Fresh Sale Return') then left(Item.Sales_Return_Account , Len(Item.Sales_Return_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end  end as [Sales Account], " &
-                " [GR No],convert(varchar,[GR Date],103) as [GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code],[Scheme Type] as [Schemes Type] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling,"
-
-            If obj.ReportType = "Document Detail" OrElse obj.ReportType = "Customer Wise" Then
-                strMCCMaterial += " case when Sampling=1 then cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3))*case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end else 0 end  as [Sampling Amount], Cust.[RSM Code] as [RSM Code] ,Cust.[RSM Name] as [RSM Name] ,Cust.[ZSM Code] as [ZSM Code] ,cust.[ZSM Name] as [ZSM Name] ,Cust.[ASM Code] as [ASM Code] ,Cust.[ASM Name] as [ASM Name] ,Cust.[ASO Code]  as [ASO Code] ,Cust.[ASO Name] as [ASO Name] , "
-            End If
-
-            strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
-
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as numeric(18,2)) as [Transporter Amt] "
-                ' strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],dcscode as [DCS Uploader Code] "
-            Else
-                strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt] "
-            End If
-
-        End If
 
 
-        '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
-        strMCCMaterial += " from ( "
+            '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
+            strMCCMaterial += " from ( "
         '' '' base union 1
         ''If obj.Trans_Type_List.Contains("Fresh Sale") OrElse obj.Trans_Type_List.Contains("Product Sale") OrElse obj.Trans_Type_List.Contains("MCC Sale") OrElse obj.Trans_Type_List.Contains("Export Sale") OrElse obj.Trans_Type_List.Contains("CSA Sale") OrElse obj.Trans_Type_List.Contains("Merchant Trade") Then
         ''    qryStarted = True
@@ -3123,6 +3133,8 @@ Public Class clsSaleRegisterDetail
         End If
         ''========end here
 
+
+
         QryLst.Add(strMCCMaterial)
 
 
@@ -3132,7 +3144,9 @@ Public Class clsSaleRegisterDetail
         'XMLWriter.Formatting = Xml.Formatting.Indented
         'XMLWriter.WriteStartDocument()
         'XMLWriter.WriteElementString("Name", strMCCMaterial)
+
         QryLst.Add(strPivotForFinalOuterQuery)
+        QryLst.Add(strCustomerAmountWiseTaxQuery)
         'clsCommon.MyMessageBoxShow("DOne")
         'Return Nothing
         Return QryLst
@@ -4281,6 +4295,7 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
     Public Shared Function GetReportDataQuery(ByVal obj As clsSaleRegisterParameterType) As String
         Dim strRunQuery As String = ""
         Dim strPivotForFinalOuterQuery As String = ""
+        Dim strCustomerAmountWiseTaxQuery As String = ""
         Dim qryList As ArrayList
         Dim qryListDocInfoLevel As ArrayList
 
@@ -4298,6 +4313,7 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
             qryList = ReturnQuery(obj)
             strMain = qryList(0)
             strPivotForFinalOuterQuery = qryList(1)
+            strCustomerAmountWiseTaxQuery = qryList(2)
 
         End If
 
@@ -4432,6 +4448,22 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
                     " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on final.[Item Code]=Stock_SU.Item_Code and final.[UOM]=Stock_SU.UOM_Code" & Environment.NewLine &
                     " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on final.[Item Code]=StockLtr.Item_Code " & Environment.NewLine &
                     " group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Item Code],[Item Name],[Customer Code],[Customer Name],Route_No,Route_desc, [Scheme Type], Sampling"
+
+            ElseIf obj.ReportType = "Customer Amount Wise" Then
+                ''richa BHA/23/08/19-000924
+                'strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],max( [Customer Zone Code]) as  [Customer Zone Code],Route_no,Route_desc,[Item Code],[Item Name],[Scheme Type], Sampling,sum([Quantity]) as [Total Quantity],max(UOM) as UOM,sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount],sum(COGS) as COGS from (" & strMain & ") as Final group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Item Code],[Item Name],[Customer Code],[Customer Name],Route_No,Route_desc, [Scheme Type], Sampling"
+                strRunQuery = "select  max([Location Code]) as [Location Code],max([Location Name]) as [Location Name],max([Item Group Code]) as [Item Group Code], max([Item Group Description])[Item Group Description],max([Customer Group Code])[Customer Group Code],max([Customer Group Description]) as [Customer Group Description],[Customer Code],max([Customer Name]) as [Customer Name],
+                               max([Customer Category]) as  [Customer Category],max( [Customer Zone Code]) as  [Customer Zone Code],max(Route_no) as Route_no ,max(Route_desc) as Route_desc,sum([Quantity]) as [Total Quantity],max(UOM) as UOM,sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],
+                               sum([Additional Amount]) as [Total Additional Amount], " + strCustomerAmountWiseTaxQuery + "
+                               sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount],case when isnull(max(stockLtr.UOM_Code ),'') ='Ltr' then  (case when coalesce(max(stockLtr.Conversion_Factor),0)=0 then 0 else cast((sum([Quantity])* max(Stock_SU.Conversion_Factor))/(coalesce(max(stockLtr.Conversion_Factor),1)) as numeric(18,3)) end) else 0 end  as [Ltr Qty] 
+                             from (" & strMain & ") as Final " & Environment.NewLine &
+                 " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on final.[Item Code]=Stock_SU.Item_Code and final.[UOM]=Stock_SU.UOM_Code" & Environment.NewLine &
+                 " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on final.[Item Code]=StockLtr.Item_Code " & Environment.NewLine &
+                 " group by [Customer Code]"
+
+
+
+
             ElseIf obj.ReportType = "Document Wise" Then
                 If obj.QuickLoad Then
                     strRunQuery = "select [Document No],[Document_date],CONVERT(varchar, [Supply_Date], 103) AS Supply_Date,[Trans Type],[Location Code],[Location Name],max([Location State]) as [Location State],max([GST State Code]) as [GST State Code],max([Dispatch Location GSTIN No]) as [Dispatch Location GSTIN No],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],[Customer Category],max(Route_no) as Route_no,max(Route_Desc) as Route_Desc,max([City Code]) as [City Code],max([Place of Supply]) as [Place of Supply],max([Customer GST State Code]) as [Customer GST State Code],max([Invoice Type]) as [Invoice Type],max([TIN No]) as [TIN No],max([GR No]) as [GR No],max([GR Date]) as [GR Date],max([WayBill No]) as [WayBill No],max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Sale Amount GST]) as [Total Sale Amount GST],sum([Discount Amount]) as [Discount Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount],max([AR Document No]) as [AR Document No], max([AR Document Amt]) as [AR Document Amt],max([AR Document Discount Amt]) as [AR Document Discount Amt] , case when max(coalesce([AR Amount Before Tax],0))>0 then  max([AR Amount Before Tax]) else  min([AR Amount Before Tax]) end as [AR Amount Before Tax],max([AR Total Tax]) as [AR Total Tax],max([AR Total Add Charge]) as [AR Total Add Charge],max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],sum([Nill Rate Amount]) as [Nill Rate Amount],sum([Exempted Amount]) as [Exempted Amount],sum([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],max([Ack No])[Ack No],CONVERT(varchar, max([ACK Date]), 103)[ACK Date],max([IRN No])[IRN No],max(CustomerType)CustomerType,max(PaymentType)PaymentType,max([Payment Terms])[Payment Terms] ,max([Narration]) as [Narration]  from (" & strMain & ") as Final group by [Document No],[Location Code],[Location Name],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],[Document_date],[Supply_Date],[Trans Type],[Customer Category] order by convert(date,[Document_Date],103),[Document No]"

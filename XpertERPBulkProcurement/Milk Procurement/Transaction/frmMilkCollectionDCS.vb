@@ -16,6 +16,7 @@ Public Class frmMilkCollectionDCS
     Const colVLCUploaderCode As String = "colVLCUploaderCode"
     Const colVLCCode As String = "colVLCCode"
     Const colVLCName As String = "colVLCName"
+    Const colOwnDCS As String = "colOwnDCS"
     Const colEveningPKID As String = "colEveningPKID"
     Const colEveningQty As String = "colEveningQty"
     Const colEveningFATPerNoDecimal As String = "colEveningFATPerNoDecimal"
@@ -50,6 +51,8 @@ Public Class frmMilkCollectionDCS
     Dim isPickCLRInsteadOfSNF As Boolean = False
     Dim settMaxFATPerLimit As Decimal = 0
     Dim settMaxSNFPerLimit As Decimal = 0
+    Dim settMaxFATPerLimitOwnDCS As Decimal = 0
+    Dim settMaxSNFPerLimitOwnDCS As Decimal = 0
     Dim corrFactor As Decimal = 0
     Public Shared IsViewBalance As Boolean = False
     Dim SettAdjQty As Boolean = False
@@ -96,6 +99,9 @@ Public Class frmMilkCollectionDCS
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
         settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
+        settMaxFATPerLimitOwnDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, Nothing))
+        settMaxSNFPerLimitOwnDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, Nothing))
+
         SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
         SettFATSNFNoDecimalDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalDCS, clsFixedParameterCode.FATSNFNoDecimalDCS, Nothing))
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
@@ -272,6 +278,13 @@ Public Class frmMilkCollectionDCS
         repoTextBox.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
+        Dim repoCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheckBox.HeaderText = "Own DCS"
+        repoCheckBox.Name = colOwnDCS
+        repoCheckBox.ReadOnly = True
+        repoCheckBox.IsVisible = False
+        gv1.MasterTemplate.Columns.Add(repoCheckBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
         repoNumBox.HeaderText = "PKID Evening"
@@ -330,7 +343,7 @@ Public Class frmMilkCollectionDCS
         repoNumBox.Name = colEveningFATPer
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 15
+        repoNumBox.Maximum = 100
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 1
@@ -345,7 +358,7 @@ Public Class frmMilkCollectionDCS
         repoNumBox.Name = colEveningSNFPer
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
-        repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 15)
+        repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 100)
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = settSNFDecimalPlace
@@ -384,7 +397,7 @@ Public Class frmMilkCollectionDCS
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-        Dim repoCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheckBox = New GridViewCheckBoxColumn()
         repoCheckBox.HeaderText = "Mark Suspence"
         repoCheckBox.Name = colEveningSuspence
         repoCheckBox.ReadOnly = False
@@ -459,7 +472,7 @@ Public Class frmMilkCollectionDCS
         repoNumBox.Name = colMorningFATPer
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 15
+        repoNumBox.Maximum = 100
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 1
@@ -474,7 +487,7 @@ Public Class frmMilkCollectionDCS
         repoNumBox.Name = colMorningSNFPer
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
-        repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 15)
+        repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 100)
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = settSNFDecimalPlace
@@ -665,9 +678,10 @@ Public Class frmMilkCollectionDCS
                         OpenVLCFinder(False)
                     ElseIf e.Column Is gv1.Columns(colEveningFATPerNoDecimal) Then
                         gv1.CurrentRow.Cells(colEveningFATPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colEveningFATPerNoDecimal).Value)
-                        If settMaxFATPerLimit > 0 Then
-                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningFATPer).Value) > settMaxFATPerLimit Then
-                                clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
+                        Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
+                        If CalSettMaxFATPerLimit > 0 Then
+                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
                         If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > 0 Then
@@ -675,9 +689,10 @@ Public Class frmMilkCollectionDCS
                         End If
                     ElseIf e.Column Is gv1.Columns(colEveningSNFPerNoDecimal) Then
                         gv1.CurrentRow.Cells(colEveningSNFPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colEveningSNFPerNoDecimal).Value)
-                        If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > settMaxSNFPerLimit Then
-                                clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
+                        Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
+                        If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If
                         If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > 0 Then
@@ -685,9 +700,10 @@ Public Class frmMilkCollectionDCS
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningFATPerNoDecimal) Then
                         gv1.CurrentRow.Cells(colMorningFATPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colMorningFATPerNoDecimal).Value)
-                        If settMaxFATPerLimit > 0 Then
-                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > settMaxFATPerLimit Then
-                                clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
+                        Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
+                        If CalSettMaxFATPerLimit > 0 Then
+                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
                         If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > 0 Then
@@ -695,9 +711,10 @@ Public Class frmMilkCollectionDCS
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningSNFPerNoDecimal) Then
                         gv1.CurrentRow.Cells(colMorningSNFPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colMorningSNFPerNoDecimal).Value)
-                        If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > settMaxSNFPerLimit Then
-                                clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
+                        Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
+                        If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If
                         If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > 0 Then
@@ -705,16 +722,20 @@ Public Class frmMilkCollectionDCS
                         End If
                     ElseIf e.Column Is gv1.Columns(colEveningQty) OrElse e.Column Is gv1.Columns(colEveningFATPer) OrElse e.Column Is gv1.Columns(colEveningFATKG) OrElse e.Column Is gv1.Columns(colEveningSNFPer) OrElse e.Column Is gv1.Columns(colEveningSNFKG) Then
                         If e.Column Is gv1.Columns(colEveningFATPer) Then
-                            If settMaxFATPerLimit > 0 Then
-                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningFATPer).Value) > settMaxFATPerLimit Then
-                                    clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
+                            Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
+                            If CalSettMaxFATPerLimit > 0 Then
+                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
+                                    gv1.CurrentRow.Cells(colEveningFATPer).Value = CalSettMaxFATPerLimit
                                 End If
                             End If
                         End If
                         If e.Column Is gv1.Columns(colEveningSNFPer) Then
-                            If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > settMaxSNFPerLimit Then
-                                    clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
+                            Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
+                            If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
+                                    gv1.CurrentRow.Cells(colEveningSNFPer).Value = CalsettMaxSNFPerLimit
                                 End If
                             End If
                         End If
@@ -724,16 +745,20 @@ Public Class frmMilkCollectionDCS
 
                     ElseIf e.Column Is gv1.Columns(colMorningQty) OrElse e.Column Is gv1.Columns(colMorningFATPer) OrElse e.Column Is gv1.Columns(colMorningFATKG) OrElse e.Column Is gv1.Columns(colMorningSNFPer) OrElse e.Column Is gv1.Columns(colMorningSNFKG) Then
                         If e.Column Is gv1.Columns(colMorningFATPer) Then
-                            If settMaxFATPerLimit > 0 Then
-                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > settMaxFATPerLimit Then
-                                    clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
+                            Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
+                            If CalSettMaxFATPerLimit > 0 Then
+                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
+                                    gv1.CurrentRow.Cells(colMorningFATPer).Value = CalSettMaxFATPerLimit
                                 End If
                             End If
                         End If
                         If e.Column Is gv1.Columns(colMorningSNFPer) Then
-                            If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > settMaxSNFPerLimit Then
-                                    clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
+                            Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
+                            If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                                If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
+                                    gv1.CurrentRow.Cells(colMorningSNFPer).Value = CalsettMaxSNFPerLimit
                                 End If
                             End If
                         End If
@@ -749,6 +774,22 @@ Public Class frmMilkCollectionDCS
             isCellValueChangedOpen = False
         End Try
     End Sub
+
+    Private Function GetCalSettMaxSNFPerLimit() As Decimal
+        If clsCommon.myCBool(gv1.CurrentRow.Cells(colOwnDCS).Value) Then
+            Return settMaxSNFPerLimitOwnDCS
+        Else
+            Return settMaxSNFPerLimit
+        End If
+    End Function
+
+    Private Function GetCalSettMaxFATPerLimit() As Decimal
+        If clsCommon.myCBool(gv1.CurrentRow.Cells(colOwnDCS).Value) Then
+            Return settMaxFATPerLimitOwnDCS
+        Else
+            Return settMaxFATPerLimit
+        End If
+    End Function
 
     Sub OpenVLCFinder(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtMCC.Tag) <= 0 Then
@@ -766,16 +807,16 @@ Public Class frmMilkCollectionDCS
         End If
 
         gv1.CurrentRow.Cells(colVLCUploaderCode).Value = clsCommon.ShowSelectForm("SMaRNUdC", qry, "Uploader_Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value), "Uploader_Code", isButtonClick)
-        qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code,VLC_Name,Apply_Cow_Price,MCC from TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value) + "'"
+        qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code,VLC_Name,Apply_Cow_Price,MCC,(case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCCOwnBMC='" + clsCommon.myCstr(txtMCC.Tag) + "' then 1 else 0 end) as isOwnBMC from TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value) + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gv1.CurrentRow.Cells(colVLCCode).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Code"))
             gv1.CurrentRow.Cells(colVLCName).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Name"))
+            gv1.CurrentRow.Cells(colOwnDCS).Value = clsCommon.myCBool(dt.Rows(0)("isOwnBMC"))
+
             If Not objCommonVar.DisplayTypeInMilkReceipt Then
                 gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Cow_Price")) = 1, "C", "M")
             End If
-
-
             If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
                 If clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                     gv1.Rows.Remove(gv1.CurrentRow)
@@ -966,6 +1007,7 @@ Public Class frmMilkCollectionDCS
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
                             End If
+
                         End If
                         If clsCommon.CompairString(objTr.Shift, "E") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningPKID).Value = objTr.PK_Id
@@ -994,6 +1036,10 @@ Public Class frmMilkCollectionDCS
                 End If
                 setShiftDate()
                 RefreshMCCCollectionDetail("", "", obj.ArrMCC)
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+                    gv1.Rows(ii).Cells(colOwnDCS).Value = clsfrmVLCMaster.IsOwnBMC(clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value), clsCommon.myCstr(txtMCC.Tag), Nothing)
+                Next
+
                 UpdateAllTotal()
             End If
         Catch ex As Exception

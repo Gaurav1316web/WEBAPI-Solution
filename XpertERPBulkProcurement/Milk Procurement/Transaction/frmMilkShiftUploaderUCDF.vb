@@ -778,11 +778,11 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
     Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
         Try
             If clsCommon.myLen(gv1.CurrentRow.Cells("TR_No").Value) > 0 Then
-                Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as ROUTE_NO,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME 
-                from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
-                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
-                left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-                where  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No='" + clsCommon.myCstr(gv1.CurrentRow.Cells("TR_No").Value) + "'"
+                Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as ROUTE_NO,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo 
+from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
+where  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No='" + clsCommon.myCstr(gv1.CurrentRow.Cells("TR_No").Value) + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     SampleNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
@@ -797,6 +797,8 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                     txtBulkRoute.Value = clsCommon.myCstr(dt.Rows(0)("ROUTE_NO"))
                     lblBulkRoute.Text = clsCommon.myCstr(dt.Rows(0)("ROUTE_NAME"))
                     cboDockCollectionMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Dock_Collection_Milk_Type"))
+                    txtTankerNo.Text = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                    txtPageNo.Text = clsCommon.myCstr(dt.Rows(0)("PageNo"))
                     txtVLC.Focus()
                 End If
             End If
