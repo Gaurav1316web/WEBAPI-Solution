@@ -138,4 +138,6 @@ Public Enum CrystalReportFolder
     UtilityReports = 16
     Engineering = 17
     UnionReports = 18
+
+    CommonForUnionAndCattlefeed = 999
 End Enum

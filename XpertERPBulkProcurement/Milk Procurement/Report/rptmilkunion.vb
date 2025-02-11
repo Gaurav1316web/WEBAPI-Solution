@@ -782,10 +782,10 @@ Public Class rptmilkunion
                 Else
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
                     Else
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
                     End If
 
                 End If

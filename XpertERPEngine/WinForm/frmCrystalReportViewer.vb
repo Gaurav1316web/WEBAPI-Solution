@@ -41,22 +41,22 @@ Public Class frmCrystalReportViewer
         Try
             Dim strpath = Application.StartupPath
             Dim strGST As String = ""
-
             If clsERPFuncationality.GetGSTStatus(dtTransDate) Then
                 strGST = " GST"
             End If
-
             If System.IO.File.Exists(Application.StartupPath + "\CrystalReport.Txp") Then
                 Dim strCompCode = ""
-                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                    strCompCode = "RCDF"
+                If objCommonVar.RCDFCFP Then
+                    strCompCode = "RCDFCF"
                 Else
-                    strCompCode = objCommonVar.CurrentCompanyCode
+                    strCompCode = "RCDF"
                 End If
                 strpath += "\Xpert Crystal Reports\" + strCompCode
             End If
             Dim strReportPath As String = ""
-            If crpfolder = CrystalReportFolder.CommonServices Then
+            If crpfolder = CrystalReportFolder.CommonForUnionAndCattlefeed Then
+                strReportPath = strpath.Replace("RCDFCF", "RCDF") + "\Crystal Reports Common\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.CommonServices Then
                 strReportPath = strpath + "\Crystal Reports" + strGST + "\Common Services\" & strReportName & ".rpt"
             ElseIf crpfolder = CrystalReportFolder.FixedAssets Then
                 strReportPath = strpath + "\Crystal Reports" + strGST + "\Fixed Assets\" & strReportName & ".rpt"
