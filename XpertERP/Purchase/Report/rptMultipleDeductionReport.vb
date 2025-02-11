@@ -659,9 +659,13 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 strQry += " group by [VLC Uploader Code],[Deduction Code],Reduce_Deduc_Amt )XY 
                             Union all
-                        select Customer_CODE,max(Customer_NAME)Customer_NAME,max([VLC Uploader Code])[VLC Uploader Code],max(MCC_Name)MCC_Name,max(Document_Date)Document_Date,
+                        Select Customer_CODE,max(Customer_NAME)Customer_NAME,max([VLC Uploader Code])[VLC Uploader Code],max(MCC_Name)MCC_Name,max(Document_Date)Document_Date,
                         max(Document_No)Document_No,max(Type)Type,SUM(Addition)Addition,SUM(Deduction)Deduction,MAX(DeductionCode)DeductionCode,MAX(Deduction_Desc)Deduction_Desc,
-                        sum(TSPL_MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.Qty) as [SRN Qty],sum(Reduce_Deduc_Amt)Reduce_Deduc_Amt,max(ReduceAmt)ReduceAmt 
+                        sum(TSPL_MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.Qty) as [SRN Qty],
+						MAX(Reduce_Deduc_Amt)Reduce_Deduc_Amt,MAX(ReduceAmt)ReduceAmt from(
+                        select Customer_CODE,max(Customer_NAME)Customer_NAME,max([VLC Uploader Code])[VLC Uploader Code],max(MCC_Name)MCC_Name,max(Document_Date)Document_Date,
+                        max(Document_No)Document_No,max(Type)Type,SUM(Addition)Addition,SUM(Deduction)Deduction,MAX(DeductionCode)DeductionCode,MAX(Deduction_Desc)Deduction_Desc
+                        ,sum(Reduce_Deduc_Amt)Reduce_Deduc_Amt,max(ReduceAmt)ReduceAmt 
                         from (SELECT TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code],TSPL_MCC_MASTER.MCC_NAME as MCC_Name,convert(varchar,TSPL_CUSTOMER_INVOICE_HEAD.Posting_Date,103) as Document_Date,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,'D' as Type,0 as Addition,
                         0 AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) AS ReduceAmt 
 						from TSPL_PAYMENT_PROCESS_MCC_SALE
@@ -672,11 +676,12 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
 						 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
 						 where 2=2  " + strqry7 + "
 						 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) 
-                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) ) final
-						left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.VSP_CODE=FINAL.Customer_CODE
+                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) ) 
+                         final group by final.Customer_CODE )XY
+						left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.VSP_CODE=XY.Customer_CODE
                         left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
                         WHERE convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103)
-                        and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) group by final.Customer_CODE )zz
+                        and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) group by XY.Customer_CODE )zz
 						left outer join TSPL_COMPANY_MASTER on 2=2"
             Else
                 strQry += " left outer join TSPL_COMPANY_MASTER on 2=2 "
