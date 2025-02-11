@@ -80,7 +80,7 @@ Public Class frmchannelCategory
                 End If
             End If
             'connectSql.RunSp("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
-            clsDBFuncationality.UpdateInAllDatabase("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
 
 
             myMessages.insert()
@@ -92,7 +92,7 @@ Public Class frmchannelCategory
     ' This function is used for Update.
     Public Sub funupdate()
         Try
-            clsDBFuncationality.UpdateInAllDatabase("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.update()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -101,7 +101,7 @@ Public Class frmchannelCategory
     'This Function is used for delete.
     Public Sub fundelete()
         Try
-            clsDBFuncationality.UpdateInAllDatabase("sp_channelcategorymaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifydate", connectSql.serverDate()))
+            clsDBFuncationality.SaveAStorePorcedure("sp_channelcategorymaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifydate", connectSql.serverDate()))
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

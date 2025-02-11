@@ -28,9 +28,11 @@ Partial Class FrmCompanyMaster
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCompanyMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtISO_No = New common.Controls.MyTextBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel21 = New common.Controls.MyLabel()
         Me.MyLabel20 = New common.Controls.MyLabel()
         Me.txtNobelOffMNo = New common.Controls.MyTextBox()
-        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.txtNodelOffName = New common.Controls.MyTextBox()
         Me.txtTelephone2 = New common.Controls.MyTextBox()
@@ -171,13 +173,13 @@ Partial Class FrmCompanyMaster
         Me.btnBackgroundselect = New Telerik.WinControls.UI.RadButton()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.MyLabel21 = New common.Controls.MyLabel()
-        Me.txtISO_No = New common.Controls.MyTextBox()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtISO_No, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNobelOffMNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNodelOffName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -314,8 +316,6 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtISO_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -424,6 +424,51 @@ Partial Class FrmCompanyMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(807, 509)
         Me.RadGroupBox1.TabIndex = 0
         '
+        'txtISO_No
+        '
+        Me.txtISO_No.CalculationExpression = Nothing
+        Me.txtISO_No.FieldCode = Nothing
+        Me.txtISO_No.FieldDesc = Nothing
+        Me.txtISO_No.FieldMaxLength = 0
+        Me.txtISO_No.FieldName = Nothing
+        Me.txtISO_No.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtISO_No.isCalculatedField = False
+        Me.txtISO_No.IsSourceFromTable = False
+        Me.txtISO_No.IsSourceFromValueList = False
+        Me.txtISO_No.IsUnique = False
+        Me.txtISO_No.Location = New System.Drawing.Point(545, 488)
+        Me.txtISO_No.MaxLength = 200
+        Me.txtISO_No.MendatroryField = False
+        Me.txtISO_No.MyLinkLable1 = Me.MyLabel9
+        Me.txtISO_No.MyLinkLable2 = Nothing
+        Me.txtISO_No.Name = "txtISO_No"
+        Me.txtISO_No.ReferenceFieldDesc = Nothing
+        Me.txtISO_No.ReferenceFieldName = Nothing
+        Me.txtISO_No.ReferenceTableName = Nothing
+        Me.txtISO_No.Size = New System.Drawing.Size(250, 18)
+        Me.txtISO_No.TabIndex = 311
+        Me.txtISO_No.Text = " "
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(12, 448)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(141, 16)
+        Me.MyLabel9.TabIndex = 80
+        Me.MyLabel9.Text = "Insurance Company Name"
+        '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel21.Location = New System.Drawing.Point(430, 489)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel21.TabIndex = 310
+        Me.MyLabel21.Text = "ISO No."
+        '
         'MyLabel20
         '
         Me.MyLabel20.FieldName = Nothing
@@ -458,16 +503,6 @@ Partial Class FrmCompanyMaster
         Me.txtNobelOffMNo.Size = New System.Drawing.Size(250, 18)
         Me.txtNobelOffMNo.TabIndex = 308
         Me.txtNobelOffMNo.Text = " "
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(12, 448)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(141, 16)
-        Me.MyLabel9.TabIndex = 80
-        Me.MyLabel9.Text = "Insurance Company Name"
         '
         'MyLabel19
         '
@@ -1606,6 +1641,7 @@ Partial Class FrmCompanyMaster
         Me.cboDataBase.Size = New System.Drawing.Size(168, 18)
         Me.cboDataBase.TabIndex = 30
         Me.cboDataBase.Text = "RadDropDownList1"
+        Me.cboDataBase.Visible = False
         '
         'RadLabel1
         '
@@ -1616,6 +1652,7 @@ Partial Class FrmCompanyMaster
         Me.RadLabel1.Size = New System.Drawing.Size(59, 16)
         Me.RadLabel1.TabIndex = 38
         Me.RadLabel1.Text = "Data Base"
+        Me.RadLabel1.Visible = False
         '
         'ddlModeofTransp
         '
@@ -2670,41 +2707,6 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.SplitterDistance = 559
         Me.SplitContainer1.TabIndex = 0
         '
-        'MyLabel21
-        '
-        Me.MyLabel21.FieldName = Nothing
-        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel21.Location = New System.Drawing.Point(430, 489)
-        Me.MyLabel21.Name = "MyLabel21"
-        Me.MyLabel21.Size = New System.Drawing.Size(46, 16)
-        Me.MyLabel21.TabIndex = 310
-        Me.MyLabel21.Text = "ISO No."
-        '
-        'txtISO_No
-        '
-        Me.txtISO_No.CalculationExpression = Nothing
-        Me.txtISO_No.FieldCode = Nothing
-        Me.txtISO_No.FieldDesc = Nothing
-        Me.txtISO_No.FieldMaxLength = 0
-        Me.txtISO_No.FieldName = Nothing
-        Me.txtISO_No.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtISO_No.isCalculatedField = False
-        Me.txtISO_No.IsSourceFromTable = False
-        Me.txtISO_No.IsSourceFromValueList = False
-        Me.txtISO_No.IsUnique = False
-        Me.txtISO_No.Location = New System.Drawing.Point(545, 488)
-        Me.txtISO_No.MaxLength = 200
-        Me.txtISO_No.MendatroryField = False
-        Me.txtISO_No.MyLinkLable1 = Me.MyLabel9
-        Me.txtISO_No.MyLinkLable2 = Nothing
-        Me.txtISO_No.Name = "txtISO_No"
-        Me.txtISO_No.ReferenceFieldDesc = Nothing
-        Me.txtISO_No.ReferenceFieldName = Nothing
-        Me.txtISO_No.ReferenceTableName = Nothing
-        Me.txtISO_No.Size = New System.Drawing.Size(250, 18)
-        Me.txtISO_No.TabIndex = 311
-        Me.txtISO_No.Text = " "
-        '
         'FrmCompanyMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2721,9 +2723,11 @@ Partial Class FrmCompanyMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtISO_No, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNobelOffMNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNodelOffName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2864,8 +2868,6 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtISO_No, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
