@@ -415,6 +415,12 @@
     <Compile Include="PRODUCTION\Reports\frmProductionVariance.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PRODUCTION\Reports\rptCattleFeedProduction.Designer.vb">
+      <DependentUpon>rptCattleFeedProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptCattleFeedProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PRODUCTION\Reports\rptListOf Resource.Designer.vb">
       <DependentUpon>rptListOf Resource.vb</DependentUpon>
     </Compile>
@@ -899,6 +905,9 @@
     <EmbeddedResource Include="PRODUCTION\Reports\frmProductionVariance.resx">
       <DependentUpon>frmProductionVariance.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PRODUCTION\Reports\rptCattleFeedProduction.resx">
+      <DependentUpon>rptCattleFeedProduction.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Reports\rptListOf Resource.resx">
       <DependentUpon>rptListOf Resource.vb</DependentUpon>
