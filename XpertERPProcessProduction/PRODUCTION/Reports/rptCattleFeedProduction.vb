@@ -115,7 +115,8 @@ Public Class rptCattleFeedProduction
                 Dim sQuery As String = "   with CTERawData as (Select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,
                         case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity 
                         from (SELECT YEAR(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) YearCode,MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) MonthCode,
-                        format(TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'MMM') AS [MonthName],((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity 
+                        format(TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'MMM') AS [MonthName],
+                        ((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity 
                         FROM TSPL_SD_SALE_INVOICE_DETAIL 
                         left join  TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
@@ -133,7 +134,7 @@ Public Class rptCattleFeedProduction
                     sQuery += " and (TSPL_Item_Master.FG_for_CF_RPT=1 or TSPL_Item_Master.SFG_for_CF=1) "
                 End If
                 sQuery += ")xx)
-						select max([MonthName]) as GrpMonth,YearCode as GrpCode,max(YearName) as GrpName,cast(SUM(Quantity)as decimal(10,2)) AS Quantity 
+						select max([MonthName]) as GrpMonth,YearCode as GrpCode,max(YearName) as GrpName,Round(SUM(Quantity),0) AS Quantity 
                         from CTERawData group by YearCode,MonthCode order by MonthCode,YearCode "
 
                 dtSale = clsDBFuncationality.GetDataTable(sQuery)
@@ -249,24 +250,6 @@ Public Class rptCattleFeedProduction
                     GVSale.Rows(arrRow.Item(clsCommon.myCstr(dtSale.Rows(ii)("GrpName")))).Cells(arrColumn.Item(clsCommon.myCstr(dtSale.Rows(ii)("GrpMonth")))).Value = clsCommon.myCdbl(dtSale.Rows(ii)(strValue)) ''3
                 Next
 
-                'repoRate = New GridViewDecimalColumn()
-                'repoRate.FormatString = ""
-                'repoRate.HeaderText = "Avg" 
-                'repoRate.Name = "TOTAL"
-                'repoRate.Width = 100
-                'repoRate.Minimum = 0
-                'repoRate.FormatString = "{0:n0}"
-                ''repoRate.DecimalPlaces = 2
-                'repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                'GVSale.MasterTemplate.Columns.Add(repoRate)
-
-                'For jj As Integer = 0 To GVSale.Rows.Count - 1
-                '    For ii As Integer = 1 To GVSale.Columns.Count - 2
-                '        GVSale.Rows(jj).Cells("Total").Value = clsCommon.myCDecimal(GVSale.Rows(jj).Cells("Total").Value) + clsCommon.myCDecimal(GVSale.Rows(jj).Cells(ii).Value)
-                '    Next
-                '    GVSale.Rows(jj).Cells("Total").Value = clsCommon.myCDivide(GVSale.Rows(jj).Cells("Total").Value, GVSale.Columns.Count - 2)
-                'Next
-
                 For ii As Integer = 0 To GVSale.Columns.Count - 1
                     GVSale.Columns(ii).ReadOnly = True
                     GVSale.Columns(ii).IsVisible = True
@@ -283,7 +266,10 @@ Public Class rptCattleFeedProduction
     Public Sub Load_Purchase()
         Try
             If dtPurchase Is Nothing OrElse dtPurchase.Rows.Count <= 0 Then
-                Dim sQuery As String = "  with CTERawData as (select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity from (SELECT YEAR(SRN_Date) YearCode,MONTH(SRN_Date)MonthCode,format(SRN_Date,'MMM') AS [MonthName],ROUND((SRN_Qty),0) Quantity
+                Dim sQuery As String = "  with CTERawData as (select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,
+                                          case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity 
+                                         from (SELECT YEAR(SRN_Date) YearCode,MONTH(SRN_Date)MonthCode,format(SRN_Date,'MMM') AS [MonthName],
+                                         ((isnull(SRN_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity
                                           FROM TSPL_SRN_HEAD
                                         LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
                                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SRN_DETAIL.ITEM_CODE
@@ -291,16 +277,9 @@ Public Class rptCattleFeedProduction
 						                AND FromUOM.UOM_Code=TSPL_SRN_DETAIL.Unit_code
 						                left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SRN_DETAIL.item_code and ToUOM.UOM_Code='MT'
                                         WHERE  CONVERT(DATE, TSPL_SRN_HEAD.SRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' 
-                                        AND '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_SRN_HEAD.Status=1"
-                If chkFG.IsChecked = True Then
-                    sQuery += " and TSPL_Item_Master.FG_for_CF_RPT=1 "
-                ElseIf ChkSFG.IsChecked = True Then
-                    sQuery += " and TSPL_Item_Master.SFG_for_CF=1 "
-                Else
-                    sQuery += " and (TSPL_Item_Master.FG_for_CF_RPT=1 or TSPL_Item_Master.SFG_for_CF=1) "
-                End If
+                                        AND '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_SRN_HEAD.Status=1 AND TSPL_Item_Master.Item_Code LIKE 'RM%' AND TSPL_Item_Master.Structure_Code='RM' "
 
-                sQuery += " )xx) select max([MonthName]) as GrpMonth,YearCode as GrpCode,max(YearName) as GrpName,cast(sum(Quantity)/1000 as int) as Quantity  from CTERawData group by YearCode,MonthCode order by MonthCode,YearCode "
+                sQuery += " )xx) select max([MonthName]) as GrpMonth,YearCode as GrpCode,max(YearName) as GrpName,cast(Round(SUM(Quantity),0)as decimal(18,0))as Quantity  from CTERawData group by YearCode,MonthCode order by MonthCode,YearCode "
 
                 dtPurchase = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -317,7 +296,7 @@ Public Class rptCattleFeedProduction
                 Dim ds As DataSet = New DataSet
                 Dim arrLegend As New List(Of String)
                 For ii As Integer = 0 To dtPurchase.Rows.Count - 1
-                    If Not arrLegend.Contains(clsCommon.myCstr(dtSale.Rows(ii)("GrpCode"))) Then
+                    If Not arrLegend.Contains(clsCommon.myCstr(dtPurchase.Rows(ii)("GrpCode"))) Then
                         Dim dtNew As New DataTable
                         dtNew.TableName = clsCommon.myCstr(dtPurchase.Rows(ii)("GrpName"))
                         dtNew.Columns.Add("Name", GetType(String))
@@ -392,7 +371,7 @@ Public Class rptCattleFeedProduction
                 repoComplete.Name = "GrpMonth"
                 repoComplete.ReadOnly = True
                 repoComplete.IsVisible = False
-                GVSale.MasterTemplate.Columns.Add(repoComplete)
+                GVPurchase.MasterTemplate.Columns.Add(repoComplete)
                 Dim arrColumn As New Dictionary(Of String, Integer)
                 Dim arrRow As New Dictionary(Of String, Integer)
 
@@ -417,26 +396,13 @@ Public Class rptCattleFeedProduction
                         GVPurchase.Rows(GVPurchase.Rows.Count - 1).Cells("GrpMonth").Value = clsCommon.myCstr(dtPurchase.Rows(ii)("GrpName"))
                         arrRow.Add(clsCommon.myCstr(dtPurchase.Rows(ii)("GrpName")), GVPurchase.Rows.Count - 1) ''2
                     End If
+                    'If Not arrRow.ContainsKey(clsCommon.myCstr(dtSale.Rows(ii)("GrpName"))) Then ''1
+                    '    GVSale.Rows.AddNew()
+                    '    GVSale.Rows(GVSale.Rows.Count - 1).Cells("GrpMonth").Value = clsCommon.myCstr(dtSale.Rows(ii)("GrpName"))
+                    '    arrRow.Add(clsCommon.myCstr(dtSale.Rows(ii)("GrpName")), GVSale.Rows.Count - 1) ''2
+                    'End If
                     GVPurchase.Rows(arrRow.Item(clsCommon.myCstr(dtPurchase.Rows(ii)("GrpName")))).Cells(arrColumn.Item(clsCommon.myCstr(dtPurchase.Rows(ii)("GrpMonth")))).Value = clsCommon.myCdbl(dtPurchase.Rows(ii)(strValue)) ''3
                 Next
-
-                'repoRate = New GridViewDecimalColumn()
-                'repoRate.FormatString = ""
-                'repoRate.HeaderText = "Avg"
-                'repoRate.Name = "TOTAL"
-                'repoRate.Width = 100
-                'repoRate.Minimum = 0
-                'repoRate.FormatString = "{0:n0}"
-                ''repoRate.DecimalPlaces = 2
-                'repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                'GVPurchase.MasterTemplate.Columns.Add(repoRate)
-
-                'For jj As Integer = 0 To GVPurchase.Rows.Count - 1
-                '    For ii As Integer = 1 To GVPurchase.Columns.Count - 2
-                '        GVPurchase.Rows(jj).Cells("Total").Value = clsCommon.myCDecimal(GVPurchase.Rows(jj).Cells("Total").Value) + clsCommon.myCDecimal(GVPurchase.Rows(jj).Cells(ii).Value)
-                '    Next
-                '    GVPurchase.Rows(jj).Cells("Total").Value = clsCommon.myCDivide(GVPurchase.Rows(jj).Cells("Total").Value, GVPurchase.Columns.Count - 2)
-                'Next
 
                 For ii As Integer = 0 To GVPurchase.Columns.Count - 1
                     GVPurchase.Columns(ii).ReadOnly = True
