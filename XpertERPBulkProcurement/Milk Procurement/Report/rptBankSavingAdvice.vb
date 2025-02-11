@@ -12,6 +12,8 @@ Public Class rptBankSavingAdvice
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        ' rbtBankSummary.Visible = True
+        btnSummary.Visible = False
     End Sub
 
     Private Sub txtFiscalYear__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtFiscalYear._MYValidating
@@ -155,9 +157,13 @@ max(x.[DCS Type])[DCSType],max(x.[Is Own BMC])[IsOwnBMC],([Apply On])[ApplyOn],(
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
                                     Else 0 end AS [Base Amount/Quantity]
-									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
-									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
-									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT"
+            If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                Qry += " ,(Round(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt,0)) as [Addition/Deduction Amount]"
+            Else
+                Qry += ",TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount] "
+            End If
+            Qry += " ,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
 									,TSPL_VLC_MASTER_HEAD.AccNo2"
             If chkIfscno.Checked Then
                 Qry += ",TSPL_VLC_MASTER_HEAD.IFSCCode2 "
@@ -188,6 +194,7 @@ left outer join tspl_company_master on 2 = 2
                                     WHERE   ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')<>'' and
                                     CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' 
                                     and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0  and TSPL_DCS_ADDITION_DEDUCTION.MarginDCS=1 "
+
             If clsCommon.myLen(txtMCC.Value) > 0 Then
                 Qry += " AND  TSPL_MILK_SRN_HEAD.MCC_CODE = '" + txtMCC.Value + "' "
             End If
@@ -196,6 +203,8 @@ left outer join tspl_company_master on 2 = 2
                 Qry += " x.IFSCCode2,"
             End If
             Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code)"
+
+
             Dim dt As DataTable = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -288,8 +297,8 @@ left outer join tspl_company_master on 2 = 2
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
-        Dim DeductionAmount As New GridViewSummaryItem("DeductionAmount", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(DeductionAmount)
+        Dim AdditionDeductionAmount As New GridViewSummaryItem("Addition/DeductionAmount", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(AdditionDeductionAmount)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = True
@@ -431,8 +440,8 @@ left outer join tspl_company_master on 2 = 2
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data Found to Display")
             End If
-            Gv1.DataSource = dt
-            RadPageView1.SelectedPage = RadPageViewPage2
+            'Gv1.DataSource = dt
+            'RadPageView1.SelectedPage = RadPageViewPage2
             ' SetGridFormationOFGV1Collection()
             'If rbtnBankAdvice.IsChecked Then
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -483,5 +492,105 @@ left outer join tspl_company_master on 2 = 2
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnSummary.Click
+        Try
+            Dim FromDate1 As String = clsCommon.myCstr(fromDate.Text)
+            Dim TODate1 As String = clsCommon.myCstr(ToDate.Text)
+
+            Dim Qry As String = "  ( select ROW_NUMBER() OVER (ORDER BY [DCS Code]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],max(x.Code)Code,max(MCC_CODE)MCC_CODE--,max 
+							   ,convert(decimal(18,2),
+							   FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/DeductionAmount]  
+								 
+								 
+								 ,max(x.[Addition/Deduction Description])[Addition/DeductionDescription] 
+						         ,AccNo2,max(BankBranch2)BankBranch2,BankName2,max(AccountType2)AccountType2,BankCode2
+								 		 ,max(Add3)Add3,max(Add2)Add2,max(Add1)Add1,max(Comp_Name)Comp_Name,max(comp_code1)comp_code1 ,max(comp_code)comp_code
+								 ,max(FromDate)FromDate,max(ToDate)ToDate
+								 from 
+								 
+								 
+								 (select 
+'" + FromDate1 + "' AS FromDate, '" + TODate1 + " ' as ToDate,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
+                                 ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 THEN 'BMC'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 THEN 'Cluster'
+                                    End As [DCS Type],Case When TSPL_VLC_MASTER_HEAD.isOwnBMC=1 Then 'Yes' else 'No' end as [Is Own BMC]
+									  ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
+                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 then 'Quantity' else '' end as [Apply On]
+                                    ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then 'Percentage'
+                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type],Applicable_Value as [Formula]
+									   ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+                                    cast(TSPL_MILK_SRN_DETAIL.NET_AMOUNT As Decimal(18, 2)) 
+                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
+                                    cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
+                                    Else 0 end AS [Base Amount/Quantity]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
+									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
+									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+									,TSPL_VLC_MASTER_HEAD.AccNo2,TSPL_VLC_MASTER_HEAD.BankBranch2
+									,TSPL_VLC_MASTER_HEAD.BankName2
+									,TSPL_VLC_MASTER_HEAD.AccountType2
+									,TSPL_VLC_MASTER_HEAD.BankCode2
+,tspl_company_master.Comp_Code
+									,tspl_company_master.Comp_Name
+									,tspl_company_master.Add1
+									,tspl_company_master.Add2
+									,tspl_company_master.Add3
+									,TSPL_MILK_SRN_HEAD.MCC_CODE
+							        ,TSPL_MCC_MASTER.Mcc_Name
+									,TSPL_MCC_MASTER.Area_location_code
+,tspl_company_master.comp_code1
+
+                                     from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED
+                                    LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.invoiceNo
+                                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
+                                    left outer join TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_DETAIL.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_Code
+									left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_VLC_MASTER_HEAD.VSP_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left outer join tspl_company_master on 2 = 2
+                                    WHERE   ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')<>'' and
+                                    CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(FromDate1, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(TODate1, "dd/MMM/yyyy") + "' 
+                                    and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0  and TSPL_DCS_ADDITION_DEDUCTION.MarginDCS=1 	)x 
+									
+									group by  BankName2,AccNo2,BankCode2,[DCS Code])"
+            Dim dt As DataTable = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No Data Found to Display")
+            End If
+            'Gv1.DataSource = dt
+            'RadPageView1.SelectedPage = RadPageViewPage2
+            ' SetGridFormationOFGV1Collection()
+            'If rbtnBankAdvice.IsChecked Then
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            ElseIf dt.Rows.Count > 0 Then
+                ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
+                Dim frmCRV As New frmCrystalReportViewer()
+
+                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "crptBankSavingDraftSummary", "Bank Saving")
+                'End If
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+
+    Private Sub rbtBankSummary_Click_1(sender As Object, e As EventArgs) Handles rbtBankSummary.Click
+        If rbtBankSummary.Checked Then
+            btnSummary.Visible = True
+        End If
     End Sub
 End Class
