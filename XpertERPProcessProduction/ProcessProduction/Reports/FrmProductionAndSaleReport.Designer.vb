@@ -39,6 +39,7 @@ Partial Class FrmProductionAndSaleReport
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
@@ -47,7 +48,6 @@ Partial Class FrmProductionAndSaleReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrint = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -192,6 +192,7 @@ Partial Class FrmProductionAndSaleReport
         Me.rdbWeekly.TabIndex = 438
         Me.rdbWeekly.Text = "Weekly"
         Me.rdbWeekly.UseVisualStyleBackColor = True
+        Me.rdbWeekly.Visible = False
         '
         'SplitContainer2
         '
@@ -253,6 +254,7 @@ Partial Class FrmProductionAndSaleReport
         Me.gv1.Size = New System.Drawing.Size(1057, 347)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnExport
         '
@@ -273,6 +275,11 @@ Partial Class FrmProductionAndSaleReport
         '
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Text = "Print"
         '
         'btnreset
         '
@@ -343,11 +350,6 @@ Partial Class FrmProductionAndSaleReport
         '
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Text = "Print"
         '
         'FrmProductionAndSaleReport
         '
