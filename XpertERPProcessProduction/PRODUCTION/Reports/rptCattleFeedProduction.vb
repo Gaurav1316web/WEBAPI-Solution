@@ -114,7 +114,8 @@ Public Class rptCattleFeedProduction
             If dtSale Is Nothing OrElse dtSale.Rows.Count <= 0 Then
                 Dim sQuery As String = "   with CTERawData as (Select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,
                         case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity 
-                        from (SELECT YEAR(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) YearCode,MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) MonthCode,
+                        from (SELECT (case when MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)>3 then Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) else Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)-1 end ) as YearCode,
+                        MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) MonthCode,
                         format(TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'MMM') AS [MonthName],
                         ((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity 
                         FROM TSPL_SD_SALE_INVOICE_DETAIL 
@@ -172,7 +173,7 @@ Public Class rptCattleFeedProduction
                 CVSale.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
                 CVSale.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
 
-                CVSale.Title = "CATTLE FEED SALES"
+                CVSale.Title = "CATTLE FEED SALES(MT)"
 
                 Dim smartLabelsController As New SmartLabelsController()
                 CVSale.Controllers.Add(smartLabelsController)
@@ -268,7 +269,7 @@ Public Class rptCattleFeedProduction
             If dtPurchase Is Nothing OrElse dtPurchase.Rows.Count <= 0 Then
                 Dim sQuery As String = "  with CTERawData as (select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,
                                           case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity 
-                                         from (SELECT YEAR(SRN_Date) YearCode,MONTH(SRN_Date)MonthCode,format(SRN_Date,'MMM') AS [MonthName],
+                                         from (SELECT (case when MONTH(SRN_Date)>3 then Year(SRN_Date) else Year(SRN_Date)-1 end ) as YearCode,MONTH(SRN_Date)MonthCode,format(SRN_Date,'MMM') AS [MonthName],
                                          ((isnull(SRN_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity
                                           FROM TSPL_SRN_HEAD
                                         LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
@@ -317,7 +318,7 @@ Public Class rptCattleFeedProduction
                 CVPurchase.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
                 CVPurchase.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
 
-                CVPurchase.Title = "CATTLE FEED PURCHASE"
+                CVPurchase.Title = "CATTLE FEED PURCHASE(MT)"
 
                 Dim smartLabelsController As New SmartLabelsController()
                 CVPurchase.Controllers.Add(smartLabelsController)
@@ -418,7 +419,8 @@ Public Class rptCattleFeedProduction
     Public Sub Load_Production()
         Try
             If dtProduction Is Nothing OrElse dtProduction.Rows.Count <= 0 Then
-                Dim sQuery As String = "  with CTERawData as (select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity from (SELECT YEAR(PROD_DATE) YearCode,MONTH(PROD_DATE)MonthCode,format(PROD_DATE,'MMM') AS [MonthName],ROUND((FINAL_PRODUCTION_QTY),0) Quantity
+                Dim sQuery As String = "  with CTERawData as (select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity from (SELECT (case when MONTH(PROD_DATE)>3 then Year(PROD_DATE) else Year(PROD_DATE)-1 end ) as YearCode,
+                                        MONTH(PROD_DATE)MonthCode,format(PROD_DATE,'MMM') AS [MonthName],ROUND((FINAL_PRODUCTION_QTY),0) Quantity
                                         FROM TSPL_SPP_PRODUCTION_ENTRY
                                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY_DETAIL ON TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE
                                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
