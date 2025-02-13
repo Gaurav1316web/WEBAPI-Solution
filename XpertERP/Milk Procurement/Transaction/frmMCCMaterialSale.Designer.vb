@@ -32,9 +32,9 @@ Partial Class frmMCCMaterialSale
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -158,7 +158,6 @@ Partial Class frmMCCMaterialSale
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.lblTotalDisSubsidy = New common.Controls.MyLabel()
         Me.lblTotalSubsidy = New common.Controls.MyLabel()
         Me.txtTCSTaxRate = New common.MyNumBox()
@@ -212,6 +211,7 @@ Partial Class frmMCCMaterialSale
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintEwayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -368,7 +368,6 @@ Partial Class frmMCCMaterialSale
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalDisSubsidy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalSubsidy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -423,6 +422,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -498,7 +498,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1282, 433)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1910,7 +1910,7 @@ Partial Class frmMCCMaterialSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2333,7 +2333,7 @@ Partial Class frmMCCMaterialSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2386,7 +2386,7 @@ Partial Class frmMCCMaterialSale
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2504,16 +2504,6 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1261, 387)
         Me.RadPageViewPage4.Text = "Total"
-        '
-        'rbtnCancel
-        '
-        Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnCancel.Location = New System.Drawing.Point(1134, 4)
-        Me.rbtnCancel.Name = "rbtnCancel"
-        Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
-        Me.rbtnCancel.TabIndex = 1423
-        Me.rbtnCancel.Text = "Cancel"
         '
         'lblTotalDisSubsidy
         '
@@ -3262,6 +3252,16 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'rbtnCancel
+        '
+        Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtnCancel.Location = New System.Drawing.Point(1134, 4)
+        Me.rbtnCancel.Name = "rbtnCancel"
+        Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
+        Me.rbtnCancel.TabIndex = 1423
+        Me.rbtnCancel.Text = "Cancel"
+        '
         'btnPrintEwayBill
         '
         Me.btnPrintEwayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -3762,7 +3762,6 @@ Partial Class frmMCCMaterialSale
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
-        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalDisSubsidy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalSubsidy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3821,6 +3820,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()

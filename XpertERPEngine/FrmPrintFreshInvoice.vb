@@ -934,7 +934,7 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
                 Qry += " from( Select "
             End If
             Qry += "  
-  case when TSPL_BOOKING_MATSER.Is_CashSale='Y' then 'CASH' else 'CREDIT' END AS PaymentTerms,TSPL_BOOKING_MATSER.Is_Distributor,TSPL_BOOKING_MATSER.Is_BPL,TSPL_BOOKING_MATSER.Is_CashSale, TSPL_BOOKING_MATSER.Is_DCS,TSPL_BOOKING_MATSER.Booking_Type, TSPL_COMPANY_MASTER.CST_LST,(Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,
+  case when TSPL_BOOKING_MATSER.Is_CashSale='Y' then TSPL_SD_SHIPMENT_HEAD.Payment_Terms else 'CREDIT' END AS PaymentTerms,TSPL_BOOKING_MATSER.Is_Distributor,TSPL_BOOKING_MATSER.Is_BPL,TSPL_BOOKING_MATSER.Is_CashSale, TSPL_BOOKING_MATSER.Is_DCS,TSPL_BOOKING_MATSER.Booking_Type, TSPL_COMPANY_MASTER.CST_LST,(Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,
 TSPL_SD_SHIPMENT_HEAD.ManualVehicle as Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.ReceiverName,
 TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)Supply_Date,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
@@ -1014,7 +1014,6 @@ LEFT OUTER JOIN " + SD_SALE_INVOICE_HEAD + " ON TSPL_SD_SALE_INVOICE_HEAD .Docum
 left outer join " + SD_SHIPMENT_HEAD + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  
 left outer join " + SD_SHIPMENT_DETAIL + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_sale_invoice_DETAIL.Line_No
 left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
-
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And   
 TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='BOX') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code

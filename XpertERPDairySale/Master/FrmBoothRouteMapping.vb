@@ -62,6 +62,7 @@ Public Class FrmBoothRouteMapping
         UsLock1.Status = ERPTransactionStatus.Pending
         txtSupplyDate.Value = clsCommon.GETSERVERDATE()
         txtRouteNo.Value = ""
+        lblRouteDesc.Text=""
         cmbShiftType.Text = "Morning"
         cmbItemType.Text = "Milk"
         txtRemark.Text = ""
@@ -69,6 +70,7 @@ Public Class FrmBoothRouteMapping
         btnDelete.Enabled = False
         btnPost.Enabled = False
         btnShowHistory.Enabled = False
+        btnAutoSKU.Enabled = True
         If EnableProductSaleForJPR Then
             lblItemType.Visible = True
             cmbItemType.Visible = True
@@ -181,7 +183,7 @@ Public Class FrmBoothRouteMapping
         Try
             'If txtDocNo.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = "2=2"
-                Dim qry As String = "select Document_No as Code,Supply_Date,Shift_Type,Route_No,Item_Type,Remark,Created_By,Created_Date,Modified_By,Modified_Date,Posted,Posted_Date from TSPL_BOOTH_ROUTE_MAPPING_HEAD"
+            Dim qry As String = "select Document_No as Code,Supply_Date,Shift_Type,Route_No,Item_Type,Remark,Created_By,Created_Date,Modified_By,Modified_Date,Posted,Posted_By,Posted_Date from TSPL_BOOTH_ROUTE_MAPPING_HEAD"
             Reset()
             LoadData(clsCommon.myCstr(clsCommon.ShowSelectForm("BRMMST", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Supply_Date")), NavigatorType.Current)
             'End If
@@ -262,7 +264,7 @@ Public Class FrmBoothRouteMapping
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colBoothCode).Value) > 0 Then
                 Dim objTr As New clsBoothRouteMappingDetail()
-                objTr.Serial_No = ii + 1
+                objTr.Serial_No = clsCommon.myCstr(gv1.Rows(ii).Cells(ColSNo).Value)
                 objTr.Booth_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBoothCode).Value)
                 objTr.Prev_Route_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colPrevRoute).Value)
                 Arr.Add(objTr)
@@ -298,11 +300,13 @@ Public Class FrmBoothRouteMapping
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
                     btnShowHistory.Enabled = True
+                    btnAutoSKU.Enabled = False
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     btnShowHistory.Enabled = True
+                    btnAutoSKU.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
                 End If
                 txtDocNo.Value = obj.Document_No
@@ -421,6 +425,8 @@ Public Class FrmBoothRouteMapping
                 txtSupplyDate.Value = clsCommon.GETSERVERDATE()
                 isNewEntry = True
                 btnSave.Enabled = True
+                btnAutoSKU.Enabled = True
+                btnShowHistory.Enabled = False
                 UsLock1.Status = ERPTransactionStatus.Pending
 
                 clsCommon.MyMessageBoxShow(Me, "Document Copied Successfully", Me.Text)
@@ -496,7 +502,7 @@ Public Class FrmBoothRouteMapping
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsBoothRouteMappingDetail)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "Serial No", "Booth Code", "Route No") Then
+            If transportSql.importExcel(gv, "SLNo", "Booth Code", "Booth Name", "Prev Route", "Route Name") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Dim lstStr As New List(Of String)
@@ -520,21 +526,21 @@ Public Class FrmBoothRouteMapping
                                     Throw New Exception(" Invalid Booth Code:[" + clsCommon.myCstr(grow.Cells("Booth Code").Value) + "] at Line No.[" + clsCommon.myCstr(linno) + "]")
                                 End If
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Route No").Value))) Then
-                                Throw New Exception(" Empty Route No at Line No.[" + clsCommon.myCstr(linno) + "]")
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Prev Route").Value))) Then
+                                Throw New Exception(" Empty Prev Route at Line No.[" + clsCommon.myCstr(linno) + "]")
                             Else
-                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_Route_Master where Route_No='" + clsCommon.myCstr(grow.Cells("Route No").Value) + "'"))
-                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Route No").Value)) = CompairStringResult.Equal Then
-                                    Arr.Prev_Route_No = clsCommon.myCstr(grow.Cells("Route No").Value)
+                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_Route_Master where Route_No='" + clsCommon.myCstr(grow.Cells("Prev Route").Value) + "'"))
+                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Prev Route").Value)) = CompairStringResult.Equal Then
+                                    Arr.Prev_Route_No = clsCommon.myCstr(grow.Cells("Prev Route").Value)
                                 Else
-                                    Throw New Exception(" Invalid Route No:[" + clsCommon.myCstr(grow.Cells("Route No").Value) + "] at Line No.[" + clsCommon.myCstr(linno) + "]")
+                                    Throw New Exception(" Invalid Prev Route:[" + clsCommon.myCstr(grow.Cells("Prev Route").Value) + "] at Line No.[" + clsCommon.myCstr(linno) + "]")
 
                                 End If
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Serial No").Value))) Then
-                                Throw New Exception(" Empty Serial No at Line No.[" + clsCommon.myCstr(linno) + "]")
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("SLNo").Value))) Then
+                                Throw New Exception(" Empty SLNo at Line No.[" + clsCommon.myCstr(linno) + "]")
                             Else
-                                Arr.Serial_No = clsCommon.myCdbl(grow.Cells("Serial No").Value)
+                                Arr.Serial_No = clsCommon.myCdbl(grow.Cells("SLNo").Value)
                             End If
                             If Not lstStr.Contains(clsCommon.myCstr(grow.Cells("Booth Code").Value)) Then
                                 lstStr.Add(clsCommon.myCstr(grow.Cells("Booth Code").Value))
@@ -600,14 +606,8 @@ Public Class FrmBoothRouteMapping
     End Sub
     Private Sub GridExport()
         Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim str As String = "select Serial No as [Serial No],Booth_Code as [Booth Code],Prev_Route_No as [Route No] from TSPL_BOOTH_ROUTE_MAPPING_DETAIL "
-                Dim whrCls As String = " and Document_No='" + txtDocNo.Value + "' "
-                ListImpExpColumnsMandatory = New List(Of String)({"Serail No", "Booth Code", "Route No"})
-                transportSql.ExporttoExcel(str, whrCls, Me)
-            Else
-                Throw New Exception("Please Select Document")
-            End If
+            transportSql.exportdata(gv1, "", "Booth Route Mapping", ,, False, False, False)
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -779,7 +779,7 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc"))
         Try
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_BOOTH_ROUTE_MAPPING_HEAD")) = 0 Then
                 Dim obj As New List(Of clsBoothRouteMappingHead)
-                Dim strMainQry = "select Route_No as [Route No],'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy") + "' as [Supply Date],'Evening' as [Shift Type],Cust_Code as [Booth Code],Display_Seq as Serial_No  from TSPL_CUSTOMER_MASTER where Status='N' and IsDistributor='N' order by [Route No]"
+                Dim strMainQry = "select Route_No as [Route No],'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE.AddDays(-1), "dd/MMM/yyyy") + "' as [Supply Date],'Morning' as [Shift Type],Cust_Code as [Booth Code],Display_Seq as Serial_No  from TSPL_CUSTOMER_MASTER where IsDistributor='N' and Route_No is not null order by [Route No]"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strMainQry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
@@ -847,7 +847,7 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc"))
     End Sub
     Private Sub BulkExport()
         Try
-            Dim str As String = "select Serial_No as [Serial_No] ,Route_No as [Route No],FORMAT(Supply_Date, 'dd-MMM-yyyy') as [Supply Date],Shift_Type as[Shift Type],Booth_Code as [Booth Code] from TSPL_Booth_Route_Mapping_Head
+            Dim str As String = "select Serial_No as [Serial No] ,Route_No as [Route No],FORMAT(Supply_Date, 'dd-MMM-yyyy') as [Supply Date],Shift_Type as[Shift Type],Booth_Code as [Booth Code] from TSPL_Booth_Route_Mapping_Head
 left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No"
             Dim whrCls As String = " "
             ListImpExpColumnsMandatory = New List(Of String)({"Serail No", "Route No", "Supply Date", "Shift Type", "Booth Code"})
@@ -880,16 +880,56 @@ left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Doc
                 If clsCommon.myLen(Route_No) > 0 Then
                     Dim docno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No from TSPL_BOOTH_ROUTE_MAPPING_HEAD where Route_No='" + Route_No + "' order by Document_No desc"))
                     Dim str As String = "select Serial_No as [Serial No] ,Route_No as [Route No],FORMAT(Supply_Date, 'dd-MMM-yyyy') as [Supply Date],Shift_Type as[Shift Type],Booth_Code as [Booth Code] from TSPL_Booth_Route_Mapping_Head
-left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No"
-                    Dim whrCls As String = " and TSPL_Booth_Route_Mapping_Head.Document_No='" + docno + "' "
-                    ListImpExpColumnsMandatory = New List(Of String)({"Serail No", "Route No", "Supply Date", "Shift Type", "Booth Code"})
-                    transportSql.ExporttoExcel(str, whrCls, Me)
+left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No where TSPL_Booth_Route_Mapping_Head.Document_No='" + docno + "'"
+                    'Dim whrCls As String = " and TSPL_Booth_Route_Mapping_Head.Document_No='" + docno + "' "
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(str)
+                    If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                        Dim GVroute As New RadGridView()
+                        Me.Controls.Add(GVroute)
+                        GVroute.DataSource = dt1
+                        transportSql.exportdata(GVroute, "", "Booth Route Mapping", ,, False, False, False)
+
+                    End If
+                    'ListImpExpColumnsMandatory = New List(Of String)({"Serail No", "Route No", "Supply Date", "Shift Type", "Booth Code"})
+                    'transportSql.ExporttoExcel(str, whrCls, Me)
                 End If
             End If
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
+        End Try
+    End Sub
+
+    Private Sub btnAutoSKU_Click(sender As Object, e As EventArgs) Handles btnAutoSKU.Click
+        Try
+            Dim lstBooth As New List(Of Integer)
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 1 Then
+                For Each grow As GridViewDataRowInfo In gv1.Rows
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colBoothCode).Value)) > 0 Then
+                        lstBooth.Add(clsCommon.myCdbl(grow.Cells(colBoothCode).Value))
+
+                    End If
+                Next
+            End If
+            lstBooth.Sort()
+            'LoadBlankGrid()
+            Dim slno As Integer = 0
+            For Each booth In lstBooth
+                gv1.Rows(slno).Cells(ColSNo).Value = slno + 1
+                gv1.Rows(slno).Cells(colBoothCode).Value = clsCommon.myCstr(booth)
+                gv1.Rows(slno).Cells(colBoothName).Value = clsCustomerMasterNew.GetName(booth, Nothing)
+                gv1.Rows(slno).Cells(colPrevRoute).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Route_No from TSPL_BOOTH_ROUTE_MAPPING_HEAD
+left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
+where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(booth) + "' order by TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No desc"))
+                gv1.Rows(slno).Cells(colRouteDesc).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & gv1.Rows(slno).Cells(colPrevRoute).Value & "' ")
+
+                slno += 1
+            Next
+            clsCommon.MyMessageBoxShow(Me, "Auto sequence successfully. ", Me.Text)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

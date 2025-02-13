@@ -155,7 +155,7 @@ Public Class rptTemporaryPaymentDeductionSummary
                 If chkWithOpening.Checked = True Then ''4
                     qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount] from ( 
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -416,7 +416,7 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
                         Left Outer Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
                         where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + " and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103)<convert(date,('" + fromDate.Value + "'),103)
                                         union all
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -446,7 +446,7 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
             ElseIf chkWithOpening.Checked = True Then ''4
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount] from ( 
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -540,12 +540,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 Left Outer Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No                       
 where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") " + subMCCQry1 + " 
  union all
-select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
 ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
 ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
 ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount
-,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then IsNull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0) else 0 end   as ReDedctAmt
+,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then IsNull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0) else 0 end   as ReDedctAmt
 from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
@@ -559,7 +559,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 Left Outer Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
 where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + " 
 union all
-select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
 ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
 ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -663,7 +663,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 End If
 
                 qry += "              union all
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -712,7 +712,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 End If
                 qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as 'Opening+Sale',sum(Amount-ReDedctAmt) As 'Amt Deducted',Sum(ReDedctAmt) As 'Balance Amount' from ( 
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -801,7 +801,7 @@ If AreaWiseBilling Then
                 End If
                 qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
-                        select '' AS Document_Date,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select '' AS Document_Date,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
@@ -880,7 +880,7 @@ union all
             ElseIf chkWithOpening.Checked = True Then ''4
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount] from ( 
-                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
                         ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc

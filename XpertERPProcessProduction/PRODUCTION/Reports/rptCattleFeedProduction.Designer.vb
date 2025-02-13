@@ -25,6 +25,10 @@ Partial Class rptCattleFeedProduction
     Private Sub InitializeComponent()
         Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -39,6 +43,17 @@ Partial Class rptCattleFeedProduction
         Me.cvProduction = New Telerik.WinControls.UI.RadChartView()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.gvProduction = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.CVPurchase = New Telerik.WinControls.UI.RadChartView()
+        Me.GVPurchase = New common.UserControls.MyRadGridView()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.CVSale = New Telerik.WinControls.UI.RadChartView()
+        Me.GVSale = New common.UserControls.MyRadGridView()
+        Me.chkFG = New common.Controls.MyRadioButton()
+        Me.ChkSFG = New common.Controls.MyRadioButton()
+        Me.ChkBoth = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,6 +74,23 @@ Partial Class rptCattleFeedProduction
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProduction.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage1.SuspendLayout()
+        Me.RadPageViewPage2.SuspendLayout()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.CVPurchase, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GVPurchase, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GVPurchase.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
+        CType(Me.CVSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GVSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GVSale.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkSFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -73,6 +105,9 @@ Partial Class rptCattleFeedProduction
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ChkBoth)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ChkSFG)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkFG)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtFromDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblfromDate)
@@ -198,12 +233,14 @@ Partial Class rptCattleFeedProduction
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.Attachments)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1152, 493)
         Me.RadPageView1.TabIndex = 2
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -217,7 +254,7 @@ Partial Class rptCattleFeedProduction
         '
         Me.Attachments.Controls.Add(Me.SplitContainer3)
         Me.Attachments.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(1128.0!, 45.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(398.0!, 45.0!)
         Me.Attachments.Location = New System.Drawing.Point(5, 60)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1143, 429)
@@ -284,6 +321,154 @@ Partial Class rptCattleFeedProduction
         Me.gvProduction.TabIndex = 6
         Me.gvProduction.VarID = ""
         '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(381.0!, 45.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(5, 60)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1143, 429)
+        Me.RadPageViewPage1.Text = "CATTLE FEED PURCHASE"
+        Me.RadPageViewPage1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer4)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(348.0!, 45.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(5, 60)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1143, 429)
+        Me.RadPageViewPage2.Text = "CATTLE FEED SALE"
+        Me.RadPageViewPage2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.CVPurchase)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.GVPurchase)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1143, 429)
+        Me.SplitContainer2.SplitterDistance = 332
+        Me.SplitContainer2.TabIndex = 0
+        '
+        'CVPurchase
+        '
+        Me.CVPurchase.AreaDesign = CartesianArea2
+        Me.CVPurchase.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CVPurchase.Location = New System.Drawing.Point(0, 0)
+        Me.CVPurchase.Name = "CVPurchase"
+        Me.CVPurchase.ShowGrid = False
+        Me.CVPurchase.Size = New System.Drawing.Size(1143, 332)
+        Me.CVPurchase.TabIndex = 6
+        '
+        'GVPurchase
+        '
+        Me.GVPurchase.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GVPurchase.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.GVPurchase.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.GVPurchase.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GVPurchase.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GVPurchase.MyStopExport = False
+        Me.GVPurchase.Name = "GVPurchase"
+        Me.GVPurchase.ShowHeaderCellButtons = True
+        Me.GVPurchase.Size = New System.Drawing.Size(1143, 93)
+        Me.GVPurchase.TabIndex = 7
+        Me.GVPurchase.VarID = ""
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer4.Name = "SplitContainer4"
+        Me.SplitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer4.Panel1
+        '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.CVSale)
+        '
+        'SplitContainer4.Panel2
+        '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.GVSale)
+        Me.SplitContainer4.Size = New System.Drawing.Size(1143, 429)
+        Me.SplitContainer4.SplitterDistance = 323
+        Me.SplitContainer4.TabIndex = 0
+        '
+        'CVSale
+        '
+        Me.CVSale.AreaDesign = CartesianArea3
+        Me.CVSale.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CVSale.Location = New System.Drawing.Point(0, 0)
+        Me.CVSale.Name = "CVSale"
+        Me.CVSale.ShowGrid = False
+        Me.CVSale.Size = New System.Drawing.Size(1143, 323)
+        Me.CVSale.TabIndex = 6
+        '
+        'GVSale
+        '
+        Me.GVSale.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GVSale.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.GVSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.GVSale.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GVSale.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.GVSale.MyStopExport = False
+        Me.GVSale.Name = "GVSale"
+        Me.GVSale.ShowHeaderCellButtons = True
+        Me.GVSale.Size = New System.Drawing.Size(1143, 102)
+        Me.GVSale.TabIndex = 7
+        Me.GVSale.VarID = ""
+        '
+        'chkFG
+        '
+        Me.chkFG.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkFG.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.chkFG.Location = New System.Drawing.Point(420, 13)
+        Me.chkFG.MyLinkLable1 = Nothing
+        Me.chkFG.MyLinkLable2 = Nothing
+        Me.chkFG.Name = "chkFG"
+        Me.chkFG.Size = New System.Drawing.Size(33, 18)
+        Me.chkFG.TabIndex = 40
+        Me.chkFG.TabStop = False
+        Me.chkFG.Text = "FG"
+        Me.chkFG.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'ChkSFG
+        '
+        Me.ChkSFG.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.ChkSFG.Location = New System.Drawing.Point(459, 13)
+        Me.ChkSFG.MyLinkLable1 = Nothing
+        Me.ChkSFG.MyLinkLable2 = Nothing
+        Me.ChkSFG.Name = "ChkSFG"
+        Me.ChkSFG.Size = New System.Drawing.Size(39, 18)
+        Me.ChkSFG.TabIndex = 41
+        Me.ChkSFG.TabStop = False
+        Me.ChkSFG.Text = "SFG"
+        '
+        'ChkBoth
+        '
+        Me.ChkBoth.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.ChkBoth.Location = New System.Drawing.Point(504, 14)
+        Me.ChkBoth.MyLinkLable1 = Nothing
+        Me.ChkBoth.MyLinkLable2 = Nothing
+        Me.ChkBoth.Name = "ChkBoth"
+        Me.ChkBoth.Size = New System.Drawing.Size(44, 18)
+        Me.ChkBoth.TabIndex = 42
+        Me.ChkBoth.TabStop = False
+        Me.ChkBoth.Text = "Both"
+        '
         'rptCattleFeedProduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -317,6 +502,23 @@ Partial Class rptCattleFeedProduction
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProduction.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProduction, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.CVPurchase, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GVPurchase.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GVPurchase, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer4.Panel1.ResumeLayout(False)
+        Me.SplitContainer4.Panel2.ResumeLayout(False)
+        Me.SplitContainer4.ResumeLayout(False)
+        CType(Me.CVSale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GVSale.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GVSale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkSFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -336,4 +538,15 @@ Partial Class rptCattleFeedProduction
     Friend WithEvents btngo As RadButton
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents btnclose As RadButton
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents SplitContainer2 As SplitContainer
+    Friend WithEvents CVPurchase As RadChartView
+    Friend WithEvents GVPurchase As common.UserControls.MyRadGridView
+    Friend WithEvents SplitContainer4 As SplitContainer
+    Friend WithEvents CVSale As RadChartView
+    Friend WithEvents GVSale As common.UserControls.MyRadGridView
+    Friend WithEvents chkFG As common.Controls.MyRadioButton
+    Friend WithEvents ChkSFG As common.Controls.MyRadioButton
+    Friend WithEvents ChkBoth As common.Controls.MyRadioButton
 End Class

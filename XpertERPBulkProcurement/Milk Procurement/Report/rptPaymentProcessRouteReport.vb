@@ -187,7 +187,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -203,7 +203,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -218,7 +218,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -237,7 +237,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -252,7 +252,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -267,7 +267,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -351,7 +351,7 @@ Public Class rptPaymentProcessRouteReport
                                inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -372,7 +372,7 @@ Public Class rptPaymentProcessRouteReport
                                inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                                and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -417,7 +417,7 @@ Public Class rptPaymentProcessRouteReport
                                group by TSPL_VLC_MASTER_HEAD.Route_Code
 
                                Union All
-                               select   'MILK BUY&COM'  as Name, sum( case when TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction' then -1 * TSPL_MULTIPLE_DEDUCTION_detail.Amount else TSPL_MULTIPLE_DEDUCTION_detail.Amount end ) as Amount  from TSPL_MULTIPLE_DEDUCTION_detail 
+                               select   'MILK BUY&COM'  as Name, sum( case when TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction' then -1 * TSPL_MULTIPLE_DEDUCTION_detail.Amount else TSPL_MULTIPLE_DEDUCTION_detail.Amount end ) as Amount  from TSPL_MULTIPLE_DEDUCTION_detail 
                                left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_detail.Document_No = TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No
                                                    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode
                                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_CODE
@@ -425,7 +425,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type in ( 'Addition','Deduction') 
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type in ( 'Addition','Deduction') 
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -445,7 +445,7 @@ Public Class rptPaymentProcessRouteReport
                                                    inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                                    left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                                                   where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                                    and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                                    and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -485,7 +485,7 @@ Public Class rptPaymentProcessRouteReport
                                inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Addition'
+                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Addition'
                                and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -506,7 +506,7 @@ Public Class rptPaymentProcessRouteReport
                                inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                               where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                                and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                                and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                                and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -546,7 +546,7 @@ Public Class rptPaymentProcessRouteReport
                               inner join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                               left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert (varchar,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103) = convert (varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
 
-                              where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type = 'Deduction'
+                              where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1  and TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type = 'Deduction'
                               and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + strFromDate + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + strToDate + "'),103)
                               and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code = '" + txtMcc.Value + "' 
                               and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + txtMcc.Value + "' 
@@ -1440,8 +1440,8 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
         sQuery = "SELECT ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,SUM(ZZ.Amount) AS Amount
                  FROM(
                 select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition, sum(Amount) as [Amount]  from (
-                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
-                case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
+                case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
                 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No 
@@ -1531,9 +1531,9 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                   SUM(ZZ.Amount) AS Amount,ZZ.Route_Code
                  FROM(
                 select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition, sum(Amount) as [Amount],final.Route_Code  from (
-                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type,
+                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,
                 TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
-                case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+                case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,TSPL_VLC_MASTER_HEAD.Route_Code
                 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  
                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No 
@@ -1611,8 +1611,8 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
         sQuery = "  SELECT max(ZZ.VSP_Uploader_Code)VSP_Uploader_Code,max(ZZ.VSP_Code)VSP_Code,max(ZZ.Vendor_NAME)Vendor_NAME,ZZ.Addition,SUM(ZZ.Amount) AS Amount
                  FROM(
                 select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition, sum(Amount) as [Amount]  from (
-                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
-                case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+                select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
+                case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
                 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No 
@@ -1923,7 +1923,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
 					inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and
                      TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') order by coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc)"
+                    and (TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') order by coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc)"
 
         Dim dtAdditionHeader As DataTable = clsDBFuncationality.GetDataTable(sQueryAH)
 
@@ -1938,7 +1938,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
 					inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and
                      TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C')
+                    and (TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C')
                     group by coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc)
                     order by coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc)"
 
@@ -1967,7 +1967,7 @@ when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DE
         Dim dtDeductionTotal As DataTable = clsDBFuncationality.GetDataTable(sQueryDH)
 
         sQueryAD = " select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME, Final.Item_Desc as Addition , sum(Amount) as [Amount]  from (
-select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc) as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc) as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                     from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
                     left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                     left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_VENDOR_INVOICE_DETAIL.document_no
@@ -1978,7 +1978,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
 					inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and
                      TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc "
+                    and (TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc "
 
         'sQueryAD = ""
 
@@ -2199,7 +2199,7 @@ left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HE
 					inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and
                      TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C'))x where Addition is not null order by Addition "
+                    and (TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C'))x where Addition is not null order by Addition "
             Dim dtAdditionHeader As DataTable = clsDBFuncationality.GetDataTable(sQueryAH)
 
             HeadingPAYMENTRowCount = clsCommon.myCdbl(IIf(Math.Ceiling(dtAdditionHeader.Rows.Count / 4) <= 4, 4, Math.Ceiling(dtAdditionHeader.Rows.Count / 4)))
@@ -2379,7 +2379,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_Date,103)>=convert
                 sQueryAD += " ,final.Mcc_Code_VLC_Uploader "
             End If
             sQueryAD += " from (
-select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc) as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE as  ROUTE_NO "
+select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc) as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE as  ROUTE_NO "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryAD += " ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader "
             End If
@@ -2397,7 +2397,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 inner join TSPL_PAYMENT_PROCESS_DETAIL on  TSPL_PAYMENT_PROCESS_DETAIL.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
 inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and
-TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission' and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
+TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission' and (TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 sQueryAD += "  union all
