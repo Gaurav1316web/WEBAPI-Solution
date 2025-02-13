@@ -470,9 +470,9 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 No Of Doc").Name)
             End If
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Billed Qty").Name)
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Amt").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Amt").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month2, "MMM-yyyy")))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
@@ -480,8 +480,8 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 No Of Doc").Name)
             End If
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Billed Qty").Name)
-                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
-                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Amt").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month3, "MMM-yyyy")))
@@ -490,20 +490,20 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 No Of Doc").Name)
             End If
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Billed Qty").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Amt").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Amt").Name)
 
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
 
-                If chkOnlyReject.Checked Then
-                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
-                End If
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
+            If chkOnlyReject.Checked Then
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
+            End If
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Amt").Name)
             Gv.ViewDefinition = view
         End If
@@ -549,7 +549,7 @@ Public Class frmDBTNEFTUnionReport
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkOnlyReject.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 Else
                     If rbtnQuarterly.IsChecked Then
                         frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)

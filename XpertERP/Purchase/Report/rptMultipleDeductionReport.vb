@@ -535,7 +535,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             strQry += " from   (select round(row_number() over(order by(select 1)),0) as SNo,FINAL3.[Vendor Code],MAX(FINAL3.[Vendor Name])[Vendor Name],
                         MAX(FINAL3.[VLC Uploader Code])[VLC Uploader Code],FINAL3.[Document Date],FINAL3.[Document No],MAX(FINAL3.Type)Type,SUM(FINAL3.Addition)Addition,
                         SUM(FINAL3.Deduction)Deduction,MAX(FINAL3.[Deduction Code])[Deduction Code],MAX(FINAL3.[Deduction Desc])[Deduction Desc],
-                        SUM(final3.[SRN Qty])[SRN Qty],SUM(final3.SRN_AMOUNT)SRN_AMOUNT, "
+                        max(final3.[SRN Qty])[SRN Qty],max(final3.SRN_AMOUNT)SRN_AMOUNT, "
 
             'strQry += "FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.Remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,"
 
@@ -674,7 +674,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
 						 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
                          left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
-						 where 2=2  " + strqry7 + "
+						 where 2=2  " + strqry7 + " " + strQry1 + "
 						 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) 
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) ) 
                          final group by final.Customer_CODE )XY
