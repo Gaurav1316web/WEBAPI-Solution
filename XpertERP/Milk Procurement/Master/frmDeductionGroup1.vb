@@ -8,28 +8,6 @@ Public Class FrmDeductionGroup1
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
 
     Private Sub FrmDeductionGroup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim qry As String = ""
-        Dim dt As DataTable = Nothing
-        Dim coll As New Dictionary(Of String, String)()
-
-        coll.Add("Ded_Type", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_GROUP", coll)
-
-        qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MULTIPLE_DEDUCTION_DETAIL' and COLUMN_NAME='Trans_Type'"
-        dt = clsDBFuncationality.GetDataTable(qry)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Trans_Type", "varchar(20)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
-
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = "update TSPL_MULTIPLE_DEDUCTION_DETAIL set Trans_Type=(select Trans_Type from TSPL_MULTIPLE_DEDUCTION_HEAD where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No) "
-            clsDBFuncationality.ExecuteNonQuery(qry)
-
-            qry = "alter table TSPL_MULTIPLE_DEDUCTION_HEAD drop column Trans_Type"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
-
         SetUserMgmtNew()
         isNewEntry = True
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
