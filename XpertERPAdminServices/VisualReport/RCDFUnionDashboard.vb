@@ -29,7 +29,7 @@ Public Class RCDFUnionDashboard
         AddHandler cvProc.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
         gvProc.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
 
-
+        RadPageView1.SelectedPage = Attachments
         Reset()
     End Sub
     Private Sub SetFromData()

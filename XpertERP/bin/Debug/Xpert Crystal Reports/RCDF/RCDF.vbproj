@@ -102,6 +102,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
+    <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucher.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucherold.rpt" />
     <None Include="Crystal Reports GST\Common Services\crptBankBook.rpt" />
@@ -1775,6 +1777,7 @@
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance3.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance4.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAPInvc.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptBankSavingDraftSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCanceledSaleInvoice.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscCrosstab.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscountDetail.rpt" />
@@ -2084,7 +2087,8 @@
     <None Include="Crystal Reports\TDS\Taxchallan281.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger6968.rpt" />
-    <None Include="Crystal Reports\Union Reports\crptDBT_NEFTUnionReport.rpt" />
+    <None Include="Crystal Reports Common\crptDBT_NEFTUnionReport.rpt" />
+    <None Include="Crystal Reports Common\crptDBT_NEFT_RejectUnionReport.rpt" />
     <None Include="Crystal Reports\Union Reports\CrptFarmerDetails.rpt" />
     <None Include="Crystal Reports\Union Reports\crptJanaadharStatusfromMasterReport.rpt" />
     <None Include="Crystal Reports\Union Reports\crptJanaadharStatusReport.rpt" />

@@ -211,6 +211,7 @@ Partial Class frmMCCMaterialSale
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintEwayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -421,6 +422,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -464,6 +466,7 @@ Partial Class frmMCCMaterialSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintEwayBill)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
@@ -2108,9 +2111,9 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1261, 391)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1261, 387)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -2198,7 +2201,7 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1103, 287)
+        Me.RadLabel10.Location = New System.Drawing.Point(1103, 283)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2216,7 +2219,7 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 300)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 296)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1261, 87)
@@ -2335,7 +2338,7 @@ Partial Class frmMCCMaterialSale
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1256, 249)
+        Me.gv2.Size = New System.Drawing.Size(1256, 245)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2794,7 +2797,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(980, 53)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(974, 70)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(268, 18)
         Me.btnReverseAndUnpost.TabIndex = 9
@@ -3249,24 +3252,33 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'rbtnCancel
+        '
+        Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtnCancel.Location = New System.Drawing.Point(1134, 4)
+        Me.rbtnCancel.Name = "rbtnCancel"
+        Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
+        Me.rbtnCancel.TabIndex = 1423
+        Me.rbtnCancel.Text = "Cancel"
+        '
         'btnPrintEwayBill
         '
         Me.btnPrintEwayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnPrintEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintEwayBill.Location = New System.Drawing.Point(922, 4)
+        Me.btnPrintEwayBill.Location = New System.Drawing.Point(907, 4)
         Me.btnPrintEwayBill.Name = "btnPrintEwayBill"
         Me.btnPrintEwayBill.Size = New System.Drawing.Size(99, 20)
         Me.btnPrintEwayBill.TabIndex = 174
         Me.btnPrintEwayBill.Text = "Print E-Way Bill"
-        Me.btnPrintEwayBill.Visible = False
         '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(823, 4)
+        Me.btnShowInventory.Location = New System.Drawing.Point(808, 4)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(98, 20)
+        Me.btnShowInventory.Size = New System.Drawing.Size(97, 20)
         Me.btnShowInventory.TabIndex = 173
         Me.btnShowInventory.Text = "Show Inventory"
         '
@@ -3274,7 +3286,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnInvoiceJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnInvoiceJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnInvoiceJE.Location = New System.Drawing.Point(723, 4)
+        Me.btnInvoiceJE.Location = New System.Drawing.Point(708, 4)
         Me.btnInvoiceJE.Name = "btnInvoiceJE"
         Me.btnInvoiceJE.Size = New System.Drawing.Size(98, 20)
         Me.btnInvoiceJE.TabIndex = 41
@@ -3285,7 +3297,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnDeliveredTo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeliveredTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeliveredTo.Location = New System.Drawing.Point(634, 4)
+        Me.btnDeliveredTo.Location = New System.Drawing.Point(619, 4)
         Me.btnDeliveredTo.Name = "btnDeliveredTo"
         Me.btnDeliveredTo.Size = New System.Drawing.Size(87, 20)
         Me.btnDeliveredTo.TabIndex = 40
@@ -3298,7 +3310,7 @@ Partial Class frmMCCMaterialSale
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnHistory.Location = New System.Drawing.Point(545, 4)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(87, 20)
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
         Me.btnHistory.TabIndex = 39
         Me.btnHistory.Text = "History"
         Me.btnHistory.Visible = False
@@ -3429,9 +3441,10 @@ Partial Class frmMCCMaterialSale
         '
         'btnClose
         '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1050, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1207, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
         Me.btnClose.TabIndex = 11
@@ -3807,6 +3820,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4049,5 +4063,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents cboDeductionType As common.Controls.MyComboBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents btnPrintEwayBill As RadButton
+    Friend WithEvents rbtnCancel As RadButton
 End Class
 

@@ -437,9 +437,9 @@ Public Class frmDBTNEFTUnionReport
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkOnlyReject.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 End If
                 frmCRV = Nothing
             Else

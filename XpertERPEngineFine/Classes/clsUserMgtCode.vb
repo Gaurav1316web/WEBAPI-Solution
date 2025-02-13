@@ -2528,6 +2528,7 @@ Public Class clsUserMgtCode
     Public Const frmDBTUnionPayment As String = "DBT-UPAY"
     Public Const frmUnionLastGstInvoice As String = "DBT-GST_INV"
     Public Const rptCattleFeedProduction As String = "CF-PROD"
+    Public Const frmUpdateAppLocation As String = "Upd_App_L"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
