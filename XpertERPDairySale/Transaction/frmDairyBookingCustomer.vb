@@ -3055,6 +3055,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If (clsCommon.CompairString(gv1.Rows(ii).Cells(colICode).Value, Nothing) = CompairStringResult.Equal) Then
                     Continue For
                 End If
+                Dim taxGroup As String = txtTaxGroup.Value
                 Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                 Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
@@ -3186,6 +3187,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblEnteredQty As Double = dblQty
                 If (clsCommon.myLen(strICode) > 0) Then
                     For jj As Integer = 0 To gv1.Rows.Count - 1
+                        If Not clsCommon.CompairString(taxGroup, clsCommon.myCstr(gv1.Rows(jj).Cells(colTaxGroup).Value)) = CompairStringResult.Equal Then
+                            Throw New Exception("Tax group not matched at Line no [" + clsCommon.myCstr(ii) + "]")
+                        End If
                         If jj = ii Then
                             Continue For
                         End If
@@ -8938,6 +8942,7 @@ from
         UpdateAllTotals()
     End Sub
     Private Sub SetTax(ByVal Item_Code As String, ByVal intRow As Integer)
+
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         If GSTStatus = False OrElse (rbtnTaxable.IsChecked AndAlso GSTStatus) Then
             If CalculateTaxRatefromItemwsieTaxOnSale Then

@@ -234,7 +234,7 @@ Public Class clsBoothRouteMappingDetail
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select PK_ID,Document_No,Serial_No,Booth_Code,Prev_Route_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL where Document_No='" & strDocNo & "'"
+            Dim strQry As String = "select PK_ID,Document_No,Serial_No,Booth_Code,Prev_Route_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL where Document_No='" & strDocNo & "' order by Serial_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
