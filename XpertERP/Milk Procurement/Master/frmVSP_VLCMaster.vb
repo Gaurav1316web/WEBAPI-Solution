@@ -19,6 +19,7 @@ Public Class frmVSP_VLCMaster
     Dim AllowVSPMasterAutoPrefix As Integer = 0
     Dim UserPrefix As String = Nothing
     Dim EnableBankFromMaster As Boolean
+    Dim SameBankCodeForCurrentAndSaving As Boolean
     Const colEMPSno As String = "colEMPSno"
     Const colEMPSlab As String = "colEMPSlab"
     Const colEMPValue As String = "colEMPValue"
@@ -48,7 +49,7 @@ Public Class frmVSP_VLCMaster
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
         FixVSPEMP = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FixVSPEMP, clsFixedParameterCode.FixVSPEMP, Nothing))
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
-
+        SameBankCodeForCurrentAndSaving = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SameBankCodeForCurrentAndSaving, clsFixedParameterCode.SameBankCodeForCurrentAndSaving, Nothing)) = 0, False, True)
         TIPRateMix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TIPRateMix, clsFixedParameterCode.TIPRateMix, Nothing))
         TIPRateCow = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TIPRateCow, clsFixedParameterCode.TIPRateCow, Nothing))
         TIPRateBuffalo = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TIPRateBuffalo, clsFixedParameterCode.TIPRateBuffalo, Nothing))
@@ -3862,7 +3863,7 @@ Public Class frmVSP_VLCMaster
             If transportSql.importExcel(gv, "Bank Code Desc", "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "REIL Integrated", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
-                clsCommon.ProgressBarShow()
+
                 Dim obj As New clsfrmVLCMaster
                 Dim arr As New List(Of clsfrmVLCMaster)
 
@@ -3935,6 +3936,26 @@ Public Class frmVSP_VLCMaster
                                 End If
                                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)) <= 0 Then
                                     Throw New Exception("IFSC Code 2 can't be blank !")
+                                End If
+
+                                If SameBankCodeForCurrentAndSaving Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Bank Code 1").Value), clsCommon.myCstr(grow.Cells("Bank Code 2").Value)) <> CompairStringResult.Equal Then
+                                        Throw New Exception("Current Bank Code and Saving Bank Code is not same")
+                                    End If
+                                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Bank Name 1").Value), clsCommon.myCstr(grow.Cells("Bank Name 2").Value)) <> CompairStringResult.Equal Then
+                                        Throw New Exception("Current Bank Name and Saving Bank Name is not same")
+                                    End If
+                                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Branch Name 1").Value), clsCommon.myCstr(grow.Cells("Branch Name 2").Value)) <> CompairStringResult.Equal Then
+                                        Throw New Exception("Current Branch Name and Saving Branch Name is not same")
+                                    End If
+                                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IFSC Code 1").Value), clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)) <> CompairStringResult.Equal Then
+                                        Throw New Exception("Current IFSC Code and Saving IFSC Code is not same")
+                                    End If
+
+                                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Current Company Bank").Value), clsCommon.myCstr(grow.Cells("Saving Company Bank").Value)) <> CompairStringResult.Equal Then
+                                        Throw New Exception("Current Company Bank and Saving Company Bank is not same")
+                                    End If
+
                                 End If
                                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account No 2").Value)) <= 0 Then
                                     Throw New Exception("Account No 2 can't be blank !")
@@ -5374,6 +5395,55 @@ Public Class frmVSP_VLCMaster
                 Throw New Exception("Selected VSP Already Mapped With VLC " + check + "," + Environment.NewLine + "Please Select The Same VLC As Set Earlier Or" + Environment.NewLine + "Changed Mapping In Old Record First")
             Else
                 Errorcontrol.ResetError(txtvspcode)
+            End If
+
+            If SameBankCodeForCurrentAndSaving Then
+                If clsCommon.CompairString(findfndbankcode.Value, findfndbankcode2.Value) <> CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Code and Saving Bank Code is not same", Me.Text)
+                    findfndbankcode2.Focus()
+                    findfndbankcode2.Select()
+                    Return False
+                Else
+                    Errorcontrol.ResetError(findfndbankcode2)
+                End If
+
+                If clsCommon.CompairString(TxtBankName.Text, TxtBankName2.Text) <> CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Name and Saving Bank Name is not same", Me.Text)
+                    TxtBankName2.Focus()
+                    TxtBankName2.Select()
+                    Return False
+                Else
+                    Errorcontrol.ResetError(TxtBankName2)
+                End If
+
+                If clsCommon.CompairString(TxtBankBranch.Text, txtBankBranch2.Text) <> CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Branch and Saving Bank Branch is not same", Me.Text)
+                    txtBankBranch2.Focus()
+                    txtBankBranch2.Select()
+                    Return False
+                Else
+                    Errorcontrol.ResetError(txtBankBranch2)
+                End If
+
+                If clsCommon.CompairString(findTxtIFSCCode.Value, findTxtIFSCCode2.Value) <> CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Cuurent IFSC Code and Saving IFSC Code is not same", Me.Text)
+                    findTxtIFSCCode2.Focus()
+                    findTxtIFSCCode2.Select()
+                    Return False
+                Else
+                    Errorcontrol.ResetError(findTxtIFSCCode2)
+                End If
+
+                If clsCommon.CompairString(txtCurrentCompanyBank.Value, txtSavingCompanyBank.Value) <> CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Cuurent Company Bank and Saving Company Bank is not same", Me.Text)
+                    txtSavingCompanyBank.Focus()
+                    txtSavingCompanyBank.Select()
+                    Errorcontrol.SetError(txtSavingCompanyBank, "Cuurent Company Bank and Saving Company Bank is not same")
+                    Return False
+                Else
+                    Errorcontrol.ResetError(txtSavingCompanyBank)
+                End If
+
             End If
 
             Return True
@@ -7018,7 +7088,7 @@ Public Class frmVSP_VLCMaster
                             ii = 0
 
                             ii += 1
-                                clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+                            clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
                             For Each grow As GridViewRowInfo In gv1.Rows
                                 For Each obj As clsfrmVLCMaster In Arr
                                     lineno = clsCommon.myCstr(grow.Index + 2)

@@ -9223,6 +9223,10 @@ Public Class MDI
                     Case clsUserMgtCode.rptCattleFeedProduction
                         frm = New rptCattleFeedProduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmUpdateAppLocation
+                        frm = New frmUpdateAppLocation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmUnionLastGstInvoice
                         frm = New frmUnionLastGstInvoice()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

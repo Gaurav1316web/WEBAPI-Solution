@@ -229,6 +229,13 @@
     <Compile Include="ProcessProduction\Transaction\frmOutgoingQCEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmUpdateAppLocation.Designer.vb">
+      <DependentUpon>frmUpdateAppLocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmUpdateAppLocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PRODUCTION\ClsUpdateAppLocation.vb" />
     <Compile Include="PRODUCTION\Masters\frmAccountSetting.Designer.vb">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>
     </Compile>
@@ -782,6 +789,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Transaction\frmOutgoingQCEntry.resx">
       <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Transaction\frmUpdateAppLocation.resx">
+      <DependentUpon>frmUpdateAppLocation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Masters\frmAccountSetting.resx">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>

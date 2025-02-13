@@ -1798,29 +1798,31 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 qry = "select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
 left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
 where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_Booth_Route_Mapping_Head.Route_No='" + strtRouteCode + "' 
-and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 order by Document_No desc"
+and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) order by Document_No desc"
                 Dim BRM_DocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                 qry = " select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code 
-where Document_No='" + BRM_DocNO + "' "
+where Document_No='" + BRM_DocNO + "' and TSPL_CUSTOMER_MASTER.Status='N' "
                 If chkIndividualCustomer.Checked = True Then
                     qry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code ='" & txtCustomerNo.Value & "' "
                 End If
-                '                If isLoadData Then
-                '                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
-                'left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-                'left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-                'left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-                'where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
-                ' group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
-                '                End If
-                '                MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
+                If isLoadData Then
+                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
+                left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code not in (select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code 
+where Document_No='" + BRM_DocNO + "' and TSPL_CUSTOMER_MASTER.Status='N')
+                 group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
+                End If
+                'MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
                 MainQry = qry + "  order by TSPL_Booth_Route_Mapping_Detail.Serial_No "
                 Dim isPosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'  and Posted=1")) = 1, True, False)
                 If isPosted Then
                     MainQry = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
-                left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-                left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+                left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No='" + BRM_DocNO + "' 
                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
                  group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code order by Serial_No "
@@ -2840,14 +2842,32 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     Sub setRouteVehicleCityDetail()
         Try
             Dim qry As String = ""
-            qry = "select TSPL_ROUTE_MASTER.City_Code,Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon,tspl_transport_master.Transporter_Name from TSPL_CUSTOMER_MASTER left outer join " &
-                "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
-                "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id "
-            If chkIndividualCustomer.Checked = True Then
-                qry += " where TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
+            If objCommonVar.ApplyBoothRouteMapping Then
+                qry = "select top 1 TSPL_ROUTE_MASTER.City_Code,Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_CUSTOMER_MASTER.Zone_Code,
+TSPL_BOOTH_ROUTE_MAPPING_HEAD.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon,tspl_transport_master.Transporter_Name
+from TSPL_BOOTH_ROUTE_MAPPING_HEAD
+left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No
+LEFT join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code
+left outer join TSPL_ROUTE_MASTER on TSPL_BOOTH_ROUTE_MAPPING_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No
+left outer join TSPL_VEHICLE_MASTER on  TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id "
+                If chkIndividualCustomer.Checked = True Then
+                    qry += " where TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'  "
+                Else
+                    qry += " where TSPL_ROUTE_MASTER.Route_No ='" & txtRouteNo.Value & "' "
+                End If
+                qry += " and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) order by TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No desc"
             Else
-                qry += " where TSPL_ROUTE_MASTER.Route_No ='" & txtRouteNo.Value & "'"
+                qry = "select TSPL_ROUTE_MASTER.City_Code,Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon,tspl_transport_master.Transporter_Name from TSPL_CUSTOMER_MASTER left outer join " &
+               "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
+               "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id "
+                If chkIndividualCustomer.Checked = True Then
+                    qry += " where TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
+                Else
+                    qry += " where TSPL_ROUTE_MASTER.Route_No ='" & txtRouteNo.Value & "'"
+                End If
             End If
+
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 txtVehicleNo.Value = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))

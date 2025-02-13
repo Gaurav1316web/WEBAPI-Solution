@@ -26552,7 +26552,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Loc_Code", "varchar(12)  NULL")
             coll.Add("MCC_Code", "varchar(12)  NULL")
             coll.Add("MCC_Name", "varchar(150)  NULL")
-            coll.Add("Trans_Type", "varchar(20)  NULL")
+            'coll.Add("Trans_Type", "varchar(20)  NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Amount", "decimal (18,2) NULL")
             coll.Add("Posting_Date", "datetime null")
@@ -46224,7 +46224,24 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("All_Level_Approval_Required", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_APPROVAL_LEVEL_SCREEN_HISTORY", coll)
             '============================================end here=====================================================
-
+            '========app Location Table====
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "varchar(5) not null primary key")
+            coll.Add("Location_Name", "varchar(30) NOT NULL")
+            coll.Add("DataBase_Name", "varchar(15) NULL")
+            coll.Add("Created_By", "varchar(12) NULL")
+            coll.Add("Created_Date", "Datetime NULL")
+            coll.Add("Modified_By", "varchar(12) NULL")
+            coll.Add("Modified_Date", "Datetime NULL")
+            coll.Add("Customer_Code", "char(255) NULL")
+            coll.Add("Customer_Name", "varchar(255) null")
+            coll.Add("Customer_Account_No", "varchar(255) null")
+            coll.Add("Scheduler_Apply_SMS", "integer NULL")
+            coll.Add("Scheduler_Apply_EMail", "integer NULL")
+            coll.Add("Apply_PD_Account", "integer NULL")
+            coll.Add("Apply_ECollect", "integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_APP_LOCATION", coll, Nothing, True, False, "", "Code", "", False)
+            '===
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "varchar(30) not null primary key")
