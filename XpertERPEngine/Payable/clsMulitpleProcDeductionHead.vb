@@ -9,7 +9,7 @@ Public Class clsMultipleProcDeductionHead
     Public loc_code As String = Nothing
     Public Remarks As String = Nothing
     Public Amount As Double = 0
-    Public Trans_Type As String = String.Empty
+    'Public Trans_Type As String = String.Empty
     Public Comp_Code As String = Nothing
     Public Posting_Date As DateTime?
     Public RemittanceObject As clsRemittance = Nothing
@@ -77,7 +77,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
         clsCommon.AddColumnsForChange(coll, "MCC_Name", obj.MCC_Name, True)
         clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
         clsCommon.AddColumnsForChange(coll, "Voucher_No", obj.Voucher_No)
-        clsCommon.AddColumnsForChange(coll, "Trans_Type", obj.Trans_Type)
+        'clsCommon.AddColumnsForChange(coll, "Trans_Type", obj.Trans_Type)
         clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
@@ -112,7 +112,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
             obj.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
             obj.MCC_Name = clsCommon.myCstr(dt.Rows(0)("MCC_Name"))
             obj.Voucher_No = clsCommon.myCstr(dt.Rows(0)("Voucher_No"))
-            obj.Trans_Type = clsCommon.myCstr(dt.Rows(0)("Trans_Type"))
+            'obj.Trans_Type = clsCommon.myCstr(dt.Rows(0)("Trans_Type"))
             If IsDBNull(dt.Rows(0)("Posting_Date")) = True Then
                 obj.Posting_Date = Nothing
             Else
@@ -151,6 +151,7 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
                     objTr.against_deduction_docNo = clsCommon.myCstr(dr("against_deduction_docNo"))
                     objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
                     objTr.BMC_CODE = clsCommon.myCstr(dr("BMC_CODE"))
+                    objTr.Trans_Type = clsCommon.myCstr(dr("Trans_Type"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -174,151 +175,140 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
         End Try
         Return isSaved
     End Function
-    Private Shared Function CreateAPInvoiceHeader_CreditNote(ByVal obj As clsMultipleProcDeductionHead, ByVal trans As SqlTransaction) As Boolean
+    Private Shared Function CreateDrCrNote(ByVal obj As clsMultipleProcDeductionHead, ByVal trans As SqlTransaction) As Boolean
         Dim VendAccSet As String = String.Empty
         For Each objTr As clsMultipleProcDeductionDetail In obj.Arr
-            '' Ap Invoice Header for procurement Deduction type 
-            Dim objVendInv As New clsVedorInvoiceHead()
-            objVendInv.Invoice_Entry_Date = obj.Document_Date
-            objVendInv.Document_Type = "C"
-            objVendInv.Invoice_Type = "AP"
-            objVendInv.loc_code = obj.loc_code
-            objVendInv.Document_Total = objTr.Amount
-            objVendInv.Posting_Date = obj.Document_Date
-            objVendInv.Vendor_Invoice_Date = obj.Document_Date
+            If clsCommon.CompairString(objTr.Trans_Type, "Addition") = CompairStringResult.Equal Then
+                '' Ap Invoice Header for procurement Deduction type 
+                Dim objVendInv As New clsVedorInvoiceHead()
+                objVendInv.Invoice_Entry_Date = obj.Document_Date
+                objVendInv.Document_Type = "C"
+                objVendInv.Invoice_Type = "AP"
+                objVendInv.loc_code = obj.loc_code
+                objVendInv.Document_Total = objTr.Amount
+                objVendInv.Posting_Date = obj.Document_Date
+                objVendInv.Vendor_Invoice_Date = obj.Document_Date
 
-            objVendInv.On_Hold = 0
-            objVendInv.Remarks = objTr.Remarks
-            objVendInv.Description = "Auto Credit Note Created against Procurement Deduction"
-            objVendInv.Balance_Amt = objTr.Amount
-            objVendInv.ISProcurementDeduction = 1
-            objVendInv.Amount_Less_Discount = objVendInv.Document_Total
-            objVendInv.Discount_Base = objVendInv.Document_Total
-            objVendInv.isDeduction = 1
-            objVendInv.Account_Set = objTr.Account_Set
-            objVendInv.Vendor_Code = objTr.Vendor_Code
-            objVendInv.Vendor_Name = objTr.Vendor_Name
-            objVendInv.Terms_Code = objTr.Terms_Code
-            objVendInv.Terms_Description = objTr.Terms_Description
-            objVendInv.Due_Date = objTr.Due_Date
-            objVendInv.Vendor_Control_AC = objTr.Vendor_Control_AC
-            objVendInv.GSTRegistered = objTr.GSTRegistered
-            objVendInv.MCC_Code = obj.MCC_Code
-            objVendInv.MCC_Name = obj.MCC_Name
-            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+                objVendInv.On_Hold = 0
+                objVendInv.Remarks = objTr.Remarks
+                objVendInv.Description = "Auto Credit Note Created against Procurement Deduction"
+                objVendInv.Balance_Amt = objTr.Amount
+                objVendInv.ISProcurementDeduction = 1
+                objVendInv.Amount_Less_Discount = objVendInv.Document_Total
+                objVendInv.Discount_Base = objVendInv.Document_Total
+                objVendInv.isDeduction = 1
+                objVendInv.Account_Set = objTr.Account_Set
+                objVendInv.Vendor_Code = objTr.Vendor_Code
+                objVendInv.Vendor_Name = objTr.Vendor_Name
+                objVendInv.Terms_Code = objTr.Terms_Code
+                objVendInv.Terms_Description = objTr.Terms_Description
+                objVendInv.Due_Date = objTr.Due_Date
+                objVendInv.Vendor_Control_AC = objTr.Vendor_Control_AC
+                objVendInv.GSTRegistered = objTr.GSTRegistered
+                objVendInv.MCC_Code = obj.MCC_Code
+                objVendInv.MCC_Name = obj.MCC_Name
+                objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
 
-            '' Detail Level Saving
-            Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
-            VendAccSet = objVendInv.Account_Set
+                '' Detail Level Saving
+                Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
+                VendAccSet = objVendInv.Account_Set
 
-            objVendInvTR.Detail_Line_No = objTr.Line_No
-            If clsCommon.myLen(VendAccSet) <= 0 Then
-                Throw New Exception("Please set vendor account set for vendor -" + objTr.Vendor_Code)
+                objVendInvTR.Detail_Line_No = objTr.Line_No
+                If clsCommon.myLen(VendAccSet) <= 0 Then
+                    Throw New Exception("Please set vendor account set for vendor -" + objTr.Vendor_Code)
+                End If
+                objVendInvTR.Amount = objTr.Amount
+                objVendInvTR.Amount_less_Discount = objTr.Amount
+                objVendInvTR.Total_Amount = objTr.Amount
+
+                objVendInvTR.GL_Account_Code = objTr.GL_Account_Code
+                objVendInvTR.DeductionCode = objTr.DeductionCode
+                objVendInvTR.DeductionDesc = objTr.Deduction_Desc
+                If clsCommon.myLen(objVendInv.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+
+                objVendInvTR.GL_Account_Desc = objTr.GL_Account_Desc
+                objVendInv.Arr.Add(objVendInvTR)
+
+                objVendInv.SaveData(objVendInv, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+
+                clsDBFuncationality.getSingleValue("Update TSPL_MULTIPLE_DEDUCTION_DETAIL set Against_Deduction_DocNo ='" & objVendInv.Document_No & "' where document_no='" & obj.Document_No & "' and Line_no='" & objTr.Line_No & "' and Vendor_Code='" & objTr.Vendor_Code & "' ", trans)
+            ElseIf clsCommon.CompairString(objTr.Trans_Type, "Deduction") = CompairStringResult.Equal Then
+                '' Ap Invoice Header for procurement Deduction type 
+                Dim objVendInv As New clsVedorInvoiceHead()
+                objVendInv.Invoice_Entry_Date = obj.Document_Date
+                objVendInv.Document_Type = "D"
+                objVendInv.Invoice_Type = "AP"
+                objVendInv.loc_code = obj.loc_code
+                objVendInv.Document_Total = objTr.Amount
+                objVendInv.Posting_Date = obj.Document_Date
+                objVendInv.Vendor_Invoice_Date = obj.Document_Date
+
+                objVendInv.On_Hold = 0
+                objVendInv.Remarks = objTr.Remarks
+                objVendInv.Description = "Auto Debit Note Created against Procurement Deduction"
+                objVendInv.Balance_Amt = objTr.Amount
+                objVendInv.ISProcurementDeduction = 1
+                objVendInv.Amount_Less_Discount = objVendInv.Document_Total
+                objVendInv.Discount_Base = objVendInv.Document_Total
+                objVendInv.isDeduction = 1
+                objVendInv.Account_Set = objTr.Account_Set
+                objVendInv.Vendor_Code = objTr.Vendor_Code
+                objVendInv.Vendor_Name = objTr.Vendor_Name
+                objVendInv.Terms_Code = objTr.Terms_Code
+                objVendInv.Terms_Description = objTr.Terms_Description
+                objVendInv.Due_Date = objTr.Due_Date
+                objVendInv.Vendor_Control_AC = objTr.Vendor_Control_AC
+                objVendInv.GSTRegistered = objTr.GSTRegistered
+                objVendInv.MCC_Code = obj.MCC_Code
+                objVendInv.MCC_Name = obj.MCC_Name
+                objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+
+                '' Detail Level Saving
+                Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
+                VendAccSet = objVendInv.Account_Set
+
+                objVendInvTR.Detail_Line_No = objTr.Line_No
+                If clsCommon.myLen(VendAccSet) <= 0 Then
+                    Throw New Exception("Please set vendor account set for vendor -" + objTr.Vendor_Code)
+                End If
+                objVendInvTR.Amount = objTr.Amount
+                objVendInvTR.Amount_less_Discount = objTr.Amount
+                objVendInvTR.Total_Amount = objTr.Amount
+
+                objVendInvTR.GL_Account_Code = objTr.GL_Account_Code
+                objVendInvTR.DeductionCode = objTr.DeductionCode
+                objVendInvTR.DeductionDesc = objTr.Deduction_Desc
+                If clsCommon.myLen(objVendInv.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+
+                objVendInvTR.GL_Account_Desc = objTr.GL_Account_Desc
+                objVendInv.Arr.Add(objVendInvTR)
+
+                objVendInv.SaveData(objVendInv, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+
+                clsDBFuncationality.getSingleValue("Update TSPL_MULTIPLE_DEDUCTION_DETAIL set Against_Deduction_DocNo ='" & objVendInv.Document_No & "' where document_no='" & obj.Document_No & "' and Line_no='" & objTr.Line_No & "' and Vendor_Code='" & objTr.Vendor_Code & "' ", trans)
+            Else
+                Throw New Exception("Addition/Deduction type missing for [" + objTr.DeductionCode + "]")
             End If
-            objVendInvTR.Amount = objTr.Amount
-            objVendInvTR.Amount_less_Discount = objTr.Amount
-            objVendInvTR.Total_Amount = objTr.Amount
-
-            objVendInvTR.GL_Account_Code = objTr.GL_Account_Code
-            objVendInvTR.DeductionCode = objTr.DeductionCode
-            objVendInvTR.DeductionDesc = objTr.Deduction_Desc
-            If clsCommon.myLen(objVendInv.Vendor_Control_AC) <= 0 Then
-                Throw New Exception("Please set the vendor payable Account")
-            End If
-
-            objVendInvTR.GL_Account_Desc = objTr.GL_Account_Desc
-            objVendInv.Arr.Add(objVendInvTR)
-
-            objVendInv.SaveData(objVendInv, True, trans)
-            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
-
-            clsDBFuncationality.getSingleValue("Update TSPL_MULTIPLE_DEDUCTION_DETAIL set Against_Deduction_DocNo ='" & objVendInv.Document_No & "' where document_no='" & obj.Document_No & "' and Line_no='" & objTr.Line_No & "' and Vendor_Code='" & objTr.Vendor_Code & "' ", trans)
         Next
-
         Return True
     End Function
-    Private Shared Function CreateAPInvoiceHeader(ByVal obj As clsMultipleProcDeductionHead, ByVal trans As SqlTransaction) As Boolean
-        Dim VendAccSet As String = String.Empty
-        For Each objTr As clsMultipleProcDeductionDetail In obj.Arr
-            '' Ap Invoice Header for procurement Deduction type 
-            Dim objVendInv As New clsVedorInvoiceHead()
-            objVendInv.Invoice_Entry_Date = obj.Document_Date
-            objVendInv.Document_Type = "D"
-            objVendInv.Invoice_Type = "AP"
-            objVendInv.loc_code = obj.loc_code
-            objVendInv.Document_Total = objTr.Amount
-            objVendInv.Posting_Date = obj.Document_Date
-            objVendInv.Vendor_Invoice_Date = obj.Document_Date
 
-            objVendInv.On_Hold = 0
-            objVendInv.Remarks = objTr.Remarks
-            objVendInv.Description = "Auto Debit Note Created against Procurement Deduction"
-            objVendInv.Balance_Amt = objTr.Amount
-            objVendInv.ISProcurementDeduction = 1
-            objVendInv.Amount_Less_Discount = objVendInv.Document_Total
-            objVendInv.Discount_Base = objVendInv.Document_Total
-            objVendInv.isDeduction = 1
-            objVendInv.Account_Set = objTr.Account_Set
-            objVendInv.Vendor_Code = objTr.Vendor_Code
-            objVendInv.Vendor_Name = objTr.Vendor_Name
-            objVendInv.Terms_Code = objTr.Terms_Code
-            objVendInv.Terms_Description = objTr.Terms_Description
-            objVendInv.Due_Date = objTr.Due_Date
-            objVendInv.Vendor_Control_AC = objTr.Vendor_Control_AC
-            objVendInv.GSTRegistered = objTr.GSTRegistered
-            objVendInv.MCC_Code = obj.MCC_Code
-            objVendInv.MCC_Name = obj.MCC_Name
-            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
-
-            '' Detail Level Saving
-            Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
-            VendAccSet = objVendInv.Account_Set
-
-            objVendInvTR.Detail_Line_No = objTr.Line_No
-            If clsCommon.myLen(VendAccSet) <= 0 Then
-                Throw New Exception("Please set vendor account set for vendor -" + objTr.Vendor_Code)
-            End If
-            objVendInvTR.Amount = objTr.Amount
-            objVendInvTR.Amount_less_Discount = objTr.Amount
-            objVendInvTR.Total_Amount = objTr.Amount
-
-            objVendInvTR.GL_Account_Code = objTr.GL_Account_Code
-            objVendInvTR.DeductionCode = objTr.DeductionCode
-            objVendInvTR.DeductionDesc = objTr.Deduction_Desc
-            If clsCommon.myLen(objVendInv.Vendor_Control_AC) <= 0 Then
-                Throw New Exception("Please set the vendor payable Account")
-            End If
-
-            objVendInvTR.GL_Account_Desc = objTr.GL_Account_Desc
-            objVendInv.Arr.Add(objVendInvTR)
-
-            objVendInv.SaveData(objVendInv, True, trans)
-            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
-
-            clsDBFuncationality.getSingleValue("Update TSPL_MULTIPLE_DEDUCTION_DETAIL set Against_Deduction_DocNo ='" & objVendInv.Document_No & "' where document_no='" & obj.Document_No & "' and Line_no='" & objTr.Line_No & "' and Vendor_Code='" & objTr.Vendor_Code & "' ", trans)
-        Next
-
-        Return True
-    End Function
     Public Shared Function PostData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Post")
         End If
-
-
         Dim obj As clsMultipleProcDeductionHead = clsMultipleProcDeductionHead.GetData(strDocNo, trans)
-
         Dim mcc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select TSPL_VLC_MASTER_HEAD.MCC from TSPL_MULTIPLE_DEDUCTION_Detail
                    Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
         where Document_No ='" + strDocNo + "'", trans))
-
-        '        ' If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
-
-        'End If
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
-
         If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
             Throw New Exception("No Data found to Post")
         End If
@@ -327,15 +317,7 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
             Throw New Exception("Already Post on :" + obj.Posting_Date)
         End If
         clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
-        ''richa agarwal UCD/17/11/21-000012
-        If clsCommon.CompairString(clsCommon.myCstr(obj.Trans_Type), "Addition") = CompairStringResult.Equal Then
-            CreateAPInvoiceHeader_CreditNote(obj, trans)
-        Else
-            CreateAPInvoiceHeader(obj, trans)
-        End If
-
-
-
+        CreateDrCrNote(obj, trans)
         qry = "Update TSPL_MULTIPLE_DEDUCTION_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy") + "',isPosted=1 ,Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Return True
@@ -509,6 +491,7 @@ Public Class clsMultipleProcDeductionDetail
     Public Remarks As String = Nothing
     Public BMC_CODE As String = Nothing
     Public VLCUploderCode As String ''Not a table column
+    Public Trans_Type As String = String.Empty
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMultipleProcDeductionDetail), ByVal trans As SqlTransaction) As Boolean
@@ -533,22 +516,21 @@ Public Class clsMultipleProcDeductionDetail
                 clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
                 clsCommon.AddColumnsForChange(coll, "GSTRegistered", obj.GSTRegistered)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
-
+                obj.Trans_Type = clsDeductionGroup.GetDeductionType(obj.DeductionCode, trans)
+                If clsCommon.myLen(obj.Trans_Type) <= 0 Then
+                    Throw New Exception("Please define Addition/Deduction for Deduction [" + obj.DeductionCode + "]")
+                End If
+                clsCommon.AddColumnsForChange(coll, "Trans_Type", obj.Trans_Type)
                 Dim isMCCexist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_MCC_MASTER where MCC_Code = '" & strMCCCode & "'", trans)
                 If isMCCexist > 0 Then
                     obj.BMC_CODE = strMCCCode
-
                 Else
                     obj.BMC_CODE = clsDBFuncationality.getSingleValue("select TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD where VSP_Code = '" & obj.Vendor_Code & "' ", trans)
                 End If
-
                 clsCommon.AddColumnsForChange(coll, "BMC_CODE", obj.BMC_CODE, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MULTIPLE_DEDUCTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-
             Next
         End If
         Return True
     End Function
-
-
 End Class

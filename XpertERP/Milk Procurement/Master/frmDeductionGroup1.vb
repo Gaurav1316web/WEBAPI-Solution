@@ -1,34 +1,49 @@
 ﻿'========Created By Preeti Gupta ticket no[BM00000004545]
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls
-Imports System.Data
-Imports System.Data.SqlClient
-Imports System.Windows.Forms
-Imports System.Configuration
-Imports Excel = Microsoft.Office.Interop.Excel
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Collections.Generic
-Imports System.ComponentModel
-Imports System.Drawing
-Imports Telerik.WinControls.Data
-Imports Telerik.Data
-Imports Telerik.WinControls.Enumerations
-Imports System.Text.RegularExpressions
 Imports common
-Imports System.IO
 Public Class FrmDeductionGroup1
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isNewEntry As Boolean = False
     Dim userCode, companyCode As String
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
+
+    Private Sub FrmDeductionGroup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim qry As String = ""
+        Dim dt As DataTable = Nothing
+        Dim coll As New Dictionary(Of String, String)()
+
+        coll.Add("Ded_Type", "integer null")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_GROUP", coll)
+
+        qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MULTIPLE_DEDUCTION_DETAIL' and COLUMN_NAME='Trans_Type'"
+        dt = clsDBFuncationality.GetDataTable(qry)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Trans_Type", "varchar(20)  NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
+
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            qry = "update TSPL_MULTIPLE_DEDUCTION_DETAIL set Trans_Type=(select Trans_Type from TSPL_MULTIPLE_DEDUCTION_HEAD where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No) "
+            clsDBFuncationality.ExecuteNonQuery(qry)
+
+            qry = "alter table TSPL_MULTIPLE_DEDUCTION_HEAD drop column Trans_Type"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        End If
+
+        SetUserMgmtNew()
+        isNewEntry = True
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+        AddNew()
+    End Sub
+
     Private Sub SetUserMgmtNew()
-        ''MyBase.SetUserMgmt(clsUserMgtCode.frmdeductionGroup)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-        btnsave.Visible = MyBase.isModifyFlag
+        btnSave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
     End Sub
     Private Sub FrmDeductionGroup1_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -43,15 +58,7 @@ Public Class FrmDeductionGroup1
         End If
     End Sub
 
-    Private Sub FrmDeductionGroup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        isNewEntry = True
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
-        AddNew()
-    End Sub
+
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
@@ -89,7 +96,7 @@ Public Class FrmDeductionGroup1
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = ""
             qry = "Select Ded_Code As [Code],Ded_Description As [Name] from TSPL_DEDUCTION_GROUP"
-            fndCode.Value = clsCommon.ShowSelectForm("DEDUCTION", qry, "Ded_Code", "", fndCode.Value, "TSPL_DEDUCTION_GROUP.Ded_Code", isButtonClicked)
+            fndCode.Value = clsCommon.ShowSelectForm("Code", qry, "Code", "", fndCode.Value, "", isButtonClicked)
             If clsCommon.myLen(fndCode.Value) > 0 Then
                 Dim objOT As clsDeductionGroup
                 objOT = clsDeductionGroup.GetData(fndCode.Value, NavigatorType.Current)
@@ -106,7 +113,7 @@ Public Class FrmDeductionGroup1
         Dim gv As New RadGridView()
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
-        If transportSql.importExcel(gv, "Code", "Description") Then
+        If transportSql.importExcel(gv, "Code", "Description", "Type") Then
             Dim linno As Integer = 1
             Try
                 For Each grow As GridViewRowInfo In gv.Rows
@@ -119,6 +126,14 @@ Public Class FrmDeductionGroup1
                         Throw New Exception("Code should not be left blank" + clsCommon.myCstr(linno) + ".")
                     End If
 
+                    Dim strType As String = clsCommon.myCstr(grow.Cells("Type").Value)
+                    If clsCommon.CompairString(strType, "Addition") = CompairStringResult.Equal Then
+                        obj.Ded_Type = 1
+                    ElseIf clsCommon.CompairString(strType, "Deduction") = CompairStringResult.Equal Then
+                        obj.Ded_Type = 2
+                    Else
+                        Throw New Exception("Type Should be [Addition/Deduction]  blank" + clsCommon.myCstr(linno) + ".")
+                    End If
 
                     If clsCommon.myLen(strDescription) <= 0 Then
                         Throw New Exception("Description should not be left blank" + clsCommon.myCstr(linno) + ".")
@@ -134,7 +149,6 @@ Public Class FrmDeductionGroup1
                     obj.Code = strCode
                     obj.Description = strDescription
                     clsDeductionGroup.SaveData(obj, IsNewEntry)
-
                 Next
 
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
@@ -147,7 +161,7 @@ Public Class FrmDeductionGroup1
 
     Private Sub rmExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmExport.Click
         Dim str As String
-        str = "select Ded_Code as [Code],Ded_Description As [Description]  from TSPL_DEDUCTION_GROUP "
+        str = "select Ded_Code as [Code],Ded_Description As [Description],(case when Ded_Type=1 then 'Addition' else (case when Ded_Type=2 then 'Deduction' else '' end) end) as [Type]  from TSPL_DEDUCTION_GROUP "
         transportSql.ExporttoExcel(str, Me)
     End Sub
     Sub AddNew()
@@ -155,8 +169,9 @@ Public Class FrmDeductionGroup1
         txtName.Text = ""
         fndCode.MyReadOnly = False
         fndCode.Focus()
-        btnsave.Text = "Save"
-        btndelete.Enabled = False
+        btnSave.Text = "Save"
+        rbtnNA.IsChecked = True
+        btnDelete.Enabled = False
     End Sub
     Private Function AllowToSave() As Boolean
         Try
@@ -192,17 +207,23 @@ Public Class FrmDeductionGroup1
 
         Try
             If AllowToSave() Then
-
                 If MyBase.isModifyonPasswordFlag Then
                     If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmdeductionGroup, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If
                 End If
-
                 Dim obj As New clsDeductionGroup()
                 obj.Code = fndCode.Value
                 obj.Description = txtName.Text
+                If rbtnAddition.IsChecked Then
+                    obj.Ded_Type = 1
+                ElseIf rbtnDeduction.IsChecked Then
+                    obj.Ded_Type = 2
+                Else
+                    Throw New Exception("Please select deduction Type")
+                End If
+
                 Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(Ded_Code) from TSPL_DEDUCTION_GROUP where Ded_Code='" + obj.Code + "'")
                 If (qry = 0) Then
                     isNewEntry = True
@@ -210,7 +231,6 @@ Public Class FrmDeductionGroup1
                     isNewEntry = False
                 End If
                 If (clsDeductionGroup.SaveData(obj, isNewEntry)) Then
-                    'trans.Commit()
                     clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     btnSave.Text = "Update"
@@ -222,7 +242,6 @@ Public Class FrmDeductionGroup1
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            'trans.Rollback()
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -232,6 +251,14 @@ Public Class FrmDeductionGroup1
             isNewEntry = False
             fndCode.Value = obj.Code
             txtName.Text = obj.Description
+
+            If obj.Ded_Type = 1 Then
+                rbtnAddition.IsChecked = True
+            ElseIf obj.Ded_Type = 2 Then
+                rbtnDeduction.IsChecked = True
+            Else
+                rbtnNA.IsChecked = True
+            End If
             fndCode.MyReadOnly = True
             btnsave.Text = "Update"
             btndelete.Enabled = True

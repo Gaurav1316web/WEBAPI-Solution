@@ -1,14 +1,4 @@
-﻿Imports System.Windows.Forms
-Imports System.Collections
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls.Data
-Imports Telerik.Data
-Imports Telerik.WinControls.Enumerations
-Imports Telerik.WinControls
-Imports System.Text.RegularExpressions
-Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.ReportSource
-Imports common
+﻿Imports CrystalDecisions.CrystalReports.Engine
 Imports CrystalDecisions.Shared
 Public Class frmCrystalReportViewer
     ''check in Sanjay 20200619
@@ -140,10 +130,11 @@ Public Class frmCrystalReportViewer
     End Function
     Public Function funreport(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean, ByVal dtTranDate? As Date) As String
         Dim PDFpath As String = ""
+        Dim strReportPath As String = ""
         Dim rptshow As Boolean
         Try
             If dt.Rows.Count > 0 Then
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName, dtTranDate)
+                strReportPath = GetReportPath(crpfolder, strReportName, dtTranDate)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
                 clsERPFuncationalityOLD.SetCustomizedPaperSize(rpdoc, ePaperSize)
@@ -198,7 +189,7 @@ Public Class frmCrystalReportViewer
             End If
         Catch ex As Exception
             rptshow = False
-            Throw New Exception(ex.Message.ToString())
+            Throw New Exception(ex.Message.ToString() + Environment.NewLine + strReportPath)
         End Try
         Return PDFpath
     End Function
@@ -220,6 +211,7 @@ Public Class frmCrystalReportViewer
     End Sub
 
     Public Sub funsubreport(ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal strSubReport1 As String, ByVal dtTranDate? As Date)
+        Dim strReportPath As String = ""
         Try
             Dim dt1, dt2 As New DataTable
             Dim ds1, ds2 As New DataSet
@@ -228,7 +220,7 @@ Public Class frmCrystalReportViewer
             Dim rptshow As Boolean
             If dt1.Rows.Count > 0 Then
                 'Dim rpdoc As New ReportDocument()
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName, dtTranDate)
+                strReportPath = GetReportPath(crpfolder, strReportName, dtTranDate)
 
                 rpdoc.Load(strReportPath)
                 If strSubReport1 <> "" Then
@@ -253,16 +245,17 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(ex.Message.ToString() + Environment.NewLine + strReportPath)
         End Try
     End Sub
 
     Public Function funreport1(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim rptPath As String = ""
+        Dim strReportPath As String = ""
         Try
             Dim rptshow As Boolean
             If dt.Rows.Count > 0 Then
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
+                strReportPath = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
                 Me.crptViewer.ReportSource = rpdoc
@@ -302,7 +295,7 @@ Public Class frmCrystalReportViewer
             End If
             Return rptPath
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message.ToString())
+            RadMessageBox.Show(ex.Message.ToString() + Environment.NewLine + strReportPath)
         End Try
         Return rptPath
     End Function
@@ -434,7 +427,7 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message.ToString())
+            Throw New Exception(ex.Message.ToString() + Environment.NewLine + strReportPath)
         Finally
             GC.Collect()
             GC.WaitForPendingFinalizers()
@@ -444,14 +437,14 @@ Public Class frmCrystalReportViewer
     End Function
     Public Function EmailAttachment(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim pdfpath As String = ""
-
+        Dim strReportPath As String = ""
         Try
             Dim strdate As String = clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmssfff")
             objCommonVar.SystemClockStatus = False
             Dim rptshow As Boolean
             'Dim Serverdate As DateTime
             If dt.Rows.Count > 0 Then
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
+                strReportPath = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
                 'Serverdate = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "ddMMyyyyhhmmssttt")
@@ -497,7 +490,7 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message.ToString())
+            Throw New Exception(ex.Message.ToString() + Environment.NewLine + strReportPath)
         Finally
             objCommonVar.SystemClockStatus = True
         End Try
@@ -507,10 +500,11 @@ Public Class frmCrystalReportViewer
     Public Function EmailSubreportWithdt(ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing) As String
         Dim rptshow As Boolean
         Dim pdfpath As String = ""
+        Dim strReportPath As String = ""
         Try
             If dt1.Rows.Count > 0 Then
                 '  Dim rpdoc As New ReportDocument()
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
+                strReportPath = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 Try
                     If strSubReport1 <> "" Then
@@ -574,14 +568,16 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString() + Environment.NewLine + strReportPath, Me.Text)
         End Try
 
         Return pdfpath
     End Function
 
     Public Sub funSubreport(ByVal crpfolder As CrystalReportFolder, ByVal strquery As String, ByVal strquery1 As String, ByVal strquery2 As String, ByVal strquery3 As String, ByVal strquery4 As String, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal strSubReport8 As String = vbNullString, Optional ByVal strSubReport9 As String = vbNullString, Optional ByVal strSubReport10 As String = vbNullString)
+        Dim strReportPath As String = ""
         Try
+
             Dim dt, dt1, dt2, dt3, dt4, dt5, dt6, dt7, dt8, dt9, dt10, dt11 As New DataTable
             dt = clsDBFuncationality.GetDataTable(strquery)
             Dim rptshow As Boolean
@@ -589,7 +585,7 @@ Public Class frmCrystalReportViewer
 
                 '   Dim rpdoc As New ReportDocument()
 
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
+                strReportPath = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 If strSubReport1 <> "" Then
                     dt1 = clsDBFuncationality.GetDataTable(strquery1)
@@ -621,11 +617,12 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString() + Environment.NewLine + strReportPath, Me.Text)
         End Try
     End Sub
 
     Public Sub funExcelForamtReport(ByVal crpfolder As CrystalReportFolder, ByVal strquery As String, ByVal strReportName As String, ByVal strCaption As String)
+        Dim strReportPath As String = ""
         Try
             Dim dt As New DataTable
             dt = clsDBFuncationality.GetDataTable(strquery)
@@ -639,7 +636,7 @@ Public Class frmCrystalReportViewer
                 End If
 
 
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
+                strReportPath = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
                 Me.crptViewer.ReportSource = rpdoc
@@ -668,7 +665,7 @@ Public Class frmCrystalReportViewer
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString() + Environment.NewLine + strReportPath, Me.Text)
         End Try
     End Sub
 End Class

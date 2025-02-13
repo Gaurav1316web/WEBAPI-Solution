@@ -26552,7 +26552,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Loc_Code", "varchar(12)  NULL")
             coll.Add("MCC_Code", "varchar(12)  NULL")
             coll.Add("MCC_Name", "varchar(150)  NULL")
-            coll.Add("Trans_Type", "varchar(20)  NULL")
+            'coll.Add("Trans_Type", "varchar(20)  NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Amount", "decimal (18,2) NULL")
             coll.Add("Posting_Date", "datetime null")

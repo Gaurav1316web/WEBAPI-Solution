@@ -3668,7 +3668,7 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "SELECT CAST((case when ISNULL(TSPL_MULTIPLE_DEDUCTION_HEAD.Posting_Date, '')= '' then 0 else 1 end)as BIT) as Status, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No as [Document Id], TSPL_MULTIPLE_DEDUCTION_HEAD.Document_date as [Document Date], TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code as [Loc Code],TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code as [MCC Code],TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Name as [MCC Name], TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type as [Trans Type], TSPL_MULTIPLE_DEDUCTION_HEAD.Remarks as " &
+                    qry = "SELECT CAST((case when ISNULL(TSPL_MULTIPLE_DEDUCTION_HEAD.Posting_Date, '')= '' then 0 else 1 end)as BIT) as Status, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No as [Document Id], TSPL_MULTIPLE_DEDUCTION_HEAD.Document_date as [Document Date], TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code as [Loc Code],TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code as [MCC Code],TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Name as [MCC Name],TSPL_MULTIPLE_DEDUCTION_HEAD.Remarks as " &
                           "[Description],TSPL_MULTIPLE_DEDUCTION_HEAD.Created_By as 'Created BY' FROM TSPL_MULTIPLE_DEDUCTION_HEAD WHERE  convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_date ,103) <= convert(date,'" + dtpToDate.Value + "',103)  "
 
                     If rbtnStatusPending.IsChecked = True Then
