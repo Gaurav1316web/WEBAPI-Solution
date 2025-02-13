@@ -113,11 +113,12 @@ Public Class rptCattleFeedProduction
         Try
             If dtSale Is Nothing OrElse dtSale.Rows.Count <= 0 Then
                 Dim sQuery As String = "   with CTERawData as (Select YearCode,(CAST(YearCode as varchar)+'-'+cast((YearCode-1999) as varchar)) as YearName,
-                        case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],Quantity 
-                        from (SELECT (case when MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)>3 then Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) else Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)-1 end ) as YearCode,
+                        case when MonthCode>3 then MonthCode-3 else MonthCode+9 end as MonthCode,[MonthName],(Quantity-RtrnQuantity)Quantity 
+                        from ( Select xx.YearCode,xx.MonthCode,xx.MonthName,xx.Quantity,xx.RtrnQuantity from
+                        (SELECT (case when MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)>3 then Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) else Year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)-1 end ) as YearCode,
                         MONTH(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) MonthCode,
                         format(TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'MMM') AS [MonthName],
-                        ((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity 
+                        ((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Quantity,0 as RtrnQuantity 
                         FROM TSPL_SD_SALE_INVOICE_DETAIL 
                         left join  TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
@@ -134,7 +135,30 @@ Public Class rptCattleFeedProduction
                 Else
                     sQuery += " and (TSPL_Item_Master.FG_for_CF_RPT=1 or TSPL_Item_Master.SFG_for_CF=1) "
                 End If
-                sQuery += ")xx)
+                sQuery += "
+                        union all
+
+						SELECT (case when MONTH(TSPL_SD_SALE_RETURN_HEAD.Document_Date)>3 then Year(TSPL_SD_SALE_RETURN_HEAD.Document_Date) else Year(TSPL_SD_SALE_RETURN_HEAD.Document_Date)-1 end ) as YearCode,
+                        MONTH(TSPL_SD_SALE_RETURN_HEAD.Document_Date) MonthCode,
+                        format(TSPL_SD_SALE_RETURN_HEAD.Document_Date,'MMM') AS [MonthName],0 as Quantity,
+                        ((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS RtrnQuantity 
+                        FROM TSPL_SD_SALE_RETURN_DETAIL 
+                        left join  TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.document_code=TSPL_SD_SALE_RETURN_DETAIL.document_code
+                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.ITEM_CODE
+                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+						AND FromUOM.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                        WHERE TSPL_SD_SALE_RETURN_HEAD.Status=1 and 
+						CONVERT(DATE, TSPL_SD_SALE_RETURN_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' 
+                        AND '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
+                If chkFG.IsChecked = True Then
+                    sQuery += " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+                ElseIf ChkSFG.IsChecked = True Then
+                    sQuery += " and TSPL_Item_Master.SFG_for_CF=1 "
+                Else
+                    sQuery += " and (TSPL_Item_Master.FG_for_CF_RPT=1 or TSPL_Item_Master.SFG_for_CF=1) "
+                End If
+                sQuery += ")xx)Y)
 						select max([MonthName]) as GrpMonth,YearCode as GrpCode,max(YearName) as GrpName,Round(SUM(Quantity),0) AS Quantity 
                         from CTERawData group by YearCode,MonthCode order by MonthCode,YearCode "
 
