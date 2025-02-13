@@ -552,9 +552,9 @@ Public Class frmDBTNEFTUnionReport
                     frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 Else
                     If rbtnQuarterly.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                     ElseIf rbtnYearly.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                     End If
                 End If
                 frmCRV = Nothing
