@@ -30,6 +30,7 @@ Public Class clsFixedParameterType
     Public Const AndroidSaleOrder As String = "Android Sale Order"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
+    Public Const SameBankCodeForCurrentAndSaving As String = "Same Bank Code For Current And Saving"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const StopSetting As String = "Stop Setting"
     Public Const PickBulkRoute As String = "Pick Bulk Route"
@@ -1355,6 +1356,7 @@ Public Class clsFixedParameterCode
     Public Const ViewItemImage As String = "View Item Image"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
+    Public Const SameBankCodeForCurrentAndSaving As String = "Same Bank Code For Current And Saving"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const JournalEntry As String = "Journal Entry"
     Public Const Inventory As String = "Inventory"
@@ -2880,6 +2882,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.ViewItemImage, "0", "0:OFF,1:ON;View Item Image")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, "0", "0:Off, 1:On;New DCS Screen")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SameBankCodeForCurrentAndSaving, clsFixedParameterCode.SameBankCodeForCurrentAndSaving, "0", "0:Off;1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, "0", "Minimum Qty To Apply For Head Load")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, "0", "0:OFF:1 Stop Jouranl Entry")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, "0", "0:OFF:1 Stop Inventory Movement")
@@ -6153,6 +6156,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMapPayHeadsToSalaStructure, clsFixedParameterType.UpdateMapPayHeadsToSalaStructurePassword, clsFixedParameterCode.UpdateMapPayHeadsToSalaStructurePassword, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmVSP_VLCMaster, clsFixedParameterType.Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster, clsFixedParameterCode.Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVSP_VLCMaster, clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVSP_VLCMaster, clsFixedParameterType.SameBankCodeForCurrentAndSaving, clsFixedParameterCode.SameBankCodeForCurrentAndSaving, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProductionPlanningSTD, clsFixedParameterType.MandatoryLineNoMaxMinQtyForProductionPlan, clsFixedParameterCode.MandatoryLineNoMaxMinQtyForProductionPlan, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialCosting, clsFixedParameterType.RunProductionBaseOnPercentage, clsFixedParameterCode.RunProductionBaseOnPercentage, EnumControlType.CheckBox)

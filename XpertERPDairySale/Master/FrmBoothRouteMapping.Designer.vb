@@ -24,14 +24,15 @@ Partial Class FrmBoothRouteMapping
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadBExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnLatestExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnBImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -65,7 +66,7 @@ Partial Class FrmBoothRouteMapping
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnLatestExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnAutoSKU = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -96,6 +97,7 @@ Partial Class FrmBoothRouteMapping
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAutoSKU, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,11 @@ Partial Class FrmBoothRouteMapping
         '
         Me.RadBExport.Name = "RadBExport"
         Me.RadBExport.Text = "Bulk Export"
+        '
+        'btnLatestExport
+        '
+        Me.btnLatestExport.Name = "btnLatestExport"
+        Me.btnLatestExport.Text = "Latest Export by Route"
         '
         'btnImport
         '
@@ -154,6 +161,7 @@ Partial Class FrmBoothRouteMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnAutoSKU)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -258,10 +266,10 @@ Partial Class FrmBoothRouteMapping
         RadListDataItem1.Selected = True
         RadListDataItem1.Text = "MILK"
         RadListDataItem2.Text = "Product"
-        RadListDataItem3.Text = "Ice-cream"
+        RadListDataItem8.Text = "Ice-cream"
         Me.cmbItemType.Items.Add(RadListDataItem1)
         Me.cmbItemType.Items.Add(RadListDataItem2)
-        Me.cmbItemType.Items.Add(RadListDataItem3)
+        Me.cmbItemType.Items.Add(RadListDataItem8)
         Me.cmbItemType.Location = New System.Drawing.Point(579, 27)
         Me.cmbItemType.MendatroryField = False
         Me.cmbItemType.MyLinkLable1 = Nothing
@@ -316,11 +324,11 @@ Partial Class FrmBoothRouteMapping
         Me.cmbShiftType.IsSourceFromTable = False
         Me.cmbShiftType.IsSourceFromValueList = False
         Me.cmbShiftType.IsUnique = False
-        RadListDataItem4.Selected = True
-        RadListDataItem4.Text = "Morning"
-        RadListDataItem5.Text = "Evening"
+        RadListDataItem3.Selected = True
+        RadListDataItem3.Text = "Morning"
+        RadListDataItem4.Text = "Evening"
+        Me.cmbShiftType.Items.Add(RadListDataItem3)
         Me.cmbShiftType.Items.Add(RadListDataItem4)
-        Me.cmbShiftType.Items.Add(RadListDataItem5)
         Me.cmbShiftType.Location = New System.Drawing.Point(579, 6)
         Me.cmbShiftType.MendatroryField = False
         Me.cmbShiftType.MyLinkLable1 = Nothing
@@ -471,7 +479,7 @@ Partial Class FrmBoothRouteMapping
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(830, 253)
         Me.gv1.TabIndex = 0
@@ -557,10 +565,14 @@ Partial Class FrmBoothRouteMapping
         Me.RadMenu1.Size = New System.Drawing.Size(851, 20)
         Me.RadMenu1.TabIndex = 10
         '
-        'btnLatestExport
+        'btnAutoSKU
         '
-        Me.btnLatestExport.Name = "btnLatestExport"
-        Me.btnLatestExport.Text = "Latest Export by Route"
+        Me.btnAutoSKU.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAutoSKU.Location = New System.Drawing.Point(333, 9)
+        Me.btnAutoSKU.Name = "btnAutoSKU"
+        Me.btnAutoSKU.Size = New System.Drawing.Size(92, 24)
+        Me.btnAutoSKU.TabIndex = 171
+        Me.btnAutoSKU.Text = "Auto Sequence"
         '
         'FrmBoothRouteMapping
         '
@@ -606,6 +618,7 @@ Partial Class FrmBoothRouteMapping
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAutoSKU, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -649,4 +662,5 @@ Partial Class FrmBoothRouteMapping
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents btnLatestExport As RadMenuItem
+    Friend WithEvents btnAutoSKU As RadButton
 End Class

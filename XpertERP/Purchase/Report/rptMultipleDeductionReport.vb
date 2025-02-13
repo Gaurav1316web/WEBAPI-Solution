@@ -175,7 +175,7 @@ group by Route_no"
 
             Else
 
-                strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
 left outer join TSPL_MCC_MASTER ON TSPL_MULTIPLE_DEDUCTION_DETAIL.BMC_Code=TSPL_MCC_MASTER.MCC_Code
@@ -535,7 +535,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             strQry += " from   (select round(row_number() over(order by(select 1)),0) as SNo,FINAL3.[Vendor Code],MAX(FINAL3.[Vendor Name])[Vendor Name],
                         MAX(FINAL3.[VLC Uploader Code])[VLC Uploader Code],FINAL3.[Document Date],FINAL3.[Document No],MAX(FINAL3.Type)Type,SUM(FINAL3.Addition)Addition,
                         SUM(FINAL3.Deduction)Deduction,MAX(FINAL3.[Deduction Code])[Deduction Code],MAX(FINAL3.[Deduction Desc])[Deduction Desc],
-                        SUM(final3.[SRN Qty])[SRN Qty],SUM(final3.SRN_AMOUNT)SRN_AMOUNT, "
+                        max(final3.[SRN Qty])[SRN Qty],max(final3.SRN_AMOUNT)SRN_AMOUNT, "
 
             'strQry += "FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.Remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,"
 
@@ -600,9 +600,9 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 strQry += " xxxSetLocation.Location_Desc,"
             End If
             strQry += " TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,
-                        case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,
-                        convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
-                        case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.Amount end  as Deduction, 
+                        case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,
+                        convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                        case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.Amount end  as Deduction, 
                         TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code],
                         TSPL_MCC_MASTER.MCC_Name,TSPL_MULTIPLE_DEDUCTION_DETAIL.Remarks from TSPL_MULTIPLE_DEDUCTION_HEAD 
 
@@ -674,7 +674,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
 						 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
                          left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
-						 where 2=2  " + strqry7 + "
+						 where 2=2  " + strqry7 + " " + strQry1 + "
 						 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) 
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) ) 
                          final group by final.Customer_CODE )XY
@@ -958,10 +958,10 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                      max(final.Deduction_Desc) as [Deduction Desc],
                      isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
                      sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
-                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
                      TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
                TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
                      , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
                      from TSPL_MULTIPLE_DEDUCTION_HEAD 
@@ -1029,10 +1029,10 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                      max(final.Type) as Type,max(final.Document_No) as [Document No],max(final.Document_Date) as [Document Date],max(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
                      isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
                      sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
-                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
                      TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
                TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
                      , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
                      from TSPL_MULTIPLE_DEDUCTION_HEAD 
@@ -1190,10 +1190,10 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                      max(final.Type) as Type,(final.Document_No) as [Document No],(final.Document_Date) as [Document Date],(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
                      isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
                      sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
-                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
                      TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
                TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
                      , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
                      from TSPL_MULTIPLE_DEDUCTION_HEAD 
@@ -1252,10 +1252,10 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                      sum(final.Deduction) as Deduction,max(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
                      isnull(SUM(ACC_Qty),0)MilkQty,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,isnull(sum(NET_AMOUNT),0)NET_AMOUNT,max(Comp_Name)Comp_Name,
                      max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,isnull(sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount),0)Balance
-                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
                      TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
-                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
                      TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
                      , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3
                      from TSPL_MULTIPLE_DEDUCTION_HEAD 

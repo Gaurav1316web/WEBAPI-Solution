@@ -485,7 +485,6 @@ Public Class FrmMultipleProcDeduction
         btnDelete.Enabled = True
         UcAttachment1.BlankAllControls()
         gv1.Rows.AddNew()
-        loadTransType()
         isNewEntry = True
         txtMCC.Text = ""
         lblMCC.Text = ""
@@ -553,18 +552,7 @@ Public Class FrmMultipleProcDeduction
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData(False)
     End Sub
-    Private Sub loadTransType()
-        Dim dt As New DataTable
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Value", GetType(String))
 
-        dt.Rows.Add("Deduction", "Deduction")
-        dt.Rows.Add("Addition", "Addition")
-
-        ddlType.DataSource = dt
-        ddlType.DisplayMember = "Code"
-        ddlType.ValueMember = "Value"
-    End Sub
 
     Sub SaveData(ByVal isPost As Boolean)
         Try
@@ -577,7 +565,7 @@ Public Class FrmMultipleProcDeduction
                 obj.MCC_Name = lblMCC.Text
                 obj.Remarks = txtDesc.Text
                 obj.Voucher_No = txtVoucherNo.Text
-                obj.Trans_Type = clsCommon.myCstr(ddlType.SelectedValue)
+
                 Dim GstStatus As Boolean = clsERPFuncationality.GetGSTStatus(clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
                 obj.IsOpening = IIf(chkOpening.Checked = True, 1, 0)
 
@@ -668,7 +656,7 @@ Public Class FrmMultipleProcDeduction
                 Else
                     LblLocDesp.Text = ""
                 End If
-                ddlType.SelectedValue = obj.Trans_Type
+
                 chkOpening.Checked = IIf(obj.IsOpening = 1, True, False)
                 gv1.Rows.Clear()
                 For Each objTr As clsMultipleProcDeductionDetail In obj.Arr
@@ -1161,7 +1149,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         Try
-            Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,'' as [Deduction/Addition], ''  as [DCS Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,  ''  as [DCS Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -1182,7 +1170,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
             dtError.Columns.Add("Error", GetType(String))
             Dim indxSuccess As Integer = 0
             Dim qry As String = ""
-            If transportSql.importExcel(gv, "Date", "Location", "DCS Uploder Code", "Deduction/Addition", "Deduction Code", "Amount") Then
+            If transportSql.importExcel(gv, "Date", "Location", "DCS Uploder Code", "Deduction Code", "Amount") Then
                 Dim arr As New Dictionary(Of String, clsMultipleProcDeductionHead)
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -1206,14 +1194,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
                                 qry = "select distinct(Segment_code) as Code ,Description  from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code 
 where  Seg_No = '7' AND GIT='N' and Segment_code='" + objImport.loc_code + "' "
                                 objImport.loc_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                                objImport.Trans_Type = clsCommon.myCstr(grow.Cells("Deduction/Addition").Value)
-                                If clsCommon.CompairString(objImport.Trans_Type, "Deduction") = CompairStringResult.Equal Then
-                                    objImport.Trans_Type = "Deduction"
-                                ElseIf clsCommon.CompairString(objImport.Trans_Type, "Addition") = CompairStringResult.Equal Then
-                                    objImport.Trans_Type = "Addition"
-                                Else
-                                    Throw New Exception("Improper Deduction/Addition [" + clsCommon.myCstr(grow.Cells("Deduction/Addition").Value) + "] It Shoule be in [Deduction] or [Addition] ")
-                                End If
+
 
                                 Dim objImportTR As New clsMultipleProcDeductionDetail()
                                 If clsCommon.myLen(grow.Cells("DCS Uploder Code").Value) <= 0 Then
@@ -1263,7 +1244,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objImportTR.DeductionCode + "'"
                                 objImportTR.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
 
 
-                                Dim UniqueCombination As String = objImport.loc_code + clsCommon.GetPrintDate(objImport.Document_Date, "dd/MM/yyyy") + objImport.Trans_Type
+                                Dim UniqueCombination As String = objImport.loc_code + clsCommon.GetPrintDate(objImport.Document_Date, "dd/MM/yyyy")
                                 If Not arr.ContainsKey(UniqueCombination) Then
                                     objImport.Arr = New List(Of clsMultipleProcDeductionDetail)
                                     arr.Add(UniqueCombination, objImport)
@@ -1336,8 +1317,6 @@ where TSPL_DEDUCTION_MASTER.Code='" + objImportTR.DeductionCode + "'"
         Try
             Dim arrHeader As New List(Of String)
             arrHeader.Add("Print Date(" + clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy hh:mm:ss tt") + ")")
-            arrHeader.Add("Type(" + ddlType.SelectedItem.Text + ")")
-
             If gv1.Rows.Count > 0 Then
                 'transportSql.applyExportTemplate(gv1, MyBase.Form_ID)
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)

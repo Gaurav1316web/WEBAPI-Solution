@@ -9,6 +9,7 @@ Public Class clsDeductionGroup
     Public Created_Date As Date? = Nothing
     Public Modified_By As String = Nothing
     Public Modified_Date As Date? = Nothing
+    Public Ded_Type As Integer
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsDeductionGroup, ByVal isNewEntry As Boolean) As Boolean
@@ -17,6 +18,7 @@ Public Class clsDeductionGroup
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Ded_Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Ded_Type", obj.Ded_Type)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt"))
@@ -49,7 +51,7 @@ Public Class clsDeductionGroup
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsDeductionGroup
         Dim obj As clsDeductionGroup = Nothing
         Dim Arr As List(Of clsDeductionGroup) = Nothing
-        Dim qry As String = "select Ded_Code ,Ded_Description from TSPL_DEDUCTION_GROUP where 2=2 "
+        Dim qry As String = "select Ded_Code,Ded_Description,Ded_Type from TSPL_DEDUCTION_GROUP where 2=2 "
         Dim whrclas As String = ""
         Select Case NavType
             Case NavigatorType.First
@@ -68,8 +70,15 @@ Public Class clsDeductionGroup
             obj = New clsDeductionGroup()
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Ded_Code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Ded_Description"))
+            obj.Ded_Type = clsCommon.myCDecimal(dt.Rows(0)("Ded_Type"))
         End If
         Return obj
     End Function
 
+    Friend Shared Function GetDeductionType(deductionCode As String, trans As SqlTransaction) As String
+        Dim qry As String = "select (case when TSPL_DEDUCTION_GROUP.Ded_Type=1 then 'Addition' else case when TSPL_DEDUCTION_GROUP.Ded_Type=2 then 'Deduction' else '' end end) from TSPL_DEDUCTION_MASTER 
+left outer join TSPL_DEDUCTION_GROUP on TSPL_DEDUCTION_GROUP.Ded_Code=TSPL_DEDUCTION_MASTER.Ded_Grp_Code
+where TSPL_DEDUCTION_MASTER.Code='" + deductionCode + "' "
+        Return clsDBFuncationality.getSingleValue(qry, trans)
+    End Function
 End Class

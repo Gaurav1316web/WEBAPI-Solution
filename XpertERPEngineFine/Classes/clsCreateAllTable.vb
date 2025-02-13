@@ -11002,6 +11002,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
+            coll.Add("Ded_Type", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_GROUP", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -26552,7 +26553,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Loc_Code", "varchar(12)  NULL")
             coll.Add("MCC_Code", "varchar(12)  NULL")
             coll.Add("MCC_Name", "varchar(150)  NULL")
-            coll.Add("Trans_Type", "varchar(20)  NULL")
+            'coll.Add("Trans_Type", "varchar(20)  NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Amount", "decimal (18,2) NULL")
             coll.Add("Posting_Date", "datetime null")
@@ -26565,6 +26566,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Voucher_No", "varchar(50) NULL")
             coll.Add("IsOpening", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
+
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MULTIPLE_DEDUCTION_DETAIL' and COLUMN_NAME='Trans_Type'"
+            dt = clsDBFuncationality.GetDataTable(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL References TSPL_MULTIPLE_DEDUCTION_HEAD(Document_No)")
@@ -26585,12 +26589,17 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Against_Deduction_DocNo", "varchar(30)  NULL References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
             coll.Add("BMC_CODE", "Varchar(30) null references TSPL_MCC_MASTER(MCC_CODE)")
+            coll.Add("Trans_Type", "varchar(20)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
 
             Try
-                clsDBFuncationality.ExecuteNonQuery("update TSPL_MULTIPLE_DEDUCTION_DETAIL set BMC_CODE=isnull( xxx.MCC_Code,xxx.MCC) from ( select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_DETAIL.Line_No,TSPL_MCC_MASTER.MCC_Code ,TSPL_VLC_MASTER_HEAD.MCC from TSPL_MULTIPLE_DEDUCTION_DETAIL 
-           left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD .Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code
-           left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code where TSPL_MULTIPLE_DEDUCTION_DETAIL.BMC_CODE is null ) xxx inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No = xxx.Document_No and TSPL_MULTIPLE_DEDUCTION_DETAIL.Line_No=xxx.Line_No ")
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    qry = "update TSPL_MULTIPLE_DEDUCTION_DETAIL set Trans_Type=(select Trans_Type from TSPL_MULTIPLE_DEDUCTION_HEAD where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No) "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "alter table TSPL_MULTIPLE_DEDUCTION_HEAD drop column Trans_Type"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                End If
             Catch ex As Exception
 
             End Try

@@ -36,6 +36,11 @@ Partial Class FrmDeductionGroup1
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnDeduction = New common.Controls.MyRadioButton()
+        Me.rbtnAddition = New common.Controls.MyRadioButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.rbtnNA = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -47,38 +52,44 @@ Partial Class FrmDeductionGroup1
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnNew)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(480, 106)
-        Me.SplitContainer1.SplitterDistance = 77
+        Me.SplitContainer1.Size = New System.Drawing.Size(480, 142)
+        Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 0
         '
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(101, 26)
+        Me.fndCode.Location = New System.Drawing.Point(101, 11)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -87,7 +98,7 @@ Partial Class FrmDeductionGroup1
         Me.fndCode.MyMaxLength = 30
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
-        Me.fndCode.Size = New System.Drawing.Size(223, 18)
+        Me.fndCode.Size = New System.Drawing.Size(223, 21)
         Me.fndCode.TabIndex = 63
         Me.fndCode.Value = ""
         '
@@ -95,18 +106,19 @@ Partial Class FrmDeductionGroup1
         '
         Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblCode.Location = New System.Drawing.Point(22, 26)
+        Me.lblCode.Location = New System.Drawing.Point(30, 12)
         Me.lblCode.Name = "lblCode"
-        Me.lblCode.Size = New System.Drawing.Size(38, 16)
+        Me.lblCode.Size = New System.Drawing.Size(34, 16)
         Me.lblCode.TabIndex = 67
-        Me.lblCode.Text = " Code"
+        Me.lblCode.Text = "Code"
         '
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(324, 25)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(324, 11)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 21)
+        Me.btnNew.Size = New System.Drawing.Size(20, 21)
         Me.btnNew.TabIndex = 64
         Me.btnNew.Text = " "
         '
@@ -122,7 +134,7 @@ Partial Class FrmDeductionGroup1
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(101, 48)
+        Me.txtName.Location = New System.Drawing.Point(101, 38)
         Me.txtName.MaxLength = 100
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.lblName
@@ -138,11 +150,11 @@ Partial Class FrmDeductionGroup1
         '
         Me.lblName.FieldName = Nothing
         Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(22, 45)
+        Me.lblName.Location = New System.Drawing.Point(30, 35)
         Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(66, 16)
+        Me.lblName.Size = New System.Drawing.Size(63, 16)
         Me.lblName.TabIndex = 66
-        Me.lblName.Text = " Description"
+        Me.lblName.Text = "Description"
         '
         'RadMenu1
         '
@@ -174,9 +186,9 @@ Partial Class FrmDeductionGroup1
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(74, 3)
+        Me.btnDelete.Location = New System.Drawing.Point(74, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
+        Me.btnDelete.Size = New System.Drawing.Size(68, 25)
         Me.btnDelete.TabIndex = 69
         Me.btnDelete.Text = "Delete"
         '
@@ -184,9 +196,9 @@ Partial Class FrmDeductionGroup1
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(3, 3)
+        Me.btnSave.Location = New System.Drawing.Point(3, 5)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave.Size = New System.Drawing.Size(68, 25)
         Me.btnSave.TabIndex = 68
         Me.btnSave.Text = "Save"
         '
@@ -194,18 +206,71 @@ Partial Class FrmDeductionGroup1
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(409, 4)
+        Me.btnClose.Location = New System.Drawing.Point(409, 6)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(68, 18)
+        Me.btnClose.Size = New System.Drawing.Size(68, 25)
         Me.btnClose.TabIndex = 70
         Me.btnClose.Text = "Close"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnDeduction)
+        Me.GroupBox1.Controls.Add(Me.rbtnAddition)
+        Me.GroupBox1.Controls.Add(Me.rbtnNA)
+        Me.GroupBox1.Location = New System.Drawing.Point(101, 54)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(162, 36)
+        Me.GroupBox1.TabIndex = 68
+        Me.GroupBox1.TabStop = False
+        '
+        'rbtnDeduction
+        '
+        Me.rbtnDeduction.Location = New System.Drawing.Point(84, 13)
+        Me.rbtnDeduction.MyLinkLable1 = Nothing
+        Me.rbtnDeduction.MyLinkLable2 = Nothing
+        Me.rbtnDeduction.Name = "rbtnDeduction"
+        Me.rbtnDeduction.Size = New System.Drawing.Size(72, 18)
+        Me.rbtnDeduction.TabIndex = 1
+        Me.rbtnDeduction.Text = "Deduction"
+        '
+        'rbtnAddition
+        '
+        Me.rbtnAddition.Location = New System.Drawing.Point(7, 12)
+        Me.rbtnAddition.MyLinkLable1 = Nothing
+        Me.rbtnAddition.MyLinkLable2 = Nothing
+        Me.rbtnAddition.Name = "rbtnAddition"
+        Me.rbtnAddition.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnAddition.TabIndex = 0
+        Me.rbtnAddition.Text = "Addition"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(30, 64)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel1.TabIndex = 69
+        Me.MyLabel1.Text = "Type"
+        '
+        'rbtnNA
+        '
+        Me.rbtnNA.Location = New System.Drawing.Point(55, 13)
+        Me.rbtnNA.MyLinkLable1 = Nothing
+        Me.rbtnNA.MyLinkLable2 = Nothing
+        Me.rbtnNA.Name = "rbtnNA"
+        Me.rbtnNA.Size = New System.Drawing.Size(36, 18)
+        Me.rbtnNA.TabIndex = 2
+        Me.rbtnNA.Text = "NA"
+        Me.rbtnNA.Visible = False
         '
         'FrmDeductionGroup1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(480, 106)
+        Me.ClientSize = New System.Drawing.Size(480, 162)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmDeductionGroup1"
         '
         '
@@ -224,8 +289,15 @@ Partial Class FrmDeductionGroup1
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
@@ -241,5 +313,10 @@ Partial Class FrmDeductionGroup1
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rbtnDeduction As common.Controls.MyRadioButton
+    Friend WithEvents rbtnAddition As common.Controls.MyRadioButton
+    Friend WithEvents rbtnNA As common.Controls.MyRadioButton
 End Class
 
