@@ -6,10 +6,24 @@ Public Class frmDBTNEFTUnionReport
     Dim Month1 As String = Nothing
     Dim Month2 As String = Nothing
     Dim Month3 As String = Nothing
+    Dim Month4 As String = Nothing
+    Dim Month5 As String = Nothing
+    Dim Month6 As String = Nothing
+    Dim Month7 As String = Nothing
+    Dim Month8 As String = Nothing
+    Dim Month9 As String = Nothing
+    Dim Month10 As String = Nothing
+    Dim Month11 As String = Nothing
+    Dim Month12 As String = Nothing
 
     Private Sub frmDBTNEFTUnionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            txtFromDate.Value = clsCommon.GETSERVERDATE()
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            If rbtnQuarterly.IsChecked Then
+                txtFromDate.Value = txtToDate.Value.AddMonths(-2)
+            ElseIf rbtnYearly.IsChecked Then
+                txtFromDate.Value = txtToDate.Value.AddMonths(-11)
+            End If
             Reset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -30,11 +44,26 @@ Public Class frmDBTNEFTUnionReport
             Dim SY As Integer = txtFromDate.Value.Year
 
             Dim CD As New DateTime(SY, SM, 1)
-            Slot2 = clsCommon.GetPrintDate(CD.AddMonths(3).AddDays(-1), "dd/MMM/yyyy")
-            txtToDate.Value = txtFromDate.Value.AddMonths(2)
+            If rbtnYearly.IsChecked Then
+                Slot2 = clsCommon.GetPrintDate(CD.AddMonths(12).AddDays(-1), "dd/MMM/yyyy")
+                txtToDate.Value = txtFromDate.Value.AddMonths(11)
+                Month4 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(3), "MM-yyyy")
+                Month5 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(4), "MM-yyyy")
+                Month6 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(5), "MM-yyyy")
+                Month7 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(6), "MM-yyyy")
+                Month8 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(7), "MM-yyyy")
+                Month9 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(8), "MM-yyyy")
+                Month10 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(9), "MM-yyyy")
+                Month11 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(10), "MM-yyyy")
+                Month12 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(11), "MM-yyyy")
+            ElseIf rbtnQuarterly.IsChecked Then
+                Slot2 = clsCommon.GetPrintDate(CD.AddMonths(3).AddDays(-1), "dd/MMM/yyyy")
+                txtToDate.Value = txtFromDate.Value.AddMonths(2)
+            End If
             Month1 = clsCommon.GetPrintDate(txtFromDate.Value, "MM-yyyy")
             Month2 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(1), "MM-yyyy")
             Month3 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(2), "MM-yyyy")
+
 
         End If
     End Sub
@@ -45,6 +74,7 @@ Public Class frmDBTNEFTUnionReport
         Gv.Refresh()
         RadPageView1.SelectedPage = RadPageViewPage1
         chkOnlyReject.Checked = False
+        rbtnYearly.IsChecked = True
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try
@@ -169,13 +199,39 @@ Public Class frmDBTNEFTUnionReport
                              IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)[M3 Farmer Qty],
                              IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)[M3 Farmer Code],
                              IsNull(Sum(xxxfinal.[M3 Amt]),0)[M3 Amt], "
+
+                If rbtnYearly.IsChecked Then
+                    query += "'" + clsCommon.GetPrintDate(Month4, "MMM-yyyy") + "' As Month4,"
+                    query += " IsNull(Sum(xxxfinal.[M4 Amt]),0)[M4 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month5, "MMM-yyyy") + "' As Month5,"
+                    query += " IsNull(Sum(xxxfinal.[M5 Amt]),0)[M5 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month6, "MMM-yyyy") + "' As Month6,"
+                    query += " IsNull(Sum(xxxfinal.[M6 Amt]),0)[M6 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month7, "MMM-yyyy") + "' As Month7,"
+                    query += " IsNull(Sum(xxxfinal.[M7 Amt]),0)[M7 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month8, "MMM-yyyy") + "' As Month8,"
+                    query += " IsNull(Sum(xxxfinal.[M8 Amt]),0)[M8 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month9, "MMM-yyyy") + "' As Month9,"
+                    query += " IsNull(Sum(xxxfinal.[M9 Amt]),0)[M9 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month10, "MMM-yyyy") + "' As Month10,"
+                    query += " IsNull(Sum(xxxfinal.[M10 Amt]),0)[M10 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month11, "MMM-yyyy") + "' As Month11,"
+                    query += " IsNull(Sum(xxxfinal.[M11 Amt]),0)[M11 Amt],"
+                    query += "'" + clsCommon.GetPrintDate(Month12, "MMM-yyyy") + "' As Month12,"
+                    query += " IsNull(Sum(xxxfinal.[M12 Amt]),0)[M12 Amt],"
+
+                End If
                 If chkOnlyReject.Checked Then
                     query += " (IsNull(Sum(xxxfinal.[M1 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M2 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M3 No Of Doc]),0)) As [Total Document], "
                 End If
                 query += " (IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)) As [Total Billed Qty],
 							 (IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)) As [Total Farmer Qty],
 							 (IsNull(Sum(xxxfinal.[M1 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)) As [Total No. Of Farmer],
-							 (IsNull(Sum(xxxfinal.[M1 Amt]),0)+IsNull(Sum(xxxfinal.[M2 Amt]),0)+IsNull(Sum(xxxfinal.[M3 Amt]),0)) As [Total Amt] from ("
+							 (IsNull(Sum(xxxfinal.[M1 Amt]),0)+IsNull(Sum(xxxfinal.[M2 Amt]),0)+IsNull(Sum(xxxfinal.[M3 Amt]),0)) "
+                If rbtnYearly.IsChecked Then
+                    query += " +IsNull(Sum(xxxfinal.[M4 Amt]),0) +IsNull(Sum(xxxfinal.[M5 Amt]),0) +IsNull(Sum(xxxfinal.[M6 Amt]),0) +IsNull(Sum(xxxfinal.[M7 Amt]),0) +IsNull(Sum(xxxfinal.[M8 Amt]),0) +IsNull(Sum(xxxfinal.[M9 Amt]),0) +IsNull(Sum(xxxfinal.[M10 Amt]),0) +IsNull(Sum(xxxfinal.[M11 Amt]),0) +IsNull(Sum(xxxfinal.[M12 Amt]),0)  "
+                End If
+                query += " As [Total Amt] from ("
                 query += "  Select [Month], "
 
                 If chkOnlyReject.Checked Then
@@ -199,7 +255,18 @@ Public Class frmDBTNEFTUnionReport
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Qty]) Else 0 End As 'M3 Farmer Qty',
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Code]) Else 0 End As 'M3 Farmer Code',
                                 Case When Month='" + Month3 + "' Then Sum(Amt) Else 0 End As 'M3 Amt'"
+                If rbtnYearly.IsChecked Then
+                    query += " , Case When Month='" + Month4 + "' Then Sum(Amt) Else 0 End As 'M4 Amt', "
+                    query += "  Case When Month='" + Month5 + "' Then Sum(Amt) Else 0 End As 'M5 Amt', "
+                    query += "  Case When Month='" + Month6 + "' Then Sum(Amt) Else 0 End As 'M6 Amt', "
+                    query += "  Case When Month='" + Month7 + "' Then Sum(Amt) Else 0 End As 'M7 Amt', "
+                    query += "  Case When Month='" + Month8 + "' Then Sum(Amt) Else 0 End As 'M8 Amt', "
+                    query += "  Case When Month='" + Month9 + "' Then Sum(Amt) Else 0 End As 'M9 Amt', "
+                    query += "  Case When Month='" + Month10 + "' Then Sum(Amt) Else 0 End As 'M10 Amt', "
+                    query += "  Case When Month='" + Month11 + "' Then Sum(Amt) Else 0 End As 'M11 Amt', "
+                    query += "  Case When Month='" + Month12 + "' Then Sum(Amt) Else 0 End As 'M12 Amt' "
 
+                End If
                 'query += "     Sum([Billed Qty]) As [Billed Qty],Sum([Farmer Qty])[Farmer Qty],Sum([Farmer Code])  as [Farmer Code],sum(Amt) as Amt"
                 query += " from (" + BaseQry + ")xxx Group By xxx.[Month]"
                 query += ")xxxFinal"
@@ -226,6 +293,36 @@ Public Class frmDBTNEFTUnionReport
         Next
         Gv.Columns("SNo").HeaderText = "S.No."
         Gv.Columns("SNo").IsVisible = True
+        Gv.Columns("FromtoDate").IsVisible = False
+        Gv.Columns("User").IsVisible = False
+
+        If rbtnYearly.IsChecked Then
+            Gv.Columns("M1 Billed Qty").IsVisible = False
+            Gv.Columns("M1 Farmer Qty").IsVisible = False
+            Gv.Columns("M1 Farmer Code").IsVisible = False
+            Gv.Columns("M2 Billed Qty").IsVisible = False
+            Gv.Columns("M2 Farmer Qty").IsVisible = False
+            Gv.Columns("M2 Farmer Code").IsVisible = False
+            Gv.Columns("M3 Billed Qty").IsVisible = False
+            Gv.Columns("M3 Farmer Qty").IsVisible = False
+            Gv.Columns("M3 Farmer Code").IsVisible = False
+            Gv.Columns("Total Billed Qty").IsVisible = False
+            Gv.Columns("Total Farmer Qty").IsVisible = False
+            Gv.Columns("Total No. Of Farmer").IsVisible = False
+            Gv.Columns("Month1").IsVisible = False
+            Gv.Columns("Month2").IsVisible = False
+            Gv.Columns("Month3").IsVisible = False
+            Gv.Columns("Month4").IsVisible = False
+            Gv.Columns("Month5").IsVisible = False
+            Gv.Columns("Month6").IsVisible = False
+            Gv.Columns("Month7").IsVisible = False
+            Gv.Columns("Month8").IsVisible = False
+            Gv.Columns("Month9").IsVisible = False
+            Gv.Columns("Month10").IsVisible = False
+            Gv.Columns("Month11").IsVisible = False
+            Gv.Columns("Month12").IsVisible = False
+
+        End If
 
         Gv.Columns("Union Name").HeaderText = "Union Name"
         Gv.Columns("Union Name").Width = 500
@@ -337,7 +434,23 @@ Public Class frmDBTNEFTUnionReport
 
         Gv.ShowGroupPanel = True
         Gv.MasterTemplate.AutoExpandGroups = True
-        View()
+        If rbtnQuarterly.IsChecked Then
+            View()
+        ElseIf rbtnYearly.IsChecked Then
+            Gv.Columns("Total Amt").HeaderText = "Total Amount"
+            Gv.Columns("M1 Amt").HeaderText = clsCommon.GetPrintDate(Month1, "MMM-yyyy")
+            Gv.Columns("M2 Amt").HeaderText = clsCommon.GetPrintDate(Month2, "MMM-yyyy")
+            Gv.Columns("M3 Amt").HeaderText = clsCommon.GetPrintDate(Month3, "MMM-yyyy")
+            Gv.Columns("M4 Amt").HeaderText = clsCommon.GetPrintDate(Month4, "MMM-yyyy")
+            Gv.Columns("M5 Amt").HeaderText = clsCommon.GetPrintDate(Month5, "MMM-yyyy")
+            Gv.Columns("M6 Amt").HeaderText = clsCommon.GetPrintDate(Month6, "MMM-yyyy")
+            Gv.Columns("M7 Amt").HeaderText = clsCommon.GetPrintDate(Month7, "MMM-yyyy")
+            Gv.Columns("M8 Amt").HeaderText = clsCommon.GetPrintDate(Month8, "MMM-yyyy")
+            Gv.Columns("M9 Amt").HeaderText = clsCommon.GetPrintDate(Month9, "MMM-yyyy")
+            Gv.Columns("M10 Amt").HeaderText = clsCommon.GetPrintDate(Month10, "MMM-yyyy")
+            Gv.Columns("M11 Amt").HeaderText = clsCommon.GetPrintDate(Month11, "MMM-yyyy")
+            Gv.Columns("M12 Amt").HeaderText = clsCommon.GetPrintDate(Month12, "MMM-yyyy")
+        End If
         SummaryRow()
     End Sub
 
@@ -357,11 +470,9 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 No Of Doc").Name)
             End If
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Billed Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Amt").Name)
-
-
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Amt").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month2, "MMM-yyyy")))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
@@ -369,10 +480,9 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 No Of Doc").Name)
             End If
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Billed Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Amt").Name)
-
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month3, "MMM-yyyy")))
             view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
@@ -380,18 +490,20 @@ Public Class frmDBTNEFTUnionReport
                 view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 No Of Doc").Name)
             End If
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Billed Qty").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Amt").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Amt").Name)
+
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-            If chkOnlyReject.Checked Then
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
-            End If
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
+
+                If chkOnlyReject.Checked Then
+                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
+                End If
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Amt").Name)
             Gv.ViewDefinition = view
         End If
@@ -439,7 +551,11 @@ Public Class frmDBTNEFTUnionReport
                 If chkOnlyReject.Checked Then
                     frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    If rbtnQuarterly.IsChecked Then
+                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    ElseIf rbtnYearly.IsChecked Then
+                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    End If
                 End If
                 frmCRV = Nothing
             Else
@@ -457,7 +573,7 @@ Public Class frmDBTNEFTUnionReport
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
-            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmAutoAdditionDeductionReport & "'"))
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmDBTNEFTUnionReport & "'"))
 
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
@@ -467,7 +583,7 @@ Public Class frmDBTNEFTUnionReport
             transportSql.applyExportTemplate(Gv, PageSetupReport_ID)
             If exporter = EnumExportTo.Excel Then
                 'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
-                transportSql.exportdata(Gv, "", Me.Text, , arrHeader, False, True)
+                transportSql.exportdata(Gv, "", Me.Text, False, arrHeader, False, False, True)
             Else
                 clsCommon.MyExportToPDF(strHeading, Gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
@@ -476,7 +592,17 @@ Public Class frmDBTNEFTUnionReport
         End Try
     End Sub
 
-    Private Sub btnExp_Click(sender As Object, e As EventArgs) Handles btnExp.Click
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         ExportGrid(EnumExportTo.Excel)
+    End Sub
+
+    Private Sub rbtnYearly_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnYearly.ToggleStateChanged, rbtnQuarterly.ToggleStateChanged
+        If rbtnYearly.IsChecked Then
+            txtToDate.Value = txtFromDate.Value.AddMonths(11)
+            chkOnlyReject.Visible = False
+        ElseIf rbtnQuarterly.IsChecked Then
+            txtToDate.Value = txtFromDate.Value.AddMonths(2)
+            chkOnlyReject.Visible = True
+        End If
     End Sub
 End Class
