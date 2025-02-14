@@ -3315,17 +3315,17 @@ Public Class frmSNShipment
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
 
                             If rbtnManualTCS.IsChecked = False Then
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2, MidpointRounding.AwayFromZero)
                                 dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
                             Else
                                 dblTaxAmt1 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2, MidpointRounding.AwayFromZero)
                                 dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
                             End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
 
                         Else
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
                             If dblTaxBaseAmt1 <> 0 Then
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt1 * 100) / dblTaxBaseAmt1, 3)
@@ -3344,11 +3344,11 @@ Public Class frmSNShipment
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
 
                             If rbtnManualTCS.IsChecked = False Then
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2, MidpointRounding.AwayFromZero)
                                 dblTaxTotAmt = dblTaxTotAmt
                             Else
                                 dblTaxAmt2 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2, MidpointRounding.AwayFromZero)
                             End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
 
@@ -7107,8 +7107,9 @@ Public Class frmSNShipment
                             End If
                         Else
                             dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                            Dim tr As Double = Math.Round(dblTaxAmt, 2, MidpointRounding.AwayFromZero)
                         End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2, MidpointRounding.AwayFromZero)
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If

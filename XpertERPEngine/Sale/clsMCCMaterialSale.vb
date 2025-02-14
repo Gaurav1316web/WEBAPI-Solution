@@ -1095,7 +1095,7 @@ Public Class clsMCCMaterialSale
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission "
+            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Disc_Per_Unit,TSPL_SD_SHIPMENT_DETAIL.Disc_Unit_Amt "
             qry += " FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code"
@@ -1174,6 +1174,8 @@ Public Class clsMCCMaterialSale
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
                     objTr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
                     objTr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(dr("Disc_Per_Unit"))
+                    objTr.Disc_Unit_Amt = clsCommon.myCdbl(dr("Disc_Unit_Amt"))
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
                     objTr.Item_Net_Amt = clsCommon.myCdbl(dr("Item_Net_Amt"))
@@ -2922,6 +2924,8 @@ Public Class clsMCCMaterialSaleDetail
     Public Amount As Double = 0
     Public Disc_Per As Double = 0
     Public Disc_Amt As Double = 0
+    Public Disc_Per_Unit As Double = 0
+    Public Disc_Unit_Amt As Double = 0
     Public Amt_Less_Discount As Double = 0
     Public Total_Tax_Amt As Double = 0
     Public Item_Net_Amt As Double = 0
@@ -3020,6 +3024,8 @@ Public Class clsMCCMaterialSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
+                clsCommon.AddColumnsForChange(coll, "Disc_Per_Unit", obj.Disc_Per_Unit)
+                clsCommon.AddColumnsForChange(coll, "Disc_Unit_Amt", obj.Disc_Unit_Amt)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
                 clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
                 clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)

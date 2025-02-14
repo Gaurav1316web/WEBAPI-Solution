@@ -25742,7 +25742,7 @@ where Prog_Code='MCC-DISP'"
     Private Sub RadButton342_Click(sender As Object, e As EventArgs) Handles RadButton342.Click
         Try
             Dim qry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,CONVERT(VARCHAR,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) AS Document_Date
-            ,TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code,TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type
+            ,TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code
              from TSPL_MULTIPLE_DEDUCTION_HEAD where IsPosted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("MulDedUti", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then

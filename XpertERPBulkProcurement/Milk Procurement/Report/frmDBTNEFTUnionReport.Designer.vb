@@ -22,41 +22,48 @@ Partial Class frmDBTNEFTUnionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnYearly = New common.Controls.MyRadioButton()
+        Me.rbtnQuarterly = New common.Controls.MyRadioButton()
         Me.chkOnlyReject = New System.Windows.Forms.CheckBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv = New Telerik.WinControls.UI.RadGridView()
+        Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
-        Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnYearly, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnQuarterly, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.Gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,6 +104,7 @@ Partial Class frmDBTNEFTUnionReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkOnlyReject)
         Me.RadPageViewPage1.Controls.Add(Me.txtToDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -108,10 +116,45 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnYearly)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnQuarterly)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(12, 6)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(191, 37)
+        Me.RadGroupBox2.TabIndex = 442
+        '
+        'rbtnYearly
+        '
+        Me.rbtnYearly.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnYearly.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnYearly.MyLinkLable1 = Nothing
+        Me.rbtnYearly.MyLinkLable2 = Nothing
+        Me.rbtnYearly.Name = "rbtnYearly"
+        Me.rbtnYearly.Size = New System.Drawing.Size(50, 18)
+        Me.rbtnYearly.TabIndex = 396
+        Me.rbtnYearly.Text = "Yearly"
+        Me.rbtnYearly.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnQuarterly
+        '
+        Me.rbtnQuarterly.Location = New System.Drawing.Point(87, 9)
+        Me.rbtnQuarterly.MyLinkLable1 = Nothing
+        Me.rbtnQuarterly.MyLinkLable2 = Nothing
+        Me.rbtnQuarterly.Name = "rbtnQuarterly"
+        Me.rbtnQuarterly.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnQuarterly.TabIndex = 391
+        Me.rbtnQuarterly.TabStop = False
+        Me.rbtnQuarterly.Text = "Quarterly"
+        '
         'chkOnlyReject
         '
         Me.chkOnlyReject.AutoSize = True
-        Me.chkOnlyReject.Location = New System.Drawing.Point(334, 16)
+        Me.chkOnlyReject.Location = New System.Drawing.Point(223, 16)
         Me.chkOnlyReject.Name = "chkOnlyReject"
         Me.chkOnlyReject.Size = New System.Drawing.Size(84, 17)
         Me.chkOnlyReject.TabIndex = 15
@@ -132,7 +175,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(227, 15)
+        Me.txtToDate.Location = New System.Drawing.Point(227, 58)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -151,7 +194,7 @@ Partial Class frmDBTNEFTUnionReport
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(167, 16)
+        Me.MyLabel1.Location = New System.Drawing.Point(167, 59)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel1.TabIndex = 14
@@ -170,7 +213,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(79, 15)
+        Me.txtFromDate.Location = New System.Drawing.Point(79, 58)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -189,7 +232,7 @@ Partial Class frmDBTNEFTUnionReport
         'RadLabel3
         '
         Me.RadLabel3.FieldName = Nothing
-        Me.RadLabel3.Location = New System.Drawing.Point(7, 16)
+        Me.RadLabel3.Location = New System.Drawing.Point(7, 59)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(69, 18)
         Me.RadLabel3.TabIndex = 12
@@ -197,24 +240,28 @@ Partial Class frmDBTNEFTUnionReport
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.Gv)
+        Me.RadPageViewPage2.Controls.Add(Me.gv)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage2.Text = "Report"
         '
-        'Gv
+        'btnExp
         '
-        Me.Gv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv.Location = New System.Drawing.Point(0, 0)
+        Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
+        Me.btnExp.Location = New System.Drawing.Point(236, 10)
+        Me.btnExp.Name = "btnExp"
+        Me.btnExp.Size = New System.Drawing.Size(83, 21)
+        Me.btnExp.TabIndex = 158
+        Me.btnExp.Text = "Export"
         '
+        'rmiExcel
         '
-        '
-        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.Gv.Name = "Gv"
-        Me.Gv.Size = New System.Drawing.Size(779, 359)
-        Me.Gv.TabIndex = 0
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
         '
         'btnPrint
         '
@@ -252,21 +299,26 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReport.TabIndex = 7
         Me.btnReport.Text = ">>>"
         '
-        'btnExp
+        'gv
         '
-        Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
-        Me.btnExp.Location = New System.Drawing.Point(236, 10)
-        Me.btnExp.Name = "btnExp"
-        Me.btnExp.Size = New System.Drawing.Size(83, 21)
-        Me.btnExp.TabIndex = 158
-        Me.btnExp.Text = "Export"
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'rmiExcel
         '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowGroupedColumns = True
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
+        Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
+        Me.gv.Size = New System.Drawing.Size(779, 359)
+        Me.gv.TabIndex = 3
+        Me.gv.VarID = ""
         '
         'frmDBTNEFTUnionReport
         '
@@ -287,18 +339,23 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnYearly, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnQuarterly, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -315,9 +372,12 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
-    Friend WithEvents Gv As RadGridView
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkOnlyReject As CheckBox
     Friend WithEvents btnExp As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnYearly As common.Controls.MyRadioButton
+    Friend WithEvents rbtnQuarterly As common.Controls.MyRadioButton
+    Friend WithEvents gv As common.UserControls.MyRadGridView
 End Class
