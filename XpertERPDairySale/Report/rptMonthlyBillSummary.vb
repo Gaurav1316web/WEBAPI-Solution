@@ -935,46 +935,107 @@ GROUP BY
     End Sub
     Sub DetailData()
         Try
+            Dim Final As String = ""
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = " "
+            Dim whrcls As String = ""
             Dim fromdate As Date = txtfDate.Value.AddDays(1)
             Dim todate As Date = txtToDate.Value.AddDays(-1)
+            qry = "  SELECT 
+        TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt, 
+        CONVERT(VARCHAR(12), TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) AS Supply_Date, 
+        TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS Base_Amt,
+        TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt AS TotalAmt, 
+        CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' ELSE 'Evening' END AS Shift_Type,
+        Zone_Code, 
+        TSPL_ITEM_UOM_DETAIL.Conversion_Factor AS ConversionFactor,
+        TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type, 
+        TSPL_LOCATION_MASTER.Location_Desc,
+        TSPL_LOCATION_MASTER.Loc_Short_Name, 
+        TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin,
+        TSPL_LOCATION_MASTER.Email AS Loc_Email, 
+        TSPL_COMPANY_MASTER.ISO_No, 
+        TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Invoice_No, 
+        CONVERT(VARCHAR(12), TSPL_SD_SALE_INVOICE_HEAD.Document_date, 103) AS Invoice_Date,
+        CONVERT(VARCHAR(12), TSPL_SD_SHIPMENT_HEAD.Document_date, 103) AS Shipment_Date, 
+        customer_city_master.city_name AS Cust_City, 
+        TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No,
+        CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode,
+        Tspl_customer_master.gstno AS CustGSTNo,
+        TSPL_STATE_MASTER.gst_state_code, 
+        tspl_location_master.gstno AS LocGstNo, 
+        TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo, 
+        TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate, 
+        TSPL_ITEM_MASTER.HSN_Code, 
+        TSPL_SD_SALE_INVOICE_HEAD.Remarks AS InvRemarks,
+        TSPL_SD_SALE_INVOICE_HEAD.Route_No,
+        TSPL_SD_SALE_INVOICE_HEAD.Customer_Code AS cust_Code, 
+        TSPL_CUSTOMER_MASTER.Customer_Name,
+        CASE 
+            WHEN ISNULL(TSPL_SD_SHIPMENT_HEAD.ManualVehicle, '') <> '' THEN TSPL_SD_SHIPMENT_HEAD.ManualVehicle 
+            WHEN ISNULL(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle, '') <> '' THEN TSPL_VEHICLE_MASTER.Number 
+            ELSE TSPL_SD_SALE_INVOICE_HEAD.vehicleNo 
+        END AS vehicleNo,
+        CONVERT(VARCHAR, TSPL_SD_SALE_INVOICE_HEAD.Sale_Invoice_Date, 103) AS Sale_Invoice_Date,
+        TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,
+        TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Sale_Invoice_No,
+        TSPL_SD_SALE_INVOICE_DETAIL.Item_Code, 
+        TSPL_SD_SALE_INVOICE_DETAIL.Unit_code, 
+        CAST((TSPL_SD_SALE_INVOICE_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor) AS DECIMAL(18,2)) AS QtyAccToReportUOM
+    FROM TSPL_SD_SALE_INVOICE_DETAIL 
+    LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
+    LEFT JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+    LEFT JOIN TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.Document_Code 
+        AND TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_SALE_INVOICE_DETAIL.Line_No
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+        AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+    LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code 
+        AND ItemConvReportUOM.Report_UOM = 1
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
+        AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+    LEFT JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
+    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+    LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+    LEFT JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State
+    LEFT JOIN TSPL_STATE_MASTER AS CUSTOMER_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE
+    LEFT JOIN TSPL_CITY_MASTER AS customer_city_master ON TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code
+    LEFT JOIN TSPL_VEHICLE_MASTER ON TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle  Where "
 
             If rbtnSupplydate.IsChecked Then
                 If chkExcludeShift.Checked Then
                     whr = " (convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)='" + clsCommon.GetPrintDate(txtfDate.Value) + "'  and Shift_Type='EVENING') OR  (convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)>='" + clsCommon.GetPrintDate(fromdate) + "' AND convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)<='" + clsCommon.GetPrintDate(todate) + "')
                         OR (convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and Shift_Type='MORNING') "
+                    qry += " CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)='" + clsCommon.GetPrintDate(txtfDate.Value) + "'  and Shift_Type='PM') OR  CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)>='" + clsCommon.GetPrintDate(fromdate) + "' AND CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)<='" + clsCommon.GetPrintDate(todate) + "')
+                        OR (convert(date,Final.supply_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and Shift_Type='AM') "
                 Else
                     whr = "  convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND convert(date,TSPL_SD_SHIPMENT_HEAD.supply_date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' "
+                    qry += "   CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND  CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' "
                 End If
             ElseIf rbtnDocumentdate.IsChecked Then
                 whr += "(convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "')"
+                qry += "(convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "')"
             End If
             If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
                 whr += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in  (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in  (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
             End If
             If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                 whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")"
             End If
-            qry = " select * from ( select Main_Final.*, TSPL_COMPANY_MASTER.Logo_Img, 1 As CopyType, TSPL_COMPANY_MASTER.GSTReg_No As SellerGST, TSPL_COMPANY_MASTER.Pan_No from 
-            ( select final.*, Item_Desc as Particulars from ( Select TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt, convert( varchar(12), TSPL_SD_SHIPMENT_HEAD.Supply_Date, 
-            103 ) Supply_Date, TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount as Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as TotalAmt, case when 
-            TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' then 'Morning' else 'Evening' end as Shift_Type, Zone_Code, TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,
-             TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type, TSPL_LOCATION_MASTER.Location_Desc, TSPL_LOCATION_MASTER.Loc_Short_Name, TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin,
-             ( case when isnull(TSPL_LOCATION_MASTER.Phone1, '')<> '' then TSPL_LOCATION_MASTER.Phone1 when isnull(TSPL_LOCATION_MASTER.Phone2, '')<> '' then + ', ' + TSPL_LOCATION_MASTER.Phone2 end ) as Loc_Phone, TSPL_LOCATION_MASTER.Email as Loc_Eamil, '' as Loc_Website, TSPL_COMPANY_MASTER.ISO_No, 
-            TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_No, convert( varchar(12), TSPL_SD_SALE_INVOICE_HEAD.Document_date, 103 ) as Invoice_Date, convert( varchar(12), TSPL_SD_SHIPMENT_HEAD.Document_date, 103 ) as Shipment_Date, customer_city_master.city_name as Cust_City, TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No, CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No, Tspl_customer_master.gstno as CustGSTNo, TSPL_STATE_MASTER.gst_state_code, tspl_location_master.gstno as LocGstNo, TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo, TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate, TSPL_ITEM_MASTER.HSN_Code, TSPL_SD_SALE_INVOICE_HEAD.Remarks as InvRemarks, TSPL_SD_sale_invoice_DETAIL.Delivery_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Sale_Invoice_No, Case When ISNULL( TSPL_SD_SHIPMENT_HEAD.ManualVehicle, '' )<> '' Then TSPL_SD_SHIPMENT_HEAD.ManualVehicle WHEN ISNULL( TSPL_SD_SHIPMENT_HEAD.AlternateVehicle, '' )<> '' Then TSPL_VEHICLE_MASTER.Number Else TSPL_SD_SALE_INVOICE_HEAD.vehicleNo End as vehicleNo, Convert( varchar, TSPL_SD_SALE_INVOICE_HEAD.Sale_Invoice_Date, 103 ) as Sale_Invoice_Date, TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount, TSPL_LOCATION_MASTER.Add1 as Loc_ADd1, TSPL_LOCATION_MASTER.Add2 as LOC_ADD2, TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState, TSPL_STATE_MASTER.STATE_CODE,TSPL_LOCATION_MASTER.City_Code, case when ISNULL(TSPL_LOCATION_MASTER.Phone1, '')= '(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end + Case When ISNULL(TSPL_LOCATION_MASTER.Phone2, '')<> '(+__)__________' Then ', ' + TSPL_LOCATION_MASTER.Phone2 Else '' End as LOCPhone, TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, convert( varchar, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103 ) as Document_Date, TSPL_SD_SALE_INVOICE_HEAD.Description, TSPL_ITEM_MASTER.Sku_Seq, CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item = 'Y' then TSPL_SD_sale_invoice_DETAIL.Item_Code + ' -Scheme' else TSPL_SD_sale_invoice_DETAIL.Item_Code end as Item_Code, ( CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item = 'Y' then 0 else ( TSPL_SD_sale_invoice_DETAIL.Line_No ) end ) as Line_No, CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item = 'Y' then TSPL_ITEM_MASTER.Item_Desc + ' -Scheme' else TSPL_ITEM_MASTER.Item_Desc end as Item_Desc, TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates, TSPL_SD_sale_invoice_DETAIL.Unit_code, ItemConvReportUOM.UOM_Code, convert( Decimal(18, 2), TSPL_SD_sale_invoice_DETAIL.Qty ) as Qty_Default, cast( ( TSPL_SD_sale_invoice_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor ) as Decimal(18, 2) ) as QtyAccToReportUOM, Convert(decimal(18,2),(TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount/(( TSPL_SD_sale_invoice_DETAIL.Qty *ItemConvinUOM.Conversion_Factor )/ItemConvReportUOM.Conversion_Factor))) as ReportRate, '' GrandTotalCrates, TSPL_COMPANY_MASTER.Comp_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1 as comp_add1, TSPL_COMPANY_MASTER.Fax as comp_Fax, TSPL_COMPANY_MASTER.Email as comp_Email, TSPL_COMPANY_MASTER.Tin_No as comp_tinNo, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_CUSTOMER_MASTER.Add1 as cust_add1, TSPL_CUSTOMER_MASTER.Add2 as cust_add2, TSPL_CUSTOMER_MASTER.Add3 cust_add3, case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1, '')= '(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end + Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2, '')<> '(+__)__________' Then ', ' + TSPL_CUSTOMER_MASTER.Phone2 Else '' End as CustPhone, TSPL_CUSTOMER_MASTER.Fax as cust_fax, TSPL_CUSTOMER_MASTER.State as Cust_state, CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename, TSPL_CUSTOMER_MASTER.Email as cust_Email, TSPL_CUSTOMER_MASTER.WebSite as cust_website, TSPL_CUSTOMER_MASTER.pan as Customer_Pan from TSPL_SD_SALE_INVOICE_DETAIL LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_sale_invoice_DETAIL.Line_No left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1 left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code ) as final where 2=2 ) AS Main_Final left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code ) Final where " + whr + " ORDER BY Supply_Date,Shift_Type "
-            Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select TSPL_SD_SALE_INVOICE_DETAIL.item_code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(ItemConvReportUOM.uom_code)Unit_code from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where " + whr + " ")
+            Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select TSPL_SD_SALE_INVOICE_DETAIL.item_code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(ItemConvReportUOM.uom_code)Unit_code from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where " + whr + " group by TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ")
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                Dim FinalQuery As String = qry
-                For ii As Integer = 1 To dtItems.Rows.Count Step 8
+                Dim FinalQuery As String = "WITH InvoiceData AS  ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 6
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                     End If
-                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , " + qry + ""
-                    For jj As Integer = 1 To 8
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp  "
+                    For jj As Integer = 1 To 6
                         Dim strJJ As String = clsCommon.myCstr(jj)
                         Dim strICODE As String = ""
                         Dim strIShortDesc As String = ""
@@ -989,14 +1050,18 @@ GROUP BY
                             strIUnitCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Unit_code"))
                         End If
                         FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
-                        ,CEILING(sum(case when Item_Code='" + strICODE + "'  then QtyAccToReportUOM else null end )) as ItemQty_" + strJJ + ""
+                        ,CEILING(SUM(case when Item_Code='" + strICODE + "' and Shift_Type='Morning' then QtyAccToReportUOM else null end )) as MItemQty_" + strJJ + ",
+                        CEILING(SUM(case when Item_Code='" + strICODE + "' and Shift_Type='Evening' then QtyAccToReportUOM else null end )) as EItemQty_" + strJJ + " "
                     Next
                     If ii > 1 Then
-                        FinalQuery += " ,null as Amount,null as ProductAmount,null as TotalCrates"
-                    Else
-                        FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount,sum(crate)TotalCrates"
+                        FinalQuery += " "
                     End If
+                    FinalQuery += " ,Shipment_Date,Route_No
+                            FROM InvoiceData
+                            GROUP BY Route_No,Shipment_Date "
                 Next
+                FinalQuery += "ORDER BY Shipment_Date,Route_No"
+                Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If

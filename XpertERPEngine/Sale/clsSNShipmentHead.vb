@@ -2129,6 +2129,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         obj = New clsSNInvoiceHead()
         obj.podate = objShipment.Document_Date
         obj.Invoice_Type = objShipment.Invoice_Type
+        obj.Is_ManualTCS = objShipment.Is_ManualTCS
         'obj.Document_Code = objShipment.Document_Code
         obj.Document_Date = objShipment.Document_Date
         obj.Customer_Code = objShipment.Customer_Code
