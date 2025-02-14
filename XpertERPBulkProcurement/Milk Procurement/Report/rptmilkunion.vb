@@ -196,7 +196,7 @@ Public Class rptmilkunion
             i = 7
         End If
         For ii As Integer = 2 To gv1.Columns.Count - i
-            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
         Next
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
