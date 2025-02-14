@@ -574,7 +574,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             End If
 
             strQry += " FINAL2.[Document Date],
-                        FINAL2.[Document No],MAX(FINAL2.Type)Type,SUM(FINAL2.Addition)Addition,SUM(FINAL2.Deduction)Deduction,MAX(FINAL2.[Deduction Code])[Deduction Code],MAX(FINAL2.[Deduction Desc])[Deduction Desc],
+                        FINAL2.[Document No],MAX(FINAL2.Type)Type,max(FINAL2.Addition)Addition,SUM(FINAL2.Deduction)Deduction,MAX(FINAL2.[Deduction Code])[Deduction Code],MAX(FINAL2.[Deduction Desc])[Deduction Desc],
                         sum(TSPL_MILK_SRN_DETAIL.ACC_Qty)ACC_WEIGHT,SUM(TSPL_MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.Qty) as [SRN Qty]
                         FROM (
                          select FINAL1.[Vendor Code],max(FINAL1.[Vendor Name])[Vendor Name],max(FINAL1.[VLC Uploader Code])[VLC Uploader Code],"
