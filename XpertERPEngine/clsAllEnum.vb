@@ -687,7 +687,9 @@ Public Class clsOpenTransactionForm
                     Else
                         StrclsUserMgtCode = clsUserMgtCode.frmSNSaleInvoice
                     End If
+                Case clsUserMgtCode.frmUpdateAppLocation
 
+                    StrclsUserMgtCode = clsUserMgtCode.frmUpdateAppLocation
             End Select
 
 
