@@ -63,6 +63,14 @@ Public Class frmVSP_VLCMaster
         ToolTipvendor.SetToolTip(btnnew, "New")
         '' Anubhooti 4-Aug-2014 BM00000003319
         LoadAccountType()
+        If EnableBankFromMaster Then
+            txtbankcodedes.Visible = True
+            txtbankcodedes2.Visible = True
+        Else
+            txtbankcodedes.Visible = False
+            txtbankcodedes2.Visible = False
+        End If
+
         ''
         fndvendorNo_text_changed()
         fndgroupcode_text_Changed()
@@ -553,6 +561,8 @@ Public Class frmVSP_VLCMaster
 
 
                 Else
+                    findTxtIFSCCode.Value = myDr("IFSC_Code").ToString()
+                    findfndbankcode.Value = myDr(31).ToString()
                     Me.fndbankcode.Text = myDr(31).ToString()
                     Me.TxtIFSCCode.Text = myDr("IFSC_Code").ToString()
 
@@ -5398,13 +5408,26 @@ Public Class frmVSP_VLCMaster
             End If
 
             If SameBankCodeForCurrentAndSaving Then
-                If clsCommon.CompairString(findfndbankcode.Value, findfndbankcode2.Value) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Code and Saving Bank Code is not same", Me.Text)
-                    findfndbankcode2.Focus()
-                    findfndbankcode2.Select()
-                    Return False
+                If EnableBankFromMaster Then
+                    If clsCommon.CompairString(findfndbankcode.Value, findfndbankcode2.Value) <> CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Code and Saving Bank Code is not same", Me.Text)
+                        findfndbankcode2.Focus()
+                        findfndbankcode2.Select()
+                        Return False
+                    Else
+                        Errorcontrol.ResetError(findfndbankcode2)
+                    End If
+
                 Else
-                    Errorcontrol.ResetError(findfndbankcode2)
+                    If clsCommon.CompairString(fndbankcode.Text, fndbankcode2.Text) <> CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "Cuurent Bank Code and Saving Bank Code is not same", Me.Text)
+                        findfndbankcode2.Focus()
+                        findfndbankcode2.Select()
+                        Return False
+                    Else
+                        Errorcontrol.ResetError(findfndbankcode2)
+                    End If
+
                 End If
 
                 If clsCommon.CompairString(TxtBankName.Text, TxtBankName2.Text) <> CompairStringResult.Equal Then
@@ -5425,14 +5448,26 @@ Public Class frmVSP_VLCMaster
                     Errorcontrol.ResetError(txtBankBranch2)
                 End If
 
-                If clsCommon.CompairString(findTxtIFSCCode.Value, findTxtIFSCCode2.Value) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "Cuurent IFSC Code and Saving IFSC Code is not same", Me.Text)
-                    findTxtIFSCCode2.Focus()
-                    findTxtIFSCCode2.Select()
-                    Return False
+                If EnableBankFromMaster Then
+                    If clsCommon.CompairString(findTxtIFSCCode.Value, findTxtIFSCCode2.Value) <> CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "Cuurent IFSC Code and Saving IFSC Code is not same", Me.Text)
+                        findTxtIFSCCode2.Focus()
+                        findTxtIFSCCode2.Select()
+                        Return False
+                    Else
+                        Errorcontrol.ResetError(findTxtIFSCCode2)
+                    End If
                 Else
-                    Errorcontrol.ResetError(findTxtIFSCCode2)
+                    If clsCommon.CompairString(TxtIFSCCode.Text, txtIFSCCode2.Text) <> CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "Cuurent IFSC Code and Saving IFSC Code is not same", Me.Text)
+                        txtIFSCCode2.Focus()
+                        txtIFSCCode2.Select()
+                        Return False
+                    Else
+                        Errorcontrol.ResetError(txtIFSCCode2)
+                    End If
                 End If
+
 
                 If clsCommon.CompairString(txtCurrentCompanyBank.Value, txtSavingCompanyBank.Value) <> CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow(Me, "Cuurent Company Bank and Saving Company Bank is not same", Me.Text)
