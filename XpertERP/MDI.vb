@@ -8477,6 +8477,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTruckSheetReport
                         frm = New rptTruckSheetReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionBookingReport
+                        frm = New rptUnionBookingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

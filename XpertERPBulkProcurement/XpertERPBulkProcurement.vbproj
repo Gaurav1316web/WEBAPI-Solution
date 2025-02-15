@@ -265,6 +265,12 @@
     <Compile Include="Milk Procurement\Report\rptBankSavingAdvice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionBookingReport.Designer.vb">
+      <DependentUpon>rptUnionBookingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionBookingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
     </Compile>
@@ -1112,6 +1118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBankSavingAdvice.resx">
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
+      <DependentUpon>rptUnionBookingReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
