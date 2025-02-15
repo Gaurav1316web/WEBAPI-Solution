@@ -22,7 +22,7 @@ Public Class rptUnionMilkRegister
             Dim startDate As Date = txtFromDate.Value
             Dim endDate As Date = txtToDate.Value
             Dim daysDifference As Integer = DateDiff(DateInterval.Day, startDate, endDate) + 1
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDF") = CompairStringResult.Equal Then
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
                 If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
@@ -137,7 +137,7 @@ Public Class rptUnionMilkRegister
                     gv1.BestFitColumns()
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDF") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNALLUnion", "")
                     Else
                         frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNUnion", "") ''report for both (RCDF And RCDFCF)
