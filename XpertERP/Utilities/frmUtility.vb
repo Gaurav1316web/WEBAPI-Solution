@@ -26704,4 +26704,32 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub RadButton357_Click(sender As Object, e As EventArgs) Handles RadButton357.Click
+        Dim code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select code from tspl_master.dbo.TSPL_APP_LOCATION where code = 3888"))
+
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmUpdateAppLocation, code)
+
+        'Dim UpdateAppLocationForm As Boolean = True
+        ''Dim valueEntry As Boolean = True
+
+        'Dim frm As New frmUpdateAppLocation()
+        ''valueEntry = True
+        ''frm.Check = fndCustomer.Value
+        ''frm.StringPass1 = fndCustomer.Value
+        ''frm.StringPass = txtCustomerName.Text
+        'Dim strProgramName As String = ""
+        'Dim strProgramCode As String = clsUserMgtCode.frmUpdateAppLocation
+        'If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
+        '    If MDI.IsOriginalName = True Then
+        '        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+        '    Else
+        '        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+        '    End If
+        '    MDI.formShow(frm, strProgramCode, strProgramName, True, UpdateAppLocationForm, True)
+        '    'valueEntry = False
+        'End If
+
+
+    End Sub
 End Class
