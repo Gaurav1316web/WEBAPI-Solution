@@ -35,13 +35,13 @@ Partial Class frmDBTNEFTUnionReport
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv = New Telerik.WinControls.UI.RadGridView()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,13 +57,13 @@ Partial Class frmDBTNEFTUnionReport
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.Gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,7 +97,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 407)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -240,24 +240,12 @@ Partial Class frmDBTNEFTUnionReport
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.Gv)
+        Me.RadPageViewPage2.Controls.Add(Me.gv)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage2.Text = "Report"
-        '
-        'Gv
-        '
-        Me.Gv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.Gv.Name = "Gv"
-        Me.Gv.Size = New System.Drawing.Size(779, 359)
-        Me.Gv.TabIndex = 0
         '
         'btnExp
         '
@@ -311,6 +299,27 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReport.TabIndex = 7
         Me.btnReport.Text = ">>>"
         '
+        'gv
+        '
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowGroupedColumns = True
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
+        Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
+        Me.gv.Size = New System.Drawing.Size(779, 359)
+        Me.gv.TabIndex = 3
+        Me.gv.VarID = ""
+        '
         'frmDBTNEFTUnionReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -340,13 +349,13 @@ Partial Class frmDBTNEFTUnionReport
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -363,7 +372,6 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
-    Friend WithEvents Gv As RadGridView
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkOnlyReject As CheckBox
     Friend WithEvents btnExp As RadSplitButton
@@ -371,4 +379,5 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnYearly As common.Controls.MyRadioButton
     Friend WithEvents rbtnQuarterly As common.Controls.MyRadioButton
+    Friend WithEvents gv As common.UserControls.MyRadGridView
 End Class

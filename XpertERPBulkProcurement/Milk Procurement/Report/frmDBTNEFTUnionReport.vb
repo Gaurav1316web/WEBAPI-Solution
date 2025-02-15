@@ -96,9 +96,12 @@ Public Class frmDBTNEFTUnionReport
                 Gv.MasterTemplate.SummaryRowsBottom.Clear()
                 Gv.MasterView.Refresh()
                 Gv.DataSource = dt2
+
                 For ii As Integer = 0 To Gv.Columns.Count - 1
                     Gv.Columns(ii).ReadOnly = True
+                    'Gv.Columns(ii). = "#,0"
                     'Gv.Rows.Add()
+
                 Next
 
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -513,7 +516,7 @@ Public Class frmDBTNEFTUnionReport
         If Gv.Rows.Count > 0 Then
             Dim summaryRowItem As New GridViewSummaryRowItem()
             For i As Integer = 3 To Gv.Columns.Count - 1
-                summaryRowItem.Add(New GridViewSummaryItem(Gv.Columns(i).Name, "{0:F2}", GridAggregateFunction.Sum))
+                summaryRowItem.Add(New GridViewSummaryItem(gv.Columns(i).Name, "{0:n2}", GridAggregateFunction.Sum))
             Next
             Gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -582,8 +585,12 @@ Public Class frmDBTNEFTUnionReport
 
             transportSql.applyExportTemplate(Gv, PageSetupReport_ID)
             If exporter = EnumExportTo.Excel Then
+                If rbtnYearly.IsChecked Then
+                    clsCommon.MyExportToExcel(Me.Text, Gv, arrHeader, Me.Text)
+                ElseIf rbtnQuarterly.IsChecked Then
+                    transportSql.exportdata(Gv, "", Me.Text, False, arrHeader, False, False, True)
+                End If
                 'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
-                transportSql.exportdata(Gv, "", Me.Text, False, arrHeader, False, False, True)
             Else
                 clsCommon.MyExportToPDF(strHeading, Gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
