@@ -94,7 +94,32 @@ Public Class clsMpMaster
         End Try
         Return str
     End Function
+    Public Shared Function ExportDataTable(ByVal strMPCode As ArrayList, ByVal frmMe As RadForm, ByVal exportSheet As String) As Boolean
+        Try
+            Dim whrQry As String = Nothing
+            If clsCommon.myLen(strMPCode) > 0 AndAlso strMPCode IsNot Nothing Then
+                whrQry = "where tspl_mp_Master.Mp_code In (" + clsCommon.GetMulcallString(strMPCode) + ")"
+            End If
+            Dim strQry As String = Nothing
+            If exportSheet.Contains("BlankSheet") Then
+                strQry = "select  ''  As 'MP Code','' As 'MP Name' ,'' as 'Payee Name' "
+            Else
+                strQry = "select  tspl_mp_Master.mp_code  As 'MP Code',tspl_mp_Master.mp_Name As 'MP Name',tspl_mp_Master.PayeeName as 'Payee Name' from tspl_mp_Master
+                        " + whrQry + ""
+            End If
 
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt.Rows.Count > 0 Then
+                transportSql.ExporttoExcel(dt, frmMe)
+                dt = Nothing
+            Else
+                Throw New Exception("No data found")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     '----------------End of Code For Get Finder--------------------------------------------------------------'
     Public Shared Function deleteData(ByVal strcode As String, ByVal progcode As String, ByVal trans As SqlTransaction) As Boolean
