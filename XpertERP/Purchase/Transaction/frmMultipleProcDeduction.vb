@@ -18,6 +18,7 @@ Public Class FrmMultipleProcDeduction
     Const colRemarks As String = "colRemarks"
     Const colDeductionCode As String = "DedCode"
     Const colDeductionDesc As String = "DedDesc"
+    Const colDeductionType As String = "colDeductionType"
     Const colTermsCode As String = "colTermsCode"
     Const colTermsName As String = "colTermsName"
     Const colVendorAccountSet As String = "colVendorAccountSet"
@@ -174,7 +175,7 @@ Public Class FrmMultipleProcDeduction
 
 
 
-
+        repoDedcutionCode = New GridViewTextBoxColumn()
         repoDedcutionCode.FormatString = ""
         repoDedcutionCode.HeaderText = "Deduction Code"
         repoDedcutionCode.Name = colDeductionCode
@@ -183,7 +184,7 @@ Public Class FrmMultipleProcDeduction
         repoDedcutionCode.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoDedcutionCode)
 
-
+        repoDedcutionDesc = New GridViewTextBoxColumn()
         repoDedcutionDesc.FormatString = ""
         repoDedcutionDesc.HeaderText = "Deduction Desc"
         repoDedcutionDesc.Name = colDeductionDesc
@@ -192,6 +193,16 @@ Public Class FrmMultipleProcDeduction
         repoDedcutionDesc.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoDedcutionDesc)
 
+        repoDedcutionDesc = New GridViewTextBoxColumn()
+        repoDedcutionDesc.FormatString = ""
+        repoDedcutionDesc.HeaderText = "Deduction Type"
+        repoDedcutionDesc.Name = colDeductionType
+        repoDedcutionDesc.Width = 100
+        repoDedcutionDesc.ReadOnly = True
+        repoDedcutionDesc.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoDedcutionDesc)
+
+        repoDedcutionCode = New GridViewTextBoxColumn()
         repoAcCode.FormatString = ""
         repoAcCode.HeaderText = "GL Account"
         repoAcCode.Name = colACCode
@@ -443,16 +454,27 @@ Public Class FrmMultipleProcDeduction
         isInsideLoadData = False
     End Sub
     Private Sub OpenDeduction(ByVal isButtonClick As Boolean)
-        Dim qry As String = " select TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Description,TSPL_DEDUCTION_MASTER.Ded_Grp_Code as [Deduction Group Code],TSPL_DEDUCTION_GROUP.Ded_Description as [Deduction Group Description] ,TSPL_DEDUCTION_MASTER.GL_Account_Code as [GL Account],TSPL_GL_ACCOUNTS.Description as [GL Account Desc],Security  from TSPL_DEDUCTION_MASTER  left outer join TSPL_DEDUCTION_GROUP on TSPL_DEDUCTION_GROUP.Ded_Code=TSPL_DEDUCTION_MASTER.Ded_Grp_Code  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION_MASTER.GL_Account_Code     "
+        Dim qry As String = " select TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Description,(case when TSPL_DEDUCTION_GROUP.Ded_Type=1 then 'Addition' else case when TSPL_DEDUCTION_GROUP.Ded_Type=2 then 'Deduction' else '' end end) as Type ,TSPL_DEDUCTION_MASTER.Ded_Grp_Code as [Deduction Group Code],TSPL_DEDUCTION_GROUP.Ded_Description as [Deduction Group Description] ,TSPL_DEDUCTION_MASTER.GL_Account_Code as [GL Account],TSPL_GL_ACCOUNTS.Description as [GL Account Desc],Security  
+from TSPL_DEDUCTION_MASTER  
+left outer join TSPL_DEDUCTION_GROUP on TSPL_DEDUCTION_GROUP.Ded_Code=TSPL_DEDUCTION_MASTER.Ded_Grp_Code  
+left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION_MASTER.GL_Account_Code  "
         Dim whrcls As String
 
         whrcls = "  Security ='0' "
         gv1.CurrentRow.Cells(colDeductionCode).Value = clsCommon.ShowSelectForm("dedFnd", qry, "Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colDeductionCode).Value), "Code", isButtonClick)
         isInsideLoadData = True
-        gv1.CurrentRow.Cells(colDeductionDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description  from TSPL_DEDUCTION_MASTER where Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colDeductionCode).Value) + "'"))
-        gv1.CurrentRow.Cells(colACCode).Value = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GL_Account_Code  from TSPL_DEDUCTION_MASTER where Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colDeductionCode).Value) + "'")), txtlocation.Value, True, Nothing)
-        gv1.CurrentRow.Cells(colACName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value) + "'"))
-
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where TSPL_DEDUCTION_MASTER.Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colDeductionCode).Value) + "'")
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gv1.CurrentRow.Cells(colDeductionDesc).Value = clsCommon.myCstr(dt.Rows(0)("Description"))
+            gv1.CurrentRow.Cells(colDeductionType).Value = clsCommon.myCstr(dt.Rows(0)("Type"))
+            gv1.CurrentRow.Cells(colACCode).Value = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dt.Rows(0)("GL Account")), txtlocation.Value, True, Nothing)
+            gv1.CurrentRow.Cells(colACName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value) + "'"))
+        Else
+            gv1.CurrentRow.Cells(colDeductionDesc).Value = ""
+            gv1.CurrentRow.Cells(colDeductionType).Value = ""
+            gv1.CurrentRow.Cells(colACCode).Value = ""
+            gv1.CurrentRow.Cells(colACName).Value = ""
+        End If
         isInsideLoadData = False
     End Sub
 
@@ -670,9 +692,9 @@ Public Class FrmMultipleProcDeduction
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionCode).Value = objTr.DeductionCode
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionDesc).Value = objTr.Deduction_Desc
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionType).Value = objTr.Trans_Type
                     If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colACCode)) > 0 Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colACCode).Value = objTr.GL_Account_Code
-
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colACName).Value = objTr.GL_Account_Desc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Amount
@@ -733,7 +755,7 @@ Public Class FrmMultipleProcDeduction
                 If (clsMultipleProcDeductionHead.PostData(txtDocNo.Value)) Then
                     msg = "Successfully Posted"
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value)
             End If
         Catch ex As Exception

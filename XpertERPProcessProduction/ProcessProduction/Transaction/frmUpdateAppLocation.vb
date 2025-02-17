@@ -77,7 +77,7 @@ Public Class frmUpdateAppLocation
         gridColCode.HeaderText = "Code"
         gridColCode.Name = ColCode
         gridColCode.Width = 105
-        gridColCode.ReadOnly = False
+        gridColCode.ReadOnly = True
         gridColCode.IsVisible = True
         gv1.MasterTemplate.Columns.Add(gridColCode)
 
