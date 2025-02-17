@@ -52,12 +52,11 @@ Public Class rptUnionBookingReport
             If dtRCDF Is Nothing OrElse dtRCDF.Rows.Count <= 0 Then
                 Dim sQuery As String = " with CTERawData as ( "
                 Dim BaseQry As String = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,Sno AS SNo,'DBLocation' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(isnull(XX.ltrkg,0)),2),0) AS [MilkQty], isnull(Round((SUM(isnull(XX.ltrkg,0))/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2),0) as [AvarageQty]   FROM ( 
-SELECT DISTINCT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.qty, CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM DBNamePrefixTSPL_DEMAND_BOOKING_MASTER
+SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.qty,  (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_DEMAND_BOOKING_MASTER
 LEFT JOIN DBNamePrefixTSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No 
 LEFT JOIN DBNamePrefixTSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 LEFT JOIN DBNamePrefixTSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
 where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_ITEM_MASTER.IsTaxable=0"
                 If rbtnPosted.IsChecked Then
@@ -65,12 +64,11 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon
                 ElseIf rbtnUnposted.IsChecked Then
                     BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
                 End If
-                BaseQry += "Union ALL SELECT DISTINCT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_Booking_DETAIL.Route_No, TSPL_Booking_DETAIL.Cust_Code, TSPL_Booking_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_Booking_DETAIL.Unit_code, TSPL_Booking_DETAIL.Booking_Qty, CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM DBNamePrefixTSPL_Booking_MATSER
+                BaseQry += "Union ALL SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_Booking_DETAIL.Route_No, TSPL_Booking_DETAIL.Cust_Code, TSPL_Booking_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_Booking_DETAIL.Unit_code, TSPL_Booking_DETAIL.Booking_Qty, (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_Booking_MATSER
 LEFT JOIN DBNamePrefixTSPL_Booking_DETAIL ON TSPL_Booking_DETAIL.Document_No = TSPL_Booking_MATSER.Document_No
 LEFT JOIN DBNamePrefixTSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Booking_DETAIL.Cust_Code
 LEFT JOIN DBNamePrefixTSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_Booking_DETAIL.Item_Code
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_Booking_DETAIL.Item_Code
-LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = TSPL_Booking_DETAIL.Item_Code 
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_Booking_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_Booking_DETAIL.Unit_code
 where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_Booking_MATSER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_ITEM_MASTER.IsTaxable=0"
                 If rbtnPosted.IsChecked Then
@@ -84,7 +82,10 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
                 If objCommonVar.RCDFCFP Then
                     sQuery += clsERPFuncationality.ConvertQryForAllUnion(BaseQry, "DBNamePrefix", "DBLocation", "Sno")
                 Else
-                    sQuery += BaseQry.Replace("DBNamePrefix", "")
+                    Dim strqry As String = BaseQry.Replace("DBNamePrefix", "")
+                    strqry = strqry.Replace("DBLocation", objCommonVar.CurrLocationName)
+                    strqry = strqry.Replace("Sno", "1")
+                    sQuery += strqry
                 End If
                 sQuery += ") 
  select * from CTERawData "
@@ -313,16 +314,22 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
         gv1.Columns("AvarageQty").Width = 170
         gv1.Columns("AvarageQty").FormatString = "{0:n0}"
         gv1.Columns("AvarageQty").IsVisible = True
-        'Dim summaryRowItem As New GridViewSummaryRowItem()
-        'Dim item3 As New GridViewSummaryItem("Quantity", "{0:f0}", GridAggregateFunction.Sum)
-        'summaryRowItem.Add(item3)
-        'Dim item4 As New GridViewSummaryItem("Average Quantity", "{0:f0}", GridAggregateFunction.Sum)
-        'summaryRowItem.Add(item4)
-        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-        'gv1.ShowGroupPanel = True
-        'gv1.MasterTemplate.AutoExpandGroups = True
-        ' View()
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item3 As New GridViewSummaryItem("Zone", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Route", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("Booth", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        Dim item6 As New GridViewSummaryItem("MilkQty", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+        Dim item7 As New GridViewSummaryItem("AvarageQty", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gv1.ShowGroupPanel = True
+        gv1.MasterTemplate.AutoExpandGroups = True
+        'View()
     End Sub
     Sub SetGridFormat1()
         gv1.AutoExpandGroups = True

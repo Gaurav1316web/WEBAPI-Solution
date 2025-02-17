@@ -298,7 +298,7 @@ Public Class clsERPFuncationality
         Return qry
     End Function
     Public Shared Function ConvertQryForAllUnion(baseQry As String, DBNamePrefix As String, DBLocation As String, Sno As String) As String
-        Dim qry As String = "select DataBase_Name,Location_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
+        Dim qry As String = "select DataBase_Name,Location_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1 order by database_name "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             qry = ""
