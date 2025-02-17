@@ -1125,6 +1125,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptBankSavingAdvice.resx">
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
+      <DependentUpon>rptUnionBookingReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
     </EmbeddedResource>

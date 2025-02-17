@@ -22,14 +22,12 @@ Partial Class rptUnionBookingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnAll = New common.Controls.MyRadioButton()
         Me.rbtnUnposted = New common.Controls.MyRadioButton()
         Me.rbtnPosted = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -39,18 +37,18 @@ Partial Class rptUnionBookingReport
         Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.rbtnAll = New common.Controls.MyRadioButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnUnposted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,8 +60,10 @@ Partial Class rptUnionBookingReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -87,36 +87,6 @@ Partial Class rptUnionBookingReport
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 413
         Me.SplitContainer1.TabIndex = 0
-        '
-        'BtnReset
-        '
-        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(74, 6)
-        Me.BtnReset.Name = "BtnReset"
-        Me.BtnReset.Size = New System.Drawing.Size(63, 22)
-        Me.BtnReset.TabIndex = 49
-        Me.BtnReset.Text = "Reset"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(721, 6)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(76, 22)
-        Me.btnclose.TabIndex = 50
-        Me.btnclose.Text = "Close"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(5, 6)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(63, 22)
-        Me.btnGo.TabIndex = 48
-        Me.btnGo.Text = ">>>"
         '
         'RadPageView1
         '
@@ -150,6 +120,17 @@ Partial Class rptUnionBookingReport
         Me.GroupBox1.Size = New System.Drawing.Size(187, 39)
         Me.GroupBox1.TabIndex = 1514
         Me.GroupBox1.TabStop = False
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.Location = New System.Drawing.Point(6, 13)
+        Me.rbtnAll.MyLinkLable1 = Nothing
+        Me.rbtnAll.MyLinkLable2 = Nothing
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 18)
+        Me.rbtnAll.TabIndex = 1515
+        Me.rbtnAll.TabStop = False
+        Me.rbtnAll.Text = "ALL"
         '
         'rbtnUnposted
         '
@@ -290,7 +271,7 @@ Partial Class rptUnionBookingReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -299,17 +280,6 @@ Partial Class rptUnionBookingReport
         Me.gv1.Size = New System.Drawing.Size(779, 365)
         Me.gv1.TabIndex = 5
         Me.gv1.VarID = ""
-        '
-        'rbtnAll
-        '
-        Me.rbtnAll.Location = New System.Drawing.Point(6, 13)
-        Me.rbtnAll.MyLinkLable1 = Nothing
-        Me.rbtnAll.MyLinkLable2 = Nothing
-        Me.rbtnAll.Name = "rbtnAll"
-        Me.rbtnAll.Size = New System.Drawing.Size(38, 18)
-        Me.rbtnAll.TabIndex = 1515
-        Me.rbtnAll.TabStop = False
-        Me.rbtnAll.Text = "ALL"
         '
         'btnPrint
         '
@@ -320,6 +290,36 @@ Partial Class rptUnionBookingReport
         Me.btnPrint.Size = New System.Drawing.Size(63, 22)
         Me.btnPrint.TabIndex = 51
         Me.btnPrint.Text = "Print"
+        '
+        'BtnReset
+        '
+        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReset.Location = New System.Drawing.Point(74, 6)
+        Me.BtnReset.Name = "BtnReset"
+        Me.BtnReset.Size = New System.Drawing.Size(63, 22)
+        Me.BtnReset.TabIndex = 49
+        Me.BtnReset.Text = "Reset"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(721, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(76, 22)
+        Me.btnclose.TabIndex = 50
+        Me.btnclose.Text = "Close"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(5, 6)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(63, 22)
+        Me.btnGo.TabIndex = 48
+        Me.btnGo.Text = ">>>"
         '
         'rptUnionBookingReport
         '
@@ -336,14 +336,12 @@ Partial Class rptUnionBookingReport
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnUnposted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -356,8 +354,10 @@ Partial Class rptUnionBookingReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
