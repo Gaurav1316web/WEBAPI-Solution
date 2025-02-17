@@ -83,7 +83,7 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
                     sQuery += clsERPFuncationality.ConvertQryForAllUnion(BaseQry, "DBNamePrefix", "DBLocation", "Sno")
                 Else
                     Dim strqry As String = BaseQry.Replace("DBNamePrefix", "")
-                    strqry = strqry.Replace("DBLocation", objCommonVar.CurrLocationName)
+                    strqry = strqry.Replace("DBLocation", "")
                     strqry = strqry.Replace("Sno", "1")
                     sQuery += strqry
                 End If
@@ -115,7 +115,7 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
                 End If
             End If
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '    Private Sub fillGridReport(ByVal isPrint As Boolean)
