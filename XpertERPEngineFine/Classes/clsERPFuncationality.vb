@@ -297,7 +297,31 @@ Public Class clsERPFuncationality
         End If
         Return qry
     End Function
+    Public Shared Function ConvertQryForAllUnion(baseQry As String, DBNamePrefix As String, DBLocation As String, Sno As String) As String
+        Dim qry As String = "select DataBase_Name,Location_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            qry = ""
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                Dim strqry As String = ""
+                If ii > 0 Then
+                    qry += Environment.NewLine + "Union all" + Environment.NewLine
+                End If
+                strqry = baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
 
+                strqry = strqry.Replace(DBLocation, clsCommon.myCstr(dt.Rows(ii)("Location_Name")))
+                strqry = strqry.Replace(Sno, clsCommon.myCstr(ii + 1))
+                qry += strqry
+
+
+
+
+            Next
+        Else
+            Throw New Exception("No Union found to make query")
+        End If
+        Return qry
+    End Function
     Private Shared Function BreakTheString(strAddDOC As String) As String
         Dim strPrefix As String = ""
         Dim strBreak As String() = clsCommon.myCstr(strAddDOC).Split(New String() {" "}, StringSplitOptions.None)

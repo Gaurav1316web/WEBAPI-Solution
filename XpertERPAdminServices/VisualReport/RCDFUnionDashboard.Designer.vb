@@ -22,10 +22,10 @@ Partial Class RCDFUnionDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -218,7 +218,7 @@ Partial Class RCDFUnionDashboard
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.Attachments
         Me.RadPageView1.Size = New System.Drawing.Size(1149, 497)
         Me.RadPageView1.TabIndex = 1
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -260,7 +260,7 @@ Partial Class RCDFUnionDashboard
         '
         'cvProc
         '
-        Me.cvProc.AreaDesign = CartesianArea3
+        Me.cvProc.AreaDesign = CartesianArea1
         Me.cvProc.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvProc.Location = New System.Drawing.Point(0, 8)
         Me.cvProc.Name = "cvProc"
@@ -290,7 +290,7 @@ Partial Class RCDFUnionDashboard
         '
         Me.gvProc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProc.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProc.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvProc.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvProc.MyStopExport = False
         Me.gvProc.Name = "gvProc"
         Me.gvProc.ShowHeaderCellButtons = True
@@ -333,7 +333,7 @@ Partial Class RCDFUnionDashboard
         '
         'cvSale
         '
-        Me.cvSale.AreaDesign = CartesianArea1
+        Me.cvSale.AreaDesign = CartesianArea2
         Me.cvSale.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvSale.Location = New System.Drawing.Point(0, 8)
         Me.cvSale.Name = "cvSale"
@@ -363,7 +363,7 @@ Partial Class RCDFUnionDashboard
         '
         Me.gvSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSale.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSale.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSale.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvSale.MyStopExport = False
         Me.gvSale.Name = "gvSale"
         Me.gvSale.ShowHeaderCellButtons = True
