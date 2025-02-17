@@ -9223,6 +9223,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemand
                         frm = New frmDailyDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmUpdateAppLocation
+                        frm = New frmUpdateAppLocation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmDBTUnionPayment
                         frm = New frmDBTUnionPayment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
