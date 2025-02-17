@@ -8477,6 +8477,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTruckSheetReport
                         frm = New rptTruckSheetReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionBookingReport
+                        frm = New rptUnionBookingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8618,6 +8621,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionMilkPurchase
+                        frm = New rptUnionMilkRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.latestPaymentProcess
                         frm = New latestPaymentProcess
@@ -9223,10 +9229,6 @@ Public Class MDI
                     Case clsUserMgtCode.rptCattleFeedProduction
                         frm = New rptCattleFeedProduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmUpdateAppLocation
-                        frm = New frmUpdateAppLocation()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
                     Case clsUserMgtCode.frmUnionLastGstInvoice
                         frm = New frmUnionLastGstInvoice()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

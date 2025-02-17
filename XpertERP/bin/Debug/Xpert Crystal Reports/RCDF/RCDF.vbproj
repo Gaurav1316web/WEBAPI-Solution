@@ -105,6 +105,8 @@
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearly.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
+    <None Include="Crystal Reports Common\rptMilkSRNALLUnion.rpt" />
+    <None Include="Crystal Reports Common\rptMilkSRNUnion.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucher.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucherold.rpt" />
     <None Include="Crystal Reports GST\Common Services\crptBankBook.rpt" />

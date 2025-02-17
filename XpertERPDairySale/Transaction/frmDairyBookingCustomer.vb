@@ -3187,8 +3187,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblEnteredQty As Double = dblQty
                 If (clsCommon.myLen(strICode) > 0) Then
                     For jj As Integer = 0 To gv1.Rows.Count - 1
-                        If Not clsCommon.CompairString(taxGroup, clsCommon.myCstr(gv1.Rows(jj).Cells(colTaxGroup).Value)) = CompairStringResult.Equal Then
-                            Throw New Exception("Tax group not matched at Line no [" + clsCommon.myCstr(ii) + "]")
+                        If clsCommon.myLen(gv1.Rows(jj).Cells(colICode).Value) > 0 Then
+                            If Not clsCommon.CompairString(taxGroup, clsCommon.myCstr(gv1.Rows(jj).Cells(colTaxGroup).Value)) = CompairStringResult.Equal Then
+                                Throw New Exception("Tax group not matched at Line no [" + clsCommon.myCstr(ii) + "]")
+                            End If
                         End If
                         If jj = ii Then
                             Continue For
