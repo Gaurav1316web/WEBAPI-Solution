@@ -1311,6 +1311,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDefaultTPTIsChecked = "Apply Default TPT IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const APIMilkSample = "API Milk Sample"
+    Public Const ApplyDepartmentRoute = "Apply Department Route"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -2767,7 +2768,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const DrippingQuantity = "Dripping Quantity"
-
+    Public Const ApplyDepartmentRoute = "Apply Department Route"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4389,6 +4390,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6220,5 +6222,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
     End Sub
 End Class

@@ -50,8 +50,10 @@ Public Class rptUnionBookingReport
     Private Sub fillGridReport(ByVal isPrint As Boolean)
         Try
             If dtRCDF Is Nothing OrElse dtRCDF.Rows.Count <= 0 Then
-                Dim sQuery As String = " with CTERawData as ( "
-                Dim BaseQry As String = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,Sno AS SNo,'DBLocation' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(isnull(XX.ltrkg,0)),2),0) AS [MilkQty], isnull(Round((SUM(isnull(XX.ltrkg,0))/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2),0) as [AvarageQty]   FROM ( 
+                Dim noofday As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DateDiff(Day, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')"))
+                If noofday > 0 Then
+                    Dim sQuery As String = " with CTERawData as ( "
+                    Dim BaseQry As String = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,Sno AS SNo,'DBLocation' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(isnull(XX.ltrkg,0)),2),0) AS [MilkQty], isnull(Round((SUM(isnull(XX.ltrkg,0))/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2),0) as [AvarageQty]   FROM ( 
 SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.qty,  (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_DEMAND_BOOKING_MASTER
 LEFT JOIN DBNamePrefixTSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No 
 LEFT JOIN DBNamePrefixTSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
@@ -59,53 +61,57 @@ LEFT JOIN DBNamePrefixTSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMA
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
 where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_ITEM_MASTER.IsTaxable=0"
-                If rbtnPosted.IsChecked Then
-                    BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Posted=1 "
-                ElseIf rbtnUnposted.IsChecked Then
-                    BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
-                End If
-                BaseQry += "Union ALL SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_Booking_DETAIL.Route_No, TSPL_Booking_DETAIL.Cust_Code, TSPL_Booking_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_Booking_DETAIL.Unit_code, TSPL_Booking_DETAIL.Booking_Qty, (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_Booking_MATSER
+                    If rbtnPosted.IsChecked Then
+                        BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Posted=1 "
+                    ElseIf rbtnUnposted.IsChecked Then
+                        BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
+                    End If
+                    BaseQry += "Union ALL SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_Booking_DETAIL.Route_No, TSPL_Booking_DETAIL.Cust_Code, TSPL_Booking_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_Booking_DETAIL.Unit_code, TSPL_Booking_DETAIL.Booking_Qty, (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_Booking_MATSER
 LEFT JOIN DBNamePrefixTSPL_Booking_DETAIL ON TSPL_Booking_DETAIL.Document_No = TSPL_Booking_MATSER.Document_No
 LEFT JOIN DBNamePrefixTSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Booking_DETAIL.Cust_Code
 LEFT JOIN DBNamePrefixTSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_Booking_DETAIL.Item_Code
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_Booking_DETAIL.Item_Code
 LEFT JOIN ( SELECT TSPL_ITEM_UOM_DETAIL.Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM DBNamePrefixTSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_Booking_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_Booking_DETAIL.Unit_code
 where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_Booking_MATSER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_ITEM_MASTER.IsTaxable=0"
-                If rbtnPosted.IsChecked Then
-                    BaseQry += " and TSPL_Booking_MATSER.Posted=1 "
-                ElseIf rbtnUnposted.IsChecked Then
-                    BaseQry += " and TSPL_Booking_MATSER.Posted=0 "
-                End If
+                    If rbtnPosted.IsChecked Then
+                        BaseQry += " and TSPL_Booking_MATSER.Posted=1 "
+                    ElseIf rbtnUnposted.IsChecked Then
+                        BaseQry += " and TSPL_Booking_MATSER.Posted=0 "
+                    End If
 
-                BaseQry += " ) XX "
+                    BaseQry += " ) XX "
 
-                If objCommonVar.RCDFCFP Then
-                    sQuery += clsERPFuncationality.ConvertQryForAllUnion(BaseQry, "DBNamePrefix", "DBLocation", "Sno")
-                Else
-                    Dim strqry As String = BaseQry.Replace("DBNamePrefix", "")
-                    strqry = strqry.Replace("DBLocation", "")
-                    strqry = strqry.Replace("Sno", "1")
-                    sQuery += strqry
-                End If
-                sQuery += ") 
+                    If objCommonVar.RCDFCFP Then
+                        sQuery += clsERPFuncationality.ConvertQryForAllUnion(BaseQry, "DBNamePrefix", "DBLocation", "Sno")
+                    Else
+                        Dim strqry As String = BaseQry.Replace("DBNamePrefix", "")
+                        strqry = strqry.Replace("DBLocation", "")
+                        strqry = strqry.Replace("Sno", "1")
+                        sQuery += strqry
+                    End If
+                    sQuery += ") 
  select * from CTERawData "
-                dtRCDF = clsDBFuncationality.GetDataTable(sQuery)
-                If (dtRCDF IsNot Nothing AndAlso dtRCDF.Rows.Count > 0) Then
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    gv1.Visible = True
-                    gv1.DataSource = dtRCDF
-                    gv1.ReadOnly = True
-                    SetGridFormat()
-                    gv1.BestFitColumns()
-                    If isPrint Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
-                        frmCRV = Nothing
+                    dtRCDF = clsDBFuncationality.GetDataTable(sQuery)
+                    If (dtRCDF IsNot Nothing AndAlso dtRCDF.Rows.Count > 0) Then
+                        RadPageView1.SelectedPage = RadPageViewPage2
+                        gv1.Visible = True
+                        gv1.DataSource = dtRCDF
+                        gv1.ReadOnly = True
+                        SetGridFormat()
+                        gv1.BestFitColumns()
+                        If isPrint Then
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
+                            frmCRV = Nothing
+                        End If
+                    Else
+                        common.clsCommon.MyMessageBoxShow("No Data Found")
+                        gv1.DataSource = Nothing
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("No Data Found")
-                    gv1.DataSource = Nothing
+                    Throw New Exception("Invalid date range")
                 End If
+
 
             Else
                 If isPrint Then
