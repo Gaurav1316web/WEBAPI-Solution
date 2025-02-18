@@ -8600,6 +8600,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBankSavingAdvice
                         frm = New rptBankSavingAdvice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.frmDCSWiseHoldPayments
+                        frm = New frmDCSWiseHoldPayments
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

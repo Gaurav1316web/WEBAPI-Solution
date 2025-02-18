@@ -259,6 +259,12 @@
     <Compile Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDCSWiseHoldPayments.Designer.vb">
+      <DependentUpon>frmDCSWiseHoldPayments.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDCSWiseHoldPayments.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBankSavingAdvice.Designer.vb">
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
     </Compile>
@@ -1109,6 +1115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.resx">
       <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDCSWiseHoldPayments.resx">
+      <DependentUpon>frmDCSWiseHoldPayments.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBankSavingAdvice.resx">
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
