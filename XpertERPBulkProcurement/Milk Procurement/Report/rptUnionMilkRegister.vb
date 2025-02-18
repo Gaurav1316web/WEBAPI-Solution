@@ -176,7 +176,7 @@ Public Class rptUnionMilkRegister
         gv1.Columns("Union Name").Width = 200
         gv1.Columns("Union Name").IsVisible = True
 
-        gv1.Columns("Route Code").HeaderText = "Route Code"
+        gv1.Columns("Route Code").HeaderText = "No. of Route "
         gv1.Columns("Route Code").Width = 150
         gv1.Columns("Route Code").IsVisible = True
 
@@ -188,15 +188,15 @@ Public Class rptUnionMilkRegister
         gv1.Columns("ToDate").Width = 150
         gv1.Columns("ToDate").IsVisible = False
 
-        gv1.Columns("MCC Code").HeaderText = "MCC Code"
+        gv1.Columns("MCC Code").HeaderText = "No. of MCC "
         gv1.Columns("MCC Code").Width = 150
         gv1.Columns("MCC Code").IsVisible = True
 
-        gv1.Columns("BMC Code").HeaderText = "BMC Code"
+        gv1.Columns("BMC Code").HeaderText = "No. of BMC"
         gv1.Columns("BMC Code").Width = 150
         gv1.Columns("BMC Code").IsVisible = True
 
-        gv1.Columns("Vlc Uploader Code").HeaderText = "Vlc Uploader Code"
+        gv1.Columns("Vlc Uploader Code").HeaderText = "no. of DCS"
         gv1.Columns("Vlc Uploader Code").Width = 150
         gv1.Columns("Vlc Uploader Code").IsVisible = False
 
@@ -244,19 +244,19 @@ Public Class rptUnionMilkRegister
         gv1.Columns("ToDate").Width = 150
         gv1.Columns("ToDate").IsVisible = False
 
-        gv1.Columns("Route Code").HeaderText = "Route Code"
+        gv1.Columns("Route Code").HeaderText = "No. of Route"
         gv1.Columns("Route Code").Width = 150
         gv1.Columns("Route Code").IsVisible = True
 
-        gv1.Columns("MCC Code").HeaderText = "MCC Code"
+        gv1.Columns("MCC Code").HeaderText = "No. of MCC"
         gv1.Columns("MCC Code").Width = 150
         gv1.Columns("MCC Code").IsVisible = True
 
-        gv1.Columns("BMC Code").HeaderText = "BMC Code"
+        gv1.Columns("BMC Code").HeaderText = "No. of BMC"
         gv1.Columns("BMC Code").Width = 150
         gv1.Columns("BMC Code").IsVisible = True
 
-        gv1.Columns("Vlc Uploader Code").HeaderText = "Vlc Uploader Code"
+        gv1.Columns("Vlc Uploader Code").HeaderText = "No. of DCS"
         gv1.Columns("Vlc Uploader Code").Width = 150
         gv1.Columns("Vlc Uploader Code").IsVisible = False
 
