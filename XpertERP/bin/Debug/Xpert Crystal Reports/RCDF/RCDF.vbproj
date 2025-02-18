@@ -1767,6 +1767,7 @@
     <None Include="Crystal Reports\Sales Report\CashRegister.rpt" />
     <None Include="Crystal Reports\Sales Report\CashRegisterNew.rpt" />
     <None Include="Crystal Reports\Sales Report\CashRegisterSummary.rpt" />
+    <None Include="Crystal Reports\Sales Report\CprtSTCRegisterItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAdditionalCharge.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance0.rpt" />
@@ -1775,6 +1776,8 @@
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance3.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAgedTrialBalance4.rpt" />
     <None Include="Crystal Reports\Sales Report\crptAPInvc.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptBillWiseSaleOfMilk.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptBillWiseSaleOfMilkSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCanceledSaleInvoice.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscCrosstab.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCashDiscountDetail.rpt" />
@@ -1843,6 +1846,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptMilkStcSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportDetail.rpt" />
@@ -1872,6 +1876,7 @@
     <None Include="Crystal Reports\Sales Report\crptOutletEmptyDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptOverallDiscountInvoicewise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptOverallDiscountItemwise.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptPartySalesMilkandProducts.rpt" />
     <None Include="Crystal Reports\Sales Report\crptpendingsettlement.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleDetailAccount.rpt" />
@@ -1879,6 +1884,8 @@
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryAccount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryShipping.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryTaxableNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductWiseSaleQuantity.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSales.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesHierBoth.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesHierQtywise.rpt" />
@@ -1938,6 +1945,8 @@
     <None Include="Crystal Reports\Sales Report\crptSettlement.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSettlementEntry.rpt" />
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscCrosstabReport.rpt" />

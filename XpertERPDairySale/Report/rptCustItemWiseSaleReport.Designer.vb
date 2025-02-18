@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,18 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BKNGroupBox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnBillWiseSaleOfMilkSummary = New common.Controls.MyRadioButton()
+        Me.BtnProductSalesSummary = New common.Controls.MyRadioButton()
+        Me.BtnMilkStcSummary = New common.Controls.MyRadioButton()
+        Me.BtnStcRegisterItemWiseSummary = New common.Controls.MyRadioButton()
+        Me.BtnBillWiseSaleOfMilk = New common.Controls.MyRadioButton()
+        Me.BtnPartySaleMilkProduct = New common.Controls.MyRadioButton()
+        Me.BtnProductWiseSaleQuantity = New common.Controls.MyRadioButton()
+        Me.BtnStcRegisterPartyandItemWiseSummary = New common.Controls.MyRadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.txtTransaction = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
@@ -51,9 +63,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDetail = New common.Controls.MyRadioButton()
-        Me.rbtnSummary = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -65,6 +74,20 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.BKNGroupBox.SuspendLayout()
+        CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,10 +103,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,7 +111,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(785, 20)
         Me.RadMenu1.TabIndex = 2
         '
         'RadMenuItem1
@@ -131,8 +150,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Size = New System.Drawing.Size(692, 486)
-        Me.SplitContainer1.SplitterDistance = 436
+        Me.SplitContainer1.Size = New System.Drawing.Size(785, 474)
+        Me.SplitContainer1.SplitterDistance = 424
         Me.SplitContainer1.TabIndex = 3
         '
         'RadPageView1
@@ -143,7 +162,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(692, 436)
+        Me.RadPageView1.Size = New System.Drawing.Size(785, 424)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -153,7 +172,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 388)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(764, 376)
         Me.RadPageViewPage1.Text = "Filter"
         '
         'RadPanel1
@@ -162,12 +181,13 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(671, 388)
+        Me.RadPanel1.Size = New System.Drawing.Size(764, 376)
         Me.RadPanel1.TabIndex = 15
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.BKNGroupBox)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox2)
         Me.RadGroupBox1.Controls.Add(Me.txtTransaction)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
@@ -182,8 +202,151 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(375, 171)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(755, 190)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'BKNGroupBox
+        '
+        Me.BKNGroupBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilkSummary)
+        Me.BKNGroupBox.Controls.Add(Me.BtnProductSalesSummary)
+        Me.BKNGroupBox.Controls.Add(Me.BtnMilkStcSummary)
+        Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterItemWiseSummary)
+        Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilk)
+        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProduct)
+        Me.BKNGroupBox.Controls.Add(Me.BtnProductWiseSaleQuantity)
+        Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterPartyandItemWiseSummary)
+        Me.BKNGroupBox.HeaderText = ""
+        Me.BKNGroupBox.Location = New System.Drawing.Point(344, 13)
+        Me.BKNGroupBox.Name = "BKNGroupBox"
+        Me.BKNGroupBox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.BKNGroupBox.Size = New System.Drawing.Size(406, 108)
+        Me.BKNGroupBox.TabIndex = 447
+        Me.BKNGroupBox.Visible = False
+        '
+        'BtnBillWiseSaleOfMilkSummary
+        '
+        Me.BtnBillWiseSaleOfMilkSummary.Location = New System.Drawing.Point(216, 78)
+        Me.BtnBillWiseSaleOfMilkSummary.MyLinkLable1 = Nothing
+        Me.BtnBillWiseSaleOfMilkSummary.MyLinkLable2 = Nothing
+        Me.BtnBillWiseSaleOfMilkSummary.Name = "BtnBillWiseSaleOfMilkSummary"
+        Me.BtnBillWiseSaleOfMilkSummary.Size = New System.Drawing.Size(175, 18)
+        Me.BtnBillWiseSaleOfMilkSummary.TabIndex = 403
+        Me.BtnBillWiseSaleOfMilkSummary.TabStop = False
+        Me.BtnBillWiseSaleOfMilkSummary.Text = "Bill Wise Sale Of Milk Summary"
+        '
+        'BtnProductSalesSummary
+        '
+        Me.BtnProductSalesSummary.Location = New System.Drawing.Point(217, 54)
+        Me.BtnProductSalesSummary.MyLinkLable1 = Nothing
+        Me.BtnProductSalesSummary.MyLinkLable2 = Nothing
+        Me.BtnProductSalesSummary.Name = "BtnProductSalesSummary"
+        Me.BtnProductSalesSummary.Size = New System.Drawing.Size(138, 18)
+        Me.BtnProductSalesSummary.TabIndex = 404
+        Me.BtnProductSalesSummary.TabStop = False
+        Me.BtnProductSalesSummary.Text = "Product Sales Summary"
+        '
+        'BtnMilkStcSummary
+        '
+        Me.BtnMilkStcSummary.Location = New System.Drawing.Point(218, 28)
+        Me.BtnMilkStcSummary.MyLinkLable1 = Nothing
+        Me.BtnMilkStcSummary.MyLinkLable2 = Nothing
+        Me.BtnMilkStcSummary.Name = "BtnMilkStcSummary"
+        Me.BtnMilkStcSummary.Size = New System.Drawing.Size(110, 18)
+        Me.BtnMilkStcSummary.TabIndex = 402
+        Me.BtnMilkStcSummary.TabStop = False
+        Me.BtnMilkStcSummary.Text = "Milk Stc Summary"
+        '
+        'BtnStcRegisterItemWiseSummary
+        '
+        Me.BtnStcRegisterItemWiseSummary.Location = New System.Drawing.Point(219, 4)
+        Me.BtnStcRegisterItemWiseSummary.MyLinkLable1 = Nothing
+        Me.BtnStcRegisterItemWiseSummary.MyLinkLable2 = Nothing
+        Me.BtnStcRegisterItemWiseSummary.Name = "BtnStcRegisterItemWiseSummary"
+        Me.BtnStcRegisterItemWiseSummary.Size = New System.Drawing.Size(182, 18)
+        Me.BtnStcRegisterItemWiseSummary.TabIndex = 401
+        Me.BtnStcRegisterItemWiseSummary.TabStop = False
+        Me.BtnStcRegisterItemWiseSummary.Text = "Stc Register Item Wise Summary"
+        '
+        'BtnBillWiseSaleOfMilk
+        '
+        Me.BtnBillWiseSaleOfMilk.Location = New System.Drawing.Point(5, 78)
+        Me.BtnBillWiseSaleOfMilk.MyLinkLable1 = Nothing
+        Me.BtnBillWiseSaleOfMilk.MyLinkLable2 = Nothing
+        Me.BtnBillWiseSaleOfMilk.Name = "BtnBillWiseSaleOfMilk"
+        Me.BtnBillWiseSaleOfMilk.Size = New System.Drawing.Size(125, 18)
+        Me.BtnBillWiseSaleOfMilk.TabIndex = 399
+        Me.BtnBillWiseSaleOfMilk.TabStop = False
+        Me.BtnBillWiseSaleOfMilk.Text = "Bill Wise Sale Of Milk"
+        '
+        'BtnPartySaleMilkProduct
+        '
+        Me.BtnPartySaleMilkProduct.Location = New System.Drawing.Point(4, 52)
+        Me.BtnPartySaleMilkProduct.MyLinkLable1 = Nothing
+        Me.BtnPartySaleMilkProduct.MyLinkLable2 = Nothing
+        Me.BtnPartySaleMilkProduct.Name = "BtnPartySaleMilkProduct"
+        Me.BtnPartySaleMilkProduct.Size = New System.Drawing.Size(139, 18)
+        Me.BtnPartySaleMilkProduct.TabIndex = 398
+        Me.BtnPartySaleMilkProduct.TabStop = False
+        Me.BtnPartySaleMilkProduct.Text = "Party Sale (Milk&Product)"
+        '
+        'BtnProductWiseSaleQuantity
+        '
+        Me.BtnProductWiseSaleQuantity.Location = New System.Drawing.Point(4, 28)
+        Me.BtnProductWiseSaleQuantity.MyLinkLable1 = Nothing
+        Me.BtnProductWiseSaleQuantity.MyLinkLable2 = Nothing
+        Me.BtnProductWiseSaleQuantity.Name = "BtnProductWiseSaleQuantity"
+        Me.BtnProductWiseSaleQuantity.Size = New System.Drawing.Size(156, 18)
+        Me.BtnProductWiseSaleQuantity.TabIndex = 397
+        Me.BtnProductWiseSaleQuantity.TabStop = False
+        Me.BtnProductWiseSaleQuantity.Text = "Product Wise Sale Quantity"
+        '
+        'BtnStcRegisterPartyandItemWiseSummary
+        '
+        Me.BtnStcRegisterPartyandItemWiseSummary.Location = New System.Drawing.Point(4, 4)
+        Me.BtnStcRegisterPartyandItemWiseSummary.MyLinkLable1 = Nothing
+        Me.BtnStcRegisterPartyandItemWiseSummary.MyLinkLable2 = Nothing
+        Me.BtnStcRegisterPartyandItemWiseSummary.Name = "BtnStcRegisterPartyandItemWiseSummary"
+        Me.BtnStcRegisterPartyandItemWiseSummary.Size = New System.Drawing.Size(214, 18)
+        Me.BtnStcRegisterPartyandItemWiseSummary.TabIndex = 396
+        Me.BtnStcRegisterPartyandItemWiseSummary.TabStop = False
+        Me.BtnStcRegisterPartyandItemWiseSummary.Text = "Stc Register Party & Item Wise Summary"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.HeaderText = "Report Type"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 127)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(331, 37)
+        Me.RadGroupBox2.TabIndex = 441
+        Me.RadGroupBox2.Text = "Report Type"
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 396
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(118, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 391
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
         '
         'txtTransaction
         '
@@ -354,7 +517,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -398,7 +561,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(599, 15)
+        Me.btnClose.Location = New System.Drawing.Point(654, 15)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 153
@@ -424,47 +587,11 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
-        Me.RadGroupBox2.HeaderText = "Report Type"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 127)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(331, 37)
-        Me.RadGroupBox2.TabIndex = 441
-        Me.RadGroupBox2.Text = "Report Type"
-        '
-        'rbtnDetail
-        '
-        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDetail.Location = New System.Drawing.Point(5, 9)
-        Me.rbtnDetail.MyLinkLable1 = Nothing
-        Me.rbtnDetail.MyLinkLable2 = Nothing
-        Me.rbtnDetail.Name = "rbtnDetail"
-        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
-        Me.rbtnDetail.TabIndex = 396
-        Me.rbtnDetail.Text = "Detail"
-        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnSummary
-        '
-        Me.rbtnSummary.Location = New System.Drawing.Point(118, 9)
-        Me.rbtnSummary.MyLinkLable1 = Nothing
-        Me.rbtnSummary.MyLinkLable2 = Nothing
-        Me.rbtnSummary.Name = "rbtnSummary"
-        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
-        Me.rbtnSummary.TabIndex = 391
-        Me.rbtnSummary.TabStop = False
-        Me.rbtnSummary.Text = "Summary"
-        '
         'rptCustItemWiseSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(692, 506)
+        Me.ClientSize = New System.Drawing.Size(785, 494)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "rptCustItemWiseSaleReport"
@@ -485,6 +612,22 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.BKNGroupBox.ResumeLayout(False)
+        Me.BKNGroupBox.PerformLayout()
+        CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
@@ -500,11 +643,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -541,5 +679,14 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
     Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Friend WithEvents BKNGroupBox As RadGroupBox
+    Friend WithEvents BtnBillWiseSaleOfMilkSummary As common.Controls.MyRadioButton
+    Friend WithEvents BtnProductSalesSummary As common.Controls.MyRadioButton
+    Friend WithEvents BtnMilkStcSummary As common.Controls.MyRadioButton
+    Friend WithEvents BtnStcRegisterItemWiseSummary As common.Controls.MyRadioButton
+    Friend WithEvents BtnBillWiseSaleOfMilk As common.Controls.MyRadioButton
+    Friend WithEvents BtnPartySaleMilkProduct As common.Controls.MyRadioButton
+    Friend WithEvents BtnProductWiseSaleQuantity As common.Controls.MyRadioButton
+    Friend WithEvents BtnStcRegisterPartyandItemWiseSummary As common.Controls.MyRadioButton
 End Class
 
