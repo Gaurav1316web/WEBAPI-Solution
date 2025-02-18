@@ -55,10 +55,11 @@ Public Class rptUnionBookingReport
                 TemplateGridview = gv1
                 gv1.DataSource = Nothing
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                Dim noofday As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DateDiff(Day, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')"))
+
+                Dim noofday As Integer = DateDiff(DateInterval.Day, txtFromDate.Value, txtToDate.Value) + 1
                 If noofday > 0 Then
                     Dim sQuery As String = " with CTERawData as ( "
-                    Dim BaseQry As String = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,Sno AS SNo,'DBLocation' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(isnull(XX.ltrkg,0)),2),0) AS [MilkQty], isnull(Round((SUM(isnull(XX.ltrkg,0))/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2),0) as [AvarageQty]   FROM ( 
+                    Dim BaseQry As String = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,Sno AS SNo,'DBLocation' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(isnull(XX.ltrkg,0)),2),0) AS [MilkQty], isnull(Round((SUM(isnull(XX.ltrkg,0))/" + clsCommon.myCstr(noofday) + "),2),0) as [AvarageQty]   FROM ( 
 SELECT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.qty,  (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) AS ltrkg FROM DBNamePrefixTSPL_DEMAND_BOOKING_MASTER
 LEFT JOIN DBNamePrefixTSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No 
 LEFT JOIN DBNamePrefixTSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
