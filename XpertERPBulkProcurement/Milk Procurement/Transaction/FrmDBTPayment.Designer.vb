@@ -22,9 +22,15 @@ Partial Class FrmDBTPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.GroupReverse = New System.Windows.Forms.GroupBox()
+        Me.btnRevese = New Telerik.WinControls.UI.RadButton()
+        Me.txtReveseDocument = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtReveseUnion = New common.UserControls.txtFinder()
+        Me.lblTankerNo = New common.Controls.MyLabel()
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.txtUnion = New common.UserControls.txtMultiSelectFinder()
@@ -43,6 +49,10 @@ Partial Class FrmDBTPayment
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.GroupReverse.SuspendLayout()
+        CType(Me.btnRevese, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTankerNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,7 +78,7 @@ Partial Class FrmDBTPayment
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(612, 279)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(703, 279)
         Me.RadGroupBox3.TabIndex = 1
         '
         'SplitContainer2
@@ -81,6 +91,7 @@ Partial Class FrmDBTPayment
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.GroupReverse)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel12)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel34)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtUnion)
@@ -91,9 +102,104 @@ Partial Class FrmDBTPayment
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetail)
-        Me.SplitContainer2.Size = New System.Drawing.Size(592, 249)
+        Me.SplitContainer2.Size = New System.Drawing.Size(683, 249)
         Me.SplitContainer2.SplitterDistance = 67
         Me.SplitContainer2.TabIndex = 15
+        '
+        'GroupReverse
+        '
+        Me.GroupReverse.Controls.Add(Me.btnRevese)
+        Me.GroupReverse.Controls.Add(Me.txtReveseDocument)
+        Me.GroupReverse.Controls.Add(Me.txtReveseUnion)
+        Me.GroupReverse.Controls.Add(Me.MyLabel2)
+        Me.GroupReverse.Controls.Add(Me.lblTankerNo)
+        Me.GroupReverse.Location = New System.Drawing.Point(353, -1)
+        Me.GroupReverse.Name = "GroupReverse"
+        Me.GroupReverse.Size = New System.Drawing.Size(307, 53)
+        Me.GroupReverse.TabIndex = 27
+        Me.GroupReverse.TabStop = False
+        Me.GroupReverse.Text = "Reverse && Unpost"
+        Me.GroupReverse.Visible = False
+        '
+        'btnRevese
+        '
+        Me.btnRevese.Location = New System.Drawing.Point(242, 13)
+        Me.btnRevese.Name = "btnRevese"
+        Me.btnRevese.Size = New System.Drawing.Size(57, 36)
+        Me.btnRevese.TabIndex = 15
+        Me.btnRevese.Text = "Reverse"
+        '
+        'txtReveseDocument
+        '
+        Me.txtReveseDocument.CalculationExpression = Nothing
+        Me.txtReveseDocument.FieldCode = Nothing
+        Me.txtReveseDocument.FieldDesc = Nothing
+        Me.txtReveseDocument.FieldMaxLength = 0
+        Me.txtReveseDocument.FieldName = Nothing
+        Me.txtReveseDocument.isCalculatedField = False
+        Me.txtReveseDocument.IsSourceFromTable = False
+        Me.txtReveseDocument.IsSourceFromValueList = False
+        Me.txtReveseDocument.IsUnique = False
+        Me.txtReveseDocument.Location = New System.Drawing.Point(70, 31)
+        Me.txtReveseDocument.MendatroryField = True
+        Me.txtReveseDocument.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReveseDocument.MyLinkLable1 = Nothing
+        Me.txtReveseDocument.MyLinkLable2 = Me.MyLabel2
+        Me.txtReveseDocument.MyReadOnly = False
+        Me.txtReveseDocument.MyShowMasterFormButton = False
+        Me.txtReveseDocument.Name = "txtReveseDocument"
+        Me.txtReveseDocument.ReferenceFieldDesc = Nothing
+        Me.txtReveseDocument.ReferenceFieldName = Nothing
+        Me.txtReveseDocument.ReferenceTableName = Nothing
+        Me.txtReveseDocument.Size = New System.Drawing.Size(169, 19)
+        Me.txtReveseDocument.TabIndex = 13
+        Me.txtReveseDocument.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(6, 32)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel2.TabIndex = 14
+        Me.MyLabel2.Text = "Document"
+        '
+        'txtReveseUnion
+        '
+        Me.txtReveseUnion.CalculationExpression = Nothing
+        Me.txtReveseUnion.FieldCode = Nothing
+        Me.txtReveseUnion.FieldDesc = Nothing
+        Me.txtReveseUnion.FieldMaxLength = 0
+        Me.txtReveseUnion.FieldName = Nothing
+        Me.txtReveseUnion.isCalculatedField = False
+        Me.txtReveseUnion.IsSourceFromTable = False
+        Me.txtReveseUnion.IsSourceFromValueList = False
+        Me.txtReveseUnion.IsUnique = False
+        Me.txtReveseUnion.Location = New System.Drawing.Point(70, 12)
+        Me.txtReveseUnion.MendatroryField = True
+        Me.txtReveseUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReveseUnion.MyLinkLable1 = Nothing
+        Me.txtReveseUnion.MyLinkLable2 = Me.lblTankerNo
+        Me.txtReveseUnion.MyReadOnly = False
+        Me.txtReveseUnion.MyShowMasterFormButton = False
+        Me.txtReveseUnion.Name = "txtReveseUnion"
+        Me.txtReveseUnion.ReferenceFieldDesc = Nothing
+        Me.txtReveseUnion.ReferenceFieldName = Nothing
+        Me.txtReveseUnion.ReferenceTableName = Nothing
+        Me.txtReveseUnion.Size = New System.Drawing.Size(169, 19)
+        Me.txtReveseUnion.TabIndex = 11
+        Me.txtReveseUnion.Value = ""
+        '
+        'lblTankerNo
+        '
+        Me.lblTankerNo.FieldName = Nothing
+        Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTankerNo.Location = New System.Drawing.Point(6, 15)
+        Me.lblTankerNo.Name = "lblTankerNo"
+        Me.lblTankerNo.Size = New System.Drawing.Size(36, 16)
+        Me.lblTankerNo.TabIndex = 12
+        Me.lblTankerNo.Text = "Union"
         '
         'RadLabel12
         '
@@ -101,7 +207,7 @@ Partial Class FrmDBTPayment
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(197, 51)
+        Me.RadLabel12.Location = New System.Drawing.Point(288, 51)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(390, 13)
         Me.RadLabel12.TabIndex = 26
@@ -190,12 +296,13 @@ Partial Class FrmDBTPayment
         '
         Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True
-        Me.gvDetail.Size = New System.Drawing.Size(592, 178)
+        Me.gvDetail.Size = New System.Drawing.Size(683, 178)
         Me.gvDetail.TabIndex = 5
+        Me.gvDetail.VarID = ""
         '
         'GroupBox1
         '
@@ -206,7 +313,7 @@ Partial Class FrmDBTPayment
         Me.GroupBox1.Controls.Add(Me.UcAttachment1)
         Me.GroupBox1.Location = New System.Drawing.Point(65, 18)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(471, 145)
+        Me.GroupBox1.Size = New System.Drawing.Size(562, 145)
         Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Visible = False
@@ -214,7 +321,7 @@ Partial Class FrmDBTPayment
         'RadButton2
         '
         Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton2.Location = New System.Drawing.Point(386, 26)
+        Me.RadButton2.Location = New System.Drawing.Point(477, 26)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(75, 20)
         Me.RadButton2.TabIndex = 3
@@ -225,7 +332,7 @@ Partial Class FrmDBTPayment
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(3, 18)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(465, 124)
+        Me.UcAttachment1.Size = New System.Drawing.Size(556, 124)
         Me.UcAttachment1.TabIndex = 2
         Me.UcAttachment1.TabStop = False
         '
@@ -244,13 +351,13 @@ Partial Class FrmDBTPayment
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel1.Location = New System.Drawing.Point(0, 279)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(612, 33)
+        Me.Panel1.Size = New System.Drawing.Size(703, 33)
         Me.Panel1.TabIndex = 1
         '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(534, 5)
+        Me.btnClose.Location = New System.Drawing.Point(625, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 3
@@ -260,7 +367,7 @@ Partial Class FrmDBTPayment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(612, 312)
+        Me.ClientSize = New System.Drawing.Size(703, 312)
         Me.Controls.Add(Me.RadGroupBox3)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "FrmDBTPayment"
@@ -276,6 +383,11 @@ Partial Class FrmDBTPayment
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        Me.GroupReverse.ResumeLayout(False)
+        Me.GroupReverse.PerformLayout()
+        CType(Me.btnRevese, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTankerNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -309,5 +421,11 @@ Partial Class FrmDBTPayment
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
+    Friend WithEvents GroupReverse As GroupBox
+    Friend WithEvents btnRevese As RadButton
+    Friend WithEvents txtReveseDocument As common.UserControls.txtFinder
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtReveseUnion As common.UserControls.txtFinder
+    Friend WithEvents lblTankerNo As common.Controls.MyLabel
 End Class
 

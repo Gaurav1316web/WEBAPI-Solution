@@ -54132,7 +54132,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Status", "int Null")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", True, False, "", "Document_Code", "Document_Date")
 
 
             coll = New Dictionary(Of String, String)()
