@@ -2896,4 +2896,136 @@ Public Class FrmMPMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub mnuExportMPName_Click(sender As Object, e As EventArgs) Handles mnuExportMPName.Click
+        Try
+
+
+            Dim ExportSheet As String = "FillDataSheet"
+            Dim MultiMPCodeName As ArrayList = Nothing
+            Dim Qry As String = Nothing
+            Qry = "select MP_Code as 'MP Code',MP_Name as 'MP Name',PayeeName as 'Payee Name' from tspl_mp_Master"
+            MultiMPCodeName = clsCommon.ShowMultipleSelectForm("DCSMulSelect", Qry, "MP Code", "MP Name", MultiMPCodeName, MultiMPCodeName)
+
+            If clsCommon.myLen(MultiMPCodeName) > 0 Then
+                clsMpMaster.ExportDataTable(MultiMPCodeName, Me, ExportSheet)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+
+    End Sub
+    Public Sub funImportMPName()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "MP Code", "MP Name", "Payee Name") Then
+                Dim ii As Integer = 0
+                Dim Arr As New List(Of clsMpMaster)
+                Dim dtError As New DataTable
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+
+                    If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        For Each grow As GridViewRowInfo In gv.Rows
+                            Try
+                                ii += 1
+                                clsCommon.ProgressBarPercentUpdate(ii, gv.Rows.Count, "Validating Data...")
+
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("MP Code").Value)) <= 0 Then
+                                    Throw New Exception("MP Code can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("MP Name").Value)) <= 0 Then
+                                    Throw New Exception("MP Name can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Payee Name").Value)) <= 0 Then
+                                    Throw New Exception("Payee Name can't be blank !")
+                                End If
+
+                                Dim obj As New clsMpMaster
+                                obj.MP_Code = clsCommon.myCstr(grow.Cells("MP Code").Value)
+                                obj.MP_Name = clsCommon.myCstr(grow.Cells("MP Name").Value)
+                                obj.PayeeName = clsCommon.myCstr(grow.Cells("Payee Name").Value)
+
+                                'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BANK,BRANCH,STATE,CITY from TSPL_MASTER.dbo.TSPL_IFSC where IFSC='" + obj.IFCICode + "'")
+                                'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                                '    Throw New Exception("Invalid IFSC Code [" + obj.IFCICode + "]")
+                                'Else
+                                '    obj.BankName = clsCommon.myCstr(dt.Rows(0)("BANK"))
+                                '    obj.BankBranch = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
+                                '    obj.BankStateCode = clsCommon.myCstr(dt.Rows(0)("STATE"))
+                                '    obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
+                                'End If
+                                ' obj.AccountNO = clsCommon.myCstr(grow.Cells("Account Number").Value)
+                                'Dim chkCount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + clsCommon.myCstr(obj.MP_Code) + "'"))
+                                'If chkCount > 0 Then
+                                'Else
+                                '    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
+                                'End If
+                                Arr.Add(obj)
+                            Catch ex As Exception
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("RowNo") = ii
+                                dr("Error") = ex.Message
+                                dtError.Rows.Add(dr)
+                            End Try
+                        Next
+                        clsCommon.ProgressBarPercentHide()
+                    End If
+
+                    Try
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = "MilkShiftUploader"
+                            ff.Text = "MP Master Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        ElseIf Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(Arr.Count) + "] Do You want to Proceed"
+                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                clsCommon.ProgressBarPercentShow()
+                                ii = 0
+                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                Try
+                                    For Each obj As clsMpMaster In Arr
+                                        ii += 1
+                                        clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+
+                                        Dim UpdateQry As String = "Update TSPL_MP_MASTER Set mp_name='" + obj.MP_Name + "',PayeeName='" + obj.PayeeName + "' Where MP_Code='" + obj.MP_Code + "'"
+                                        clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
+                                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
+                                    Next
+                                    trans.Commit()
+                                Catch ex As Exception
+                                    trans.Rollback()
+                                    Throw New Exception(ex.Message)
+                                Finally
+                                    clsCommon.ProgressBarPercentHide()
+                                End Try
+                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                            End If
+                        Else
+                            Throw New Exception("No Valid Rows Found to Save")
+                        End If
+                    Catch ex As Exception
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
+                Catch ex As Exception
+                    Throw New Exception(ex.Message)
+                End Try
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+    Private Sub RadMnuMPName_Click(sender As Object, e As EventArgs) Handles RadMnuMPName.Click
+        ' funImportMPName()
+    End Sub
+
+    Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
+        funImportMPName()
+    End Sub
 End Class

@@ -76,7 +76,7 @@ Public Class clsDeductionGroup
     End Function
 
     Friend Shared Function GetDeductionType(deductionCode As String, trans As SqlTransaction) As String
-        Dim qry As String = "select (case when TSPL_DEDUCTION_GROUP.Ded_Type=1 then 'Addition' else case when TSPL_DEDUCTION_GROUP.Ded_Type=2 then 'Deduction' else '' end end) from TSPL_DEDUCTION_MASTER 
+        Dim qry As String = "select (case when TSPL_DEDUCTION_GROUP.Ded_Type=1 then 'Addition' else case when TSPL_DEDUCTION_GROUP.Ded_Type=2 then 'Deduction' else '' end end) as Ded_Type  from TSPL_DEDUCTION_MASTER 
 left outer join TSPL_DEDUCTION_GROUP on TSPL_DEDUCTION_GROUP.Ded_Code=TSPL_DEDUCTION_MASTER.Ded_Grp_Code
 where TSPL_DEDUCTION_MASTER.Code='" + deductionCode + "' "
         Return clsDBFuncationality.getSingleValue(qry, trans)

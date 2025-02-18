@@ -6,22 +6,22 @@ Public Class frmUpdateAppLocation
     Const ColCode As String = "ColCode"
     Private isInsideLoadData As Boolean = False
 
-    Const colLocationName As String = "Location Name"
-    Const colDataBaseName As String = "DataBase Name"
-    Const colCustomerCode As String = "Customer Code"
-    Const colCustomerName As String = "Customer Name"
-    Const colCustomerAccountNo As String = "Customer Account No"
-    Const colSchedulerApplySMS As String = "Scheduler Apply SMS"
-    Const colSchedulerApplyEMail As String = "Scheduler Apply EMail"
-    Const colApplyPDAccount As String = "Apply PD Account"
-    Const colApplyECollect As String = "Apply ECollect"
+    Const colLocationName As String = "colLocationName"
+    Const colDataBaseName As String = "colDataBaseName"
+    Const colCustomerCode As String = "colCustomerCode"
+    Const colCustomerName As String = "colCustomerName"
+    Const colCustomerAccountNo As String = "colCustomerAccountNo"
+    Const colSchedulerApplySMS As String = "colSchedulerApplySMS"
+    Const colSchedulerApplyEMail As String = "colSchedulerApplyEMail"
+    Const colApplyPDAccount As String = "colApplyPDAccount"
+    Const colApplyECollect As String = "colApplyECollect"
 
     Private Sub frmUpdateAppLocation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         formLoad()
     End Sub
     Sub formLoad()
         Dim dt As DataTable = Nothing
-        Dim qry As String = "select Code, *  from TSPL_MASTER.dbo.TSPL_APP_LOCATION "
+        Dim qry As String = "select *  from TSPL_MASTER.dbo.TSPL_APP_LOCATION "
         dt = clsDBFuncationality.GetDataTable(qry)
 
         If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
@@ -34,8 +34,22 @@ Public Class frmUpdateAppLocation
             gv1.EnableFiltering = True
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
+                LoadBlankGridColmns()
+                'gv1.DataSource = dt
                 gv1.BestFitColumns()
+                For Each dr As DataRow In dt.Rows
+                    gv1.Rows.AddNew()
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColCode).Value = dr("Code")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = dr("Location_Name")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDataBaseName).Value = dr("DataBase_Name")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerCode).Value = dr("Customer_Code")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerName).Value = dr("Customer_Name")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerAccountNo).Value = dr("Customer_Account_No")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSchedulerApplyEMail).Value = dr("Scheduler_Apply_SMS")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSchedulerApplySMS).Value = dr("Scheduler_Apply_EMail")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colApplyPDAccount).Value = dr("Apply_PD_Account")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colApplyECollect).Value = dr("Apply_ECollect")
+                Next
                 'View()
                 ' SetGridFormation()
                 'ReStoreGridLayout()
@@ -63,146 +77,95 @@ Public Class frmUpdateAppLocation
         gridColCode.HeaderText = "Code"
         gridColCode.Name = ColCode
         gridColCode.Width = 105
-        gridColCode.ReadOnly = False
-        gridColCode.IsVisible = False
+        gridColCode.ReadOnly = True
+        gridColCode.IsVisible = True
         gv1.MasterTemplate.Columns.Add(gridColCode)
 
-
-        'Dim gridColRelation As GridViewComboBoxColumn = New GridViewComboBoxColumn()
-        'gridColRelation.FormatString = ""
-        'gridColRelation.HeaderText = "Relation"
-        'gridColRelation.Name = ColRelation
-        'gridColRelation.FormatString = ""
-        ''gridColRelation.DecimalPlaces = 0
-        'gridColRelation.Width = 52
-        'gridColRelation.ReadOnly = False
-
-        'gv1.MasterTemplate.Columns.Add(gridColRelation)
-
-        ''Code column'
-        'Dim gridColTaqNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColTaqNo.FormatString = ""
-        'gridColTaqNo.HeaderText = "Taq No"
-        'gridColTaqNo.Name = ColTaqNo
-        'gridColTaqNo.Width = 105
-        'gridColTaqNo.ReadOnly = False
-
-        'gv1.MasterTemplate.Columns.Add(gridColTaqNo)
-
-        ''Item Name column'
-        'Dim gridColFirstStandardLocationYield As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColFirstStandardLocationYield.FormatString = ""
-        'gridColFirstStandardLocationYield.HeaderText = "First Standard Location Yield"
-        'gridColFirstStandardLocationYield.Name = ColFirstStandardLocationYield
-        'gridColFirstStandardLocationYield.Width = 105
-        'gridColFirstStandardLocationYield.ReadOnly = False
-        'gv1.MasterTemplate.Columns.Add(gridColFirstStandardLocationYield)
-
-        ''Unit column'
-        'Dim gridColFatPercent As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'gridColFatPercent.FormatString = ""
-        'gridColFatPercent.HeaderText = "Fat Percent"
-        'gridColFatPercent.Name = ColFatPercent
-        'gridColFatPercent.Width = 105
-        'gridColFatPercent.ReadOnly = False
-        'gv1.MasterTemplate.Columns.Add(gridColFatPercent)
+        Dim gridColLocationName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridColLocationName.FormatString = ""
+        gridColLocationName.HeaderText = "Location Name"
+        gridColLocationName.Name = colLocationName
+        gridColLocationName.Width = 105
+        gridColLocationName.ReadOnly = False
+        gridColLocationName.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridColLocationName)
 
 
-        ''Quantity column'
-        'Dim gridColSnfPercent As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'gridColSnfPercent.FormatString = ""
-        'gridColSnfPercent.HeaderText = "Snf Percent"
-        'gridColSnfPercent.Name = ColSnfPercent
-        'gridColSnfPercent.Width = 105
-        'gridColSnfPercent.Minimum = 0
-        'gridColSnfPercent.ReadOnly = False
-        'gridColSnfPercent.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.MasterTemplate.Columns.Add(gridColSnfPercent)
-
-        ''Rate column'
-        'Dim gridColProtien As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColProtien.FormatString = ""
-        'gridColProtien.HeaderText = "Protien"
-        'gridColProtien.Name = ColProtien
-        'gridColProtien.ReadOnly = False
-        'gridColProtien.Width = 105
-        'gv1.MasterTemplate.Columns.Add(gridColProtien)
-
-        ''Amount column'
-        'Dim gridColLactose As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColLactose.FormatString = ""
-        'gridColLactose.HeaderText = "Lactose"
-        'gridColLactose.Name = ColLactose
-        'gridColLactose.Width = 105
-        'gridColLactose.ReadOnly = False
-        'gv1.MasterTemplate.Columns.Add(gridColLactose)
+        Dim gridcolCustomerCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolCustomerCode.FormatString = ""
+        gridcolCustomerCode.HeaderText = "Customer Code"
+        gridcolCustomerCode.Name = colCustomerCode
+        gridcolCustomerCode.Width = 105
+        gridcolCustomerCode.ReadOnly = False
+        gridcolCustomerCode.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolCustomerCode)
 
 
-        'Dim gridColDateOfPedigreeInformationUpdate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
-        'gridColDateOfPedigreeInformationUpdate.FormatString = "{0:dd/MM/yyyy}"
-        'gridColDateOfPedigreeInformationUpdate.HeaderText = "Date Of Pedigree Information Update"
-        'gridColDateOfPedigreeInformationUpdate.Name = ColDateOfPedigreeInformationUpdate
-        'gridColDateOfPedigreeInformationUpdate.ReadOnly = False
-        'gridColDateOfPedigreeInformationUpdate.Width = 90
-        'gv1.MasterTemplate.Columns.Add(gridColDateOfPedigreeInformationUpdate)
+        Dim gridcolDataBaseName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolDataBaseName.FormatString = ""
+        gridcolDataBaseName.HeaderText = "DataBase Name"
+        gridcolDataBaseName.Name = colDataBaseName
+        gridcolDataBaseName.Width = 105
+        gridcolDataBaseName.ReadOnly = False
+        gridcolDataBaseName.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolDataBaseName)
 
-        ''Tax after amount column'
+        Dim gridcolCustomerName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolCustomerName.FormatString = ""
+        gridcolCustomerName.HeaderText = "Customer Name"
+        gridcolCustomerName.Name = colCustomerName
+        gridcolCustomerName.Width = 105
+        gridcolCustomerName.ReadOnly = False
+        gridcolCustomerName.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolCustomerName)
 
-        'Dim gridColSCC As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColSCC.FormatString = ""
-        'gridColSCC.HeaderText = "SCC"
-        'gridColSCC.Name = ColSCC
-        'gridColSCC.ReadOnly = False
-        'gridColSCC.Width = 105
-        'gv1.MasterTemplate.Columns.Add(gridColSCC)
+        Dim gridcolCustomerAccountNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolCustomerAccountNo.FormatString = ""
+        gridcolCustomerAccountNo.HeaderText = "Customer Account No"
+        gridcolCustomerAccountNo.Name = colCustomerAccountNo
+        gridcolCustomerAccountNo.Width = 105
+        gridcolCustomerAccountNo.ReadOnly = False
+        gridcolCustomerAccountNo.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolCustomerAccountNo)
 
-        ''Amount after tax column'
+        Dim gridcolSchedulerApplySMS As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolSchedulerApplySMS.FormatString = ""
+        gridcolSchedulerApplySMS.HeaderText = "Scheduler Apply SMS"
+        gridcolSchedulerApplySMS.Name = colSchedulerApplySMS
+        gridcolSchedulerApplySMS.Width = 105
+        gridcolSchedulerApplySMS.ReadOnly = False
+        gridcolSchedulerApplySMS.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolSchedulerApplySMS)
 
-        'Dim gridColMUN As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridColMUN.FormatString = ""
-        'gridColMUN.HeaderText = "MUN"
-        'gridColMUN.Name = ColMUN
-        'gridColMUN.ReadOnly = False
-        'gridColMUN.Width = 135
-        'gv1.MasterTemplate.Columns.Add(gridColMUN)
-        'gv1.Rows.AddNew()
-        'gv1.AllowAddNewRow = False
 
-        ''Discount percent
-        'Dim gridBestStandardLocationYield As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        'gridBestStandardLocationYield.FormatString = ""
-        'gridBestStandardLocationYield.HeaderText = "Best Standard Location Yield"
-        'gridBestStandardLocationYield.Name = ColBestStandardLocationYield
-        'gridBestStandardLocationYield.ReadOnly = False
-        'gridBestStandardLocationYield.Width = 90
-        'gv1.MasterTemplate.Columns.Add(gridBestStandardLocationYield)
+        Dim gridcolSchedulerApplyEMail As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolSchedulerApplyEMail.FormatString = ""
+        gridcolSchedulerApplyEMail.HeaderText = "Scheduler Apply Email"
+        gridcolSchedulerApplyEMail.Name = colSchedulerApplyEMail
+        gridcolSchedulerApplyEMail.Width = 105
+        gridcolSchedulerApplyEMail.ReadOnly = False
+        gridcolSchedulerApplyEMail.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolSchedulerApplyEMail)
 
-        ''Discount Amount column'
 
-        'Dim gridLactNo As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'gridLactNo.FormatString = ""
-        'gridLactNo.HeaderText = "LactNo"
-        'gridLactNo.Name = ColLactNo
-        'gridLactNo.ReadOnly = False
-        'gridLactNo.Width = 125
-        'gv1.MasterTemplate.Columns.Add(gridLactNo)
+        Dim gridcolApplyPDAccount As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolApplyPDAccount.FormatString = ""
+        gridcolApplyPDAccount.HeaderText = "Apply PD Account"
+        gridcolApplyPDAccount.Name = colApplyPDAccount
+        gridcolApplyPDAccount.Width = 105
+        gridcolApplyPDAccount.ReadOnly = False
+        gridcolApplyPDAccount.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolApplyPDAccount)
 
-        'Dim gridFATKG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'gridFATKG.FormatString = ""
-        'gridFATKG.Name = ColFATINKG
-        'gridFATKG.HeaderText = "FAT IN KG"
-        'gridFATKG.ReadOnly = False
-        'gridFATKG.Width = 135
-        'gv1.MasterTemplate.Columns.Add(gridFATKG)
 
-        'Dim gridSNFKG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'gridSNFKG.FormatString = ""
-        'gridSNFKG.Name = ColSNFINKG
-        'gridSNFKG.HeaderText = "SNF IN KG"
-        'gridSNFKG.ReadOnly = False
-        'gridSNFKG.Width = 135
-        'gv1.MasterTemplate.Columns.Add(gridSNFKG)
-
+        Dim gridcolApplyECollect As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        gridcolApplyECollect.FormatString = ""
+        gridcolApplyECollect.HeaderText = "Apply E Collect"
+        gridcolApplyECollect.Name = colApplyECollect
+        gridcolApplyECollect.Width = 105
+        gridcolApplyECollect.ReadOnly = False
+        gridcolApplyECollect.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(gridcolApplyECollect)
 
         gv1.AllowAddNewRow = False
         gv1.AllowDeleteRow = True
@@ -227,52 +190,67 @@ Public Class frmUpdateAppLocation
 
     Sub SaveData()
         Try
+            Dim obj As ClsUpdateAppLocation
+            obj = New ClsUpdateAppLocation()
+            obj.Arr = New List(Of ClsUpdateAppLocation)
+            'Dim objTr As ClsUpdateAppLocation
+            '0--
+            'If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            'For Each grow As GridViewRowInfo In gv1.Rows
+            '    Dim objTr As New ClsUpdateAppLocation()
+            '    objTr.Code = clsCommon.myCstr(grow.Cells(ColCode).Value)
+            '    objTr.Location_Name = clsCommon.myCstr(grow.Cells(colLocationName).Value)
+            '    objTr.DataBase_Name = clsCommon.myCstr(grow.Cells(colDataBaseName).Value)
+            '    objTr.Customer_Code = clsCommon.myCstr(grow.Cells(colCustomerCode).Value)
+            '    objTr.Customer_Name = clsCommon.myCstr(grow.Cells(colCustomerName).Value)
+            '    objTr.Customer_Account_No = clsCommon.myCstr(grow.Cells(colCustomerAccountNo).Value)
+            '    objTr.Scheduler_Apply_SMS = clsCommon.myCdbl(grow.Cells(colSchedulerApplySMS).Value)
+            '    objTr.Scheduler_Apply_EMail = clsCommon.myCdbl(grow.Cells(colSchedulerApplyEMail).Value)
+            '    objTr.Apply_PD_Account = clsCommon.myCdbl(grow.Cells(colApplyPDAccount).Value)
+            '    objTr.Apply_ECollect = clsCommon.myCdbl(grow.Cells(colApplyECollect).Value)
 
-            'If (AllowToSave()) Then
-            Dim obj As New ClsUpdateAppLocation()
+            '    If (clsCommon.myLen(objTr.Code) > 0) Then
+            '        Arr.Add(objTr)
+            '    End If
+            'Next
 
-            'If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
-            'obj.ITEM_CODE = fndvendor.Value
-            Dim Arr As New List(Of ClsUpdateAppLocation)
+            'End If
             For Each grow As GridViewRowInfo In gv1.Rows
                 Dim objTr As New ClsUpdateAppLocation()
                 objTr.Code = clsCommon.myCstr(grow.Cells(ColCode).Value)
                 objTr.Location_Name = clsCommon.myCstr(grow.Cells(colLocationName).Value)
                 objTr.DataBase_Name = clsCommon.myCstr(grow.Cells(colDataBaseName).Value)
                 objTr.Customer_Code = clsCommon.myCstr(grow.Cells(colCustomerCode).Value)
-                objTr.Customer_Name = clsCommon.myCdbl(grow.Cells(colCustomerName).Value)
-                objTr.Customer_Account_No = clsCommon.myCdbl(grow.Cells(colCustomerAccountNo).Value)
-                objTr.Scheduler_Apply_SMS = clsCommon.myCstr(grow.Cells(colSchedulerApplySMS).Value)
-                objTr.Scheduler_Apply_EMail = clsCommon.myCstr(grow.Cells(colSchedulerApplyEMail).Value)
-                objTr.Apply_PD_Account = clsCommon.myCstr(grow.Cells(colApplyPDAccount).Value)
-                objTr.Apply_ECollect = clsCommon.myCstr(grow.Cells(colApplyECollect).Value)
+                objTr.Customer_Name = clsCommon.myCstr(grow.Cells(colCustomerName).Value)
+                objTr.Customer_Account_No = clsCommon.myCstr(grow.Cells(colCustomerAccountNo).Value)
+                objTr.Scheduler_Apply_SMS = clsCommon.myCdbl(grow.Cells(colSchedulerApplySMS).Value)
+                objTr.Scheduler_Apply_EMail = clsCommon.myCdbl(grow.Cells(colSchedulerApplyEMail).Value)
+                objTr.Apply_PD_Account = clsCommon.myCdbl(grow.Cells(colApplyPDAccount).Value)
+                objTr.Apply_ECollect = clsCommon.myCdbl(grow.Cells(colApplyECollect).Value)
 
                 If (clsCommon.myLen(objTr.Code) > 0) Then
-                    Arr.Add(objTr)
+                    obj.Arr.Add(objTr)
                 End If
             Next
 
+            'If (obj.SaveData(Arr)) Then
+            '    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            '    btnsave.Text = "Update"
+            '    'LoadData(obj.vendor_code, NavigatorType.Current)
+            'End If
 
-            If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Fill at least one Item")
-                Return
-            End If
-
-            'Dim objHist As New ClsAlternateitemDetailHistory()
-            'objHist.SaveDataHistory(fndvendor.Value)
-            If (obj.SaveData(obj.Code, Arr)) Then
+            If (obj.SaveData(obj.Arr)) Then
                 common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                 btnsave.Text = "Update"
-                'LoadData(obj.vendor_code, NavigatorType.Current)
+                LoadData(obj.Code, NavigatorType.Current)
             End If
-
             ' End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Sub LoadData(ByVal vendorcode As String, ByVal Desc As String)
+    Sub LoadData(ByVal Code As String, ByVal NavType As NavigatorType)
         Try
             btnsave.Enabled = True
             btnsave.Text = "Save"
@@ -284,7 +262,7 @@ Public Class frmUpdateAppLocation
             'funreset()
             'LoadBlankGrid()
 
-            Dim Arr As List(Of ClsUpdateAppLocation) = ClsUpdateAppLocation.GetData(vendorcode)
+            Dim Arr As List(Of ClsUpdateAppLocation) = ClsUpdateAppLocation.GetData(Code)
             'fndvendor.Value = vendorcode
             '.Text = Desc
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -308,5 +286,9 @@ Public Class frmUpdateAppLocation
         Finally
             isInsideLoadData = False
         End Try
+    End Sub
+
+    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
+        Me.Close()
     End Sub
 End Class
