@@ -1095,7 +1095,7 @@ Public Class clsMCCMaterialSale
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission "
+            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Disc_Per_Unit,TSPL_SD_SHIPMENT_DETAIL.Disc_Unit_Amt "
             qry += " FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code"
@@ -1174,6 +1174,8 @@ Public Class clsMCCMaterialSale
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
                     objTr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
                     objTr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(dr("Disc_Per_Unit"))
+                    objTr.Disc_Unit_Amt = clsCommon.myCdbl(dr("Disc_Unit_Amt"))
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
                     objTr.Item_Net_Amt = clsCommon.myCdbl(dr("Item_Net_Amt"))
@@ -2634,6 +2636,226 @@ Public Class clsMCCMaterialSale
         End Try
         Return True
     End Function
+
+
+    Public Shared Function GetAttachQry(ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String) As String
+        Dim QryShowStatus As String = ""
+        Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, Nothing)) = "1", True, False))
+        Dim MultiplySubsidyWithQuantity As Boolean = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
+
+        Dim ShowStatusForSale As Double = clsDBFuncationality.getSingleValue("SELECT Description  FROM TSPL_FIXED_PARAMETER  WHERE Code ='ShowStatusForSales' And Type ='ShowStatusForSales'")
+        If clsCommon.CompairString(clsCommon.myCstr(ShowStatusForSale), "1") = CompairStringResult.Equal Then
+            QryShowStatus = " ,(case when TSPL_SD_SHIPMENT_HEAD.status =1 then 'AUTHORIZED' else 'NOT AUTHORIZED' end) as Status "
+        Else
+            QryShowStatus = ""
+        End If
+        Dim SerialNo As String = ""
+        Dim SerialNoColumn As String = ""
+        Dim ShowSerialNoForSales As Double = clsDBFuncationality.getSingleValue("SELECT Description  FROM TSPL_FIXED_PARAMETER  WHERE Code ='ShowSerialNoForSales' And Type ='ShowSerialNoForSales'")
+        If clsCommon.CompairString(clsCommon.myCstr(ShowSerialNoForSales), "1") = CompairStringResult.Equal Then
+            SerialNoColumn = " ,1 As SerialNoText , aa.Serial_No As [SerialNo]  "
+            'SerialNo = "  left outer join TSPL_MF_PRINCIPLE_RECEIPT_SERIAL_DETAIL  on TSPL_SD_SHIPMENT_DETAIL.Item_Code  =TSPL_MF_PRINCIPLE_RECEIPT_SERIAL_DETAIL.Main_Item_Code And TSPL_MF_PRINCIPLE_RECEIPT_SERIAL_DETAIL.IS_Principle=1 ANd TSPL_MF_PRINCIPLE_RECEIPT_SERIAL_DETAIL.Location_Code =TSPL_SD_SHIPMENT_DETAIL.Location "
+            SerialNo = " left outer join (select distinct Doc_No,Serial_No,Main_Item_Code,Location_Code from TSPL_MF_PRINCIPLE_RECEIPT_SERIAL_DETAIL WHERE Is_principle='1' AND ISNULL(Serial_No,'')<>'' and Doc_No in (select Doc_No from TSPL_MF_PRINCIPLE_RECEIPT_HEAD where Status='1'))aa  on TSPL_SD_SHIPMENT_DETAIL.Item_Code  =AA.Main_Item_Code  ANd aa.Location_Code =TSPL_SD_SHIPMENT_DETAIL.Location  "
+        Else
+            SerialNoColumn = " ,0 As SerialNoText "
+            SerialNo = ""
+        End If
+        Dim isShowQRcode As Integer = 0
+        If clsERPFuncationality.GetQRCodeStatus(strDate) = True AndAlso EnableDynamicQRCodeForB2CInvoice = True AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EInvoice_Type from  TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" + strCode + "'")), "BC") = CompairStringResult.Equal Then
+            isShowQRcode = 1
+        End If
+        Dim Qry As String = "  select "
+        If isCancel Then
+            Qry += " 'Cancelled' As Report_Status,"
+        Else
+            Qry += " '' As Report_Status,"
+        End If
+        Qry += " " + clsCommon.myCstr(isShowQRcode) + " as isShowQRcode, TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type ,  cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) As BarCode_Img, TSPL_SD_SHIPMENT_HEAD.Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SHIPMENT_HEAD.Is_Taxable,TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No,TSPL_SD_SHIPMENT_HEAD.EWayBillNo, convert(varchar,TSPL_SD_SHIPMENT_HEAD.EWayBillDate,103) as EWayBillDate,  StateMasterForLocation.GST_STATE_CODE AS From_GstStateCode," &
+          " TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_STATE_MASTER.GST_STATE_Code AS Cust_GstStateCode,  TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,    case when coalesce(p_cust.GST_STATE_CODE,'')='' then TSPL_state_Master.GST_STATE_CODE       when coalesce(p_cust.GST_STATE_CODE,'')<>'' then p_cust .GST_STATE_CODE    end as P_GST_STATE_CODE," &
+          " case when coalesce(p_cust.P_GSTIN_NO,'')='' then TSPL_CUSTOMER_MASTER .GSTNO  when coalesce(p_cust.P_GSTIN_NO,'')<>'' then p_cust .P_GSTIN_NO end as P_GSTIN_NO,    TSPL_ITEM_MASTER.HSN_Code,  " &
+          " dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type, " &
+        " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt ,0)as DTax1_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt ,0)as DTax2_Amt," &
+       " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt ,0)as DTax3_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt ,0)as DTax4_Amt," &
+        "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt ,0)as DTax5_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt ,0)as DTax6_Amt," &
+         " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt ,0)as DTax7_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt ,0)as DTax8_Amt," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt ,0)as DTax9_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt ,0)as DTax10_Amt," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Rate,0)as DTax1_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Rate,0)as DTax2_Rate," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Rate,0)as DTax3_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Rate,0)as DTax4_Rate," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Rate,0)as DTax5_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Rate,0)as DTax6_Rate," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX7_Rate,0)as DTax7_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX8_Rate,0)as DTax8_Rate," &
+          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX9_Rate,0)as DTax9_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX10_Rate,0)as DTax10_Rate," &
+         " TSPL_LOCATION_MASTER.State as loc_state_code,tspl_location_master.HOAdd1 ,tspl_location_master.HOAdd2,TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate,"
+        Qry += " TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end"
+        Qry += "  + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end"
+        Qry += "  + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end"
+        Qry += "  + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end"
+        Qry += "  + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end"
+        Qry += "+ Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_COMPANY_MASTER.Phone1 end "
+        Qry += "+  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End "
+        Qry += "  + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end "
+        Qry += " as Comp_Address,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount , "
+        '' Anubhooti 20-Feb-2015 (Show VLC,VSP Name)
+        Qry += " tspl_vlc_master_head.vlc_code_vlc_uploader As VLC_Code,tspl_vlc_master_head.vlc_name,tspl_vlc_master_head.VSP_Code, "
+        ''
+        Qry += "   case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Cust_PAN    end as P_Cust_PAN, case when coalesce(p_cust.P_cust_code,'')='' then  TSPL_CUSTOMER_MASTER  .CST      when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No    end as P_CSTNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Lst_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Cust_Code      when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_code   end as P_CustCode, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Customer_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_name    end as P_Cust_Name,"
+        Qry += " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CITY_MASTER   .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name    end as P_City_Name,"
+        Qry += " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_state_Master.state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name,"
+        Qry += " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn,TSPL_CUSTOMER_MASTER.Cust_Code ,  TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,  case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_TinNo ,TSPL_CUSTOMER_MASTER.CST as Cust_CSTNo,TSPL_CUSTOMER_MASTER.Lst_No as Cust_LSTNo,TSPL_CUSTOMER_MASTER.Email as Cust_Email ,TSPL_CUSTOMER_MASTER.PAN as Customer_PAN,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,TSPL_CITY_MASTER.City_Name as Loctn_City_Name_Desc,TSPL_CUSTOMER_MASTER.Fax as Cust_Fax,TSPL_STATE_MASTER .STATE_NAME  as Cust_State_Name, "
+        Qry += " TSPL_STATE_MASTER.STATE_NAME  as Cust_State_Name ,TSPL_CITY_MASTER_ForCustomer.City_Name  as Cust_City_Name,case when (TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms )='FE' then 'Freight Extra' else  TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms  end  as Dispatch_Terms,TSPL_LOCATION_MASTER .Add1 as Loc_Add1,TSPL_LOCATION_MASTER.Add2 as Loc_ADd2,TSPL_LOCATION_MASTER.Add3  as Loc_Add3, StateMasterForLocation.State_Name as LocationState, TSPL_LOCATION_MASTER.Pin_Code as Loc_Pin_Code,TSPL_LOCATION_MASTER.TIN_No as Loc_TinNo,Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn,TSPL_LOCATION_MASTER.Email as Loc_Email,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,convert(varchar,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Date ,103) as Delivery_Date, TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,( case when TSPL_SD_SHIPMENT_HEAD.Invoice_Type='R' then 'Retail Invoice' else 'Tax Invoice' end) as Invoice_Type,IsNull(TSPL_SD_SALE_INVOICE_HEAD.Ack_No,'NA') AS Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Cash_Sale_InvNo,convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Cash_Sale_InvDate,TSPL_SD_SHIPMENT_HEAD.Invoice_Type as Inv_Type,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_LOCATION_MASTER.Loc_Short_Name,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Inv_Date,103) as Inv_Date,case when (TSPL_SD_SHIPMENT_HEAD.Payment_Terms)='A' then 'Advance' else TSPL_SD_SHIPMENT_HEAD.Payment_Terms end  as Payment_Terms ,TSPL_SD_SHIPMENT_HEAD.Transporter_Name ,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No   ,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,103) as Sale_Invoice_Date,TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No,TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_COMPANY_MASTER.CST_LST as Comp_CST_No,TSPL_COMPANY_MASTER.CINNo as Comp_CinNo,TSPL_COMPANY_MASTER.Pincode  as Comp_Pin_Code, TSPL_SHIP_TO_LOCATION.Ship_To_Desc as shipName, TSPL_SHIP_TO_LOCATION.add1 as ship_Add1, TSPL_SHIP_TO_LOCATION.Add2 as ship_add2 ,TSPL_SHIP_TO_LOCATION.Add3 as ship_add3  ,TSPL_SHIP_TO_LOCATION.Pin_Code,TSPL_CITY_MASTER.STATE_CODE  ,Tspl_City_master.City_Name,TSPL_EMPLOYEE_MASTER.Emp_Name as SalesManName,TSPL_SD_SHIPMENT_HEAD.Inv_No, TSPL_SD_SHIPMENT_HEAD.Dept_Desc , TSPL_SD_SHIPMENT_HEAD.Remarks ,  TSPL_SD_SHIPMENT_HEAD.Terms_Code,TSPL_SD_SHIPMENT_HEAD.VehicleNo ,TSPL_SD_SHIPMENT_HEAD.Challan_No,TSPL_SD_SHIPMENT_HEAD.Ref_No,TSPL_SD_SHIPMENT_HEAD.RateDiff_Amt,TSPL_SD_SHIPMENT_HEAD.Gross_Amount,TSPL_VENDOR_MASTER.Zone_Code, "
+        Qry += " TSPL_SD_SHIPMENT_DETAIL .Specification as  specification,   TSPL_SD_SHIPMENT_HEAD.sale_invoice_no as DocNo , TSPL_SD_SHIPMENT_HEAD.Description, "
+        Qry += "  convert(varchar ,TSPL_SD_SHIPMENT_HEAD .Document_Date,103)as Document_Date , TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order, TSPL_SD_SHIPMENT_HEAD.Item_Type ,  TSPL_SD_SHIPMENT_HEAD.Customer_Code, "
+        Qry += " TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 as Customer_Add1,TSPL_CUSTOMER_MASTER.add2 as customer_Add2,TSPL_CUSTOMER_MASTER.Add3 as customer_Add3 ,TSPL_CUSTOMER_MASTER.State as customer_city_State,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_Tin_No ,TSPL_CUSTOMER_MASTER.PIN_Code as Customer_Pin_Code , TSPL_SD_SHIPMENT_HEAD .Terms_Code as termscode ,TSPL_SD_SHIPMENT_HEAD .Ref_No as ref_no ,"
+        Qry += " TSPL_SD_SHIPMENT_HEAD .Comments as comments ,  TSPL_SD_SHIPMENT_HEAD .Discount_Amt as dis_amt,"
+        If MultiplySubsidyWithQuantity Then
+            Qry += "  TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt  as dis_amt1,"
+        Else
+            Qry += "  TSPL_SD_SHIPMENT_DETAIL.Total_Disc_Amt  as dis_amt1,"
+        End If
+        Qry += " TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SHIPMENT_HEAD .Total_Amt as Total_amount,"
+        Qry += " TSPL_SD_SHIPMENT_HEAD.Discount_Base as bfrdisc_amount, TSPL_COMPANY_MASTER.Access_Officer as FSSAI,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.Tcan_No AS WebSite ,TSPL_COMPANY_MASTER.Phone1 AS COMP_PHONE,  "
+        Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_HEAD.tax1_amt,0) as txt1amt, TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_HEAD.tax2_amt,0) as txt2amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_HEAD.tax3_amt,0) as txt3amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,   tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SHIPMENT_HEAD.tax4_amt,0) as txt4amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,   tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SHIPMENT_HEAD.tax5_amt,0) as txt5amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SHIPMENT_HEAD.tax6_amt,0) as txt6amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SHIPMENT_HEAD.tax7_amt,0) as txt7amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,   tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_HEAD.tax8_amt,0) as txt8amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_HEAD.tax9_amt,0) as txt9amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,   tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SHIPMENT_HEAD.TAX10_Rate, "
+        'Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_HEAD.tax1_amt,0) as txt1amt,  "
+        'Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_HEAD.tax2_amt,0) as txt2amt,  "
+        'Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_HEAD.tax3_amt,0) as txt3amt,  "
+        'Qry += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SHIPMENT_HEAD.tax4_amt,0) as txt4amt,  "
+        'Qry += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SHIPMENT_HEAD.tax5_amt,0) as txt5amt,  "
+        'Qry += " tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SHIPMENT_HEAD.tax6_amt,0) as txt6amt,  "
+        'Qry += " tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SHIPMENT_HEAD.tax7_amt,0) as txt7amt,  "
+        'Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_HEAD.tax8_amt,0) as txt8amt,   "
+        'Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_HEAD.tax9_amt,0) as txt9amt,  "
+        'Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_HEAD.tax10_amt,0) as txt10amt,  "
+        Qry += " isnull(TSPL_SD_SHIPMENT_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SHIPMENT_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as Phone,TSPL_COMPANY_MASTER.Fax as Comp_Fax,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,ISNULL(tspl_company_Master.ADD1,'') as Comp_add,"
+        Qry += " TSPL_SD_SHIPMENT_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc + case when Scheme_Item ='Y' then ' (Free Scheme)' else '' end    as itemdesc, TSPL_SD_SHIPMENT_DETAIL.Row_Type,TSPL_SD_SHIPMENT_DETAIL.Qty as qty,TSPL_SD_SHIPMENT_DETAIL.unit_code as uom,TSPL_SD_SHIPMENT_DETAIL.item_cost as itemcost,TSPL_SD_SHIPMENT_DETAIL.amount as amount,TSPL_SD_SHIPMENT_HEAD.TAX1,TSPL_SD_SHIPMENT_HEAD.TAX2,TSPL_SD_SHIPMENT_HEAD.TAX3,TSPL_SD_SHIPMENT_HEAD.TAX4,TSPL_SD_SHIPMENT_HEAD.TAX5,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,TSPL_SD_SHIPMENT_HEAD.ReceiverName, TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt "
+        Qry += " " & QryShowStatus & " "
+        Qry += " " & SerialNoColumn & "  "
+        If isCancel Then
+            Qry += " from TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL  "
+        Else
+            Qry += " from TSPL_SD_SHIPMENT_DETAIL   "
+        End If
+
+        Qry += " " & SerialNo & " "
+        If isCancel Then
+            Qry += " left outer join TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code  =TSPL_SD_SHIPMENT_DETAIL.Document_Code   "
+        Else
+            Qry += " left outer join TSPL_SD_SHIPMENT_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code  =TSPL_SD_SHIPMENT_DETAIL.Document_Code   "
+        End If
+        Qry += " left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location "
+        Qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_SHIP_TO_LOCATION.City_Code "
+        Qry += " left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_SD_SHIPMENT_HEAD.Salesman_Code "
+        Qry += " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SHIPMENT_HEAD.tax1  "
+        Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SHIPMENT_HEAD.tax2  "
+        Qry += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SHIPMENT_HEAD .TAX3  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SHIPMENT_HEAD .tax4  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SHIPMENT_HEAD .tax5  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SHIPMENT_HEAD .TAX6  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SHIPMENT_HEAD .TAX7  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SHIPMENT_HEAD .TAX8  "
+        Qry += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SHIPMENT_HEAD .TAX9 "
+        Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SHIPMENT_HEAD .TAX10     "
+        Qry += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SHIPMENT_DETAIL.tax1  " &
+            " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SHIPMENT_DETAIL.tax2   " &
+            " left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SD_SHIPMENT_DETAIL.TAX3  " &
+            " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SD_SHIPMENT_DETAIL.tax4  " &
+             "  left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SD_SHIPMENT_DETAIL.tax5  " &
+               " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX6  " &
+                " left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX7  " &
+                 "  left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX8   " &
+                " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX9 " &
+            "left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX10  "
+        Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SHIPMENT_HEAD.comp_code  "
+        Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SHIPMENT_HEAD.Customer_Code  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT join (select TSPL_CUSTOMER_MASTER.GSTNO AS P_GSTIN_NO,GST_STATE_CODE, pan as P_Cust_PAN, Cust_Code as P_cust_code,Customer_Name as P_cust_name,Add1 as P_cust_add1 ,Add2  as P_cust_add2,add3  as P_cust_add3,PIN_Code as P_Pin_No,Tin_No as p_Tin_No ,State as P_state,Email as P_Email,fax as P_Fax,TSPL_CITY_MASTER.City_Name as  P_City_Name,TSPL_STATE_MASTER.STATE_NAME as P_State_Name  ,case when ISNULL(Phone1,'')='(+__)__________' then '' else Phone1 end +  Case When   ISNULL(Phone2,'')<>'(+__)__________' Then ', '+ Phone2 Else'' End as  P_Phn,CST as P_CST_No,Terms_Code as P_Terms,Lst_No as P_LST_No  from TSPL_CUSTOMER_MASTER   left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_CUSTOMER_MASTER.City_Code "
+        Qry += " left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State =TSPL_STATE_MASTER.STATE_CODE  "
+        Qry += " ) p_cust on p_cust.P_cust_code=TSPL_CUSTOMER_MASTER.Parent_Customer_No and TSPL_CUSTOMER_MASTER.Parent_Customer_YN='N'"
+        '' Anubhooti 20-Feb-2015 (Show VLC,VSP Name)
+        Qry += "  LEFT OUTER JOIN tspl_customer_vendor_mapping ON tspl_customer_vendor_mapping.Cust_Code =TSPL_CUSTOMER_MASTER.Cust_Code   "
+        Qry += "LEFT OUTER JOIN tspl_vlc_master_head ON tspl_customer_vendor_mapping.Vendor_Code =tspl_vlc_master_head.vsp_code"
+        Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
+        Qry += " left outer join TSPL_CITY_MASTER  as TSPL_CITY_MASTER_ForCustomer on TSPL_CITY_MASTER_ForCustomer.City_Code =TSPL_CUSTOMER_MASTER.City_Code"
+        Qry += " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State"
+        Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code "
+        Qry += " left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code =TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS"
+        Qry += " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code "
+        Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " &
+        " LEFT OUTER JOIN TSPL_STATE_MASTER StateMasterForLocation ON StateMasterForLocation.State_Code=TSPL_LOCATION_MASTER.State " &
+        " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code "
+        Qry += "  where 2=2 "
+        Qry += "  and  TSPL_SD_SHIPMENT_HEAD.Document_Code = '" + strCode + "'"
+        Return Qry
+    End Function
+    Public Shared Function funPrint(ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String) As Boolean
+        Try
+            '====================================================
+            'Dim strUrl As String = "upi://pay?pa=1234566@ICIC12345.ifsc.npci&pn=TEST&mc=0000&tr=API123456&am=10000&mam=10000&cu=INR&mode=01&b2cSellerGstin=29AABCT1332L000&b2cUPIID=null&b2cBankAcNo=1234566&b2cIFSCCode=ICIC12345&b2cInvNo=API123456&b2cInvDate=10-06-2021&b2cCGSTAmount=0&b2cSGSTAmount=0&b2cIGSTAmount=0&b2cCESS=0&size=150"
+            'Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(strUrl)
+            'clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No='" & txtDocNo.Value & "'")
+            '===================================================
+            Dim TaxGroup As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Group from TSPL_SD_SHIPMENT_HEAD_Cancel_Data where Document_Code = '" + strCode + "'"))
+            Dim IsMandiTax As Double = 0
+            IsMandiTax = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + TaxGroup + "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
+            Dim IsExampted As Double = 0
+            IsExampted = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(Is_Tax_Exempted)  from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + TaxGroup + "' AND Tax_Group_Type='S' AND Is_Tax_Exempted=1"))
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetAttachQry(isCancel, strDate, strCode))
+            If dt.Rows.Count > 0 Then
+                ' ==============================Ticket No  ERO/27/11/18-000421 By Prabhakar for  Customer Dashboard on Print==============================================
+                Dim dtCustomerOutstanding As DataTable = Nothing
+                dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt.Rows(0)("Customer_Code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MMM/yyyy"))
+                '=============================================================================
+                Dim frmCRV As New frmCrystalReportViewer()
+                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
+                    If clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("LocationState")), clsCommon.myCstr(dt.Rows(0)("Cust_State_Name"))) = CompairStringResult.Equal Then
+                            If IsExampted > 0 Then
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
+                            ElseIf IsMandiTax > 0 Then
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxables", "MCC Material Sale Local With Mandi", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
+                                'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local_WithMandi", "MCC Material Sale Local With Mandi", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            Else
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            End If
+                        Else
+                            If IsExampted > 0 Then
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            ElseIf IsMandiTax > 0 Then
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxables", "MCC Material Sale Interstate With Mandi", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
+                                'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_InterState_WithMandi", "MCC Material Sale Interstate", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            Else
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_InterState", "MCC Material Sale Interstate", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            End If
+                        End If
+                    Else
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                    End If
+                Else
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Is_CashSale")), "Y") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMccMaterialSaleCashMemo", "Cash Memo")
+                    Else
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale", "MCC Material Sale", "rptCompanyAddress.rpt")
+                    End If
+                End If
+                'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale", "MCC Material Sale", "rptCompanyAddress.rpt")
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+
+
+
+
+
+
+
+
+
+
+
+
 End Class
 
 Public Class clsMCCMaterialSaleDetail
@@ -2702,6 +2924,8 @@ Public Class clsMCCMaterialSaleDetail
     Public Amount As Double = 0
     Public Disc_Per As Double = 0
     Public Disc_Amt As Double = 0
+    Public Disc_Per_Unit As Double = 0
+    Public Disc_Unit_Amt As Double = 0
     Public Amt_Less_Discount As Double = 0
     Public Total_Tax_Amt As Double = 0
     Public Item_Net_Amt As Double = 0
@@ -2800,6 +3024,8 @@ Public Class clsMCCMaterialSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
+                clsCommon.AddColumnsForChange(coll, "Disc_Per_Unit", obj.Disc_Per_Unit)
+                clsCommon.AddColumnsForChange(coll, "Disc_Unit_Amt", obj.Disc_Unit_Amt)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
                 clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
                 clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
@@ -2936,10 +3162,10 @@ Public Class clsMCCMaterialSaleDetail
     End Function
 
     Public Shared Function GetBalanceSRNQty(ByVal strSRNCode As String, ByVal strICode As String, ByVal strCurrPINNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code where TSPL_SD_SHIPMENT_DETAIL.Status=0 and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SHIPMENT_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SHIPMENT_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SHIPMENT_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " & _
-            " union all " & _
-            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code where TSPL_SD_SHIPMENT_DETAIL.Status=0 and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SHIPMENT_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SHIPMENT_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SHIPMENT_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " &
+            " union all " &
+            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " &
             " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function

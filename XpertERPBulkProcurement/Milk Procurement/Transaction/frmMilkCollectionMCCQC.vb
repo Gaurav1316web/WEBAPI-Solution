@@ -317,7 +317,7 @@ Public Class frmMilkCollectionMCCQC
                                 clsCommon.AddColumnsForChange(coll, "Original_SNFKg", dictionary(ii).SNFKG)
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
 
-                                SendSMSandEmail(ii, trans)
+                                'SendSMSandEmail(ii, trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)
                             trans.Commit()

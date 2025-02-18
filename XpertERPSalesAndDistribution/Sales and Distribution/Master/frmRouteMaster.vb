@@ -17,6 +17,7 @@ Public Class frmRouteMaster
     Private isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim EnableLocation As Boolean = False
+    Dim ApplyDepartmentRoute As Boolean = False
     Dim SettNoOFCustomerForImportExport As Integer
 #End Region
 
@@ -26,19 +27,21 @@ Public Class frmRouteMaster
         companyCode = company
     End Sub
     Private Sub RouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        isInsideLoadData = True
-        funReset()
-        LoadBlankGrid()
-        FunAddHandler()
+
         SetUserMgmtNew()
         SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+        ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N Adding New ")
         ButtonToolTip.SetToolTip(btnprint, "Press Alt+R for Print Preview")
         rbtnDelete.Enabled = False
+        isInsideLoadData = True
+        funReset()
+        LoadBlankGrid()
+        FunAddHandler()
         fun_ddl_category()
         fun_ddl_Type()
         fun_ddl_Routeoffday()
@@ -281,7 +284,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -329,6 +332,11 @@ Public Class frmRouteMaster
                         rbtnSplitPrint.Checked = True
                     Else
                         rbtnSplitPrint.Checked = False
+                    End If
+                    If clsCommon.myCdbl(clsCommon.myCstr(dt.Rows(i)("Department_Route"))) > 0 Then
+                        chkDepartmentRoute.Checked = True
+                    Else
+                        chkDepartmentRoute.Checked = False
                     End If
                     If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Route_Time"))) = True Then
                         txtRouteTime.Value = Nothing
@@ -436,6 +444,12 @@ Public Class frmRouteMaster
             isCellValueChangedOpen = False
             LoadBlankGrid()
             cboEntryUOM.SelectedValue = "0"
+            If ApplyDepartmentRoute Then
+                chkDepartmentRoute.Visible = True
+            Else
+                chkDepartmentRoute.Visible = False
+            End If
+            chkDepartmentRoute.Checked = False
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -579,6 +593,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
+        clsCommon.AddColumnsForChange(coll1, "Department_Route", IIf(chkDepartmentRoute.Checked = True, 1, 0), True)
         clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
         clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
@@ -1422,6 +1437,15 @@ Public Class frmRouteMaster
         fndZone.Value = clsCommon.ShowSelectForm("ZoneFND", qry, "Code", "", fndZone.Value, "", isButtonClicked)
         txtZone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_AREA_MASTER.Zone_Code from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code where TSPL_AREA_MASTER.Code='" + fndZone.Value + "' "))
     End Sub
+
+    Private Sub chkDepartmentRoute_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkDepartmentRoute.ToggleStateChanged
+        If chkDepartmentRoute.Checked Then
+            cboEntryUOM.SelectedValue = "2"
+        Else
+            cboEntryUOM.SelectedValue = "0"
+        End If
+    End Sub
+
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index

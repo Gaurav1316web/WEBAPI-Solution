@@ -146,6 +146,7 @@ Public Class objCommonVar
     Private Shared _StopInventoryNew As Boolean = False
     Private Shared _RCDFRateControl As Boolean = False
     Private Shared _JSONTrack As Boolean = False
+    Private Shared _ApplyBoothRouteMapping As Boolean = False
 #End Region
 
     Public Shared Property JSONTrack() As Boolean
@@ -170,6 +171,14 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As Boolean)
             _RCDFRateControl = Value
+        End Set
+    End Property
+    Public Shared Property ApplyBoothRouteMapping() As Boolean
+        Get
+            Return _ApplyBoothRouteMapping
+        End Get
+        Set(ByVal Value As Boolean)
+            _ApplyBoothRouteMapping = Value
         End Set
     End Property
 
@@ -987,6 +996,7 @@ Public Class objCommonVar
         objCommonVar.StopInventoryNew = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopSetting, clsFixedParameterCode.InventoryNew, Nothing)) = 1, True, False)
 
         objCommonVar.RCDFRateControl = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, Nothing)) = 1, True, False)
+        objCommonVar.ApplyBoothRouteMapping = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, Nothing)) = 1, True, False)
 
         dt.Dispose()
     End Sub

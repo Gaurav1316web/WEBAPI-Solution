@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmPurchaseOrder
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmPurchaseOrder
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
@@ -2803,9 +2803,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage5.Controls.Add(Me.Chkroadpermit)
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(88.0!, 26.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage5.Text = "Form(s) Detail"
         '
         'btnForm_Update
@@ -2914,9 +2914,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(82.0!, 26.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage2.Text = "Taxes/Terms"
         '
         'chkTDSApplied
@@ -3025,7 +3025,7 @@ Partial Class frmPurchaseOrder
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(917, 244)
+        Me.RadLabel10.Location = New System.Drawing.Point(917, 240)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -3062,7 +3062,7 @@ Partial Class frmPurchaseOrder
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 259)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 255)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1079, 144)
@@ -3498,7 +3498,7 @@ Partial Class frmPurchaseOrder
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1075, 202)
+        Me.gv2.Size = New System.Drawing.Size(1075, 198)
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -3575,9 +3575,9 @@ Partial Class frmPurchaseOrder
         Me.RdPaymentterms.Controls.Add(Me.RadGroupBox5)
         Me.RdPaymentterms.Controls.Add(Me.MyLabel8)
         Me.RdPaymentterms.ItemSize = New System.Drawing.SizeF(96.0!, 26.0!)
-        Me.RdPaymentterms.Location = New System.Drawing.Point(10, 31)
+        Me.RdPaymentterms.Location = New System.Drawing.Point(10, 35)
         Me.RdPaymentterms.Name = "RdPaymentterms"
-        Me.RdPaymentterms.Size = New System.Drawing.Size(1080, 403)
+        Me.RdPaymentterms.Size = New System.Drawing.Size(1080, 399)
         Me.RdPaymentterms.Text = "Payment Terms"
         '
         'lblBankDesc
@@ -4889,9 +4889,9 @@ Partial Class frmPurchaseOrder
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer5)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer5
@@ -4907,7 +4907,7 @@ Partial Class frmPurchaseOrder
         'SplitContainer5.Panel2
         '
         Me.SplitContainer5.Panel2.Controls.Add(Me.GroupBox4)
-        Me.SplitContainer5.Size = New System.Drawing.Size(1080, 403)
+        Me.SplitContainer5.Size = New System.Drawing.Size(1080, 399)
         Me.SplitContainer5.SplitterDistance = 621
         Me.SplitContainer5.TabIndex = 2
         '
@@ -4918,7 +4918,7 @@ Partial Class frmPurchaseOrder
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(621, 403)
+        Me.GroupBox3.Size = New System.Drawing.Size(621, 399)
         Me.GroupBox3.TabIndex = 0
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Additional Charges"
@@ -4944,7 +4944,7 @@ Partial Class frmPurchaseOrder
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(615, 357)
+        Me.gvAC.Size = New System.Drawing.Size(615, 353)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         Me.gvAC.VarID = ""
@@ -4954,7 +4954,7 @@ Partial Class frmPurchaseOrder
         Me.RadPanel1.Controls.Add(Me.RadLabel31)
         Me.RadPanel1.Controls.Add(Me.lblAddCharges)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel1.Location = New System.Drawing.Point(3, 373)
+        Me.RadPanel1.Location = New System.Drawing.Point(3, 369)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(615, 27)
         Me.RadPanel1.TabIndex = 1
@@ -4990,7 +4990,7 @@ Partial Class frmPurchaseOrder
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(455, 403)
+        Me.GroupBox4.Size = New System.Drawing.Size(455, 399)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Additional Charges For Insurance"
@@ -5016,7 +5016,7 @@ Partial Class frmPurchaseOrder
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
         Me.gvACInsurance.ShowHeaderCellButtons = True
-        Me.gvACInsurance.Size = New System.Drawing.Size(449, 357)
+        Me.gvACInsurance.Size = New System.Drawing.Size(449, 353)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
         Me.gvACInsurance.VarID = ""
@@ -5026,7 +5026,7 @@ Partial Class frmPurchaseOrder
         Me.RadPanel2.Controls.Add(Me.MyLabel56)
         Me.RadPanel2.Controls.Add(Me.lblAddChargesForInsurance)
         Me.RadPanel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel2.Location = New System.Drawing.Point(3, 373)
+        Me.RadPanel2.Location = New System.Drawing.Point(3, 369)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(449, 27)
         Me.RadPanel2.TabIndex = 2
@@ -5059,9 +5059,9 @@ Partial Class frmPurchaseOrder
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1080, 403)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1080, 399)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -5069,16 +5069,16 @@ Partial Class frmPurchaseOrder
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1080, 403)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1080, 399)
         Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
         Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 31)
+        Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1080, 403)
+        Me.Attachments.Size = New System.Drawing.Size(1080, 399)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -5086,7 +5086,7 @@ Partial Class frmPurchaseOrder
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1080, 403)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1080, 399)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
@@ -5139,9 +5139,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtCmt13
@@ -5703,9 +5703,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage7.Controls.Add(Me.Panel5)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel61)
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
-        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage7.Text = "Set Schedule"
         '
         'gvSchedule
@@ -5729,7 +5729,7 @@ Partial Class frmPurchaseOrder
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
         Me.gvSchedule.ShowHeaderCellButtons = True
-        Me.gvSchedule.Size = New System.Drawing.Size(1080, 362)
+        Me.gvSchedule.Size = New System.Drawing.Size(1080, 358)
         Me.gvSchedule.TabIndex = 20
         Me.gvSchedule.TabStop = False
         Me.gvSchedule.VarID = ""
@@ -5801,7 +5801,7 @@ Partial Class frmPurchaseOrder
         Me.MyLabel61.FieldName = Nothing
         Me.MyLabel61.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel61.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel61.Location = New System.Drawing.Point(0, 390)
+        Me.MyLabel61.Location = New System.Drawing.Point(0, 386)
         Me.MyLabel61.Name = "MyLabel61"
         Me.MyLabel61.Size = New System.Drawing.Size(1080, 13)
         Me.MyLabel61.TabIndex = 1522
@@ -5829,9 +5829,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer4)
         Me.RadPageViewPage6.Enabled = False
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(75.0!, 26.0!)
-        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1080, 403)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage6.Text = "Work Order"
         '
         'SplitContainer4
@@ -5853,8 +5853,8 @@ Partial Class frmPurchaseOrder
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer4.Size = New System.Drawing.Size(1080, 403)
-        Me.SplitContainer4.SplitterDistance = 201
+        Me.SplitContainer4.Size = New System.Drawing.Size(1080, 399)
+        Me.SplitContainer4.SplitterDistance = 199
         Me.SplitContainer4.TabIndex = 1
         '
         'lblWAddress
@@ -5976,7 +5976,7 @@ Partial Class frmPurchaseOrder
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.GroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1080, 198)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1080, 196)
         Me.SplitContainer3.SplitterDistance = 169
         Me.SplitContainer3.TabIndex = 0
         '

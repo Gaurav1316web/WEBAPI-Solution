@@ -383,7 +383,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.81") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.82") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -7495,6 +7495,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmItemCapacityLimt
                         frm = New FrmItemCapacityLimit
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBoothRouteMapping
+                        frm = New FrmBoothRouteMapping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDayBook
                         frm = New frmDayBook
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8474,6 +8477,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTruckSheetReport
                         frm = New rptTruckSheetReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionBookingReport
+                        frm = New rptUnionBookingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8597,6 +8603,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBankSavingAdvice
                         frm = New rptBankSavingAdvice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.frmDCSWiseHoldPayments
+                        frm = New frmDCSWiseHoldPayments
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8615,6 +8624,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionMilkPurchase
+                        frm = New rptUnionMilkRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.latestPaymentProcess
                         frm = New latestPaymentProcess
@@ -9214,8 +9226,15 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemand
                         frm = New frmDailyDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmUpdateAppLocation
+                        frm = New frmUpdateAppLocation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmDBTUnionPayment
                         frm = New frmDBTUnionPayment()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptCattleFeedProduction
+                        frm = New rptCattleFeedProduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmUnionLastGstInvoice
                         frm = New frmUnionLastGstInvoice()
@@ -9657,6 +9676,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RCDFUnionDashboard
+                        frm = New RCDFUnionDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.Complainfeedback
                         frm = New RptComplainfeedback

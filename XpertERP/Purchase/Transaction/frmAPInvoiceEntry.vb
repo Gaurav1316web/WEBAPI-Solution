@@ -7325,15 +7325,15 @@ Public Class FrmAPInvoiceEntry
         Dim flag As Boolean = False
         If SettingCostCenter Then
             If SettingCostCenterlevel Then
-                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Hirerachy Level", gv1.Columns(colHierarchyLevel4).HeaderText, gv1.Columns(colHierarchyLevel3).HeaderText, gv1.Columns(colHierarchyLevel2).HeaderText, gv1.Columns(colHierarchyLevel1).HeaderText)
+                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Transfer_To_Saving", "Hirerachy Level", gv1.Columns(colHierarchyLevel4).HeaderText, gv1.Columns(colHierarchyLevel3).HeaderText, gv1.Columns(colHierarchyLevel2).HeaderText, gv1.Columns(colHierarchyLevel1).HeaderText)
             Else
-                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Hirerachy Level", "Cost Centre")
+                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Transfer_To_Saving", "Hirerachy Level", "Cost Centre")
             End If
         Else
             If SettShowMCCFinder = True Then
-                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "MCC Code", "VLC Uploader Code")
+                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Transfer_To_Saving", "MCC Code", "VLC Uploader Code")
             Else
-                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type")
+                flag = transportSql.importExcel(gv, "Location Code", "Vendor", "Document Date", "Deduction (Yes/No)", "Security Deduction (Yes/No)", "Deduction Code", "Account Code", "Amount", "Discount %", "Remarks", "Employee Expense Type", "Transfer_To_Saving")
             End If
         End If
         If flag Then
@@ -7398,6 +7398,7 @@ Public Class FrmAPInvoiceEntry
                     obj.Document_Type = clsCommon.myCstr(TransType)
                     obj.On_Hold = False
                     obj.Discount_Base = clsCommon.myCdbl(grow.Cells("Amount").Value)
+                    obj.Transfer_To_Saving = clsCommon.myCdbl(grow.Cells("Transfer_To_Saving").Value)
                     If obj.Discount_Base <= 0 Then
                         Throw New Exception("Please enter amount.")
                     End If
@@ -7734,8 +7735,8 @@ Public Class FrmAPInvoiceEntry
     End Sub
     ' Ticket No : KDI/02/05/18-000284 by Prabhakar
     Public Sub FillVendorDetails()
-        lblRegisterOrUnregister.Text = clsVendorMaster.GetVendorRegisterORNonRegister(txtVendorNo.Value, Nothing)
-        lblGstinNo.Text = clsVendorMaster.GetVendorGSTINNo(txtVendorNo.Value, Nothing)
+        lblRegisterOrUnregister.Text = clsVendorMaster.GetVendorRegisterORNonRegister(TxtVendorNo.Value, Nothing)
+        lblGstinNo.Text = clsVendorMaster.GetVendorGSTINNo(TxtVendorNo.Value, Nothing)
     End Sub
 
     Private Sub butCostCenterAndHirerachy_Update_AfterPost_Click(sender As Object, e As EventArgs) Handles butCostCenterAndHirerachy_Update_AfterPost.Click

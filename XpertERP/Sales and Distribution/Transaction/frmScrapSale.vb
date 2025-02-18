@@ -3938,7 +3938,6 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End Try
 
     End Sub
-
     Private Sub TxtVehicleCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtVehicleCode._MYValidating
         Dim qry As String = "Select distinct  vehicle_id as Code ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code "
         Dim WhrCls As String = ""
@@ -3967,6 +3966,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                 dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
                             End If
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                            UpdateCurrentRow(IntRowNo)
                         End If
                     End If
                 End If
@@ -4032,8 +4032,26 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
+                    If rbtnManualTCS.IsChecked Then
+                        If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            Dim dblTotAmt As Double = 0
+                            Dim dblTaxAmtt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                            For jj As Integer = 0 To gv1.Rows.Count - 1
+                                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            Next
+                            Dim dblCurrCalTax As Double = 0
+                            If dblTotAmt <> 0 Then
+                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmtt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            End If
+                            dblTaxAmt = dblCurrCalTax
+                        Else
+                            dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                        End If
+                    Else
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
+                    End If
+                    gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If
@@ -4376,14 +4394,14 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         If rbtnManualTCS.IsChecked = False Then
             lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         Else
-            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblManualTCSTotAmt)
+            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         End If
         If rbtnTaxCalAutomatic.IsChecked Then
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         ElseIf rbtnTaxCalManual.IsChecked Then
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         ElseIf rbtnManualTCS.IsChecked Then
-            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt + dblManualTCSTotAmt)
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         End If
 
         lbldocamt.Text = clsCommon.myFormat(clsCommon.myCdbl(lbladdcharges.Text) + clsCommon.myCdbl(lblTotRAmt.Text))

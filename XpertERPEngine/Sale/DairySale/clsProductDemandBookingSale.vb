@@ -543,7 +543,6 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                     Else
                         FinalQuery += " Cust_Code"
                     End If
-
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
                 If isMultipleRoutes Then

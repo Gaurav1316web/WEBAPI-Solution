@@ -50,8 +50,8 @@ Public Class rptmilkunion
             gv1.Columns(ii).BestFit()
         Next
         gv1.Columns("SNo").Name = "SNo"
-        gv1.Columns("SNo").IsVisible = True '
-
+        gv1.Columns("SNo").IsVisible = False '
+        gv1.Columns("username").IsVisible = False
         gv1.Columns("Union Name").HeaderText = "Union Name"
         gv1.Columns("Union Name").Width = 500
         gv1.Columns("Union Name").IsVisible = True
@@ -185,10 +185,22 @@ Public Class rptmilkunion
             gv1.Columns("Last_Salary").IsVisible = True
         End If
 
-
-
         gv1.ShowGroupPanel = True
         gv1.MasterTemplate.AutoExpandGroups = True
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim i As Integer = 0
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+            i = 2
+        Else
+            i = 7
+        End If
+        For ii As Integer = 2 To gv1.Columns.Count - i
+            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+        Next
+
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         View()
     End Sub
@@ -422,18 +434,18 @@ Public Class rptmilkunion
 
                         query = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                    ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
-                    ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
-                    ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                      ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
                     ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
                     ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
                     ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                     ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                     ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                     ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
-                    ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
-                    ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
-                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                                                ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
+                    ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
+                    ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
                     ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
 					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
                     (SELECT TOP 1 DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
@@ -611,7 +623,8 @@ Public Class rptmilkunion
 
 
                     ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
-                        query = " select  SNo,[Union Name],Fromdate,Todate,username,Dis_QtyInLTR,(Dis_QtyInLTR/DaysCount) as [Dis Avg],Prod_QTY,(Prod_QTY/DaysCount) as [Prod Avg],TotalLtr_ItemWiseDemand,(TotalLtr_ItemWiseDemand/DaysCount) as [Dem Avg],Milk_WeightProc,(Milk_WeightProc/DaysCount) as [Proc Avg],Sale_Voucher,Purchase_Voucher,Last_Salary,Purchase_Count,SRN_Count,GRN_Count,E_Invoice_Count,[Last DBT App. Month] from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " select  SNo,[Union Name],Fromdate,Todate,username,Milk_WeightProc,(Milk_WeightProc/DaysCount) as [Proc Avg],Prod_QTY,(Prod_QTY/DaysCount) as [Prod Avg],Purchase_Count,SRN_Count,GRN_Count,TotalLtr_ItemWiseDemand,(TotalLtr_ItemWiseDemand/DaysCount) as [Dem Avg],
+    Dis_QtyInLTR,(Dis_QtyInLTR/DaysCount) as [Dis Avg],E_Invoice_Count,Sale_Voucher,Purchase_Voucher,Last_Salary,[Last DBT App. Month] from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
@@ -777,15 +790,16 @@ Public Class rptmilkunion
                     Next
                     RadPageView1.SelectedPage = RadPageViewPage2
                     gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     SetGridFormat1()
                     gv1.BestFitColumns()
                 Else
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
                     Else
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
                     End If
 
                 End If
@@ -1019,4 +1033,38 @@ Public Class rptmilkunion
         End Try
 
     End Sub '  
+
+    Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy"))
+                arrHeader.Add("Report : " + ddlReportType.SelectedItem.Text)
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMilkUnion & "'"))
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Report Name : " + strHeading)
+            arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
+            arrHeader.Add("Report : " + ddlReportType.SelectedItem.Text)
+            transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+        End Try
+    End Sub
 End Class

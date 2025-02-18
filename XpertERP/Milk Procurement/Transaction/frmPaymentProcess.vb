@@ -34,6 +34,8 @@ Public Class FrmPaymentProcess
     Public Const colRouteName As String = "colRouteName"
     Public Const colVendorCode As String = "colVendorCode"
     Public Const colVendorDesc As String = "colVendorDesc"
+    Public Const ColCreditDeduction As String = "ColCreditDeduction"
+    Public Const ColCreditDeductionDesc As String = "ColCreditDeductionDesc"
     Public Const colCustomerCode As String = "colCustomerCode"
     Public Const colCustomerName As String = "colCustomerName"
     Public Const colPayeeJointName As String = "colPayeeJointName"
@@ -114,6 +116,7 @@ Public Class FrmPaymentProcess
     Public Const colALPaymentAmt As String = "colALPaymentAmt"
 
     Public Const colDeductionTypeCode As String = "colDeductionTypeCode"
+    Public Const colDeductionDescCode As String = "colDeductionDescCode"
     Public Const colSequenceNo1 As String = "colSequenceNo1"
     Public Const colSequenceNo2 As String = "colSequenceNo2"
 
@@ -2112,6 +2115,14 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.ReadOnly = True
         gvMccSale.MasterTemplate.Columns.Add(colTextBox)
 
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Description"
+        colTextBox.Name = colDeductionDescCode
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvMccSale.MasterTemplate.Columns.Add(colTextBox)
+
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
         colDecimal.HeaderText = "Deduction SNo"
@@ -2714,6 +2725,22 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.ReadOnly = True
         gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
 
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Code"
+        colTextBox.Name = ColCreditDeduction
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Desc"
+        colTextBox.Name = ColCreditDeductionDesc
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
+
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
         colDecimal.HeaderText = "TDS Amount"
@@ -2923,17 +2950,28 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
     '                gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
     '            End If
     '        End If
-    '    End Sub
+    '    End Subgvcred
 
     Sub LoadCreditNoteGridData()
         LoadBlankGridCreditNote()
         If clsCommon.myLen(strVendorCode) > 0 Then
             '' Update By pankaj jha For picking up amount from Head in place of details 
-            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_REMITTANCE.Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
-left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            '            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_REMITTANCE.Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+            'from TSPL_VENDOR_INVOICE_head   
+            'left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
+            'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+            'where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,
+                                    case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode ,
+                                    case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,isnull(TSPL_REMITTANCE.Calculated_TDS,0)Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+                                    from TSPL_VENDOR_INVOICE_DETAIL 
+                                    left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+                                    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                                    left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
+                                    where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+
             Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no not in ('" + fndDocNo.Value + "')) "
             If clsCommon.myLen(strVendorCode) <= 0 Then
             Else
@@ -2969,6 +3007,8 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.
                 gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                 gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_Code"
                 gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_Name"
+                gvCreditNote.Columns(ColCreditDeduction).FieldName = "DeductionCode"
+                gvCreditNote.Columns(ColCreditDeductionDesc).FieldName = "Deduction_Desc"
                 gvCreditNote.Columns(colTDSAmt).FieldName = "Calculated_TDS"
                 gvCreditNote.Columns(colItemAmt).FieldName = "Total_Amount"
             End If
@@ -3320,9 +3360,9 @@ order by Payment_Date "
     Sub LoadMccSaleGridData()
         LoadBlankGridMccSale()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],DeductionSNo,DeductionTypeCode,Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
+            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],DeductionSNo,DeductionTypeCode,DeductionDesc,Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
 select TSPL_Customer_Invoice_Head.Loc_Code, TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE as [Shipment_No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Shipment_Date] ,TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code [Vendor_Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor_Name] , TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Sale_Inoivce_Date] ,TSPL_Customer_Invoice_Head.Document_No as [AR_Invoice_No] ,   TSPL_Customer_Invoice_Head.Document_Date as [AR_Invoice_Date], TSPL_Customer_Invoice_Head.Balance_Amt , 
-convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount, TSPL_DEDUCTION_MASTER.Sequence_No  as DeductionSNo,TSPL_DEDUCTION_MASTER.Code as DeductionTypeCode 
+convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount, TSPL_DEDUCTION_MASTER.Sequence_No  as DeductionSNo,TSPL_DEDUCTION_MASTER.Code as DeductionTypeCode,TSPL_DEDUCTION_MASTER.Description as DeductionDesc
 from TSPL_SD_SHIPMENT_HEAD  
 left outer join  TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code     
 inner join TSPL_Customer_Invoice_Head on  TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No  and coalesce(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>''   
@@ -3356,6 +3396,7 @@ where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HE
                 gvMccSale.Columns(colInstallmentAmt).FieldName = "InstallmentAmount"
                 gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionTypeCode"
                 gvMccSale.Columns(colSequenceNo2).FieldName = "DeductionSNo"
+                gvMccSale.Columns(colDeductionDescCode).FieldName = "DeductionDesc"
             End If
         End If
     End Sub
@@ -4800,6 +4841,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
                     gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
                     gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionType"
+                    gvMccSale.Columns(colDeductionDescCode).FieldName = "DeductionDesc"
                 End If
                 If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
                     gvItemIssue.DataSource = Nothing
@@ -4866,6 +4908,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                     gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_CODE"
                     gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvCreditNote.Columns(ColCreditDeduction).FieldName = "DeductionCode"
+                    gvCreditNote.Columns(ColCreditDeductionDesc).FieldName = "Deduction_Desc"
                     gvCreditNote.Columns(colTDSAmt).FieldName = "TDS_Amount"
                     gvCreditNote.Columns(colItemAmt).FieldName = "Amount"
 
@@ -7479,15 +7523,15 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
           
          "
         sQuery += " " & whrclsItemWise & "  Union All  "
-        sQuery += " select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+        sQuery += " select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                     from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
                     left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                     left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
-                    left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+                    left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
                     where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no in ('" + fndDocNo.Value + "')
                     and TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' 
+                    and TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' 
                     ) Final order by Is_Default_Pashu_Vikash_Kos desc , trans_type desc "
         Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -7519,8 +7563,8 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
         '                    and TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc "
 
         sQuery = "select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition, sum(Amount) as [Amount]  from (
-select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
-case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
+case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
@@ -7761,7 +7805,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
           
          "
         sQuery += " " & whrclsItemWise & "  Union All  "
-        sQuery += " select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+        sQuery += " select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type   , TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                     from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
                     left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                     left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
@@ -7769,7 +7813,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
                     where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no in ('" + fndDocNo.Value + "')
                     and TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' 
+                    and TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type = 'Addition' 
                     ) Final order by Is_Default_Pashu_Vikash_Kos desc , trans_type desc "
         Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 

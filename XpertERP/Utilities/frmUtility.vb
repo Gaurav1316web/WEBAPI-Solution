@@ -25742,7 +25742,7 @@ where Prog_Code='MCC-DISP'"
     Private Sub RadButton342_Click(sender As Object, e As EventArgs) Handles RadButton342.Click
         Try
             Dim qry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,CONVERT(VARCHAR,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) AS Document_Date
-            ,TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code,TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type
+            ,TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code
              from TSPL_MULTIPLE_DEDUCTION_HEAD where IsPosted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("MulDedUti", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -26591,35 +26591,45 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
                 clsCommon.ProgressBarPercentShow()
                 Dim Totaldays As Integer = clsDBFuncationality.getSingleValue("select datediff(DAY,'" & clsCommon.GetPrintDate(txtRetestingDate.Value, "dd/MMM/yyyy") & "','" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") & "') +1", trans)
                 Dim Day As Integer = 0
-                While clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") >= clsCommon.GetPrintDate(txtRetestingDate.Value, "dd/MMM/yyyy")
+                While clsCommon.GetDateWithStartTime(LastDate) >= clsCommon.GetDateWithStartTime(txtRetestingDate.Value)
 
-                    'clsCommon.ProgressBarPercentUpdate(((Day + 1) * 100) / Totaldays, " Processing " & (Day + 1) & "  Of " & Totaldays & " Date (" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy").ToString + " )")
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where convert(date, Document_Date,103) = convert(date,'" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") & "',103) and not exists  ( select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING where Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No ) order by  Document_Date,Document_No ", trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For Each dr As DataRow In dt.Rows
                             Try
                                 trans = clsDBFuncationality.GetTransactin()
                                 Document_No = clsCommon.myCstr(dr("Document_No"))
+                                obj.Arr = New List(Of clsMilkProcurementUploaderDetail)
                                 clsCommon.ProgressBarPercentUpdate((((Day + 1) * 100) / Totaldays), "Progress-" + clsCommon.myCstr(Day + 1) + "/" + clsCommon.myCstr(Totaldays) + " Document No-" + clsCommon.myCstr(Document_No) + " Rows-" + clsCommon.myCstr(Day))
-                                Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' order by TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo,Hist_Version ", trans)
+                                Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data where Document_No= '" & clsCommon.myCstr(Document_No) & "' order by TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo,Hist_Version ", trans)
                                 For ii As Integer = 0 To dtHist.Rows.Count - 1
                                     Dim objTr As New clsMilkProcurementUploaderDetail()
                                     objTr.SNo = dtHist.Rows(ii)("SNo")
                                     objTr.TR_No = clsCommon.myCstr(dtHist.Rows(ii)("TR_No"))
                                     objTr.Shift_Date = clsCommon.myCDate(dtHist.Rows(ii)("Shift_Date"))
                                     objTr.Shift = clsCommon.myCstr(dtHist.Rows(ii)("Shift"))
-                                    objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dtHist.Rows(ii)("Dock_Collection_Milk_Type"))
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Dock_Collection_Milk_Type")) > 0 Then
+                                        objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dtHist.Rows(ii)("Dock_Collection_Milk_Type"))
+                                    End If
                                     objTr.VLC_Code = clsCommon.myCstr(dtHist.Rows(ii)("VLC_Code"))
-                                    objTr.Bulk_Route_Code = clsCommon.myCstr(dtHist.Rows(ii)("Bulk_Route_Code"))
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Bulk_Route_Code")) > 0 Then
+                                        objTr.Bulk_Route_Code = clsCommon.myCstr(dtHist.Rows(ii)("Bulk_Route_Code"))
+                                    End If
                                     objTr.No_Of_Cans = clsCommon.myCdbl(dtHist.Rows(ii)("No_Of_Cans"))
                                     objTr.Milk_Weight = clsCommon.myCdbl(dtHist.Rows(ii)("Milk_Weight"))
                                     objTr.FAT = clsCommon.myCdbl(dtHist.Rows(ii)("FAT"))
                                     objTr.SNF = clsCommon.myCdbl(dtHist.Rows(ii)("SNF"))
-                                    objTr.Reject_Defaulter = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Defaulter"))
-                                    objTr.Reject_Type = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Type"))
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Reject_Defaulter")) > 0 Then
+                                        objTr.Reject_Defaulter = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Defaulter"))
+                                    End If
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Reject_Type")) > 0 Then
+                                        objTr.Reject_Type = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Type"))
+                                    End If
                                     objTr.Manual_Weight = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Weight"))
                                     objTr.Manual_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Sample"))
-                                    objTr.Empty_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Empty_Sample"))
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Empty_Sample")) > 0 Then
+                                        objTr.Empty_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Empty_Sample"))
+                                    End If
                                     objTr.Page_No = clsCommon.myCDecimal(dtHist.Rows(ii)("Page_No"))
                                     If clsCommon.myLen(dtHist.Rows(ii)("Arrival_Time")) > 0 Then
                                         objTr.Arrival_Time = clsCommon.myCDate(dtHist.Rows(ii)("Arrival_Time"))
@@ -26651,7 +26661,7 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
                         Next
                     End If
                     LastDate = LastDate.AddDays(-1)
-                    Day = +1
+                    Day = Day + 1
                 End While
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
@@ -26693,5 +26703,33 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadButton357_Click(sender As Object, e As EventArgs) Handles RadButton357.Click
+        Dim code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select code from tspl_master.dbo.TSPL_APP_LOCATION where code = 3888"))
+
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmUpdateAppLocation, code)
+
+        'Dim UpdateAppLocationForm As Boolean = True
+        ''Dim valueEntry As Boolean = True
+
+        'Dim frm As New frmUpdateAppLocation()
+        ''valueEntry = True
+        ''frm.Check = fndCustomer.Value
+        ''frm.StringPass1 = fndCustomer.Value
+        ''frm.StringPass = txtCustomerName.Text
+        'Dim strProgramName As String = ""
+        'Dim strProgramCode As String = clsUserMgtCode.frmUpdateAppLocation
+        'If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
+        '    If MDI.IsOriginalName = True Then
+        '        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+        '    Else
+        '        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+        '    End If
+        '    MDI.formShow(frm, strProgramCode, strProgramName, True, UpdateAppLocationForm, True)
+        '    'valueEntry = False
+        'End If
+
+
     End Sub
 End Class

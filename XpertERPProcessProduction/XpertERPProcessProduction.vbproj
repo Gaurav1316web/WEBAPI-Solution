@@ -229,6 +229,13 @@
     <Compile Include="ProcessProduction\Transaction\frmOutgoingQCEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmUpdateAppLocation.Designer.vb">
+      <DependentUpon>frmUpdateAppLocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmUpdateAppLocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PRODUCTION\ClsUpdateAppLocation.vb" />
     <Compile Include="PRODUCTION\Masters\frmAccountSetting.Designer.vb">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>
     </Compile>
@@ -413,6 +420,12 @@
       <DependentUpon>frmProductionVariance.vb</DependentUpon>
     </Compile>
     <Compile Include="PRODUCTION\Reports\frmProductionVariance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptCattleFeedProduction.Designer.vb">
+      <DependentUpon>rptCattleFeedProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptCattleFeedProduction.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PRODUCTION\Reports\rptListOf Resource.Designer.vb">
@@ -777,6 +790,9 @@
     <EmbeddedResource Include="ProcessProduction\Transaction\frmOutgoingQCEntry.resx">
       <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Transaction\frmUpdateAppLocation.resx">
+      <DependentUpon>frmUpdateAppLocation.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Masters\frmAccountSetting.resx">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -899,6 +915,9 @@
     <EmbeddedResource Include="PRODUCTION\Reports\frmProductionVariance.resx">
       <DependentUpon>frmProductionVariance.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PRODUCTION\Reports\rptCattleFeedProduction.resx">
+      <DependentUpon>rptCattleFeedProduction.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Reports\rptListOf Resource.resx">
       <DependentUpon>rptListOf Resource.vb</DependentUpon>

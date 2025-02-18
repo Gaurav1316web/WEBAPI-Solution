@@ -41,29 +41,54 @@ Public Class frmCancelledTransactions_DairySale
             dtpToDate.Value = Todate
             ShowData()
         End If
-        If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
-            btnPrintCancel.Visible = False
-            lblPrintMsg.Visible = True
-        Else
-            lblPrintMsg.Visible = False
-            btnPrintCancel.Visible = False
-        End If
+        MSGShowAndHide()
     End Sub
     Public Sub LoadModuleType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-
-        dr = dt.NewRow()
-        dr("Code") = "Dairy Sale"
-        dr("Name") = "Dairy Sale"
-        dt.Rows.Add(dr)
-
-        cboModule.DataSource = dt
-        cboModule.DisplayMember = "Name"
-        cboModule.ValueMember = "Code"
+        Dim Qry As String = "select Distinct TBL_MODULE.Program_Code As [Module Code],case when len (isnull(TBL_MODULE.Re_Name,'')) > 0 then TBL_MODULE.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as [Module Name] 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleSaleDairy + "','" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.SubModuleSaleNewTransaction + "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
+ "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'dr = dt.NewRow()
+            'dr("Module Code") = dt.Rows(0)("Module Code")
+            'dr("Module Name") = dt.Rows(0)("Module Name")
+            'dt.Rows.Add(dr)
+            cboModule.DataSource = dt
+            cboModule.DisplayMember = "Module Name"
+            cboModule.ValueMember = "Module Code"
+        End If
 
     End Sub
+
+    Sub LoadModuleProduction()
+        Try
+            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmSaleDispatchDairy + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmDairyGatePass + "','" + clsUserMgtCode.frmMCCMaterial + "')
+ "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'dr = dt.NewRow()
+            'dr("Code") = dt.Rows(0)("Code")
+            'dr("Name") = dt.Rows(0)("Name")
+            'dt.Rows.Add(dr)
+
+            cboTransaction.DataSource = dt
+            cboTransaction.DisplayMember = "Name"
+            cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -91,41 +116,19 @@ Public Class frmCancelledTransactions_DairySale
             Throw New Exception("Permission Denied")
         End If
     End Sub
-    Sub LoadModuleProduction()
-        Dim dt1 As DataTable = New DataTable()
-        dt1.Columns.Add("Code", GetType(String))
-        dt1.Columns.Add("Name", GetType(String))
 
-
-        dr = dt1.NewRow()
-        dr("Code") = "Dispatch"
-        dr("Name") = "Dispatch"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Sale Invoice"
-        dr("Name") = "Sale Invoice"
-        dt1.Rows.Add(dr)
-        dr = dt1.NewRow()
-        dr("Code") = "Dairy GatePass"
-        dr("Name") = "Dairy GatePass"
-        dt1.Rows.Add(dr)
-
-        cboTransaction.DataSource = dt1
-        cboTransaction.DisplayMember = "Name"
-        cboTransaction.ValueMember = "Code"
-    End Sub
 
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
-        LoadTrnsListOfSelectedModeule()
+        Try
+            LoadTrnsListOfSelectedModeule()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Public Sub LoadTrnsListOfSelectedModeule()
-        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
-            cboTransaction.DataSource = Nothing
-            LoadModuleProduction()
-        End If
-
+        cboTransaction.DataSource = Nothing
+        LoadModuleProduction()
     End Sub
 
     Sub LoadBlankGrid()
@@ -134,7 +137,7 @@ Public Class frmCancelledTransactions_DairySale
         gv1.AllowAddNewRow = False
     End Sub
     Sub gv1Format()
-        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyGatePass) = CompairStringResult.Equal Then
             Me.gv1.MasterTemplate.Columns("GatePass No").Width = 120      ''First Column
             Me.gv1.MasterTemplate.Columns("Gate Pass Date").Width = 150
         Else
@@ -190,24 +193,15 @@ Public Class frmCancelledTransactions_DairySale
             Else
                 arrSelectedUser = arrUser
             End If
-
-            If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
-                gv1.DataSource = Nothing
-                FillDairySale()
-            End If
+            gv1.DataSource = Nothing
+            FillDairySale()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-
-
-
-
-
-
     Sub FillDairySale()
-        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dispatch") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "  Select TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code as [Document Id],convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) as [Document Date]," &
                 " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No], TSPL_CUSTOMER_MASTER.Cust_Code As [Distributor Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Distributor Name] , TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Route_No As [Route No],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Route_Desc As [Route Name],Convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Supply_Date,103) As [Supply Date]," &
@@ -220,8 +214,13 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                 " Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code
  Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " &
             " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
-            " and convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type='DS'"
+            " and convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+                qry += " and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('MCC')"
+            Else
+                qry += " and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type='DS'"
+            End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                 qry += " and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
             End If
@@ -231,7 +230,7 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                 qry += " and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
             qry += " ORDER BY TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Sale Invoice") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNSaleInvoice) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "  Select TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code  as [Document Id],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date ,103) as [Document Date],  " &
                 " TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Against_Shipment_No as [Against Shipment No],TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Bill_to_Location  as [Location Code], " &
@@ -254,7 +253,7 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
             End If
 
             qry += "  ORDER BY TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyGatePass) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "select GPCode as [GatePass No],convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPDate ,103) as [Gate Pass Date], Vehicle_Number as [Vehicle Number],Loading_Slip as [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_By as [Created By] 
 ,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_Date  as [Created Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Location_Code as [Location Code],Location_Desc  as [Location Name],Cancel_By as [Canceled By] ,Cancel_On as [Canceled Date] ,Remarks as Description,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Route_No,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.DistributorNamE as [Distributor Name]
@@ -352,12 +351,16 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
     End Sub
 
     Private Sub btnPrintCancel_Click(sender As Object, e As EventArgs) Handles btnPrintCancel.Click
-        printCanceInvoice()
+        'If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+        '    clsMCCMaterialSale.funPrint(True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+        'Else
+        '    printCanceInvoice()
+        'End If
     End Sub
 
     Sub printCanceInvoice()
         Try
-            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(cboTransaction.SelectedValue, clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal Then
                 Dim Doc_Code As String = Nothing
                 Dim Doc_Date As DateTime = Nothing
                 Dim Inv_Code As String = Nothing
@@ -377,9 +380,10 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub cboTransaction_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTransaction.SelectedValueChanged
+
+    Sub MSGShowAndHide()
         Try
-            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
                 btnPrintCancel.Visible = False
                 lblPrintMsg.Visible = True
             Else
@@ -390,9 +394,20 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub cboTransaction_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTransaction.SelectedValueChanged
+        MSGShowAndHide()
+    End Sub
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
-        printCanceInvoice()
+        Try
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+                clsMCCMaterialSale.funPrint(True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            Else
+                printCanceInvoice()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     'Private Sub gv1_CellEditorInitialized(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellEditorInitialized
