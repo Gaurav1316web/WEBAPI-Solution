@@ -32,6 +32,8 @@ Public Class rptUnionBookingReport
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         rbtnAll.IsChecked = True
+        gv1.DataSource = Nothing
+        gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
         dtRCDF = Nothing
     End Sub
@@ -50,6 +52,9 @@ Public Class rptUnionBookingReport
     Private Sub fillGridReport(ByVal isPrint As Boolean)
         Try
             If dtRCDF Is Nothing OrElse dtRCDF.Rows.Count <= 0 Then
+                TemplateGridview = gv1
+                gv1.DataSource = Nothing
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 Dim noofday As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DateDiff(Day, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')"))
                 If noofday > 0 Then
                     Dim sQuery As String = " with CTERawData as ( "
