@@ -227,8 +227,11 @@ Partial Class FrmMPMaster
         Me.mnuCowDetailsImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuImportAnimalDetails = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMnuMPName = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExportMPCode = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mnuExportMPName = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnUnverifiedJanAdhaar = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -3667,7 +3670,7 @@ Partial Class FrmMPMaster
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuExport, Me.mnuImport, Me.mnuExit, Me.mnuExportMPCode})
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuExport, Me.mnuImport, Me.mnuExit, Me.mnuExportMPCode, Me.mnuExportMPName})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "&File"
         '
@@ -3705,7 +3708,7 @@ Partial Class FrmMPMaster
         '
         Me.mnuImport.AccessibleDescription = "RadMenuItem3"
         Me.mnuImport.AccessibleName = "RadMenuItem3"
-        Me.mnuImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuMpDetailsImport, Me.mnuBuffaloesDetailsImport, Me.mnuCowDetailsImport, Me.mnuImportAnimalDetails, Me.RadMenuItem2})
+        Me.mnuImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuMpDetailsImport, Me.mnuBuffaloesDetailsImport, Me.mnuCowDetailsImport, Me.mnuImportAnimalDetails, Me.RadMenuItem2, Me.RadMnuMPName})
         Me.mnuImport.Name = "mnuImport"
         Me.mnuImport.Text = "Import"
         '
@@ -3736,6 +3739,12 @@ Partial Class FrmMPMaster
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Templete Wise"
         '
+        'RadMnuMPName
+        '
+        Me.RadMnuMPName.Name = "RadMnuMPName"
+        Me.RadMnuMPName.Text = "Import MP Name"
+        Me.RadMnuMPName.Visibility = Telerik.WinControls.ElementVisibility.Hidden
+        '
         'mnuExit
         '
         Me.mnuExit.AccessibleDescription = "RadMenuItem4"
@@ -3747,6 +3756,17 @@ Partial Class FrmMPMaster
         '
         Me.mnuExportMPCode.Name = "mnuExportMPCode"
         Me.mnuExportMPCode.Text = "Export MP Code In Text File"
+        '
+        'mnuExportMPName
+        '
+        Me.mnuExportMPName.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.mnuExportMPName.Name = "mnuExportMPName"
+        Me.mnuExportMPName.Text = "Export Farmer Name"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Import Farmer Name"
         '
         'btnHistory
         '
@@ -4197,5 +4217,8 @@ Partial Class FrmMPMaster
     Friend WithEvents btnImportBankDetails As RadButton
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents btnExportBlankSheet As RadButton
+    Friend WithEvents mnuExportMPName As RadMenuItem
+    Friend WithEvents RadMnuMPName As RadMenuItem
+    Friend WithEvents RadMenuItem3 As RadMenuItem
 End Class
 
