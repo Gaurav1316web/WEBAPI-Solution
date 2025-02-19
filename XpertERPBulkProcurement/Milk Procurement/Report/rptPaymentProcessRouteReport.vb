@@ -4322,21 +4322,36 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
         Try
 
 
-            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate,'" + objCommonVar.CurrentUser + "' as User_Name, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
-                                  FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate,'" + objCommonVar.CurrentUser + "' as User_Name, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " ,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME"
+            End If
+            qry += " From TSPL_MILK_COLLECTION_DCS_DETAIL 
                                   left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
-                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
-                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
-                                  group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code"
+            End If
+            qry += "            left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103) "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " group by TSPL_BULK_ROUTE_MASTER.ROUTE_NO,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+            Else
+                qry += " group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrintUDP_OR_RJS", "")
+                Else
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
+                End If
+
                 frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
