@@ -11,6 +11,8 @@ Public Class frmDemandBooking
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
+    Dim ApplyDepartmentRoute As Boolean = False
+    Dim isDepartmentRoute As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
     Dim AllowMultipleUOMForProduct As Boolean = False
     Dim EnableResetDemand As Boolean = False
@@ -116,6 +118,7 @@ Public Class frmDemandBooking
             DontCreateForPouch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, Nothing)) = 1, True, False)
             AllowMultipleUOMForProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, Nothing)) = 1, True, False)
             SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+            ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
 
             AddNew()
             SetUserMgmtNew()
@@ -1736,6 +1739,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
     Private Sub SetRouteColumns()
         Try
             If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
+                isDepartmentRoute = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select department_Route from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'")) = 1, True, False)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
@@ -2669,6 +2673,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                         Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
                                         Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
                                         Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                        Dim ItempouchCF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
                                         If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                             If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                                 Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
@@ -2688,7 +2693,42 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                     End If
                                                 End If
                                             End If
+
+
                                         End If
+                                        If isDepartmentRoute Then
+                                            If ApplyDepartmentRoute Then
+                                                Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+
+                                                If ItemConvFactor = ItempouchCF Then
+                                                    If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                        Throw New Exception("Decimal values are not allowed for [" + clsCommon.myCstr(obj1.itemCode) + "]")
+                                                    End If
+                                                ElseIf ItempouchCF = 6 Then
+                                                    If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 6 <> 0 Then
+                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                        Throw New Exception("Should be in multiple of 6")
+                                                    End If
+                                                Else
+                                                    If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                        Throw New Exception("Should be in multiple of 0.5")
+                                                    End If
+                                                End If
+                                                'If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                '    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+
+                                                '    If DispatchQty >= (CrateConvFactor) Then
+                                                '        dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
+                                                '    Else
+                                                '        dblTotalCrateRowWise = 0
+                                                '        End If
+
+                                                'End If
+                                            End If
+                                        End If
+
                                         TotalCrate = TotalCrate + dblTotalCrateRowWise
                                         obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
                                     End If
@@ -2743,6 +2783,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         End If
                     End If
                 Next
+
                 gv1.Rows(dblrows).Cells(colCrate).Value = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
                 gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
@@ -2752,6 +2793,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
                     gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
+                End If
+                If isDepartmentRoute Then
+                    If ApplyDepartmentRoute Then
+                        gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
+                    End If
                 End If
                 dblDocTotalAmt = dblDocTotalAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colAmt).Value)
                 dblDocTotalLitre = dblDocTotalLitre + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colLitre).Value)

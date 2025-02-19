@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -98,6 +98,7 @@ Partial Class frmRouteMaster
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtZone = New common.Controls.MyTextBox()
         Me.rbtnSplitPrint = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkDepartmentRoute = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,6 +158,7 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -375,7 +377,7 @@ Partial Class frmRouteMaster
         '
         Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rbtnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnClose.Location = New System.Drawing.Point(819, 492)
+        Me.rbtnClose.Location = New System.Drawing.Point(862, 492)
         Me.rbtnClose.Name = "rbtnClose"
         Me.rbtnClose.Size = New System.Drawing.Size(68, 18)
         Me.rbtnClose.TabIndex = 3
@@ -861,7 +863,7 @@ Partial Class frmRouteMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(887, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(930, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'txtDistance
@@ -959,7 +961,7 @@ Partial Class frmRouteMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(10, 351)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(870, 136)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(913, 136)
         Me.RadGroupBox1.TabIndex = 358
         '
         'dgv
@@ -978,13 +980,13 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv.ShowGroupPanel = False
         Me.dgv.ShowHeaderCellButtons = True
-        Me.dgv.Size = New System.Drawing.Size(850, 106)
+        Me.dgv.Size = New System.Drawing.Size(893, 106)
         Me.dgv.TabIndex = 1
         Me.dgv.TabStop = False
         Me.dgv.VarID = ""
@@ -1299,11 +1301,21 @@ Partial Class frmRouteMaster
         Me.rbtnSplitPrint.TabIndex = 1410
         Me.rbtnSplitPrint.Text = "Split Print"
         '
+        'chkDepartmentRoute
+        '
+        Me.chkDepartmentRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDepartmentRoute.Location = New System.Drawing.Point(790, 27)
+        Me.chkDepartmentRoute.Name = "chkDepartmentRoute"
+        Me.chkDepartmentRoute.Size = New System.Drawing.Size(113, 16)
+        Me.chkDepartmentRoute.TabIndex = 1411
+        Me.chkDepartmentRoute.Text = "Department Route"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(887, 511)
+        Me.ClientSize = New System.Drawing.Size(930, 511)
+        Me.Controls.Add(Me.chkDepartmentRoute)
         Me.Controls.Add(Me.rbtnSplitPrint)
         Me.Controls.Add(Me.txtZone)
         Me.Controls.Add(Me.fndZone)
@@ -1435,6 +1447,7 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1513,5 +1526,6 @@ Partial Class frmRouteMaster
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtZone As common.Controls.MyTextBox
     Friend WithEvents rbtnSplitPrint As RadCheckBox
+    Friend WithEvents chkDepartmentRoute As RadCheckBox
 End Class
 
