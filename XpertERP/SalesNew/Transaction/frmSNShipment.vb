@@ -6957,14 +6957,17 @@ Public Class frmSNShipment
             'Else
 
             'End If
+            Dim dblConvF As Double
             dblQty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
             Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
             Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value)
             Dim dblBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
-            Dim dblConvF As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
-            If dblConvF = 0 Then
-                dblConvF = GetConvFactor(gv1.Rows(IntRowNo).Cells(colUnit).Value, gv1.Rows(IntRowNo).Cells(colICode).Value)
-                gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+            If dblQty > 0 Then
+                dblConvF = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
+                If dblConvF = 0 Then
+                    dblConvF = GetConvFactor(gv1.Rows(IntRowNo).Cells(colUnit).Value, gv1.Rows(IntRowNo).Cells(colICode).Value)
+                    gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+                End If
             End If
             Dim dblItemWeight As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
 
