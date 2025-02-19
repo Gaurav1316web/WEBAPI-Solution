@@ -534,7 +534,7 @@ Partial Class frmSNShipment
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1255, 537)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2832,6 +2832,7 @@ Partial Class frmSNShipment
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Visible = False
         '
         'lblActualTCSTaxBaseAmt
         '
@@ -2854,6 +2855,7 @@ Partial Class frmSNShipment
         Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
         Me.MyLabel58.TabIndex = 1475
         Me.MyLabel58.Text = "TCS Tax Base Amount"
+        Me.MyLabel58.Visible = False
         '
         'MyLabel57
         '

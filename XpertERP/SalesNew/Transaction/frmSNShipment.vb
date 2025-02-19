@@ -3344,7 +3344,7 @@ Public Class frmSNShipment
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
 
                             If rbtnManualTCS.IsChecked = False Then
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2, MidpointRounding.AwayFromZero)
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxTotAmt, 2, MidpointRounding.AwayFromZero)
                                 dblTaxTotAmt = dblTaxTotAmt
                             Else
                                 dblTaxAmt2 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
@@ -3368,7 +3368,7 @@ Public Class frmSNShipment
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
                             dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             'dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
-                            dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
+                            ' dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
 
                             If rbtnManualTCS.IsChecked = False Then
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)

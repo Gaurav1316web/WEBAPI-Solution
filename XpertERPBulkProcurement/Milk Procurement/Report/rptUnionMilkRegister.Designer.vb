@@ -38,6 +38,9 @@ Partial Class rptUnionMilkRegister
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,6 +62,7 @@ Partial Class rptUnionMilkRegister
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +79,7 @@ Partial Class rptUnionMilkRegister
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btngo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
@@ -271,6 +276,28 @@ Partial Class rptUnionMilkRegister
         Me.btnclose.TabIndex = 449
         Me.btnclose.Text = "Close"
         '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.btnExport.Location = New System.Drawing.Point(250, 7)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(83, 18)
+        Me.btnExport.TabIndex = 452
+        Me.btnExport.Text = "Export"
+        '
+        'btnExcel
+        '
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
+        '
+        'btnPDF
+        '
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
+        '
         'rptUnionMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -305,6 +332,7 @@ Partial Class rptUnionMilkRegister
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -325,4 +353,7 @@ Partial Class rptUnionMilkRegister
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnreset As RadButton
     Friend WithEvents btnclose As RadButton
+    Friend WithEvents btnExport As RadSplitButton
+    Friend WithEvents btnExcel As RadMenuItem
+    Friend WithEvents btnPDF As RadMenuItem
 End Class

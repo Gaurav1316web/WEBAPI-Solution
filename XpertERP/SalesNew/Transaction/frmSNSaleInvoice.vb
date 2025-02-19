@@ -4474,25 +4474,25 @@ Public Class frmSNSaleInvoice
     End Sub
 
     Private Sub gv2_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv2.DoubleClick
-        Try
-            If rbtnTaxCalAutomatic.IsChecked Then
-                Dim qry As String = "select Tax_Rate_Code as [Rate Code],Tax_Rate_Desc as [Rate Description],Tax_Rate as [Rate] from TSPL_TAX_RATES "
-                Dim dblNewRate As Double = clsCommon.myCdbl(clsCommon.ShowSelectForm("ShipmentVendfnddxRate", qry, "Rate", "Tax_Code='" + clsCommon.myCstr(gv2.CurrentRow.Cells(colTTaxAutCode).Value) + "' and Tax_Type='S' and TAX_Code not in('TCS')", "", "", True))
-                Dim intRowNo As Integer = gv2.CurrentRow.Index
-                If gv1.RowCount > 0 AndAlso intRowNo >= 0 Then
-                    Dim strII As String = clsCommon.myCstr(intRowNo + 1)
-                    For ii As Integer = 0 To gv1.Rows.Count - 1
-                        gv1.Rows(ii).Cells("COLTAXRATE" + strII).Value = dblNewRate
-                    Next
-                End If
-                For ii As Integer = 0 To gv1.Rows.Count - 1
-                    UpdateCurrentRow(ii)
-                Next
-                UpdateAllTotals()
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        'Try
+        '    If rbtnTaxCalAutomatic.IsChecked Then
+        '        Dim qry As String = "select Tax_Rate_Code as [Rate Code],Tax_Rate_Desc as [Rate Description],Tax_Rate as [Rate] from TSPL_TAX_RATES "
+        '        Dim dblNewRate As Double = clsCommon.myCdbl(clsCommon.ShowSelectForm("ShipmentVendfnddxRate", qry, "Rate", "Tax_Code='" + clsCommon.myCstr(gv2.CurrentRow.Cells(colTTaxAutCode).Value) + "' and Tax_Type='S' and TAX_Code not in('TCS')", "", "", True))
+        '        Dim intRowNo As Integer = gv2.CurrentRow.Index
+        '        If gv1.RowCount > 0 AndAlso intRowNo >= 0 Then
+        '            Dim strII As String = clsCommon.myCstr(intRowNo + 1)
+        '            For ii As Integer = 0 To gv1.Rows.Count - 1
+        '                gv1.Rows(ii).Cells("COLTAXRATE" + strII).Value = dblNewRate
+        '            Next
+        '        End If
+        '        For ii As Integer = 0 To gv1.Rows.Count - 1
+        '            UpdateCurrentRow(ii)
+        '        Next
+        '        UpdateAllTotals()
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
