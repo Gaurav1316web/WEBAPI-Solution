@@ -52746,8 +52746,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "Varchar(8) not null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_EMAIL_SMS_SCHEDULING", coll)
-
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMAIL_SMS_SCHEDULING", coll, Nothing, True)
             coll = New Dictionary(Of String, String)()
             coll.Add("SCHEDULER_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("SCREEN_ID", "Varchar(30) NOT NULL ")
