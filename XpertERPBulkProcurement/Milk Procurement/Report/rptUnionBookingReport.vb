@@ -32,6 +32,10 @@ Public Class rptUnionBookingReport
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         rbtnAll.IsChecked = True
+        txtFromDate.Enabled = True
+        txtToDate.Enabled = True
+        btnGo.Enabled = True
+        GroupBox1.Enabled = True
         gv1.DataSource = Nothing
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -48,6 +52,11 @@ Public Class rptUnionBookingReport
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         fillGridReport(False)
+        txtFromDate.Enabled = False
+        txtToDate.Enabled = False
+        btnGo.Enabled = False
+        GroupBox1.Enabled = False
+
     End Sub
     Private Sub fillGridReport(ByVal isPrint As Boolean)
         Try
@@ -55,7 +64,7 @@ Public Class rptUnionBookingReport
                 TemplateGridview = gv1
                 gv1.DataSource = Nothing
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
-
+                clsCommon.ProgressBarShow()
                 Dim noofday As Integer = DateDiff(DateInterval.Day, txtFromDate.Value, txtToDate.Value) + 1
                 If noofday > 0 Then
                     Dim sQuery As String = " with CTERawData as ( "
@@ -115,173 +124,27 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
                         gv1.DataSource = Nothing
                     End If
                 Else
-                    Throw New Exception("Invalid date range")
+                    Throw New Exception("From Date can't be greater than To Date")
                 End If
-
+                clsCommon.ProgressBarHide()
 
             Else
+                clsCommon.ProgressBarShow()
+
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
                     frmCRV = Nothing
                 End If
+                clsCommon.ProgressBarHide()
+
             End If
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    '    Private Sub fillGridReport(ByVal isPrint As Boolean)
-    '        Try
-    '            TemplateGridview = gv1
-    '            Dim query As String = ""
-    '            gv1.DataSource = Nothing
-    '            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
-    '                If dtRCDF Is Nothing OrElse dtRCDF.Rows.Count <= 0 Then
-    '                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-    '                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
-    '                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-    '                        gv1.DataSource = Nothing
-    '                        Exit Sub
-    '                    End If
-    '                    'dtRCDF.Columns.Add("FromDate", GetType(Date))
-    '                    'dtRCDF.Columns.Add("ToDate", GetType(Date))
-    '                    'dtRCDF.Columns.Add("SNo", GetType(Integer))
-    '                    'dtRCDF.Columns.Add("Union_Name", GetType(String))
-    '                    'dtRCDF.Columns.Add("Zone", GetType(Integer))
-    '                    'dtRCDF.Columns.Add("Route", GetType(Integer))
-    '                    'dtRCDF.Columns.Add("Booth", GetType(Integer))
-    '                    'dtRCDF.Columns.Add("MilkQty", GetType(Double))
-    '                    'dtRCDF.Columns.Add("AvarageQty", GetType(Double))
-    '                    Dim dtr As DataTable = clsMilkUnion.UnionDBName()
-    '                    For ii As Integer = 0 To dtr.Rows.Count - 1
-    '                        'If ii > 0 Then
-    '                        '    query += " UNION ALL "
-    '                        'End If
-    '                        query = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate," + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dtr.Rows(ii).Item("Location_Name")) + "' AS [Union_Name], COUNT(DISTINCT XX.Zone_Code) AS [Zone],COUNT(DISTINCT XX.Route_No) AS [Route],COUNT(DISTINCT XX.Cust_Code) AS [Booth],isnull(Round(SUM(XX.ltrkg),2),0) AS [MilkQty], isnull(Round((SUM(XX.ltrkg)/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2),0) as [AvarageQty]   FROM ( 
-    'SELECT DISTINCT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Zone_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Route_No, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Short_Description, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Unit_code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.qty, CASE WHEN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN ([" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE ([" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_No 
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_Code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code AND ItemConversion.UOM_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-    'where convert(date,[" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,[" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.IsTaxable=0 "
-    '                        If rbtnPosted.IsChecked Then
-    '                            query += " and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Posted=1"
-    '                        ElseIf rbtnUnposted.IsChecked Then
-    '                            query += " and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Posted=0"
-    '                        End If
-    '                        query += " Union ALL SELECT DISTINCT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Zone_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Route_No, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Cust_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Item_Code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Short_Description, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Unit_code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Booking_Qty, CASE WHEN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN ([" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE ([" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER.Document_No
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Cust_Code
-    'LEFT JOIN [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER ON [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Conversion_factor, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_code, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_Code FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_Booking_DETAIL.Item_Code AND ItemConversion.UOM_Code = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_DETAIL.Unit_code
-    'where convert(date,[" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,[" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.IsTaxable=0 
-    '"
-    '                        If rbtnPosted.IsChecked Then
-    '                            query += " and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER.Posted=1 "
-    '                        ElseIf rbtnUnposted.IsChecked Then
-    '                            query += " and [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Booking_MATSER.Posted=0 "
-    '                        End If
-    '                        query += " ) XX"
-    '                        If dtRCDF Is Nothing OrElse dtRCDF.Rows.Count <= 0 Then
-    '                            dtRCDF = clsDBFuncationality.GetDataTable(query)
-    '                        Else
-    '                            Dim dtrs As DataTable = clsDBFuncationality.GetDataTable(query)
-    '                            dtRCDF.Merge(dtrs)
-    '                        End If
-    '                        'If dtrs IsNot Nothing AndAlso dtrs.Rows.Count > 0 Then
-    '                        '    'Dim dr As DataRow = dtRCDF.NewRow()
-    '                        '    'dr("FromDate") = clsCommon.myCDate(dtrs.Rows(0)("FromDate"))
-    '                        '    'dr("ToDate") = clsCommon.myCDate(dtrs.Rows(0)("ToDate"))
-    '                        '    'dr("SNo") = clsCommon.myCdbl(dtrs.Rows(0)("SNo"))
-    '                        '    'dr("Union_Name") = clsCommon.myCstr(dtrs.Rows(0)("Union_Name"))
-    '                        '    'dr("Zone") = clsCommon.myCdbl(dtrs.Rows(0)("Zone"))
-    '                        '    'dr("Route") = clsCommon.myCdbl(dtrs.Rows(0)("Route"))
-    '                        '    'dr("Booth") = clsCommon.myCdbl(dtrs.Rows(0)("Booth"))
-    '                        '    'dr("MilkQty") = clsCommon.myCdbl(dtrs.Rows(0)("MilkQty"))
-    '                        '    'dr("AvarageQty") = clsCommon.myCdbl(dtrs.Rows(0)("AvarageQty"))
-    '                        '    'dtRCDF.Rows.Add(dr)
-    '                        'End If
-    '                    Next
-    '                    'dtRCDF As DataTable = clsDBFuncationality.GetDataTable(query)
-    '                    If (dtRCDF IsNot Nothing AndAlso dtRCDF.Rows.Count > 0) Then
-    '                        RadPageView1.SelectedPage = RadPageViewPage2
-    '                        gv1.Visible = True
-    '                        gv1.DataSource = dtRCDF
-    '                        gv1.ReadOnly = True
-    '                        SetGridFormat()
-    '                        gv1.BestFitColumns()
-    '                        If isPrint Then
-    '                            Dim frmCRV As New frmCrystalReportViewer()
-    '                            frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
-    '                            frmCRV = Nothing
-    '                        End If
-    '                    Else
-    '                        common.clsCommon.MyMessageBoxShow("No Data Found")
-    '                        gv1.DataSource = Nothing
-    '                    End If
-    '                Else
-    '                    If isPrint Then
-    '                        Dim frmCRV As New frmCrystalReportViewer()
-    '                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
-    '                        frmCRV = Nothing
-    '                    End If
-    '                End If
-    '            Else
-    '                query = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate, COUNT(DISTINCT XX.Zone_Code) AS [No of Zone],COUNT(DISTINCT XX.Route_No) AS [No of Route],COUNT(DISTINCT XX.Cust_Code) AS [No of Booth],Round(SUM(XX.ltrkg),2) AS [Milk Qty in LTR], Round((SUM(XX.ltrkg)/DATEDIFF(DAY, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')),2) as [Avarage Qty]   FROM ( 
-    'SELECT DISTINCT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.qty, CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM TSPL_DEMAND_BOOKING_MASTER
-    'LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No 
-    'LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-    'LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM TSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-    'where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_ITEM_MASTER.IsTaxable=0 "
-    '                If rbtnPosted.IsChecked Then
-    '                    query += " and TSPL_DEMAND_BOOKING_MASTER.Posted=1"
-    '                ElseIf rbtnUnposted.IsChecked Then
-    '                    query += " and TSPL_DEMAND_BOOKING_MASTER.Posted=0"
-    '                End If
-    '                query += " Union ALL SELECT DISTINCT TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_Booking_DETAIL.Route_No, TSPL_Booking_DETAIL.Cust_Code, TSPL_Booking_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_Booking_DETAIL.Unit_code, TSPL_Booking_DETAIL.Booking_Qty, CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 THEN (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInLTR.Conversion_Factor, 0) ELSE (TSPL_Booking_DETAIL.Booking_Qty * ItemConversion.Conversion_Factor) / NULLIF(ItemConversionInKG.Conversion_Factor, 0) END AS ltrkg FROM TSPL_Booking_MATSER
-    'LEFT JOIN TSPL_Booking_DETAIL ON TSPL_Booking_DETAIL.Document_No = TSPL_Booking_MATSER.Document_No
-    'LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Booking_DETAIL.Cust_Code
-    'LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_Booking_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR' ) AS ItemConversionInLTR ON ItemConversionInLTR.Item_code = TSPL_Booking_DETAIL.Item_Code
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'KG' ) AS ItemConversionInKG ON ItemConversionInKG.Item_code = TSPL_Booking_DETAIL.Item_Code 
-    'LEFT JOIN ( SELECT Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code, TSPL_ITEM_UOM_DETAIL.UOM_Code FROM TSPL_ITEM_UOM_DETAIL ) AS ItemConversion ON ItemConversion.Item_code = TSPL_Booking_DETAIL.Item_Code AND ItemConversion.UOM_Code = TSPL_Booking_DETAIL.Unit_code
-    'where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_Booking_MATSER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_ITEM_MASTER.IsTaxable=0 
-    '"
-    '                If rbtnPosted.IsChecked Then
-    '                    query += " and TSPL_Booking_MATSER.Posted=1 "
-    '                ElseIf rbtnUnposted.IsChecked Then
-    '                    query += " and TSPL_Booking_MATSER.Posted=0 "
-    '                End If
-    '                query += " ) XX"
-    '                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
-    '                If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
-    '                    RadPageView1.SelectedPage = RadPageViewPage2
-    '                    gv1.Visible = True
-    '                    gv1.DataSource = dt2
-    '                    gv1.ReadOnly = True
-    '                    SetGridFormat1()
-    '                    gv1.BestFitColumns()
-    '                    If isPrint Then
-    '                        Dim frmCRV As New frmCrystalReportViewer()
-    '                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionBookingReport", "")
-    '                        frmCRV = Nothing
-    '                    End If
-    '                Else
-    '                    common.clsCommon.MyMessageBoxShow("No Data Found")
-    '                    gv1.DataSource = Nothing
-    '                End If
-    '            End If
-    '        Catch ex As Exception
-    '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '        End Try
-    '    End Sub
+    
     Sub SetGridFormat()
         gv1.AutoExpandGroups = True
         gv1.ShowGroupPanel = True
@@ -327,11 +190,11 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
         gv1.Columns("AvarageQty").FormatString = "{0:n0}"
         gv1.Columns("AvarageQty").IsVisible = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item3 As New GridViewSummaryItem("Zone", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("Zone", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("Route", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Route", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
-        Dim item5 As New GridViewSummaryItem("Booth", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem("Booth", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
         Dim item6 As New GridViewSummaryItem("MilkQty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
@@ -396,7 +259,67 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
         fillGridReport(True)
 
     End Sub
+    'Public Function FormatIndianNumber(ByVal number As Decimal) As String
+    '    Dim numberString = Math.Abs(number).ToString("#,##,##0")
+    '    If number < 0 Then
+    '        Return "-" & numberString
+    '    Else
+    '        Return numberString
+    '    End If
+    'End Function
+
+    Private Sub btnexport_Click(sender As Object, e As EventArgs)
+        Try
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+
+            Else
+                Throw New Exception("No data found!")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Name : Milk Marketing Report")
+            arrHeader.Add(("Date Range  Form: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
 
+            If exporter = EnumExportTo.Excel Then
+                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                clsCommon.MyExportToExcelGrid("Milk Marketing Report", gv1, arrHeader, Me.Text)
+            Else
+                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                clsCommon.MyExportToPDF("Milk Marketing Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        ExportGrid(EnumExportTo.Excel)
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        ExportGrid(EnumExportTo.PDF)
+    End Sub
+
+    'Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+    '    If e.Column.Name = "Zone" OrElse e.Column.Name = "Route" OrElse e.Column.Name = "Booth" OrElse e.Column.Name = "MilkQty" OrElse e.Column.Name = "AvarageQty" Then
+    '        If TypeOf e.CellElement.Value Is Decimal OrElse TypeOf e.CellElement.Value Is Double OrElse TypeOf e.CellElement.Value Is Integer Then
+    '            ' Convert the value to a number
+    '            Dim number As Decimal = Convert.ToDecimal(e.CellElement.Value)
+
+    '            ' Format the number with hundred separator
+    '            e.CellElement.Text = FormatIndianNumber(number)
+    '        End If
+    '    End If
+    'End Sub
 End Class
