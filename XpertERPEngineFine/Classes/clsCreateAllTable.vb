@@ -52746,8 +52746,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "Varchar(8) not null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_EMAIL_SMS_SCHEDULING", coll)
-
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMAIL_SMS_SCHEDULING", coll, Nothing, True)
             coll = New Dictionary(Of String, String)()
             coll.Add("SCHEDULER_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("SCREEN_ID", "Varchar(30) NOT NULL ")
@@ -54132,7 +54131,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Status", "int Null")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", True, False, "", "Document_Code", "Document_Date")
 
 
             coll = New Dictionary(Of String, String)()
@@ -56347,7 +56346,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("STATUS", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RCDF_RATE_CONTROL", coll, Nothing, True)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -56356,7 +56356,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
             coll.Add("Rate", "decimal(18,2) NOT NULL")
             coll.Add("Tolerance", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RCDF_RATE_CONTROL_DETAIL", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

@@ -615,6 +615,8 @@ Public Class FrmBankTransfer
                 Next
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_BANK_TRANSFER set From_Date = '" + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy")) + "' , To_Date = '" + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy")) + "' where Transfer_No = '" + STR + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, STR, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
+
             '=====================================
 
             If OuterTrans = False Then
@@ -2233,6 +2235,18 @@ Public Class FrmBankTransfer
 
         End Try
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(Fnd_Transfernumber.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(Fnd_Transfernumber.Value, "Transfer_No", "TSPL_BANK_TRANSFER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     ' Ticket No : TEC/07/05/19-000477 By Prabhakar

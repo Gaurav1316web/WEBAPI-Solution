@@ -35,9 +35,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDocumentDate = New common.Controls.MyRadioButton()
         Me.rbtnSupplyDate = New common.Controls.MyRadioButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDetail = New common.Controls.MyRadioButton()
-        Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.BKNGroupBox = New Telerik.WinControls.UI.RadGroupBox()
         Me.BtnBillWiseSaleOfMilkSummary = New common.Controls.MyRadioButton()
         Me.BtnProductSalesSummary = New common.Controls.MyRadioButton()
@@ -84,10 +81,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BKNGroupBox.SuspendLayout()
         CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -217,8 +210,44 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(361, 209)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(755, 209)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnDocumentDate)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnSupplyDate)
+        Me.RadGroupBox3.HeaderText = "Date"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(8, 167)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(331, 37)
+        Me.RadGroupBox3.TabIndex = 448
+        Me.RadGroupBox3.Text = "Date"
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnDocumentDate.MyLinkLable1 = Nothing
+        Me.rbtnDocumentDate.MyLinkLable2 = Nothing
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(94, 18)
+        Me.rbtnDocumentDate.TabIndex = 396
+        Me.rbtnDocumentDate.Text = "Doument Date"
+        Me.rbtnDocumentDate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSupplyDate
+        '
+        Me.rbtnSupplyDate.Location = New System.Drawing.Point(118, 9)
+        Me.rbtnSupplyDate.MyLinkLable1 = Nothing
+        Me.rbtnSupplyDate.MyLinkLable2 = Nothing
+        Me.rbtnSupplyDate.Name = "rbtnSupplyDate"
+        Me.rbtnSupplyDate.Size = New System.Drawing.Size(81, 18)
+        Me.rbtnSupplyDate.TabIndex = 391
+        Me.rbtnSupplyDate.TabStop = False
+        Me.rbtnSupplyDate.Text = "Supply Date"
         '
         'BKNGroupBox
         '
@@ -354,7 +383,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'rbtnSummary
         '
-        Me.rbtnSummary.Location = New System.Drawing.Point(118, 9)
+        Me.rbtnSummary.Location = New System.Drawing.Point(119, 9)
         Me.rbtnSummary.MyLinkLable1 = Nothing
         Me.rbtnSummary.MyLinkLable2 = Nothing
         Me.rbtnSummary.Name = "rbtnSummary"
@@ -632,11 +661,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox3.PerformLayout()
         CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BKNGroupBox.ResumeLayout(False)
         Me.BKNGroupBox.PerformLayout()
@@ -704,9 +728,6 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
     Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
-    Friend WithEvents RadGroupBox3 As RadGroupBox
-    Friend WithEvents rbtnDocumentDate As common.Controls.MyRadioButton
-    Friend WithEvents rbtnSupplyDate As common.Controls.MyRadioButton
     Friend WithEvents BKNGroupBox As RadGroupBox
     Friend WithEvents BtnBillWiseSaleOfMilkSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnProductSalesSummary As common.Controls.MyRadioButton
@@ -716,5 +737,8 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents BtnPartySaleMilkProduct As common.Controls.MyRadioButton
     Friend WithEvents BtnProductWiseSaleQuantity As common.Controls.MyRadioButton
     Friend WithEvents BtnStcRegisterPartyandItemWiseSummary As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbtnDocumentDate As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSupplyDate As common.Controls.MyRadioButton
 End Class
 

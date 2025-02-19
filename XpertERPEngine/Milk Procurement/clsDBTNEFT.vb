@@ -353,6 +353,35 @@ where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
         Return True
     End Function
 
+    Public Shared Function ReverseDataRCDF(ByVal strPKID As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim qry As String = "select DB_Name,Document_Code,ISNULL(status,0) as status,DB_Name from TSPL_DBT_NEFT_RCDF where PK_Id = " + strPKID + ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPKID, "TSPL_DBT_NEFT_RCDF", "PK_Id", "", "", trans)
+
+                If clsCommon.myCDecimal(dt.Rows(0)("status")) = 0 Then
+                    Throw New Exception("Already reverse Doument [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "]")
+                End If
+                qry = "delete from TSPL_DBT_NEFT_RCDF where  PK_Id=" + strPKID + ""
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from " + clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo.TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where  Document_Code in ('" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "RCDF_Status", 0)
+                clsCommonFunctionality.UpdateDataTable(coll, clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo." + "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "Document_Code='" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "'", trans)
+            End If
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean) As String
         Dim strPAth As String = ""
         Try

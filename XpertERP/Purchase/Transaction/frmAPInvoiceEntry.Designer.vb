@@ -304,7 +304,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProRated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MyLabel9.SuspendLayout()
         CType(Me.txtAdd_Doc_TYpe, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblVCGL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblHirerachy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -451,6 +450,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtSecurityAdjusment)
         Me.RadPageViewPage1.Controls.Add(Me.ChkTrnsferToSvng)
         Me.RadPageViewPage1.Controls.Add(Me.grpVendorBankDetails)
         Me.RadPageViewPage1.Controls.Add(Me.chkSecurityAdjusment)
@@ -463,7 +463,6 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Controls.Add(Me.pnlDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel21)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel20)
-        Me.RadPageViewPage1.Controls.Add(Me.grpProvision)
         Me.RadPageViewPage1.Controls.Add(Me.pnlPCJ)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel18)
         Me.RadPageViewPage1.Controls.Add(Me.btnDrillDown)
@@ -524,6 +523,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Controls.Add(Me.cboDocType)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
+        Me.RadPageViewPage1.Controls.Add(Me.grpProvision)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(68.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
@@ -533,7 +533,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'ChkTrnsferToSvng
         '
-        Me.ChkTrnsferToSvng.Location = New System.Drawing.Point(835, 151)
+        Me.ChkTrnsferToSvng.Location = New System.Drawing.Point(520, 214)
         Me.ChkTrnsferToSvng.MyLinkLable1 = Nothing
         Me.ChkTrnsferToSvng.MyLinkLable2 = Nothing
         Me.ChkTrnsferToSvng.Name = "ChkTrnsferToSvng"
@@ -1648,7 +1648,6 @@ Partial Class FrmAPInvoiceEntry
         '
         'MyLabel9
         '
-        Me.MyLabel9.Controls.Add(Me.txtSecurityAdjusment)
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(847, 26)
@@ -1661,7 +1660,7 @@ Partial Class FrmAPInvoiceEntry
         '
         Me.txtSecurityAdjusment.arrDispalyMember = Nothing
         Me.txtSecurityAdjusment.arrValueMember = Nothing
-        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(-12, 3)
+        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(836, 149)
         Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
         Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
@@ -1678,9 +1677,9 @@ Partial Class FrmAPInvoiceEntry
         Me.txtAdd_Doc_TYpe.BorderVisible = True
         Me.txtAdd_Doc_TYpe.FieldName = Nothing
         Me.txtAdd_Doc_TYpe.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAdd_Doc_TYpe.Location = New System.Drawing.Point(887, 24)
+        Me.txtAdd_Doc_TYpe.Location = New System.Drawing.Point(887, 23)
         Me.txtAdd_Doc_TYpe.Name = "txtAdd_Doc_TYpe"
-        Me.txtAdd_Doc_TYpe.Size = New System.Drawing.Size(187, 20)
+        Me.txtAdd_Doc_TYpe.Size = New System.Drawing.Size(185, 20)
         Me.txtAdd_Doc_TYpe.TabIndex = 54
         Me.txtAdd_Doc_TYpe.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1705,7 +1704,7 @@ Partial Class FrmAPInvoiceEntry
         Me.LblVCGL.ReferenceFieldDesc = Nothing
         Me.LblVCGL.ReferenceFieldName = Nothing
         Me.LblVCGL.ReferenceTableName = Nothing
-        Me.LblVCGL.Size = New System.Drawing.Size(187, 18)
+        Me.LblVCGL.Size = New System.Drawing.Size(185, 18)
         Me.LblVCGL.TabIndex = 53
         '
         'TxtCostCentre
@@ -3364,7 +3363,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProRated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MyLabel9.ResumeLayout(False)
         CType(Me.txtAdd_Doc_TYpe, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblVCGL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblHirerachy, System.ComponentModel.ISupportInitialize).EndInit()
