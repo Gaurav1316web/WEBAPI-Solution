@@ -33,6 +33,7 @@ Partial Class FrmSendSMSEmailSetting
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbSMSNone = New System.Windows.Forms.RadioButton()
         Me.chkSMSLastDayOfMonth = New System.Windows.Forms.CheckBox()
         Me.cmbWeekDaysForSMS = New common.Controls.MyComboBox()
         Me.txtSMSMonthly = New common.Controls.MyDateTimePicker()
@@ -42,6 +43,7 @@ Partial Class FrmSendSMSEmailSetting
         Me.dtpSMSSchedulTime = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbEmailNone = New System.Windows.Forms.RadioButton()
         Me.chkEmailLastDayOfMonth = New System.Windows.Forms.CheckBox()
         Me.txtEmailMonthly = New common.Controls.MyDateTimePicker()
         Me.cmbWeekDaysForEmail = New common.Controls.MyComboBox()
@@ -50,11 +52,10 @@ Partial Class FrmSendSMSEmailSetting
         Me.rdbEmailEveryDays = New System.Windows.Forms.RadioButton()
         Me.dtpEmailSchedulTime = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.rbtnClose = New Telerik.WinControls.UI.RadButton()
         Me.rbtnSave = New Telerik.WinControls.UI.RadButton()
         Me.rbtnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.rdbEmailNone = New System.Windows.Forms.RadioButton()
-        Me.rdbSMSNone = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -79,6 +80,7 @@ Partial Class FrmSendSMSEmailSetting
         CType(Me.cmbWeekDaysForEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpEmailSchedulTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,6 +106,7 @@ Partial Class FrmSendSMSEmailSetting
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnDelete)
@@ -204,6 +207,7 @@ Partial Class FrmSendSMSEmailSetting
         Me.cboScreenName.AutoCompleteDisplayMember = Nothing
         Me.cboScreenName.AutoCompleteValueMember = Nothing
         Me.cboScreenName.CalculationExpression = Nothing
+        Me.cboScreenName.DropDownAnimationEnabled = True
         Me.cboScreenName.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboScreenName.FieldCode = Nothing
         Me.cboScreenName.FieldDesc = Nothing
@@ -263,6 +267,17 @@ Partial Class FrmSendSMSEmailSetting
         Me.RadGroupBox3.TabIndex = 1
         Me.RadGroupBox3.Text = "For SMS"
         '
+        'rdbSMSNone
+        '
+        Me.rdbSMSNone.AutoSize = True
+        Me.rdbSMSNone.Location = New System.Drawing.Point(14, 17)
+        Me.rdbSMSNone.Name = "rdbSMSNone"
+        Me.rdbSMSNone.Size = New System.Drawing.Size(53, 17)
+        Me.rdbSMSNone.TabIndex = 367
+        Me.rdbSMSNone.TabStop = True
+        Me.rdbSMSNone.Text = "None"
+        Me.rdbSMSNone.UseVisualStyleBackColor = True
+        '
         'chkSMSLastDayOfMonth
         '
         Me.chkSMSLastDayOfMonth.AutoSize = True
@@ -278,6 +293,7 @@ Partial Class FrmSendSMSEmailSetting
         Me.cmbWeekDaysForSMS.AutoCompleteDisplayMember = Nothing
         Me.cmbWeekDaysForSMS.AutoCompleteValueMember = Nothing
         Me.cmbWeekDaysForSMS.CalculationExpression = Nothing
+        Me.cmbWeekDaysForSMS.DropDownAnimationEnabled = True
         Me.cmbWeekDaysForSMS.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbWeekDaysForSMS.FieldCode = Nothing
         Me.cmbWeekDaysForSMS.FieldDesc = Nothing
@@ -406,6 +422,17 @@ Partial Class FrmSendSMSEmailSetting
         Me.RadGroupBox2.TabIndex = 0
         Me.RadGroupBox2.Text = "For Email"
         '
+        'rdbEmailNone
+        '
+        Me.rdbEmailNone.AutoSize = True
+        Me.rdbEmailNone.Location = New System.Drawing.Point(22, 17)
+        Me.rdbEmailNone.Name = "rdbEmailNone"
+        Me.rdbEmailNone.Size = New System.Drawing.Size(53, 17)
+        Me.rdbEmailNone.TabIndex = 366
+        Me.rdbEmailNone.TabStop = True
+        Me.rdbEmailNone.Text = "None"
+        Me.rdbEmailNone.UseVisualStyleBackColor = True
+        '
         'chkEmailLastDayOfMonth
         '
         Me.chkEmailLastDayOfMonth.AutoSize = True
@@ -453,6 +480,7 @@ Partial Class FrmSendSMSEmailSetting
         Me.cmbWeekDaysForEmail.AutoCompleteDisplayMember = Nothing
         Me.cmbWeekDaysForEmail.AutoCompleteValueMember = Nothing
         Me.cmbWeekDaysForEmail.CalculationExpression = Nothing
+        Me.cmbWeekDaysForEmail.DropDownAnimationEnabled = True
         Me.cmbWeekDaysForEmail.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbWeekDaysForEmail.FieldCode = Nothing
         Me.cmbWeekDaysForEmail.FieldDesc = Nothing
@@ -530,6 +558,16 @@ Partial Class FrmSendSMSEmailSetting
         Me.MyLabel1.TabIndex = 2
         Me.MyLabel1.Text = "Schedule Time "
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(151, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 1489
+        Me.btnHistory.Text = "History"
+        '
         'rbtnClose
         '
         Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -559,28 +597,6 @@ Partial Class FrmSendSMSEmailSetting
         Me.rbtnDelete.Size = New System.Drawing.Size(68, 18)
         Me.rbtnDelete.TabIndex = 3
         Me.rbtnDelete.Text = "Delete"
-        '
-        'rdbEmailNone
-        '
-        Me.rdbEmailNone.AutoSize = True
-        Me.rdbEmailNone.Location = New System.Drawing.Point(22, 17)
-        Me.rdbEmailNone.Name = "rdbEmailNone"
-        Me.rdbEmailNone.Size = New System.Drawing.Size(53, 17)
-        Me.rdbEmailNone.TabIndex = 366
-        Me.rdbEmailNone.TabStop = True
-        Me.rdbEmailNone.Text = "None"
-        Me.rdbEmailNone.UseVisualStyleBackColor = True
-        '
-        'rdbSMSNone
-        '
-        Me.rdbSMSNone.AutoSize = True
-        Me.rdbSMSNone.Location = New System.Drawing.Point(14, 17)
-        Me.rdbSMSNone.Name = "rdbSMSNone"
-        Me.rdbSMSNone.Size = New System.Drawing.Size(53, 17)
-        Me.rdbSMSNone.TabIndex = 367
-        Me.rdbSMSNone.TabStop = True
-        Me.rdbSMSNone.Text = "None"
-        Me.rdbSMSNone.UseVisualStyleBackColor = True
         '
         'FrmSendSMSEmailSetting
         '
@@ -622,6 +638,7 @@ Partial Class FrmSendSMSEmailSetting
         CType(Me.cmbWeekDaysForEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpEmailSchedulTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -662,5 +679,6 @@ Partial Class FrmSendSMSEmailSetting
     Friend WithEvents chkEmailLastDayOfMonth As System.Windows.Forms.CheckBox
     Friend WithEvents rdbSMSNone As System.Windows.Forms.RadioButton
     Friend WithEvents rdbEmailNone As System.Windows.Forms.RadioButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 
