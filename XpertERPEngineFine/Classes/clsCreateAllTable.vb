@@ -56346,7 +56346,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("STATUS", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RCDF_RATE_CONTROL", coll, Nothing, True)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -56355,7 +56356,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
             coll.Add("Rate", "decimal(18,2) NOT NULL")
             coll.Add("Tolerance", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RCDF_RATE_CONTROL_DETAIL", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
