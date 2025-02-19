@@ -22,15 +22,16 @@ Partial Class FrmBankTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewMultiComboBoxColumn2 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewMultiComboBoxColumn3 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn3 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiIMport = New Telerik.WinControls.UI.RadMenuItem()
@@ -42,6 +43,14 @@ Partial Class FrmBankTransfer
         Me.txt_description = New common.Controls.MyTextBox()
         Me.txt_references = New common.Controls.MyTextBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gbAgainstMilkBill = New Telerik.WinControls.UI.RadGroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.dtpToDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.dtpFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
         Me.TxtRemittTo = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtwithdrawal = New common.UserControls.txtFinder()
@@ -95,14 +104,7 @@ Partial Class FrmBankTransfer
         Me.btnVoidCheck = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintCheck = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseAndRecreate = New Telerik.WinControls.UI.RadButton()
-        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.dtpToDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.dtpFromDate = New common.Controls.MyDateTimePicker()
-        Me.gbAgainstMilkBill = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_transfernumber, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_desc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,6 +113,14 @@ Partial Class FrmBankTransfer
         CType(Me.txt_references, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.gbAgainstMilkBill, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbAgainstMilkBill.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtRemittTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblWithdrawal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -163,14 +173,7 @@ Partial Class FrmBankTransfer
         CType(Me.btnVoidCheck, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintCheck, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndRecreate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gbAgainstMilkBill, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbAgainstMilkBill.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -181,12 +184,9 @@ Partial Class FrmBankTransfer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(963, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiIMport, Me.rmiExport, Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -194,22 +194,16 @@ Partial Class FrmBankTransfer
         '
         'rmiIMport
         '
-        Me.rmiIMport.AccessibleDescription = "Import"
-        Me.rmiIMport.AccessibleName = "Import"
         Me.rmiIMport.Name = "rmiIMport"
         Me.rmiIMport.Text = "Import"
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export"
-        Me.rmiExport.AccessibleName = "Export"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Exit"
-        Me.RadMenuItem2.AccessibleName = "Exit"
         Me.RadMenuItem2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Exit"
@@ -323,6 +317,135 @@ Partial Class FrmBankTransfer
         Me.RadGroupBox1.Size = New System.Drawing.Size(963, 369)
         Me.RadGroupBox1.TabIndex = 0
         '
+        'gbAgainstMilkBill
+        '
+        Me.gbAgainstMilkBill.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbAgainstMilkBill.Controls.Add(Me.GroupBox2)
+        Me.gbAgainstMilkBill.Controls.Add(Me.MyLabel16)
+        Me.gbAgainstMilkBill.Controls.Add(Me.txtMCC)
+        Me.gbAgainstMilkBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbAgainstMilkBill.HeaderText = "Against Milk Bill"
+        Me.gbAgainstMilkBill.Location = New System.Drawing.Point(663, 46)
+        Me.gbAgainstMilkBill.Name = "gbAgainstMilkBill"
+        Me.gbAgainstMilkBill.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbAgainstMilkBill.Size = New System.Drawing.Size(297, 81)
+        Me.gbAgainstMilkBill.TabIndex = 21
+        Me.gbAgainstMilkBill.Text = "Against Milk Bill"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.MyLabel5)
+        Me.GroupBox2.Controls.Add(Me.dtpToDate)
+        Me.GroupBox2.Controls.Add(Me.MyLabel6)
+        Me.GroupBox2.Controls.Add(Me.dtpFromDate)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 43)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(280, 31)
+        Me.GroupBox2.TabIndex = 393
+        Me.GroupBox2.TabStop = False
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(147, 11)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(19, 16)
+        Me.MyLabel5.TabIndex = 266
+        Me.MyLabel5.Text = "To"
+        '
+        'dtpToDate
+        '
+        Me.dtpToDate.CalculationExpression = Nothing
+        Me.dtpToDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpToDate.FieldCode = Nothing
+        Me.dtpToDate.FieldDesc = Nothing
+        Me.dtpToDate.FieldMaxLength = 0
+        Me.dtpToDate.FieldName = Nothing
+        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpToDate.isCalculatedField = False
+        Me.dtpToDate.IsSourceFromTable = False
+        Me.dtpToDate.IsSourceFromValueList = False
+        Me.dtpToDate.IsUnique = False
+        Me.dtpToDate.Location = New System.Drawing.Point(181, 9)
+        Me.dtpToDate.MendatroryField = False
+        Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToDate.MyLinkLable1 = Me.MyLabel5
+        Me.dtpToDate.MyLinkLable2 = Nothing
+        Me.dtpToDate.Name = "dtpToDate"
+        Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToDate.ReadOnly = True
+        Me.dtpToDate.ReferenceFieldDesc = Nothing
+        Me.dtpToDate.ReferenceFieldName = Nothing
+        Me.dtpToDate.ReferenceTableName = Nothing
+        Me.dtpToDate.Size = New System.Drawing.Size(84, 20)
+        Me.dtpToDate.TabIndex = 265
+        Me.dtpToDate.TabStop = False
+        Me.dtpToDate.Text = "10/06/2011"
+        Me.dtpToDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(6, 11)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel6.TabIndex = 264
+        Me.MyLabel6.Text = "From"
+        '
+        'dtpFromDate
+        '
+        Me.dtpFromDate.CalculationExpression = Nothing
+        Me.dtpFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpFromDate.FieldCode = Nothing
+        Me.dtpFromDate.FieldDesc = Nothing
+        Me.dtpFromDate.FieldMaxLength = 0
+        Me.dtpFromDate.FieldName = Nothing
+        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpFromDate.isCalculatedField = False
+        Me.dtpFromDate.IsSourceFromTable = False
+        Me.dtpFromDate.IsSourceFromValueList = False
+        Me.dtpFromDate.IsUnique = False
+        Me.dtpFromDate.Location = New System.Drawing.Point(45, 9)
+        Me.dtpFromDate.MendatroryField = False
+        Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromDate.MyLinkLable1 = Me.MyLabel6
+        Me.dtpFromDate.MyLinkLable2 = Nothing
+        Me.dtpFromDate.Name = "dtpFromDate"
+        Me.dtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromDate.ReferenceFieldDesc = Nothing
+        Me.dtpFromDate.ReferenceFieldName = Nothing
+        Me.dtpFromDate.ReferenceTableName = Nothing
+        Me.dtpFromDate.Size = New System.Drawing.Size(84, 20)
+        Me.dtpFromDate.TabIndex = 263
+        Me.dtpFromDate.TabStop = False
+        Me.dtpFromDate.Text = "10/06/2011"
+        Me.dtpFromDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(12, 23)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel16.TabIndex = 392
+        Me.MyLabel16.Text = "MCC"
+        '
+        'txtMCC
+        '
+        Me.txtMCC.arrDispalyMember = Nothing
+        Me.txtMCC.arrValueMember = Nothing
+        Me.txtMCC.Location = New System.Drawing.Point(49, 22)
+        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC.MyLinkLable1 = Me.MyLabel16
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.MyNullText = ""
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.Size = New System.Drawing.Size(237, 19)
+        Me.txtMCC.TabIndex = 391
+        '
         'TxtRemittTo
         '
         Me.TxtRemittTo.CalculationExpression = Nothing
@@ -399,6 +522,7 @@ Partial Class FrmBankTransfer
         Me.CmbTransType.AutoCompleteDisplayMember = Nothing
         Me.CmbTransType.AutoCompleteValueMember = Nothing
         Me.CmbTransType.CalculationExpression = Nothing
+        Me.CmbTransType.DropDownAnimationEnabled = True
         Me.CmbTransType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbTransType.FieldCode = Nothing
         Me.CmbTransType.FieldDesc = Nothing
@@ -408,16 +532,16 @@ Partial Class FrmBankTransfer
         Me.CmbTransType.IsSourceFromTable = False
         Me.CmbTransType.IsSourceFromValueList = False
         Me.CmbTransType.IsUnique = False
-        RadListDataItem6.Text = "Cash"
-        RadListDataItem7.Text = "Bank"
-        RadListDataItem8.Text = "Petty Cash"
-        RadListDataItem9.Text = "Other"
-        RadListDataItem10.Text = "Settlement"
-        Me.CmbTransType.Items.Add(RadListDataItem6)
-        Me.CmbTransType.Items.Add(RadListDataItem7)
-        Me.CmbTransType.Items.Add(RadListDataItem8)
-        Me.CmbTransType.Items.Add(RadListDataItem9)
-        Me.CmbTransType.Items.Add(RadListDataItem10)
+        RadListDataItem1.Text = "Cash"
+        RadListDataItem2.Text = "Bank"
+        RadListDataItem3.Text = "Petty Cash"
+        RadListDataItem4.Text = "Other"
+        RadListDataItem5.Text = "Settlement"
+        Me.CmbTransType.Items.Add(RadListDataItem1)
+        Me.CmbTransType.Items.Add(RadListDataItem2)
+        Me.CmbTransType.Items.Add(RadListDataItem3)
+        Me.CmbTransType.Items.Add(RadListDataItem4)
+        Me.CmbTransType.Items.Add(RadListDataItem5)
         Me.CmbTransType.Location = New System.Drawing.Point(135, 130)
         Me.CmbTransType.MendatroryField = False
         Me.CmbTransType.MyLinkLable1 = Me.lbltranstype
@@ -482,34 +606,38 @@ Partial Class FrmBankTransfer
         Me.MasterTemplate.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.MasterTemplate.Location = New System.Drawing.Point(420, 11)
         '
-        'MasterTemplate
         '
-        GridViewTextBoxColumn3.HeaderText = "Bank"
-        GridViewTextBoxColumn3.Name = "Bank"
-        GridViewTextBoxColumn3.ReadOnly = True
-        GridViewTextBoxColumn3.Width = 125
-        GridViewMultiComboBoxColumn2.HeaderText = "GL Account"
-        GridViewMultiComboBoxColumn2.Name = "GL Account"
-        GridViewMultiComboBoxColumn2.Width = 125
-        GridViewTextBoxColumn4.HeaderText = "Account Description"
-        GridViewTextBoxColumn4.MaxLength = 100
-        GridViewTextBoxColumn4.Name = "Account Description"
-        GridViewTextBoxColumn4.ReadOnly = True
-        GridViewTextBoxColumn4.Width = 250
-        GridViewDecimalColumn2.HeaderText = "Amount"
-        GridViewDecimalColumn2.Maximum = New Decimal(New Integer() {-1530494977, 232830, 0, 0})
-        GridViewDecimalColumn2.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
-        GridViewDecimalColumn2.Name = "Amount"
-        GridViewDecimalColumn2.Width = 135
-        Me.MasterTemplate.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewMultiComboBoxColumn2, GridViewTextBoxColumn4, GridViewDecimalColumn2})
+        '
+        GridViewTextBoxColumn5.HeaderText = "Bank"
+        GridViewTextBoxColumn5.Name = "Bank"
+        GridViewTextBoxColumn5.ReadOnly = True
+        GridViewTextBoxColumn5.Width = 125
+        GridViewMultiComboBoxColumn3.HeaderText = "GL Account"
+        GridViewMultiComboBoxColumn3.Name = "GL Account"
+        GridViewMultiComboBoxColumn3.Width = 125
+        GridViewTextBoxColumn6.HeaderText = "Account Description"
+        GridViewTextBoxColumn6.MaxLength = 100
+        GridViewTextBoxColumn6.Name = "Account Description"
+        GridViewTextBoxColumn6.ReadOnly = True
+        GridViewTextBoxColumn6.Width = 250
+        GridViewDecimalColumn3.HeaderText = "Amount"
+        GridViewDecimalColumn3.Maximum = New Decimal(New Integer() {-1530494977, 232830, 0, 0})
+        GridViewDecimalColumn3.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
+        GridViewDecimalColumn3.Name = "Amount"
+        GridViewDecimalColumn3.Width = 135
+        Me.MasterTemplate.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn5, GridViewMultiComboBoxColumn3, GridViewTextBoxColumn6, GridViewDecimalColumn3})
         Me.MasterTemplate.MasterTemplate.EnableGrouping = False
         Me.MasterTemplate.MasterTemplate.EnableSorting = False
+        Me.MasterTemplate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MasterTemplate.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MasterTemplate.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.MasterTemplate.MyStopExport = False
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
         Me.MasterTemplate.Size = New System.Drawing.Size(158, 54)
         Me.MasterTemplate.TabIndex = 2
+        Me.MasterTemplate.VarID = ""
         Me.MasterTemplate.Visible = False
         '
         'dtp_transferpostingdate
@@ -886,7 +1014,7 @@ Partial Class FrmBankTransfer
         Me.txtchkdate.Size = New System.Drawing.Size(87, 20)
         Me.txtchkdate.TabIndex = 6
         Me.txtchkdate.TabStop = False
-        Me.txtchkdate.Text = "Thursday, 19 July 2012"
+        Me.txtchkdate.Text = "19 July 2012"
         Me.txtchkdate.Value = New Date(2012, 7, 19, 0, 0, 0, 0)
         '
         'txtchkno
@@ -1070,9 +1198,9 @@ Partial Class FrmBankTransfer
         '
         Me.btnReCreateJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReCreateJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReCreateJE.Location = New System.Drawing.Point(621, 22)
+        Me.btnReCreateJE.Location = New System.Drawing.Point(656, 3)
         Me.btnReCreateJE.Name = "btnReCreateJE"
-        Me.btnReCreateJE.Size = New System.Drawing.Size(120, 18)
+        Me.btnReCreateJE.Size = New System.Drawing.Size(98, 18)
         Me.btnReCreateJE.TabIndex = 6
         Me.btnReCreateJE.Text = "Re Create JE"
         Me.btnReCreateJE.Visible = False
@@ -1081,7 +1209,7 @@ Partial Class FrmBankTransfer
         '
         Me.btnBlankForReCreateJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnBlankForReCreateJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBlankForReCreateJE.Location = New System.Drawing.Point(621, 2)
+        Me.btnBlankForReCreateJE.Location = New System.Drawing.Point(645, 22)
         Me.btnBlankForReCreateJE.Name = "btnBlankForReCreateJE"
         Me.btnBlankForReCreateJE.Size = New System.Drawing.Size(120, 18)
         Me.btnBlankForReCreateJE.TabIndex = 5
@@ -1092,7 +1220,7 @@ Partial Class FrmBankTransfer
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(234, 12)
+        Me.btnPrint.Location = New System.Drawing.Point(213, 12)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(68, 18)
         Me.btnPrint.TabIndex = 3
@@ -1102,7 +1230,7 @@ Partial Class FrmBankTransfer
         '
         Me.btn_post.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_post.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_post.Location = New System.Drawing.Point(160, 12)
+        Me.btn_post.Location = New System.Drawing.Point(143, 12)
         Me.btn_post.Name = "btn_post"
         Me.btn_post.Size = New System.Drawing.Size(68, 18)
         Me.btn_post.TabIndex = 2
@@ -1112,7 +1240,7 @@ Partial Class FrmBankTransfer
         '
         Me.btn_save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_save.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_save.Location = New System.Drawing.Point(12, 12)
+        Me.btn_save.Location = New System.Drawing.Point(4, 12)
         Me.btn_save.Name = "btn_save"
         Me.btn_save.Size = New System.Drawing.Size(68, 18)
         Me.btn_save.TabIndex = 0
@@ -1122,7 +1250,7 @@ Partial Class FrmBankTransfer
         '
         Me.btn_close.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_close.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_close.Location = New System.Drawing.Point(890, 12)
+        Me.btn_close.Location = New System.Drawing.Point(892, 12)
         Me.btn_close.Name = "btn_close"
         Me.btn_close.Size = New System.Drawing.Size(68, 18)
         Me.btn_close.TabIndex = 7
@@ -1132,7 +1260,7 @@ Partial Class FrmBankTransfer
         '
         Me.btn_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_delete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_delete.Location = New System.Drawing.Point(86, 12)
+        Me.btn_delete.Location = New System.Drawing.Point(74, 12)
         Me.btn_delete.Name = "btn_delete"
         Me.btn_delete.Size = New System.Drawing.Size(68, 18)
         Me.btn_delete.TabIndex = 1
@@ -1163,6 +1291,7 @@ Partial Class FrmBankTransfer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnOpenBankCashBook)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnVoidCheck)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintCheck)
@@ -1182,9 +1311,9 @@ Partial Class FrmBankTransfer
         '
         Me.btnOpenBankCashBook.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOpenBankCashBook.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(747, 12)
+        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(766, 12)
         Me.btnOpenBankCashBook.Name = "btnOpenBankCashBook"
-        Me.btnOpenBankCashBook.Size = New System.Drawing.Size(137, 18)
+        Me.btnOpenBankCashBook.Size = New System.Drawing.Size(124, 18)
         Me.btnOpenBankCashBook.TabIndex = 16
         Me.btnOpenBankCashBook.Text = "Open Bank Cash Book"
         '
@@ -1192,9 +1321,9 @@ Partial Class FrmBankTransfer
         '
         Me.btnVoidCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnVoidCheck.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnVoidCheck.Location = New System.Drawing.Point(306, 12)
+        Me.btnVoidCheck.Location = New System.Drawing.Point(283, 12)
         Me.btnVoidCheck.Name = "btnVoidCheck"
-        Me.btnVoidCheck.Size = New System.Drawing.Size(84, 18)
+        Me.btnVoidCheck.Size = New System.Drawing.Size(81, 18)
         Me.btnVoidCheck.TabIndex = 12
         Me.btnVoidCheck.Text = "Void Check"
         '
@@ -1202,9 +1331,9 @@ Partial Class FrmBankTransfer
         '
         Me.btnPrintCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintCheck.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintCheck.Location = New System.Drawing.Point(396, 12)
+        Me.btnPrintCheck.Location = New System.Drawing.Point(366, 12)
         Me.btnPrintCheck.Name = "btnPrintCheck"
-        Me.btnPrintCheck.Size = New System.Drawing.Size(90, 18)
+        Me.btnPrintCheck.Size = New System.Drawing.Size(81, 18)
         Me.btnPrintCheck.TabIndex = 11
         Me.btnPrintCheck.Text = "Print Check"
         '
@@ -1212,141 +1341,22 @@ Partial Class FrmBankTransfer
         '
         Me.btnReverseAndRecreate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndRecreate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndRecreate.Location = New System.Drawing.Point(492, 12)
+        Me.btnReverseAndRecreate.Location = New System.Drawing.Point(519, 12)
         Me.btnReverseAndRecreate.Name = "btnReverseAndRecreate"
-        Me.btnReverseAndRecreate.Size = New System.Drawing.Size(121, 18)
+        Me.btnReverseAndRecreate.Size = New System.Drawing.Size(124, 18)
         Me.btnReverseAndRecreate.TabIndex = 4
         Me.btnReverseAndRecreate.Text = "Reverse And Recreate"
         Me.btnReverseAndRecreate.Visible = False
         '
-        'txtMCC
+        'btnHistory
         '
-        Me.txtMCC.arrDispalyMember = Nothing
-        Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(49, 22)
-        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCC.MyLinkLable1 = Me.MyLabel16
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyNullText = ""
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.Size = New System.Drawing.Size(237, 19)
-        Me.txtMCC.TabIndex = 391
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(12, 23)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel16.TabIndex = 392
-        Me.MyLabel16.Text = "MCC"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.MyLabel5)
-        Me.GroupBox2.Controls.Add(Me.dtpToDate)
-        Me.GroupBox2.Controls.Add(Me.MyLabel6)
-        Me.GroupBox2.Controls.Add(Me.dtpFromDate)
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 43)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(280, 31)
-        Me.GroupBox2.TabIndex = 393
-        Me.GroupBox2.TabStop = False
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(147, 11)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(19, 16)
-        Me.MyLabel5.TabIndex = 266
-        Me.MyLabel5.Text = "To"
-        '
-        'dtpToDate
-        '
-        Me.dtpToDate.CalculationExpression = Nothing
-        Me.dtpToDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpToDate.FieldCode = Nothing
-        Me.dtpToDate.FieldDesc = Nothing
-        Me.dtpToDate.FieldMaxLength = 0
-        Me.dtpToDate.FieldName = Nothing
-        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpToDate.isCalculatedField = False
-        Me.dtpToDate.IsSourceFromTable = False
-        Me.dtpToDate.IsSourceFromValueList = False
-        Me.dtpToDate.IsUnique = False
-        Me.dtpToDate.Location = New System.Drawing.Point(181, 9)
-        Me.dtpToDate.MendatroryField = False
-        Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.MyLinkLable1 = Me.MyLabel5
-        Me.dtpToDate.MyLinkLable2 = Nothing
-        Me.dtpToDate.Name = "dtpToDate"
-        Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.ReadOnly = True
-        Me.dtpToDate.ReferenceFieldDesc = Nothing
-        Me.dtpToDate.ReferenceFieldName = Nothing
-        Me.dtpToDate.ReferenceTableName = Nothing
-        Me.dtpToDate.Size = New System.Drawing.Size(84, 20)
-        Me.dtpToDate.TabIndex = 265
-        Me.dtpToDate.TabStop = False
-        Me.dtpToDate.Text = "10/06/2011"
-        Me.dtpToDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(6, 11)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel6.TabIndex = 264
-        Me.MyLabel6.Text = "From"
-        '
-        'dtpFromDate
-        '
-        Me.dtpFromDate.CalculationExpression = Nothing
-        Me.dtpFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpFromDate.FieldCode = Nothing
-        Me.dtpFromDate.FieldDesc = Nothing
-        Me.dtpFromDate.FieldMaxLength = 0
-        Me.dtpFromDate.FieldName = Nothing
-        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFromDate.isCalculatedField = False
-        Me.dtpFromDate.IsSourceFromTable = False
-        Me.dtpFromDate.IsSourceFromValueList = False
-        Me.dtpFromDate.IsUnique = False
-        Me.dtpFromDate.Location = New System.Drawing.Point(45, 9)
-        Me.dtpFromDate.MendatroryField = False
-        Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromDate.MyLinkLable1 = Me.MyLabel6
-        Me.dtpFromDate.MyLinkLable2 = Nothing
-        Me.dtpFromDate.Name = "dtpFromDate"
-        Me.dtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromDate.ReferenceFieldDesc = Nothing
-        Me.dtpFromDate.ReferenceFieldName = Nothing
-        Me.dtpFromDate.ReferenceTableName = Nothing
-        Me.dtpFromDate.Size = New System.Drawing.Size(84, 20)
-        Me.dtpFromDate.TabIndex = 263
-        Me.dtpFromDate.TabStop = False
-        Me.dtpFromDate.Text = "10/06/2011"
-        Me.dtpFromDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
-        'gbAgainstMilkBill
-        '
-        Me.gbAgainstMilkBill.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbAgainstMilkBill.Controls.Add(Me.GroupBox2)
-        Me.gbAgainstMilkBill.Controls.Add(Me.MyLabel16)
-        Me.gbAgainstMilkBill.Controls.Add(Me.txtMCC)
-        Me.gbAgainstMilkBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbAgainstMilkBill.HeaderText = "Against Milk Bill"
-        Me.gbAgainstMilkBill.Location = New System.Drawing.Point(663, 46)
-        Me.gbAgainstMilkBill.Name = "gbAgainstMilkBill"
-        Me.gbAgainstMilkBill.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbAgainstMilkBill.Size = New System.Drawing.Size(297, 81)
-        Me.gbAgainstMilkBill.TabIndex = 21
-        Me.gbAgainstMilkBill.Text = "Against Milk Bill"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(448, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 18)
+        Me.btnHistory.TabIndex = 17
+        Me.btnHistory.Text = "History"
         '
         'FrmBankTransfer
         '
@@ -1371,6 +1381,16 @@ Partial Class FrmBankTransfer
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.gbAgainstMilkBill, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbAgainstMilkBill.ResumeLayout(False)
+        Me.gbAgainstMilkBill.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtRemittTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblWithdrawal, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1425,16 +1445,7 @@ Partial Class FrmBankTransfer
         CType(Me.btnVoidCheck, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintCheck, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndRecreate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gbAgainstMilkBill, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbAgainstMilkBill.ResumeLayout(False)
-        Me.gbAgainstMilkBill.PerformLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1514,5 +1525,6 @@ Partial Class FrmBankTransfer
     Friend WithEvents dtpToDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents dtpFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnHistory As RadButton
 End Class
 

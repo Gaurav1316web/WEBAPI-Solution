@@ -452,7 +452,7 @@ Public Class FrmSendSMSEmailSetting
         Catch ex As Exception
 
         End Try
-        
+
     End Sub
 
     Private Sub rdbEmailWeekly_CheckedChanged(sender As Object, e As EventArgs) Handles rdbEmailWeekly.CheckedChanged
@@ -560,5 +560,17 @@ Public Class FrmSendSMSEmailSetting
 
     Sub CloseForm()
         Me.Close()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtSchedulerCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtSchedulerCode.Value, "SCHEDULER_CODE", "TSPL_EMAIL_SMS_SCHEDULING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

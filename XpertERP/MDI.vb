@@ -5,7 +5,7 @@ Imports System.IO
 Imports System.Reflection
 Imports CgtFpAccessCSD200Dotnet
 Imports common
-Imports Link.AppShortcut
+
 Imports XpertERPCustomerComplaint
 Imports XpertERPElectrical
 Imports XpertERPEngineeringAndPlantManagement

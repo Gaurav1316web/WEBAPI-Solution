@@ -1545,9 +1545,17 @@ ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5) = 'TCS' THEN (TSPL_DEMAND_BOOK
 ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8_Amt) 
 ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt) ELSE 0 END) END) END) END) END) END) END) END) END) END 
     AS TCSAmount
-from TSPL_CUSTOMER_MASTER 
-Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
-LEFT Outer Join (Select Document_No,Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='10/Aug/2024' Group By Document_No,Document_Date,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No 
+from "
+                If objCommonVar.ApplyBoothRouteMapping Then
+                    BaseQry += " TSPL_BOOTH_ROUTE_MAPPING_HEAD
+  left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No
+  left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code "
+                Else
+                    BaseQry += " TSPL_CUSTOMER_MASTER "
+                End If
+
+                BaseQry += " Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+LEFT Outer Join (Select Document_No,Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' Group By Document_No,Document_Date,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No 
 Left Outer Join TSPL_Demand_Booking_Detail On TSPL_Demand_Booking_Detail.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No And TSPL_Demand_Booking_Detail.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 --Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_Demand_Booking_Detail.Document_No
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
@@ -1557,32 +1565,41 @@ Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where 2=2 "
-                If isSplitPrint Then
-                    BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
-                End If
-                BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
-                If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                    BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
-                End If
-                'If IsFreshItem Then
-                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
-                'ElseIf IsAmbientItem Then
-                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
+                    If isSplitPrint Then
+                        BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
+                    End If
+                    BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
+                    If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
+                        BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
+                    End If
+                    'If IsFreshItem Then
+                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
+                    'ElseIf IsAmbientItem Then
+                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
+                    'End If
+                    'If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
+                    '    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                    'Else
+                    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
                 'End If
-                If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
-                    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                If objCommonVar.ApplyBoothRouteMapping Then
+                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=(select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
+left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
+where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and TSPL_Booth_Route_Mapping_Head.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") 
+and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and Shift_Type='" + IIf(strShift = "Morning", "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(strShift = "Morning", clsCommon.GetPrintDate(DocDate.AddDays(-1)), clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy")) + "' then 2 else 3 end)  end) order by Document_No desc)"
+                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
                 Else
-                    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                    BaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
                 End If
-                BaseQry += "  and TSPL_CUSTOMER_MASTER.Cust_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) )XXFinal
+                BaseQry += " )XXFinal 
 --where XXFinal.Cust_Code in (select distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER 
 --left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No   
 --where 2=2  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code is not null " + Environment.NewLine
                 If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                    BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
+                        BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
+                    End If
                 End If
-            End If
-            BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
+                BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
 )xx) xfinal left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
             Dim qry As String = " select Short_Description from (" + BaseQry + " )xx Where Short_Description is Not Null group by Short_Description order by max(Sku_Seq)"
             Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)

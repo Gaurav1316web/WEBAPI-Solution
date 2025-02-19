@@ -62,6 +62,8 @@ Public Class clsRCDFRateControl
                 isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RCDF_RATE_CONTROL", OMInsertOrUpdate.Update, "TSPL_RCDF_RATE_CONTROL.Code='" + obj.Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsRCDFRateControlDetail.SaveData(clsCommon.myCstr(obj.Code), obj.arrDetail, isPost, trans)
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -146,6 +148,8 @@ Public Class clsRCDFRateControl
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM where Code='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -593,6 +593,7 @@ Public Class frmReverseTransaction
                     End If
                     clsDBFuncationality.ExecuteNonQuery("Update tspl_bank_reverse set isChequeBounce='" & chkBounce & "',Reverse_TDS_Amount=" & dblTDSAmount & "  where Reverse_Code='" & STR & "'")
                     Dim message As String = "Data Saved Successfully" + Environment.NewLine
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
 
                     fndreversecode.Value = STR
                     btn_save.Text = "Update"
@@ -1272,7 +1273,7 @@ Public Class frmReverseTransaction
                     End If
                 End If
             End If
-            'End If
+            'End IfTSPL_BANK_REVERSE
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -2227,6 +2228,19 @@ Public Class frmReverseTransaction
 
     Private Sub fndreversecode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fndreversecode.Load
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndreversecode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndreversecode.Value, "reverse_code", "TSPL_BANK_REVERSE")
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     ' Ticket No : TEC/08/05/19-000478 By Prabhakar 
     Private Sub btnOpenBankCashBook_Click(sender As Object, e As EventArgs) Handles btnOpenBankCashBook.Click
