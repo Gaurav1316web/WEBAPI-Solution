@@ -79,8 +79,9 @@ Partial Class frmReverseTransaction
         Me.btn_post = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnReverseTransaction = New Telerik.WinControls.UI.RadButton()
         Me.btnOpenBankCashBook = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverseTransaction = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,8 +133,9 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -188,12 +190,9 @@ Partial Class frmReverseTransaction
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(751, 20)
         Me.RadMenu1.TabIndex = 5
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -201,8 +200,6 @@ Partial Class frmReverseTransaction
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Exit.."
-        Me.RadMenuItem2.AccessibleName = "Exit.."
         Me.RadMenuItem2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Exit.."
@@ -848,6 +845,7 @@ Partial Class frmReverseTransaction
         Me.ddl_SourceApplication.AutoCompleteDisplayMember = Nothing
         Me.ddl_SourceApplication.AutoCompleteValueMember = Nothing
         Me.ddl_SourceApplication.CalculationExpression = Nothing
+        Me.ddl_SourceApplication.DropDownAnimationEnabled = True
         Me.ddl_SourceApplication.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_SourceApplication.FieldCode = Nothing
         Me.ddl_SourceApplication.FieldDesc = Nothing
@@ -967,7 +965,7 @@ Partial Class frmReverseTransaction
         '
         Me.btn_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_delete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_delete.Location = New System.Drawing.Point(83, 12)
+        Me.btn_delete.Location = New System.Drawing.Point(74, 12)
         Me.btn_delete.Name = "btn_delete"
         Me.btn_delete.Size = New System.Drawing.Size(68, 18)
         Me.btn_delete.TabIndex = 1
@@ -981,7 +979,7 @@ Partial Class frmReverseTransaction
         Me.btn_close.Controls.Add(Me.RadButton7)
         Me.btn_close.Controls.Add(Me.RadButton8)
         Me.btn_close.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_close.Location = New System.Drawing.Point(671, 12)
+        Me.btn_close.Location = New System.Drawing.Point(676, 12)
         Me.btn_close.Name = "btn_close"
         Me.btn_close.Size = New System.Drawing.Size(68, 18)
         Me.btn_close.TabIndex = 5
@@ -1026,7 +1024,7 @@ Partial Class frmReverseTransaction
         '
         Me.btn_save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_save.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_save.Location = New System.Drawing.Point(13, 12)
+        Me.btn_save.Location = New System.Drawing.Point(5, 12)
         Me.btn_save.Name = "btn_save"
         Me.btn_save.Size = New System.Drawing.Size(68, 18)
         Me.btn_save.TabIndex = 0
@@ -1036,7 +1034,7 @@ Partial Class frmReverseTransaction
         '
         Me.btn_post.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_post.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_post.Location = New System.Drawing.Point(156, 12)
+        Me.btn_post.Location = New System.Drawing.Point(144, 12)
         Me.btn_post.Name = "btn_post"
         Me.btn_post.Size = New System.Drawing.Size(68, 18)
         Me.btn_post.TabIndex = 2
@@ -1045,7 +1043,7 @@ Partial Class frmReverseTransaction
         'btnprint
         '
         Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnprint.Location = New System.Drawing.Point(228, 12)
+        Me.btnprint.Location = New System.Drawing.Point(213, 12)
         Me.btnprint.Name = "btnprint"
         Me.btnprint.Size = New System.Drawing.Size(68, 18)
         Me.btnprint.TabIndex = 3
@@ -1066,6 +1064,7 @@ Partial Class frmReverseTransaction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnOpenBankCashBook)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseTransaction)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
@@ -1077,26 +1076,35 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.SplitterDistance = 337
         Me.SplitContainer1.TabIndex = 6
         '
-        'btnReverseTransaction
-        '
-        Me.btnReverseTransaction.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverseTransaction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseTransaction.Location = New System.Drawing.Point(302, 12)
-        Me.btnReverseTransaction.Name = "btnReverseTransaction"
-        Me.btnReverseTransaction.Size = New System.Drawing.Size(220, 18)
-        Me.btnReverseTransaction.TabIndex = 4
-        Me.btnReverseTransaction.Text = "Reverse And Unpost Transaction"
-        Me.btnReverseTransaction.Visible = False
-        '
         'btnOpenBankCashBook
         '
         Me.btnOpenBankCashBook.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOpenBankCashBook.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(544, 12)
+        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(548, 12)
         Me.btnOpenBankCashBook.Name = "btnOpenBankCashBook"
         Me.btnOpenBankCashBook.Size = New System.Drawing.Size(124, 18)
         Me.btnOpenBankCashBook.TabIndex = 15
         Me.btnOpenBankCashBook.Text = "Open Bank Cash Book"
+        '
+        'btnReverseTransaction
+        '
+        Me.btnReverseTransaction.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseTransaction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseTransaction.Location = New System.Drawing.Point(353, 12)
+        Me.btnReverseTransaction.Name = "btnReverseTransaction"
+        Me.btnReverseTransaction.Size = New System.Drawing.Size(193, 18)
+        Me.btnReverseTransaction.TabIndex = 4
+        Me.btnReverseTransaction.Text = "Reverse And Unpost Transaction"
+        Me.btnReverseTransaction.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(283, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 16
+        Me.btnHistory.Text = "History"
         '
         'frmReverseTransaction
         '
@@ -1164,8 +1172,9 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1228,6 +1237,7 @@ Partial Class frmReverseTransaction
     Friend WithEvents btnReverseTransaction As Telerik.WinControls.UI.RadButton
     Friend WithEvents chkIsChequeBounce As common.Controls.MyCheckBox
     Friend WithEvents btnOpenBankCashBook As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
