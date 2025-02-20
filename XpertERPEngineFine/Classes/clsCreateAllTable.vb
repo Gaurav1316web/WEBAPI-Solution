@@ -6696,6 +6696,7 @@ Public Class clsCreateAllTable
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Trip_No", "int NULL")
+            coll.Add("Is_GHEE", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, True, "", "GPCode", "GPDate")
             Try
 
