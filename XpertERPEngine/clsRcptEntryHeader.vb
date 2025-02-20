@@ -621,6 +621,8 @@ Public Class clsRcptEntryHeader
             isSaved = isSaved AndAlso clsReceiptDettail.SaveData(obj.Receipt_No, obj.ArrTr, obj.Receipt_Type, trans)
             isSaved = isSaved AndAlso clsReceiptDetailGST.SaveData(obj.Receipt_No, obj.ArrTrGST, trans)
             isSaved = isSaved AndAlso clsReceiptDetail_Refund.SaveData(obj.Receipt_No, obj.ArrTrRefund, obj.Receipt_Type, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", trans)
+
             ''richa agarwal 27 Aug,2018
             If clsCommon.myLen(CreateNewDocumentNoWithExistingDocumentNo) <= 0 Then
                 If clsCommon.CompairString(SkipJe, "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(obj.Receipt_Type), "A") = CompairStringResult.Equal) Then
@@ -1419,7 +1421,7 @@ Public Class clsRcptEntryHeader
             End If
 
             'Ticket No-TEC/06/09/19-001003,Save Deleted data ,sanjay
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strReceiptNo, "TSPL_RECEIPT_HEADER", "Receipt_No", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strReceiptNo, "TSPL_RECEIPT_HEADER", "Receipt_No", "Receipt_No", "TSPL_RECEIPT_DETAIL", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
             clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
 
@@ -5333,6 +5335,7 @@ Public Class clsMakePayment
         Else
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Make_Payment", OMInsertOrUpdate.Update, "Doc_Code='" + obj.Doc_Code + "'", trans)
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_Make_Payment", "Doc_Code", Nothing)
 
         coll = Nothing
         Return True

@@ -159,6 +159,7 @@ Partial Class FrmARInvoiceEntry
         Me.rmiOPInvoiceForTCS = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -270,6 +271,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -287,6 +289,7 @@ Partial Class FrmARInvoiceEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintServiceInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
@@ -2083,6 +2086,15 @@ Partial Class FrmARInvoiceEntry
         Me.RadMenu1.Size = New System.Drawing.Size(1070, 20)
         Me.RadMenu1.TabIndex = 1
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(698, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
+        '
         'FrmARInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2217,6 +2229,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2355,5 +2368,6 @@ Partial Class FrmARInvoiceEntry
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
     Friend WithEvents rmiOPInvoiceForTCS As RadMenuItem
     Friend WithEvents rmiExportOPInvoiceForTCS As RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

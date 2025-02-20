@@ -140,7 +140,7 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
 
             End If
         Catch ex As Exception
-            clsCommon.ProgressBarPercentHide()
+            clsCommon.ProgressBarHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

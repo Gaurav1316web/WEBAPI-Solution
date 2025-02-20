@@ -2967,7 +2967,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmUnionLastGstInvoice, "Union wise Last GST invoice", "1.49.03.13", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedProduction, "Cattle Feed Production", "1.49.03.17", clsUserMgtCode.SubModuleMilkUnion, 8)
         'InsertDefaultValue(clsUserMgtCode.frmUpdateAppLocation, "Update App Location", "1.49.03.19", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Union Booking Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Milk Marketing Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

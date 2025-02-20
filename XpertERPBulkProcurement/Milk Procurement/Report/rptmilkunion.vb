@@ -13,16 +13,9 @@ Public Class rptmilkunion
     End Sub
     Private Sub rptmilkunion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        Dim serverDate As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
-        Dim previousDay As DateTime = serverDate.AddDays(-1)
-        Dim previousDayString As String = clsCommon.GetPrintDate(previousDay, "dd/MMM/yyyy")
-        txtFromDate.Value = previousDayString
-        txtToDate.Value = previousDayString
-        rdbPosted.Checked = True
-        rdbUnposted.Checked = False
+        funreset()
         chkRJSBNS.Visible = False
         chkRJSBNS.Checked = True
-        ReportType()
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -448,7 +441,7 @@ Public Class rptmilkunion
                     ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
                     ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
 					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
-                    (SELECT TOP 1 DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
+                    (SELECT TOP 1  LEFT(DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO),3) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
                     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
                     where 2=2" + status6 + " ORDER BY DATE_TO DESC) as Last_Salary
                     FROM 
@@ -632,9 +625,9 @@ Public Class rptmilkunion
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
 					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
-                    (SELECT TOP 1 DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
+                    (SELECT TOP 1  LEFT(DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO),3) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
                 left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
-                where 2=2 " + status6 + " ORDER BY DATE_TO DESC) as Last_Salary,(select count(PurchaseOrder_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where CONVERT(DATE, PurchaseOrder_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status11 + ")   as Purchase_Count,(select count(SRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where CONVERT(DATE, SRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status12 + ") as SRN_Count,(select count(GRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GRN_HEAD where CONVERT(DATE, GRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status16 + ") as GRN_Count,(select COUNT(IRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where CONVERT(DATE, Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status13 + ") as E_Invoice_Count,(select FORMAT(max(To_Date),'MMMM yyyy')
+                where 2=2 " + status6 + " ORDER BY DATE_TO DESC) as Last_Salary,(select count(PurchaseOrder_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where CONVERT(DATE, PurchaseOrder_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status11 + ")   as Purchase_Count,(select count(SRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where CONVERT(DATE, SRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status12 + ") as SRN_Count,(select count(GRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GRN_HEAD where CONVERT(DATE, GRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status16 + ") as GRN_Count,(select COUNT(IRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where CONVERT(DATE, Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status13 + ") as E_Invoice_Count,(select FORMAT(max(To_Date),'MMM yyyy')
             FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT  where  Status=1) AS [Last DBT App. Month],(SELECT DATEDIFF(day, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', '" + clsCommon.GetPrintDate(txtToDate.Value) + "')+1) AS DaysCount
                 FROM 
             (SELECT SUM(Dis_QtyInLTR) AS Dis_QtyInLTR FROM (( SELECT SUM(Dis_QtyInLTR) AS Dis_QtyInLTR from (
@@ -816,6 +809,10 @@ Public Class rptmilkunion
     End Sub
 
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
+        funreset()
+    End Sub
+
+    Sub funreset()
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -827,8 +824,9 @@ Public Class rptmilkunion
         txtFromDate.Value = previousDayString
         txtToDate.Value = previousDayString
         btngo.Enabled = True
-        rdbPosted.Checked = True
+        rdbPosted.Checked = False
         rdbUnposted.Checked = False
+        rbdAllTrans.Checked = True
         ReportType()
     End Sub
     Private Sub ReportType()
@@ -1067,4 +1065,14 @@ Public Class rptmilkunion
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
+
+    'Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+    '    If (e.CellElement.ColumnInfo.Name == "column1" && e.CellElement.Value!= null) Then
+
+    '        Decimal value;
+    '    If (Decimal.TryParse(e.CellElement.Value.ToString(), out value)) Then
+
+    '            e.CellElement.Text = value.ToString("N2", New CultureInfo("en-IN"))
+    '        End If
+    'End Sub
 End Class
