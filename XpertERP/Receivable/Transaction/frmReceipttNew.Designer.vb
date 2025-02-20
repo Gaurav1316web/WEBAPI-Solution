@@ -164,6 +164,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt = New common.UserControls.MyRadGridView()
         Me.dgvmiscpayment = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -205,7 +206,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,6 +377,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -544,6 +546,7 @@ Partial Class FrmReceipttNew
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnOpenBankCashBook)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnVoidCheck)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrintCheck)
@@ -580,10 +583,10 @@ Partial Class FrmReceipttNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 417)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 413)
         Me.RadPageViewPage1.Text = "Receipt"
         '
         'SplitContainer1
@@ -676,7 +679,7 @@ Partial Class FrmReceipttNew
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvReceipt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvmiscpayment)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 417)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
         '
@@ -2606,7 +2609,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
         Me.dgvReceipt.ShowHeaderCellButtons = True
-        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
+        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 128)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
         Me.dgvReceipt.VarID = ""
@@ -2632,23 +2635,31 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
+        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 128)
         Me.dgvmiscpayment.TabIndex = 4
         Me.dgvmiscpayment.VarID = ""
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1212, 413)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(967, 415)
@@ -2665,7 +2676,7 @@ Partial Class FrmReceipttNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1004, 413)
@@ -3209,13 +3220,15 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
-        'UcCustomFields1
+        'btnHistory
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(437, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 16
+        Me.btnHistory.Text = "History"
         '
         'FrmReceipttNew
         '
@@ -3411,6 +3424,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3597,5 +3611,6 @@ Partial Class FrmReceipttNew
     Friend WithEvents lblSalesman As common.Controls.MyLabel
     Friend WithEvents fndCustomer As common.UserControls.txtFinder
     Friend WithEvents txtsalesmanCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

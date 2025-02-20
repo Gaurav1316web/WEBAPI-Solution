@@ -1703,6 +1703,21 @@ Public Class FrmBankReco
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+
+            If clsCommon.myLen(fndRecoId.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndRecoId.Value, "Reconciliation_Id", "tspl_BankReco_Head", "tspl_BankReco_Detail")
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub RadButton6_Click(sender As Object, e As EventArgs) Handles RadButton6.Click
         Try
             If Not UsLock1.Status = ERPTransactionStatus.Approved Then
