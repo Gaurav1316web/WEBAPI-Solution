@@ -3190,6 +3190,23 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
                 Dim rows As DataRow() = dtAddition.Select("ManAddDed=0")
                 If rows Is Nothing OrElse rows.Length > 0 Then
                     dtAdditionFinance = rows.CopyToDataTable()
+                Else
+                    dtAdditionFinance = New DataTable()
+                    dtAdditionFinance.Columns.Add("VSP_Uploader_Code", GetType(String))
+                    dtAdditionFinance.Columns.Add("VSP_Code", GetType(String))
+                    dtAdditionFinance.Columns.Add("Vendor_NAME", GetType(String))
+                    dtAdditionFinance.Columns.Add("Addition", GetType(String))
+                    dtAdditionFinance.Columns.Add("Amount", GetType(Decimal))
+                    dtAdditionFinance.Columns.Add("ManAddDed", GetType(Integer))
+
+                    Dim dr As DataRow = dtAdditionFinance.NewRow()
+                    dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                    dr("VSP_Code") = "XXXYYYZZZ"
+                    dr("Vendor_NAME") = "XXXYYYZZZ"
+                    dr("Addition") = "XXXYYYZZZ"
+                    dr("Amount") = 0
+                    dr("ManAddDed") = 0
+                    dtAdditionFinance.Rows.Add(dr)
                 End If
 
                 Dim dtAdditionOther As DataTable = Nothing
@@ -3219,6 +3236,23 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
                 rows = dtDeduction.Select("ManAddDed=0")
                 If rows Is Nothing OrElse rows.Length > 0 Then
                     dtDeductionFinance = rows.CopyToDataTable()
+                Else
+                    dtDeductionFinance = New DataTable()
+                    dtDeductionFinance.Columns.Add("VSP_Uploader_Code", GetType(String))
+                    dtDeductionFinance.Columns.Add("Vendor_CODE", GetType(String))
+                    dtDeductionFinance.Columns.Add("Vendor_NAME", GetType(String))
+                    dtDeductionFinance.Columns.Add("Ded_Code", GetType(String))
+                    dtDeductionFinance.Columns.Add("Amount", GetType(Decimal))
+                    dtDeductionFinance.Columns.Add("ManAddDed", GetType(Integer))
+
+                    Dim dr As DataRow = dtDeductionFinance.NewRow()
+                    dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                    dr("Vendor_CODE") = "XXXYYYZZZ"
+                    dr("Vendor_NAME") = "XXXYYYZZZ"
+                    dr("Ded_Code") = "XXXYYYZZZ"
+                    dr("Amount") = 0
+                    dr("ManAddDed") = 1
+                    dtDeductionFinance.Rows.Add(dr)
                 End If
 
                 Dim dtDeductionOther As DataTable = Nothing
