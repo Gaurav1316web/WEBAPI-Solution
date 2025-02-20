@@ -158,6 +158,7 @@ Public Class FrmItemMasterRMOther
         btntooltip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         btntooltip.SetToolTip(btnClose, "Press Esc Close the Window")
         btntooltip.SetToolTip(btnNew, "Press Alt+N Adding New Transaction")
+        chkAllowDecimal.Visible = False
         LoadType()
         LoadItemType()
         LoadItemSubType()
@@ -325,6 +326,7 @@ Public Class FrmItemMasterRMOther
         gvCategory.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
     Private Sub BlankAllConrols()
+        chkAllowDecimal.Checked = False
         chkFGforCFRPT.Checked = False
         chkqcprod.Checked = False
         chkFGforCF.Checked = False
@@ -540,6 +542,14 @@ Public Class FrmItemMasterRMOther
             deletedata()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.F10 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.ItemAllowDecimal
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                chkAllowDecimal.Visible = True
+            End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
@@ -1324,6 +1334,7 @@ Public Class FrmItemMasterRMOther
         '' Anubhooti 10-Sep-2014 BM00000003847
         ItemShortDesp()
         ' BM00000007910
+
         chkHighClass.Checked = False
         chkHighClass.Visible = True
         chkSkipSecurityDed.Checked = False
@@ -1522,6 +1533,7 @@ Public Class FrmItemMasterRMOther
                 obj.isSecurityDeduction = clsCommon.myCdbl(IIf(chkSkipSecurityDed.Checked, 1, 0))
                 obj.isPenaltyDeduction = clsCommon.myCdbl(IIf(chkSkipPenaltyDed.Checked, 1, 0))
                 obj.isHighClass = clsCommon.myCdbl(IIf(chkHighClass.Checked, 1, 0))
+                obj.AllowEntryInDecimal = clsCommon.myCdbl(IIf(chkAllowDecimal.Checked, 1, 0))
                 If rbtnBBNA.IsChecked Then
                     obj.BuyBackType = 0
 
@@ -2662,6 +2674,7 @@ Public Class FrmItemMasterRMOther
                 chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
                 'Load buyBackTye and Value
                 chkIsRepeat.Checked = IIf(obj.IsRepeat = 1, True, False)
+                chkAllowDecimal.Checked = IIf(obj.AllowEntryInDecimal = 1, True, False)
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True
                     txtBBValue.Text = obj.BuyBackValue

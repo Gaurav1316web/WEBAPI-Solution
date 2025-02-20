@@ -1894,6 +1894,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmDayWiseMilkCollectionVsDispatch, "Day Wise Milk Collection Vs Dispatch", "1.17.03.142", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.CompareVoucherReport, "Compare Voucher Report", "1.17.03.143", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBankSavingAdvice, "Bank Saving Advice", "1.17.03.144", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSWiseHoldPayments, "DCS Wise Hold Payment & TDS", "1.17.03.145", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2951,6 +2952,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
         InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.03.01", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptUnionMilkPurchase, "Union Milk SRN Report", "1.49.03.01", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.latestPaymentProcess, "latest Payment Process", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
@@ -2964,9 +2966,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.12", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmUnionLastGstInvoice, "Union wise Last GST invoice", "1.49.03.13", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedProduction, "Cattle Feed Production", "1.49.03.17", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.frmUpdateAppLocation, "Update App Location", "1.49.03.19", clsUserMgtCode.SubModuleMilkUnion, 8)
+        'InsertDefaultValue(clsUserMgtCode.frmUpdateAppLocation, "Update App Location", "1.49.03.19", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Union Booking Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
+
 
         ''----------------SETUP--------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementSetup, "Setup", "1.50.01", clsUserMgtCode.ModuleBullManagement, "SM", 24)

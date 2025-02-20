@@ -52,6 +52,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsRepeat = New common.Controls.MyCheckBox()
         Me.chkSFGCF = New common.Controls.MyCheckBox()
         Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
         Me.chkSkipPenaltyDed = New common.Controls.MyCheckBox()
@@ -316,13 +317,14 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkIsRepeat = New common.Controls.MyCheckBox()
+        Me.chkAllowDecimal = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -561,7 +563,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -611,6 +613,7 @@ Partial Class FrmItemMasterRMOther
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkAllowDecimal)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeat)
         Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipSecurityDed)
@@ -763,6 +766,17 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'chkIsRepeat
+        '
+        Me.chkIsRepeat.Location = New System.Drawing.Point(961, 188)
+        Me.chkIsRepeat.MyLinkLable1 = Nothing
+        Me.chkIsRepeat.MyLinkLable2 = Nothing
+        Me.chkIsRepeat.Name = "chkIsRepeat"
+        Me.chkIsRepeat.Size = New System.Drawing.Size(66, 18)
+        Me.chkIsRepeat.TabIndex = 217
+        Me.chkIsRepeat.Tag1 = Nothing
+        Me.chkIsRepeat.Text = "Is Repeat"
         '
         'chkSFGCF
         '
@@ -4595,16 +4609,17 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkIsRepeat
+        'chkAllowDecimal
         '
-        Me.chkIsRepeat.Location = New System.Drawing.Point(961, 188)
-        Me.chkIsRepeat.MyLinkLable1 = Nothing
-        Me.chkIsRepeat.MyLinkLable2 = Nothing
-        Me.chkIsRepeat.Name = "chkIsRepeat"
-        Me.chkIsRepeat.Size = New System.Drawing.Size(66, 18)
-        Me.chkIsRepeat.TabIndex = 217
-        Me.chkIsRepeat.Tag1 = Nothing
-        Me.chkIsRepeat.Text = "Is Repeat"
+        Me.chkAllowDecimal.Location = New System.Drawing.Point(961, 207)
+        Me.chkAllowDecimal.MyLinkLable1 = Nothing
+        Me.chkAllowDecimal.MyLinkLable2 = Nothing
+        Me.chkAllowDecimal.Name = "chkAllowDecimal"
+        Me.chkAllowDecimal.Size = New System.Drawing.Size(91, 18)
+        Me.chkAllowDecimal.TabIndex = 218
+        Me.chkAllowDecimal.Tag1 = Nothing
+        Me.chkAllowDecimal.Text = "Allow Decimal"
+        Me.chkAllowDecimal.Visible = False
         '
         'FrmItemMasterRMOther
         '
@@ -4626,6 +4641,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4877,7 +4893,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5152,5 +5168,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents gvNOCSchedule As UserControls.MyRadGridView
     Friend WithEvents MyLabel48 As Controls.MyLabel
     Friend WithEvents chkIsRepeat As Controls.MyCheckBox
+    Friend WithEvents chkAllowDecimal As Controls.MyCheckBox
 End Class
 

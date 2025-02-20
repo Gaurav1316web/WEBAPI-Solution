@@ -1311,6 +1311,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDefaultTPTIsChecked = "Apply Default TPT IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const APIMilkSample = "API Milk Sample"
+    Public Const ApplyDepartmentRoute = "Apply Department Route"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -1802,6 +1803,7 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const ItemAllowDecimal As String = "ItemAllowDecimal"
     Public Const UpdatePassword As String = "Update Password"
     Public Const GatePassPasswod As String = "GatePass Password"
     Public Const MulProcDedReversAndCreate As String = "MulProcDedReversAndCreate"
@@ -2767,7 +2769,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const DrippingQuantity = "Dripping Quantity"
-
+    Public Const ApplyDepartmentRoute = "Apply Department Route"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3331,6 +3333,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ItemAllowDecimal, "AllowDecimal@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.UpdatePassword, "c1032floor", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.GatePassPasswod, "gate123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MulProcDedReversAndCreate, clsFixedParameterCode.MulProcDedReversAndCreate, "ProDeduction", "Password for reverse of Multiple Procurement Deduction")
@@ -4389,6 +4392,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6220,5 +6224,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
     End Sub
 End Class
