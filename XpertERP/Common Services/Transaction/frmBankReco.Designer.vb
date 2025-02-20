@@ -22,6 +22,8 @@ Partial Class FrmBankReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.UsLock1 = New common.usLock()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -115,6 +117,7 @@ Partial Class FrmBankReco
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.dtStatementDate = New common.Controls.MyDateTimePicker()
         Me.rdlbltransferdate = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintOutstandingDoc = New Telerik.WinControls.UI.RadButton()
         Me.BtnQuickExport = New Telerik.WinControls.UI.RadButton()
@@ -220,6 +223,7 @@ Partial Class FrmBankReco
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtStatementDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdlbltransferdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintOutstandingDoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnQuickExport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -239,7 +243,6 @@ Partial Class FrmBankReco
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(847, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'UsLock1
         '
@@ -253,16 +256,12 @@ Partial Class FrmBankReco
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Exit"
-        Me.RadMenuItem2.AccessibleName = "Exit"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Exit"
         '
@@ -282,6 +281,7 @@ Partial Class FrmBankReco
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintOutstandingDoc)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnQuickExport)
@@ -319,16 +319,19 @@ Partial Class FrmBankReco
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 27)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(216, 267)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'Panel3
         '
@@ -366,6 +369,7 @@ Partial Class FrmBankReco
         '
         'ddlTransType
         '
+        Me.ddlTransType.DropDownAnimationEnabled = True
         Me.ddlTransType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTransType.Location = New System.Drawing.Point(510, 4)
         Me.ddlTransType.Name = "ddlTransType"
@@ -417,16 +421,19 @@ Partial Class FrmBankReco
         Me.gvImport.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvImport.Location = New System.Drawing.Point(0, 46)
         '
-        'gvImport
         '
+        '
+        Me.gvImport.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvImport.MasterTemplate.ShowFilteringRow = False
         Me.gvImport.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvImport.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvImport.MyStopExport = False
         Me.gvImport.Name = "gvImport"
         Me.gvImport.ShowHeaderCellButtons = True
         Me.gvImport.Size = New System.Drawing.Size(627, 248)
         Me.gvImport.TabIndex = 15
         Me.gvImport.TabStop = False
-        Me.gvImport.Text = "RadGridView1"
+        Me.gvImport.VarID = ""
         '
         'Panel4
         '
@@ -456,6 +463,7 @@ Partial Class FrmBankReco
         'cboDocNo
         '
         Me.cboDocNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboDocNo.DropDownAnimationEnabled = True
         Me.cboDocNo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocNo.Location = New System.Drawing.Point(554, 1)
         Me.cboDocNo.Name = "cboDocNo"
@@ -488,6 +496,7 @@ Partial Class FrmBankReco
         'cboDate
         '
         Me.cboDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboDate.DropDownAnimationEnabled = True
         Me.cboDate.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDate.Location = New System.Drawing.Point(452, 2)
         Me.cboDate.Name = "cboDate"
@@ -564,6 +573,7 @@ Partial Class FrmBankReco
         'cboType
         '
         Me.cboType.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.Location = New System.Drawing.Point(344, 2)
         Me.cboType.Name = "cboType"
@@ -584,6 +594,7 @@ Partial Class FrmBankReco
         'cboAmount
         '
         Me.cboAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboAmount.DropDownAnimationEnabled = True
         Me.cboAmount.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboAmount.Location = New System.Drawing.Point(238, 2)
         Me.cboAmount.Name = "cboAmount"
@@ -604,6 +615,7 @@ Partial Class FrmBankReco
         'cboColumnChequeNo
         '
         Me.cboColumnChequeNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboColumnChequeNo.DropDownAnimationEnabled = True
         Me.cboColumnChequeNo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboColumnChequeNo.Location = New System.Drawing.Point(121, 2)
         Me.cboColumnChequeNo.Name = "cboColumnChequeNo"
@@ -1588,11 +1600,21 @@ Partial Class FrmBankReco
         Me.rdlbltransferdate.TabIndex = 15
         Me.rdlbltransferdate.Text = "Statement Date"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(229, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(70, 22)
+        Me.btnHistory.TabIndex = 15
+        Me.btnHistory.Text = "History"
+        '
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(648, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(653, 5)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(112, 22)
         Me.btnReverse.TabIndex = 14
@@ -1602,27 +1624,27 @@ Partial Class FrmBankReco
         'btnPrintOutstandingDoc
         '
         Me.btnPrintOutstandingDoc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrintOutstandingDoc.Location = New System.Drawing.Point(477, 5)
+        Me.btnPrintOutstandingDoc.Location = New System.Drawing.Point(485, 5)
         Me.btnPrintOutstandingDoc.Name = "btnPrintOutstandingDoc"
-        Me.btnPrintOutstandingDoc.Size = New System.Drawing.Size(169, 22)
+        Me.btnPrintOutstandingDoc.Size = New System.Drawing.Size(165, 22)
         Me.btnPrintOutstandingDoc.TabIndex = 13
         Me.btnPrintOutstandingDoc.Text = "Print Outstanding Documents"
         '
         'BtnQuickExport
         '
         Me.BtnQuickExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnQuickExport.Location = New System.Drawing.Point(382, 5)
+        Me.BtnQuickExport.Location = New System.Drawing.Point(393, 5)
         Me.BtnQuickExport.Name = "BtnQuickExport"
-        Me.BtnQuickExport.Size = New System.Drawing.Size(93, 22)
+        Me.BtnQuickExport.Size = New System.Drawing.Size(89, 22)
         Me.BtnQuickExport.TabIndex = 12
         Me.BtnQuickExport.Text = "Quick Export"
         '
         'btnExcel
         '
         Me.btnExcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExcel.Location = New System.Drawing.Point(287, 5)
+        Me.btnExcel.Location = New System.Drawing.Point(301, 5)
         Me.btnExcel.Name = "btnExcel"
-        Me.btnExcel.Size = New System.Drawing.Size(93, 22)
+        Me.btnExcel.Size = New System.Drawing.Size(90, 22)
         Me.btnExcel.TabIndex = 11
         Me.btnExcel.Text = "Export To Excel"
         '
@@ -1630,9 +1652,9 @@ Partial Class FrmBankReco
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(193, 5)
+        Me.btnPost.Location = New System.Drawing.Point(152, 5)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(93, 22)
+        Me.btnPost.Size = New System.Drawing.Size(76, 22)
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
@@ -1640,9 +1662,9 @@ Partial Class FrmBankReco
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(98, 5)
+        Me.btnDelete.Location = New System.Drawing.Point(79, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(93, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(71, 22)
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
@@ -1650,9 +1672,9 @@ Partial Class FrmBankReco
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(762, 5)
+        Me.btnClose.Location = New System.Drawing.Point(766, 5)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(82, 22)
+        Me.btnClose.Size = New System.Drawing.Size(78, 22)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         '
@@ -1662,7 +1684,7 @@ Partial Class FrmBankReco
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(3, 5)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(93, 22)
+        Me.btnSave.Size = New System.Drawing.Size(74, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
@@ -1782,6 +1804,7 @@ Partial Class FrmBankReco
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtStatementDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdlbltransferdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintOutstandingDoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnQuickExport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1896,5 +1919,6 @@ Partial Class FrmBankReco
     Friend WithEvents MyLabel29 As common.Controls.MyLabel
     Friend WithEvents rbtnDocumentNo As common.Controls.MyRadioButton
     Friend WithEvents RadButton6 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

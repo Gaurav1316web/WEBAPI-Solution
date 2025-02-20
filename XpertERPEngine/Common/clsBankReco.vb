@@ -79,6 +79,8 @@ Public Class clsBankReco
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "tspl_BankReco_Head", OMInsertOrUpdate.Update, "tspl_BankReco_Head.Reconciliation_Id='" + obj.Reconciliation_Id + "'", trans)
             End If
             isSaved = isSaved AndAlso clsBankRecoDetails.SaveData(obj.Reconciliation_Id, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Reconciliation_Id, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -121,7 +123,7 @@ Public Class clsBankReco
                         End If
                     Next
                 End If
-
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
 
                 qry = "delete from tspl_BankReco_Detail where Reconciliation_Id='" + strCode + "'"
