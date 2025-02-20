@@ -81,6 +81,7 @@ Public Class rptPaymentProcessRouteReport
             lblArea.Visible = AreaWiseBilling
             TxtFinderArea.Visible = AreaWiseBilling
             lblFArea.Visible = AreaWiseBilling
+            checkMCC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -5360,25 +5361,29 @@ TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc , TSPL_MILK_SRN_DETAIL
 
     Private Sub chkMCCWiseSummary_CheckStateChanged(sender As Object, e As EventArgs) Handles chkMCCWiseSummary.CheckStateChanged
         Try
-            If chkMCCWiseSummary.Checked Then
-                btnMCCWise.Visible = True
-                fndArea.Visible = False
-                lblArea.Visible = False
-                fndMultDCS.Visible = False
-                MyLabel24.Visible = False
-                RadGroupBox17.Visible = False
-                btnYearlySummary.Enabled = False
-            Else
-                btnMCCWise.Visible = False
-                fndArea.Visible = True
-                lblArea.Visible = True
-                fndMultDCS.Visible = True
-                MyLabel24.Visible = True
-                RadGroupBox17.Visible = True
-                btnYearlySummary.Enabled = True
-            End If
+            checkMCC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub checkMCC()
+        If chkMCCWiseSummary.Checked Then
+            btnMCCWise.Visible = True
+            fndArea.Visible = False
+            lblArea.Visible = False
+            fndMultDCS.Visible = False
+            MyLabel24.Visible = False
+            RadGroupBox17.Visible = False
+            btnYearlySummary.Enabled = False
+        Else
+            btnMCCWise.Visible = False
+            fndArea.Visible = True
+            lblArea.Visible = True
+            fndMultDCS.Visible = True
+            MyLabel24.Visible = True
+            RadGroupBox17.Visible = True
+            btnYearlySummary.Enabled = True
+        End If
     End Sub
 End Class
