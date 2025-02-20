@@ -1532,8 +1532,8 @@ Public Class FrmMakePayment
                     End If
                 Else
                     MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                           "========Table Name=========" + Environment.NewLine +
                           "TSPL_RECEIPT_HEADER, TSPL_RECEIPT_DETAIL, TSPL_RECEIPT_DETAIL_GST( For Receipt & Misc Receipt)" + Environment.NewLine +
                           "TSPL_PAYMENT_HEADER ,TSPL_PAYMENT_DETAIL,TSPL_PAYMENT_BANK_CHARGES_TAX,TSPL_PJC_EXPENSE_HEADER,TSPL_REMITTANCE(for Payment) " + Environment.NewLine +
@@ -2220,6 +2220,18 @@ Public Class FrmMakePayment
     Private Sub fndPayType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPayType._MYValidating
         Dim Qry1 As String = "select Payment_Code as [PaymentMode], Payment_Desc as [Description], Payment_Type  as [PaymentType]  from TSPL_PAYMENT_CODE "
         fndPayType.Value = clsCommon.ShowSelectForm("PaymentCodeFnd", Qry1, "PaymentMode", "", fndPayType.Value, "PaymentMode", isButtonClicked)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtEntryNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtEntryNo.Value, "Document_No", "TSPL_Make_Payment")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCustomer._MYValidating
