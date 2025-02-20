@@ -52,9 +52,73 @@ Public Class rptCustItemWiseSaleReport
             BillwiseSaleOfMilk(False)
         ElseIf BtnProductSalesSummary.IsChecked Then
             Productsalesummarytaxablenontaxable(False)
+        ElseIf BtnMilkStcSummary.IsChecked Then
+            MilkStcSummary(False)
         Else
             LoadData()
         End If
+    End Sub
+
+    Sub MilkStcSummary(ByVal print As Boolean)
+        Try
+            Dim Qry As String = ""
+            Dim BaseQry As String = ""
+            Dim dt As DataTable = Nothing
+            Dim whr As String = ""
+            Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+                                   MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Out_Qty) AS out_qty,MAX(UoM) as UoM,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,Sum(Amount) as Amount,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
+                                  FROM (SELECT ItemConvinUOMKG.UOM_Code AS kg,ItemConvinUOMLTR.UOM_Code AS ltr,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_TRANSFER_ORDER_detail.Unit_code,TSPL_TRANSFER_ORDER_detail.Out_Qty,TSPL_TRANSFER_ORDER_detail.Amount,
+                                    Case WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
+                                    THEN ItemConvinUOMLTR.UOM_Code  WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 THEN ItemConvinUOMKG.UOM_Code end as UoM,
+                                    CAST(CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
+                                   THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMLTR.Conversion_Factor  
+                                   WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 
+                                   THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMKG.Conversion_Factor  
+                                   ELSE 0 END 
+                                   AS DECIMAL(18,2)) AS QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1, 
+                                   TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,Document_Date 
+                                   FROM TSPL_TRANSFER_ORDER_detail
+                                   LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.Document_No = TSPL_TRANSFER_ORDER_DETAIL.Document_No
+                                   LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_TRANSFER_ORDER_DETAIL.item_code
+                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code
+                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMLTR ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMLTR.Item_Code 
+                                   AND ItemConvinUOMLTR.UOM_Code = 'LTR'
+                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMKG ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMKG.Item_Code 
+                                   AND ItemConvinUOMKG.UOM_Code = 'KG'
+                                   LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
+                                    GROUP BY Item_Code"
+            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    'SetGridFormation()
+                    'ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    'EnableDisableControls(False)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                ElseIf print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                    frmCRV = Nothing
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub Productsalesummarytaxablenontaxable(ByVal print As Boolean)
         Try
@@ -140,7 +204,7 @@ Public Class rptCustItemWiseSaleReport
                     LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 ) xx 
+                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
                 GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -910,6 +974,8 @@ Public Class rptCustItemWiseSaleReport
             BillwiseSaleOfMilk(True)
         ElseIf BtnProductSalesSummary.IsChecked Then
             Productsalesummarytaxablenontaxable(True)
+        ElseIf BtnMilkStcSummary.IsChecked Then
+            MilkStcSummary(True)
         Else
             isPrint = True
             LoadData()

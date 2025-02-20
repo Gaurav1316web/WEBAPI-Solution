@@ -63,7 +63,7 @@ Left Outer Join  TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=T
             ElseIf rbtnSaving.IsChecked Then
                 BaseQry += " And TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount is not null And TSPL_BANK_MASTER.UnPaid<>1 "
             Else
-                BaseQry += " And TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount is not null And TSPL_BANK_MASTER.UnPaid=1 "
+                BaseQry += " And TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount is not null And TSPL_BANK_MASTER.UnPaid=1 "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry + " Order By TSPL_PAYMENT_PROCESS_HEAD.From_Date")
 
@@ -185,10 +185,12 @@ Left Outer Join  TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=T
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
             If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
-                'Dim arr As List(Of String) = New List(Of String)
+                Dim strCity As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_City_MASTER.City_Name from TSPL_City_MASTER 
+Inner Join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.City_Code=TSPL_City_MASTER.City_Code
+where TSPL_LOCATION_MASTER.IsMainPlant=1 And TSPL_LOCATION_MASTER.Location_Code='" + objCommonVar.CurrLocationCode + "'"))                'Dim arr As List(Of String) = New List(Of String)
                 'arr.Add("Bank Advise Report(OHC) from " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + " for 'Udaipur' Unit")
                 'arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
-                clsCommon.MyExportToExcelGrid("" + objCommonVar.CurrentCompanyName + "," + objCommonVar.CurrLocationName + "" + Environment.NewLine + "Bank Advise Report(OHC) from " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + " for '" + objCommonVar.CurrLocationName + "' Unit", gv1, Nothing, "Bank Advise(OHC)")
+                clsCommon.MyExportToExcelGrid("" + objCommonVar.CurrentCompanyName + "," + strCity + "" + Environment.NewLine + "Bank Advise Report(OHC) from " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + " for '" + strCity + "' Unit", gv1, Nothing, "Bank Advise(OHC)")
             Else
                 Throw New Exception("No Data Found to export")
             End If

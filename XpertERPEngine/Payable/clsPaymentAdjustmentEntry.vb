@@ -81,6 +81,8 @@ Public Class clsPaymentAdjustmentEntry
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Payment_Adjustment_Header", OMInsertOrUpdate.Update, "TSPL_Payment_Adjustment_Header.Adjustment_No='" + obj.Adjustment_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsPaymentAdjustmentEntryDetail.SaveData(obj.Adjustment_No, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -174,6 +176,8 @@ Public Class clsPaymentAdjustmentEntry
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
             Dim qry As String = ""
             qry = "delete from TSPL_Payment_Adjustment_Detail where Adjustment_No='" + strDocNo + "'"
