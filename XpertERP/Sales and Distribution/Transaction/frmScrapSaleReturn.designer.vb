@@ -102,6 +102,7 @@ Partial Class frmScrapSaleReturn
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
@@ -162,7 +163,6 @@ Partial Class frmScrapSaleReturn
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -231,6 +231,7 @@ Partial Class frmScrapSaleReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -286,7 +287,6 @@ Partial Class frmScrapSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -331,7 +331,7 @@ Partial Class frmScrapSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
@@ -1564,6 +1564,16 @@ Partial Class frmScrapSaleReturn
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Tax Calculation Type"
         '
+        'rbtnManualTCS
+        '
+        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 13)
+        Me.rbtnManualTCS.MyLinkLable1 = Nothing
+        Me.rbtnManualTCS.MyLinkLable2 = Nothing
+        Me.rbtnManualTCS.Name = "rbtnManualTCS"
+        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnManualTCS.TabIndex = 7
+        Me.rbtnManualTCS.Text = "Manual TCS"
+        '
         'rbtnTaxCalManual
         '
         Me.rbtnTaxCalManual.Location = New System.Drawing.Point(89, 13)
@@ -2301,16 +2311,6 @@ Partial Class frmScrapSaleReturn
         Me.Panel1.Size = New System.Drawing.Size(1092, 517)
         Me.Panel1.TabIndex = 3
         '
-        'rbtnManualTCS
-        '
-        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 13)
-        Me.rbtnManualTCS.MyLinkLable1 = Nothing
-        Me.rbtnManualTCS.MyLinkLable2 = Nothing
-        Me.rbtnManualTCS.Name = "rbtnManualTCS"
-        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
-        Me.rbtnManualTCS.TabIndex = 7
-        Me.rbtnManualTCS.Text = "Manual TCS"
-        '
         'frmScrapSaleReturn
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2397,6 +2397,7 @@ Partial Class frmScrapSaleReturn
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2455,7 +2456,6 @@ Partial Class frmScrapSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

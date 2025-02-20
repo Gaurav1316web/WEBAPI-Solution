@@ -26546,7 +26546,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Hirerachy_Code3", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
             coll.Add("Hirerachy_Code4", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
             coll.Add("DCS_Addition_Deduction", "Varchar(30) null references TSPL_DCS_ADDITION_DEDUCTION(Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_DETAIL", coll, "Primary Key (Document_No,PK_Id)", True, True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_DETAIL", coll, "Primary Key (Document_No,PK_Id)", True, True, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "", True)
 
 
             coll = New Dictionary(Of String, String)
