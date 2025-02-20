@@ -25,10 +25,12 @@ Partial Class FrmMakePayment
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtEntryNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -37,6 +39,13 @@ Partial Class FrmMakePayment
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblTotalReceiptAmt = New common.Controls.MyLabel()
+        Me.txtTotalReceiptAmt = New common.MyNumBox()
+        Me.lblTransporterReceiptAmt = New common.Controls.MyLabel()
+        Me.txtTransporterReceiptAmt = New common.MyNumBox()
+        Me.lblTransporter = New common.Controls.MyLabel()
+        Me.lblTransporterName = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.lblLocationName = New common.Controls.MyLabel()
         Me.LblRouteName = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -59,17 +68,11 @@ Partial Class FrmMakePayment
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.lblTransporterName = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.lblTransporter = New common.Controls.MyLabel()
-        Me.txtTransporterReceiptAmt = New common.MyNumBox()
-        Me.lblTransporterReceiptAmt = New common.Controls.MyLabel()
-        Me.lblTotalReceiptAmt = New common.Controls.MyLabel()
-        Me.txtTotalReceiptAmt = New common.MyNumBox()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,6 +83,13 @@ Partial Class FrmMakePayment
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblTotalReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblRouteName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,13 +106,6 @@ Partial Class FrmMakePayment
         CType(Me.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MasterTemplate.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTotalReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -146,6 +149,7 @@ Partial Class FrmMakePayment
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.btnHistory)
         Me.RadGroupBox1.Controls.Add(Me.btnReverse)
         Me.RadGroupBox1.Controls.Add(Me.btnUnSelect)
         Me.RadGroupBox1.Controls.Add(Me.btnPrint)
@@ -160,6 +164,16 @@ Partial Class FrmMakePayment
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(832, 34)
         Me.RadGroupBox1.TabIndex = 1
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(500, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 261
+        Me.btnHistory.Text = "History"
         '
         'btnReverse
         '
@@ -276,6 +290,110 @@ Partial Class FrmMakePayment
         Me.SplitContainer1.SplitterDistance = 146
         Me.SplitContainer1.TabIndex = 0
         '
+        'lblTotalReceiptAmt
+        '
+        Me.lblTotalReceiptAmt.FieldName = Nothing
+        Me.lblTotalReceiptAmt.Location = New System.Drawing.Point(546, 115)
+        Me.lblTotalReceiptAmt.Name = "lblTotalReceiptAmt"
+        Me.lblTotalReceiptAmt.Size = New System.Drawing.Size(87, 18)
+        Me.lblTotalReceiptAmt.TabIndex = 119
+        Me.lblTotalReceiptAmt.Text = "Receipt Amount"
+        '
+        'txtTotalReceiptAmt
+        '
+        Me.txtTotalReceiptAmt.CalculationExpression = Nothing
+        Me.txtTotalReceiptAmt.DecimalPlaces = 2
+        Me.txtTotalReceiptAmt.FieldCode = Nothing
+        Me.txtTotalReceiptAmt.FieldDesc = Nothing
+        Me.txtTotalReceiptAmt.FieldMaxLength = 0
+        Me.txtTotalReceiptAmt.FieldName = Nothing
+        Me.txtTotalReceiptAmt.isCalculatedField = False
+        Me.txtTotalReceiptAmt.IsSourceFromTable = False
+        Me.txtTotalReceiptAmt.IsSourceFromValueList = False
+        Me.txtTotalReceiptAmt.IsUnique = False
+        Me.txtTotalReceiptAmt.Location = New System.Drawing.Point(659, 114)
+        Me.txtTotalReceiptAmt.MendatroryField = False
+        Me.txtTotalReceiptAmt.MyLinkLable1 = Me.lblTotalReceiptAmt
+        Me.txtTotalReceiptAmt.MyLinkLable2 = Nothing
+        Me.txtTotalReceiptAmt.Name = "txtTotalReceiptAmt"
+        Me.txtTotalReceiptAmt.ReferenceFieldDesc = Nothing
+        Me.txtTotalReceiptAmt.ReferenceFieldName = Nothing
+        Me.txtTotalReceiptAmt.ReferenceTableName = Nothing
+        Me.txtTotalReceiptAmt.Size = New System.Drawing.Size(123, 20)
+        Me.txtTotalReceiptAmt.TabIndex = 118
+        Me.txtTotalReceiptAmt.Text = "0"
+        Me.txtTotalReceiptAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotalReceiptAmt.Value = 0R
+        '
+        'lblTransporterReceiptAmt
+        '
+        Me.lblTransporterReceiptAmt.FieldName = Nothing
+        Me.lblTransporterReceiptAmt.Location = New System.Drawing.Point(546, 95)
+        Me.lblTransporterReceiptAmt.Name = "lblTransporterReceiptAmt"
+        Me.lblTransporterReceiptAmt.Size = New System.Drawing.Size(107, 18)
+        Me.lblTransporterReceiptAmt.TabIndex = 117
+        Me.lblTransporterReceiptAmt.Text = "Transporter Amount"
+        '
+        'txtTransporterReceiptAmt
+        '
+        Me.txtTransporterReceiptAmt.CalculationExpression = Nothing
+        Me.txtTransporterReceiptAmt.DecimalPlaces = 2
+        Me.txtTransporterReceiptAmt.FieldCode = Nothing
+        Me.txtTransporterReceiptAmt.FieldDesc = Nothing
+        Me.txtTransporterReceiptAmt.FieldMaxLength = 0
+        Me.txtTransporterReceiptAmt.FieldName = Nothing
+        Me.txtTransporterReceiptAmt.isCalculatedField = False
+        Me.txtTransporterReceiptAmt.IsSourceFromTable = False
+        Me.txtTransporterReceiptAmt.IsSourceFromValueList = False
+        Me.txtTransporterReceiptAmt.IsUnique = False
+        Me.txtTransporterReceiptAmt.Location = New System.Drawing.Point(659, 94)
+        Me.txtTransporterReceiptAmt.MendatroryField = False
+        Me.txtTransporterReceiptAmt.MyLinkLable1 = Me.lblTransporterReceiptAmt
+        Me.txtTransporterReceiptAmt.MyLinkLable2 = Nothing
+        Me.txtTransporterReceiptAmt.Name = "txtTransporterReceiptAmt"
+        Me.txtTransporterReceiptAmt.ReferenceFieldDesc = Nothing
+        Me.txtTransporterReceiptAmt.ReferenceFieldName = Nothing
+        Me.txtTransporterReceiptAmt.ReferenceTableName = Nothing
+        Me.txtTransporterReceiptAmt.Size = New System.Drawing.Size(123, 20)
+        Me.txtTransporterReceiptAmt.TabIndex = 116
+        Me.txtTransporterReceiptAmt.Text = "0"
+        Me.txtTransporterReceiptAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTransporterReceiptAmt.Value = 0R
+        '
+        'lblTransporter
+        '
+        Me.lblTransporter.AutoSize = False
+        Me.lblTransporter.BorderVisible = True
+        Me.lblTransporter.FieldName = Nothing
+        Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTransporter.Location = New System.Drawing.Point(97, 95)
+        Me.lblTransporter.Name = "lblTransporter"
+        Me.lblTransporter.Size = New System.Drawing.Size(178, 18)
+        Me.lblTransporter.TabIndex = 115
+        Me.lblTransporter.TextWrap = False
+        '
+        'lblTransporterName
+        '
+        Me.lblTransporterName.AutoSize = False
+        Me.lblTransporterName.BorderVisible = True
+        Me.lblTransporterName.FieldName = Nothing
+        Me.lblTransporterName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTransporterName.Location = New System.Drawing.Point(278, 95)
+        Me.lblTransporterName.Name = "lblTransporterName"
+        Me.lblTransporterName.Size = New System.Drawing.Size(261, 18)
+        Me.lblTransporterName.TabIndex = 114
+        Me.lblTransporterName.TextWrap = False
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(6, 96)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel4.TabIndex = 113
+        Me.MyLabel4.Text = "Transporter"
+        '
         'lblLocationName
         '
         Me.lblLocationName.AutoSize = False
@@ -286,7 +404,6 @@ Partial Class FrmMakePayment
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(182, 18)
         Me.lblLocationName.TabIndex = 112
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationName.TextWrap = False
         '
         'LblRouteName
@@ -299,7 +416,6 @@ Partial Class FrmMakePayment
         Me.LblRouteName.Name = "LblRouteName"
         Me.LblRouteName.Size = New System.Drawing.Size(261, 18)
         Me.LblRouteName.TabIndex = 111
-        Me.LblRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblRouteName.TextWrap = False
         '
         'MyLabel1
@@ -383,7 +499,6 @@ Partial Class FrmMakePayment
         Me.lblZoneName.Name = "lblZoneName"
         Me.lblZoneName.Size = New System.Drawing.Size(261, 18)
         Me.lblZoneName.TabIndex = 110
-        Me.lblZoneName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblZoneName.TextWrap = False
         '
         'RadLabel3
@@ -432,7 +547,6 @@ Partial Class FrmMakePayment
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(261, 18)
         Me.lblCustomerName.TabIndex = 108
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName.TextWrap = False
         '
         'RadLabel2
@@ -510,6 +624,7 @@ Partial Class FrmMakePayment
         'ddlType
         '
         Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
         Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlType.FieldCode = Nothing
         Me.ddlType.FieldDesc = Nothing
@@ -588,41 +703,38 @@ Partial Class FrmMakePayment
         Me.MasterTemplate.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.MasterTemplate.Location = New System.Drawing.Point(0, 0)
         '
-        'MasterTemplate
+        '
         '
         Me.MasterTemplate.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.MasterTemplate.MasterTemplate.AllowColumnReorder = False
         Me.MasterTemplate.MasterTemplate.AllowDeleteRow = False
         Me.MasterTemplate.MasterTemplate.EnableGrouping = False
         Me.MasterTemplate.MasterTemplate.EnableSorting = False
+        Me.MasterTemplate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MasterTemplate.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MasterTemplate.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MasterTemplate.MyStopExport = False
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
         Me.MasterTemplate.Size = New System.Drawing.Size(832, 269)
         Me.MasterTemplate.TabIndex = 0
         Me.MasterTemplate.TabStop = False
-        Me.MasterTemplate.Text = "RadGridView1"
+        Me.MasterTemplate.VarID = ""
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -633,111 +745,6 @@ Partial Class FrmMakePayment
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(832, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'lblTransporterName
-        '
-        Me.lblTransporterName.AutoSize = False
-        Me.lblTransporterName.BorderVisible = True
-        Me.lblTransporterName.FieldName = Nothing
-        Me.lblTransporterName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransporterName.Location = New System.Drawing.Point(278, 95)
-        Me.lblTransporterName.Name = "lblTransporterName"
-        Me.lblTransporterName.Size = New System.Drawing.Size(261, 18)
-        Me.lblTransporterName.TabIndex = 114
-        Me.lblTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblTransporterName.TextWrap = False
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(6, 96)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel4.TabIndex = 113
-        Me.MyLabel4.Text = "Transporter"
-        '
-        'lblTransporter
-        '
-        Me.lblTransporter.AutoSize = False
-        Me.lblTransporter.BorderVisible = True
-        Me.lblTransporter.FieldName = Nothing
-        Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransporter.Location = New System.Drawing.Point(97, 95)
-        Me.lblTransporter.Name = "lblTransporter"
-        Me.lblTransporter.Size = New System.Drawing.Size(178, 18)
-        Me.lblTransporter.TabIndex = 115
-        Me.lblTransporter.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblTransporter.TextWrap = False
-        '
-        'txtTransporterReceiptAmt
-        '
-        Me.txtTransporterReceiptAmt.CalculationExpression = Nothing
-        Me.txtTransporterReceiptAmt.DecimalPlaces = 2
-        Me.txtTransporterReceiptAmt.FieldCode = Nothing
-        Me.txtTransporterReceiptAmt.FieldDesc = Nothing
-        Me.txtTransporterReceiptAmt.FieldMaxLength = 0
-        Me.txtTransporterReceiptAmt.FieldName = Nothing
-        Me.txtTransporterReceiptAmt.isCalculatedField = False
-        Me.txtTransporterReceiptAmt.IsSourceFromTable = False
-        Me.txtTransporterReceiptAmt.IsSourceFromValueList = False
-        Me.txtTransporterReceiptAmt.IsUnique = False
-        Me.txtTransporterReceiptAmt.Location = New System.Drawing.Point(659, 94)
-        Me.txtTransporterReceiptAmt.MendatroryField = False
-        Me.txtTransporterReceiptAmt.MyLinkLable1 = Me.lblTransporterReceiptAmt
-        Me.txtTransporterReceiptAmt.MyLinkLable2 = Nothing
-        Me.txtTransporterReceiptAmt.Name = "txtTransporterReceiptAmt"
-        Me.txtTransporterReceiptAmt.ReferenceFieldDesc = Nothing
-        Me.txtTransporterReceiptAmt.ReferenceFieldName = Nothing
-        Me.txtTransporterReceiptAmt.ReferenceTableName = Nothing
-        Me.txtTransporterReceiptAmt.Size = New System.Drawing.Size(123, 20)
-        Me.txtTransporterReceiptAmt.TabIndex = 116
-        Me.txtTransporterReceiptAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTransporterReceiptAmt.Value = 0R
-        '
-        'lblTransporterReceiptAmt
-        '
-        Me.lblTransporterReceiptAmt.FieldName = Nothing
-        Me.lblTransporterReceiptAmt.Location = New System.Drawing.Point(546, 95)
-        Me.lblTransporterReceiptAmt.Name = "lblTransporterReceiptAmt"
-        Me.lblTransporterReceiptAmt.Size = New System.Drawing.Size(107, 18)
-        Me.lblTransporterReceiptAmt.TabIndex = 117
-        Me.lblTransporterReceiptAmt.Text = "Transporter Amount"
-        '
-        'lblTotalReceiptAmt
-        '
-        Me.lblTotalReceiptAmt.FieldName = Nothing
-        Me.lblTotalReceiptAmt.Location = New System.Drawing.Point(546, 115)
-        Me.lblTotalReceiptAmt.Name = "lblTotalReceiptAmt"
-        Me.lblTotalReceiptAmt.Size = New System.Drawing.Size(87, 18)
-        Me.lblTotalReceiptAmt.TabIndex = 119
-        Me.lblTotalReceiptAmt.Text = "Receipt Amount"
-        '
-        'txtTotalReceiptAmt
-        '
-        Me.txtTotalReceiptAmt.CalculationExpression = Nothing
-        Me.txtTotalReceiptAmt.DecimalPlaces = 2
-        Me.txtTotalReceiptAmt.FieldCode = Nothing
-        Me.txtTotalReceiptAmt.FieldDesc = Nothing
-        Me.txtTotalReceiptAmt.FieldMaxLength = 0
-        Me.txtTotalReceiptAmt.FieldName = Nothing
-        Me.txtTotalReceiptAmt.isCalculatedField = False
-        Me.txtTotalReceiptAmt.IsSourceFromTable = False
-        Me.txtTotalReceiptAmt.IsSourceFromValueList = False
-        Me.txtTotalReceiptAmt.IsUnique = False
-        Me.txtTotalReceiptAmt.Location = New System.Drawing.Point(659, 114)
-        Me.txtTotalReceiptAmt.MendatroryField = False
-        Me.txtTotalReceiptAmt.MyLinkLable1 = Me.lblTotalReceiptAmt
-        Me.txtTotalReceiptAmt.MyLinkLable2 = Nothing
-        Me.txtTotalReceiptAmt.Name = "txtTotalReceiptAmt"
-        Me.txtTotalReceiptAmt.ReferenceFieldDesc = Nothing
-        Me.txtTotalReceiptAmt.ReferenceFieldName = Nothing
-        Me.txtTotalReceiptAmt.ReferenceTableName = Nothing
-        Me.txtTotalReceiptAmt.Size = New System.Drawing.Size(123, 20)
-        Me.txtTotalReceiptAmt.TabIndex = 118
-        Me.txtTotalReceiptAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalReceiptAmt.Value = 0R
         '
         'FrmMakePayment
         '
@@ -758,6 +765,7 @@ Partial Class FrmMakePayment
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -769,6 +777,13 @@ Partial Class FrmMakePayment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblTotalReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblRouteName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -785,13 +800,6 @@ Partial Class FrmMakePayment
         CType(Me.MasterTemplate.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTransporterReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTotalReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -839,5 +847,6 @@ Partial Class FrmMakePayment
     Friend WithEvents txtTotalReceiptAmt As common.MyNumBox
     Friend WithEvents lblTransporterReceiptAmt As common.Controls.MyLabel
     Friend WithEvents txtTransporterReceiptAmt As common.MyNumBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

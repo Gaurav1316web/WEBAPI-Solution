@@ -27998,7 +27998,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Reco_Control_Account", "varchar(1) NULL") ''S/P/V/C Full Name Sale/Purchase/Vendor/Customer Control Account
             coll.Add("AddChargeCode", "Varchar(50) null")
             coll.Add("AddChargeDesc", "Varchar(500) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Detail", coll, Nothing, True, True, "TSPL_CUSTOMER_INVOICE_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Detail", coll, Nothing, True, True, "TSPL_CUSTOMER_INVOICE_HEAD", "Document_No", "", True)
 
             ''richa ERO/31/10/19-001082
             coll = New Dictionary(Of String, String)()
@@ -28526,7 +28526,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Comment", "varchar(100) NULL")
             coll.Add("Hirerachy_Level_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
             coll.Add("Cost_Center_Fin_Code", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_HEADER", "Payment_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_HEADER", "Payment_No", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Payment_No", "Varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
@@ -53890,7 +53890,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_MAKE_PAYMENT", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_PAYMENT", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) NOT null")
