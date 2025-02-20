@@ -2228,7 +2228,8 @@ Public Class FrmMakePayment
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(txtEntryNo.Value, "Document_No", "TSPL_Make_Payment")
+            clsERPFuncationalityOLD.ShowHistoryData(txtEntryNo.Value, "Doc_Code", "TSPL_Make_Payment")
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

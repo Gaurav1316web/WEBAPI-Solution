@@ -22,19 +22,21 @@ Partial Class FrmAPInvoiceEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtSecurityAdjusment = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.ChkTrnsferToSvng = New common.Controls.MyCheckBox()
         Me.grpVendorBankDetails = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtVendor_Bank_ACNo = New common.Controls.MyTextBox()
@@ -71,15 +73,6 @@ Partial Class FrmAPInvoiceEntry
         Me.RadLabel21 = New Telerik.WinControls.UI.RadLabel()
         Me.LblCostCentre = New common.Controls.MyLabel()
         Me.RadLabel20 = New Telerik.WinControls.UI.RadLabel()
-        Me.grpProvision = New System.Windows.Forms.GroupBox()
-        Me.btlShowProvision = New System.Windows.Forms.LinkLabel()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtProvAmt = New common.Controls.MyTextBox()
-        Me.btnProvSelect = New System.Windows.Forms.LinkLabel()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.dtpToProv = New common.Controls.MyDateTimePicker()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.dtpFromProv = New common.Controls.MyDateTimePicker()
         Me.pnlPCJ = New System.Windows.Forms.Panel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.fndProject = New common.UserControls.txtFinder()
@@ -91,7 +84,6 @@ Partial Class FrmAPInvoiceEntry
         Me.txtMCC = New common.Controls.MyTextBox()
         Me.lblMCC = New common.Controls.MyTextBox()
         Me.lblMCC2 = New common.Controls.MyLabel()
-        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtTapalNo = New common.Controls.MyTextBox()
@@ -105,7 +97,6 @@ Partial Class FrmAPInvoiceEntry
         Me.txtBillNo = New common.Controls.MyTextBox()
         Me.chkProRated = New common.Controls.MyCheckBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.txtSecurityAdjusment = New common.UserControls.txtMultiSelectFinder()
         Me.txtAdd_Doc_TYpe = New common.Controls.MyLabel()
         Me.LblVCGL = New common.Controls.MyTextBox()
         Me.TxtCostCentre = New common.UserControls.txtFinder()
@@ -144,6 +135,15 @@ Partial Class FrmAPInvoiceEntry
         Me.cboDocType = New common.Controls.MyComboBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
+        Me.grpProvision = New System.Windows.Forms.GroupBox()
+        Me.btlShowProvision = New System.Windows.Forms.LinkLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtProvAmt = New common.Controls.MyTextBox()
+        Me.btnProvSelect = New System.Windows.Forms.LinkLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.dtpToProv = New common.Controls.MyDateTimePicker()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.dtpFromProv = New common.Controls.MyDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
@@ -226,12 +226,14 @@ Partial Class FrmAPInvoiceEntry
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpVendorBankDetails.SuspendLayout()
@@ -273,13 +275,6 @@ Partial Class FrmAPInvoiceEntry
         Me.RadLabel21.SuspendLayout()
         CType(Me.LblCostCentre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpProvision.SuspendLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtProvAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpToProv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpFromProv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlPCJ.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,7 +285,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -334,6 +328,13 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.cboDocType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpProvision.SuspendLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtProvAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpToProv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpFromProv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -398,6 +399,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -417,6 +419,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -530,6 +533,30 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1073, 400)
         Me.RadPageViewPage1.Text = "Document"
+        '
+        'txtSecurityAdjusment
+        '
+        Me.txtSecurityAdjusment.arrDispalyMember = Nothing
+        Me.txtSecurityAdjusment.arrValueMember = Nothing
+        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(836, 149)
+        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
+        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
+        Me.txtSecurityAdjusment.MyNullText = "Please select"
+        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
+        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(231, 20)
+        Me.txtSecurityAdjusment.TabIndex = 615
+        Me.txtSecurityAdjusment.Visible = False
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel15.TabIndex = 607
+        Me.MyLabel15.Text = "Date And Time"
         '
         'ChkTrnsferToSvng
         '
@@ -831,10 +858,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCCateogory.IsSourceFromTable = False
         Me.CboxITCCateogory.IsSourceFromValueList = False
         Me.CboxITCCateogory.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboxITCCateogory.Items.Add(RadListDataItem1)
-        Me.CboxITCCateogory.Items.Add(RadListDataItem2)
+        RadListDataItem7.Text = "Yes"
+        RadListDataItem8.Text = "No"
+        Me.CboxITCCateogory.Items.Add(RadListDataItem7)
+        Me.CboxITCCateogory.Items.Add(RadListDataItem8)
         Me.CboxITCCateogory.Location = New System.Drawing.Point(90, 19)
         Me.CboxITCCateogory.MendatroryField = False
         Me.CboxITCCateogory.MyLinkLable1 = Me.MyLabel12
@@ -871,10 +898,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCType.IsSourceFromTable = False
         Me.CboxITCType.IsSourceFromValueList = False
         Me.CboxITCType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.CboxITCType.Items.Add(RadListDataItem3)
-        Me.CboxITCType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.CboxITCType.Items.Add(RadListDataItem1)
+        Me.CboxITCType.Items.Add(RadListDataItem2)
         Me.CboxITCType.Location = New System.Drawing.Point(37, 19)
         Me.CboxITCType.MendatroryField = True
         Me.CboxITCType.MyLinkLable1 = Me.MyLabel12
@@ -932,7 +959,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1100,157 +1127,6 @@ Partial Class FrmAPInvoiceEntry
         Me.RadLabel20.Text = "Hirerachy Level"
         Me.RadLabel20.Visible = False
         '
-        'grpProvision
-        '
-        Me.grpProvision.Controls.Add(Me.btlShowProvision)
-        Me.grpProvision.Controls.Add(Me.MyLabel7)
-        Me.grpProvision.Controls.Add(Me.txtProvAmt)
-        Me.grpProvision.Controls.Add(Me.btnProvSelect)
-        Me.grpProvision.Controls.Add(Me.MyLabel6)
-        Me.grpProvision.Controls.Add(Me.dtpToProv)
-        Me.grpProvision.Controls.Add(Me.MyLabel5)
-        Me.grpProvision.Controls.Add(Me.dtpFromProv)
-        Me.grpProvision.Location = New System.Drawing.Point(916, 42)
-        Me.grpProvision.Name = "grpProvision"
-        Me.grpProvision.Size = New System.Drawing.Size(156, 95)
-        Me.grpProvision.TabIndex = 42
-        Me.grpProvision.TabStop = False
-        '
-        'btlShowProvision
-        '
-        Me.btlShowProvision.AutoSize = True
-        Me.btlShowProvision.Location = New System.Drawing.Point(3, 79)
-        Me.btlShowProvision.Name = "btlShowProvision"
-        Me.btlShowProvision.Size = New System.Drawing.Size(116, 14)
-        Me.btlShowProvision.TabIndex = 47
-        Me.btlShowProvision.TabStop = True
-        Me.btlShowProvision.Text = "List Selected Provision"
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(4, 62)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(56, 16)
-        Me.MyLabel7.TabIndex = 46
-        Me.MyLabel7.Text = "Prov Amt."
-        '
-        'txtProvAmt
-        '
-        Me.txtProvAmt.CalculationExpression = Nothing
-        Me.txtProvAmt.FieldCode = Nothing
-        Me.txtProvAmt.FieldDesc = Nothing
-        Me.txtProvAmt.FieldMaxLength = 0
-        Me.txtProvAmt.FieldName = Nothing
-        Me.txtProvAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtProvAmt.isCalculatedField = False
-        Me.txtProvAmt.IsSourceFromTable = False
-        Me.txtProvAmt.IsSourceFromValueList = False
-        Me.txtProvAmt.IsUnique = False
-        Me.txtProvAmt.Location = New System.Drawing.Point(73, 61)
-        Me.txtProvAmt.MaxLength = 30
-        Me.txtProvAmt.MendatroryField = False
-        Me.txtProvAmt.MyLinkLable1 = Me.MyLabel7
-        Me.txtProvAmt.MyLinkLable2 = Nothing
-        Me.txtProvAmt.Name = "txtProvAmt"
-        Me.txtProvAmt.ReadOnly = True
-        Me.txtProvAmt.ReferenceFieldDesc = Nothing
-        Me.txtProvAmt.ReferenceFieldName = Nothing
-        Me.txtProvAmt.ReferenceTableName = Nothing
-        Me.txtProvAmt.Size = New System.Drawing.Size(78, 18)
-        Me.txtProvAmt.TabIndex = 45
-        '
-        'btnProvSelect
-        '
-        Me.btnProvSelect.AutoSize = True
-        Me.btnProvSelect.Location = New System.Drawing.Point(1, 7)
-        Me.btnProvSelect.Name = "btnProvSelect"
-        Me.btnProvSelect.Size = New System.Drawing.Size(123, 14)
-        Me.btnProvSelect.TabIndex = 44
-        Me.btnProvSelect.TabStop = True
-        Me.btnProvSelect.Text = "Click To Select Provision"
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(4, 43)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(46, 16)
-        Me.MyLabel6.TabIndex = 27
-        Me.MyLabel6.Text = "To Date"
-        '
-        'dtpToProv
-        '
-        Me.dtpToProv.CalculationExpression = Nothing
-        Me.dtpToProv.CustomFormat = "dd/MM/yyyy"
-        Me.dtpToProv.FieldCode = Nothing
-        Me.dtpToProv.FieldDesc = Nothing
-        Me.dtpToProv.FieldMaxLength = 0
-        Me.dtpToProv.FieldName = Nothing
-        Me.dtpToProv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpToProv.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpToProv.isCalculatedField = False
-        Me.dtpToProv.IsSourceFromTable = False
-        Me.dtpToProv.IsSourceFromValueList = False
-        Me.dtpToProv.IsUnique = False
-        Me.dtpToProv.Location = New System.Drawing.Point(73, 42)
-        Me.dtpToProv.MendatroryField = False
-        Me.dtpToProv.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToProv.MyLinkLable1 = Me.MyLabel6
-        Me.dtpToProv.MyLinkLable2 = Nothing
-        Me.dtpToProv.Name = "dtpToProv"
-        Me.dtpToProv.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToProv.ReferenceFieldDesc = Nothing
-        Me.dtpToProv.ReferenceFieldName = Nothing
-        Me.dtpToProv.ReferenceTableName = Nothing
-        Me.dtpToProv.Size = New System.Drawing.Size(78, 18)
-        Me.dtpToProv.TabIndex = 26
-        Me.dtpToProv.TabStop = False
-        Me.dtpToProv.Text = "13/06/2011"
-        Me.dtpToProv.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(4, 24)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
-        Me.MyLabel5.TabIndex = 25
-        Me.MyLabel5.Text = "From Date"
-        '
-        'dtpFromProv
-        '
-        Me.dtpFromProv.CalculationExpression = Nothing
-        Me.dtpFromProv.CustomFormat = "dd/MM/yyyy"
-        Me.dtpFromProv.FieldCode = Nothing
-        Me.dtpFromProv.FieldDesc = Nothing
-        Me.dtpFromProv.FieldMaxLength = 0
-        Me.dtpFromProv.FieldName = Nothing
-        Me.dtpFromProv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpFromProv.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFromProv.isCalculatedField = False
-        Me.dtpFromProv.IsSourceFromTable = False
-        Me.dtpFromProv.IsSourceFromValueList = False
-        Me.dtpFromProv.IsUnique = False
-        Me.dtpFromProv.Location = New System.Drawing.Point(73, 23)
-        Me.dtpFromProv.MendatroryField = False
-        Me.dtpFromProv.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromProv.MyLinkLable1 = Me.MyLabel5
-        Me.dtpFromProv.MyLinkLable2 = Nothing
-        Me.dtpFromProv.Name = "dtpFromProv"
-        Me.dtpFromProv.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromProv.ReferenceFieldDesc = Nothing
-        Me.dtpFromProv.ReferenceFieldName = Nothing
-        Me.dtpFromProv.ReferenceTableName = Nothing
-        Me.dtpFromProv.Size = New System.Drawing.Size(78, 18)
-        Me.dtpFromProv.TabIndex = 24
-        Me.dtpFromProv.TabStop = False
-        Me.dtpFromProv.Text = "13/06/2011"
-        Me.dtpFromProv.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
         'pnlPCJ
         '
         Me.pnlPCJ.Controls.Add(Me.MyLabel4)
@@ -1403,16 +1279,6 @@ Partial Class FrmAPInvoiceEntry
         Me.lblMCC2.TabIndex = 609
         Me.lblMCC2.Text = "MCC/PLANT"
         '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel15.TabIndex = 607
-        Me.MyLabel15.Text = "Date And Time"
-        '
         'txtDataAndTimeSelection
         '
         Me.txtDataAndTimeSelection.CalculationExpression = Nothing
@@ -1515,10 +1381,10 @@ Partial Class FrmAPInvoiceEntry
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem5.Text = "Yes"
-        RadListDataItem6.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem5)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(457, 235)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -1655,20 +1521,6 @@ Partial Class FrmAPInvoiceEntry
         Me.MyLabel9.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel9.TabIndex = 55
         Me.MyLabel9.Text = "Type"
-        '
-        'txtSecurityAdjusment
-        '
-        Me.txtSecurityAdjusment.arrDispalyMember = Nothing
-        Me.txtSecurityAdjusment.arrValueMember = Nothing
-        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(836, 149)
-        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
-        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
-        Me.txtSecurityAdjusment.MyNullText = "Please select"
-        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
-        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(231, 20)
-        Me.txtSecurityAdjusment.TabIndex = 615
-        Me.txtSecurityAdjusment.Visible = False
         '
         'txtAdd_Doc_TYpe
         '
@@ -2318,6 +2170,157 @@ Partial Class FrmAPInvoiceEntry
         Me.txtDesc.Size = New System.Drawing.Size(271, 18)
         Me.txtDesc.TabIndex = 2
         '
+        'grpProvision
+        '
+        Me.grpProvision.Controls.Add(Me.btlShowProvision)
+        Me.grpProvision.Controls.Add(Me.MyLabel7)
+        Me.grpProvision.Controls.Add(Me.txtProvAmt)
+        Me.grpProvision.Controls.Add(Me.btnProvSelect)
+        Me.grpProvision.Controls.Add(Me.MyLabel6)
+        Me.grpProvision.Controls.Add(Me.dtpToProv)
+        Me.grpProvision.Controls.Add(Me.MyLabel5)
+        Me.grpProvision.Controls.Add(Me.dtpFromProv)
+        Me.grpProvision.Location = New System.Drawing.Point(916, 42)
+        Me.grpProvision.Name = "grpProvision"
+        Me.grpProvision.Size = New System.Drawing.Size(156, 95)
+        Me.grpProvision.TabIndex = 42
+        Me.grpProvision.TabStop = False
+        '
+        'btlShowProvision
+        '
+        Me.btlShowProvision.AutoSize = True
+        Me.btlShowProvision.Location = New System.Drawing.Point(3, 79)
+        Me.btlShowProvision.Name = "btlShowProvision"
+        Me.btlShowProvision.Size = New System.Drawing.Size(116, 14)
+        Me.btlShowProvision.TabIndex = 47
+        Me.btlShowProvision.TabStop = True
+        Me.btlShowProvision.Text = "List Selected Provision"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(4, 62)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel7.TabIndex = 46
+        Me.MyLabel7.Text = "Prov Amt."
+        '
+        'txtProvAmt
+        '
+        Me.txtProvAmt.CalculationExpression = Nothing
+        Me.txtProvAmt.FieldCode = Nothing
+        Me.txtProvAmt.FieldDesc = Nothing
+        Me.txtProvAmt.FieldMaxLength = 0
+        Me.txtProvAmt.FieldName = Nothing
+        Me.txtProvAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtProvAmt.isCalculatedField = False
+        Me.txtProvAmt.IsSourceFromTable = False
+        Me.txtProvAmt.IsSourceFromValueList = False
+        Me.txtProvAmt.IsUnique = False
+        Me.txtProvAmt.Location = New System.Drawing.Point(73, 61)
+        Me.txtProvAmt.MaxLength = 30
+        Me.txtProvAmt.MendatroryField = False
+        Me.txtProvAmt.MyLinkLable1 = Me.MyLabel7
+        Me.txtProvAmt.MyLinkLable2 = Nothing
+        Me.txtProvAmt.Name = "txtProvAmt"
+        Me.txtProvAmt.ReadOnly = True
+        Me.txtProvAmt.ReferenceFieldDesc = Nothing
+        Me.txtProvAmt.ReferenceFieldName = Nothing
+        Me.txtProvAmt.ReferenceTableName = Nothing
+        Me.txtProvAmt.Size = New System.Drawing.Size(78, 18)
+        Me.txtProvAmt.TabIndex = 45
+        '
+        'btnProvSelect
+        '
+        Me.btnProvSelect.AutoSize = True
+        Me.btnProvSelect.Location = New System.Drawing.Point(1, 7)
+        Me.btnProvSelect.Name = "btnProvSelect"
+        Me.btnProvSelect.Size = New System.Drawing.Size(123, 14)
+        Me.btnProvSelect.TabIndex = 44
+        Me.btnProvSelect.TabStop = True
+        Me.btnProvSelect.Text = "Click To Select Provision"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(4, 43)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel6.TabIndex = 27
+        Me.MyLabel6.Text = "To Date"
+        '
+        'dtpToProv
+        '
+        Me.dtpToProv.CalculationExpression = Nothing
+        Me.dtpToProv.CustomFormat = "dd/MM/yyyy"
+        Me.dtpToProv.FieldCode = Nothing
+        Me.dtpToProv.FieldDesc = Nothing
+        Me.dtpToProv.FieldMaxLength = 0
+        Me.dtpToProv.FieldName = Nothing
+        Me.dtpToProv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpToProv.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpToProv.isCalculatedField = False
+        Me.dtpToProv.IsSourceFromTable = False
+        Me.dtpToProv.IsSourceFromValueList = False
+        Me.dtpToProv.IsUnique = False
+        Me.dtpToProv.Location = New System.Drawing.Point(73, 42)
+        Me.dtpToProv.MendatroryField = False
+        Me.dtpToProv.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToProv.MyLinkLable1 = Me.MyLabel6
+        Me.dtpToProv.MyLinkLable2 = Nothing
+        Me.dtpToProv.Name = "dtpToProv"
+        Me.dtpToProv.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToProv.ReferenceFieldDesc = Nothing
+        Me.dtpToProv.ReferenceFieldName = Nothing
+        Me.dtpToProv.ReferenceTableName = Nothing
+        Me.dtpToProv.Size = New System.Drawing.Size(78, 18)
+        Me.dtpToProv.TabIndex = 26
+        Me.dtpToProv.TabStop = False
+        Me.dtpToProv.Text = "13/06/2011"
+        Me.dtpToProv.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(4, 24)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
+        Me.MyLabel5.TabIndex = 25
+        Me.MyLabel5.Text = "From Date"
+        '
+        'dtpFromProv
+        '
+        Me.dtpFromProv.CalculationExpression = Nothing
+        Me.dtpFromProv.CustomFormat = "dd/MM/yyyy"
+        Me.dtpFromProv.FieldCode = Nothing
+        Me.dtpFromProv.FieldDesc = Nothing
+        Me.dtpFromProv.FieldMaxLength = 0
+        Me.dtpFromProv.FieldName = Nothing
+        Me.dtpFromProv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpFromProv.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpFromProv.isCalculatedField = False
+        Me.dtpFromProv.IsSourceFromTable = False
+        Me.dtpFromProv.IsSourceFromValueList = False
+        Me.dtpFromProv.IsUnique = False
+        Me.dtpFromProv.Location = New System.Drawing.Point(73, 23)
+        Me.dtpFromProv.MendatroryField = False
+        Me.dtpFromProv.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromProv.MyLinkLable1 = Me.MyLabel5
+        Me.dtpFromProv.MyLinkLable2 = Nothing
+        Me.dtpFromProv.Name = "dtpFromProv"
+        Me.dtpFromProv.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromProv.ReferenceFieldDesc = Nothing
+        Me.dtpFromProv.ReferenceFieldName = Nothing
+        Me.dtpFromProv.ReferenceTableName = Nothing
+        Me.dtpFromProv.Size = New System.Drawing.Size(78, 18)
+        Me.dtpFromProv.TabIndex = 24
+        Me.dtpFromProv.TabStop = False
+        Me.dtpFromProv.Text = "13/06/2011"
+        Me.dtpFromProv.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.GroupBox1)
@@ -2550,7 +2553,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2604,7 +2607,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowFilteringRow = False
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3263,6 +3266,15 @@ Partial Class FrmAPInvoiceEntry
         Me.Panel1.Size = New System.Drawing.Size(1094, 484)
         Me.Panel1.TabIndex = 3
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(662, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'FrmAPInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3284,6 +3296,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpVendorBankDetails.ResumeLayout(False)
@@ -3330,14 +3343,6 @@ Partial Class FrmAPInvoiceEntry
         Me.RadLabel21.ResumeLayout(False)
         CType(Me.LblCostCentre, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpProvision.ResumeLayout(False)
-        Me.grpProvision.PerformLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtProvAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpToProv, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpFromProv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlPCJ.ResumeLayout(False)
         Me.pnlPCJ.PerformLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3349,7 +3354,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3393,6 +3397,14 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.cboDocType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpProvision.ResumeLayout(False)
+        Me.grpProvision.PerformLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtProvAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpToProv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpFromProv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
@@ -3463,6 +3475,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3663,5 +3676,6 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents chkSecurityAdjusment As common.Controls.MyCheckBox
     Friend WithEvents txtSecurityAdjusment As common.UserControls.txtMultiSelectFinder
     Friend WithEvents ChkTrnsferToSvng As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 
