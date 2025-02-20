@@ -27,6 +27,9 @@ Public Class Weightment_Auto_and_Manual_Report
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
         gv1.Columns.Clear()
+        gv2.DataSource = Nothing
+        gv2.Rows.Clear()
+        gv2.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -91,11 +94,7 @@ Public Class Weightment_Auto_and_Manual_Report
         Me.Close()
     End Sub
 
-    Private Sub RmSecurityDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'SetUserMgmtNew()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
-    End Sub
+
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Getdata(False)
@@ -224,6 +223,76 @@ Public Class Weightment_Auto_and_Manual_Report
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
+        Try
+            Dim strloc As String = ""
+            Dim strcolm As String = ""
+            Dim strcolm1 As String = ""
+            If gv1.Rows.Count > 0 Then
+                If gv1.CurrentRow IsNot Nothing Then
+                    strcolm = gv1.Columns(0).Name
+                    strloc = gv1.CurrentRow.Cells(0).Value
+                    strcolm1 = gv1.CurrentRow.Cells("Location").Value
+                End If
+            End If
+            Dim strqry As String = ""
+            'TemplateGridview = gv1
+            If rbtWeightment.Checked = True Then
+                strqry = " SELECT TSPL_PO_WEIGHTMENT_HEAD.Location_Code Location,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code [Document Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date [Document Date],TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No [Gate Entry No],tspl_grn_head.GRN_Date[Gate Entry Date],tspl_grn_head.VehicleNo [Vehicle NO],tspl_grn_head.Vendor_Code[Vendor Code],tspl_grn_head.Vendor_Name[Vendor Name],
+             TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight[Gross Weight],
+             TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight[Tare Quantity],TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight[Extra Weight],TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight[Net Weight]
+             FROM TSPL_PO_WEIGHTMENT_HEAD 
+			 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+			 left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+			 and ((Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0))  "
+                If strcolm = "Location" Then
+                    strqry += " and TSPL_PO_WEIGHTMENT_HEAD.location_code=('" + strloc + "')"
+                End If
+            Else
+                strqry = "SELECT TSPL_RCDF_LOAD_IN.Location_Code[Location],TSPL_RCDF_LOAD_IN.Document_Code [Document Code],TSPL_RCDF_LOAD_IN.Document_Date [Document Date],TSPL_RCDF_LOAD_IN.Vehicle_No[Vehicle No],TSPL_RCDF_LOAD_IN.Customer_Code[Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name[Customer Name],TSPL_RCDF_LOAD_IN.Gross_Weight[Groww Weight],TSPL_RCDF_LOAD_IN.Tare_Weight[Tare Weight],TSPL_RCDF_LOAD_IN.Extra_Weight[Extra Weight],TSPL_RCDF_LOAD_IN.Net_Weight[Net Weight]
+             FROM TSPL_RCDF_LOAD_IN 
+			 left outer join TSPL_RCDF_LOAD_IN_ITEM on TSPL_RCDF_LOAD_IN.Document_Code=TSPL_RCDF_LOAD_IN_ITEM.Document_Code
+			 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF_LOAD_IN.Customer_Code
+             where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+			 and ((Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0)) "
+                If strcolm = "Location" Then
+                    strqry += " and TSPL_RCDF_LOAD_IN.location_code=('" + strloc + "')"
+                End If
+            End If
+
+            'If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+            '    strqry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            'End If
+            'strqry += "GROUP BY aa.Location_Code "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+
+                gv2.DataSource = Nothing
+                gv2.Rows.Clear()
+                gv2.Columns.Clear()
+                gv2.GroupDescriptors.Clear()
+                gv2.MasterTemplate.SummaryRowsBottom.Clear()
+                gv2.MasterView.Refresh()
+
+                gv2.DataSource = dt
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv2.Columns(ii).ReadOnly = True
+                Next
+
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gv2.BestFitColumns()
+                gv2.EnableFiltering = True
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+            ReStoreGridLayout()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Public Sub Getdataprint(ByVal print As Boolean)
         Try
             Dim strqry As String = ""
@@ -311,5 +380,29 @@ ORDER BY aa.Location_Code  "
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gv2_DoubleClick(sender As Object, e As EventArgs) Handles gv2.DoubleClick
+        Dim strDoc, strDoc1, strcolm
+        If gv2.Rows.Count > 0 Then
+            strcolm = gv2.CurrentColumn.Name
+            'strcolm = gv2.Columns(1).Name
+            If strcolm = "Document Code" Then
+                strDoc = gv2.CurrentRow.Cells("Document Code").Value
+                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.POWeighment, strDoc)
+                'MDI.ShowForm(clsUserMgtCode.mbtnGRN, "", True, strDoc)
+            Else
+
+                If strcolm = "Gate Entry No" Then
+                    strDoc1 = gv2.CurrentRow.Cells("Gate Entry No").Value
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnGRN, strDoc1)
+                End If
+            End If
+        End If
+    End Sub
+    Private Sub Weightment_Auto_and_Manual_Report_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtToDate.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 End Class
