@@ -1372,6 +1372,8 @@ Public Class FrmMakePayment
             Dim DocNo As String
             Dim srtQ As String
             tran = clsDBFuncationality.GetTransactin()
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtEntryNo.Value, "TSPL_Make_Payment", "Doc_Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtEntryNo.Value, "TSPL_Make_Payment", "Doc_Code", tran)
 
             srtQ = "delete  from TSPL_Make_Payment where Doc_Code='" + txtEntryNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(srtQ, tran)

@@ -661,6 +661,18 @@ Public Class frmPaymentAdjEntry
         LoadData(fndFnAdj.Value, NavType)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndFnAdj.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndFnAdj.Value, "Adjustment_No", "TSPL_Payment_Adjustment_Header", "TSPL_Payment_Adjustment_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub gv1_Click(sender As Object, e As EventArgs) Handles gv1.Click
 
     End Sub
