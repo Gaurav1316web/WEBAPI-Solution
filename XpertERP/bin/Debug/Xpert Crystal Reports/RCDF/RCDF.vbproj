@@ -1477,6 +1477,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptVSPAssetIssue.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptVSPItemIssue.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptWeighmetBulk.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptYearlyMCCSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29RateAndAmount.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MilkRGPChallan.rpt" />
@@ -1501,6 +1502,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReportCycleWise.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDailySummaryRouteWiseReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDBTPayment.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSFinancialEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummarByRange.rpt" />

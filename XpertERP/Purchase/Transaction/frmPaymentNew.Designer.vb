@@ -22,14 +22,14 @@ Partial Class FrmPaymentNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -157,6 +157,7 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -206,7 +207,7 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -375,6 +376,7 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -393,6 +395,7 @@ Partial Class FrmPaymentNew
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnOpenBankCashBook)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPaymentAdvice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRtgs)
@@ -429,10 +432,10 @@ Partial Class FrmPaymentNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1231, 445)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1231, 441)
         Me.RadPageViewPage1.Text = "Payment"
         '
         'SplitContainer2
@@ -457,7 +460,7 @@ Partial Class FrmPaymentNew
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetails)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1231, 445)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1231, 441)
         Me.SplitContainer2.SplitterDistance = 290
         Me.SplitContainer2.TabIndex = 0
         '
@@ -1168,10 +1171,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeAdvanceType.IsSourceFromTable = False
         Me.ddlEmployeeAdvanceType.IsSourceFromValueList = False
         Me.ddlEmployeeAdvanceType.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem1)
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem5)
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem6)
         Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(980, 157)
         Me.ddlEmployeeAdvanceType.MendatroryField = True
         Me.ddlEmployeeAdvanceType.MyLinkLable1 = Me.MyLabel14
@@ -1256,10 +1259,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem1)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem2)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(982, 135)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -2409,13 +2412,13 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.EnableFiltering = True
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
         Me.gvDetails.ShowHeaderCellButtons = True
-        Me.gvDetails.Size = New System.Drawing.Size(1231, 151)
+        Me.gvDetails.Size = New System.Drawing.Size(1231, 147)
         Me.gvDetails.TabIndex = 0
         Me.gvDetails.TabStop = False
         Me.gvDetails.VarID = ""
@@ -2423,16 +2426,24 @@ Partial Class FrmPaymentNew
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1113, 445)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1113, 445)
@@ -2449,7 +2460,7 @@ Partial Class FrmPaymentNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 33)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1113, 445)
@@ -2721,7 +2732,7 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2748,7 +2759,7 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2767,7 +2778,7 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.RadLabel10)
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
-        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
+        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
         Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 33)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
         Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 445)
@@ -2896,7 +2907,7 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3074,13 +3085,15 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'UcCustomFields1
+        'btnHistory
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(622, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 19)
+        Me.btnHistory.TabIndex = 15
+        Me.btnHistory.Text = "History"
         '
         'FrmPaymentNew
         '
@@ -3278,6 +3291,7 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3459,5 +3473,6 @@ Partial Class FrmPaymentNew
     Friend WithEvents ChkRetention As RadCheckBox
     Friend WithEvents txtmulPI As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

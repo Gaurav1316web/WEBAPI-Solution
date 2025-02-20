@@ -5335,6 +5335,7 @@ Public Class clsMakePayment
         Else
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Make_Payment", OMInsertOrUpdate.Update, "Doc_Code='" + obj.Doc_Code + "'", trans)
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_Make_Payment", "Doc_Code", trans)
 
         coll = Nothing
         Return True

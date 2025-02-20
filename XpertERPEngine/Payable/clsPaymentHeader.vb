@@ -651,6 +651,8 @@ Public Class clsPaymentHeader
             End If
             '--------------------------------------------------------
             isSaved = isSaved AndAlso clsPaymentDetail.SaveData(obj.Payment_No, obj.ArrTr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_PAYMENT_HEADER", "Payment_No", "TSPL_PAYMENT_DETAIL", "Payment_No", trans)
+
             isSaved = isSaved AndAlso clsPaymentDetailGST.SaveData(obj.Payment_No, obj.ArrTrGST, trans)
             isSaved = isSaved AndAlso clsPaymentBankChargesTax.SaveData(obj.Payment_No, obj.objBCT, trans)
             isSaved = isSaved AndAlso clsMultipleInvoicedetail.SaveData(obj.Payment_No, obj.ArrMul, trans)

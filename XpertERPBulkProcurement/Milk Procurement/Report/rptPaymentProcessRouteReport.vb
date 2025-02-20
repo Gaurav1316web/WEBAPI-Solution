@@ -81,6 +81,7 @@ Public Class rptPaymentProcessRouteReport
             lblArea.Visible = AreaWiseBilling
             TxtFinderArea.Visible = AreaWiseBilling
             lblFArea.Visible = AreaWiseBilling
+            checkMCC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -5274,5 +5275,115 @@ TSPL_MILK_COLLECTION_MCC
 
     Private Sub btnGoDCSSummary_Click(sender As Object, e As EventArgs) Handles btnGoDCSSummary.Click
         DCSSummary(False)
+    End Sub
+
+    Private Sub PaymentCWchk_CheckedChanged(sender As Object, e As EventArgs) Handles PaymentCWchk.CheckedChanged
+        Try
+            checkRadioButtonDailySummary()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub DateRngChk_CheckedChanged(sender As Object, e As EventArgs) Handles DateRngChk.CheckedChanged
+        Try
+            checkRadioButtonDailySummary()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub checkRadioButtonDailySummary()
+        If PaymentCWchk.Checked Then
+            dtpDailySummaryToDate.Enabled = False
+        Else
+            dtpDailySummaryToDate.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btnMCCWise_Click(sender As Object, e As EventArgs) Handles btnMCCWise.Click
+        Try
+            Dim Qry As String = "Select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,
+TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,
+CONCAT('MCC Wise Quantity Report from ','" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "',' to ','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "',' for ','" + objCommonVar.CurrLocationName + " Unit') As FromToDate,
+final.* from (Select [Route Code],MAX([Route Name]) As [Route Name],
+Mcc_Code_VLC_Uploader As [MCC Uploader Code], Max(MCC) As MCC,MAX([MCC Name]) As [MCC Name],
+Sum(Qty) As Qty ,Round(Case When Max([Days])>0 Then  Sum(Qty)/Max([Days]) Else 0 End,2) As [Average]
+from (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], 
+TSPL_BULK_ROUTE_MASTER.ROUTE_NO As [Route Code],  TSPL_BULK_ROUTE_MASTER.Route_Name As [Route Name],
+TSPL_MCC_MASTER.MCC_Type as [MCC Type],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code],TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], 
+TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc , TSPL_MILK_SRN_DETAIL.Qty,(DATEDIFF(DAY,'" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "')+1) As [Days]
+ From TSPL_MILK_SRN_DETAIL 
+ Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE  
+ Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
+ Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_NO=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
+ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code 
+ Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+ Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+ Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
+ Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
+ Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+ left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
+ left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+ Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+ Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+ Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+ left outer join (select code,max(Price_code) as Price_code,max(Planning_Code) as Planning_Code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code 
+ left outer join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.Price_Code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code
+ left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
+ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code =  TabTSPL_FAT_SNF_UPLOADER_MASTER.Planning_Code 
+ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  
+ left outer join (select MILK_SRN_Code,sum(Incentive_Amount) as Incentive_Amount from TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL group by MILK_SRN_Code) as TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE 
+ left outer join (select MILK_SRN_Code,sum(Incentive_Amount) as Incentive_Amount from TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL group by MILK_SRN_Code) as TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE  
+ left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_doc_no=TSPL_MILK_SRN_HEAD.DOC_CODE and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MCC-MSRN'   
+ left outer join  TSPL_PRICE_CHART_PLANNING TPCP on TSPL_MILK_SRN_DETAIL.Price_Code=TPCP.Planning_Code   
+ where 2 = 2  and TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type is null and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type is null  
+ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "' "
+            If fndMultMCC.arrValueMember IsNot Nothing AndAlso fndMultMCC.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.GetMulcallString(fndMultMCC.arrValueMember) + ")"
+            End If
+            Qry += ")xyz  
+ Group By [Route Code],Mcc_Code_VLC_Uploader)final Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+ Order By [Route Code],[MCC Uploader Code]"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptYearlyMCCSummary", "MCC Wise Quantity Report")
+                frmCRV = Nothing
+            Else
+                Throw New Exception("Data Not Found !")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkMCCWiseSummary_CheckStateChanged(sender As Object, e As EventArgs) Handles chkMCCWiseSummary.CheckStateChanged
+        Try
+            checkMCC()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub checkMCC()
+        If chkMCCWiseSummary.Checked Then
+            btnMCCWise.Visible = True
+            fndArea.Visible = False
+            lblArea.Visible = False
+            fndMultDCS.Visible = False
+            MyLabel24.Visible = False
+            RadGroupBox17.Visible = False
+            btnYearlySummary.Enabled = False
+        Else
+            btnMCCWise.Visible = False
+            fndArea.Visible = True
+            lblArea.Visible = True
+            fndMultDCS.Visible = True
+            MyLabel24.Visible = True
+            RadGroupBox17.Visible = True
+            btnYearlySummary.Enabled = True
+        End If
     End Sub
 End Class

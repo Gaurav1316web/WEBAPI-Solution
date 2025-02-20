@@ -22,14 +22,14 @@ Partial Class frmAdj
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn10 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtEntrDesc = New common.Controls.MyTextBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -66,6 +66,7 @@ Partial Class frmAdj
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtEntrDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,6 +103,7 @@ Partial Class frmAdj
         Me.Panel1.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -254,35 +256,35 @@ Partial Class frmAdj
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
-        GridViewTextBoxColumn1.HeaderText = "Line No"
-        GridViewTextBoxColumn1.Name = "lineno"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 80
-        GridViewTextBoxColumn2.HeaderText = "Discount Code"
-        GridViewTextBoxColumn2.Name = "DiscountCode"
-        GridViewTextBoxColumn2.Width = 150
-        GridViewTextBoxColumn3.HeaderText = "Discount Description"
-        GridViewTextBoxColumn3.Name = "DiscountDescription"
-        GridViewTextBoxColumn3.ReadOnly = True
-        GridViewTextBoxColumn3.Width = 200
-        GridViewTextBoxColumn4.HeaderText = "Account Code"
-        GridViewTextBoxColumn4.Name = "accountcode"
-        GridViewTextBoxColumn4.Width = 150
-        GridViewTextBoxColumn5.HeaderText = "Description"
-        GridViewTextBoxColumn5.Name = "description"
-        GridViewTextBoxColumn5.ReadOnly = True
-        GridViewTextBoxColumn5.Width = 200
-        GridViewDecimalColumn1.HeaderText = "Amount"
-        GridViewDecimalColumn1.Name = "amt"
-        GridViewDecimalColumn1.Width = 100
-        GridViewTextBoxColumn6.HeaderText = "Remarks"
-        GridViewTextBoxColumn6.Name = "Remarks"
-        GridViewTextBoxColumn6.Width = 200
-        Me.gv1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewDecimalColumn1, GridViewTextBoxColumn6})
+        GridViewTextBoxColumn7.HeaderText = "Line No"
+        GridViewTextBoxColumn7.Name = "lineno"
+        GridViewTextBoxColumn7.ReadOnly = True
+        GridViewTextBoxColumn7.Width = 80
+        GridViewTextBoxColumn8.HeaderText = "Discount Code"
+        GridViewTextBoxColumn8.Name = "DiscountCode"
+        GridViewTextBoxColumn8.Width = 150
+        GridViewTextBoxColumn9.HeaderText = "Discount Description"
+        GridViewTextBoxColumn9.Name = "DiscountDescription"
+        GridViewTextBoxColumn9.ReadOnly = True
+        GridViewTextBoxColumn9.Width = 200
+        GridViewTextBoxColumn10.HeaderText = "Account Code"
+        GridViewTextBoxColumn10.Name = "accountcode"
+        GridViewTextBoxColumn10.Width = 150
+        GridViewTextBoxColumn11.HeaderText = "Description"
+        GridViewTextBoxColumn11.Name = "description"
+        GridViewTextBoxColumn11.ReadOnly = True
+        GridViewTextBoxColumn11.Width = 200
+        GridViewDecimalColumn2.HeaderText = "Amount"
+        GridViewDecimalColumn2.Name = "amt"
+        GridViewDecimalColumn2.Width = 100
+        GridViewTextBoxColumn12.HeaderText = "Remarks"
+        GridViewTextBoxColumn12.Name = "Remarks"
+        GridViewTextBoxColumn12.Width = 200
+        Me.gv1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewTextBoxColumn9, GridViewTextBoxColumn10, GridViewTextBoxColumn11, GridViewDecimalColumn2, GridViewTextBoxColumn12})
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -290,6 +292,7 @@ Partial Class frmAdj
         Me.gv1.Size = New System.Drawing.Size(806, 230)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel7
         '
@@ -699,6 +702,7 @@ Partial Class frmAdj
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnHistory)
         Me.Panel1.Controls.Add(Me.btnReverse)
         Me.Panel1.Controls.Add(Me.btnPrint)
         Me.Panel1.Controls.Add(Me.btnSave)
@@ -733,6 +737,16 @@ Partial Class frmAdj
         Me.btnPrint.Size = New System.Drawing.Size(68, 19)
         Me.btnPrint.TabIndex = 3
         Me.btnPrint.Text = "Print"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(299, 24)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 19)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'frmAdj
         '
@@ -787,6 +801,7 @@ Partial Class frmAdj
         Me.Panel1.PerformLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -830,5 +845,6 @@ Partial Class frmAdj
     Friend WithEvents txtBalanceAmt As common.Controls.MyTextBox
     Friend WithEvents TxtSaleInvoiceNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 
