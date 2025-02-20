@@ -3251,7 +3251,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
                     dr("Vendor_NAME") = "XXXYYYZZZ"
                     dr("Ded_Code") = "XXXYYYZZZ"
                     dr("Amount") = 0
-                    dr("ManAddDed") = 1
+                    dr("ManAddDed") = 0
                     dtDeductionFinance.Rows.Add(dr)
                 End If
 
