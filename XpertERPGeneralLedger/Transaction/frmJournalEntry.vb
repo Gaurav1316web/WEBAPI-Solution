@@ -1127,6 +1127,8 @@ Public Class frmJournalEntry
                                         New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)),
                                         New SqlParameter("@Comp_Code", companyCode))
             Dim qry As String = "Update TSPL_JOURNAL_MASTER set Segment_Code='" + txtLocation.Value + "',MonthlyReverse='" & IIf(chkMonthly.Checked, 1, 0) & "',ProgramCode='" & Program_Code & "',IND_AS='" & IIf(chkIndAS.Checked, 1, 0) & "', AgainstVoucherNoReverseEntry = '" + txtReverseVoucher.Value + "',TapalNo='" & clsCommon.myCstr(txtTapalNo.Text) & "' " & IIf(txtDataAndTimeSelection.Checked, ",DateAndTime='" & clsCommon.GetPrintDate(txtDataAndTimeSelection.Value, "dd/MMM/yyyy hh:mm tt") & "'  ", " ,DateAndTime=null ") & " where Voucher_No='" + StrVoucher + "' "
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrVoucher, "tspl_journal_master", "Voucher_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strJrnl1 As String = "select journal_no from TSPL_JOURNAL_MASTER where Voucher_No='" + StrVoucher + "'"
             Dim Jrnl1 As String
@@ -3060,6 +3062,18 @@ Public Class frmJournalEntry
         Catch ex As Exception
             trans.Rollback()
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndVoucher.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndVoucher.Value, "Voucher_No", "tspl_journal_master", "tspl_journal_details")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
