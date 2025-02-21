@@ -7830,4 +7830,6 @@ Public Class FrmAPInvoiceEntry
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class
