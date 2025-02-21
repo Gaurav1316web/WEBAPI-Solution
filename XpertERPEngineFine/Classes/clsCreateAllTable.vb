@@ -14069,6 +14069,7 @@ Public Class clsCreateAllTable
             coll.Add("Latitude", "varchar(20) NULL")
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
+            coll.Add("CFP_Unit", "char(1)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -14860,6 +14861,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Staff", "integer not null default 0")
             coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("Split_Print", "Varchar(15) NULL")
+            coll.Add("CFP_Unit", "int null default 0")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
