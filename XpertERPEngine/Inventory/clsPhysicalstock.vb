@@ -162,6 +162,8 @@ Public Class clsPhysicalstock
 
                     clsBatchInventory.SaveData("PH-ST", obj.Physical_No, obj.Stock_Date, IIf((obj.Existing_Qty - obj.Physical_Qty) < 0, "I", "O"), obj.Item_Code, obj.Main_Location, ii, obj.MRP, obj.Stock_Unit, obj.arrBatchItem, trans)
                     ii += 1
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, physicalNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", trans)
+
                 Next
             End If
 
@@ -963,6 +965,7 @@ Public Class clsPhysicalstock
                 Throw New Exception("Code not found to Post")
             End If
             Dim arr As New List(Of clsPhysicalstock)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", tran)
 
             'arr = clsPhysicalstock.GetData("Physical_no", t.Value, txtsubLoc.Value, chkMilk.Checked, NavType, dtpdate.Value.ToString())
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", tran)

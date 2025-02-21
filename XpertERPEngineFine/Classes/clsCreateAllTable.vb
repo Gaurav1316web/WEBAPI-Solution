@@ -41748,7 +41748,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Amt", "Decimal(18,2) null")
             coll.Add("Nill_Balance", "integer  null")
             coll.Add("Multiple_Location", "integer  null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PHYSICAL_STOCK", coll, Nothing, True, False, "", "Document_Code", "Stock_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PHYSICAL_STOCK", coll, Nothing, True, False, "", "Document_Code", "Stock_Date", True)
 
 
 
