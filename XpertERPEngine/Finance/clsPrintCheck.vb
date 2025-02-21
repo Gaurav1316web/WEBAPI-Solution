@@ -64,10 +64,13 @@ Public Class clsPrintCheck
                 clsCommon.AddColumnsForChange(col2, "CHECK_CODE", obj.CHECK_CODE, True)
                 clsCommon.AddColumnsForChange(col2, "Cheque_No", obj.CHECK_NUMBER)
                 clsCommonFunctionality.UpdateDataTable(col2, "TSPL_PAYMENT_HEADER", OMInsertOrUpdate.Update, "TSPL_PAYMENT_HEADER.PAYMENT_NO='" + obj.DOCUMENT_NO + "'", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOCUMENT_TYPE, "TSPL_PAYMENT_HEADER", "PAYMENT_NO", trans)
             ElseIf clsCommon.CompairString(obj.DOCUMENT_TYPE, "Receipt Entry") = CompairStringResult.Equal Then
                 clsCommon.AddColumnsForChange(col2, "CHECK_CODE", obj.CHECK_CODE, True)
                 clsCommon.AddColumnsForChange(col2, "Cheque_No", obj.CHECK_NUMBER)
                 clsCommonFunctionality.UpdateDataTable(col2, "TSPL_RECEIPT_HEADER", OMInsertOrUpdate.Update, "TSPL_RECEIPT_HEADER.Receipt_No='" + obj.DOCUMENT_NO + "'", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOCUMENT_TYPE, "TSPL_RECEIPT_HEADER", "Receipt_No", trans)
+
             End If
 
         Catch err As Exception

@@ -11345,7 +11345,7 @@ Public Class clsCreateAllTable
             coll.Add("Comp_Code", "varchar(8) NULL")
             coll.Add("Adjust_Type", "varchar(1) NOT NULL DEFAULT 'P'")  ''possible values 1. P(Payment) 2. R(Return)
             coll.Add("Against_Payment_Process", "varchar(30) null References TSPL_PAYMENT_PROCESS_HEAD(Doc_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Header", coll, Nothing, True, False, "", "Adjustment_No", "Adjustment_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Header", coll, Nothing, True, False, "", "Adjustment_No", "Adjustment_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Adjustment_No", "varchar(30)")
@@ -11356,7 +11356,7 @@ Public Class clsCreateAllTable
             coll.Add("Remarks", "varchar(100) NULL")
             coll.Add("Discount_Code", "varchar(30) NULL")
             coll.Add("Discount_Description", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Detail", coll, Nothing, True, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Detail", coll, Nothing, True, False, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("HOST_ID", "INTEGER IDENTITY NOT NULL PRIMARY KEY ")
@@ -52897,7 +52897,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER(USER_CODE)")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Is_VendorRegApproved", "integer not NULL default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_VENDORREGISTRATION_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_VENDORREGISTRATION_MASTER", coll, "", True, False, "", "Registration_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Registration_No", "Varchar(30) NOT NULL REFERENCES TSPL_VENDORREGISTRATION_MASTER(Registration_No)")
@@ -52906,12 +52906,12 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("NoofInst", "Varchar(10) null")
             coll.Add("YearofPurchase", "Varchar(10) null")
             coll.Add("Type", "char(1) null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_VENDORREGISTRATION_MACHINERY_DETAILS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_VENDORREGISTRATION_MACHINERY_DETAILS", coll, Nothing, True, False, "TSPL_VENDORREGISTRATION_MASTER", "Registration_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Registration_No", "Varchar(30) NOT NULL REFERENCES TSPL_VENDORREGISTRATION_MASTER(Registration_No)")
             coll.Add("CustomerNameandAddress", "Varchar(200) null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS", coll, Nothing, True, False, "TSPL_VENDORREGISTRATION_MASTER", "Registration_No", "", True)
 
 
             coll = New Dictionary(Of String, String)()

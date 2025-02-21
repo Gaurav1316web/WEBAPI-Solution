@@ -812,4 +812,16 @@ Public Class FrmVendorReg
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtcode.Value, "Registration_No", "TSPL_VENDORREGISTRATION_MASTER", "TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

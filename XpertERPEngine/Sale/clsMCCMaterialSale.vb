@@ -2812,8 +2812,12 @@ Public Class clsMCCMaterialSale
                                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxables", "MCC Material Sale Local With Mandi", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
                                 'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local_WithMandi", "MCC Material Sale Local With Mandi", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalCHU", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                Else
+                                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                End If
                             End If
                         Else
                             If IsExampted > 0 Then

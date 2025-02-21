@@ -658,7 +658,7 @@ Public Class FrmBankTransfer
             'If clsCommon.myLen(strCratedDate) <= 0 Or IsDBNull(strCratedDate) = True Then
 
             'End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
             Dim PostingDate As String = clsCommon.GetPrintDate(dtp_transferpostingdate.Value, "dd/MMM/yyyy")
             connectSql.RunSpTransaction(trans, "sp_tspl_banktransfer_update", New SqlParameter("@Transfer_No", Fnd_Transfernumber.Value), New SqlParameter("@Transfer_Date", PostingDate), New SqlParameter("@Transfer_Posting_Date", PostingDate), New SqlParameter("@Description", txt_description.Text), New SqlParameter("@Reference", txt_references.Text), New SqlParameter("@TransType", CmbTransType.SelectedValue), New SqlParameter("@From_Bank_Code", Txt_frombankCode.Value), New SqlParameter("@From_Bank_Name", txt_frombankname.Text), New SqlParameter("@From_Bank_Acc_No", txt_frombankaccount.Text), New SqlParameter("@Transfer_Amount", txt_transferamount.Text), New SqlParameter("@From_Bank_GL_Acc", clsCommon.myCstr(MasterTemplate.Rows(0).Cells(1).Value)), New SqlParameter("@From_Bank_GLAcc_Desc", clsCommon.myCstr(MasterTemplate.Rows(0).Cells(2).Value)), New SqlParameter("@From_Bank_GL_Amount", MasterTemplate.Rows(0).Cells(3).Value), New SqlParameter("@To_Bank_Code", Txt_toBankCode.Value), New SqlParameter("@To_Bank_Name", txt_tobankname.Text), New SqlParameter("@To_Bank_Acc_No", txt_tobankaccount.Text), New SqlParameter("@Deposit_Amount", txt_depositamount.Text), New SqlParameter("@To_Bank_GL_Acc", MasterTemplate.Rows(1).Cells(1).Value), New SqlParameter("@To_Bank_GLAcc_Desc", MasterTemplate.Rows(1).Cells(2).Value), New SqlParameter("@To_Bank_GL_Amount", MasterTemplate.Rows(1).Cells(3).Value), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", strCreatedBy), New SqlParameter("@Created_Date", clsCommon.GETSERVERDATE(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", clsCommon.GETSERVERDATE(trans)), New SqlParameter("@comp_code", companyCode), New SqlParameter("@Cheque_No", txtchkno.Text), New SqlParameter("@Cheque_Date", clsCommon.GetPrintDate(txtchkdate.Value, "dd/MMM/yyyy")), New SqlParameter("@Payment_Mode", clsCommon.myCstr(fndPayType.Value)), New SqlParameter("@frmbnkaccno", clsCommon.myCstr(txtbnkaccnumber.Text)), New SqlParameter("@tobnkaccno", clsCommon.myCstr(txttranbnkaccno.Text)))
             '' Anubhooti 17-Dec-2014 BM00000004959
@@ -754,7 +754,7 @@ Public Class FrmBankTransfer
         Try
             'Ticket No  TEC/10/09/19-001007 Sanjay
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
             connectSql.RunSpTransaction(trans, "sp_tspl_banktransfer_delete", New SqlParameter("@Transfer_No", Fnd_Transfernumber.Value))
             If trans Is Nothing Then
                 myMessages.delete()
