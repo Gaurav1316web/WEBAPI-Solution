@@ -11616,7 +11616,21 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                                             gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
                                         End If
                                     Else
-                                        gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value), "Pouch") = CompairStringResult.Equal Then
+                                                If ConvertPouchtoCrateonDispatch Then
+                                                    gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+                                                Else
+                                                    gv1.Rows(IntRowNo).Cells(colCrate).Value = 0
+                                                End If
+                                            Else
+                                                gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+
+                                            End If
+                                        Else
+                                            gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+
+                                        End If
                                     End If
                                 Else
                                     gv1.Rows(IntRowNo).Cells(colCrate).Value = 0
