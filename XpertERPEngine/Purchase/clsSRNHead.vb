@@ -575,6 +575,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.SRN_No='" + obj.SRN_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsSRNDetail.SaveData(obj.SRN_No, obj.SRN_Date, obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.SRN_No, obj.arrCustomFields, trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "SRN_No", obj.SRN_No, "TSPL_SRN_HEAD", trans)
             isSaved = isSaved AndAlso clsSRNRoadPermitDetail.SaveData_RoadPermit(obj.SRN_No, obj.Against_PO, obj.Arr_Road, trans)
@@ -2524,6 +2526,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 End If
                 clsSRNAdditionChargeInsurance.DeleteData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("SRN", strCode, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
 
                 HistoryUpdate(strCode, trans)
                 Dim qry As String = "delete from TSPL_SRN_DETAIL where SRN_No='" + strCode + "'"
