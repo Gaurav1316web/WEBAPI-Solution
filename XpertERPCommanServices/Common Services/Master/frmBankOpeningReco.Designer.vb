@@ -22,9 +22,9 @@ Partial Class frmBankOpeningReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtBankCode = New common.UserControls.txtFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -56,6 +56,7 @@ Partial Class frmBankOpeningReco
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -82,6 +83,7 @@ Partial Class frmBankOpeningReco
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,7 @@ Partial Class frmBankOpeningReco
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -132,6 +135,15 @@ Partial Class frmBankOpeningReco
         '
         'txtBankCode
         '
+        Me.txtBankCode.CalculationExpression = Nothing
+        Me.txtBankCode.FieldCode = Nothing
+        Me.txtBankCode.FieldDesc = Nothing
+        Me.txtBankCode.FieldMaxLength = 0
+        Me.txtBankCode.FieldName = Nothing
+        Me.txtBankCode.isCalculatedField = False
+        Me.txtBankCode.IsSourceFromTable = False
+        Me.txtBankCode.IsSourceFromValueList = False
+        Me.txtBankCode.IsUnique = False
         Me.txtBankCode.Location = New System.Drawing.Point(76, 129)
         Me.txtBankCode.MendatroryField = True
         Me.txtBankCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -140,12 +152,16 @@ Partial Class frmBankOpeningReco
         Me.txtBankCode.MyReadOnly = False
         Me.txtBankCode.MyShowMasterFormButton = False
         Me.txtBankCode.Name = "txtBankCode"
+        Me.txtBankCode.ReferenceFieldDesc = Nothing
+        Me.txtBankCode.ReferenceFieldName = Nothing
+        Me.txtBankCode.ReferenceTableName = Nothing
         Me.txtBankCode.Size = New System.Drawing.Size(214, 21)
         Me.txtBankCode.TabIndex = 19
         Me.txtBankCode.Value = ""
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(5, 131)
         Me.MyLabel2.Name = "MyLabel2"
@@ -157,27 +173,39 @@ Partial Class frmBankOpeningReco
         '
         Me.lblBankCode.AutoSize = False
         Me.lblBankCode.BorderVisible = True
+        Me.lblBankCode.FieldName = Nothing
         Me.lblBankCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBankCode.Location = New System.Drawing.Point(294, 129)
         Me.lblBankCode.Name = "lblBankCode"
         Me.lblBankCode.Size = New System.Drawing.Size(178, 21)
         Me.lblBankCode.TabIndex = 20
-        Me.lblBankCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBankCode.TextWrap = False
         '
         'txtAmount
         '
+        Me.txtAmount.CalculationExpression = Nothing
         Me.txtAmount.DecimalPlaces = 2
+        Me.txtAmount.FieldCode = Nothing
+        Me.txtAmount.FieldDesc = Nothing
+        Me.txtAmount.FieldMaxLength = 0
+        Me.txtAmount.FieldName = Nothing
+        Me.txtAmount.isCalculatedField = False
+        Me.txtAmount.IsSourceFromTable = False
+        Me.txtAmount.IsSourceFromValueList = False
+        Me.txtAmount.IsUnique = False
         Me.txtAmount.Location = New System.Drawing.Point(369, 81)
         Me.txtAmount.MendatroryField = True
         Me.txtAmount.MyLinkLable1 = Nothing
         Me.txtAmount.MyLinkLable2 = Nothing
         Me.txtAmount.Name = "txtAmount"
+        Me.txtAmount.ReferenceFieldDesc = Nothing
+        Me.txtAmount.ReferenceFieldName = Nothing
+        Me.txtAmount.ReferenceTableName = Nothing
         Me.txtAmount.Size = New System.Drawing.Size(103, 20)
         Me.txtAmount.TabIndex = 3
         Me.txtAmount.Text = "0"
         Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmount.Value = 0.0R
+        Me.txtAmount.Value = 0R
         '
         'UsLock1
         '
@@ -191,6 +219,7 @@ Partial Class frmBankOpeningReco
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(318, 83)
         Me.MyLabel5.Name = "MyLabel5"
@@ -200,9 +229,18 @@ Partial Class frmBankOpeningReco
         '
         'txtChequeDate
         '
+        Me.txtChequeDate.CalculationExpression = Nothing
         Me.txtChequeDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtChequeDate.FieldCode = Nothing
+        Me.txtChequeDate.FieldDesc = Nothing
+        Me.txtChequeDate.FieldMaxLength = 0
+        Me.txtChequeDate.FieldName = Nothing
         Me.txtChequeDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtChequeDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtChequeDate.isCalculatedField = False
+        Me.txtChequeDate.IsSourceFromTable = False
+        Me.txtChequeDate.IsSourceFromValueList = False
+        Me.txtChequeDate.IsUnique = False
         Me.txtChequeDate.Location = New System.Drawing.Point(369, 155)
         Me.txtChequeDate.MendatroryField = False
         Me.txtChequeDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -210,6 +248,9 @@ Partial Class frmBankOpeningReco
         Me.txtChequeDate.MyLinkLable2 = Nothing
         Me.txtChequeDate.Name = "txtChequeDate"
         Me.txtChequeDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtChequeDate.ReferenceFieldDesc = Nothing
+        Me.txtChequeDate.ReferenceFieldName = Nothing
+        Me.txtChequeDate.ReferenceTableName = Nothing
         Me.txtChequeDate.Size = New System.Drawing.Size(102, 18)
         Me.txtChequeDate.TabIndex = 6
         Me.txtChequeDate.TabStop = False
@@ -218,6 +259,7 @@ Partial Class frmBankOpeningReco
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(295, 156)
         Me.MyLabel4.Name = "MyLabel4"
@@ -227,6 +269,15 @@ Partial Class frmBankOpeningReco
         '
         'txtVendorCustomer
         '
+        Me.txtVendorCustomer.CalculationExpression = Nothing
+        Me.txtVendorCustomer.FieldCode = Nothing
+        Me.txtVendorCustomer.FieldDesc = Nothing
+        Me.txtVendorCustomer.FieldMaxLength = 0
+        Me.txtVendorCustomer.FieldName = Nothing
+        Me.txtVendorCustomer.isCalculatedField = False
+        Me.txtVendorCustomer.IsSourceFromTable = False
+        Me.txtVendorCustomer.IsSourceFromValueList = False
+        Me.txtVendorCustomer.IsUnique = False
         Me.txtVendorCustomer.Location = New System.Drawing.Point(75, 104)
         Me.txtVendorCustomer.MendatroryField = True
         Me.txtVendorCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -235,12 +286,16 @@ Partial Class frmBankOpeningReco
         Me.txtVendorCustomer.MyReadOnly = False
         Me.txtVendorCustomer.MyShowMasterFormButton = False
         Me.txtVendorCustomer.Name = "txtVendorCustomer"
+        Me.txtVendorCustomer.ReferenceFieldDesc = Nothing
+        Me.txtVendorCustomer.ReferenceFieldName = Nothing
+        Me.txtVendorCustomer.ReferenceTableName = Nothing
         Me.txtVendorCustomer.Size = New System.Drawing.Size(214, 21)
         Me.txtVendorCustomer.TabIndex = 4
         Me.txtVendorCustomer.Value = ""
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(4, 106)
         Me.RadLabel2.Name = "RadLabel2"
@@ -252,19 +307,28 @@ Partial Class frmBankOpeningReco
         '
         Me.lblVendorCustomer.AutoSize = False
         Me.lblVendorCustomer.BorderVisible = True
+        Me.lblVendorCustomer.FieldName = Nothing
         Me.lblVendorCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorCustomer.Location = New System.Drawing.Point(294, 104)
         Me.lblVendorCustomer.Name = "lblVendorCustomer"
         Me.lblVendorCustomer.Size = New System.Drawing.Size(178, 21)
         Me.lblVendorCustomer.TabIndex = 12
-        Me.lblVendorCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorCustomer.TextWrap = False
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(369, 33)
         Me.txtDate.MendatroryField = True
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -272,6 +336,9 @@ Partial Class frmBankOpeningReco
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(102, 18)
         Me.txtDate.TabIndex = 0
         Me.txtDate.TabStop = False
@@ -280,6 +347,7 @@ Partial Class frmBankOpeningReco
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(333, 34)
         Me.RadLabel4.Name = "RadLabel4"
@@ -289,13 +357,25 @@ Partial Class frmBankOpeningReco
         '
         'txtChequeNo
         '
+        Me.txtChequeNo.CalculationExpression = Nothing
+        Me.txtChequeNo.FieldCode = Nothing
+        Me.txtChequeNo.FieldDesc = Nothing
+        Me.txtChequeNo.FieldMaxLength = 0
+        Me.txtChequeNo.FieldName = Nothing
         Me.txtChequeNo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtChequeNo.isCalculatedField = False
+        Me.txtChequeNo.IsSourceFromTable = False
+        Me.txtChequeNo.IsSourceFromValueList = False
+        Me.txtChequeNo.IsUnique = False
         Me.txtChequeNo.Location = New System.Drawing.Point(75, 154)
         Me.txtChequeNo.MaxLength = 100
         Me.txtChequeNo.MendatroryField = False
         Me.txtChequeNo.MyLinkLable1 = Me.MyLabel1
         Me.txtChequeNo.MyLinkLable2 = Nothing
         Me.txtChequeNo.Name = "txtChequeNo"
+        Me.txtChequeNo.ReferenceFieldDesc = Nothing
+        Me.txtChequeNo.ReferenceFieldName = Nothing
+        Me.txtChequeNo.ReferenceTableName = Nothing
         '
         '
         '
@@ -305,6 +385,7 @@ Partial Class frmBankOpeningReco
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(4, 156)
         Me.MyLabel1.Name = "MyLabel1"
@@ -314,6 +395,7 @@ Partial Class frmBankOpeningReco
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Location = New System.Drawing.Point(4, 82)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(30, 18)
@@ -324,19 +406,32 @@ Partial Class frmBankOpeningReco
         '
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
+        Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboType.FieldCode = Nothing
+        Me.cboType.FieldDesc = Nothing
+        Me.cboType.FieldMaxLength = 0
+        Me.cboType.FieldName = Nothing
         Me.cboType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        RadListDataItem1.Text = "By Road"
-        RadListDataItem2.Text = "By Air"
-        RadListDataItem3.Text = "By Sea"
-        Me.cboType.Items.Add(RadListDataItem1)
-        Me.cboType.Items.Add(RadListDataItem2)
-        Me.cboType.Items.Add(RadListDataItem3)
+        Me.cboType.isCalculatedField = False
+        Me.cboType.IsSourceFromTable = False
+        Me.cboType.IsSourceFromValueList = False
+        Me.cboType.IsUnique = False
+        RadListDataItem4.Text = "By Road"
+        RadListDataItem5.Text = "By Air"
+        RadListDataItem6.Text = "By Sea"
+        Me.cboType.Items.Add(RadListDataItem4)
+        Me.cboType.Items.Add(RadListDataItem5)
+        Me.cboType.Items.Add(RadListDataItem6)
         Me.cboType.Location = New System.Drawing.Point(75, 82)
         Me.cboType.MendatroryField = True
         Me.cboType.MyLinkLable1 = Me.MyLabel7
         Me.cboType.MyLinkLable2 = Nothing
         Me.cboType.Name = "cboType"
+        Me.cboType.ReferenceFieldDesc = Nothing
+        Me.cboType.ReferenceFieldName = Nothing
+        Me.cboType.ReferenceTableName = Nothing
         Me.cboType.Size = New System.Drawing.Size(214, 18)
         Me.cboType.TabIndex = 2
         '
@@ -347,12 +442,9 @@ Partial Class frmBankOpeningReco
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(486, 20)
         Me.RadMenu1.TabIndex = 18
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -373,6 +465,7 @@ Partial Class frmBankOpeningReco
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(75, 32)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -389,6 +482,7 @@ Partial Class frmBankOpeningReco
         '
         'lblaccgp
         '
+        Me.lblaccgp.FieldName = Nothing
         Me.lblaccgp.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblaccgp.Location = New System.Drawing.Point(4, 34)
         Me.lblaccgp.Name = "lblaccgp"
@@ -398,13 +492,25 @@ Partial Class frmBankOpeningReco
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(75, 57)
         Me.txtDesc.MaxLength = 50
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.lbldes
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         '
         '
         '
@@ -414,6 +520,7 @@ Partial Class frmBankOpeningReco
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(4, 59)
         Me.lbldes.Name = "lbldes"
@@ -469,6 +576,16 @@ Partial Class frmBankOpeningReco
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(221, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'frmBankOpeningReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -508,6 +625,7 @@ Partial Class frmBankOpeningReco
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -543,5 +661,6 @@ Partial Class frmBankOpeningReco
     Friend WithEvents txtBankCode As common.UserControls.txtFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents lblBankCode As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

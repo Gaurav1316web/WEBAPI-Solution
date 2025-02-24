@@ -22,6 +22,7 @@ Partial Class frmPhysicalStockMultipleLocation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPhysicalStockMultipleLocation))
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -57,6 +58,7 @@ Partial Class frmPhysicalStockMultipleLocation
         Me.btnexport = New Telerik.WinControls.UI.RadButton()
         Me.btnimport = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,6 +94,7 @@ Partial Class frmPhysicalStockMultipleLocation
         CType(Me.btnexport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnimport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,17 +112,20 @@ Partial Class frmPhysicalStockMultipleLocation
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(2, 18)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(668, 272)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnsave
         '
@@ -143,6 +149,7 @@ Partial Class frmPhysicalStockMultipleLocation
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnexport)
@@ -560,6 +567,15 @@ Partial Class frmPhysicalStockMultipleLocation
         Me.btnpost.TabIndex = 1
         Me.btnpost.Text = "Post"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(382, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(72, 19)
+        Me.btnHistory.TabIndex = 139
+        Me.btnHistory.Text = "History"
+        '
         'frmPhysicalStockMultipleLocation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -610,6 +626,7 @@ Partial Class frmPhysicalStockMultipleLocation
         CType(Me.btnexport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnimport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -648,5 +665,6 @@ Partial Class frmPhysicalStockMultipleLocation
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

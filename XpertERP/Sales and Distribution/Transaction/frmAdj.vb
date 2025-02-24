@@ -218,6 +218,9 @@ Public Class frmAdj
 
     Public Sub funDelete()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndFnAdj.Value, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndFnAdj.Value, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
+
             connectSql.RunSp("sp_TSPL_Receipt_Adjustment_Detail_Delete", New SqlParameter("@Adjustment_No", fndFnAdj.Value))
             connectSql.RunSp("sp_TSPL_Receipt_Adjustment_Header_Delete", New SqlParameter("@Adjustment_No", fndFnAdj.Value))
             myMessages.delete()
@@ -631,6 +634,18 @@ Public Class frmAdj
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndFnAdj.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndFnAdj.Value, "Adjustment_No", "TSPL_Receipt_Adjustment_Header", "TSPL_Receipt_Adjustment_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click

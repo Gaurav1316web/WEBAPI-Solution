@@ -22,7 +22,12 @@ Partial Class frmVCGLEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtFarmerVendor = New common.UserControls.txtFinder()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.lblFarmerVendor = New common.Controls.MyLabel()
+        Me.lblVendorNoForFarmer = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -36,7 +41,6 @@ Partial Class frmVCGLEntry
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtPostDate = New common.Controls.MyDateTimePicker()
         Me.TxtVendorNo = New common.UserControls.txtFinder()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
@@ -68,12 +72,13 @@ Partial Class frmVCGLEntry
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblVendorNoForFarmer = New common.Controls.MyLabel()
-        Me.txtFarmerVendor = New common.UserControls.txtFinder()
-        Me.lblFarmerVendor = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblFarmerVendor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVendorNoForFarmer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,7 +90,6 @@ Partial Class frmVCGLEntry
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPostDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -116,8 +120,7 @@ Partial Class frmVCGLEntry
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVendorNoForFarmer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblFarmerVendor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -163,6 +166,7 @@ Partial Class frmVCGLEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblAmtType)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel32)
@@ -179,6 +183,64 @@ Partial Class frmVCGLEntry
         Me.SplitContainer1.Size = New System.Drawing.Size(991, 408)
         Me.SplitContainer1.SplitterDistance = 353
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtFarmerVendor
+        '
+        Me.txtFarmerVendor.CalculationExpression = Nothing
+        Me.txtFarmerVendor.FieldCode = Nothing
+        Me.txtFarmerVendor.FieldDesc = Nothing
+        Me.txtFarmerVendor.FieldMaxLength = 0
+        Me.txtFarmerVendor.FieldName = Nothing
+        Me.txtFarmerVendor.isCalculatedField = False
+        Me.txtFarmerVendor.IsSourceFromTable = False
+        Me.txtFarmerVendor.IsSourceFromValueList = False
+        Me.txtFarmerVendor.IsUnique = False
+        Me.txtFarmerVendor.Location = New System.Drawing.Point(670, 54)
+        Me.txtFarmerVendor.MendatroryField = True
+        Me.txtFarmerVendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFarmerVendor.MyLinkLable1 = Me.RadLabel2
+        Me.txtFarmerVendor.MyLinkLable2 = Me.lblFarmerVendor
+        Me.txtFarmerVendor.MyReadOnly = False
+        Me.txtFarmerVendor.MyShowMasterFormButton = False
+        Me.txtFarmerVendor.Name = "txtFarmerVendor"
+        Me.txtFarmerVendor.ReferenceFieldDesc = Nothing
+        Me.txtFarmerVendor.ReferenceFieldName = Nothing
+        Me.txtFarmerVendor.ReferenceTableName = Nothing
+        Me.txtFarmerVendor.Size = New System.Drawing.Size(135, 19)
+        Me.txtFarmerVendor.TabIndex = 613
+        Me.txtFarmerVendor.Value = ""
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(228, 56)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(60, 16)
+        Me.RadLabel2.TabIndex = 11
+        Me.RadLabel2.Text = "Vendor No"
+        '
+        'lblFarmerVendor
+        '
+        Me.lblFarmerVendor.AutoSize = False
+        Me.lblFarmerVendor.BorderVisible = True
+        Me.lblFarmerVendor.FieldName = Nothing
+        Me.lblFarmerVendor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFarmerVendor.Location = New System.Drawing.Point(811, 55)
+        Me.lblFarmerVendor.Name = "lblFarmerVendor"
+        Me.lblFarmerVendor.Size = New System.Drawing.Size(176, 18)
+        Me.lblFarmerVendor.TabIndex = 614
+        Me.lblFarmerVendor.TextWrap = False
+        '
+        'lblVendorNoForFarmer
+        '
+        Me.lblVendorNoForFarmer.FieldName = Nothing
+        Me.lblVendorNoForFarmer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVendorNoForFarmer.Location = New System.Drawing.Point(604, 57)
+        Me.lblVendorNoForFarmer.Name = "lblVendorNoForFarmer"
+        Me.lblVendorNoForFarmer.Size = New System.Drawing.Size(60, 16)
+        Me.lblVendorNoForFarmer.TabIndex = 612
+        Me.lblVendorNoForFarmer.Text = "Vendor No"
         '
         'MyLabel15
         '
@@ -410,16 +472,6 @@ Partial Class frmVCGLEntry
         Me.TxtVendorNo.TabIndex = 12
         Me.TxtVendorNo.Value = ""
         '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(228, 56)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(60, 16)
-        Me.RadLabel2.TabIndex = 11
-        Me.RadLabel2.Text = "Vendor No"
-        '
         'lblVendorName
         '
         Me.lblVendorName.AutoSize = False
@@ -430,7 +482,6 @@ Partial Class frmVCGLEntry
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(175, 18)
         Me.lblVendorName.TabIndex = 13
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadLabel1
@@ -482,6 +533,7 @@ Partial Class frmVCGLEntry
         '
         Me.cboDocType.AllowDrop = True
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -581,10 +633,13 @@ Partial Class frmVCGLEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -592,7 +647,7 @@ Partial Class frmVCGLEntry
         Me.gv1.Size = New System.Drawing.Size(957, 177)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'txtDocNo
         '
@@ -651,7 +706,6 @@ Partial Class frmVCGLEntry
         Me.lblAmtType.Name = "lblAmtType"
         Me.lblAmtType.Size = New System.Drawing.Size(28, 18)
         Me.lblAmtType.TabIndex = 5
-        Me.lblAmtType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel32
         '
@@ -796,78 +850,31 @@ Partial Class frmVCGLEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(991, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
-        'lblVendorNoForFarmer
+        'btnHistory
         '
-        Me.lblVendorNoForFarmer.FieldName = Nothing
-        Me.lblVendorNoForFarmer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVendorNoForFarmer.Location = New System.Drawing.Point(604, 57)
-        Me.lblVendorNoForFarmer.Name = "lblVendorNoForFarmer"
-        Me.lblVendorNoForFarmer.Size = New System.Drawing.Size(60, 16)
-        Me.lblVendorNoForFarmer.TabIndex = 612
-        Me.lblVendorNoForFarmer.Text = "Vendor No"
-        '
-        'txtFarmerVendor
-        '
-        Me.txtFarmerVendor.CalculationExpression = Nothing
-        Me.txtFarmerVendor.FieldCode = Nothing
-        Me.txtFarmerVendor.FieldDesc = Nothing
-        Me.txtFarmerVendor.FieldMaxLength = 0
-        Me.txtFarmerVendor.FieldName = Nothing
-        Me.txtFarmerVendor.isCalculatedField = False
-        Me.txtFarmerVendor.IsSourceFromTable = False
-        Me.txtFarmerVendor.IsSourceFromValueList = False
-        Me.txtFarmerVendor.IsUnique = False
-        Me.txtFarmerVendor.Location = New System.Drawing.Point(670, 54)
-        Me.txtFarmerVendor.MendatroryField = True
-        Me.txtFarmerVendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFarmerVendor.MyLinkLable1 = Me.RadLabel2
-        Me.txtFarmerVendor.MyLinkLable2 = Me.lblFarmerVendor
-        Me.txtFarmerVendor.MyReadOnly = False
-        Me.txtFarmerVendor.MyShowMasterFormButton = False
-        Me.txtFarmerVendor.Name = "txtFarmerVendor"
-        Me.txtFarmerVendor.ReferenceFieldDesc = Nothing
-        Me.txtFarmerVendor.ReferenceFieldName = Nothing
-        Me.txtFarmerVendor.ReferenceTableName = Nothing
-        Me.txtFarmerVendor.Size = New System.Drawing.Size(135, 19)
-        Me.txtFarmerVendor.TabIndex = 613
-        Me.txtFarmerVendor.Value = ""
-        '
-        'lblFarmerVendor
-        '
-        Me.lblFarmerVendor.AutoSize = False
-        Me.lblFarmerVendor.BorderVisible = True
-        Me.lblFarmerVendor.FieldName = Nothing
-        Me.lblFarmerVendor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFarmerVendor.Location = New System.Drawing.Point(811, 55)
-        Me.lblFarmerVendor.Name = "lblFarmerVendor"
-        Me.lblFarmerVendor.Size = New System.Drawing.Size(176, 18)
-        Me.lblFarmerVendor.TabIndex = 614
-        Me.lblFarmerVendor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblFarmerVendor.TextWrap = False
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(414, 22)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 12
+        Me.btnHistory.Text = "History"
         '
         'frmVCGLEntry
         '
@@ -887,6 +894,9 @@ Partial Class frmVCGLEntry
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblFarmerVendor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVendorNoForFarmer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -898,7 +908,6 @@ Partial Class frmVCGLEntry
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPostDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
@@ -930,8 +939,7 @@ Partial Class frmVCGLEntry
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVendorNoForFarmer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblFarmerVendor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -985,5 +993,6 @@ Partial Class frmVCGLEntry
     Friend WithEvents txtFarmerVendor As common.UserControls.txtFinder
     Friend WithEvents lblFarmerVendor As common.Controls.MyLabel
     Friend WithEvents lblVendorNoForFarmer As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

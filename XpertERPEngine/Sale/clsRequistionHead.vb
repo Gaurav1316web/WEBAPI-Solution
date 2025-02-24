@@ -662,6 +662,9 @@ Public Class clsRequistionHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+
                 Dim qry As String = "delete from TSPL_REQUISITION_DETAIL where Requisition_Id='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

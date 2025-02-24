@@ -20,6 +20,8 @@ Public Class clsShareAllotment
     Public Source_Type As String = Nothing
     Public RI As Integer = 0
     Public Source_Date As DateTime
+    Public Uploader_Code As String = Nothing
+    Public Registration_Code As String = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsShareAllotment, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -115,6 +117,8 @@ Public Class clsShareAllotment
                 obj.Amount = clsCommon.myCDecimal(dt.Rows(0)("Amount"))
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+                obj.Uploader_Code = clsCommon.myCstr(dt.Rows(0)("VLC_Code_VLC_Uploader"))
+                obj.Registration_Code = clsCommon.myCstr(dt.Rows(0)("RegistrationNo"))
 
                 Dim qrycertificate As String = "Select Certificate_No from TSPL_SHARE_MOVEMENT where Source_Code='" + obj.Code + "' and  Share_Code='" + obj.Share_Code + "'"
                 Dim dtcertificate As DataTable = clsDBFuncationality.GetDataTable(qrycertificate, trans)

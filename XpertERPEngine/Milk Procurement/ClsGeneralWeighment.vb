@@ -99,6 +99,7 @@ Public Class ClsGeneralWeighment
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GENERAL_WEIGHMENT_DETAIL", OMInsertOrUpdate.Update, "TSPL_GENERAL_WEIGHMENT_DETAIL.Weighment_No='" + obj.Weighment_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_GENERAL_WEIGHMENT_DETAIL", "Weighment_No", trans)
 
             '  trans.Commit()
         Catch err As Exception
@@ -178,7 +179,9 @@ Public Class ClsGeneralWeighment
             Throw New Exception("Document No not found to Delete")
         End If
         Try
-            
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GENERAL_WEIGHMENT_DETAIL", "Weighment_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GENERAL_WEIGHMENT_DETAIL", "Weighment_No", trans)
+
             Dim qry As String = "delete from TSPL_GENERAL_WEIGHMENT_DETAIL where Weighment_No='" + strDocNo + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()

@@ -5728,4 +5728,16 @@ Public Class frmAdjustmentStore
             End If
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtAdjustmentNo.Value, "Adjustment_No", "TSPL_ADJUSTMENT_HEADER", "TSPL_ADJUSTMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -5179,6 +5179,39 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = obj.Balance_Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1).Value = obj.TAX1
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2).Value = obj.TAX2
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3).Value = obj.TAX3
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4).Value = obj.TAX4
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5).Value = obj.TAX5
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6).Value = obj.TAX6
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7).Value = obj.TAX7
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8).Value = obj.TAX8
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9).Value = obj.TAX9
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10).Value = obj.TAX10
+
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = obj.TAX1_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = obj.TAX2_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = obj.TAX3_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = obj.TAX4_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = obj.TAX5_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = obj.TAX6_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = obj.TAX7_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = obj.TAX8_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = obj.TAX9_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = obj.TAX10_Amt
+
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt1).Value = obj.TAX1_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt2).Value = obj.TAX2_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt3).Value = obj.TAX3_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt4).Value = obj.TAX4_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt5).Value = obj.TAX5_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt6).Value = obj.TAX6_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt7).Value = obj.TAX7_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt8).Value = obj.TAX8_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt9).Value = obj.TAX9_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt10).Value = obj.TAX10_Base_Amt
+
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5194,6 +5227,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
 
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = obj.Amt_Less_Discount
                                 If obj.MFG_Date.HasValue Then
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = obj.MFG_Date
                                 End If
@@ -5394,8 +5428,8 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             End If
             'gv1.Rows.AddNew()
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-            SetitemWiseTaxSetting(False, False)
-            For ii As Integer = 0 To gv1.RowCount - 1
+            'SetitemWiseTaxSetting(False, False)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
                 UpdateCurrentRow(ii)
             Next
         End If
@@ -6170,7 +6204,26 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             ''End If
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
-                        dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                        If rbtnManualTCS.IsChecked Then
+                            If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                                Dim dblTotAmt As Double = 0
+                                Dim dblTaxAmtt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                                Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                                For jj As Integer = 0 To gv1.Rows.Count - 1
+                                    dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                                Next
+                                Dim dblCurrCalTax As Double = 0
+                                If dblTotAmt <> 0 Then
+                                    dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmtt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                                End If
+                                dblTaxAmt = dblCurrCalTax
+                            Else
+                                dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                            End If
+                        Else
+                            dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                            Dim tr As Double = Math.Round(dblTaxAmt, 2, MidpointRounding.AwayFromZero)
+                        End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
@@ -6363,6 +6416,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
                             End If
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                            UpdateCurrentRow(IntRowNo)
                         End If
                     End If
                 End If

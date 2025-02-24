@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -1314,6 +1315,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDepartmentRoute = "Apply Department Route"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
@@ -3780,6 +3782,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CustomerMasterFinderOnLocationwiseARReceipt, clsFixedParameterCode.CustomerMasterFinderOnLocationwiseARReceipt, "0", "0:Off, 1:On; When setting is on then customer master finder work on location basis otherwise independent")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SameuserCanNotloginmultipletimes, clsFixedParameterCode.SameuserCanNotloginmultipletimes, "0", "0:Off, 1:On; When setting is on then same user can-not login multiple times")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowCancelButtonPO, clsFixedParameterCode.ShowCancelButtonPO, "0", "0:Off, 1:On; Show cancel button on purchase order")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, "0", "0:Off, 1:On; Send GRN for Approval if GRN QTY>PO QTY")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, "0", "0:Off, 1:On; Show option for selecting capex code and capex sub codes on purchase order")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, "0", "0:Off, 1:On; Auto close PO when all qty received.")
         'InsertDefaultValueFixedParameter(clsFixedParameterType.CreateJVForAllCasesinRGP, clsFixedParameterCode.CreateJVForAllCasesinRGP, "0", "0:Off, 1:On; Create JV for all cases in RGP")
@@ -4770,6 +4773,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseRequistion, clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.CreateJVForAllCasesinRGP, clsFixedParameterCode.CreateJVForAllCasesinRGP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.StoreRequisitionMandatoryforstorerequest, clsFixedParameterCode.StoreRequisitionMandatoryforstorerequest, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.vhicleMaster, clsFixedParameterType.MandatoryEmployeeOnVehicleMaster, clsFixedParameterCode.MandatoryEmployeeOnVehicleMaster, EnumControlType.CheckBox)
