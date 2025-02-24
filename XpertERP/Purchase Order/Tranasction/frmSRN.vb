@@ -11736,6 +11736,18 @@ b:                          ' Next
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
     End Sub
 
+    Private Sub btnHistory1_Click(sender As Object, e As EventArgs) Handles btnHistory1.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "SRN_No", "TSPL_SRN_HEAD", "TSPL_SRN_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
 
     'Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
     '    txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)

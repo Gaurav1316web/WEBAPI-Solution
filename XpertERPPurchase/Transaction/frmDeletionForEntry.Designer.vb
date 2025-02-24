@@ -465,11 +465,13 @@ Partial Class frmDeletionForEntry
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
         Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv2.ShowHeaderCellButtons = True
         Me.Gv2.Size = New System.Drawing.Size(342, 198)
         Me.Gv2.TabIndex = 1
+        Me.Gv2.VarID = ""
         '
         'RadGroupBox3
         '
@@ -534,11 +536,13 @@ Partial Class frmDeletionForEntry
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(342, 198)
         Me.Gv1.TabIndex = 1
+        Me.Gv1.VarID = ""
         '
         'RadGroupBox12
         '

@@ -1551,6 +1551,9 @@ Public Class clsGRNHead
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsGRNHead = clsGRNHead.GetData(strCode, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
             Try
                 If (obj.Status = 1) Then
