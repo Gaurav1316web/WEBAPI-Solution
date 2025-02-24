@@ -604,7 +604,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objPay.Saving = True
                         objPay.ArrTr = New List(Of clsPaymentDetail)
                         If obj.arrclsPaymentProcessSaving IsNot Nothing And obj.arrclsPaymentProcessSaving.Count > 0 Then
-                            For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).SavingFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).SavingTo
+                            For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).SavingFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).SavingTo
                                 If clsCommon.CompairString(obj.arrclsPaymentProcessSaving(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                     Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(k).Amount)
                                     If tAmt > 0 Then
@@ -635,7 +635,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
 
                     If obj.ArrPPDetail(i).is_Hold_Payment_Process Then
                         Dim XTotalAmount As Decimal = 0
-                        For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRTo
+                        For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim XAmount As Decimal = obj.arrClsPaymentProcessDeductions(Counter).Amount - obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
                                 If XAmount > 0 Then
@@ -666,7 +666,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             End If
                         Next
                         If XTotalAmount > 0 Then
-                            For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRTo
+                            For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRTo
                                 If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                     Dim XAmount As Decimal = obj.arrClsPaymentProcessCreditNote(Counter).Amount
                                     If XAmount > 0 Then
@@ -842,7 +842,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         Next
                     End If
                     If obj.arrClsPaymentProcessDeductions IsNot Nothing And obj.arrClsPaymentProcessDeductions.Count > 0 Then
-                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRTo
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 objTr = New clsPaymentDetail()
                                 objTr.Apply = "1"
@@ -861,7 +861,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                     End If
 
                     If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
-                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRTo
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No) Then
@@ -886,7 +886,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                     End If
 
                     If obj.arrclsPaymentProcessCompulsory IsNot Nothing And obj.arrclsPaymentProcessCompulsory.Count > 0 Then
-                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).COMPULSORYFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).COMPULSORYTo
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).COMPULSORYFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).COMPULSORYTo
                             If clsCommon.CompairString(obj.arrclsPaymentProcessCompulsory(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No) Then
