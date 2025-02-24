@@ -285,6 +285,7 @@ Public Class clsVendorReg
             isSaved = isSaved AndAlso clsVendorRegMachineryDetail.SaveData(obj.Code, obj.ArrMachinery, trans)
             isSaved = isSaved AndAlso clsVendorRegCustDetail.SaveData(obj.Code, obj.ArrCust, trans)
             '--------------------------------------------------------------------------------------------------------
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_VENDORREGISTRATION_MASTER", "Registration_No", "TSPL_VENDORREGISTRATION_MACHINERY_DETAILS", "Registration_No", "TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS", "Registration_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -298,6 +299,8 @@ Public Class clsVendorReg
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDORREGISTRATION_MASTER", "Registration_No", "TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS", "Registration_No", "TSPL_VENDORREGISTRATION_MACHINERY_DETAILS", "Registration_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDORREGISTRATION_MASTER", "Registration_No", "TSPL_VENDORREGISTRATION_CUSTOMER_DETAILS", "Registration_No", "TSPL_VENDORREGISTRATION_MACHINERY_DETAILS", "Registration_No", trans)
             isSaved = False
             qry = "delete from TSPL_VENDORREGISTRATION_MACHINERY_DETAILS where Registration_No ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

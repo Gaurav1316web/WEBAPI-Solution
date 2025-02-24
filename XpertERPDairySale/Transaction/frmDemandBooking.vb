@@ -5386,7 +5386,10 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
 
             End If
             If objCommonVar.ApplyBoothRouteMapping Then
-                NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+                If Not chkIndividualCustomer.Checked Then
+                    NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+
+                End If
                 If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim Reason As String = ""
                     Dim qry As String = ""
@@ -5407,7 +5410,10 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
 
             Else
                 If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
-                    NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+                    If Not chkIndividualCustomer.Checked Then
+                        NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+
+                    End If
                 End If
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
                 'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

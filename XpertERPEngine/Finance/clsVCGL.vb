@@ -800,6 +800,7 @@ Public Class clsVCGLHead
                 If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_VCGL_Detail where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

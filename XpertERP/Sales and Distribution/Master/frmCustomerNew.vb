@@ -784,6 +784,11 @@ Public Class frmCustomer
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + TxtLocation.Value + "' "))
         End If
         createTable()
+        If objCommonVar.RCDFCFP = True Then
+            CFP_Unitchk.Visible = True
+        Else
+            CFP_Unitchk.Visible = False
+        End If
         'ListInstalledInputLanguages()
     End Sub
 
@@ -1333,6 +1338,11 @@ Public Class frmCustomer
             Else
                 obj.IsReorder = 0
             End If
+            If CFP_Unitchk.Checked = True Then
+                obj.CFP_Unit = 1
+            Else
+                obj.CFP_Unit = 0
+            End If
             If chkTCSnotApplicable.Checked = True Then
                 obj.IsTCSnotApplicable = 1
             Else
@@ -1486,6 +1496,11 @@ Public Class frmCustomer
             ElseIf chkcredit.Checked = False Then
                 obj.Credit_Customer = "N"
             End If
+            'If CFP_Unitchk.Checked = True Then
+            '    obj.CFP_Unit = "Y"
+            'ElseIf CFP_Unitchk.Checked = False Then
+            '    obj.CFP_Unit = "N"
+            'End If
             obj.LastInvoice_No = Nothing
             obj.LastInvoice_Date = Nothing
             obj.Price_Code = clsCommon.myCstr(txtPriceCode.Value)
@@ -2096,6 +2111,12 @@ Public Class frmCustomer
                 Else
                     chkIsRepeatOrder.Checked = False
                 End If
+                Dim iscfpunit As Integer = clsCommon.myCDecimal(myDr("CFP_Unit"))
+                If iscfpunit = 1 Then
+                    CFP_Unitchk.Checked = True
+                Else
+                    CFP_Unitchk.Checked = False
+                End If
                 Dim strHold As String = myDr(54).ToString
                 If strHold = "N" Then
                     chkHold.Checked = False
@@ -2287,6 +2308,12 @@ Public Class frmCustomer
                 ElseIf strcredit = "Y" Then
                     chkcredit.Checked = True
                 End If
+                'Dim strcfpunit As String = myDr(75).ToString
+                'If strcfpunit = "N" Or strcfpunit = "" Then
+                '    CFP_Unitchk.Checked = False
+                'ElseIf strcfpunit = "Y" Then
+                '    CFP_Unitchk.Checked = True
+                'End If
                 txtCategoryStructureCode.Value = clsCommon.myCstr(myDr("Category_Struct_Code"))
                 lblCategoryStructureCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_ITEM_CATEGORY_STRUCTURE where item_category_struct_code='" + txtCategoryStructureCode.Value + "' and isnull(form_type,'item')='customer'"))
                 If isLoadCopy = True Then

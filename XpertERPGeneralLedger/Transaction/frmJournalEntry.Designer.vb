@@ -39,6 +39,7 @@ Partial Class frmJournalEntry
         Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim SortDescriptor2 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mItmExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -132,12 +133,13 @@ Partial Class frmJournalEntry
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.txtToExpDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtFromExpDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.btnSendToTally = New Telerik.WinControls.UI.RadButton()
-        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -222,12 +224,13 @@ Partial Class frmJournalEntry
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage5.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToExpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromExpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSendToTally, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -238,12 +241,9 @@ Partial Class frmJournalEntry
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(1106, 20)
         Me.RadMenu2.TabIndex = 65
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mItmExport, Me.mItmExit, Me.btnExportblank, Me.mItmImport, Me.RadMenuItem4})
         Me.RadMenuItem3.Name = "RadMenuItem3"
@@ -251,22 +251,16 @@ Partial Class frmJournalEntry
         '
         'mItmExport
         '
-        Me.mItmExport.AccessibleDescription = "Export"
-        Me.mItmExport.AccessibleName = "Export"
         Me.mItmExport.Name = "mItmExport"
         Me.mItmExport.Text = "Export"
         '
         'mItmExit
         '
-        Me.mItmExit.AccessibleDescription = "Exit"
-        Me.mItmExit.AccessibleName = "Exit"
         Me.mItmExit.Name = "mItmExit"
         Me.mItmExit.Text = "Exit"
         '
         'btnExportblank
         '
-        Me.btnExportblank.AccessibleDescription = "Export blank sheet"
-        Me.btnExportblank.AccessibleName = "Export blank sheet"
         Me.btnExportblank.Name = "btnExportblank"
         Me.btnExportblank.Text = "Export blank sheet"
         '
@@ -280,22 +274,16 @@ Partial Class frmJournalEntry
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Import Entry"
-        Me.RadMenuItem4.AccessibleName = "Import Entry"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Import Entry"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Exit"
-        Me.RadMenuItem2.AccessibleName = "Exit"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Exit"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -323,18 +311,18 @@ Partial Class frmJournalEntry
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(2, 6)
+        Me.btnSave.Location = New System.Drawing.Point(6, 6)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(65, 24)
+        Me.btnSave.Size = New System.Drawing.Size(50, 24)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Location = New System.Drawing.Point(69, 6)
+        Me.btnDelete.Location = New System.Drawing.Point(57, 6)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(65, 24)
+        Me.btnDelete.Size = New System.Drawing.Size(48, 24)
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
@@ -807,9 +795,9 @@ Partial Class frmJournalEntry
         'btnAuth
         '
         Me.btnAuth.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAuth.Location = New System.Drawing.Point(136, 6)
+        Me.btnAuth.Location = New System.Drawing.Point(107, 6)
         Me.btnAuth.Name = "btnAuth"
-        Me.btnAuth.Size = New System.Drawing.Size(62, 24)
+        Me.btnAuth.Size = New System.Drawing.Size(53, 24)
         Me.btnAuth.TabIndex = 2
         Me.btnAuth.Text = "Post"
         '
@@ -1513,6 +1501,7 @@ Partial Class frmJournalEntry
         Me.cmbType.AutoCompleteDisplayMember = Nothing
         Me.cmbType.AutoCompleteValueMember = Nothing
         Me.cmbType.CalculationExpression = Nothing
+        Me.cmbType.DropDownAnimationEnabled = True
         Me.cmbType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbType.FieldCode = Nothing
         Me.cmbType.FieldDesc = Nothing
@@ -1556,7 +1545,7 @@ Partial Class frmJournalEntry
         Me.gdAcc1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gdAcc1.Location = New System.Drawing.Point(13, 261)
         '
-        'gdAcc1
+        '
         '
         Me.gdAcc1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gdAcc1.MasterTemplate.AllowAddNewRow = False
@@ -1585,7 +1574,6 @@ Partial Class frmJournalEntry
         GridViewTextBoxColumn10.Name = "gdColRef"
         GridViewTextBoxColumn10.Width = 203
         GridViewDateTimeColumn2.CustomFormat = "dd/MM/yyyy"
-        GridViewDateTimeColumn2.ExcelExportType = Telerik.WinControls.UI.Export.DisplayFormatType.GeneralDate
         GridViewDateTimeColumn2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         GridViewDateTimeColumn2.HeaderText = "Posting Date"
         GridViewDateTimeColumn2.Name = "gdColPostDate"
@@ -1597,9 +1585,12 @@ Partial Class frmJournalEntry
         GridViewTextBoxColumn12.Name = "Cost Centre"
         Me.gdAcc1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewDecimalColumn4, GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewDecimalColumn5, GridViewDecimalColumn6, GridViewTextBoxColumn9, GridViewTextBoxColumn10, GridViewDateTimeColumn2, GridViewTextBoxColumn11, GridViewTextBoxColumn12})
         Me.gdAcc1.MasterTemplate.EnableGrouping = False
+        Me.gdAcc1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gdAcc1.MasterTemplate.ShowHeaderCellButtons = True
         SortDescriptor2.PropertyName = "column1"
         Me.gdAcc1.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor2})
+        Me.gdAcc1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gdAcc1.MyStopExport = False
         Me.gdAcc1.Name = "gdAcc1"
         Me.gdAcc1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gdAcc1.ShowGroupPanel = False
@@ -1607,7 +1598,7 @@ Partial Class frmJournalEntry
         Me.gdAcc1.Size = New System.Drawing.Size(1060, 82)
         Me.gdAcc1.TabIndex = 16
         Me.gdAcc1.TabStop = False
-        Me.gdAcc1.Text = "RadGridView1"
+        Me.gdAcc1.VarID = ""
         '
         'btnUnpostTransaction
         '
@@ -1622,9 +1613,9 @@ Partial Class frmJournalEntry
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(200, 6)
+        Me.btnPrint.Location = New System.Drawing.Point(163, 6)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(62, 24)
+        Me.btnPrint.Size = New System.Drawing.Size(46, 24)
         Me.btnPrint.TabIndex = 3
         Me.btnPrint.Text = "Print"
         '
@@ -1642,6 +1633,7 @@ Partial Class frmJournalEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtToExpDate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel3)
@@ -1670,7 +1662,6 @@ Partial Class frmJournalEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(1106, 420)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -1701,6 +1692,16 @@ Partial Class frmJournalEntry
         Me.UcAttachment1.Size = New System.Drawing.Size(1085, 374)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
+        '
+        'butCostCenterAndHirerachy_Update_AfterPost
+        '
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(456, 6)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 24)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 50
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
         '
         'txtToExpDate
         '
@@ -1795,15 +1796,14 @@ Partial Class frmJournalEntry
         Me.btnSendToTally.TabIndex = 6
         Me.btnSendToTally.Text = "Send To Tally"
         '
-        'butCostCenterAndHirerachy_Update_AfterPost
+        'btnHistory
         '
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(456, 6)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 24)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 50
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(211, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(49, 24)
+        Me.btnHistory.TabIndex = 51
+        Me.btnHistory.Text = "History"
         '
         'frmJournalEntry
         '
@@ -1911,12 +1911,13 @@ Partial Class frmJournalEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToExpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromExpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSendToTally, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2023,5 +2024,6 @@ Partial Class frmJournalEntry
     Friend WithEvents MyLabel37 As common.Controls.MyLabel
     Friend WithEvents txtDataAndTimeSelection As common.Controls.MyDateTimePicker
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

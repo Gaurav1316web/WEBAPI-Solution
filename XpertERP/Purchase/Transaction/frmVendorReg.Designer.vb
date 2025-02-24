@@ -23,6 +23,9 @@ Partial Class FrmVendorReg
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmVendorReg))
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +35,7 @@ Partial Class FrmVendorReg
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UsLock1 = New common.usLock()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtManufacturing_facilities = New Telerik.WinControls.UI.RadTextBox()
         Me.RadLabel11 = New Telerik.WinControls.UI.RadLabel()
@@ -189,7 +193,7 @@ Partial Class FrmVendorReg
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.RadGridView1 = New Telerik.WinControls.UI.MasterGridViewTemplate()
-        Me.UsLock1 = New common.usLock()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -363,6 +367,7 @@ Partial Class FrmVendorReg
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -373,28 +378,21 @@ Partial Class FrmVendorReg
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1060, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem2.AccessibleName = "Save Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Save Layout"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem3.AccessibleName = "Delete Layout"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Delete Layout"
         '
@@ -411,6 +409,7 @@ Partial Class FrmVendorReg
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_VenRegApprove)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_print)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -430,7 +429,6 @@ Partial Class FrmVendorReg
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1060, 560)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -455,7 +453,6 @@ Partial Class FrmVendorReg
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView2.Size = New System.Drawing.Size(1039, 512)
         Me.RadPageView2.TabIndex = 0
-        Me.RadPageView2.Text = "RadPageView2"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage3
@@ -490,6 +487,16 @@ Partial Class FrmVendorReg
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1018, 464)
         Me.RadPageViewPage3.Text = "Vendor Details"
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(912, 1)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(88, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 139
         '
         'btnNew
         '
@@ -963,10 +970,18 @@ Partial Class FrmVendorReg
         '
         Me.gvtesting.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvtesting.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvtesting.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvtesting.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvtesting.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvtesting.MyStopExport = False
         Me.gvtesting.Name = "gvtesting"
+        Me.gvtesting.ShowHeaderCellButtons = True
         Me.gvtesting.Size = New System.Drawing.Size(1014, 188)
         Me.gvtesting.TabIndex = 0
-        Me.gvtesting.Text = "RadGridView3"
+        Me.gvtesting.VarID = ""
         '
         'RadGroupBox3
         '
@@ -1012,10 +1027,18 @@ Partial Class FrmVendorReg
         '
         Me.gvmanufacturing.Dock = System.Windows.Forms.DockStyle.Top
         Me.gvmanufacturing.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvmanufacturing.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvmanufacturing.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvmanufacturing.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvmanufacturing.MyStopExport = False
         Me.gvmanufacturing.Name = "gvmanufacturing"
+        Me.gvmanufacturing.ShowHeaderCellButtons = True
         Me.gvmanufacturing.Size = New System.Drawing.Size(1014, 189)
         Me.gvmanufacturing.TabIndex = 0
-        Me.gvmanufacturing.Text = "RadGridView2"
+        Me.gvmanufacturing.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -1295,7 +1318,7 @@ Partial Class FrmVendorReg
         Me.dtp_vendorsigndate.Size = New System.Drawing.Size(161, 20)
         Me.dtp_vendorsigndate.TabIndex = 128
         Me.dtp_vendorsigndate.TabStop = False
-        Me.dtp_vendorsigndate.Text = "Tuesday, October 25, 2016"
+        Me.dtp_vendorsigndate.Text = "25 October 2016"
         Me.dtp_vendorsigndate.Value = New Date(2016, 10, 25, 13, 12, 53, 146)
         '
         'RadLabel28
@@ -1571,7 +1594,7 @@ Partial Class FrmVendorReg
         Me.dtp_assessorsigndate.Size = New System.Drawing.Size(161, 20)
         Me.dtp_assessorsigndate.TabIndex = 128
         Me.dtp_assessorsigndate.TabStop = False
-        Me.dtp_assessorsigndate.Text = "Tuesday, October 25, 2016"
+        Me.dtp_assessorsigndate.Text = "25 October 2016"
         Me.dtp_assessorsigndate.Value = New Date(2016, 10, 25, 13, 12, 53, 146)
         '
         'RadLabel38
@@ -2165,7 +2188,7 @@ Partial Class FrmVendorReg
         Me.dtp_approveddate.Size = New System.Drawing.Size(161, 20)
         Me.dtp_approveddate.TabIndex = 128
         Me.dtp_approveddate.TabStop = False
-        Me.dtp_approveddate.Text = "Tuesday, October 25, 2016"
+        Me.dtp_approveddate.Text = "25 October 2016"
         Me.dtp_approveddate.Value = New Date(2016, 10, 25, 13, 12, 53, 146)
         '
         'RadLabel9
@@ -2399,15 +2422,19 @@ Partial Class FrmVendorReg
         Me.btnclose.TabIndex = 6
         Me.btnclose.Text = "Close"
         '
-        'UsLock1
+        'RadGridView1
         '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(912, 1)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(88, 20)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 139
+        Me.RadGridView1.ViewDefinition = TableViewDefinition6
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(291, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 126
+        Me.btnHistory.Text = "History "
         '
         'FrmVendorReg
         '
@@ -2609,6 +2636,7 @@ Partial Class FrmVendorReg
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2786,4 +2814,5 @@ Partial Class FrmVendorReg
     Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents btn_print As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnHistory As RadButton
 End Class

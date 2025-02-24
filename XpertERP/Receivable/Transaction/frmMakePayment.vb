@@ -1372,6 +1372,8 @@ Public Class FrmMakePayment
             Dim DocNo As String
             Dim srtQ As String
             tran = clsDBFuncationality.GetTransactin()
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtEntryNo.Value, "TSPL_Make_Payment", "Doc_Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtEntryNo.Value, "TSPL_Make_Payment", "Doc_Code", tran)
 
             srtQ = "delete  from TSPL_Make_Payment where Doc_Code='" + txtEntryNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(srtQ, tran)
@@ -2228,7 +2230,8 @@ Public Class FrmMakePayment
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(txtEntryNo.Value, "Document_No", "TSPL_Make_Payment")
+            clsERPFuncationalityOLD.ShowHistoryData(txtEntryNo.Value, "Doc_Code", "TSPL_Make_Payment")
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
