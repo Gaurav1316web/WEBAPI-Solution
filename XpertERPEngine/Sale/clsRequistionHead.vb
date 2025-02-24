@@ -498,6 +498,8 @@ Public Class clsRequistionHead
             'End If
             Dim Approvallevel As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Case When COUNT(*)=0 Then 0 Else MAX(Approval_level) end From TSPL_REQUISITION_APPROVAL", trans))
             Dim qry As String = ""
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_REQUISITION_HEAD", "Requisition_Id", trans)
+
             If objCommonVar.IsDemoERP AndAlso Approvallevel <> 0 Then
                 qry = "Update TSPL_REQUISITION_HEAD set "
                 If Approvallevel <> 0 Then

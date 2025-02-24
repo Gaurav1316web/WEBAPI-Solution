@@ -177,6 +177,9 @@ Public Class clsRMDemandApproval
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Tender not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_DEMAND_APPROVAL", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_INDENT", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION", "Document_Code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_DEMAND_APPROVAL", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_INDENT", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION", "Document_Code", trans)
+
         Dim obj As clsRMDemandApproval = clsRMDemandApproval.GetData(strCode, NavigatorType.Current, trans)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
