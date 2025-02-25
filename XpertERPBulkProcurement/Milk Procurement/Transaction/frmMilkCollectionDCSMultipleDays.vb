@@ -498,16 +498,16 @@ Public Class frmMilkCollectionDCSMultipleDays
     Sub UpdateCurrentRow(ByVal Shift As String, ByVal ii As Integer)
         If clsCommon.CompairString(Shift, "E") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
-                gv1.Rows(ii).Cells(colEveningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATPer).Value) / 100, 3, MidpointRounding.ToEven)
-                gv1.Rows(ii).Cells(colEveningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFPer).Value) / 100, 3, MidpointRounding.ToEven)
+                gv1.Rows(ii).Cells(colEveningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATPer).Value) / 100, 2, MidpointRounding.ToEven)
+                gv1.Rows(ii).Cells(colEveningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFPer).Value) / 100, 2, MidpointRounding.ToEven)
             ElseIf clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 1 Then
                 gv1.Rows(ii).Cells(colEveningFATPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value), 1, MidpointRounding.ToEven)
                 gv1.Rows(ii).Cells(colEveningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value), 2, MidpointRounding.ToEven)
             End If
         Else
             If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
-                gv1.Rows(ii).Cells(colMorningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATPer).Value) / 100, 3, MidpointRounding.ToEven)
-                gv1.Rows(ii).Cells(colMorningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFPer).Value) / 100, 3, MidpointRounding.ToEven)
+                gv1.Rows(ii).Cells(colMorningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATPer).Value) / 100, 2, MidpointRounding.ToEven)
+                gv1.Rows(ii).Cells(colMorningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFPer).Value) / 100, 2, MidpointRounding.ToEven)
             ElseIf clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 1 Then
                 gv1.Rows(ii).Cells(colMorningFATPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 1, MidpointRounding.ToEven)
                 gv1.Rows(ii).Cells(colMorningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 2, MidpointRounding.ToEven)
@@ -564,22 +564,22 @@ Public Class frmMilkCollectionDCSMultipleDays
 
 
         txtTotReceivedQty.Text = clsCommon.myCstr(Math.Round((TotEveningQty + TotMorningQty), 3, MidpointRounding.ToEven))
-        txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), 3, MidpointRounding.ToEven))
-        txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), 3, MidpointRounding.ToEven))
+        txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), 2, MidpointRounding.ToEven))
+        txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), 2, MidpointRounding.ToEven))
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
-            txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 3, MidpointRounding.ToEven)
+            txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 2, MidpointRounding.ToEven)
             Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
             If isPickCLRInsteadOfSNF Then
                 snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor, -1, 6)
             End If
-            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
+            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 2, MidpointRounding.ToEven)
         Else
             txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
             txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
         End If
         txtTotPendingQty.Text = clsCommon.myCstr(Math.Round((txtTotEnteredQty.Value - (TotEveningQty + TotMorningQty)), 3, MidpointRounding.ToEven))
-        txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - (TotEveningFATKG + TotMorningFATKG)), 3, MidpointRounding.ToEven))
-        txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - (TotEveningSNFKG + TotMorningSNFKG)), 3, MidpointRounding.ToEven))
+        txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - (TotEveningFATKG + TotMorningFATKG)), 2, MidpointRounding.ToEven))
+        txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - (TotEveningSNFKG + TotMorningSNFKG)), 2, MidpointRounding.ToEven))
 
         txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingFAT.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
         txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingSNF.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
