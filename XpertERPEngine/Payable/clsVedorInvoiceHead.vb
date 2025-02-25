@@ -4665,6 +4665,8 @@ Public Class clsVedorInvoiceHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
             '' Get Payment Entry Against AP Invoice
 
@@ -4753,8 +4755,8 @@ Public Class clsVedorInvoiceHead
 
             Qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
             'trans.Commit()
             Return True
