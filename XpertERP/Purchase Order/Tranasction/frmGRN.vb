@@ -12,6 +12,7 @@ Public Class frmGRN
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim ApplySendApprovalSetting As Boolean = False
     Private PurchaseModulePickFixTaxRate As Boolean = False
     Dim AllowPurchaseModulewithUniqueItem As Integer = 0
     Dim Tolerence_Qty As Double = 0
@@ -313,6 +314,8 @@ Public Class frmGRN
         Is_RGP_After_PO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, Nothing)) = "1", True, False))
         AutoClosePO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, Nothing)) = "1", True, False))
         AutoClosePOBasedOnSRNQtyWithTolerance = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = "1", True, False))
+        ApplySendApprovalSetting = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, Nothing)) = "1", True, False))
+
         If AutoClosePO Or AutoClosePOBasedOnSRNQtyWithTolerance Then
             txtinvoiceno.Visible = True
             txt_invdate.Visible = True
@@ -3556,34 +3559,36 @@ Public Class frmGRN
                             End If
                             'Return False
                         ElseIf ChekPostBtn Then
-                            If ApproveQty <= 0 Then
-                                Dim userResponse As DialogResult
-                                userResponse = clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity with Damage(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ") " + strTemp + " .At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + Environment.NewLine + "Are you sure to send for approval ? ", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes
-                                If userResponse = -1 Then
-                                    Dim Count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Program_Code) from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + txtDocNo.Value + "'"))
-                                    If Count > 0 Then
-                                        clsCommon.MyMessageBoxShow(Me, "Document already send for approval but approval pending", Me.Text)
-                                        Return False
-                                    Else
-                                        If SendDocumentForApproval((dblQty - dblPendingQty)) Then
+                            If ApplySendApprovalSetting Then
+                                If ApproveQty <= 0 Then
+                                    Dim userResponse As DialogResult
+                                    userResponse = clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity with Damage(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ") " + strTemp + " .At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + Environment.NewLine + "Are you sure to send for approval ? ", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes
+                                    If userResponse = -1 Then
+                                        Dim Count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Program_Code) from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + txtDocNo.Value + "'"))
+                                        If Count > 0 Then
+                                            clsCommon.MyMessageBoxShow(Me, "Document already send for approval but approval pending", Me.Text)
                                             Return False
+                                        Else
+                                            If SendDocumentForApproval((dblQty - dblPendingQty)) Then
+                                                Return False
+                                            End If
                                         End If
+                                    Else
+                                        Return False
+                                    End If
+                                ElseIf ApproveQty > 0 Then
+                                    If dblQty > (dblPendingQty + ApproveQty) Then
+                                        clsCommon.MyMessageBoxShow(Me, "Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Total Qty is " + clsCommon.myCstr(dblPendingQty + ApproveQty) + "." + Environment.NewLine + "Entered Qty can't be more then Total Qty.", Me.Text)
+                                        Return False
+                                    ElseIf clsCommon.MyMessageBoxShow("Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Are you sure to continue... ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No AndAlso ApproveQty > 0 Then
+                                        Return False
                                     End If
                                 Else
                                     Return False
                                 End If
-                            ElseIf ApproveQty > 0 Then
-                                If dblQty > (dblPendingQty + ApproveQty) Then
-                                    clsCommon.MyMessageBoxShow(Me, "Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Total Qty is " + clsCommon.myCstr(dblPendingQty + ApproveQty) + "." + Environment.NewLine + "Entered Qty can't be more then Total Qty.", Me.Text)
-                                    Return False
-                                ElseIf clsCommon.MyMessageBoxShow("Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Are you sure to continue... ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No AndAlso ApproveQty > 0 Then
-                                    Return False
-                                End If
-                            Else
-                                Return False
                             End If
                         End If
-                    End If
+                        End If
                 End If
             End If
             If Not arrICode.Contains(strICode) Then

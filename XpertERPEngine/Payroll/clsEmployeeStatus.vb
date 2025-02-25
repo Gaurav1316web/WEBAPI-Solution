@@ -70,6 +70,8 @@ Public Class clsEmployeeStatus
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_STATUS", "EMP_STATUS_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_STATUS", "EMP_STATUS_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_EMPLOYEE_WEEKLY_OFF where EMP_STATUS_CODE='" & strCode & "'"
@@ -311,6 +313,7 @@ Public Class clsEmployeeStatus
         Else
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_STATUS", OMInsertOrUpdate.Update, "EMP_STATUS_CODE='" + obj.Code + "'", trans)
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_EMPLOYEE_STATUS", "EMP_STATUS_CODE", trans)
 
 
         Dim strq As String

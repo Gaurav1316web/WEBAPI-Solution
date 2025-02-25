@@ -72,7 +72,7 @@ Public Class clsTransferReturn
                 End If
                 isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_No, obj.arrCustomFields, trans)
 
-
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Transfer_RETURN", "Document_No", trans)
 
                 ' End If
                 ''-----------------

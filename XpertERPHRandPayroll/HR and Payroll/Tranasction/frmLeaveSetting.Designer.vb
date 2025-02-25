@@ -24,19 +24,19 @@ Partial Class frmLeaveSetting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveSetting))
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblLocationName = New common.Controls.MyLabel()
@@ -101,6 +101,7 @@ Partial Class frmLeaveSetting
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -173,6 +174,7 @@ Partial Class frmLeaveSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -215,6 +217,7 @@ Partial Class frmLeaveSetting
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -302,13 +305,14 @@ Partial Class frmLeaveSetting
         Me.gvCTC.MasterTemplate.EnableGrouping = False
         Me.gvCTC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCTC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCTC.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCTC.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvCTC.MyStopExport = False
         Me.gvCTC.Name = "gvCTC"
         Me.gvCTC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCTC.ShowHeaderCellButtons = True
         Me.gvCTC.Size = New System.Drawing.Size(698, 67)
         Me.gvCTC.TabIndex = 6
+        Me.gvCTC.VarID = ""
         '
         'RadGroupBox6
         '
@@ -509,18 +513,18 @@ Partial Class frmLeaveSetting
         Me.cboMonth.IsSourceFromTable = False
         Me.cboMonth.IsSourceFromValueList = False
         Me.cboMonth.IsUnique = False
-        RadListDataItem1.Text = "Lower Half day"
-        RadListDataItem2.Text = "Higher Half Day"
-        RadListDataItem3.Text = "Lower Full day"
-        RadListDataItem4.Text = "Higher Full Day"
-        RadListDataItem5.Text = "Nearest Half day"
-        RadListDataItem6.Text = "Nearest Full day"
-        Me.cboMonth.Items.Add(RadListDataItem1)
-        Me.cboMonth.Items.Add(RadListDataItem2)
-        Me.cboMonth.Items.Add(RadListDataItem3)
-        Me.cboMonth.Items.Add(RadListDataItem4)
-        Me.cboMonth.Items.Add(RadListDataItem5)
-        Me.cboMonth.Items.Add(RadListDataItem6)
+        RadListDataItem12.Text = "Lower Half day"
+        RadListDataItem13.Text = "Higher Half Day"
+        RadListDataItem14.Text = "Lower Full day"
+        RadListDataItem15.Text = "Higher Full Day"
+        RadListDataItem16.Text = "Nearest Half day"
+        RadListDataItem17.Text = "Nearest Full day"
+        Me.cboMonth.Items.Add(RadListDataItem12)
+        Me.cboMonth.Items.Add(RadListDataItem13)
+        Me.cboMonth.Items.Add(RadListDataItem14)
+        Me.cboMonth.Items.Add(RadListDataItem15)
+        Me.cboMonth.Items.Add(RadListDataItem16)
+        Me.cboMonth.Items.Add(RadListDataItem17)
         Me.cboMonth.Location = New System.Drawing.Point(173, 48)
         Me.cboMonth.MendatroryField = False
         Me.cboMonth.MyLinkLable1 = Me.MyLabel12
@@ -997,12 +1001,12 @@ Partial Class frmLeaveSetting
         Me.cboAllotType.IsSourceFromTable = False
         Me.cboAllotType.IsSourceFromValueList = False
         Me.cboAllotType.IsUnique = False
-        RadListDataItem7.Text = "Fixed"
-        RadListDataItem8.Text = "Attendance Based"
-        RadListDataItem9.Text = "Salary Slab"
-        Me.cboAllotType.Items.Add(RadListDataItem7)
-        Me.cboAllotType.Items.Add(RadListDataItem8)
-        Me.cboAllotType.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "Fixed"
+        RadListDataItem2.Text = "Attendance Based"
+        RadListDataItem3.Text = "Salary Slab"
+        Me.cboAllotType.Items.Add(RadListDataItem1)
+        Me.cboAllotType.Items.Add(RadListDataItem2)
+        Me.cboAllotType.Items.Add(RadListDataItem3)
         Me.cboAllotType.Location = New System.Drawing.Point(159, 149)
         Me.cboAllotType.MendatroryField = False
         Me.cboAllotType.MyLinkLable1 = Me.MyLabel13
@@ -1040,10 +1044,10 @@ Partial Class frmLeaveSetting
         Me.cboPeriodicity.IsSourceFromTable = False
         Me.cboPeriodicity.IsSourceFromValueList = False
         Me.cboPeriodicity.IsUnique = False
-        RadListDataItem10.Text = "Monthly"
-        RadListDataItem11.Text = "Yearly"
-        Me.cboPeriodicity.Items.Add(RadListDataItem10)
-        Me.cboPeriodicity.Items.Add(RadListDataItem11)
+        RadListDataItem4.Text = "Monthly"
+        RadListDataItem5.Text = "Yearly"
+        Me.cboPeriodicity.Items.Add(RadListDataItem4)
+        Me.cboPeriodicity.Items.Add(RadListDataItem5)
         Me.cboPeriodicity.Location = New System.Drawing.Point(159, 128)
         Me.cboPeriodicity.MendatroryField = False
         Me.cboPeriodicity.MyLinkLable1 = Me.MyLabel11
@@ -1207,6 +1211,16 @@ Partial Class frmLeaveSetting
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(154, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmLeaveSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1297,6 +1311,7 @@ Partial Class frmLeaveSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1365,4 +1380,5 @@ Partial Class frmLeaveSetting
     Friend WithEvents lblLocationName As common.Controls.MyLabel
     Friend WithEvents fndLocation As common.UserControls.txtFinder
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

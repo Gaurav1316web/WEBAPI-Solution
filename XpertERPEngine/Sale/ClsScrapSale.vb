@@ -491,6 +491,8 @@ Public Class ClsScrapSaleHead
             End If
 
             isSaved = isSaved AndAlso ClsScrapSaleDetail.SaveData(obj.shipment_No, Arr, trans, obj.shipment_Date, obj.Loc_Code, obj.strInvoiceNo)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.shipment_No), "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
+
             If (obj.CreateInvoice = 1) Then
                 isSaved = isSaved AndAlso scrapinvoicehead.SaveDatainvoice(obj.shipment_No, strScrapSaleInvoiceNo, trans, obj.Invoice_Type, Arr)
             End If
@@ -1030,6 +1032,8 @@ Public Class ClsScrapSaleHead
                 'done by stuti on 15/12/2016
                 'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.strInvoiceNo, "TSPL_SCRAPINVOICE_HEAD", "invoice_no", "TSPL_SCRAPINVOICE_DETAIL", "invoice_no", trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.strInvoiceNo, "TSPL_SCRAPINVOICE_HEAD", "invoice_no", "TSPL_SCRAPINVOICE_DETAIL", "invoice_no", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
                 '=====end here===========
 
                 '------------Saving Data in cancel tables

@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class objCommonVar
 #Region "Variables"
+    Private Shared _TreatCLR50As52 As Boolean = False
     Private Shared _currComp_Code1 As String = ""
     Private Shared _currUserCode As String = ""
     Private Shared _currUserName As String = ""
@@ -473,6 +474,14 @@ Public Class objCommonVar
         End Set
     End Property
 
+    Public Shared Property TreatCLR50As52() As Boolean
+        Get
+            Return _TreatCLR50As52
+        End Get
+        Set(ByVal Value As Boolean)
+            _TreatCLR50As52 = Value
+        End Set
+    End Property
     Public Shared Property ParameterForSNFatQC() As Decimal
         Get
             Return _ParameterForSNFatQC
@@ -945,6 +954,8 @@ Public Class objCommonVar
         objCommonVar.TreatUnregisteredVendorAsRegisteredVendor = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TreatUnregisteredVendorAsRegisteredVendor, clsFixedParameterCode.TreatUnregisteredVendorAsRegisteredVendor, Nothing)) = 1, True, False)
         objCommonVar.AutoStartReading = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsAutoStartReading, clsFixedParameterCode.IsAutoReceiptPayment, Nothing)) = 1, True, False)
         objCommonVar.ParameterForSNFatQC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ParameterForSNFatQC, clsFixedParameterCode.ParameterForSNFatQC, Nothing))
+
+        objCommonVar.TreatCLR50As52 = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TreatCLR50As52, clsFixedParameterCode.TreatCLR50As52, Nothing))
 
         objCommonVar.ApplyTransFATSNFRateForCalculateFATSNFRate = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTransFATSNFRateForCalculateFATSNFRate, clsFixedParameterCode.ApplyTransFATSNFRateForCalculateFATSNFRate, Nothing)) = 1)
         objCommonVar.ItemSturctureMandatoryOnWeightConversion = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemStructureMandatoryOnWeightConversion, clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion, Nothing)) = 1)

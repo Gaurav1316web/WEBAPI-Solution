@@ -2266,6 +2266,18 @@ where   TSPL_LOCATION_MASTER.Location_Category<>'MCC' and TSPL_LOCATION_MASTER.I
 
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "DocumentCode", "tspl_tender_header", "tspl_tender_detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Sub closeRal()
         Try
             If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then

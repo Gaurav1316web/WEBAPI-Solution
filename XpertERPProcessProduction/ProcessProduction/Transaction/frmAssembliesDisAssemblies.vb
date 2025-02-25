@@ -50,14 +50,15 @@ Public Class frmAssembDis
     Dim settFATSNFRateMandatory As Boolean = False
     Dim settAutoFillSameLocationInGrid As Boolean = False
     Dim CalculateItemCostonAvgForAssembly As Boolean = False
-
+    Dim QuantityTolerance As Double
+    Dim AmountTolerance As Double
 #Region "Functions"
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-            btnsave.Visible = MyBase.isModifyFlag
-            btnPost.Visible = MyBase.isPostFlag
+        btnsave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrint.Visible = MyBase.isPrintFlag
@@ -328,7 +329,7 @@ Public Class frmAssembDis
             If obj.POSTED Then
                 btnsave.Enabled = False
                 btnPost.Enabled = False
-                btndelete.Enabled = False
+                btndelete.Enabled = False                       
                 btnCancel.Enabled = True
                 UsLock1.Status = ERPTransactionStatus.Approved
             Else
@@ -837,7 +838,38 @@ Public Class frmAssembDis
             '-----------------------------------------------------------------------------------------------------------------
 
             UcCustomFields1.AllowToSave()
+            Dim isMatch As Boolean = False
+            Dim Weight_Uom_Head As String = clsDBFuncationality.getSingleValue("SELECT Weight_UOM FROM TSPL_ITEM_MASTER WHERE  Item_Code = '" & fndMainItem.Value & "'")
+            Dim Weight_Uom_Qty_Head As Decimal = Val(Me.txtQuantity.Text) * clsItemMaster.GetConvertionFactor(fndMainItem.Value, fndUom.Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Head, Nothing)
+            Dim Weight_Uom_Qty_Detail As Decimal = 0
+            Dim Weight_Uom_Amt_Detail As Decimal = 0
+            Dim Head_Qty_Toleance As Decimal = 0
+            Dim Head_Amount_Toleance As Decimal = 0
+            For Each row As GridViewRowInfo In gvBOM.Rows
+                If clsCommon.myLen(row.Cells(colItemCode).Value) > 0 Then
+                    Weight_Uom_Amt_Detail += clsCommon.myCdbl(row.Cells(colItemAmount).Value)
+                    Dim Weight_Uom_Detail As String = clsDBFuncationality.getSingleValue("SELECT Weight_UOM FROM TSPL_ITEM_MASTER WHERE  Item_Code = '" & row.Cells(colItemCode).Value & "'")
+                    If clsCommon.CompairString(Weight_Uom_Head, Weight_Uom_Detail) = CompairStringResult.Equal Then
+                        Weight_Uom_Qty_Detail += Val(clsCommon.myCdbl(row.Cells(colqty).Value)) * clsItemMaster.GetConvertionFactor(row.Cells(colItemCode).Value, row.Cells(colUnitCode).Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Detail, Nothing)
+                        isMatch = True
+                    End If
+                End If
+            Next
+            If isMatch Then
+                If clsCommon.myLen(QuantityTolerance) > 0 Then
+                    Head_Qty_Toleance = (Weight_Uom_Qty_Head * QuantityTolerance) / 100
+                End If
 
+                If clsCommon.myLen(AmountTolerance) > 0 Then
+                    Head_Amount_Toleance = (Weight_Uom_Amt_Detail * AmountTolerance) / 100
+                End If
+
+                If Not (Weight_Uom_Qty_Detail >= (Weight_Uom_Qty_Head - Head_Qty_Toleance) And Weight_Uom_Qty_Detail <= (Weight_Uom_Qty_Head + Head_Qty_Toleance)) Then
+                    Throw New Exception("Weight UOM Qty of [" + fndMainItem.Value + "] Item is not matched with Weight UOM qty of all Items. It is out of tolerance range [" + clsCommon.myCstr(Weight_Uom_Qty_Head - Head_Qty_Toleance) + "- " + clsCommon.myCstr(Weight_Uom_Qty_Head + Head_Qty_Toleance) + "]")
+                ElseIf Not (Weight_Uom_Amt_Detail >= (clsCommon.myCdbl(Me.txtDisassCost.Text) - Head_Amount_Toleance) OrElse Weight_Uom_Amt_Detail <= (clsCommon.myCdbl(Me.txtDisassCost.Text) + Head_Amount_Toleance)) Then
+                    Throw New Exception("Amount of [" + fndMainItem.Value + "] Item is not matched with Amount of all Items. It is out of tolerance range  [" + clsCommon.myCstr(clsCommon.myCdbl(Me.txtDisassCost.Text) - Head_Amount_Toleance) + "- " + clsCommon.myCstr(clsCommon.myCdbl(Me.txtDisassCost.Text) + Head_Amount_Toleance) + "]")
+                End If
+            End If
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -855,7 +887,7 @@ Public Class frmAssembDis
             Dim Reason As String = ""
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
-                If clsCancelLog.CheckForReasonOnDelete() Then
+                    If clsCancelLog.CheckForReasonOnDelete() Then
                     '' REASON FOR DELETE 
                     Dim frm As New FrmFreeTxtBox1
                     frm.Text = "Remarks for Delete"
@@ -980,6 +1012,8 @@ Public Class frmAssembDis
             clsFixedParameter.UpdateData(clsFixedParameterType.FATSNFRateMandatory, clsFixedParameterCode.FATSNFRateMandatory, "0", Nothing)
         End If
 
+        QuantityTolerance = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, Nothing))
+        AmountTolerance = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, Nothing))
 
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         settPickCostFromItemMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickCostFromItemMaster, clsFixedParameterCode.PickCostFromItemMaster, Nothing)) = 1)

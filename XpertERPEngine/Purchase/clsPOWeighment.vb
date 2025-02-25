@@ -711,6 +711,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             'Exit Sub
 
             strCode = obj.Weighment_Code
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
             qry = "delete from  TSPL_PO_WEIGHTMENT_GUNNY where Weighment_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
