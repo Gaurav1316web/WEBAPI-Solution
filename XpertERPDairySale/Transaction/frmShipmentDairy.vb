@@ -11635,13 +11635,18 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                                     End If
                                 Else
                                     If IncreaseCrateQtyOnFiftyPercent = True Then
-                                        Dim IntegerPart As Integer = Math.Floor(DispatchQty / CrateConvFactor)
-                                        Dim fractionPart As Integer = ((DispatchQty / CrateConvFactor) - IntegerPart) * 100
-                                        If fractionPart >= 50 Then
-                                            gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                            Dim IntegerPart As Integer = Math.Floor(DispatchQty / CrateConvFactor)
+                                            Dim fractionPart As Integer = ((DispatchQty / CrateConvFactor) - IntegerPart) * 100
+                                            If fractionPart >= 50 Then
+                                                gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            Else
+                                                gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+                                            End If
                                         Else
-                                            gv1.Rows(IntRowNo).Cells(colCrate).Value = Math.Floor(DispatchQty / CrateConvFactor)
+                                            gv1.Rows(IntRowNo).Cells(colCrate).Value = 0
                                         End If
+
                                     Else
                                         gv1.Rows(IntRowNo).Cells(colCrate).Value = 0
                                     End If
