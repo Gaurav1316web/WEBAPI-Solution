@@ -227,7 +227,7 @@ Public Class clsFixedParameterType
     Public Const CreateMultipleDispatchWithoutSelectingVehicle = "CreateMultipleDispatchWithoutSelectingVehicle"
     Public Const RejectiononQCforSeparationofBulkProcurementMCC = "RejectiononQCforSeparationofBulkProcurementMCC"
     Public Const ParameterForSNFatQC = "ParameterForSNFatQC"
-    Public Const TreateCLR50As52 = "Treate CLR 50 As 52"
+    Public Const TreatCLR50As52 = "Treat CLR 50 As 52"
     Public Const AllowmultipleconsumptionLocation = "Allow Multiple Consumption Location"
     Public Const PickCostFromItemMaster As String = "Pick Cost From Item Master(FG)"
     Public Const EditItemCost As String = "Edit Item Cost"
@@ -1591,7 +1591,7 @@ Public Class clsFixedParameterCode
     Public Const CreateMultipleDispatchWithoutSelectingVehicle = "CreateMultipleDispatchWithoutSelectingVehicle"
     Public Const RejectiononQCforSeparationofBulkProcurementMCC = "RejectiononQCforSeparationofBulkProcurementMCC"
     Public Const ParameterForSNFatQC = "ParameterForSNFatQC"
-    Public Const TreateCLR50As52 = "Treate CLR 50 As 52"
+    Public Const TreatCLR50As52 = "Treat CLR 50 As 52"
     Public Const AllowmultipleconsumptionLocation = "Allow Multiple Consumption Location"
     Public Const PickCostFromItemMaster As String = "Pick Cost From Item Master(FG)"
     Public Const EditItemCost As String = "Edit Item Cost"
@@ -3102,7 +3102,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateMultipleDispatchWithoutSelectingVehicle, clsFixedParameterCode.CreateMultipleDispatchWithoutSelectingVehicle, "0", "CreateMultipleDispatchWithoutSelectingVehicle")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RejectiononQCforSeparationofBulkProcurementMCC, clsFixedParameterCode.RejectiononQCforSeparationofBulkProcurementMCC, "0", "RejectiononQCforSeparationofBulkProcurementMCC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ParameterForSNFatQC, clsFixedParameterCode.ParameterForSNFatQC, "0", "0-OFF;1-Parameter used in calculation of SNF%")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.TreateCLR50As52, clsFixedParameterCode.TreateCLR50As52, "0", "0-OFF;1-When convert CLR To SNF than take .50 as .52")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TreatCLR50As52, clsFixedParameterCode.TreatCLR50As52, "0", "0-OFF;1-When convert CLR To SNF than take .50 as .52")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowmultipleconsumptionLocation, clsFixedParameterCode.AllowmultipleconsumptionLocation, "0", "0-OFF;1-On Option ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickCostFromItemMaster, clsFixedParameterCode.PickCostFromItemMaster, "0", "1-On;0-off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EditItemCost, clsFixedParameterCode.EditItemCost, "1", "1-On;0-off")
@@ -5346,7 +5346,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.locationMaster, clsFixedParameterType.AllowmultipleconsumptionLocation, clsFixedParameterCode.AllowmultipleconsumptionLocation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQualityCheck, clsFixedParameterType.ItemwiseCorrectionFactoronQC, clsFixedParameterCode.ItemwiseCorrectionFactoronQC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQualityCheck, clsFixedParameterType.ParameterForSNFatQC, clsFixedParameterCode.ParameterForSNFatQC, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.TreateCLR50As52, clsFixedParameterCode.TreateCLR50As52, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.TreatCLR50As52, clsFixedParameterCode.TreatCLR50As52, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmWeighment, clsFixedParameterType.AutoMilkTransferInDateSameasWeighmentDate, clsFixedParameterCode.AutoMilkTransferInDateSameasWeighmentDate, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.ReceiptEntry, clsFixedParameterType.EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt, clsFixedParameterCode.EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQuickBook, clsFixedParameterType.ShowOutstandingAmtofCustomerOnQuickBookEntry, clsFixedParameterCode.ShowOutstandingAmtofCustomerOnQuickBookEntry, EnumControlType.CheckBox)
