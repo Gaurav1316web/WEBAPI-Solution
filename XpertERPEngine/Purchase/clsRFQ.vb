@@ -58,6 +58,7 @@ Public Class clsRFQ
 
 
             isSaved = isSaved AndAlso clsRFQDetails.SaveData(obj.RFQ_No, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
 
             trans.Commit()
 
@@ -107,6 +108,9 @@ Public Class clsRFQ
             Throw New Exception("RFQ No not found to Delete")
         End If
         Dim obj As clsRFQ = clsRFQ.GetData(strCode, NavigatorType.Current)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", Nothing)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.RFQ_No) > 0) Then
             Try

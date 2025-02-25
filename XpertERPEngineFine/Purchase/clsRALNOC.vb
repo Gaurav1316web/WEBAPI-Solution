@@ -55,7 +55,7 @@ Public Class clsRALNOC
             End If
             clsRALNOCSchedule.SaveData(obj.Document_No, obj.ArrSchedule, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_RAL_NOC", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_RAL_NOC", "Document_No", "TSPL_RAL_NOC_SCHEDULE", "Document_No", trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -155,6 +155,9 @@ select PK_Id,Against_Tender_Schedule_PK_Id,Penalty_Date,Penalty from TSPL_TENDER
                 Throw New Exception("Document No not found to Delete")
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.RALNOC, obj.Location_Code, obj.Document_Date, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RAL_NOC", "Document_No", "TSPL_RAL_NOC_SCHEDULE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RAL_NOC", "Document_No", "TSPL_RAL_NOC_SCHEDULE", "Document_No", trans)
+
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted Docuemnt [" + obj.Document_No + "]")
             End If

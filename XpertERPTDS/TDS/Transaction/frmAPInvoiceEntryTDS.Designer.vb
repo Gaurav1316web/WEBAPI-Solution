@@ -123,6 +123,7 @@ Partial Class FrmAPInvoiceEntryTDS
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -217,6 +218,7 @@ Partial Class FrmAPInvoiceEntryTDS
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -234,6 +236,7 @@ Partial Class FrmAPInvoiceEntryTDS
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -641,6 +644,7 @@ Partial Class FrmAPInvoiceEntryTDS
         Me.gv1.Size = New System.Drawing.Size(836, 163)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel3
         '
@@ -1185,6 +1189,7 @@ Partial Class FrmAPInvoiceEntryTDS
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(856, 191)
         Me.gv2.TabIndex = 1
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1236,6 +1241,7 @@ Partial Class FrmAPInvoiceEntryTDS
         Me.gvAC.ShowHeaderCellButtons = True
         Me.gvAC.Size = New System.Drawing.Size(861, 303)
         Me.gvAC.TabIndex = 1
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -1585,6 +1591,15 @@ Partial Class FrmAPInvoiceEntryTDS
         Me.RadMenu1.Size = New System.Drawing.Size(882, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(498, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 140
+        Me.btnHistory.Text = "History"
+        '
         'FrmAPInvoiceEntryTDS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1700,6 +1715,7 @@ Partial Class FrmAPInvoiceEntryTDS
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1800,5 +1816,6 @@ Partial Class FrmAPInvoiceEntryTDS
     Friend WithEvents lblRegisterOrUnregister As common.Controls.MyLabel
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents lblRoundOff As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 
