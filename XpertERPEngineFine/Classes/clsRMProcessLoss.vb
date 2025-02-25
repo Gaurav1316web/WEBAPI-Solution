@@ -57,6 +57,8 @@ Public Class clsRMProcessLoss
             End If
             ClsRmProcessLossDetail.SaveData(obj.document_code, obj.Arr_Pd, trans)
             'clsProductionEntry.SaveData(obj.document_code, obj.Arr_Prod, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_RM_PROCESS_LOSS", "Document_Code", "TSPL_RM_PROCESS_LOSS_DETAIL", "Document_Code", trans)
+
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -157,6 +159,8 @@ Public Class clsRMProcessLoss
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_PROCESS_LOSS", "Document_Code", "TSPL_RM_PROCESS_LOSS_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_PROCESS_LOSS", "Document_Code", "TSPL_RM_PROCESS_LOSS_DETAIL", "Document_Code", trans)
 
             Dim qry As String
             qry = "delete from TSPL_RM_PROCESS_LOSS_DETAIL where Document_code ='" + strCode + "'"

@@ -57,6 +57,9 @@ Public Class frmPOWeighment
             AllowtoEnterNetWeightManuallyinPOWeighmentScreen = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, clsFixedParameterCode.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, Nothing)) = 1
             AddNew()
             RefreshSNo()
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
             btnCancel.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

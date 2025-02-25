@@ -893,6 +893,8 @@ Public Class clsPurchaseOrderHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + obj.PurchaseOrder_No + "'", trans)
             End If
             clsPurchaseOrderDetail.SaveData(obj.PurchaseOrder_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", trans)
+
             clsPIRemittance.SaveData(obj.objPIRemittance, obj.PurchaseOrder_No, obj.PurchaseOrder_Date, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.PurchaseOrder_No, obj.arrCustomFields, trans)
             clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PurchaseOrder_No", obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", trans)
@@ -5152,7 +5154,7 @@ a:
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
                 clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
-
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
                 Dim qry As String = "delete from TSPL_PI_REMITTANCE where Document_No='" + strCode + "'"
@@ -5636,11 +5638,12 @@ a:
                 strQuery = strQuery + " ((TSPL_PURCHASE_ORDER_DETAIL.item_desc) +(case when TSPL_PURCHASE_ORDER_DETAIL.Specification='' then '' else ' . ' end) +TSPL_PURCHASE_ORDER_DETAIL.Specification+ (case when TSPL_PURCHASE_ORDER_DETAIL.Remarks='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Remarks +(case when TSPL_PURCHASE_ORDER_detail.Capacity='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Capacity  +(case when TSPL_PURCHASE_ORDER_detail.Make='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Make +(case when TSPL_PURCHASE_ORDER_detail.Model='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Model )  as itemdesc "
             Else
 
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                    strQuery = strQuery + " TSPL_PURCHASE_ORDER_DETAIL.item_desc as itemdesc"
-                Else
-                    strQuery = strQuery + " ((TSPL_PURCHASE_ORDER_DETAIL.item_desc) +(case when TSPL_PURCHASE_ORDER_DETAIL.Specification='' then '' else ' . ' end) +TSPL_PURCHASE_ORDER_DETAIL.Specification+ (case when TSPL_PURCHASE_ORDER_DETAIL.Remarks='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Remarks )  as itemdesc "
-                End If
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                '    'strQuery = strQuery + " TSPL_PURCHASE_ORDER_DETAIL.item_desc as itemdesc"
+                'Else
+                'strQuery = strQuery + " ((TSPL_PURCHASE_ORDER_DETAIL.item_desc) +(case when TSPL_PURCHASE_ORDER_DETAIL.Specification='' then '' else ' . ' end) +TSPL_PURCHASE_ORDER_DETAIL.Specification+ (case when TSPL_PURCHASE_ORDER_DETAIL.Remarks='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Remarks )+ (case when TSPL_PURCHASE_ORDER_DETAIL.Capacity='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Capacity  + (case when TSPL_PURCHASE_ORDER_DETAIL.Make='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Make  + (case when TSPL_PURCHASE_ORDER_DETAIL.Model='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Model  as itemdesc "
+                strQuery = strQuery + " TSPL_PURCHASE_ORDER_DETAIL.item_desc   as itemdesc,TSPL_PURCHASE_ORDER_DETAIL.Specification,TSPL_PURCHASE_ORDER_DETAIL.Remarks as RemarkD,TSPL_PURCHASE_ORDER_DETAIL.Capacity,TSPL_PURCHASE_ORDER_DETAIL.Make,TSPL_PURCHASE_ORDER_DETAIL.Model"
+                'End If
 
             End If
             strQuery = strQuery + " ,TSPL_TERMS_MASTER.Terms_Desc  as termsdesc,TSPL_PURCHASE_ORDER_DETAIL.Row_Type,TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_qty as qty,TSPL_PURCHASE_ORDER_DETAIL.unit_code as uom,TSPL_PURCHASE_ORDER_DETAIL.item_cost as itemcost,TSPL_PURCHASE_ORDER_DETAIL.amount as amount,TSPL_PURCHASE_ORDER_DETAIL.MRP ,TSPL_PURCHASE_ORDER_DETAIL.Item_Cost ,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then 0 else (TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100 end as Tax,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then TSPL_PURCHASE_ORDER_DETAIL.Item_Cost else ((((TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100)*TSPL_PURCHASE_ORDER_DETAIL.Item_Cost/100) +TSPL_PURCHASE_ORDER_DETAIL.Item_Cost) end as landing_Rate,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,TSPL_PURCHASE_ORDER_DETAIL.Item_Net_Amt,TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate ,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per as 'dis_per',TSPL_LOCATION_MASTER.CST_No as CST_LST ,TSPL_LOCATION_MASTER.TIN_No, TSPL_LOCATION_MASTER.Ecc_Number as ExciseNo, TSPL_LOCATION_MASTER.Range_Code as Range, TSPL_LOCATION_MASTER.Commissionerate as DivisionCommission,  " &

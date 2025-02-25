@@ -127,8 +127,6 @@ Public Class FrmVendorInquiry
         gv2.MasterTemplate.Columns.Add(G2DocNo)
 
 
-
-
         Dim G2DocDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         G2DocDate.FormatString = ""
         G2DocDate.HeaderText = "Doc Date"

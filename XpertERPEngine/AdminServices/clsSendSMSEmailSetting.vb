@@ -102,6 +102,8 @@ Public Class clsSendSMSEmailSetting
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMAIL_SMS_SCHEDULING", OMInsertOrUpdate.Update, "TSPL_EMAIL_SMS_SCHEDULING.SCHEDULER_CODE='" + obj.SCHEDULER_CODE + "'", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SCHEDULER_CODE, "TSPL_EMAIL_SMS_SCHEDULING", "SCHEDULER_CODE", trans)
+
             Next
             Return isSaved
         Catch err As Exception
@@ -181,6 +183,7 @@ Public Class clsSendSMSEmailSetting
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMAIL_SMS_SCHEDULING", "SCHEDULER_CODE", Nothing)
         Dim qry As String = "delete from TSPL_EMAIL_SMS_SCHEDULING where SCHEDULER_CODE='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function

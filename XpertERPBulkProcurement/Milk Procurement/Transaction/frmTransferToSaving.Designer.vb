@@ -51,6 +51,7 @@ Partial Class frmTransferToSaving
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem11 = New Telerik.WinControls.UI.RadMenuItem()
@@ -74,7 +75,6 @@ Partial Class frmTransferToSaving
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -105,6 +105,7 @@ Partial Class frmTransferToSaving
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,7 +119,6 @@ Partial Class frmTransferToSaving
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -580,6 +580,15 @@ Partial Class frmTransferToSaving
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(486, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 1488
+        Me.btnHistory.Text = "History"
+        '
         'btnExport
         '
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -754,15 +763,6 @@ Partial Class frmTransferToSaving
         Me.Panel1.Size = New System.Drawing.Size(1041, 498)
         Me.Panel1.TabIndex = 3
         '
-        'btnHistory
-        '
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(486, 7)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
-        Me.btnHistory.TabIndex = 1488
-        Me.btnHistory.Text = "History"
-        '
         'frmTransferToSaving
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -809,6 +809,7 @@ Partial Class frmTransferToSaving
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -823,7 +824,6 @@ Partial Class frmTransferToSaving
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

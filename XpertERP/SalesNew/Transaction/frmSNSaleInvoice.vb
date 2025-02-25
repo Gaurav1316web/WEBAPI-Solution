@@ -3004,11 +3004,11 @@ Public Class frmSNSaleInvoice
                             'dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                            dblTaxTotAmt = dblTaxTotAmt
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
                         Else
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
                             If dblTaxBaseAmt1 <> 0 Then
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt1 * 100) / dblTaxBaseAmt1, 3)
@@ -3025,13 +3025,13 @@ Public Class frmSNSaleInvoice
                             dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             If rbtnManualTCS.IsChecked = False Then
                                 dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
+                                'dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
                             End If
 
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
-                                gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2, MidpointRounding.AwayFromZero)
+                            gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
                             Else
-                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
                             If dblTaxBaseAmt2 <> 0 Then
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt2 * 100) / dblTaxBaseAmt2, 3)
@@ -3047,9 +3047,9 @@ Public Class frmSNSaleInvoice
                             dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             If rbtnManualTCS.IsChecked = False Then
                                 dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
+                                'dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
                             End If
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
@@ -3067,8 +3067,8 @@ Public Class frmSNSaleInvoice
                             'dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt4 = (dblTaxBaseAmt4 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
+                            dblTaxTotAmt = dblTaxTotAmt
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2, MidpointRounding.AwayFromZero)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt4, 2)
                         Else
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
@@ -4474,25 +4474,25 @@ Public Class frmSNSaleInvoice
     End Sub
 
     Private Sub gv2_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv2.DoubleClick
-        Try
-            If rbtnTaxCalAutomatic.IsChecked Then
-                Dim qry As String = "select Tax_Rate_Code as [Rate Code],Tax_Rate_Desc as [Rate Description],Tax_Rate as [Rate] from TSPL_TAX_RATES "
-                Dim dblNewRate As Double = clsCommon.myCdbl(clsCommon.ShowSelectForm("ShipmentVendfnddxRate", qry, "Rate", "Tax_Code='" + clsCommon.myCstr(gv2.CurrentRow.Cells(colTTaxAutCode).Value) + "' and Tax_Type='S' and TAX_Code not in('TCS')", "", "", True))
-                Dim intRowNo As Integer = gv2.CurrentRow.Index
-                If gv1.RowCount > 0 AndAlso intRowNo >= 0 Then
-                    Dim strII As String = clsCommon.myCstr(intRowNo + 1)
-                    For ii As Integer = 0 To gv1.Rows.Count - 1
-                        gv1.Rows(ii).Cells("COLTAXRATE" + strII).Value = dblNewRate
-                    Next
-                End If
-                For ii As Integer = 0 To gv1.Rows.Count - 1
-                    UpdateCurrentRow(ii)
-                Next
-                UpdateAllTotals()
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        'Try
+        '    If rbtnTaxCalAutomatic.IsChecked Then
+        '        Dim qry As String = "select Tax_Rate_Code as [Rate Code],Tax_Rate_Desc as [Rate Description],Tax_Rate as [Rate] from TSPL_TAX_RATES "
+        '        Dim dblNewRate As Double = clsCommon.myCdbl(clsCommon.ShowSelectForm("ShipmentVendfnddxRate", qry, "Rate", "Tax_Code='" + clsCommon.myCstr(gv2.CurrentRow.Cells(colTTaxAutCode).Value) + "' and Tax_Type='S' and TAX_Code not in('TCS')", "", "", True))
+        '        Dim intRowNo As Integer = gv2.CurrentRow.Index
+        '        If gv1.RowCount > 0 AndAlso intRowNo >= 0 Then
+        '            Dim strII As String = clsCommon.myCstr(intRowNo + 1)
+        '            For ii As Integer = 0 To gv1.Rows.Count - 1
+        '                gv1.Rows(ii).Cells("COLTAXRATE" + strII).Value = dblNewRate
+        '            Next
+        '        End If
+        '        For ii As Integer = 0 To gv1.Rows.Count - 1
+        '            UpdateCurrentRow(ii)
+        '        Next
+        '        UpdateAllTotals()
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -5785,7 +5785,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                                         "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(strqryForGV2)
             LoadBlankGridTax()
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX1_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX1"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX1"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX1_Rate"))
@@ -5797,7 +5797,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX2_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX2"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX2"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX2_Rate"))
@@ -5809,7 +5809,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX3_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX3"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX3"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX3_Rate"))
@@ -5821,7 +5821,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX4_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX4"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX4"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX4_Rate"))
@@ -5833,7 +5833,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX5_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX5"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX5"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX5_Rate"))
@@ -5845,7 +5845,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX6_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX6"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX6"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX6_Rate"))
@@ -5857,7 +5857,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX7_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX7"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX7"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX7_Rate"))
@@ -5869,7 +5869,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX8_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX8"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX8"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX8_Rate"))
@@ -5881,7 +5881,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX9_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX9"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX9"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX9_Rate"))
@@ -5893,7 +5893,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 End If
             End If
 
-            If (clsCommon.myCdbl(clsCommon.myCdbl(dt2.Rows(0)("TAX10_Amt") > 0))) Then
+            If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX10"))) > 0) Then
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX10"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX10_Rate"))
@@ -6953,19 +6953,20 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                         Else
                             Dim dblOtherTaxAmt As Double = 0
                             ''If IsTaxable Then
-                            dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
-                            ''End If
+                            If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                            End If
 
                             ''If IsExcisable Then
                             ''    dblBaseAmt = (dblAssessableAmt + dblOtherTaxAmt)
                             ''Else
                             dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
-                            ''End If
-                        End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
+                                ''End If
+                            End If
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
-                        If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2, MidpointRounding.AwayFromZero)
+                        If Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If
                     Else

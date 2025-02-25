@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmPendingReqForApproval
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,18 +20,19 @@ Partial Class FrmPendingReqForApproval
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.btnRefresh = New Telerik.WinControls.UI.RadButton
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txttoDate = New common.Controls.MyDateTimePicker
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.txtFromDate = New common.Controls.MyDateTimePicker
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnApprove = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnRefresh = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txttoDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnApprove = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -105,6 +106,7 @@ Partial Class FrmPendingReqForApproval
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(183, 7)
         Me.MyLabel1.Name = "MyLabel1"
@@ -114,9 +116,18 @@ Partial Class FrmPendingReqForApproval
         '
         'txttoDate
         '
+        Me.txttoDate.CalculationExpression = Nothing
         Me.txttoDate.CustomFormat = "dd/MM/yyyy"
+        Me.txttoDate.FieldCode = Nothing
+        Me.txttoDate.FieldDesc = Nothing
+        Me.txttoDate.FieldMaxLength = 0
+        Me.txttoDate.FieldName = Nothing
         Me.txttoDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txttoDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txttoDate.isCalculatedField = False
+        Me.txttoDate.IsSourceFromTable = False
+        Me.txttoDate.IsSourceFromValueList = False
+        Me.txttoDate.IsUnique = False
         Me.txttoDate.Location = New System.Drawing.Point(236, 6)
         Me.txttoDate.MendatroryField = False
         Me.txttoDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -124,6 +135,9 @@ Partial Class FrmPendingReqForApproval
         Me.txttoDate.MyLinkLable2 = Nothing
         Me.txttoDate.Name = "txttoDate"
         Me.txttoDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txttoDate.ReferenceFieldDesc = Nothing
+        Me.txttoDate.ReferenceFieldName = Nothing
+        Me.txttoDate.ReferenceTableName = Nothing
         Me.txttoDate.Size = New System.Drawing.Size(77, 18)
         Me.txttoDate.TabIndex = 1
         Me.txttoDate.TabStop = False
@@ -132,6 +146,7 @@ Partial Class FrmPendingReqForApproval
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(2, 7)
         Me.RadLabel4.Name = "RadLabel4"
@@ -141,9 +156,18 @@ Partial Class FrmPendingReqForApproval
         '
         'txtFromDate
         '
+        Me.txtFromDate.CalculationExpression = Nothing
         Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
         Me.txtFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
         Me.txtFromDate.Location = New System.Drawing.Point(67, 6)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -151,6 +175,9 @@ Partial Class FrmPendingReqForApproval
         Me.txtFromDate.MyLinkLable2 = Nothing
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
         Me.txtFromDate.Size = New System.Drawing.Size(77, 18)
         Me.txtFromDate.TabIndex = 0
         Me.txtFromDate.TabStop = False
@@ -161,11 +188,19 @@ Partial Class FrmPendingReqForApproval
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(691, 272)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnClose
         '

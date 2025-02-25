@@ -3938,7 +3938,6 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End Try
 
     End Sub
-
     Private Sub TxtVehicleCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtVehicleCode._MYValidating
         Dim qry As String = "Select distinct  vehicle_id as Code ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code "
         Dim WhrCls As String = ""
@@ -4295,7 +4294,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
                             'dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
-                            dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
+                            'dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTCSTotAmt = dblTCSTotAmt + dblTaxAmt3
                             If rbtnManualTCS.IsChecked = False Then
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)

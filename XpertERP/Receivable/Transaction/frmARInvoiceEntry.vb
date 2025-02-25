@@ -5366,5 +5366,17 @@ Public Class FrmARInvoiceEntry
     Private Sub rmiExportOPInvoiceForTCS_Click(sender As Object, e As EventArgs) Handles rmiExportOPInvoiceForTCS.Click
         Export()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_Customer_Invoice_Head", "TSPL_Customer_Invoice_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
 

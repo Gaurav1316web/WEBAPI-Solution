@@ -23,6 +23,11 @@ Partial Class frmGeneralWeighment
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.dtpTareWeighment = New common.Controls.MyDateTimePicker()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.dtpGrossWeighment = New common.Controls.MyDateTimePicker()
+        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.rbtnJobWork = New common.Controls.MyRadioButton()
         Me.rbtnScrap = New common.Controls.MyRadioButton()
@@ -43,7 +48,6 @@ Partial Class frmGeneralWeighment
         Me.lblRemarks = New common.Controls.MyLabel()
         Me.fndWeighmentcode = New common.UserControls.txtNavigator()
         Me.txtNetWeight = New common.MyNumBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtGrossWeight = New common.MyNumBox()
@@ -63,13 +67,15 @@ Partial Class frmGeneralWeighment
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.dtpGrossWeighment = New common.Controls.MyDateTimePicker()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.dtpTareWeighment = New common.Controls.MyDateTimePicker()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.dtpTareWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpGrossWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.rbtnJobWork, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnScrap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,7 +92,6 @@ Partial Class frmGeneralWeighment
         CType(Me.lblWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGrossWeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,10 +109,7 @@ Partial Class frmGeneralWeighment
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpGrossWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpTareWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -159,6 +161,7 @@ Partial Class frmGeneralWeighment
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -168,6 +171,94 @@ Partial Class frmGeneralWeighment
         Me.SplitContainer1.Size = New System.Drawing.Size(978, 262)
         Me.SplitContainer1.SplitterDistance = 218
         Me.SplitContainer1.TabIndex = 0
+        '
+        'dtpTareWeighment
+        '
+        Me.dtpTareWeighment.CalculationExpression = Nothing
+        Me.dtpTareWeighment.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpTareWeighment.FieldCode = Nothing
+        Me.dtpTareWeighment.FieldDesc = Nothing
+        Me.dtpTareWeighment.FieldMaxLength = 0
+        Me.dtpTareWeighment.FieldName = Nothing
+        Me.dtpTareWeighment.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpTareWeighment.isCalculatedField = False
+        Me.dtpTareWeighment.IsSourceFromTable = False
+        Me.dtpTareWeighment.IsSourceFromValueList = False
+        Me.dtpTareWeighment.IsUnique = False
+        Me.dtpTareWeighment.Location = New System.Drawing.Point(809, 28)
+        Me.dtpTareWeighment.MendatroryField = False
+        Me.dtpTareWeighment.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTareWeighment.MyLinkLable1 = Me.MyLabel2
+        Me.dtpTareWeighment.MyLinkLable2 = Nothing
+        Me.dtpTareWeighment.Name = "dtpTareWeighment"
+        Me.dtpTareWeighment.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTareWeighment.ReferenceFieldDesc = Nothing
+        Me.dtpTareWeighment.ReferenceFieldName = Nothing
+        Me.dtpTareWeighment.ReferenceTableName = Nothing
+        Me.dtpTareWeighment.Size = New System.Drawing.Size(132, 20)
+        Me.dtpTareWeighment.TabIndex = 361
+        Me.dtpTareWeighment.TabStop = False
+        Me.dtpTareWeighment.Text = "10/06/2011 11:51 AM"
+        Me.dtpTareWeighment.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel2.Location = New System.Drawing.Point(7, 29)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(120, 16)
+        Me.MyLabel2.TabIndex = 22
+        Me.MyLabel2.Text = "Weighment Entry Date"
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(701, 29)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(95, 16)
+        Me.MyLabel9.TabIndex = 360
+        Me.MyLabel9.Text = "Tare Weight Date"
+        '
+        'dtpGrossWeighment
+        '
+        Me.dtpGrossWeighment.CalculationExpression = Nothing
+        Me.dtpGrossWeighment.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpGrossWeighment.FieldCode = Nothing
+        Me.dtpGrossWeighment.FieldDesc = Nothing
+        Me.dtpGrossWeighment.FieldMaxLength = 0
+        Me.dtpGrossWeighment.FieldName = Nothing
+        Me.dtpGrossWeighment.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpGrossWeighment.isCalculatedField = False
+        Me.dtpGrossWeighment.IsSourceFromTable = False
+        Me.dtpGrossWeighment.IsSourceFromValueList = False
+        Me.dtpGrossWeighment.IsUnique = False
+        Me.dtpGrossWeighment.Location = New System.Drawing.Point(809, 4)
+        Me.dtpGrossWeighment.MendatroryField = False
+        Me.dtpGrossWeighment.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpGrossWeighment.MyLinkLable1 = Me.MyLabel2
+        Me.dtpGrossWeighment.MyLinkLable2 = Nothing
+        Me.dtpGrossWeighment.Name = "dtpGrossWeighment"
+        Me.dtpGrossWeighment.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpGrossWeighment.ReferenceFieldDesc = Nothing
+        Me.dtpGrossWeighment.ReferenceFieldName = Nothing
+        Me.dtpGrossWeighment.ReferenceTableName = Nothing
+        Me.dtpGrossWeighment.Size = New System.Drawing.Size(132, 20)
+        Me.dtpGrossWeighment.TabIndex = 359
+        Me.dtpGrossWeighment.TabStop = False
+        Me.dtpGrossWeighment.Text = "10/06/2011 11:51 AM"
+        Me.dtpGrossWeighment.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(701, 6)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(102, 16)
+        Me.MyLabel8.TabIndex = 358
+        Me.MyLabel8.Text = "Gross Weight Date"
         '
         'Panel1
         '
@@ -263,7 +354,6 @@ Partial Class frmGeneralWeighment
         Me.lblItemName.Name = "lblItemName"
         Me.lblItemName.Size = New System.Drawing.Size(365, 19)
         Me.lblItemName.TabIndex = 351
-        Me.lblItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtItemCode
         '
@@ -480,17 +570,7 @@ Partial Class frmGeneralWeighment
         Me.txtNetWeight.TabIndex = 11
         Me.txtNetWeight.Text = "0"
         Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0.0R
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(7, 29)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(120, 16)
-        Me.MyLabel2.TabIndex = 22
-        Me.MyLabel2.Text = "Weighment Entry Date"
+        Me.txtNetWeight.Value = 0R
         '
         'MyLabel6
         '
@@ -537,7 +617,7 @@ Partial Class frmGeneralWeighment
         Me.txtGrossWeight.TabIndex = 10
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0.0R
+        Me.txtGrossWeight.Value = 0R
         '
         'txtVehicle_No
         '
@@ -572,7 +652,6 @@ Partial Class frmGeneralWeighment
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(365, 19)
         Me.LblLocationName.TabIndex = 8
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtWeighmentdate
         '
@@ -639,7 +718,7 @@ Partial Class frmGeneralWeighment
         Me.TxtTareWeight.TabIndex = 9
         Me.TxtTareWeight.Text = "0"
         Me.TxtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTareWeight.Value = 0.0R
+        Me.TxtTareWeight.Value = 0R
         '
         'btnnew
         '
@@ -742,7 +821,7 @@ Partial Class frmGeneralWeighment
         '
         Me.UcWeighing1.Dock = System.Windows.Forms.DockStyle.Top
         Me.UcWeighing1.form_ID = Nothing
-        Me.UcWeighing1.LiveReading = 0.0R
+        Me.UcWeighing1.LiveReading = 0R
         Me.UcWeighing1.Location = New System.Drawing.Point(0, 0)
         Me.UcWeighing1.Machine = ""
         Me.UcWeighing1.Name = "UcWeighing1"
@@ -750,83 +829,16 @@ Partial Class frmGeneralWeighment
         Me.UcWeighing1.Size = New System.Drawing.Size(978, 64)
         Me.UcWeighing1.TabIndex = 1
         '
-        'MyLabel8
+        'btnHistory
         '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(701, 6)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(102, 16)
-        Me.MyLabel8.TabIndex = 358
-        Me.MyLabel8.Text = "Gross Weight Date"
-        '
-        'dtpGrossWeighment
-        '
-        Me.dtpGrossWeighment.CalculationExpression = Nothing
-        Me.dtpGrossWeighment.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.dtpGrossWeighment.FieldCode = Nothing
-        Me.dtpGrossWeighment.FieldDesc = Nothing
-        Me.dtpGrossWeighment.FieldMaxLength = 0
-        Me.dtpGrossWeighment.FieldName = Nothing
-        Me.dtpGrossWeighment.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpGrossWeighment.isCalculatedField = False
-        Me.dtpGrossWeighment.IsSourceFromTable = False
-        Me.dtpGrossWeighment.IsSourceFromValueList = False
-        Me.dtpGrossWeighment.IsUnique = False
-        Me.dtpGrossWeighment.Location = New System.Drawing.Point(809, 4)
-        Me.dtpGrossWeighment.MendatroryField = False
-        Me.dtpGrossWeighment.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpGrossWeighment.MyLinkLable1 = Me.MyLabel2
-        Me.dtpGrossWeighment.MyLinkLable2 = Nothing
-        Me.dtpGrossWeighment.Name = "dtpGrossWeighment"
-        Me.dtpGrossWeighment.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpGrossWeighment.ReferenceFieldDesc = Nothing
-        Me.dtpGrossWeighment.ReferenceFieldName = Nothing
-        Me.dtpGrossWeighment.ReferenceTableName = Nothing
-        Me.dtpGrossWeighment.Size = New System.Drawing.Size(132, 20)
-        Me.dtpGrossWeighment.TabIndex = 359
-        Me.dtpGrossWeighment.TabStop = False
-        Me.dtpGrossWeighment.Text = "10/06/2011 11:51 AM"
-        Me.dtpGrossWeighment.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(701, 29)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(95, 16)
-        Me.MyLabel9.TabIndex = 360
-        Me.MyLabel9.Text = "Tare Weight Date"
-        '
-        'dtpTareWeighment
-        '
-        Me.dtpTareWeighment.CalculationExpression = Nothing
-        Me.dtpTareWeighment.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.dtpTareWeighment.FieldCode = Nothing
-        Me.dtpTareWeighment.FieldDesc = Nothing
-        Me.dtpTareWeighment.FieldMaxLength = 0
-        Me.dtpTareWeighment.FieldName = Nothing
-        Me.dtpTareWeighment.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTareWeighment.isCalculatedField = False
-        Me.dtpTareWeighment.IsSourceFromTable = False
-        Me.dtpTareWeighment.IsSourceFromValueList = False
-        Me.dtpTareWeighment.IsUnique = False
-        Me.dtpTareWeighment.Location = New System.Drawing.Point(809, 28)
-        Me.dtpTareWeighment.MendatroryField = False
-        Me.dtpTareWeighment.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpTareWeighment.MyLinkLable1 = Me.MyLabel2
-        Me.dtpTareWeighment.MyLinkLable2 = Nothing
-        Me.dtpTareWeighment.Name = "dtpTareWeighment"
-        Me.dtpTareWeighment.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpTareWeighment.ReferenceFieldDesc = Nothing
-        Me.dtpTareWeighment.ReferenceFieldName = Nothing
-        Me.dtpTareWeighment.ReferenceTableName = Nothing
-        Me.dtpTareWeighment.Size = New System.Drawing.Size(132, 20)
-        Me.dtpTareWeighment.TabIndex = 361
-        Me.dtpTareWeighment.TabStop = False
-        Me.dtpTareWeighment.Text = "10/06/2011 11:51 AM"
-        Me.dtpTareWeighment.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(385, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 20)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'frmGeneralWeighment
         '
@@ -845,6 +857,11 @@ Partial Class frmGeneralWeighment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.dtpTareWeighment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpGrossWeighment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.rbtnJobWork, System.ComponentModel.ISupportInitialize).EndInit()
@@ -862,7 +879,6 @@ Partial Class frmGeneralWeighment
         CType(Me.lblWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGrossWeight, System.ComponentModel.ISupportInitialize).EndInit()
@@ -880,10 +896,7 @@ Partial Class frmGeneralWeighment
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpGrossWeighment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpTareWeighment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -934,5 +947,6 @@ Partial Class frmGeneralWeighment
     Friend WithEvents dtpGrossWeighment As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents dtpTareWeighment As common.Controls.MyDateTimePicker
+    Friend WithEvents btnHistory As RadButton
 End Class
 

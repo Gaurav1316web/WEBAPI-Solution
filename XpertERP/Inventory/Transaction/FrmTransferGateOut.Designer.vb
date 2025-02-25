@@ -44,6 +44,7 @@ Partial Class FrmTransferGateOut
         Me.txtTransferDate = New common.Controls.MyTextBox()
         Me.fndDocNo = New common.UserControls.txtNavigator()
         Me.lblDocNo = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -70,6 +71,7 @@ Partial Class FrmTransferGateOut
         CType(Me.lblStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTransferDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,6 +91,7 @@ Partial Class FrmTransferGateOut
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -105,7 +108,6 @@ Partial Class FrmTransferGateOut
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(836, 267)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -190,7 +192,6 @@ Partial Class FrmTransferGateOut
         Me.lblToLoc.Name = "lblToLoc"
         Me.lblToLoc.Size = New System.Drawing.Size(193, 18)
         Me.lblToLoc.TabIndex = 360
-        Me.lblToLoc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLoc.TextWrap = False
         '
         'lblFromLoc
@@ -203,7 +204,6 @@ Partial Class FrmTransferGateOut
         Me.lblFromLoc.Name = "lblFromLoc"
         Me.lblFromLoc.Size = New System.Drawing.Size(193, 18)
         Me.lblFromLoc.TabIndex = 359
-        Me.lblFromLoc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLoc.TextWrap = False
         '
         'txtToLoc
@@ -441,6 +441,16 @@ Partial Class FrmTransferGateOut
         Me.lblDocNo.TabIndex = 346
         Me.lblDocNo.Text = "Document No."
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(143, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -507,6 +517,7 @@ Partial Class FrmTransferGateOut
         CType(Me.lblStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTransferDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -539,5 +550,6 @@ Partial Class FrmTransferGateOut
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

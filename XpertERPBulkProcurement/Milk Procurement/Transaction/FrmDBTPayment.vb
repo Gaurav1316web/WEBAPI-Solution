@@ -148,6 +148,18 @@ where isnull([Status],0)=0 "
     Private Sub FrmDBTPayment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Control AndAlso e.Alt AndAlso e.Shift AndAlso e.KeyCode = Keys.F12 Then
+            If GroupReverse.Visible Then
+                GroupReverse.Visible = Not GroupReverse.Visible
+            Else
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    GroupReverse.Visible = Not GroupReverse.Visible
+                End If
+            End If
         End If
     End Sub
 
@@ -194,5 +206,54 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + strDOCNo + "'
 
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         GroupBox1.Visible = False
+    End Sub
+
+
+
+
+
+
+
+    Private Sub txtReveseUnion__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReveseUnion._MYValidating
+        Try
+            Dim qry As String = "select  DataBase_Name as Code from TSPL_MASTER.dbo.TSPL_APP_LOCATION "
+            txtReveseUnion.Value = clsCommon.ShowSelectForm("RvUnDBTPay", qry, "Code", "", txtReveseUnion.Value, "DataBase_Name", isButtonClicked)
+            txtReveseDocument.Value = ""
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub txtReveseDocument__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReveseDocument._MYValidating
+        Try
+            If clsCommon.myLen(txtReveseUnion.Value) <= 0 Then
+                txtReveseUnion.Focus()
+                Throw New Exception("Please select union")
+            End If
+            Dim qry As String = "select TSPL_DBT_NEFT_RCDF.PK_Id as Code,TSPL_DBT_NEFT_RCDF.Document_Code,convert(varchar, TSPL_DBT_NEFT_RCDF.From_Date,103) as FromDate,convert(varchar, TSPL_DBT_NEFT_RCDF.To_Date,103) as ToDate from TSPL_DBT_NEFT_RCDF 
+left outer join TSPL_MASTER.dbo.TSPL_APP_LOCATION on TSPL_MASTER.dbo.TSPL_APP_LOCATION.DataBase_Name=TSPL_DBT_NEFT_RCDF.DB_Name"
+            Dim whr As String = " TSPL_DBT_NEFT_RCDF.DB_NAME='" + txtReveseUnion.Value + "' and isnull(Status,0)=1"
+            txtReveseDocument.Value = clsCommon.ShowSelectForm("RvdocDBTPay", qry, "Code", whr, txtReveseDocument.Value, "", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnRevese_Click(sender As Object, e As EventArgs) Handles btnRevese.Click
+        Try
+            If clsCommon.myLen(txtReveseUnion.Value) <= 0 Then
+                txtReveseUnion.Focus()
+                Throw New Exception("Please select union")
+            End If
+            If clsCommon.myLen(txtReveseDocument.Value) <= 0 Then
+                txtReveseDocument.Focus()
+                Throw New Exception("Please select Docuemnt")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Reverse  Documents [" + txtReveseDocument.Value + "]" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                clsDBTNEFT.ReverseDataRCDF(txtReveseDocument.Value)
+                clsCommon.MyMessageBoxShow(Me, "Data reversed Successfully", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

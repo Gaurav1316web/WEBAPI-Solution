@@ -38,7 +38,7 @@ Public Class clsBankOpeningReco
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
-
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_OPENING_RECO", "Code", Nothing)
             Dim qry As String
             qry = "delete from TSPL_BANK_OPENING_RECO where Code ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -153,6 +153,7 @@ Public Class clsBankOpeningReco
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_OPENING_RECO", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BANK_OPENING_RECO", "Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

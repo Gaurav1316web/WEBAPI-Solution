@@ -4986,6 +4986,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         frm.ShowDialog()
         LoadBlankGrid()
         Dim objOrderHead As clsSNInvoiceHead = Nothing
+        Dim chkStr As New List(Of String)
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
             If clsCommon.myLen(frm.ArrReturn(0).Document_Code) > 0 Then
                 objOrderHead = clsSNInvoiceHead.GetData(frm.ArrReturn(0).Document_Code, NavigatorType.Current, "", Nothing, clsCommon.myCstr(Me.Form_ID))
@@ -5178,6 +5179,39 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = obj.Balance_Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1).Value = obj.TAX1
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2).Value = obj.TAX2
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3).Value = obj.TAX3
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4).Value = obj.TAX4
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5).Value = obj.TAX5
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6).Value = obj.TAX6
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7).Value = obj.TAX7
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8).Value = obj.TAX8
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9).Value = obj.TAX9
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10).Value = obj.TAX10
+
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = obj.TAX1_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = obj.TAX2_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = obj.TAX3_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = obj.TAX4_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = obj.TAX5_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = obj.TAX6_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = obj.TAX7_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = obj.TAX8_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = obj.TAX9_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = obj.TAX10_Amt
+
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt1).Value = obj.TAX1_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt2).Value = obj.TAX2_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt3).Value = obj.TAX3_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt4).Value = obj.TAX4_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt5).Value = obj.TAX5_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt6).Value = obj.TAX6_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt7).Value = obj.TAX7_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt8).Value = obj.TAX8_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt9).Value = obj.TAX9_Base_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt10).Value = obj.TAX10_Base_Amt
+
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5193,6 +5227,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
 
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = obj.Amt_Less_Discount
                                 If obj.MFG_Date.HasValue Then
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = obj.MFG_Date
                                 End If
@@ -5239,6 +5274,126 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             End If
                         End If
                     Next
+                End If
+                For i As Integer = 0 To frm.ArrReturn.Count - 1
+                    If chkStr.Contains(frm.ArrReturn(i).Document_Code) Then
+                    Else
+                        chkStr.Add(frm.ArrReturn(i).Document_Code)
+                    End If
+                Next
+                Dim whr As String = ""
+                whr = "  where DOCUMENT_CODE in  (" + clsCommon.GetMulcallString(chkStr) + ")"
+                Dim manualtcs As Integer = clsDBFuncationality.getSingleValue("select isnull(sum(Is_ManualTCS),0)Is_ManualTCS from TSPL_SD_SALE_INVOICE_HEAD " + whr + " ")
+                If manualtcs <> 0 Then
+                    rbtnManualTCS.IsChecked = True
+                ElseIf objOrderHead.Tax_Calculation_Type = 0 Then
+                    rbtnTaxCalAutomatic.IsChecked = True
+                ElseIf objOrderHead.Tax_Calculation_Type = 1 Then
+                    rbtnTaxCalManual.IsChecked = True
+                End If
+                Dim strqryForGV2 As String = "select TAX1,avg(TAX1_Rate)TAX1_Rate,	sum(TAX1_Amt)TAX1_Amt,	sum(TAX1_Base_Amt)TAX1_Base_Amt,	TAX2,	avg(TAX2_Rate)TAX2_Rate,	sum(TAX2_Amt)TAX2_Amt,	sum(TAX2_Base_Amt)TAX2_Base_Amt,	TAX3	,case when max(isnull(Is_ManualTCS,''))=1 then 0 else max(TAX3_Rate) end as TAX3_Rate	,sum(TAX3_Amt)TAX3_Amt,	sum(TAX3_Base_Amt)TAX3_Base_Amt,	TAX4	,avg(TAX4_Rate)TAX4_Rate,	sum(TAX4_Amt)TAX4_Amt,	sum(TAX4_Base_Amt)TAX4_Base_Amt	,TAX5	,avg(TAX5_Rate)TAX5_Rate,	sum(TAX5_Amt)TAX5_Amt	,sum(TAX5_Base_Amt)TAX5_Base_Amt	,TAX6	,avg(TAX6_Rate)TAX6_Rate	,sum(TAX6_Amt)TAX6_Amt,	sum(TAX6_Base_Amt)TAX6_Base_Amt,	TAX7,	avg(TAX7_Rate)TAX7_Rate,	sum(TAX7_Amt)TAX7_Amt,	sum(TAX7_Base_Amt)TAX7_Base_Amt,	TAX8	,avg(TAX8_Rate)TAX8_Rate	,sum(TAX8_Amt)TAX8_Amt,	sum(TAX8_Base_Amt)TAX8_Base_Amt,	TAX9	,avg(TAX9_Rate)TAX9_Rate,	sum(TAX9_Amt)TAX9_Amt,	sum(TAX9_Base_Amt)TAX9_Base_Amt	,TAX10,	avg(TAX10_Rate)TAX10_Rate	,sum(TAX10_Amt)TAX10_Amt	,sum(TAX10_Base_Amt)TAX10_Base_Amt
+                                         from TSPL_SD_SALE_INVOICE_HEAD " + whr + "
+                                           group by TAX1,TAX2,TAX3,TAX4,TAX5,tax6,tax7,tax8,tax9,tax10
+                                        "
+                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(strqryForGV2)
+                LoadBlankGridTax()
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX1"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX1"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX1_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX1_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX1_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX1")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX2"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX2"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX2_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX2_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX2_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX2")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX3"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX3"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX3_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX3_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX3_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX3")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX4"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX4"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX4_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX4_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX4_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX4")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX5"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX5"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX5_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX5_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX5_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX5")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX6"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX6"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX6_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX6_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX6_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX6")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX7"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX7"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX7_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX7_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX7_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX7")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX8"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX8"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX8_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX8_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX8_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX8")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX9"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX9"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX9_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX9_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX9_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX9")) + "'")
+
+                End If
+
+                If (clsCommon.myLen(clsCommon.myCstr(dt2.Rows(0)("TAX10"))) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dt2.Rows(0)("TAX10"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX10_Rate"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX10_Base_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = clsCommon.myCdbl(dt2.Rows(0)("TAX10_Amt"))
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(dt2.Rows(0)("TAX10")) + "'")
 
                 End If
 
@@ -5273,8 +5428,8 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             End If
             'gv1.Rows.AddNew()
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-            SetitemWiseTaxSetting(False, False)
-            For ii As Integer = 0 To gv1.RowCount - 1
+            'SetitemWiseTaxSetting(False, False)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
                 UpdateCurrentRow(ii)
             Next
         End If
@@ -6049,7 +6204,26 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             ''End If
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
-                        dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                        If rbtnManualTCS.IsChecked Then
+                            If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                                Dim dblTotAmt As Double = 0
+                                Dim dblTaxAmtt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                                Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                                For jj As Integer = 0 To gv1.Rows.Count - 1
+                                    dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                                Next
+                                Dim dblCurrCalTax As Double = 0
+                                If dblTotAmt <> 0 Then
+                                    dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmtt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                                End If
+                                dblTaxAmt = dblCurrCalTax
+                            Else
+                                dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                            End If
+                        Else
+                            dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+                            Dim tr As Double = Math.Round(dblTaxAmt, 2, MidpointRounding.AwayFromZero)
+                        End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
@@ -6242,6 +6416,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
                             End If
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                            UpdateCurrentRow(IntRowNo)
                         End If
                     End If
                 End If

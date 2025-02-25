@@ -312,7 +312,7 @@ Public Class clsAssembliesDis
             obj.BOM_PROD_ITEM_UNIT_CODE = clsCommon.myCstr(dt.Rows(0)("BOM_PROD_ITEM_UNIT_CODE"))
             obj.Serial_No = clsCommon.myCstr(dt.Rows(0)("Serial_No"))
             obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
-            obj.POSTED = dt.Rows(0)("POSTED")
+            obj.POSTED = IIf(clsCommon.myCdbl(dt.Rows(0)("POSTED")) = 1, True, False)
             If IsDBNull(dt.Rows(0)("Posting_Date")) Then
                 obj.Posting_Date = Nothing
             Else

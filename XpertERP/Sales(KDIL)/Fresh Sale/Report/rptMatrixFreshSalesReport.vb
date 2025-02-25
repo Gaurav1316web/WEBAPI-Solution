@@ -2443,7 +2443,7 @@ DemandData AS (
         DM.Document_Date AS [Order Date],
         CASE 
             WHEN D.Qty = 0 THEN 0 
-            ELSE (D.Qty * UOM.Conversion_Factor) / COALESCE(UOM_LTR.Conversion_Factor, UOM_KG.Conversion_Factor) 
+            ELSE (D.Qty * UOM.Conversion_Factor) / COALESCE(UOM_LTR.Conversion_Factor, UOM_LTR.Conversion_Factor) 
         END AS QtyLtr,
                             	d.TAX1_Base_Amt,
                             R.City_Code AS [Route_CityCode],
@@ -2477,8 +2477,8 @@ DemandData AS (
     LEFT JOIN tspl_transport_master T ON T.Transport_Id = V.Transport_Id
     LEFT JOIN ItemData ON ItemData.Item_Code = D.Item_Code
     LEFT JOIN FilteredProductAmt ON FilteredProductAmt.Cust_Code = D.Cust_Code
-    WHERE M.Is_Milk_Pouch = 1
-      AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+    WHERE 
+       convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
 ),
 SaleReturnData AS (
     SELECT 
@@ -3209,7 +3209,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                 clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '    Private Sub btnPrintTrkSht_Click(sender As Object, e As EventArgs) Handles btnPrintTrkSht.Click

@@ -56,6 +56,8 @@ Public Class rptPaymentProcessRouteReport
             dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
             dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
             Reset()
+            RadPageViewPage3.Text = "Report 2"
+            RadPageViewPage4.Text = "Report 3"
             gbSummaryReportType.Visible = False
             lblMCC.Visible = False
             If SettShowMultipleLegers Then
@@ -81,6 +83,7 @@ Public Class rptPaymentProcessRouteReport
             lblArea.Visible = AreaWiseBilling
             TxtFinderArea.Visible = AreaWiseBilling
             lblFArea.Visible = AreaWiseBilling
+            checkMCC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1342,16 +1345,16 @@ isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDO
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate
 ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,
-TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,
+TSPL_VENDOR_MASTER.Vendor_Name,
 TSPL_VENDOR_MASTER.Bank_Code, TSPL_VENDOR_MASTER.Account_No,
-TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-            BaseQry += ",(case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type='C' then 'Cow' else 'Buffalo' end) as CowBuffalo_Type"
+            BaseQry += ",TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name,(case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type='C' then 'Cow' else 'Buffalo' end) as CowBuffalo_Type"
         Else
-            BaseQry += ",case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type "
+            BaseQry += ",TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name,case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type "
         End If
         BaseQry += ",(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
 ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT ,TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
@@ -1377,10 +1380,16 @@ left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_
  left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
 Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
 Left Outer Join TSPL_MCC_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD .MCC_CODE = TSPL_MCC_MASTER.MCC_Code  
-left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code 
-Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_BULK_ROUTE_MASTER.ROUTE_NO 
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
-left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code 
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") <> CompairStringResult.Equal Then
+            BaseQry += "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO 
+                        Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_VLC_MASTER_HEAD.Route_Code =TSPL_BULK_ROUTE_MASTER.ROUTE_NO "
+        Else
+            BaseQry += "Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_BULK_ROUTE_MASTER.ROUTE_NO 
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO "
+        End If
+
+        BaseQry += "left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code 
 left join TSPL_STATE_MASTER as MCC_State on MCC_State.STATE_CODE =TSPL_MCC_MASTER.State_Code 
 left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.VEHICLE_CODE = TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
 inner join  (select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Payable_Amount) as Payable_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,SUM(SRN_RO_Amount) as PPSRN_RO_Amount from (select TSPL_PAYMENT_PROCESS_DETAIL.SRN_RO_Amount,TSPL_PAYMENT_PROCESS_HEAD.Doc_No ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount  
@@ -3762,7 +3771,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             Dim dt1 As DataTable = Nothing
 
 
-            qry = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            qry = " select 'Date Range : " + clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd/MMM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(dtpDailySummaryToDate.Value, "dd/MMM/yyyy") + "' As [DateRange],'" + objCommonVar.CurrComp_Code1 + "' As CompCode, Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG  from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
                                   where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
@@ -3937,10 +3946,14 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
 
                 Dim frmCRV As New frmCrystalReportViewer()
                 If PaymentCWchk.Checked = True Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReportCycleWise", "")
+                    End If
                     frmCRV = Nothing
-                Else
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                     frmCRV = Nothing
                 End If
             Else
@@ -3974,7 +3987,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     End Sub
     Private Sub btnPrintDailySummaryRouteWise_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummaryRouteWise.Click
         Try
-            Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            Dim qry As String = " select 'Date Range : " + clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd/MMM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(dtpDailySummaryToDate.Value, "dd/MMM/yyyy") + "' As [DateRange],Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT TSPL_BULK_ROUTE_MASTER.ROUTE_NO as ROUTE_CODE,max(TSPL_BULK_ROUTE_MASTER.route_name) as Route_name, max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG 								  
 								   from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
@@ -4316,21 +4329,36 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
         Try
 
 
-            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate,'" + objCommonVar.CurrentUser + "' as User_Name, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
-                                  FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate,'" + objCommonVar.CurrentUser + "' as User_Name, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " ,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME"
+            End If
+            qry += " From TSPL_MILK_COLLECTION_DCS_DETAIL 
                                   left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
-                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
-                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
-                                  group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code"
+            End If
+            qry += "            left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103) "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                qry += " group by TSPL_BULK_ROUTE_MASTER.ROUTE_NO,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+            Else
+                qry += " group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrintUDP_OR_RJS", "")
+                Else
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
+                End If
+
                 frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5253,5 +5281,119 @@ TSPL_MILK_COLLECTION_MCC
 
     Private Sub btnGoDCSSummary_Click(sender As Object, e As EventArgs) Handles btnGoDCSSummary.Click
         DCSSummary(False)
+    End Sub
+
+    Private Sub PaymentCWchk_CheckedChanged(sender As Object, e As EventArgs) Handles PaymentCWchk.CheckedChanged
+        Try
+            checkRadioButtonDailySummary()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub DateRngChk_CheckedChanged(sender As Object, e As EventArgs) Handles DateRngChk.CheckedChanged
+        Try
+            checkRadioButtonDailySummary()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub checkRadioButtonDailySummary()
+        If PaymentCWchk.Checked Then
+            dtpDailySummaryToDate.Enabled = False
+        Else
+            dtpDailySummaryToDate.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btnMCCWise_Click(sender As Object, e As EventArgs) Handles btnMCCWise.Click
+        Try
+            Dim strCity As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_City_MASTER.City_Name from TSPL_City_MASTER 
+Inner Join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.City_Code=TSPL_City_MASTER.City_Code
+where TSPL_LOCATION_MASTER.IsMainPlant=1 And TSPL_LOCATION_MASTER.Location_Code='" + objCommonVar.CurrLocationCode + "'"))
+
+            Dim Qry As String = "Select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,
+TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,
+CONCAT('MCC Wise Quantity Report from ','" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "',' to ','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "',' for ','" + strCity + "',' Unit') As FromToDate,
+final.* from (Select [Route Code],MAX([Route Name]) As [Route Name],
+Mcc_Code_VLC_Uploader As [MCC Uploader Code], Max(MCC) As MCC,MAX([MCC Name]) As [MCC Name],
+Sum(Qty) As Qty ,Round(Case When Max([Days])>0 Then  Sum(Qty)/Max([Days]) Else 0 End,2) As [Average]
+from (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], 
+TSPL_BULK_ROUTE_MASTER.ROUTE_NO As [Route Code],  TSPL_BULK_ROUTE_MASTER.Route_Name As [Route Name],
+TSPL_MCC_MASTER.MCC_Type as [MCC Type],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code],TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], 
+TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc , TSPL_MILK_SRN_DETAIL.Qty,(DATEDIFF(DAY,'" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "')+1) As [Days]
+ From TSPL_MILK_SRN_DETAIL 
+ Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE  
+ Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
+ Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_NO=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
+ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code 
+ Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+ Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+ Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
+ Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
+ Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+ left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
+ left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+ Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+ Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+ Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+ left outer join (select code,max(Price_code) as Price_code,max(Planning_Code) as Planning_Code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code 
+ left outer join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.Price_Code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code
+ left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
+ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code =  TabTSPL_FAT_SNF_UPLOADER_MASTER.Planning_Code 
+ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  
+ left outer join (select MILK_SRN_Code,sum(Incentive_Amount) as Incentive_Amount from TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL group by MILK_SRN_Code) as TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE 
+ left outer join (select MILK_SRN_Code,sum(Incentive_Amount) as Incentive_Amount from TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL group by MILK_SRN_Code) as TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_PROVISON_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE  
+ left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_doc_no=TSPL_MILK_SRN_HEAD.DOC_CODE and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MCC-MSRN'   
+ left outer join  TSPL_PRICE_CHART_PLANNING TPCP on TSPL_MILK_SRN_DETAIL.Price_Code=TPCP.Planning_Code   
+ where 2 = 2  and TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type is null and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type is null  
+ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "' "
+            If fndMultMCC.arrValueMember IsNot Nothing AndAlso fndMultMCC.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.GetMulcallString(fndMultMCC.arrValueMember) + ")"
+            End If
+            Qry += ")xyz  
+ Group By [Route Code],Mcc_Code_VLC_Uploader)final 
+Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' Order By [Route Code],[MCC Uploader Code]"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptYearlyMCCSummary", "MCC Wise Quantity Report")
+                frmCRV = Nothing
+            Else
+                Throw New Exception("Data Not Found !")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkMCCWiseSummary_CheckStateChanged(sender As Object, e As EventArgs) Handles chkMCCWiseSummary.CheckStateChanged
+        Try
+            checkMCC()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub checkMCC()
+        If chkMCCWiseSummary.Checked Then
+            btnMCCWise.Visible = True
+            fndArea.Visible = False
+            lblArea.Visible = False
+            fndMultDCS.Visible = False
+            MyLabel24.Visible = False
+            RadGroupBox17.Visible = False
+            btnYearlySummary.Enabled = False
+        Else
+            btnMCCWise.Visible = False
+            fndArea.Visible = True
+            lblArea.Visible = True
+            fndMultDCS.Visible = True
+            MyLabel24.Visible = True
+            RadGroupBox17.Visible = True
+            btnYearlySummary.Enabled = True
+        End If
     End Sub
 End Class

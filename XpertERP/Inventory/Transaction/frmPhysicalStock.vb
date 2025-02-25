@@ -1548,4 +1548,16 @@ Public Class FrmPhysicalStock
     Private Sub txtItemType__My_Click(sender As Object, e As EventArgs) Handles txtItemType._My_Click
         txtItemType.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemTypeForPhysicalStock", FrmItemMasterRMOther.LoadItemTypeQuery(), "Code", "Name", txtItemType.arrValueMember, txtItemType.arrDispalyMember)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Document_No", "tspl_physical_stock", "TSPL_TRANSFER_TO_SAVING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

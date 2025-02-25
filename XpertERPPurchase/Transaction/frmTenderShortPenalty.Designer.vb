@@ -22,7 +22,7 @@ Partial Class frmTenderShortPenalty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SRN_PI = New common.Controls.MyLabel()
@@ -49,6 +49,7 @@ Partial Class frmTenderShortPenalty
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnRecalculate = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
@@ -82,6 +83,7 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,6 +111,7 @@ Partial Class frmTenderShortPenalty
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -535,7 +538,7 @@ Partial Class frmTenderShortPenalty
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -544,6 +547,15 @@ Partial Class frmTenderShortPenalty
         Me.gv1.Size = New System.Drawing.Size(729, 198)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(571, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'BtnCancel
         '
@@ -659,6 +671,7 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -705,5 +718,6 @@ Partial Class frmTenderShortPenalty
     Friend WithEvents BtnCancel As RadButton
     Friend WithEvents txtSRN_PI As common.UserControls.txtFinder
     Friend WithEvents SRN_PI As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

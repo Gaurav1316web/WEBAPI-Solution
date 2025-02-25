@@ -807,6 +807,7 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.RadButton357 = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1567,6 +1568,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.RadButton357, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -2005,6 +2007,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton357)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox4)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton356)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnBankAdvice)
@@ -10044,6 +10047,14 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'RadButton357
+        '
+        Me.RadButton357.Location = New System.Drawing.Point(339, 525)
+        Me.RadButton357.Name = "RadButton357"
+        Me.RadButton357.Size = New System.Drawing.Size(312, 24)
+        Me.RadButton357.TabIndex = 1572
+        Me.RadButton357.Text = "Update App Location"
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10848,6 +10859,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadButton357, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11626,5 +11638,6 @@ Partial Class FrmUtility
     Friend WithEvents RadButton356 As RadButton
     Friend WithEvents txtRetestingDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents RadButton357 As RadButton
 End Class
 

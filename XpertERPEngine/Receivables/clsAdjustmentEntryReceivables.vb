@@ -64,6 +64,8 @@ Public Class clsAdjustmentEntryReceivables
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Receipt_Adjustment_Header", OMInsertOrUpdate.Update, "TSPL_Receipt_Adjustment_Header.Adjustment_No='" + obj.Adjustment_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsAdjustmentEntryReceivablesDetail.SaveData(obj.Adjustment_No, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

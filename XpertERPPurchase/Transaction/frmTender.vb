@@ -1109,7 +1109,7 @@ Public Class frmTender
             txtDocNo.MyReadOnly = True
         End If
         If txtDocNo.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted from tspl_tender_header"
+            Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
             txtDocNo.Value = clsCommon.ShowSelectForm("TenderNoFndd", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked)
             LoadData(txtDocNo.Value, NavigatorType.Current, False)
         End If
@@ -2264,6 +2264,18 @@ where   TSPL_LOCATION_MASTER.Location_Category<>'MCC' and TSPL_LOCATION_MASTER.I
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "DocumentCode", "tspl_tender_header", "tspl_tender_detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Sub closeRal()

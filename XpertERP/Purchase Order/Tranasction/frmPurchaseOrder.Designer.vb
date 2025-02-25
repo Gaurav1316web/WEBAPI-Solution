@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmPurchaseOrder
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmPurchaseOrder
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
@@ -4425,7 +4425,7 @@ Partial Class frmPurchaseOrder
         Me.rdbAmountinpercentage.AutoSize = True
         Me.rdbAmountinpercentage.Location = New System.Drawing.Point(72, 2)
         Me.rdbAmountinpercentage.Name = "rdbAmountinpercentage"
-        Me.rdbAmountinpercentage.Size = New System.Drawing.Size(63, 17)
+        Me.rdbAmountinpercentage.Size = New System.Drawing.Size(62, 18)
         Me.rdbAmountinpercentage.TabIndex = 1
         Me.rdbAmountinpercentage.TabStop = True
         Me.rdbAmountinpercentage.Text = "Percent"
@@ -4437,7 +4437,7 @@ Partial Class frmPurchaseOrder
         Me.rdbAmountinrupees.Checked = True
         Me.rdbAmountinrupees.Location = New System.Drawing.Point(2, 3)
         Me.rdbAmountinrupees.Name = "rdbAmountinrupees"
-        Me.rdbAmountinrupees.Size = New System.Drawing.Size(66, 17)
+        Me.rdbAmountinrupees.Size = New System.Drawing.Size(62, 18)
         Me.rdbAmountinrupees.TabIndex = 0
         Me.rdbAmountinrupees.TabStop = True
         Me.rdbAmountinrupees.Text = "Amount"

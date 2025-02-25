@@ -969,6 +969,8 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.MRN_No) > 0) Then
             Try

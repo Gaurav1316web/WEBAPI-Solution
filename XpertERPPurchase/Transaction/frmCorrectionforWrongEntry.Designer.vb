@@ -315,8 +315,8 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdatee)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1020, 739)
-        Me.SplitContainer1.SplitterDistance = 674
+        Me.SplitContainer1.Size = New System.Drawing.Size(1020, 710)
+        Me.SplitContainer1.SplitterDistance = 647
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -329,7 +329,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
-        Me.RadPageView1.Size = New System.Drawing.Size(1020, 674)
+        Me.RadPageView1.Size = New System.Drawing.Size(1020, 647)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -1414,7 +1414,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(999, 626)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(999, 599)
         Me.RadPageViewPage3.Text = "PRODUCTION"
         '
         'RadGroupBox7
@@ -2403,7 +2403,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1020, 739)
+        Me.ClientSize = New System.Drawing.Size(1020, 710)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmCorrectionforWrongEntry"
         '

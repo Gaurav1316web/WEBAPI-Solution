@@ -362,6 +362,20 @@ Public Class frmBankOpeningReco
         PostData()
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_BANK_OPENING_RECO")
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub txtBankCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBankCode._MYValidating
         Dim StrQuery As String = " select bank_code As Code,description  as [Description],BANKACCNUMBER as [BankAccNo]  from TSPL_Bank_MASTER "
         Dim Bank_Code As String = FrmMainTranScreen.bankPermission(Nothing)
