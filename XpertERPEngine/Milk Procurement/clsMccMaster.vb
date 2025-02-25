@@ -2217,7 +2217,7 @@ Public Class clsEkoPro
     End Function
 
     Public Shared Function getSnfOnCalculation(ByVal FatPer As Double, ByVal CLR As Double, ByVal CorrectionFactor As Double, Optional ByVal DeciPace As Integer = -1, Optional ByVal ResultDecimalPlaces As Integer = 2) As Double
-        If objCommonVar.TreateCLR50As52 Then
+        If objCommonVar.TreatCLR50As52 Then
             CLR = Convert50To52(CLR)
         End If
 
