@@ -141,6 +141,7 @@ Public Class clsPayHeadDefinitions
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYHEAD_MASTER", OMInsertOrUpdate.Update, "PAY_HEAD_CODE='" + obj.PAY_HEAD_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PAY_HEAD_CODE, "TSPL_PAYHEAD_MASTER", "PAY_HEAD_CODE", Nothing)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
