@@ -530,6 +530,8 @@ Public Class clsQualityCheckForSRNHead
                 Return True
                 Exit Function
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
 
 
             Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
