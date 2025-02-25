@@ -24,12 +24,12 @@ Partial Class frmAssetScrapSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -101,6 +101,7 @@ Partial Class frmAssetScrapSale
         Me.Setting = New Telerik.WinControls.UI.RadMenuItem()
         Me.layout1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -173,6 +174,7 @@ Partial Class frmAssetScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -192,6 +194,7 @@ Partial Class frmAssetScrapSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
@@ -546,7 +549,7 @@ Partial Class frmAssetScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -554,6 +557,7 @@ Partial Class frmAssetScrapSale
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(749, 201)
         Me.gv1.TabIndex = 1
+        Me.gv1.VarID = ""
         '
         'RadLabel1
         '
@@ -662,13 +666,14 @@ Partial Class frmAssetScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(756, 213)
         Me.gv2.TabIndex = 7
+        Me.gv2.VarID = ""
         '
         'GroupBox1
         '
@@ -906,26 +911,27 @@ Partial Class frmAssetScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn1.Name = "coladdcode"
-        GridViewTextBoxColumn1.Width = 125
-        GridViewTextBoxColumn2.HeaderText = "Description"
-        GridViewTextBoxColumn2.Name = "coladddesc"
-        GridViewTextBoxColumn2.Width = 300
-        GridViewDecimalColumn1.HeaderText = "Amount"
-        GridViewDecimalColumn1.Name = "coladdamt"
-        GridViewDecimalColumn1.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
+        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn3.Name = "coladdcode"
+        GridViewTextBoxColumn3.Width = 125
+        GridViewTextBoxColumn4.HeaderText = "Description"
+        GridViewTextBoxColumn4.Name = "coladddesc"
+        GridViewTextBoxColumn4.Width = 300
+        GridViewDecimalColumn2.HeaderText = "Amount"
+        GridViewDecimalColumn2.Name = "coladdamt"
+        GridViewDecimalColumn2.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvadd.ShowHeaderCellButtons = True
         Me.gvadd.Size = New System.Drawing.Size(753, 327)
         Me.gvadd.TabIndex = 3
+        Me.gvadd.VarID = ""
         '
         'RadLabel4
         '
@@ -1119,7 +1125,7 @@ Partial Class frmAssetScrapSale
         'butCostCenterAndHirerachy_Update_AfterPost
         '
         Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(526, 3)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(544, 3)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
         Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
         Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 141
@@ -1128,7 +1134,7 @@ Partial Class frmAssetScrapSale
         'btnInvoiceJE
         '
         Me.btnInvoiceJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnInvoiceJE.Location = New System.Drawing.Point(424, 3)
+        Me.btnInvoiceJE.Location = New System.Drawing.Point(382, 3)
         Me.btnInvoiceJE.Name = "btnInvoiceJE"
         Me.btnInvoiceJE.Size = New System.Drawing.Size(96, 22)
         Me.btnInvoiceJE.TabIndex = 140
@@ -1137,9 +1143,9 @@ Partial Class frmAssetScrapSale
         'btnCancel
         '
         Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(349, 3)
+        Me.btnCancel.Location = New System.Drawing.Point(320, 3)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(71, 22)
+        Me.btnCancel.Size = New System.Drawing.Size(61, 22)
         Me.btnCancel.TabIndex = 139
         Me.btnCancel.Text = "Cancel"
         '
@@ -1147,18 +1153,18 @@ Partial Class frmAssetScrapSale
         '
         Me.btnPrintReport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintReport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintReport.Location = New System.Drawing.Point(206, 3)
+        Me.btnPrintReport.Location = New System.Drawing.Point(192, 3)
         Me.btnPrintReport.Name = "btnPrintReport"
-        Me.btnPrintReport.Size = New System.Drawing.Size(65, 22)
+        Me.btnPrintReport.Size = New System.Drawing.Size(63, 22)
         Me.btnPrintReport.TabIndex = 138
         Me.btnPrintReport.Text = "Print"
         '
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(275, 3)
+        Me.btnReverse.Location = New System.Drawing.Point(256, 3)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(70, 22)
+        Me.btnReverse.Size = New System.Drawing.Size(63, 22)
         Me.btnReverse.TabIndex = 137
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
@@ -1167,9 +1173,9 @@ Partial Class frmAssetScrapSale
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(68, 3)
+        Me.btnPost.Location = New System.Drawing.Point(66, 3)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(66, 22)
+        Me.btnPost.Size = New System.Drawing.Size(64, 22)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
@@ -1177,9 +1183,9 @@ Partial Class frmAssetScrapSale
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(719, 3)
+        Me.btnClose.Location = New System.Drawing.Point(733, 3)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.Size = New System.Drawing.Size(55, 22)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         '
@@ -1197,9 +1203,9 @@ Partial Class frmAssetScrapSale
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(138, 3)
+        Me.btnDelete.Location = New System.Drawing.Point(131, 3)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(64, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(59, 22)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
@@ -1231,6 +1237,15 @@ Partial Class frmAssetScrapSale
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(793, 433)
         Me.Panel1.TabIndex = 3
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(482, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(61, 22)
+        Me.btnHistory.TabIndex = 142
+        Me.btnHistory.Text = "History"
         '
         'frmAssetScrapSale
         '
@@ -1323,6 +1338,7 @@ Partial Class frmAssetScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1400,5 +1416,6 @@ Partial Class frmAssetScrapSale
     Friend WithEvents btnCancel As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnInvoiceJE As Telerik.WinControls.UI.RadButton
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 
