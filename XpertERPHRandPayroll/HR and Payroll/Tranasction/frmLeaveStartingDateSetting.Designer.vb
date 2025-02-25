@@ -25,27 +25,28 @@ Partial Class frmLeaveStartingDateSetting
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveStartingDateSetting))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.txtCode = New common.UserControls.txtFinder
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.lblOpeningDate = New common.Controls.MyLabel
-        Me.dtpAvailStarting = New common.Controls.MyDateTimePicker
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.txtLeaveCode = New common.UserControls.txtFinder
-        Me.dtpAllotStarting = New common.Controls.MyDateTimePicker
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtCode = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.lblOpeningDate = New common.Controls.MyLabel()
+        Me.dtpAvailStarting = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtLeaveCode = New common.UserControls.txtFinder()
+        Me.dtpAllotStarting = New common.Controls.MyDateTimePicker()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,6 +65,7 @@ Partial Class frmLeaveStartingDateSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -83,6 +85,7 @@ Partial Class frmLeaveStartingDateSetting
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -97,40 +100,27 @@ Partial Class frmLeaveStartingDateSetting
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(638, 20)
         Me.RadMenu2.TabIndex = 171
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadGroupBox1
         '
@@ -155,19 +145,33 @@ Partial Class frmLeaveStartingDateSetting
         '
         'txtCode
         '
+        Me.txtCode.CalculationExpression = Nothing
+        Me.txtCode.FieldCode = Nothing
+        Me.txtCode.FieldDesc = Nothing
+        Me.txtCode.FieldMaxLength = 0
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.isCalculatedField = False
+        Me.txtCode.IsSourceFromTable = False
+        Me.txtCode.IsSourceFromValueList = False
+        Me.txtCode.IsUnique = False
         Me.txtCode.Location = New System.Drawing.Point(141, 22)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCode.MyLinkLable1 = Me.MyLabel2
         Me.txtCode.MyLinkLable2 = Nothing
         Me.txtCode.MyReadOnly = False
+        Me.txtCode.MyShowMasterFormButton = False
         Me.txtCode.Name = "txtCode"
+        Me.txtCode.ReferenceFieldDesc = Nothing
+        Me.txtCode.ReferenceFieldName = Nothing
+        Me.txtCode.ReferenceTableName = Nothing
         Me.txtCode.Size = New System.Drawing.Size(222, 19)
         Me.txtCode.TabIndex = 0
         Me.txtCode.Value = ""
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(13, 71)
         Me.MyLabel2.Name = "MyLabel2"
@@ -186,6 +190,7 @@ Partial Class frmLeaveStartingDateSetting
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(13, 23)
         Me.MyLabel4.Name = "MyLabel4"
@@ -195,6 +200,7 @@ Partial Class frmLeaveStartingDateSetting
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(13, 47)
         Me.MyLabel1.Name = "MyLabel1"
@@ -206,14 +212,15 @@ Partial Class frmLeaveStartingDateSetting
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(141, 46)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(222, 19)
         Me.lblEmpName.TabIndex = 2
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblOpeningDate
         '
+        Me.lblOpeningDate.FieldName = Nothing
         Me.lblOpeningDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOpeningDate.Location = New System.Drawing.Point(13, 95)
         Me.lblOpeningDate.Name = "lblOpeningDate"
@@ -223,15 +230,27 @@ Partial Class frmLeaveStartingDateSetting
         '
         'dtpAvailStarting
         '
+        Me.dtpAvailStarting.CalculationExpression = Nothing
         Me.dtpAvailStarting.CustomFormat = "dd/MM/yyyy"
+        Me.dtpAvailStarting.FieldCode = Nothing
+        Me.dtpAvailStarting.FieldDesc = Nothing
+        Me.dtpAvailStarting.FieldMaxLength = 0
+        Me.dtpAvailStarting.FieldName = Nothing
         Me.dtpAvailStarting.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpAvailStarting.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpAvailStarting.isCalculatedField = False
+        Me.dtpAvailStarting.IsSourceFromTable = False
+        Me.dtpAvailStarting.IsSourceFromValueList = False
+        Me.dtpAvailStarting.IsUnique = False
         Me.dtpAvailStarting.Location = New System.Drawing.Point(141, 118)
         Me.dtpAvailStarting.MendatroryField = False
         Me.dtpAvailStarting.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
         Me.dtpAvailStarting.MyLinkLable1 = Me.MyLabel3
         Me.dtpAvailStarting.MyLinkLable2 = Nothing
         Me.dtpAvailStarting.Name = "dtpAvailStarting"
+        Me.dtpAvailStarting.ReferenceFieldDesc = Nothing
+        Me.dtpAvailStarting.ReferenceFieldName = Nothing
+        Me.dtpAvailStarting.ReferenceTableName = Nothing
         Me.dtpAvailStarting.Size = New System.Drawing.Size(108, 18)
         Me.dtpAvailStarting.TabIndex = 5
         Me.dtpAvailStarting.TabStop = False
@@ -240,6 +259,7 @@ Partial Class frmLeaveStartingDateSetting
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(13, 119)
         Me.MyLabel3.Name = "MyLabel3"
@@ -249,22 +269,44 @@ Partial Class frmLeaveStartingDateSetting
         '
         'txtLeaveCode
         '
+        Me.txtLeaveCode.CalculationExpression = Nothing
+        Me.txtLeaveCode.FieldCode = Nothing
+        Me.txtLeaveCode.FieldDesc = Nothing
+        Me.txtLeaveCode.FieldMaxLength = 0
+        Me.txtLeaveCode.FieldName = Nothing
+        Me.txtLeaveCode.isCalculatedField = False
+        Me.txtLeaveCode.IsSourceFromTable = False
+        Me.txtLeaveCode.IsSourceFromValueList = False
+        Me.txtLeaveCode.IsUnique = False
         Me.txtLeaveCode.Location = New System.Drawing.Point(141, 70)
         Me.txtLeaveCode.MendatroryField = False
         Me.txtLeaveCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLeaveCode.MyLinkLable1 = Me.MyLabel2
         Me.txtLeaveCode.MyLinkLable2 = Nothing
         Me.txtLeaveCode.MyReadOnly = False
+        Me.txtLeaveCode.MyShowMasterFormButton = False
         Me.txtLeaveCode.Name = "txtLeaveCode"
+        Me.txtLeaveCode.ReferenceFieldDesc = Nothing
+        Me.txtLeaveCode.ReferenceFieldName = Nothing
+        Me.txtLeaveCode.ReferenceTableName = Nothing
         Me.txtLeaveCode.Size = New System.Drawing.Size(222, 19)
         Me.txtLeaveCode.TabIndex = 3
         Me.txtLeaveCode.Value = ""
         '
         'dtpAllotStarting
         '
+        Me.dtpAllotStarting.CalculationExpression = Nothing
         Me.dtpAllotStarting.CustomFormat = "dd/MM/yyyy"
+        Me.dtpAllotStarting.FieldCode = Nothing
+        Me.dtpAllotStarting.FieldDesc = Nothing
+        Me.dtpAllotStarting.FieldMaxLength = 0
+        Me.dtpAllotStarting.FieldName = Nothing
         Me.dtpAllotStarting.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpAllotStarting.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpAllotStarting.isCalculatedField = False
+        Me.dtpAllotStarting.IsSourceFromTable = False
+        Me.dtpAllotStarting.IsSourceFromValueList = False
+        Me.dtpAllotStarting.IsUnique = False
         Me.dtpAllotStarting.Location = New System.Drawing.Point(141, 94)
         Me.dtpAllotStarting.MendatroryField = False
         Me.dtpAllotStarting.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
@@ -272,6 +314,9 @@ Partial Class frmLeaveStartingDateSetting
         Me.dtpAllotStarting.MyLinkLable2 = Nothing
         Me.dtpAllotStarting.Name = "dtpAllotStarting"
         Me.dtpAllotStarting.NullDate = New Date(1900, 1, 1, 0, 0, 0, 0)
+        Me.dtpAllotStarting.ReferenceFieldDesc = Nothing
+        Me.dtpAllotStarting.ReferenceFieldName = Nothing
+        Me.dtpAllotStarting.ReferenceTableName = Nothing
         Me.dtpAllotStarting.Size = New System.Drawing.Size(108, 18)
         Me.dtpAllotStarting.TabIndex = 4
         Me.dtpAllotStarting.TabStop = False
@@ -308,6 +353,16 @@ Partial Class frmLeaveStartingDateSetting
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(153, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmLeaveStartingDateSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -340,6 +395,7 @@ Partial Class frmLeaveStartingDateSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -365,4 +421,5 @@ Partial Class frmLeaveStartingDateSetting
     Friend WithEvents MenuItemClose As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

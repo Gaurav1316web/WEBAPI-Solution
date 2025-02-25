@@ -282,6 +282,8 @@ Partial Class frmEmployee_Master
         Me.chkPFApplicable = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtESIDispensary = New common.Controls.MyTextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtKKKid = New common.Controls.MyTextBox()
+        Me.MyLabel68 = New common.Controls.MyLabel()
         Me.MyLabel47 = New common.Controls.MyLabel()
         Me.MyLabel46 = New common.Controls.MyLabel()
         Me.txtmembershipid = New common.Controls.MyTextBox()
@@ -344,8 +346,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtLeavingDate = New common.Controls.MyDateTimePicker()
         Me.dtpJoining = New common.Controls.MyDateTimePicker()
-        Me.MyLabel68 = New common.Controls.MyLabel()
-        Me.txtKKKid = New common.Controls.MyTextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.General.SuspendLayout()
@@ -579,6 +580,8 @@ Partial Class frmEmployee_Master
         CType(Me.chkPFApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtESIDispensary, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.txtKKKid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -630,8 +633,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.SuspendLayout()
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtKKKid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -5154,6 +5156,40 @@ Partial Class frmEmployee_Master
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Other"
         '
+        'txtKKKid
+        '
+        Me.txtKKKid.CalculationExpression = Nothing
+        Me.txtKKKid.FieldCode = Nothing
+        Me.txtKKKid.FieldDesc = Nothing
+        Me.txtKKKid.FieldMaxLength = 0
+        Me.txtKKKid.FieldName = Nothing
+        Me.txtKKKid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtKKKid.isCalculatedField = False
+        Me.txtKKKid.IsSourceFromTable = False
+        Me.txtKKKid.IsSourceFromValueList = False
+        Me.txtKKKid.IsUnique = False
+        Me.txtKKKid.Location = New System.Drawing.Point(470, 190)
+        Me.txtKKKid.MaxLength = 49
+        Me.txtKKKid.MendatroryField = False
+        Me.txtKKKid.MyLinkLable1 = Nothing
+        Me.txtKKKid.MyLinkLable2 = Nothing
+        Me.txtKKKid.Name = "txtKKKid"
+        Me.txtKKKid.ReferenceFieldDesc = Nothing
+        Me.txtKKKid.ReferenceFieldName = Nothing
+        Me.txtKKKid.ReferenceTableName = Nothing
+        Me.txtKKKid.Size = New System.Drawing.Size(219, 18)
+        Me.txtKKKid.TabIndex = 188
+        '
+        'MyLabel68
+        '
+        Me.MyLabel68.FieldName = Nothing
+        Me.MyLabel68.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel68.Location = New System.Drawing.Point(368, 191)
+        Me.MyLabel68.Name = "MyLabel68"
+        Me.MyLabel68.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel68.TabIndex = 187
+        Me.MyLabel68.Text = "KKK Id"
+        '
         'MyLabel47
         '
         Me.MyLabel47.FieldName = Nothing
@@ -6042,6 +6078,7 @@ Partial Class frmEmployee_Master
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -6109,39 +6146,15 @@ Partial Class frmEmployee_Master
         Me.dtpJoining.Text = "03/05/2011"
         Me.dtpJoining.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'MyLabel68
+        'btnHistory
         '
-        Me.MyLabel68.FieldName = Nothing
-        Me.MyLabel68.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel68.Location = New System.Drawing.Point(368, 191)
-        Me.MyLabel68.Name = "MyLabel68"
-        Me.MyLabel68.Size = New System.Drawing.Size(41, 16)
-        Me.MyLabel68.TabIndex = 187
-        Me.MyLabel68.Text = "KKK Id"
-        '
-        'txtKKKid
-        '
-        Me.txtKKKid.CalculationExpression = Nothing
-        Me.txtKKKid.FieldCode = Nothing
-        Me.txtKKKid.FieldDesc = Nothing
-        Me.txtKKKid.FieldMaxLength = 0
-        Me.txtKKKid.FieldName = Nothing
-        Me.txtKKKid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtKKKid.isCalculatedField = False
-        Me.txtKKKid.IsSourceFromTable = False
-        Me.txtKKKid.IsSourceFromValueList = False
-        Me.txtKKKid.IsUnique = False
-        Me.txtKKKid.Location = New System.Drawing.Point(470, 190)
-        Me.txtKKKid.MaxLength = 49
-        Me.txtKKKid.MendatroryField = False
-        Me.txtKKKid.MyLinkLable1 = Nothing
-        Me.txtKKKid.MyLinkLable2 = Nothing
-        Me.txtKKKid.Name = "txtKKKid"
-        Me.txtKKKid.ReferenceFieldDesc = Nothing
-        Me.txtKKKid.ReferenceFieldName = Nothing
-        Me.txtKKKid.ReferenceTableName = Nothing
-        Me.txtKKKid.Size = New System.Drawing.Size(219, 18)
-        Me.txtKKKid.TabIndex = 188
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(153, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'frmEmployee_Master
         '
@@ -6399,6 +6412,8 @@ Partial Class frmEmployee_Master
         CType(Me.txtESIDispensary, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.txtKKKid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6452,8 +6467,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtKKKid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -6773,4 +6787,5 @@ Partial Class frmEmployee_Master
     Friend WithEvents MyLabel67 As common.Controls.MyLabel
     Friend WithEvents txtKKKid As common.Controls.MyTextBox
     Friend WithEvents MyLabel68 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

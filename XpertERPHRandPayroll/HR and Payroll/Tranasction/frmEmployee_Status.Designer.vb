@@ -24,19 +24,19 @@ Partial Class frmEmployee_Status
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEmployee_Status))
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEmployee_Status))
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -128,6 +128,7 @@ Partial Class frmEmployee_Status
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -206,6 +207,7 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -329,6 +331,7 @@ Partial Class frmEmployee_Status
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -634,7 +637,7 @@ Partial Class frmEmployee_Status
         Me.gvLoanGeneration.MasterTemplate.EnableGrouping = False
         Me.gvLoanGeneration.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLoanGeneration.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvLoanGeneration.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLoanGeneration.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvLoanGeneration.MyStopExport = False
         Me.gvLoanGeneration.Name = "gvLoanGeneration"
         Me.gvLoanGeneration.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -642,6 +645,7 @@ Partial Class frmEmployee_Status
         Me.gvLoanGeneration.Size = New System.Drawing.Size(270, 107)
         Me.gvLoanGeneration.TabIndex = 223
         Me.gvLoanGeneration.TabStop = False
+        Me.gvLoanGeneration.VarID = ""
         '
         'chkODApplicable
         '
@@ -667,10 +671,10 @@ Partial Class frmEmployee_Status
         Me.cboConveyanceType.IsSourceFromTable = False
         Me.cboConveyanceType.IsSourceFromValueList = False
         Me.cboConveyanceType.IsUnique = False
-        RadListDataItem1.Text = "Male"
-        RadListDataItem2.Text = "Female"
-        Me.cboConveyanceType.Items.Add(RadListDataItem1)
-        Me.cboConveyanceType.Items.Add(RadListDataItem2)
+        RadListDataItem12.Text = "Male"
+        RadListDataItem13.Text = "Female"
+        Me.cboConveyanceType.Items.Add(RadListDataItem12)
+        Me.cboConveyanceType.Items.Add(RadListDataItem13)
         Me.cboConveyanceType.Location = New System.Drawing.Point(689, 260)
         Me.cboConveyanceType.MendatroryField = True
         Me.cboConveyanceType.MyLinkLable1 = Me.MyLabel87
@@ -754,10 +758,10 @@ Partial Class frmEmployee_Status
         Me.cboShiftChangeType.IsSourceFromTable = False
         Me.cboShiftChangeType.IsSourceFromValueList = False
         Me.cboShiftChangeType.IsUnique = False
-        RadListDataItem3.Text = "Male"
-        RadListDataItem4.Text = "Female"
-        Me.cboShiftChangeType.Items.Add(RadListDataItem3)
-        Me.cboShiftChangeType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Male"
+        RadListDataItem2.Text = "Female"
+        Me.cboShiftChangeType.Items.Add(RadListDataItem1)
+        Me.cboShiftChangeType.Items.Add(RadListDataItem2)
         Me.cboShiftChangeType.Location = New System.Drawing.Point(689, 237)
         Me.cboShiftChangeType.MendatroryField = True
         Me.cboShiftChangeType.MyLinkLable1 = Me.MyLabel3
@@ -856,10 +860,10 @@ Partial Class frmEmployee_Status
         Me.cboWorkingStatus.IsSourceFromTable = False
         Me.cboWorkingStatus.IsSourceFromValueList = False
         Me.cboWorkingStatus.IsUnique = False
-        RadListDataItem5.Text = "Working"
-        RadListDataItem6.Text = "Resigned"
-        Me.cboWorkingStatus.Items.Add(RadListDataItem5)
-        Me.cboWorkingStatus.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Working"
+        RadListDataItem4.Text = "Resigned"
+        Me.cboWorkingStatus.Items.Add(RadListDataItem3)
+        Me.cboWorkingStatus.Items.Add(RadListDataItem4)
         Me.cboWorkingStatus.Location = New System.Drawing.Point(108, 79)
         Me.cboWorkingStatus.MendatroryField = True
         Me.cboWorkingStatus.MyLinkLable1 = Me.lblWorkingStatus
@@ -1578,16 +1582,16 @@ Partial Class frmEmployee_Status
         Me.cboPaymentMode.IsSourceFromTable = False
         Me.cboPaymentMode.IsSourceFromValueList = False
         Me.cboPaymentMode.IsUnique = False
-        RadListDataItem7.Text = "Cheque"
-        RadListDataItem8.Text = "Cash"
-        RadListDataItem9.Text = "DD"
-        RadListDataItem10.Text = "Internet Transfer"
-        RadListDataItem11.Text = "Others"
-        Me.cboPaymentMode.Items.Add(RadListDataItem7)
-        Me.cboPaymentMode.Items.Add(RadListDataItem8)
-        Me.cboPaymentMode.Items.Add(RadListDataItem9)
-        Me.cboPaymentMode.Items.Add(RadListDataItem10)
-        Me.cboPaymentMode.Items.Add(RadListDataItem11)
+        RadListDataItem5.Text = "Cheque"
+        RadListDataItem6.Text = "Cash"
+        RadListDataItem14.Text = "DD"
+        RadListDataItem15.Text = "Internet Transfer"
+        RadListDataItem16.Text = "Others"
+        Me.cboPaymentMode.Items.Add(RadListDataItem5)
+        Me.cboPaymentMode.Items.Add(RadListDataItem6)
+        Me.cboPaymentMode.Items.Add(RadListDataItem14)
+        Me.cboPaymentMode.Items.Add(RadListDataItem15)
+        Me.cboPaymentMode.Items.Add(RadListDataItem16)
         Me.cboPaymentMode.Location = New System.Drawing.Point(108, 192)
         Me.cboPaymentMode.MendatroryField = False
         Me.cboPaymentMode.MyLinkLable1 = Me.lblPaymentMode
@@ -1763,6 +1767,16 @@ Partial Class frmEmployee_Status
         Me.btnclose.TabIndex = 133
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(157, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 22)
+        Me.btnHistory.TabIndex = 134
+        Me.btnHistory.Text = "History"
+        '
         'frmEmployee_Status
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1855,6 +1869,7 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1951,4 +1966,5 @@ Partial Class frmEmployee_Status
     Friend WithEvents chkTransPF As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents MyLabel43 As common.Controls.MyLabel
     Friend WithEvents txtGPFNo As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
