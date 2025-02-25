@@ -1313,6 +1313,8 @@ Public Class clsFixedParameterType
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const APIMilkSample = "API Milk Sample"
     Public Const ApplyDepartmentRoute = "Apply Department Route"
+    Public Const QuantityTolerance = "Quantity Tolerance"
+    Public Const AmountTolerance = "Amount Tolerance"
 End Class
 Public Class clsFixedParameterCode
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
@@ -2772,6 +2774,9 @@ Public Class clsFixedParameterCode
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const DrippingQuantity = "Dripping Quantity"
     Public Const ApplyDepartmentRoute = "Apply Department Route"
+    Public Const QuantityTolerance = "Quantity Tolerance"
+    Public Const AmountTolerance = "Amount Tolerance"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4396,7 +4401,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
-        '
+        InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
+
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6229,5 +6236,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
+        InsertDefaultValue("ASDS", clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, EnumControlType.NumericBox)
+        InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
     End Sub
 End Class
