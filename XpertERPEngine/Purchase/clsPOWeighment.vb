@@ -263,6 +263,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             objMRN.Remarks = objGRN.Remarks
             objMRN.Bill_To_Location = objGRN.Bill_To_Location
             objMRN.Ship_To_Location = objGRN.Ship_To_Location
+            objMRN.Inter_unit_Purchase = objGRN.Inter_unit_Purchase
             'objMRN.RAL_Tender_No = objGRN.RAL_Tender_No
             objMRN.Tax_Group = objGRN.Tax_Group
             objMRN.TAX1 = objGRN.TAX1
