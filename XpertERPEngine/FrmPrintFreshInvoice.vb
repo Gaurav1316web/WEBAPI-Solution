@@ -925,6 +925,8 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
 
                 Qry += " Item_Desc+'   '+isnull('HSN '+ HSN_Code,'') as Particulars"
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                Qry += " Item_Desc as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No "
             Else
                 Qry += " Item_Desc+'   '+isnull(batchNO,'') as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No "
             End If
