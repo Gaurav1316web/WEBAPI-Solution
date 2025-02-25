@@ -352,19 +352,19 @@ Public Class Weightment_Auto_and_Manual_Report
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        Dim item1 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Gross Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
         Dim summaryRow As New GridViewSummaryRowItem()
         summaryRow.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("Tare Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("Extra Weight", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("Extra Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Net Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
 
@@ -483,6 +483,8 @@ ORDER BY aa.Location_Code  "
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         RadPageView1.SelectedPage = RadPageViewPage1
+        AddHandler gv1.ViewCellFormatting, AddressOf gv1_ViewCellFormatting
+        AddHandler gv2.ViewCellFormatting, AddressOf gv2_ViewCellFormatting
     End Sub
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Try
@@ -535,5 +537,34 @@ ORDER BY aa.Location_Code  "
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gv1_ViewCellFormatting(sender As Object, e As UI.CellFormattingEventArgs) Handles gv1.ViewCellFormatting
+        ' Check if the cell belongs to a summary row
+        If TypeOf e.CellElement Is GridSummaryCellElement Then
+            ' Check if the column is "Pending%" to apply right alignment
+            Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
+
+            If e.CellElement.ColumnInfo.Name = "Auto Weighment" Or e.CellElement.ColumnInfo.Name = "Manual Weighment" Or e.CellElement.ColumnInfo.Name = "Pending" Or e.CellElement.ColumnInfo.Name = "Total" Or e.CellElement.ColumnInfo.Name = "Auto%" Or e.CellElement.ColumnInfo.Name = "Manual%" Or e.CellElement.ColumnInfo.Name = "Pending%" Then
+                e.CellElement.TextAlignment = ContentAlignment.MiddleRight
+            End If
+            summaryCell.ForeColor = Color.Blue
+
+        End If
+    End Sub
+
+    Private Sub gv2_ViewCellFormatting(sender As Object, e As UI.CellFormattingEventArgs) Handles gv2.ViewCellFormatting
+        ' Check if the cell belongs to a summary row
+        If TypeOf e.CellElement Is GridSummaryCellElement Then
+            ' Check if the column is "Pending%" to apply right alignment
+            Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
+
+            If e.CellElement.ColumnInfo.Name = "Gross Weight" Or e.CellElement.ColumnInfo.Name = "" Or e.CellElement.ColumnInfo.Name = "Tare Weight" Or e.CellElement.ColumnInfo.Name = "Extra Weight" Or e.CellElement.ColumnInfo.Name = "Net Weight" Then
+                e.CellElement.TextAlignment = ContentAlignment.MiddleRight
+                summaryCell.ForeColor = Color.Blue
+            End If
+        End If
+
+
     End Sub
 End Class
