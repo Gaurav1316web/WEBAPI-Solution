@@ -206,6 +206,8 @@ Public Class clsFAMergeHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ACQUISITION_HEAD", OMInsertOrUpdate.Update, "TSPL_ACQUISITION_HEAD.Acquisition_Code='" + obj.Acquisition_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsFAMergeDetail.SaveData(obj.Acquisition_Code, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+
             isSaved = isSaved AndAlso clsRemittance.SaveData(obj.RemittanceObject, obj.Acquisition_Code, Loc_Code, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -573,6 +575,10 @@ Public Class clsFAMergeHead
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+
                 Dim qry As String = "delete from TSPL_ACQUISITION_DETAIL where Acquisition_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

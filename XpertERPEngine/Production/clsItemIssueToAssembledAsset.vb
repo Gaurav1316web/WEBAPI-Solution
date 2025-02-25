@@ -86,8 +86,8 @@ Public Class clsItemIssueToAssembledAsset
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Issue Items to Assemble Assset", obj.From_Location, obj.Doc_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.frmIssueItemsToAsset, obj.From_Location, obj.Doc_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnIssueReturn, obj.From_Location, obj.Doc_Date, trans)
             clsSerializeInvenotry.DeleteData("ISSTRAN", obj.Doc_No, trans)
             Dim qry As String = "delete from TSPL_IssueItemToAssembledAsset_Detail where Doc_No='" + obj.Doc_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -207,7 +207,8 @@ Public Class clsItemIssueToAssembledAsset
             End If
             isSaved = isSaved AndAlso clsItemIssueToAssembledAssetDetail.SaveData(obj.Doc_No, obj.From_Location, obj.Asset_Code, obj.Doc_Date, Arr, trans)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Doc_No, obj.arrCustomFields, trans)
-            
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -634,6 +635,8 @@ Public Class clsItemIssueToAssembledAsset
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnIssueReturn, obj.From_Location, obj.Doc_Date, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
 
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -669,7 +672,7 @@ Public Class clsItemIssueToAssembledAsset
             End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnIssueReturn, obj.From_Location, obj.Doc_Date, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If

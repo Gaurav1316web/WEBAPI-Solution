@@ -184,6 +184,8 @@ Public Class clsAssetWorkHead
                 clsCapexBudget.CheckNegativeSubCapexBalance(obj.Capex_SubCode, trans)
             End If
             clsAssetWorkDetail.SaveData(obj.Document_Code, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_ASSET_WORK_HEAD", "Document_Code", "TSPL_ASSET_WORK_DETAIL", "Document_Code", trans)
+
             clsPIRemittance.SaveData(obj.objPIRemittance, obj.Document_Code, obj.Document_Date, trans)
             '===============Added by preeti Gupta[10/01/2018]============================
             '' check Amount is used in po
@@ -1112,6 +1114,9 @@ Public Class clsAssetWorkHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_WORK_HEAD", "Document_Code", "TSPL_ASSET_WORK_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_WORK_HEAD", "Document_Code", "TSPL_ASSET_WORK_DETAIL", "Document_Code", trans)
+
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
