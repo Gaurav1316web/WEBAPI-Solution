@@ -23,7 +23,7 @@ Partial Class frmDailyAttendance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDailyAttendance))
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -65,6 +65,7 @@ Partial Class frmDailyAttendance
         Me.MIExportBlankSingle = New Telerik.WinControls.UI.RadMenuItem()
         Me.MIExportBlankDual = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +94,7 @@ Partial Class frmDailyAttendance
         Me.radPageAttachment.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -157,6 +159,7 @@ Partial Class frmDailyAttendance
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -196,13 +199,14 @@ Partial Class frmDailyAttendance
         Me.gvDailyAttendance.MasterTemplate.EnableGrouping = False
         Me.gvDailyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDailyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDailyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDailyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDailyAttendance.MyStopExport = False
         Me.gvDailyAttendance.Name = "gvDailyAttendance"
         Me.gvDailyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDailyAttendance.ShowHeaderCellButtons = True
         Me.gvDailyAttendance.Size = New System.Drawing.Size(835, 277)
         Me.gvDailyAttendance.TabIndex = 145
+        Me.gvDailyAttendance.VarID = ""
         '
         'UsLock1
         '
@@ -592,6 +596,16 @@ Partial Class frmDailyAttendance
         Me.RadMenu2.Size = New System.Drawing.Size(904, 20)
         Me.RadMenu2.TabIndex = 11
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(219, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'frmDailyAttendance
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -634,6 +648,7 @@ Partial Class frmDailyAttendance
         Me.radPageAttachment.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -679,4 +694,5 @@ Partial Class frmDailyAttendance
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcCustomFields1 As ucCustomFields
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

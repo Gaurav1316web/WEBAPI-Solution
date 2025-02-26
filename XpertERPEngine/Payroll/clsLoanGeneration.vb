@@ -32,6 +32,9 @@ Public Class clsLoanGeneration
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_GENERATION", "LOAN_GENERATION_CODE", "TSPL_LOANGENERATION_DETAIL", "LOAN_GENERATION_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_GENERATION", "LOAN_GENERATION_CODE", "TSPL_LOANGENERATION_DETAIL", "LOAN_GENERATION_CODE", trans)
+
 
             Dim qry As String
             qry = "delete from TSPL_LOANGENERATION_DETAIL where LOAN_GENERATION_CODE ='" + strCode + "'"
@@ -168,6 +171,8 @@ Public Class clsLoanGeneration
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOAN_GENERATION", OMInsertOrUpdate.Update, "TSPL_LOAN_GENERATION.LOAN_GENERATION_CODE='" + obj.LOAN_GENERATION_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsLoanGenerationDetail.SaveData(obj.LOAN_GENERATION_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LOAN_GENERATION_CODE, "TSPL_LOAN_GENERATION", "LOAN_GENERATION_CODE", "TSPL_LOANGENERATION_DETAIL", "LOAN_GENERATION_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
