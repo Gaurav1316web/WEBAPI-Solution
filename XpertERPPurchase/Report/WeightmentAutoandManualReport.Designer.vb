@@ -22,8 +22,8 @@ Partial Class Weightment_Auto_and_Manual_Report
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -41,6 +41,9 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.BtnSplitDetail = New Telerik.WinControls.UI.RadSplitButton()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
@@ -48,9 +51,6 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.BtnSplitDetail = New Telerik.WinControls.UI.RadSplitButton()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,12 +72,12 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageViewPage3.SuspendLayout()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,7 +113,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(736, 349)
         Me.RadPageView1.TabIndex = 7
         '
@@ -301,7 +301,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -337,7 +337,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv2.MasterTemplate.EnableFiltering = True
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -346,6 +346,28 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv2.Size = New System.Drawing.Size(715, 301)
         Me.gv2.TabIndex = 6
         Me.gv2.VarID = ""
+        '
+        'BtnSplitDetail
+        '
+        Me.BtnSplitDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnSplitDetail.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.BtnSplitDetail.Location = New System.Drawing.Point(339, 5)
+        Me.BtnSplitDetail.Name = "BtnSplitDetail"
+        Me.BtnSplitDetail.Size = New System.Drawing.Size(95, 22)
+        Me.BtnSplitDetail.TabIndex = 356
+        Me.BtnSplitDetail.Text = "ExportDetail"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Excel"
+        Me.RadMenuItem1.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "PDF"
+        Me.RadMenuItem2.UseCompatibleTextRendering = False
         '
         'btnclose
         '
@@ -409,28 +431,6 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.btnGo.TabIndex = 353
         Me.btnGo.Text = ">>>"
         '
-        'BtnSplitDetail
-        '
-        Me.BtnSplitDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnSplitDetail.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.BtnSplitDetail.Location = New System.Drawing.Point(339, 5)
-        Me.BtnSplitDetail.Name = "BtnSplitDetail"
-        Me.BtnSplitDetail.Size = New System.Drawing.Size(95, 22)
-        Me.BtnSplitDetail.TabIndex = 356
-        Me.BtnSplitDetail.Text = "ExportDetail"
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Excel"
-        Me.RadMenuItem1.UseCompatibleTextRendering = False
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "PDF"
-        Me.RadMenuItem2.UseCompatibleTextRendering = False
-        '
         'Weightment_Auto_and_Manual_Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -467,12 +467,12 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageViewPage3.ResumeLayout(False)
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

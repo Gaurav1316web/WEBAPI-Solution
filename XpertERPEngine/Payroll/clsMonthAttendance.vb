@@ -37,6 +37,8 @@ Public Class clsMonthAttendance
             obj = clsMonthAttendance.GetData(strCode, NavigatorType.Current, trans)
             Dim clspp As clsPayPeriodMaster
             clspp = clsPayPeriodMaster.GetData(obj.PAY_PERIOD_CODE, NavigatorType.Current, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", "TSPL_MONTHLY_ATTENDANCE_DETAIL", "MTA_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", "TSPL_MONTHLY_ATTENDANCE_DETAIL", "MTA_CODE", trans)
 
             Dim qry As String
 
@@ -70,6 +72,7 @@ Public Class clsMonthAttendance
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", trans)
 
             Qry = "Update TSPL_MONTHLY_ATTENDANCE set POSTED = 0 where MTA_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
@@ -198,6 +201,8 @@ Public Class clsMonthAttendance
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MONTHLY_ATTENDANCE", OMInsertOrUpdate.Update, "TSPL_MONTHLY_ATTENDANCE.MTA_CODE='" + obj.MTA_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsMonthAttendanceDetail.SaveData(obj.MTA_CODE, obj.ObjList, trans, obj.PAY_PERIOD_CODE)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MTA_CODE, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", "TSPL_MONTHLY_ATTENDANCE_DETAIL", "MTA_CODE", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.MTA_CODE, obj.arrCustomFields, trans)
             If isSaved Then
                 trans.Commit()

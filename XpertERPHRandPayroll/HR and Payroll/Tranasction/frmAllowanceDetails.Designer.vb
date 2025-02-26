@@ -25,7 +25,7 @@ Partial Class frmAllowanceDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAllowanceDetails))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -57,6 +57,7 @@ Partial Class frmAllowanceDetails
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -83,6 +84,7 @@ Partial Class frmAllowanceDetails
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -142,6 +144,7 @@ Partial Class frmAllowanceDetails
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblTotRAmt1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel5)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -448,13 +451,14 @@ Partial Class frmAllowanceDetails
         Me.gvAllowance.MasterTemplate.EnableGrouping = False
         Me.gvAllowance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAllowance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAllowance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvAllowance.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvAllowance.MyStopExport = False
         Me.gvAllowance.Name = "gvAllowance"
         Me.gvAllowance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAllowance.ShowHeaderCellButtons = True
         Me.gvAllowance.Size = New System.Drawing.Size(699, 249)
         Me.gvAllowance.TabIndex = 6
+        Me.gvAllowance.VarID = ""
         '
         'lblTotRAmt1
         '
@@ -520,6 +524,16 @@ Partial Class frmAllowanceDetails
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(217, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 138
+        Me.btnHistory.Text = "History"
+        '
         'frmAllowanceDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -561,6 +575,7 @@ Partial Class frmAllowanceDetails
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -597,4 +612,5 @@ Partial Class frmAllowanceDetails
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblTotRAmt1 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

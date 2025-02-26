@@ -32,6 +32,8 @@ Public Class clsLeaveApplication
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_APPLICATION", "LVAPPLICATION_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_APPLICATION", "LVAPPLICATION_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LEAVE_APPLICATION where LVAPPLICATION_CODE ='" + strCode + "'"
@@ -156,6 +158,8 @@ Public Class clsLeaveApplication
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_APPLICATION", OMInsertOrUpdate.Update, "LVAPPLICATION_CODE='" + obj.LVAPPLICATION_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LVAPPLICATION_CODE, "TSPL_LEAVE_APPLICATION", "LVAPPLICATION_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
