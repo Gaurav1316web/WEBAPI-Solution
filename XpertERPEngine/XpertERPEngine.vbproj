@@ -177,6 +177,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\zxing (1).dll</HintPath>
     </Reference>
+    <Reference Include="zxing %281%29">
+      <HintPath>..\..\..\dll\zxing (1).dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="common" />
