@@ -34,8 +34,12 @@ Public Class ClsEmpIncrement
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+
             Dim obj As ClsEmpIncrement = ClsEmpIncrement.GetData(strCode, NavigatorType.Current, trans)
             Dim qry As String
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", trans)
+
             qry = "delete from TSPL_EMPLOYEE_INCREMENT_DETAIL where INCREMENT_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -102,6 +106,8 @@ Public Class ClsEmpIncrement
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_INCREMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_CODE='" + obj.INCREMENT_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsEmpIncrementDetail.SaveData(obj.INCREMENT_CODE, objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", trans)
+
             obj = GetData(obj.INCREMENT_CODE, NavigatorType.Current, trans)
             Dim objSal As clsEmployeeSalary
             objSal = SaveEmployeeSalary(obj, trans, False)
@@ -125,6 +131,8 @@ Public Class ClsEmpIncrement
             If (obj Is Nothing OrElse clsCommon.myLen(obj.INCREMENT_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", Nothing)
+
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

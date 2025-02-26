@@ -95,6 +95,8 @@ Public Class clsMediclaimEntry
                     issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "tspl_mediclaim_detail", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_MEDICLAIM_HEAD", "document_code", "tspl_mediclaim_detail", "document_code", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception

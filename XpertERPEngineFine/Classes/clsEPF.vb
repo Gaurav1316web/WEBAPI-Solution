@@ -42,6 +42,8 @@ Public Class clsEPF
             End If
             clsEPFEntry.SaveData(obj.Doc_Code, obj.arr_epfentry, trans)
             'clsProductionEntry.SaveData(obj.document_code, obj.Arr_Prod, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_EPF_ENTRY", "Doc_Code", "TSPL_EPF_ENTRY_detail", "Doc_Code", trans)
+
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -152,6 +154,7 @@ Public Class clsEPF
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Doc_Code) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_EPF_ENTRY", "Doc_Code", "TSPL_EPF_ENTRY_detail", "Doc_Code", trans)
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
@@ -177,6 +180,9 @@ Public Class clsEPF
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EPF_ENTRY", "Doc_Code", "TSPL_EPF_ENTRY_detail", "Doc_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EPF_ENTRY", "Doc_Code", "TSPL_EPF_ENTRY_detail", "Doc_Code", trans)
 
             Dim isPosted As Integer = 0
             isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_EPF_ENTRY where Doc_code = '" & strCode & "' and Status=1", trans)

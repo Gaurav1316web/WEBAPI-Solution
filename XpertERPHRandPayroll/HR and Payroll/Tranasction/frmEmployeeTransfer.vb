@@ -530,5 +530,16 @@ Public Class FrmEmployeeTransfer
             lblChangedDivisionName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_NAME  from TSPL_DEVISION_MASTER where DEVISION_CODE ='" & fndChangedDivision.Value & "'"))
         End If
     End Sub
-    
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Document_Code", "TSPL_EMPLOYEE_TRANSFER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -66,6 +66,7 @@ Public Class ClsEmployeeTransfer
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_TRANSFER", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_TRANSFER.Document_Code='" + obj.Document_Code + "'", trans)
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_EMPLOYEE_TRANSFER", "Document_Code", trans)
 
             If isSaved Then
                 trans.Commit()
@@ -135,6 +136,7 @@ Public Class ClsEmployeeTransfer
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_EMPLOYEE_TRANSFER", "Document_Code", trans)
             trans = clsDBFuncationality.GetTransactin
             Dim qry As String = "Update TSPL_EMPLOYEE_TRANSFER set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where Document_Code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
