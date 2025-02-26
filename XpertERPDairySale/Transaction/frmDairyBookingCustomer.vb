@@ -2018,8 +2018,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         End Try
     End Sub
 
-    Function TruncateToDecimalPlaces(value As Double, decimalPlaces As Integer) As Double
-        Dim factor As Double = Math.Pow(10, decimalPlaces)
+    Function TruncateToDecimalPlaces(value As Decimal, decimalPlaces As Integer) As Double
+        Dim factor As Decimal = Math.Pow(10, decimalPlaces)
         Return Math.Truncate(value * factor) / factor
     End Function
     Private Sub UpdateCurrentRow1(ByVal IntRowNo As Integer)
@@ -2616,9 +2616,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-            lblAmtWithDiscount.Text = dblNetAmt - (dblTaxTotAmt)
+            lblAmtWithDiscount.Text = clsCommon.myRoundOFF(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt), 2, 4)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
-            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblTaxTotAmt), 2) - dblDisAmt)
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt)), 2) - dblDisAmt)
         Else
             lblAmtWithDiscount.Text = dblNetAmt - (dblDisAmt)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
@@ -2633,14 +2633,21 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
             lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
         Else
-            lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt + dblTotalTcsAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            Else
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            End If
             'lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
             'lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
 
         End If
-        txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
+            txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
         txtTCAmt.Text = clsCommon.myFormat(dblTCAmt)
         txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
         'End If

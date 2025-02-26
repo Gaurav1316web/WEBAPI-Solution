@@ -86,6 +86,7 @@ Public Class clssaleReturnGateEntryHead
             isSaved = isSaved AndAlso clssaleReturnGateEntryDetail.SaveData(obj.Gate_Entry_No, Arr, trans)
 
             isSaved = isSaved AndAlso clssaleReturnGateEntryInvoice.SaveData(obj.Gate_Entry_No, ArrInvoice, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Entry_No, "TSPL_Sale_Return_Gate_Entry_Head", "Gate_Entry_No", "TSPL_Sale_Return_Gate_Entry_Detail", "Gate_Entry_No", trans)
 
 
 
@@ -196,6 +197,9 @@ Public Class clssaleReturnGateEntryHead
         End If
         Dim obj As clssaleReturnGateEntryHead = clssaleReturnGateEntryHead.GetData(strCode, NavigatorType.Current)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SALE_RETURN_GATE_ENTRY_HEAD", "Gate_Entry_No", "TSPL_SALE_RETURN_GATE_ENTRY_DETAIL", "Gate_Entry_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SALE_RETURN_GATE_ENTRY_HEAD", "Gate_Entry_No", "TSPL_SALE_RETURN_GATE_ENTRY_DETAIL", "Gate_Entry_No", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Gate_Entry_No) > 0) Then
             Try
                 If (obj.POSTED = 1) Then

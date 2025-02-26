@@ -1037,4 +1037,16 @@ Public Class frmMaterialQuotationComparison
         fndLocation.Value = clsCommon.ShowSelectForm("LocTnMstFND", qry, "Code", WhrCls, fndLocation.Value, "Code", isButtonClicked)
         txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Code", "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "TSPL_SCRAP_QUOTATION_COMPARISON_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

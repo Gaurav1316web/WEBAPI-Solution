@@ -149,6 +149,7 @@ Public Class clsSRNHead
     Public is_RGP_Non_Inventory As Boolean = False
     Public is_QCAccepted As Boolean = False
     Public AssessableAmt As Decimal = 0
+    Public Inter_unit_purchase As Integer = 0
 
     Public Arr As List(Of clsSRNDetail) = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
@@ -393,6 +394,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Internal", IIf(obj.Is_Internal, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_purchase", IIf(obj.Inter_unit_purchase, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Ref_No", obj.Ref_No)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Inv_No", obj.Inv_No)

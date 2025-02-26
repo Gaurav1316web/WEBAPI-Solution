@@ -1349,7 +1349,7 @@ Public Class frmVSP_VLCMaster
             obj.ManualCustomer = "N"
             obj.Status = "N"
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
-
+            obj.OnHold = "N"
             Dim arrDBName As New List(Of String)
             arrDBName.Add(clsCommon.myCstr(objCommonVar.CurrDatabase))
 

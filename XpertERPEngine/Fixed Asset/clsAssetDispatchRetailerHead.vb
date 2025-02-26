@@ -227,6 +227,8 @@ Public Class clsAssetDispatchRetailerHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", OMInsertOrUpdate.Update, "TSPL_ASSET_DISPATCH_RETAILER_HEAD.Doc_No='" + obj.Doc_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsAssetDispatchRetailerDetail.SaveData(obj.Doc_No, obj.Doc_Type, obj.From_Location, obj.Doc_Date, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Doc_No, obj.arrCustomFields, trans)
 
             'If isSaved Then
@@ -1233,6 +1235,8 @@ Public Class clsAssetDispatchRetailerHead
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
             Try
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
 
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -1273,7 +1277,7 @@ Public Class clsAssetDispatchRetailerHead
             End If
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If

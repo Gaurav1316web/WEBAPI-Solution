@@ -23,11 +23,11 @@ Partial Class frmWeeklyHolidays
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtEmp = New common.UserControls.txtMultiSelectFinder()
@@ -55,6 +55,7 @@ Partial Class frmWeeklyHolidays
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -82,6 +83,7 @@ Partial Class frmWeeklyHolidays
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +135,7 @@ Partial Class frmWeeklyHolidays
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -295,7 +298,7 @@ Partial Class frmWeeklyHolidays
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -303,6 +306,7 @@ Partial Class frmWeeklyHolidays
         Me.gv1.Size = New System.Drawing.Size(679, 219)
         Me.gv1.TabIndex = 7
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'CboSelectedDay
         '
@@ -318,10 +322,10 @@ Partial Class frmWeeklyHolidays
         Me.CboSelectedDay.IsSourceFromTable = False
         Me.CboSelectedDay.IsSourceFromValueList = False
         Me.CboSelectedDay.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboSelectedDay.Items.Add(RadListDataItem1)
-        Me.CboSelectedDay.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.CboSelectedDay.Items.Add(RadListDataItem3)
+        Me.CboSelectedDay.Items.Add(RadListDataItem4)
         Me.CboSelectedDay.Location = New System.Drawing.Point(102, 56)
         Me.CboSelectedDay.MendatroryField = False
         Me.CboSelectedDay.MyLinkLable1 = Me.MyLabel3
@@ -433,10 +437,10 @@ Partial Class frmWeeklyHolidays
         Me.CboapplyIn.IsSourceFromTable = False
         Me.CboapplyIn.IsSourceFromValueList = False
         Me.CboapplyIn.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.CboapplyIn.Items.Add(RadListDataItem3)
-        Me.CboapplyIn.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.CboapplyIn.Items.Add(RadListDataItem5)
+        Me.CboapplyIn.Items.Add(RadListDataItem6)
         Me.CboapplyIn.Location = New System.Drawing.Point(454, 33)
         Me.CboapplyIn.MendatroryField = False
         Me.CboapplyIn.MyLinkLable1 = Me.MyLabel19
@@ -525,6 +529,16 @@ Partial Class frmWeeklyHolidays
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(161, 14)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmWeeklyHolidays
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -565,6 +579,7 @@ Partial Class frmWeeklyHolidays
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -596,4 +611,5 @@ Partial Class frmWeeklyHolidays
     Friend WithEvents lblLocationCode As common.Controls.MyLabel
     Friend WithEvents lblCompany As common.Controls.MyLabel
     Friend WithEvents txtEmp As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

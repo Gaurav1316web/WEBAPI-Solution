@@ -549,7 +549,7 @@ Public Class frmVendorMaster
                 End If
 
                 Dim CfpUnit As String
-                CfpUnit = clsCommon.myCstr(myDr("CFP_Unit"))
+                CfpUnit = clsCommon.myCdbl(myDr("CFP_Unit"))
                 If CfpUnit = 1 Then
                     CFP_Unitchk.Checked = True
                 Else

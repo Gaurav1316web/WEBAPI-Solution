@@ -24,21 +24,22 @@ Partial Class FrmAsset_Issue_Return
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.chkReturn = New Telerik.WinControls.UI.RadRadioButton
-        Me.chkIssue = New Telerik.WinControls.UI.RadRadioButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel
-        Me.lblFromEntity = New common.Controls.MyLabel
-        Me.txtFromEntity = New common.UserControls.txtFinder
-        Me.dgvVisi = New common.UserControls.MyRadGridView
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
+        Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.chkReturn = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkIssue = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
+        Me.lblFromEntity = New common.Controls.MyLabel()
+        Me.txtFromEntity = New common.UserControls.txtFinder()
+        Me.dgvVisi = New common.UserControls.MyRadGridView()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.chkReturn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -137,23 +138,36 @@ Partial Class FrmAsset_Issue_Return
         '
         Me.lblFromEntity.AutoSize = False
         Me.lblFromEntity.BorderVisible = True
+        Me.lblFromEntity.FieldName = Nothing
         Me.lblFromEntity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFromEntity.Location = New System.Drawing.Point(204, 19)
         Me.lblFromEntity.Name = "lblFromEntity"
         Me.lblFromEntity.Size = New System.Drawing.Size(538, 18)
         Me.lblFromEntity.TabIndex = 11
-        Me.lblFromEntity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromEntity.TextWrap = False
         '
         'txtFromEntity
         '
+        Me.txtFromEntity.CalculationExpression = Nothing
+        Me.txtFromEntity.FieldCode = Nothing
+        Me.txtFromEntity.FieldDesc = Nothing
+        Me.txtFromEntity.FieldMaxLength = 0
+        Me.txtFromEntity.FieldName = Nothing
+        Me.txtFromEntity.isCalculatedField = False
+        Me.txtFromEntity.IsSourceFromTable = False
+        Me.txtFromEntity.IsSourceFromValueList = False
+        Me.txtFromEntity.IsUnique = False
         Me.txtFromEntity.Location = New System.Drawing.Point(78, 19)
         Me.txtFromEntity.MendatroryField = True
         Me.txtFromEntity.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFromEntity.MyLinkLable1 = Nothing
         Me.txtFromEntity.MyLinkLable2 = Me.lblFromEntity
         Me.txtFromEntity.MyReadOnly = False
+        Me.txtFromEntity.MyShowMasterFormButton = False
         Me.txtFromEntity.Name = "txtFromEntity"
+        Me.txtFromEntity.ReferenceFieldDesc = Nothing
+        Me.txtFromEntity.ReferenceFieldName = Nothing
+        Me.txtFromEntity.ReferenceTableName = Nothing
         Me.txtFromEntity.Size = New System.Drawing.Size(121, 18)
         Me.txtFromEntity.TabIndex = 0
         Me.txtFromEntity.Value = ""
@@ -168,15 +182,20 @@ Partial Class FrmAsset_Issue_Return
         Me.dgvVisi.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvVisi.Location = New System.Drawing.Point(0, 0)
         '
-        'dgvVisi
+        '
         '
         Me.dgvVisi.MasterTemplate.AllowDeleteRow = False
+        Me.dgvVisi.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgvVisi.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvVisi.MyStopExport = False
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
+        Me.dgvVisi.ShowHeaderCellButtons = True
         Me.dgvVisi.Size = New System.Drawing.Size(871, 334)
         Me.dgvVisi.TabIndex = 0
-        Me.dgvVisi.Text = "RadGridView1"
+        Me.dgvVisi.VarID = ""
         '
         'btnDelete
         '

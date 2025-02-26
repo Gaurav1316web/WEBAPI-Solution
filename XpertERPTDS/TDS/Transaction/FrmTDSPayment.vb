@@ -1091,6 +1091,18 @@ Public Class FrmTDSPayment
         qry = Nothing
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_TDS_PAYMENT_HEADER", "TSPL_TDS_PAYMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub btnupdate_Click(sender As Object, e As EventArgs) Handles btnupdate.Click
         Try
             If clsCommon.MyMessageBoxShow("Do you want to update BSR Code/Challan No/Challan Date after Posting.", "Update After Posting", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
@@ -1101,6 +1113,6 @@ Public Class FrmTDSPayment
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-      
+
     End Sub
 End Class

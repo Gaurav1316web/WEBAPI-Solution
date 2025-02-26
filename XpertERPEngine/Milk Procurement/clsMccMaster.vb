@@ -2217,6 +2217,10 @@ Public Class clsEkoPro
     End Function
 
     Public Shared Function getSnfOnCalculation(ByVal FatPer As Double, ByVal CLR As Double, ByVal CorrectionFactor As Double, Optional ByVal DeciPace As Integer = -1, Optional ByVal ResultDecimalPlaces As Integer = 2) As Double
+        If objCommonVar.TreatCLR50As52 Then
+            CLR = Convert50To52(CLR)
+        End If
+
         Dim ParameterForSNFatQC As Decimal = objCommonVar.ParameterForSNFatQC
         If ParameterForSNFatQC = 0 Then
             ParameterForSNFatQC = 0.2
@@ -2232,6 +2236,16 @@ Public Class clsEkoPro
             SNF = Math.Round(SNF, ResultDecimalPlaces, MidpointRounding.ToEven)
         End If
         Return SNF
+    End Function
+
+    Public Shared Function Convert50To52(value As Decimal) As Decimal
+        Dim intPart As Integer = Math.Floor(value)
+        Dim decimalPart As Decimal = value - intPart
+        If decimalPart = 0.5 Then
+            Return intPart + 0.52
+        Else
+            Return value
+        End If
     End Function
 
     Public Shared Function getClrOnCalculation(ByVal FatPer As Double, ByVal SNF As Double, ByVal CorrectionFactor As Double) As Double
