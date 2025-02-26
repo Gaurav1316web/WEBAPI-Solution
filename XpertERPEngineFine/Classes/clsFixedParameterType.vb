@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -226,6 +227,7 @@ Public Class clsFixedParameterType
     Public Const CreateMultipleDispatchWithoutSelectingVehicle = "CreateMultipleDispatchWithoutSelectingVehicle"
     Public Const RejectiononQCforSeparationofBulkProcurementMCC = "RejectiononQCforSeparationofBulkProcurementMCC"
     Public Const ParameterForSNFatQC = "ParameterForSNFatQC"
+    Public Const TreatCLR50As52 = "Treat CLR 50 As 52"
     Public Const AllowmultipleconsumptionLocation = "Allow Multiple Consumption Location"
     Public Const PickCostFromItemMaster As String = "Pick Cost From Item Master(FG)"
     Public Const EditItemCost As String = "Edit Item Cost"
@@ -1312,8 +1314,11 @@ Public Class clsFixedParameterType
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const APIMilkSample = "API Milk Sample"
     Public Const ApplyDepartmentRoute = "Apply Department Route"
+    Public Const QuantityTolerance = "Quantity Tolerance"
+    Public Const AmountTolerance = "Amount Tolerance"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
@@ -1586,6 +1591,7 @@ Public Class clsFixedParameterCode
     Public Const CreateMultipleDispatchWithoutSelectingVehicle = "CreateMultipleDispatchWithoutSelectingVehicle"
     Public Const RejectiononQCforSeparationofBulkProcurementMCC = "RejectiononQCforSeparationofBulkProcurementMCC"
     Public Const ParameterForSNFatQC = "ParameterForSNFatQC"
+    Public Const TreatCLR50As52 = "Treat CLR 50 As 52"
     Public Const AllowmultipleconsumptionLocation = "Allow Multiple Consumption Location"
     Public Const PickCostFromItemMaster As String = "Pick Cost From Item Master(FG)"
     Public Const EditItemCost As String = "Edit Item Cost"
@@ -2770,6 +2776,9 @@ Public Class clsFixedParameterCode
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
     Public Const DrippingQuantity = "Dripping Quantity"
     Public Const ApplyDepartmentRoute = "Apply Department Route"
+    Public Const QuantityTolerance = "Quantity Tolerance"
+    Public Const AmountTolerance = "Amount Tolerance"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3093,6 +3102,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateMultipleDispatchWithoutSelectingVehicle, clsFixedParameterCode.CreateMultipleDispatchWithoutSelectingVehicle, "0", "CreateMultipleDispatchWithoutSelectingVehicle")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RejectiononQCforSeparationofBulkProcurementMCC, clsFixedParameterCode.RejectiononQCforSeparationofBulkProcurementMCC, "0", "RejectiononQCforSeparationofBulkProcurementMCC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ParameterForSNFatQC, clsFixedParameterCode.ParameterForSNFatQC, "0", "0-OFF;1-Parameter used in calculation of SNF%")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TreatCLR50As52, clsFixedParameterCode.TreatCLR50As52, "0", "0-OFF;1-When convert CLR To SNF than take .50 as .52")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowmultipleconsumptionLocation, clsFixedParameterCode.AllowmultipleconsumptionLocation, "0", "0-OFF;1-On Option ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickCostFromItemMaster, clsFixedParameterCode.PickCostFromItemMaster, "0", "1-On;0-off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EditItemCost, clsFixedParameterCode.EditItemCost, "1", "1-On;0-off")
@@ -3780,6 +3790,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CustomerMasterFinderOnLocationwiseARReceipt, clsFixedParameterCode.CustomerMasterFinderOnLocationwiseARReceipt, "0", "0:Off, 1:On; When setting is on then customer master finder work on location basis otherwise independent")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SameuserCanNotloginmultipletimes, clsFixedParameterCode.SameuserCanNotloginmultipletimes, "0", "0:Off, 1:On; When setting is on then same user can-not login multiple times")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowCancelButtonPO, clsFixedParameterCode.ShowCancelButtonPO, "0", "0:Off, 1:On; Show cancel button on purchase order")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, "0", "0:Off, 1:On; Send GRN for Approval if GRN QTY>PO QTY")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, "0", "0:Off, 1:On; Show option for selecting capex code and capex sub codes on purchase order")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, "0", "0:Off, 1:On; Auto close PO when all qty received.")
         'InsertDefaultValueFixedParameter(clsFixedParameterType.CreateJVForAllCasesinRGP, clsFixedParameterCode.CreateJVForAllCasesinRGP, "0", "0:Off, 1:On; Create JV for all cases in RGP")
@@ -4393,7 +4404,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
-        '
+        InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
+
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -4770,6 +4783,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseRequistion, clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.CreateJVForAllCasesinRGP, clsFixedParameterCode.CreateJVForAllCasesinRGP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.StoreRequisitionMandatoryforstorerequest, clsFixedParameterCode.StoreRequisitionMandatoryforstorerequest, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.vhicleMaster, clsFixedParameterType.MandatoryEmployeeOnVehicleMaster, clsFixedParameterCode.MandatoryEmployeeOnVehicleMaster, EnumControlType.CheckBox)
@@ -5332,6 +5346,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.locationMaster, clsFixedParameterType.AllowmultipleconsumptionLocation, clsFixedParameterCode.AllowmultipleconsumptionLocation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQualityCheck, clsFixedParameterType.ItemwiseCorrectionFactoronQC, clsFixedParameterCode.ItemwiseCorrectionFactoronQC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQualityCheck, clsFixedParameterType.ParameterForSNFatQC, clsFixedParameterCode.ParameterForSNFatQC, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.TreatCLR50As52, clsFixedParameterCode.TreatCLR50As52, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmWeighment, clsFixedParameterType.AutoMilkTransferInDateSameasWeighmentDate, clsFixedParameterCode.AutoMilkTransferInDateSameasWeighmentDate, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.ReceiptEntry, clsFixedParameterType.EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt, clsFixedParameterCode.EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQuickBook, clsFixedParameterType.ShowOutstandingAmtofCustomerOnQuickBookEntry, clsFixedParameterCode.ShowOutstandingAmtofCustomerOnQuickBookEntry, EnumControlType.CheckBox)
@@ -6225,5 +6240,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
+        InsertDefaultValue("ASDS", clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, EnumControlType.NumericBox)
+        InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
     End Sub
 End Class

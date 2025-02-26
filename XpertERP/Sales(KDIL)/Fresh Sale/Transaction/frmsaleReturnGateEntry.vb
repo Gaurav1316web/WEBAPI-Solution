@@ -1326,4 +1326,16 @@ Public Class FrmsaleReturnGateEntry
         End Try
 
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Gate_Entry_No", "TSPL_Sale_Return_Gate_Entry_Head", "TSPL_Sale_Return_Gate_Entry_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

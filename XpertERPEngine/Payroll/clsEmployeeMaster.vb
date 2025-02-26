@@ -222,6 +222,9 @@ Public Class clsEmployeeMaster
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
+
         isSaved = clsEmpFamilieDetails.DeleteData(strCode, trans)
         isSaved = clsEmpLanguageDetails.DeleteData(strCode, trans)
         isSaved = clsEmpQualiDetails.DeleteData(strCode, trans)

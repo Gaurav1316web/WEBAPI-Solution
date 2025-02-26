@@ -887,4 +887,18 @@ where Document_Code='" + txtDocNo.Value + "')x  Group by Item_Code
         UcAttachment1.Visible = True
         UcAttachment1.LoadData("SRN_BOQ_0001", Nothing)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_RM_DEMAND_APPROVAL", "TSPL_RM_DEMAND_APPROVAL_INDENT", trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

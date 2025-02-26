@@ -245,7 +245,8 @@ Public Class clsAssetScrapSaleHead
             End If
 
             isSaved = isSaved AndAlso clsAssetScrapSaleDetail.SaveData(obj.Document_No, Arr, trans)
-         
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ASSET_SCRAP_HEAD", "Document_No", "TSPL_ASSET_SCRAP_DETAIL", "Document_No", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

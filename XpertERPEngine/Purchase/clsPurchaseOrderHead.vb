@@ -893,6 +893,8 @@ Public Class clsPurchaseOrderHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + obj.PurchaseOrder_No + "'", trans)
             End If
             clsPurchaseOrderDetail.SaveData(obj.PurchaseOrder_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", trans)
+
             clsPIRemittance.SaveData(obj.objPIRemittance, obj.PurchaseOrder_No, obj.PurchaseOrder_Date, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.PurchaseOrder_No, obj.arrCustomFields, trans)
             clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PurchaseOrder_No", obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", trans)
@@ -5152,7 +5154,7 @@ a:
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
                 clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
-
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
                 Dim qry As String = "delete from TSPL_PI_REMITTANCE where Document_No='" + strCode + "'"

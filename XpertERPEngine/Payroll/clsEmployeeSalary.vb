@@ -36,6 +36,7 @@ Public Class clsEmployeeSalary
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", trans)
             Dim Qry As String = "select POSTED from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
@@ -100,6 +101,8 @@ Public Class clsEmployeeSalary
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", "TSPL_EMPLOYEE_SALARY_PAYHEADS", "EMP_SAL_CODE", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", "TSPL_EMPLOYEE_SALARY_PAYHEADS", "EMP_SAL_CODE", trans)
         Dim qry As String
         qry = "delete from TSPL_EMPLOYEE_SALARY_PAYHEADS where EMP_SAL_CODE ='" + strCode + "'"
         isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -247,6 +250,7 @@ Public Class clsEmployeeSalary
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_SALARY", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE='" + obj.EMP_SAL_CODE + "'", trans)
         End If
         isSaved = isSaved AndAlso clsEmpSalaryPayHeadDetails.SaveData(obj.EMP_SAL_CODE, objList, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_SAL_CODE, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", "TSPL_EMPLOYEE_SALARY_PAYHEADS", "EMP_SAL_CODE", trans)
 
         qry = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM  " &
                  " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " &

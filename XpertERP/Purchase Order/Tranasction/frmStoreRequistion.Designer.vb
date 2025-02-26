@@ -22,7 +22,7 @@ Partial Class frmStoreRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -32,6 +32,10 @@ Partial Class frmStoreRequistion
         Me.RdEmailAndSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIssue = New System.Windows.Forms.RadioButton()
+        Me.rbtnTransfer = New System.Windows.Forms.RadioButton()
+        Me.rbtnAll = New System.Windows.Forms.RadioButton()
         Me.pnlUnit_CostType = New System.Windows.Forms.Panel()
         Me.lblUnitDesc = New common.Controls.MyLabel()
         Me.lblCostcenterTypeDesc = New common.Controls.MyLabel()
@@ -111,10 +115,7 @@ Partial Class frmStoreRequistion
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnAll = New System.Windows.Forms.RadioButton()
-        Me.rbtnTransfer = New System.Windows.Forms.RadioButton()
-        Me.rbtnIssue = New System.Windows.Forms.RadioButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -125,6 +126,8 @@ Partial Class frmStoreRequistion
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         Me.pnlUnit_CostType.SuspendLayout()
         CType(Me.lblUnitDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCostcenterTypeDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,8 +194,7 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -212,6 +214,7 @@ Partial Class frmStoreRequistion
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btncancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEmailsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkprclose)
@@ -334,6 +337,52 @@ Partial Class frmStoreRequistion
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 398)
         Me.RadPageViewPage1.Text = "Store Requisition"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnIssue)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnTransfer)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnAll)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(734, 0)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(200, 22)
+        Me.RadGroupBox1.TabIndex = 74
+        '
+        'rbtnIssue
+        '
+        Me.rbtnIssue.AutoSize = True
+        Me.rbtnIssue.Location = New System.Drawing.Point(145, 2)
+        Me.rbtnIssue.Name = "rbtnIssue"
+        Me.rbtnIssue.Size = New System.Drawing.Size(51, 17)
+        Me.rbtnIssue.TabIndex = 2
+        Me.rbtnIssue.TabStop = True
+        Me.rbtnIssue.Text = "Issue"
+        Me.rbtnIssue.UseVisualStyleBackColor = True
+        '
+        'rbtnTransfer
+        '
+        Me.rbtnTransfer.AutoSize = True
+        Me.rbtnTransfer.Location = New System.Drawing.Point(65, 2)
+        Me.rbtnTransfer.Name = "rbtnTransfer"
+        Me.rbtnTransfer.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnTransfer.TabIndex = 1
+        Me.rbtnTransfer.TabStop = True
+        Me.rbtnTransfer.Text = "Transfer"
+        Me.rbtnTransfer.UseVisualStyleBackColor = True
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.AutoSize = True
+        Me.rbtnAll.Checked = True
+        Me.rbtnAll.Location = New System.Drawing.Point(7, 2)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
+        Me.rbtnAll.TabIndex = 0
+        Me.rbtnAll.TabStop = True
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.UseVisualStyleBackColor = True
         '
         'pnlUnit_CostType
         '
@@ -701,7 +750,7 @@ Partial Class frmStoreRequistion
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -710,6 +759,7 @@ Partial Class frmStoreRequistion
         Me.gv1.Size = New System.Drawing.Size(1035, 94)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'lblRequestBy
         '
@@ -1468,51 +1518,15 @@ Partial Class frmStoreRequistion
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'RadGroupBox1
+        'btnHistory
         '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnIssue)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnTransfer)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnAll)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(734, 0)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(200, 22)
-        Me.RadGroupBox1.TabIndex = 74
-        '
-        'rbtnAll
-        '
-        Me.rbtnAll.AutoSize = True
-        Me.rbtnAll.Checked = True
-        Me.rbtnAll.Location = New System.Drawing.Point(7, 2)
-        Me.rbtnAll.Name = "rbtnAll"
-        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
-        Me.rbtnAll.TabIndex = 0
-        Me.rbtnAll.TabStop = True
-        Me.rbtnAll.Text = "All"
-        Me.rbtnAll.UseVisualStyleBackColor = True
-        '
-        'rbtnTransfer
-        '
-        Me.rbtnTransfer.AutoSize = True
-        Me.rbtnTransfer.Location = New System.Drawing.Point(65, 2)
-        Me.rbtnTransfer.Name = "rbtnTransfer"
-        Me.rbtnTransfer.Size = New System.Drawing.Size(66, 17)
-        Me.rbtnTransfer.TabIndex = 1
-        Me.rbtnTransfer.TabStop = True
-        Me.rbtnTransfer.Text = "Transfer"
-        Me.rbtnTransfer.UseVisualStyleBackColor = True
-        '
-        'rbtnIssue
-        '
-        Me.rbtnIssue.AutoSize = True
-        Me.rbtnIssue.Location = New System.Drawing.Point(145, 2)
-        Me.rbtnIssue.Name = "rbtnIssue"
-        Me.rbtnIssue.Size = New System.Drawing.Size(51, 17)
-        Me.rbtnIssue.TabIndex = 2
-        Me.rbtnIssue.TabStop = True
-        Me.rbtnIssue.Text = "Issue"
-        Me.rbtnIssue.UseVisualStyleBackColor = True
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(443, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
         '
         'frmStoreRequistion
         '
@@ -1540,6 +1554,9 @@ Partial Class frmStoreRequistion
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         Me.pnlUnit_CostType.ResumeLayout(False)
         Me.pnlUnit_CostType.PerformLayout()
         CType(Me.lblUnitDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1610,9 +1627,7 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1709,5 +1724,6 @@ Partial Class frmStoreRequistion
     Friend WithEvents rbtnAll As RadioButton
     Friend WithEvents rbtnTransfer As RadioButton
     Friend WithEvents rbtnIssue As RadioButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 
