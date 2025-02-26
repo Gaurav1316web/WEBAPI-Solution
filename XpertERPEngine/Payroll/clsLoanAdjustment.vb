@@ -33,6 +33,8 @@ Public Class clsLoanAdjustment
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_ADJUSTMENT", "LOANADJUSTMENT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_ADJUSTMENT", "LOANADJUSTMENT_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LOAN_ADJUSTMENT where LOANADJUSTMENT_CODE ='" + strCode + "'"
@@ -131,6 +133,7 @@ Public Class clsLoanAdjustment
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOAN_ADJUSTMENT", OMInsertOrUpdate.Update, "LOANADJUSTMENT_CODE='" + obj.LOANADJUSTMENT_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LOANADJUSTMENT_CODE, "TSPL_LOAN_ADJUSTMENT", "LOANADJUSTMENT_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

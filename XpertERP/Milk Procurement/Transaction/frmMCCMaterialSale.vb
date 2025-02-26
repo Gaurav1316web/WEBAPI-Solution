@@ -3187,7 +3187,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             txtReceiptNo.Visible = False
             lblReceiptAmt.Visible = False
             lblReceiptNo.Visible = False
-            lblPaymentType.Visible = False
+            lblPaymentType.Visible = True
+            cmbPaymentType.Visible = True
         End If
 
         If MultiplySubsidyWithQuantity Then
@@ -8604,6 +8605,7 @@ a:          End If
                 lblPaymentType.Location = New System.Drawing.Point(794, 1)
                 cmbPaymentType.Location = New System.Drawing.Point(873, 1)
                 MyLabel14.Text = "Subsidy"
+                'lblPaymentType
             Else
                 lblReceiptNo.Visible = False
                 txtReceiptNo.Visible = False
@@ -8614,13 +8616,24 @@ a:          End If
                 MyLabel14.Text = "Rate Difference"
             End If
         Else
-            lblReceiptNo.Visible = False
-            txtReceiptNo.Visible = False
-            lblReceiptAmt.Visible = False
-            ' lblTotalSubsidy.Visible = False
-            lblPaymentType.Visible = False
-            cmbPaymentType.Visible = False
-            MyLabel14.Text = "Rate Difference"
+            If chkcashsale.Checked Then
+                lblReceiptNo.Visible = True
+                txtReceiptNo.Visible = True
+                lblReceiptAmt.Visible = True
+                'lblTotalSubsidy.Visible = True
+                lblPaymentType.Visible = True
+                cmbPaymentType.Visible = True
+                MyLabel14.Text = "Subsidy"
+            Else
+                lblReceiptNo.Visible = False
+                txtReceiptNo.Visible = False
+                lblReceiptAmt.Visible = False
+                ' lblTotalSubsidy.Visible = False
+                lblPaymentType.Visible = False
+                cmbPaymentType.Visible = False
+                MyLabel14.Text = "Rate Difference"
+            End If
+
         End If
     End Sub
     Private Sub txtReceiptNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReceiptNo._MYValidating
