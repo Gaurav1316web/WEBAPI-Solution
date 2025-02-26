@@ -198,6 +198,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             obj.Form_38 = Nothing
             obj.Is_Internal = False
             obj.autosrnfromrgp = Nothing
+            obj.Inter_unit_purchase = objMRN.Inter_unit_Purchase
 
             If clsCommon.myLen(objMRN.TAX1) > 0 Then
                 obj.TAX1 = objMRN.TAX1

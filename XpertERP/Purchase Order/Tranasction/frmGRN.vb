@@ -555,6 +555,8 @@ Public Class frmGRN
         btncancel.Visible = False
         chkSkipPurchaseQc.Enabled = False
         chkSkipPurchaseQc.Checked = False
+        Inter_unit_Purchk.Enabled = True
+        Inter_unit_Purchk.Checked = False
         'txtRgp_no.Enabled = True
         chkJobWorkOutward.Checked = False
         'btncancel.Visible = False
@@ -3400,6 +3402,19 @@ Public Class frmGRN
             Return False
         End If
 
+        If Inter_unit_Purchk.Checked Then
+            ' Check if the vehicle number is empty
+            Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
+            If qry = 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Map this Vendor on Vendor master screen with cfp_unit checkbox")
+                Return False
+            End If
+        Else
+            common.clsCommon.MyMessageBoxShow("Please check interunitPurchase checkbox")
+            Inter_unit_Purchk.Focus()
+            Return False
+        End If
+
         '===========Added By Rohit on Aug 12,2015=======
         If clsCommon.myLen(txtShipToLocation.Value) > 0 And Not isApplyBrachAccounting Then
             If Not clsCommon.CompairString(txtShipToLocation.Value, txtBillToLocation.Value) = CompairStringResult.Equal Then
@@ -3768,6 +3783,7 @@ Public Class frmGRN
         Try
             Dim obj As New clsGRNHead()
             obj.IsSkipPurchaseQC = IIf(chkSkipPurchaseQc.Checked = True, 1, 0)
+            obj.Inter_unit_Purchase = IIf(Inter_unit_Purchk.Checked = True, 1, 0)
             obj.isJobWorkOutward = IIf(chkJobWorkOutward.Checked = True, 1, 0)
             obj.GRN_No = txtDocNo.Value
             obj.GRN_Date = txtDate.Value
@@ -4308,6 +4324,7 @@ Public Class frmGRN
                     btncancel.Visible = False
                 End If
                 chkSkipPurchaseQc.Checked = IIf(obj.IsSkipPurchaseQC = 1, True, False)
+                Inter_unit_Purchk.Checked = IIf(obj.Inter_unit_Purchase = 1, True, False)
                 chkJobWorkOutward.Checked = IIf(obj.isJobWorkOutward = 1, True, False)
                 chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(obj.Vendor_Code)
                 chkSkipPurchaseQc.Enabled = IIf(clsVendorMaster.IsAllowSkipPurchaseQC(obj.Vendor_Code) = True, True, False)

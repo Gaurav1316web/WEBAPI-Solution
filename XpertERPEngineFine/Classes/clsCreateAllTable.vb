@@ -21813,7 +21813,11 @@ Public Class clsCreateAllTable
             coll.Add("VisualQCUpdatedBySecond", "varchar(12) NULL")
             coll.Add("VisualQCUpdatedDateSecond", "Date NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
+            coll.Add("Inter_unit_purchase", "Integer default 0")
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_HEAD", coll, Nothing, True, True, "", "GRN_No", "GRN_Date")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_HEAD", coll, Nothing, True, True, "", "GRN_No", "GRN_Date", True)
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("GRN_No", "Varchar(30) not null References TSPL_GRN_HEAD(GRN_No)")
@@ -22079,7 +22083,10 @@ Public Class clsCreateAllTable
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
+            coll.Add("Inter_unit_purchase", "Integer default 0")
+           ' clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date", True)
+
 
 
             coll = New Dictionary(Of String, String)
@@ -22663,7 +22670,10 @@ Public Class clsCreateAllTable
             coll.Add("Confirmatory_PO", "integer NUll")
             coll.Add("IsExemptSecurityDedution", "Integer not null default 0")
             coll.Add("Retention", "decimal(18,2) NULL")
+            coll.Add("Inter_unit_purchase", "Integer default 0")
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_HEAD", coll, Nothing, True, True, "", "SRN_No", "SRN_Date
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_HEAD", coll, Nothing, True, True, "", "SRN_No", "SRN_Date", True)
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("Confirmatory_PO_SRN_No", "Varchar(30) null References TSPL_SRN_HEAD(SRN_No)")
@@ -30291,6 +30301,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
+            coll.Add("Inter_unit_sale", "Integer default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -32040,6 +32051,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Is_ManualTCS", "Integer Default 0")
+            coll.Add("Inter_unit_sale", "Integer default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -33199,6 +33211,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ChangedTCSBaseAmount", "float null")
             coll.Add("Total_Outstanding", "decimal(18,2) null")
             coll.Add("Is_ManualTCS", "Integer Default 0")
+            coll.Add("Inter_unit_sale", "Integer default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
@@ -44304,6 +44317,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("VisualQCUpdatedBySecond", "varchar(12) NULL")
             coll.Add("VisualQCUpdatedDateSecond", "Date NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
+            coll.Add("Inter_unit_purchase", "Integer default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_HEAD_History", coll, Nothing, True, False)
 
             coll = New Dictionary(Of String, String)
