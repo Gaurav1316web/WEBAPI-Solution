@@ -4,6 +4,7 @@ Public Class frmSRN
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim ItemCostTolerancePercentage As Decimal = 0
+    Public Inter_unit_Purchk As Integer = 0
     Dim AutoClosePOBasedOnSRNQtyWithTolerance As Boolean = False
     Private PurchaseModulePickFixTaxRate As Boolean = False
     Dim ShowCapexCodeandSubCode As Boolean = False
@@ -7620,6 +7621,7 @@ Public Class frmSRN
                     End If
                     '=======end here=====
                     TxtRetention.Text = objMRNHead.Retention
+                    Inter_unit_Purchk = clsCommon.myCdbl(objMRNHead.Inter_unit_Purchase)
                     chkJobWorkOutward.Checked = IIf(objMRNHead.isJobWorkOutward = 1, True, False)
                     If clsCommon.myLen(txtCarrier.Text) <= 0 Then
                         txtCarrier.Text = objMRNHead.Carrier
@@ -7640,7 +7642,7 @@ Public Class frmSRN
                     If clsCommon.myLen(txtCarrier.Text) <= 0 Then
                         txtVehicleNo.Text = objMRNHead.VehicleNo
                     End If
-
+                    Inter_unit_Purchk = clsCommon.myCdbl(objMRNHead.Inter_unit_Purchase)
                     cmbRGPType.SelectedValue = objMRNHead.RGP_Type
                     If clsCommon.myLen(txtRefNo.Text) <= 0 Then
                         txtRefNo.Text = objMRNHead.Ref_No

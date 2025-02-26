@@ -332,6 +332,7 @@ Public Class frmScrapSale
         txtTransporter_desc.Text = ""
         txtnrg.Value = ""
         chkinvoice.Checked = False
+        Inter_unit_salechk.Checked = False
         chkExcisable.Checked = False
         chkOnHold.Checked = False
         chkScrapSale.Checked = False
@@ -371,6 +372,7 @@ Public Class frmScrapSale
         txtlocation.Text = ""
         fndShipToLocation.Value = ""
         chkinvoice.Checked = True
+        Inter_unit_salechk.Checked = False
         UsLock1.Status = 0
         dtpexp.Value = clsCommon.GETSERVERDATE()
         dtppost.Value = clsCommon.GETSERVERDATE()
@@ -1960,6 +1962,7 @@ Public Class frmScrapSale
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
         chkEInvoice.Checked = False
+        Inter_unit_salechk.Checked = False
     End Sub
 
     Private Sub gv1_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEditorInitialized
@@ -2186,6 +2189,20 @@ Public Class frmScrapSale
                 End If
             End If
         End If
+
+        If Inter_unit_salechk.Checked Then
+            ' Check if the vehicle number is empty
+            Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from tspl_customer_master where Cust_Code ='" + fndcustNo.Value + "' "))
+            If qry = 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Map this customer on customer master screen with cfp_unit checkbox")
+                Return False
+            End If
+        Else
+            common.clsCommon.MyMessageBoxShow("Please check interunitsale checkbox")
+            Inter_unit_salechk.Focus()
+            Return False
+        End If
+
         If (clsCommon.myCdbl(lblDocAmount.Text)) > 0 Then
             Dim isValidAmt As Boolean = CustomerOutstandingAmount(fndcustNo.Value, Nothing)
             Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + fndcustNo.Value + "' "))
@@ -2460,6 +2477,13 @@ Public Class frmScrapSale
                 Else
                     obj.CreateInvoice = 0
                 End If
+
+                If Inter_unit_salechk.Checked = True Then
+                    obj.Inter_unit_sale = 1
+                Else
+                    obj.Inter_unit_sale = 0
+                End If
+
                 If chkEInvoice.Checked Then
                     obj.Create_E_Invoice = 1
                 Else
@@ -2837,6 +2861,13 @@ Public Class frmScrapSale
                 Else
                     chkEInvoice.Checked = False
                 End If
+
+                If obj.Inter_unit_sale = 1 Then
+                    Inter_unit_salechk.Checked = True
+                Else
+                    Inter_unit_salechk.Checked = False
+                End If
+
                 If obj.Excisable = "Y" Then
                     chkExcisable.Checked = True
                 Else

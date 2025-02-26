@@ -21,6 +21,7 @@ Public Class clsSalaryStructure
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SALARY_STRUCTURE", "SALARY_STRUCTURE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_SALARY_STRUCTURE where SALARY_STRUCTURE_CODE ='" + strCode + "'"
@@ -84,6 +85,8 @@ Public Class clsSalaryStructure
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SALARY_STRUCTURE", OMInsertOrUpdate.Update, "SALARY_STRUCTURE_CODE='" + obj.SALARY_STRUCTURE_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SALARY_STRUCTURE_CODE, "TSPL_SALARY_STRUCTURE", "SALARY_STRUCTURE_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

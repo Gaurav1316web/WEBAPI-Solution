@@ -43,6 +43,8 @@ Public Class clsReimbursementDetails
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_EMPREIMBURSEMENT_DETAIL where REIMBURSEMENT_CODE ='" + strCode + "'"
@@ -174,9 +176,11 @@ Public Class clsReimbursementDetails
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMP_REIMBURSEMENT", OMInsertOrUpdate.Update, "TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_CODE='" + obj.REIMBURSEMENT_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.REIMBURSEMENT_CODE, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
 
 
             isSaved = isSaved AndAlso clsReimbursementPayHeadDetails.SaveData(obj.REIMBURSEMENT_CODE, objList, trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -218,7 +222,7 @@ Public Class clsReimbursementDetails
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
             Qry = "Update TSPL_EMP_REIMBURSEMENT set POSTED = 0 where REIMBURSEMENT_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 

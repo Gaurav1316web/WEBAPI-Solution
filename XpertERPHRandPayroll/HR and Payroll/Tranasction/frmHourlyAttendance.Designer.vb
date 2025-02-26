@@ -25,7 +25,7 @@ Partial Class frmHourlyAttendance
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHourlyAttendance))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UsLock1 = New common.usLock()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
@@ -53,6 +53,7 @@ Partial Class frmHourlyAttendance
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,6 +75,7 @@ Partial Class frmHourlyAttendance
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,6 +109,7 @@ Partial Class frmHourlyAttendance
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -311,7 +314,6 @@ Partial Class frmHourlyAttendance
         'dtpAttendanceDate
         '
         Me.dtpAttendanceDate.CalculationExpression = Nothing
-        Me.dtpAttendanceDate.Culture = New System.Globalization.CultureInfo("en-IN")
         Me.dtpAttendanceDate.CustomFormat = "dd/MM/yyyy"
         Me.dtpAttendanceDate.FieldCode = Nothing
         Me.dtpAttendanceDate.FieldDesc = Nothing
@@ -336,7 +338,7 @@ Partial Class frmHourlyAttendance
         Me.dtpAttendanceDate.Size = New System.Drawing.Size(130, 18)
         Me.dtpAttendanceDate.TabIndex = 1
         Me.dtpAttendanceDate.TabStop = False
-        Me.dtpAttendanceDate.Text = "28-06-2013"
+        Me.dtpAttendanceDate.Text = "28/06/2013"
         Me.dtpAttendanceDate.Value = New Date(2013, 6, 28, 0, 0, 0, 0)
         '
         'txtCode
@@ -385,13 +387,14 @@ Partial Class frmHourlyAttendance
         Me.gvHourlyAttendance.MasterTemplate.EnableGrouping = False
         Me.gvHourlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHourlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvHourlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvHourlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvHourlyAttendance.MyStopExport = False
         Me.gvHourlyAttendance.Name = "gvHourlyAttendance"
         Me.gvHourlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvHourlyAttendance.ShowHeaderCellButtons = True
         Me.gvHourlyAttendance.Size = New System.Drawing.Size(864, 357)
         Me.gvHourlyAttendance.TabIndex = 6
+        Me.gvHourlyAttendance.VarID = ""
         '
         'btnPost
         '
@@ -469,6 +472,16 @@ Partial Class frmHourlyAttendance
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Export from Biometric "
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(219, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'frmHourlyAttendance
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -504,6 +517,7 @@ Partial Class frmHourlyAttendance
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -536,4 +550,5 @@ Partial Class frmHourlyAttendance
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

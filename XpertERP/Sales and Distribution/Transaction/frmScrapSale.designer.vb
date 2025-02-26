@@ -188,6 +188,7 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Inter_unit_salechk = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -339,6 +340,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -395,6 +397,7 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Inter_unit_salechk)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustGSTNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocGSTNo)
@@ -511,7 +514,7 @@ Partial Class frmScrapSale
         'chkEInvoice
         '
         Me.chkEInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEInvoice.Location = New System.Drawing.Point(887, 5)
+        Me.chkEInvoice.Location = New System.Drawing.Point(873, 5)
         Me.chkEInvoice.Name = "chkEInvoice"
         Me.chkEInvoice.Size = New System.Drawing.Size(64, 16)
         Me.chkEInvoice.TabIndex = 1479
@@ -2715,6 +2718,14 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1126, 503)
         Me.Panel1.TabIndex = 3
         '
+        'Inter_unit_salechk
+        '
+        Me.Inter_unit_salechk.Location = New System.Drawing.Point(945, 4)
+        Me.Inter_unit_salechk.Name = "Inter_unit_salechk"
+        Me.Inter_unit_salechk.Size = New System.Drawing.Size(91, 18)
+        Me.Inter_unit_salechk.TabIndex = 1484
+        Me.Inter_unit_salechk.Text = "Inter Unit Sale"
+        '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2888,6 +2899,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3055,6 +3067,7 @@ Partial Class frmScrapSale
     Friend WithEvents lblLocGSTNo As common.Controls.MyLabel
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
+    Friend WithEvents Inter_unit_salechk As RadCheckBox
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 

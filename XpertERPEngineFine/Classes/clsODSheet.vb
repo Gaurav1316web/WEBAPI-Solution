@@ -40,6 +40,8 @@ Public Class clsODSheet
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OUTDUTY_SHEET", "OD_SHEET_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OUTDUTY_SHEET", "OD_SHEET_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_OUTDUTY_SHEET where OD_SHEET_CODE ='" + strCode + "'"
@@ -131,6 +133,7 @@ Public Class clsODSheet
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OUTDUTY_SHEET", OMInsertOrUpdate.Update, "OD_SHEET_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OUTDUTY_SHEET", "OD_SHEET_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
