@@ -55,6 +55,7 @@ Partial Class frmLoanAdjustment
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -82,6 +83,7 @@ Partial Class frmLoanAdjustment
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +137,7 @@ Partial Class frmLoanAdjustment
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -556,6 +559,16 @@ Partial Class frmLoanAdjustment
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(216, 26)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'frmLoanAdjustment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -596,6 +609,7 @@ Partial Class frmLoanAdjustment
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -630,4 +644,5 @@ Partial Class frmLoanAdjustment
     Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

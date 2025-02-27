@@ -61,6 +61,7 @@ Partial Class frmConveyanceClaim
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,6 +88,7 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -340,6 +342,7 @@ Partial Class frmConveyanceClaim
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -534,6 +537,17 @@ Partial Class frmConveyanceClaim
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(145, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmConveyanceClaim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -573,6 +587,7 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -613,5 +628,6 @@ Partial Class frmConveyanceClaim
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

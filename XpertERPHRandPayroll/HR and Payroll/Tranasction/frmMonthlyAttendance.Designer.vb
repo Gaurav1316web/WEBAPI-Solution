@@ -25,9 +25,9 @@ Partial Class frmMonthlyAttendance
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMonthlyAttendance))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -56,6 +56,7 @@ Partial Class frmMonthlyAttendance
         Me.radPageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageAttendanceDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvAttendanceDetail = New common.UserControls.MyRadGridView()
         Me.RadPageAttendanceSummary = New Telerik.WinControls.UI.RadPageViewPage()
@@ -99,7 +100,7 @@ Partial Class frmMonthlyAttendance
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -165,6 +166,7 @@ Partial Class frmMonthlyAttendance
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -195,6 +197,7 @@ Partial Class frmMonthlyAttendance
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBiometric)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDeleteDS)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnFillAttendance)
@@ -250,10 +253,10 @@ Partial Class frmMonthlyAttendance
         Me.RadPageViewPage1.Controls.Add(Me.findPayperiod)
         Me.RadPageViewPage1.Controls.Add(Me.lblRemarks)
         Me.RadPageViewPage1.Controls.Add(Me.txtDescription)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(69.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(909, 437)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(909, 433)
         Me.RadPageViewPage1.Text = "Attendance"
         '
         'RadButton1
@@ -379,13 +382,14 @@ Partial Class frmMonthlyAttendance
         Me.gvMonthlyAttendance.MasterTemplate.EnableGrouping = False
         Me.gvMonthlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMonthlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvMonthlyAttendance.MyStopExport = False
         Me.gvMonthlyAttendance.Name = "gvMonthlyAttendance"
         Me.gvMonthlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMonthlyAttendance.ShowHeaderCellButtons = True
-        Me.gvMonthlyAttendance.Size = New System.Drawing.Size(906, 287)
+        Me.gvMonthlyAttendance.Size = New System.Drawing.Size(906, 283)
         Me.gvMonthlyAttendance.TabIndex = 7
+        Me.gvMonthlyAttendance.VarID = ""
         '
         'lblAttendanceCode
         '
@@ -569,7 +573,7 @@ Partial Class frmMonthlyAttendance
         'radPageAttachment
         '
         Me.radPageAttachment.Controls.Add(Me.UcAttachment1)
-        Me.radPageAttachment.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.radPageAttachment.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.radPageAttachment.Location = New System.Drawing.Point(10, 37)
         Me.radPageAttachment.Name = "radPageAttachment"
         Me.radPageAttachment.Size = New System.Drawing.Size(847, 433)
@@ -586,16 +590,24 @@ Partial Class frmMonthlyAttendance
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(847, 433)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(847, 433)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'RadPageAttendanceDetail
         '
         Me.RadPageAttendanceDetail.Controls.Add(Me.gvAttendanceDetail)
-        Me.RadPageAttendanceDetail.ItemSize = New System.Drawing.SizeF(102.0!, 24.0!)
+        Me.RadPageAttendanceDetail.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageAttendanceDetail.Location = New System.Drawing.Point(10, 37)
         Me.RadPageAttendanceDetail.Name = "RadPageAttendanceDetail"
         Me.RadPageAttendanceDetail.Size = New System.Drawing.Size(847, 433)
@@ -610,17 +622,18 @@ Partial Class frmMonthlyAttendance
         '
         Me.gvAttendanceDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvAttendanceDetail.MyStopExport = False
         Me.gvAttendanceDetail.Name = "gvAttendanceDetail"
         Me.gvAttendanceDetail.ShowHeaderCellButtons = True
         Me.gvAttendanceDetail.Size = New System.Drawing.Size(847, 433)
         Me.gvAttendanceDetail.TabIndex = 2
+        Me.gvAttendanceDetail.VarID = ""
         '
         'RadPageAttendanceSummary
         '
         Me.RadPageAttendanceSummary.Controls.Add(Me.SplitContainer2)
-        Me.RadPageAttendanceSummary.ItemSize = New System.Drawing.SizeF(120.0!, 24.0!)
+        Me.RadPageAttendanceSummary.ItemSize = New System.Drawing.SizeF(124.0!, 28.0!)
         Me.RadPageAttendanceSummary.Location = New System.Drawing.Point(10, 37)
         Me.RadPageAttendanceSummary.Name = "RadPageAttendanceSummary"
         Me.RadPageAttendanceSummary.Size = New System.Drawing.Size(847, 433)
@@ -852,12 +865,13 @@ Partial Class frmMonthlyAttendance
         '
         Me.gvAttendanceSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvAttendanceSummary.MyStopExport = False
         Me.gvAttendanceSummary.Name = "gvAttendanceSummary"
         Me.gvAttendanceSummary.ShowHeaderCellButtons = True
         Me.gvAttendanceSummary.Size = New System.Drawing.Size(847, 359)
         Me.gvAttendanceSummary.TabIndex = 3
+        Me.gvAttendanceSummary.VarID = ""
         '
         'RadMenu1
         '
@@ -905,9 +919,9 @@ Partial Class frmMonthlyAttendance
         '
         Me.btnBiometric.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnBiometric.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBiometric.Location = New System.Drawing.Point(279, 3)
+        Me.btnBiometric.Location = New System.Drawing.Point(287, 3)
         Me.btnBiometric.Name = "btnBiometric"
-        Me.btnBiometric.Size = New System.Drawing.Size(66, 18)
+        Me.btnBiometric.Size = New System.Drawing.Size(58, 18)
         Me.btnBiometric.TabIndex = 259
         Me.btnBiometric.Text = "Biometric "
         '
@@ -975,9 +989,9 @@ Partial Class frmMonthlyAttendance
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(182, 3)
+        Me.btnReverse.Location = New System.Drawing.Point(173, 4)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(66, 18)
+        Me.btnReverse.Size = New System.Drawing.Size(55, 18)
         Me.btnReverse.TabIndex = 4
         Me.btnReverse.Text = "Reverse"
         '
@@ -985,7 +999,7 @@ Partial Class frmMonthlyAttendance
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(66, 3)
+        Me.btnPost.Location = New System.Drawing.Point(63, 3)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(54, 18)
         Me.btnPost.TabIndex = 1
@@ -995,7 +1009,7 @@ Partial Class frmMonthlyAttendance
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(9, 3)
+        Me.btnsave.Location = New System.Drawing.Point(7, 3)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(54, 18)
         Me.btnsave.TabIndex = 0
@@ -1015,19 +1029,21 @@ Partial Class frmMonthlyAttendance
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(124, 3)
+        Me.btndelete.Location = New System.Drawing.Point(119, 3)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(53, 18)
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'UcCustomFields1
+        'btnHistory
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(847, 433)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(229, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(58, 18)
+        Me.btnHistory.TabIndex = 260
+        Me.btnHistory.Text = "History"
         '
         'frmMonthlyAttendance
         '
@@ -1110,6 +1126,7 @@ Partial Class frmMonthlyAttendance
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1186,4 +1203,5 @@ Partial Class frmMonthlyAttendance
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents btnDeleteDS As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnBiometric As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

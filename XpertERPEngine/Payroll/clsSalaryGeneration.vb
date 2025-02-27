@@ -83,6 +83,9 @@ Public Class clsSalaryGeneration
             Throw New Exception("Code not found to Delete")
         End If
         Dim obj As clsSalaryGeneration = clsSalaryGeneration.GetData(Code, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Code, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Code, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
+
         Dim qry As String
         qry = "delete from TSPL_LEAVE_ALLOTMENTDETAIL where LVALLOTMENT_CODE='" & obj.LEAVEALLOTMENT_CODE & "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -287,7 +290,7 @@ Public Class clsSalaryGeneration
         Else
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GENERATE_SALARY", OMInsertOrUpdate.Update, "SALARY_GENERATION_CODE='" & obj.Code & "'", trans)
         End If
-
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
         If isSaved Then
             Dim satQry As String = " "
             satQry = " Delete from TSPL_GENERATE_SALARY_ATTENDANCE where SALARY_GENERATION_CODE =  '" & obj.Code & "' "
@@ -725,6 +728,7 @@ Public Class clsSalaryGeneration
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PL-JE' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then

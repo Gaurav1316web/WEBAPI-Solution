@@ -24,6 +24,9 @@ Partial Class frmEmpFullAndFinalSettlement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.UsLock1 = New common.usLock()
         Me.lblEmpName = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
@@ -34,6 +37,10 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.pageGeneral = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtChequeAmt = New common.MyNumBox()
+        Me.dtpClearDate = New common.Controls.MyDateTimePicker()
+        Me.lblClearanceDate = New common.Controls.MyLabel()
+        Me.lblchqAmt = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtPayPeriod = New common.UserControls.txtFinder()
         Me.dtpChequeDated = New common.Controls.MyDateTimePicker()
@@ -95,10 +102,7 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.lblchqAmt = New common.Controls.MyLabel()
-        Me.lblClearanceDate = New common.Controls.MyLabel()
-        Me.dtpClearDate = New common.Controls.MyDateTimePicker()
-        Me.txtChequeAmt = New common.MyNumBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,6 +116,10 @@ Partial Class frmEmpFullAndFinalSettlement
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
+        CType(Me.txtChequeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpClearDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblClearanceDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblchqAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpChequeDated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -176,10 +184,7 @@ Partial Class frmEmpFullAndFinalSettlement
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblchqAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblClearanceDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpClearDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtChequeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -202,7 +207,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(483, 19)
         Me.lblEmpName.TabIndex = 207
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtCode
         '
@@ -252,6 +256,7 @@ Partial Class frmEmpFullAndFinalSettlement
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintFinalDeclaration)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPrintNoDues)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintResignation)
@@ -278,7 +283,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.RadSplitContainer1.Size = New System.Drawing.Size(986, 509)
         Me.RadSplitContainer1.TabIndex = 230
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'SplitPanel2
         '
@@ -295,7 +299,7 @@ Partial Class frmEmpFullAndFinalSettlement
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel2.Size = New System.Drawing.Size(986, 509)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.1736402!)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.1736402!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 70)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -316,7 +320,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.RadPageView1.SelectedPage = Me.pageGeneral
         Me.RadPageView1.Size = New System.Drawing.Size(975, 466)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageGeneral
@@ -366,6 +369,81 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.pageGeneral.Name = "pageGeneral"
         Me.pageGeneral.Size = New System.Drawing.Size(954, 418)
         Me.pageGeneral.Text = "General"
+        '
+        'txtChequeAmt
+        '
+        Me.txtChequeAmt.BackColor = System.Drawing.Color.White
+        Me.txtChequeAmt.CalculationExpression = Nothing
+        Me.txtChequeAmt.DecimalPlaces = 2
+        Me.txtChequeAmt.FieldCode = Nothing
+        Me.txtChequeAmt.FieldDesc = Nothing
+        Me.txtChequeAmt.FieldMaxLength = 0
+        Me.txtChequeAmt.FieldName = Nothing
+        Me.txtChequeAmt.isCalculatedField = False
+        Me.txtChequeAmt.IsSourceFromTable = False
+        Me.txtChequeAmt.IsSourceFromValueList = False
+        Me.txtChequeAmt.IsUnique = False
+        Me.txtChequeAmt.Location = New System.Drawing.Point(592, 50)
+        Me.txtChequeAmt.MendatroryField = False
+        Me.txtChequeAmt.MyLinkLable1 = Nothing
+        Me.txtChequeAmt.MyLinkLable2 = Nothing
+        Me.txtChequeAmt.Name = "txtChequeAmt"
+        Me.txtChequeAmt.ReferenceFieldDesc = Nothing
+        Me.txtChequeAmt.ReferenceFieldName = Nothing
+        Me.txtChequeAmt.ReferenceTableName = Nothing
+        Me.txtChequeAmt.Size = New System.Drawing.Size(147, 20)
+        Me.txtChequeAmt.TabIndex = 256
+        Me.txtChequeAmt.Text = "0"
+        Me.txtChequeAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtChequeAmt.Value = 0R
+        '
+        'dtpClearDate
+        '
+        Me.dtpClearDate.CalculationExpression = Nothing
+        Me.dtpClearDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpClearDate.FieldCode = Nothing
+        Me.dtpClearDate.FieldDesc = Nothing
+        Me.dtpClearDate.FieldMaxLength = 0
+        Me.dtpClearDate.FieldName = Nothing
+        Me.dtpClearDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpClearDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpClearDate.isCalculatedField = False
+        Me.dtpClearDate.IsSourceFromTable = False
+        Me.dtpClearDate.IsSourceFromValueList = False
+        Me.dtpClearDate.IsUnique = False
+        Me.dtpClearDate.Location = New System.Drawing.Point(592, 73)
+        Me.dtpClearDate.MendatroryField = True
+        Me.dtpClearDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpClearDate.MyLinkLable1 = Nothing
+        Me.dtpClearDate.MyLinkLable2 = Nothing
+        Me.dtpClearDate.Name = "dtpClearDate"
+        Me.dtpClearDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpClearDate.ReferenceFieldDesc = Nothing
+        Me.dtpClearDate.ReferenceFieldName = Nothing
+        Me.dtpClearDate.ReferenceTableName = Nothing
+        Me.dtpClearDate.Size = New System.Drawing.Size(147, 18)
+        Me.dtpClearDate.TabIndex = 255
+        Me.dtpClearDate.TabStop = False
+        Me.dtpClearDate.Text = "06/07/2013"
+        Me.dtpClearDate.Value = New Date(2013, 7, 6, 0, 0, 0, 0)
+        '
+        'lblClearanceDate
+        '
+        Me.lblClearanceDate.FieldName = Nothing
+        Me.lblClearanceDate.Location = New System.Drawing.Point(458, 72)
+        Me.lblClearanceDate.Name = "lblClearanceDate"
+        Me.lblClearanceDate.Size = New System.Drawing.Size(81, 18)
+        Me.lblClearanceDate.TabIndex = 254
+        Me.lblClearanceDate.Text = "Clearance Date"
+        '
+        'lblchqAmt
+        '
+        Me.lblchqAmt.FieldName = Nothing
+        Me.lblchqAmt.Location = New System.Drawing.Point(458, 51)
+        Me.lblchqAmt.Name = "lblchqAmt"
+        Me.lblchqAmt.Size = New System.Drawing.Size(88, 18)
+        Me.lblchqAmt.TabIndex = 253
+        Me.lblchqAmt.Text = "Cheque Amount"
         '
         'MyLabel3
         '
@@ -613,7 +691,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblServiceRenderedPeriod.Name = "lblServiceRenderedPeriod"
         Me.lblServiceRenderedPeriod.Size = New System.Drawing.Size(218, 19)
         Me.lblServiceRenderedPeriod.TabIndex = 10
-        Me.lblServiceRenderedPeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtReasonForLeaving
         '
@@ -667,7 +744,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblShortFallDays.Name = "lblShortFallDays"
         Me.lblShortFallDays.Size = New System.Drawing.Size(218, 19)
         Me.lblShortFallDays.TabIndex = 8
-        Me.lblShortFallDays.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel7
         '
@@ -801,7 +877,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblDepartmentId.Name = "lblDepartmentId"
         Me.lblDepartmentId.Size = New System.Drawing.Size(218, 19)
         Me.lblDepartmentId.TabIndex = 2
-        Me.lblDepartmentId.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lbl
         '
@@ -822,7 +897,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblDesignationId.Name = "lblDesignationId"
         Me.lblDesignationId.Size = New System.Drawing.Size(218, 19)
         Me.lblDesignationId.TabIndex = 1
-        Me.lblDesignationId.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLastDrawnSalUpTo
         '
@@ -962,7 +1036,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblNoticePeriod.Name = "lblNoticePeriod"
         Me.lblNoticePeriod.Size = New System.Drawing.Size(218, 19)
         Me.lblNoticePeriod.TabIndex = 5
-        Me.lblNoticePeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'pageUnpaidSalary
         '
@@ -993,21 +1066,24 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.gvSalStructAndUnpaidSalAmt.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvSalStructAndUnpaidSalAmt.Location = New System.Drawing.Point(0, 0)
         '
-        'gvSalStructAndUnpaidSalAmt
+        '
         '
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.AllowAddNewRow = False
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.AutoGenerateColumns = False
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.EnableGrouping = False
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.EnableSorting = False
+        Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSalStructAndUnpaidSalAmt.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSalStructAndUnpaidSalAmt.MyStopExport = False
         Me.gvSalStructAndUnpaidSalAmt.Name = "gvSalStructAndUnpaidSalAmt"
         Me.gvSalStructAndUnpaidSalAmt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalStructAndUnpaidSalAmt.ShowHeaderCellButtons = True
         Me.gvSalStructAndUnpaidSalAmt.Size = New System.Drawing.Size(954, 418)
         Me.gvSalStructAndUnpaidSalAmt.TabIndex = 5
         Me.gvSalStructAndUnpaidSalAmt.TabStop = False
-        Me.gvSalStructAndUnpaidSalAmt.Text = "RadGridView1"
+        Me.gvSalStructAndUnpaidSalAmt.VarID = ""
         '
         'pageOthers
         '
@@ -1028,20 +1104,23 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.gvOthers.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvOthers.Location = New System.Drawing.Point(0, 0)
         '
-        'gvOthers
+        '
         '
         Me.gvOthers.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvOthers.MasterTemplate.AllowAddNewRow = False
         Me.gvOthers.MasterTemplate.AutoGenerateColumns = False
         Me.gvOthers.MasterTemplate.EnableGrouping = False
+        Me.gvOthers.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOthers.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOthers.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvOthers.MyStopExport = False
         Me.gvOthers.Name = "gvOthers"
         Me.gvOthers.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvOthers.ShowHeaderCellButtons = True
         Me.gvOthers.Size = New System.Drawing.Size(954, 418)
         Me.gvOthers.TabIndex = 4
         Me.gvOthers.TabStop = False
-        Me.gvOthers.Text = "RadGridView1"
+        Me.gvOthers.VarID = ""
         '
         'pageLessDeductions
         '
@@ -1062,20 +1141,23 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.gvDeductions.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvDeductions.Location = New System.Drawing.Point(0, 0)
         '
-        'gvDeductions
+        '
         '
         Me.gvDeductions.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvDeductions.MasterTemplate.AllowAddNewRow = False
         Me.gvDeductions.MasterTemplate.AutoGenerateColumns = False
         Me.gvDeductions.MasterTemplate.EnableGrouping = False
+        Me.gvDeductions.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeductions.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDeductions.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvDeductions.MyStopExport = False
         Me.gvDeductions.Name = "gvDeductions"
         Me.gvDeductions.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDeductions.ShowHeaderCellButtons = True
         Me.gvDeductions.Size = New System.Drawing.Size(954, 418)
         Me.gvDeductions.TabIndex = 5
         Me.gvDeductions.TabStop = False
-        Me.gvDeductions.Text = "RadGridView1"
+        Me.gvDeductions.VarID = ""
         '
         'pageTotal
         '
@@ -1111,7 +1193,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.txtNetAmountPayable.Name = "txtNetAmountPayable"
         Me.txtNetAmountPayable.Size = New System.Drawing.Size(218, 19)
         Me.txtNetAmountPayable.TabIndex = 51
-        Me.txtNetAmountPayable.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblNetAmountPayable
         '
@@ -1132,7 +1213,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.txtTotalDuction.Name = "txtTotalDuction"
         Me.txtTotalDuction.Size = New System.Drawing.Size(218, 19)
         Me.txtTotalDuction.TabIndex = 50
-        Me.txtTotalDuction.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTotalDeduction
         '
@@ -1153,7 +1233,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.lblTotalEarnings.Name = "lblTotalEarnings"
         Me.lblTotalEarnings.Size = New System.Drawing.Size(218, 19)
         Me.lblTotalEarnings.TabIndex = 47
-        Me.lblTotalEarnings.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTotalOthrEarnings
         '
@@ -1174,7 +1253,6 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.txtTotalUnpaidSalary.Name = "txtTotalUnpaidSalary"
         Me.txtTotalUnpaidSalary.Size = New System.Drawing.Size(218, 19)
         Me.txtTotalUnpaidSalary.TabIndex = 46
-        Me.txtTotalUnpaidSalary.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTotalUnpaidSalary
         '
@@ -1266,80 +1344,15 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'lblchqAmt
+        'btnHistory
         '
-        Me.lblchqAmt.FieldName = Nothing
-        Me.lblchqAmt.Location = New System.Drawing.Point(458, 51)
-        Me.lblchqAmt.Name = "lblchqAmt"
-        Me.lblchqAmt.Size = New System.Drawing.Size(88, 18)
-        Me.lblchqAmt.TabIndex = 253
-        Me.lblchqAmt.Text = "Cheque Amount"
-        '
-        'lblClearanceDate
-        '
-        Me.lblClearanceDate.FieldName = Nothing
-        Me.lblClearanceDate.Location = New System.Drawing.Point(458, 72)
-        Me.lblClearanceDate.Name = "lblClearanceDate"
-        Me.lblClearanceDate.Size = New System.Drawing.Size(81, 18)
-        Me.lblClearanceDate.TabIndex = 254
-        Me.lblClearanceDate.Text = "Clearance Date"
-        '
-        'dtpClearDate
-        '
-        Me.dtpClearDate.CalculationExpression = Nothing
-        Me.dtpClearDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpClearDate.FieldCode = Nothing
-        Me.dtpClearDate.FieldDesc = Nothing
-        Me.dtpClearDate.FieldMaxLength = 0
-        Me.dtpClearDate.FieldName = Nothing
-        Me.dtpClearDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpClearDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpClearDate.isCalculatedField = False
-        Me.dtpClearDate.IsSourceFromTable = False
-        Me.dtpClearDate.IsSourceFromValueList = False
-        Me.dtpClearDate.IsUnique = False
-        Me.dtpClearDate.Location = New System.Drawing.Point(592, 73)
-        Me.dtpClearDate.MendatroryField = True
-        Me.dtpClearDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpClearDate.MyLinkLable1 = Nothing
-        Me.dtpClearDate.MyLinkLable2 = Nothing
-        Me.dtpClearDate.Name = "dtpClearDate"
-        Me.dtpClearDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpClearDate.ReferenceFieldDesc = Nothing
-        Me.dtpClearDate.ReferenceFieldName = Nothing
-        Me.dtpClearDate.ReferenceTableName = Nothing
-        Me.dtpClearDate.Size = New System.Drawing.Size(147, 18)
-        Me.dtpClearDate.TabIndex = 255
-        Me.dtpClearDate.TabStop = False
-        Me.dtpClearDate.Text = "06/07/2013"
-        Me.dtpClearDate.Value = New Date(2013, 7, 6, 0, 0, 0, 0)
-        '
-        'txtChequeAmt
-        '
-        Me.txtChequeAmt.BackColor = System.Drawing.Color.White
-        Me.txtChequeAmt.CalculationExpression = Nothing
-        Me.txtChequeAmt.DecimalPlaces = 2
-        Me.txtChequeAmt.FieldCode = Nothing
-        Me.txtChequeAmt.FieldDesc = Nothing
-        Me.txtChequeAmt.FieldMaxLength = 0
-        Me.txtChequeAmt.FieldName = Nothing
-        Me.txtChequeAmt.isCalculatedField = False
-        Me.txtChequeAmt.IsSourceFromTable = False
-        Me.txtChequeAmt.IsSourceFromValueList = False
-        Me.txtChequeAmt.IsUnique = False
-        Me.txtChequeAmt.Location = New System.Drawing.Point(592, 50)
-        Me.txtChequeAmt.MendatroryField = False
-        Me.txtChequeAmt.MyLinkLable1 = Nothing
-        Me.txtChequeAmt.MyLinkLable2 = Nothing
-        Me.txtChequeAmt.Name = "txtChequeAmt"
-        Me.txtChequeAmt.ReferenceFieldDesc = Nothing
-        Me.txtChequeAmt.ReferenceFieldName = Nothing
-        Me.txtChequeAmt.ReferenceTableName = Nothing
-        Me.txtChequeAmt.Size = New System.Drawing.Size(147, 20)
-        Me.txtChequeAmt.TabIndex = 256
-        Me.txtChequeAmt.Text = "0"
-        Me.txtChequeAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChequeAmt.Value = 0.0R
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(742, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 22)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'frmEmpFullAndFinalSettlement
         '
@@ -1368,6 +1381,10 @@ Partial Class frmEmpFullAndFinalSettlement
         Me.RadPageView1.ResumeLayout(False)
         Me.pageGeneral.ResumeLayout(False)
         Me.pageGeneral.PerformLayout()
+        CType(Me.txtChequeAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpClearDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblClearanceDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblchqAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpChequeDated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1433,10 +1450,7 @@ Partial Class frmEmpFullAndFinalSettlement
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblchqAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblClearanceDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpClearDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtChequeAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1516,4 +1530,5 @@ Partial Class frmEmpFullAndFinalSettlement
     Friend WithEvents lblClearanceDate As common.Controls.MyLabel
     Friend WithEvents lblchqAmt As common.Controls.MyLabel
     Friend WithEvents txtChequeAmt As common.MyNumBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
