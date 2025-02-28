@@ -8648,12 +8648,13 @@ Public Class clsCreateAllTable
                     Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT dc.name AS DefaultConstraintName FROM sys.default_constraints AS dc INNER JOIN sys.columns AS c ON dc.parent_object_id = c.object_id AND dc.parent_column_id = c.column_id INNER JOIN sys.tables AS t ON c.object_id = t.object_id WHERE t.name = 'TSPL_Booking_detail' and c.name='Item_Rate'")
                     If clsCommon.myLen(QryForeign) > 0 Then
                         clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Booking_Detail drop constraint " & QryForeign & "")
+                        qry = "alter table TSPL_BOOKING_DETAIL alter column item_rate Decimal(18,6) null "
+                        clsDBFuncationality.ExecuteNonQuery(qry)
                     End If
                 End If
             Catch ex As Exception
             End Try
-            qry = "alter table TSPL_BOOKING_DETAIL alter column item_rate Decimal(18,6) null "
-            clsDBFuncationality.ExecuteNonQuery(qry)
+
 
             ''richa for Booking detail payment
             coll = New Dictionary(Of String, String)()
