@@ -173,9 +173,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
-    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
+    <Reference Include="zxing %281%29">
+      <HintPath>..\XpertERP\bin\Debug\zxing (1).dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
