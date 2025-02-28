@@ -40,6 +40,9 @@ Public Class clsEmployeeBandMaster
                 Throw New Exception("Code not found to Delete")
             End If
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_BAND_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_BAND_MASTER", "Code", Nothing)
+
             Dim qry As String
             qry = "delete from TSPL_EMPLOYEE_BAND_MASTER where CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -118,6 +121,8 @@ Public Class clsEmployeeBandMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_BAND_MASTER", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_BAND_MASTER.CODE='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_EMPLOYEE_BAND_MASTER", "CODE", trans)
+
             '--------------------------------------------------------------------------------------------------------
 
         Catch ex As Exception

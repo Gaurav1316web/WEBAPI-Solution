@@ -1455,6 +1455,9 @@ Public Class FrmReceipttNew
                 If clsCommon.myLen(clsCommon.myCstr(txtlocation.Value)) > 0 Then
                     obj.Location_GL_Code = clsCommon.myCstr(txtlocation.Value)
                 End If
+                If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                    obj.Location_Code_Prefix = clsCommon.myCstr(txtLocationPrefix.Value)
+                End If
                 obj.TO_BANK_CODE = Me.txtToBank.Value
 
                 If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Then
@@ -2753,7 +2756,7 @@ Public Class FrmReceipttNew
                 If clsCommon.myCdbl(txtmemoamt.Text) > 0 Then
                     chkmemorndm.Checked = True
                 End If
-
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
                 dgvmiscpayment.Visible = False
                 dgvReceipt.Visible = False
                 ddlTransType.Enabled = False
@@ -3385,6 +3388,7 @@ Public Class FrmReceipttNew
 
     Public Sub funReset()
         txtDONo.Enabled = True
+        txtLocationPrefix.Value = ""
         txtTaxGroup.Enabled = True
         fndBankCode.Enabled = True
         fndPayType.Enabled = True
@@ -3932,7 +3936,7 @@ Public Class FrmReceipttNew
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                            "========Table Name=========" + Environment.NewLine +
                            "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine +
                            "TSPL_RECEIPT_DETAIL_GST , TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
@@ -4320,25 +4324,25 @@ Public Class FrmReceipttNew
             'chkSecurityDposit.Enabled = True
 
             If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Then
-                    Pnlmemorandum.Visible = True
-                    '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
-                    lblSalesOrder.Visible = True
-                    FndSalesOrder.Visible = True
-                    chkSecurityDposit.Enabled = True
-                    ''--------------------------
-                Else
-                    chkSecurityDposit.Enabled = False
-                End If
-
-                If objCommonVar.IsDemoERP = True Then
-                    pnlCform.Visible = True
-                Else
-                    pnlCform.Visible = False
-                End If
-
-
+                Pnlmemorandum.Visible = True
+                '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
+                lblSalesOrder.Visible = True
+                FndSalesOrder.Visible = True
+                chkSecurityDposit.Enabled = True
+                ''--------------------------
+            Else
+                chkSecurityDposit.Enabled = False
             End If
-            If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
+
+            If objCommonVar.IsDemoERP = True Then
+                pnlCform.Visible = True
+            Else
+                pnlCform.Visible = False
+            End If
+
+
+        End If
+        If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
             chkCheckPrint.Visible = True
         Else
             chkCheckPrint.Visible = False
@@ -8325,6 +8329,19 @@ Public Class FrmReceipttNew
             clsERPFuncationalityOLD.ShowTransHistoryData(fndRcptNo.Value, "Receipt_No", "TSPL_RECEIPT_HEADER", "TSPL_RECEIPT_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

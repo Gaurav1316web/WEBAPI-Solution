@@ -31,6 +31,8 @@ Public Class clsOTSheet
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_OT_SHEET where OT_SHEET_CODE ='" + strCode + "'"
@@ -53,7 +55,7 @@ Public Class clsOTSheet
             If (obj Is Nothing OrElse clsCommon.myLen(obj.OT_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
             Dim qry As String = "Update tspl_ot_sheet set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where OT_Sheet_Code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
@@ -137,6 +139,7 @@ Public Class clsOTSheet
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OT_SHEET", OMInsertOrUpdate.Update, "OT_SHEET_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

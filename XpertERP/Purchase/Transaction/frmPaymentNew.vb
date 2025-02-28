@@ -353,6 +353,8 @@ Public Class FrmPaymentNew
         txtDataAndTimeSelection.Checked = False
         ddlPaymentType.SelectedValue = "PY"
         fndloanNo.Value = ""
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         chkmemorndm.Checked = False
         txtmemoamt.Text = ""
         isNewEntry = True
@@ -1975,7 +1977,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 Else
                     obj.Location_GL_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code in (select BANKACC from TSPL_BANK_MASTER where BANK_CODE='" + txtBankCode.Value + "')"))
                 End If
-
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 obj.Employee_Type = clsCommon.myCstr(ddlEmployeeType.SelectedValue)
                 obj.Employee_Advance_Type = clsCommon.myCstr(ddlEmployeeAdvanceType.SelectedValue)
                 obj.memorndmamt = "0"
@@ -3089,7 +3091,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
     ''--------------
     Private Sub txtPaymentNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPaymentNo._MYValidating
         'done by priti KDI/04/07/18-000388 for updating vendor name from master
-        Dim qry As String = "select TSPL_PAYMENT_HEADER.Payment_No as [Code] ,convert(varchar,TSPL_PAYMENT_HEADER.Payment_Date,103) as [Date] ,TSPL_PAYMENT_HEADER.Entry_Desc as [Description],TSPL_PAYMENT_HEADER.Vendor_Code as [Vendor Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name],ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name] ,TSPL_PAYMENT_HEADER.Payment_Post_Date as [Payment Post Date] ,TSPL_PAYMENT_HEADER.Bank_Code as [Bank Code] ,TSPL_PAYMENT_HEADER.Payment_Type as [Payment Type] ,TSPL_PAYMENT_HEADER.Remit_To as [Remit To]  ,TSPL_PAYMENT_HEADER.Reference as [Reference] ,TSPL_PAYMENT_HEADER.Narration as [Narration] ,TSPL_PAYMENT_HEADER.Payment_Code as [Payment Code] ,TSPL_PAYMENT_HEADER.Cheque_No as [Cheque No] ,TSPL_PAYMENT_HEADER.Cheque_Date as [Cheque Date] ,TSPL_PAYMENT_HEADER.Payment_Amount as [Payment Amount] ,TSPL_PAYMENT_HEADER.Vendor_Account_Set as [Vendor Account Set] ,TSPL_PAYMENT_HEADER.TDS_Amount as [Tds Amount] ,TSPL_PAYMENT_HEADER.Total_Prepayment as [Total Prepayment] ,TSPL_PAYMENT_HEADER.Apply_By as [Apply By] ,TSPL_PAYMENT_HEADER.Apply_To as [Apply To] ,TSPL_PAYMENT_HEADER.Posted as [Posted] ,TSPL_PAYMENT_HEADER.Created_By as [Created By] ,TSPL_PAYMENT_HEADER.Created_Date as [Created Date] ,TSPL_PAYMENT_HEADER.Modify_By as [Modify By] ,TSPL_PAYMENT_HEADER.Modify_Date as [Modify Date] ,TSPL_PAYMENT_HEADER.Level1_User_code as [Level1 User Code] ,TSPL_PAYMENT_HEADER.Level2_User_code as [Level2 User Code] ,TSPL_PAYMENT_HEADER.Level3_User_code as [Level3 User Code] ,TSPL_PAYMENT_HEADER.Level4_User_code as [Level4 User Code] ,TSPL_PAYMENT_HEADER.Level5_User_code as [Level5 User Code] ,TSPL_PAYMENT_HEADER.Comp_Code as [Comp Code] ,TSPL_PAYMENT_HEADER.Debit_Account as [Debit Account] ,TSPL_PAYMENT_HEADER.Credit_Account as [Credit Account] ,TSPL_PAYMENT_HEADER.Balance_Amt as [Balance Amt] ,TSPL_PAYMENT_HEADER.Total_Applied_Amount as [Total Applied Amount] ,TSPL_PAYMENT_HEADER.Transport_Id as [Transport Id] ,TSPL_PAYMENT_HEADER.FIFO_Balance as [Fifo Balance] ,TSPL_PAYMENT_HEADER.QuickEntryNo as [Quickentryno] ,TSPL_PAYMENT_HEADER.LoadOutNo as [Loadoutno] ,TSPL_PAYMENT_HEADER.Salesman_Code as [Salesman Code] ,TSPL_PAYMENT_HEADER.Salesman_Name as [Salesman Name] ,TSPL_PAYMENT_HEADER.Route_NO as [Route No] ,TSPL_PAYMENT_HEADER.Route_Description as [Route Description] ,TSPL_PAYMENT_HEADER.Location_Code as [Location Code] ,TSPL_PAYMENT_HEADER.Location_Description as [Location Description] ,TSPL_PAYMENT_HEADER.IsRecoCleared as [Isrecocleared] ,TSPL_PAYMENT_HEADER.IsChkReverse as [Ischkreverse] ,TSPL_PAYMENT_HEADER.Loadout_No as [Loadout No] ,TSPL_PAYMENT_HEADER.Bank_Charges_Ac as [Bank Charges Ac] ,TSPL_PAYMENT_HEADER.Bank_Charges as [Bank Charges] ,TSPL_PAYMENT_HEADER.CURRENCY_CODE as [Currency Code] ,TSPL_PAYMENT_HEADER.ConvRate as [Convrate] ,TSPL_PAYMENT_HEADER.ApplicableFrom as [Applicablefrom] ,TSPL_PAYMENT_HEADER.BASE_CURRENCY_CODE as [Base Currency Code] ,TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT_BASE_CURRENCY as [Payment Amount Base Currency] ,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT as [Exchange Loss Amt] ,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT as [Exchange Gain Amt] ,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT as [Exchange Loss Account] ,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT as [Exchange Gain Account] ,TSPL_PAYMENT_HEADER.ConvRateOld as [Convrateold] ,TSPL_PAYMENT_HEADER.CFormRecd as [Cformrecd] ,TSPL_PAYMENT_HEADER.CForm_InvoiceNo as [Cform Invoiceno] ,TSPL_PAYMENT_HEADER.EMP_CODE as [Emp Code] ,TSPL_PAYMENT_HEADER.PROJECT_CODE as [Project Code] ,TSPL_PAYMENT_HEADER.PDC_Cheque as [Pdc Cheque] ,TSPL_PAYMENT_HEADER.Document_No as [Document No] ,TSPL_PAYMENT_HEADER.CHECK_PRINT as [Check Print] ,TSPL_PAYMENT_HEADER.CHECK_CODE as [Check Code] ,TSPL_PAYMENT_HEADER.memorandum_amt as [Memorandum Amt] ,TSPL_PAYMENT_HEADER.Applied_Payment as [Applied Payment],TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST AS [Purchase Order No]  From TSPL_PAYMENT_HEADER " &
+        Dim qry As String = "select TSPL_PAYMENT_HEADER.Payment_No as [Code] ,convert(varchar,TSPL_PAYMENT_HEADER.Payment_Date,103) as [Date] ,TSPL_PAYMENT_HEADER.Entry_Desc as [Description],TSPL_PAYMENT_HEADER.Vendor_Code as [Vendor Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name],TSPL_PAYMENT_HEADER.Location_Code_Prefix as [Location Code Prefix],ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name] ,TSPL_PAYMENT_HEADER.Payment_Post_Date as [Payment Post Date] ,TSPL_PAYMENT_HEADER.Bank_Code as [Bank Code] ,TSPL_PAYMENT_HEADER.Payment_Type as [Payment Type] ,TSPL_PAYMENT_HEADER.Remit_To as [Remit To]  ,TSPL_PAYMENT_HEADER.Reference as [Reference] ,TSPL_PAYMENT_HEADER.Narration as [Narration] ,TSPL_PAYMENT_HEADER.Payment_Code as [Payment Code] ,TSPL_PAYMENT_HEADER.Cheque_No as [Cheque No] ,TSPL_PAYMENT_HEADER.Cheque_Date as [Cheque Date] ,TSPL_PAYMENT_HEADER.Payment_Amount as [Payment Amount] ,TSPL_PAYMENT_HEADER.Vendor_Account_Set as [Vendor Account Set] ,TSPL_PAYMENT_HEADER.TDS_Amount as [Tds Amount] ,TSPL_PAYMENT_HEADER.Total_Prepayment as [Total Prepayment] ,TSPL_PAYMENT_HEADER.Apply_By as [Apply By] ,TSPL_PAYMENT_HEADER.Apply_To as [Apply To] ,TSPL_PAYMENT_HEADER.Posted as [Posted] ,TSPL_PAYMENT_HEADER.Created_By as [Created By] ,TSPL_PAYMENT_HEADER.Created_Date as [Created Date] ,TSPL_PAYMENT_HEADER.Modify_By as [Modify By] ,TSPL_PAYMENT_HEADER.Modify_Date as [Modify Date] ,TSPL_PAYMENT_HEADER.Level1_User_code as [Level1 User Code] ,TSPL_PAYMENT_HEADER.Level2_User_code as [Level2 User Code] ,TSPL_PAYMENT_HEADER.Level3_User_code as [Level3 User Code] ,TSPL_PAYMENT_HEADER.Level4_User_code as [Level4 User Code] ,TSPL_PAYMENT_HEADER.Level5_User_code as [Level5 User Code] ,TSPL_PAYMENT_HEADER.Comp_Code as [Comp Code] ,TSPL_PAYMENT_HEADER.Debit_Account as [Debit Account] ,TSPL_PAYMENT_HEADER.Credit_Account as [Credit Account] ,TSPL_PAYMENT_HEADER.Balance_Amt as [Balance Amt] ,TSPL_PAYMENT_HEADER.Total_Applied_Amount as [Total Applied Amount] ,TSPL_PAYMENT_HEADER.Transport_Id as [Transport Id] ,TSPL_PAYMENT_HEADER.FIFO_Balance as [Fifo Balance] ,TSPL_PAYMENT_HEADER.QuickEntryNo as [Quickentryno] ,TSPL_PAYMENT_HEADER.LoadOutNo as [Loadoutno] ,TSPL_PAYMENT_HEADER.Salesman_Code as [Salesman Code] ,TSPL_PAYMENT_HEADER.Salesman_Name as [Salesman Name] ,TSPL_PAYMENT_HEADER.Route_NO as [Route No] ,TSPL_PAYMENT_HEADER.Route_Description as [Route Description] ,TSPL_PAYMENT_HEADER.Location_Code as [Location Code] ,TSPL_PAYMENT_HEADER.Location_Description as [Location Description] ,TSPL_PAYMENT_HEADER.IsRecoCleared as [Isrecocleared] ,TSPL_PAYMENT_HEADER.IsChkReverse as [Ischkreverse] ,TSPL_PAYMENT_HEADER.Loadout_No as [Loadout No] ,TSPL_PAYMENT_HEADER.Bank_Charges_Ac as [Bank Charges Ac] ,TSPL_PAYMENT_HEADER.Bank_Charges as [Bank Charges] ,TSPL_PAYMENT_HEADER.CURRENCY_CODE as [Currency Code] ,TSPL_PAYMENT_HEADER.ConvRate as [Convrate] ,TSPL_PAYMENT_HEADER.ApplicableFrom as [Applicablefrom] ,TSPL_PAYMENT_HEADER.BASE_CURRENCY_CODE as [Base Currency Code] ,TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT_BASE_CURRENCY as [Payment Amount Base Currency] ,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT as [Exchange Loss Amt] ,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT as [Exchange Gain Amt] ,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT as [Exchange Loss Account] ,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT as [Exchange Gain Account] ,TSPL_PAYMENT_HEADER.ConvRateOld as [Convrateold] ,TSPL_PAYMENT_HEADER.CFormRecd as [Cformrecd] ,TSPL_PAYMENT_HEADER.CForm_InvoiceNo as [Cform Invoiceno] ,TSPL_PAYMENT_HEADER.EMP_CODE as [Emp Code] ,TSPL_PAYMENT_HEADER.PROJECT_CODE as [Project Code] ,TSPL_PAYMENT_HEADER.PDC_Cheque as [Pdc Cheque] ,TSPL_PAYMENT_HEADER.Document_No as [Document No] ,TSPL_PAYMENT_HEADER.CHECK_PRINT as [Check Print] ,TSPL_PAYMENT_HEADER.CHECK_CODE as [Check Code] ,TSPL_PAYMENT_HEADER.memorandum_amt as [Memorandum Amt] ,TSPL_PAYMENT_HEADER.Applied_Payment as [Applied Payment],TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST AS [Purchase Order No]  From TSPL_PAYMENT_HEADER " &
         " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.Bank_Code=TSPL_PAYMENT_HEADER.Bank_Code"
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
         qry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PAYMENT_HEADER.Vendor_Code "
@@ -3141,6 +3143,12 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             obj = clsPaymentHeader.GetData(strDocumentNo, navType)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Payment_No) > 0) Then
 
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 txtPaymentNo.Value = obj.Payment_No
                 txtDescription.Text = obj.Entry_Desc
                 dtpPayment.Value = obj.Payment_Date
@@ -4280,7 +4288,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
     Private Sub txtConversionRate_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtConversionRate.TextChanged
         Me.txtTotalPaymentBaseCurr.Text = clsCommon.myCdbl(txtPaymentAmt.Text) * clsCommon.myCdbl(txtConversionRate.Text)
     End Sub
-    Private Sub txtCFormInvNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCFormInvNo._MYValidating
+    Private Sub txtCFormInvNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean)
         '' Anubhooti 23-Nov-2014 BM00000004668 (Remove C-From) And Anubhooti 08-Dec-2014 (Remove Invoice No.)
         'If Not String.IsNullOrEmpty(ddlPaymentType.SelectedValue) Then 'And chkCForm.Checked = True Then
         '    If Not String.IsNullOrEmpty(txtVendorCode.Value) Then
@@ -5024,6 +5032,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                             obj.ConvRate = 1
                         End If
                         obj.PAYMENT_AMOUNT_BASE_CURRENCY = obj.Payment_Amount * obj.ConvRate
+
                         obj.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC,3) from TSPL_Bank_Master Where Bank_Code='" + obj.Bank_Code + "'", trans))
                         obj.Location_GL_Code = obj.Location_Code
                         obj.PDC_Cheque = "N'"
@@ -7979,6 +7988,24 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             clsERPFuncationalityOLD.ShowTransHistoryData(txtPaymentNo.Value, "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
