@@ -191,7 +191,7 @@
     </Reference>
     <Reference Include="XpertERPEngineFine, Version=7.1.3.90, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\DELL\Downloads\XpertERPEngineFine.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
