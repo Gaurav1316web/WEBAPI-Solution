@@ -391,6 +391,8 @@ Public Class clsMccDispatch
                 clsCustomFieldValues.SaveData(obj.Form_ID, obj.Chalan_NO, obj.arrCustomFields, tran)
             End If
             clsMCCDispatchDetail.SaveData(obj.Chalan_NO, obj.arr, tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Chalan_NO, "tspl_mcc_dispatch_challan", "chalan_no", "TSPL_MCC_DISPATCH_CHALLAN_DETAIL", "chalan_no", tran)
+
             If clsCommon.myLen(RefBulkDispatchUploader) = 0 Then
                 If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowTankerWithoutCheckingAnyValidation, clsFixedParameterCode.ShowTankerWithoutCheckingAnyValidation, tran)) = 0 Then
                     UpdateProvisionAmount(obj, tran)
@@ -757,6 +759,9 @@ Public Class clsMccDispatch
                 Qry = "CURRENT Challan IS USED IN Gate Entry-" & gtno
                 Throw New Exception(Qry)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
 
             ''to delete provision entry  5 Jun,2019 BHA/29/05/19-000899 journal entry not created in this case so that i cannot delete journal entry as discussed with it Ashok sir 
             Qry = "delete from tspl_provision_entry where Ref_Doc_No ='" + strCode + "'"
@@ -810,7 +815,6 @@ Public Class clsMccDispatch
             Qry = "Update tspl_tanker_master set isGateOut = 0,Ref_Doc_No='" & strCode & "' where tanker_no='" + tnkrNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
 
             trans.Commit()
         Catch ex As Exception
@@ -2052,7 +2056,8 @@ Public Class clsMccDispatch
 
             End If
 
-
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, challano, "tspl_mcc_dispatch_challan", "chalan_no", "TSPL_MCC_DISPATCH_CHALLAN_DETAIL", "chalan_no", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, challano, "tspl_mcc_dispatch_challan", "chalan_no", "TSPL_MCC_DISPATCH_CHALLAN_DETAIL", "chalan_no", tran)
 
             Dim isDeleted As Boolean = True
             Dim qry1 As String = "update TSPL_TANKER_MASTER set isGateOut=1,Ref_Doc_No=NULL where Tanker_No in (select Tanker_No from TSPL_MCC_Dispatch_Challan where Chalan_NO='" & challano & "')"
