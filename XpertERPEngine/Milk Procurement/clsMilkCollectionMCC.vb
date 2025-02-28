@@ -118,6 +118,8 @@ Public Class clsMilkCollectionMCC
             End If
             Dim isCorrection As Integer = 0
             clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -209,6 +211,8 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC where Document_No='" + strCode + "'", trans)
@@ -249,6 +253,7 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             For Each objtr As clsMilkCollectionMCCDetail In obj.Arr
                 If Not objtr.Milk_Not_Picked Then
@@ -308,7 +313,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)

@@ -22,8 +22,8 @@ Partial Class frmMilkGateEntryOut
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtGateOutWithoutMilkReceipt = New common.Controls.MyTextBox()
         Me.RadLabel6 = New common.Controls.MyLabel()
@@ -74,6 +74,7 @@ Partial Class frmMilkGateEntryOut
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -124,6 +125,7 @@ Partial Class frmMilkGateEntryOut
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -159,6 +161,7 @@ Partial Class frmMilkGateEntryOut
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -294,7 +297,7 @@ Partial Class frmMilkGateEntryOut
         Me.txtFilledCansOut.TabIndex = 1072
         Me.txtFilledCansOut.Text = "0"
         Me.txtFilledCansOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFilledCansOut.Value = 0.0R
+        Me.txtFilledCansOut.Value = 0R
         '
         'MyLabel6
         '
@@ -333,7 +336,7 @@ Partial Class frmMilkGateEntryOut
         Me.txtEmptyCansOut.TabIndex = 1074
         Me.txtEmptyCansOut.Text = "0"
         Me.txtEmptyCansOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEmptyCansOut.Value = 0.0R
+        Me.txtEmptyCansOut.Value = 0R
         '
         'RadGroupBox1
         '
@@ -424,6 +427,7 @@ Partial Class frmMilkGateEntryOut
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShift.FieldCode = Nothing
         Me.cboShift.FieldDesc = Nothing
@@ -434,10 +438,10 @@ Partial Class frmMilkGateEntryOut
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(447, 17)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -468,7 +472,6 @@ Partial Class frmMilkGateEntryOut
         Me.lblTransporterName.Name = "lblTransporterName"
         Me.lblTransporterName.Size = New System.Drawing.Size(270, 21)
         Me.lblTransporterName.TabIndex = 1046
-        Me.lblTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtFilledCans
         '
@@ -497,7 +500,7 @@ Partial Class frmMilkGateEntryOut
         Me.txtFilledCans.TabIndex = 1047
         Me.txtFilledCans.Text = "0"
         Me.txtFilledCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFilledCans.Value = 0.0R
+        Me.txtFilledCans.Value = 0R
         '
         'txtMCC
         '
@@ -544,7 +547,6 @@ Partial Class frmMilkGateEntryOut
         Me.lblMcc.Name = "lblMcc"
         Me.lblMcc.Size = New System.Drawing.Size(270, 21)
         Me.lblMcc.TabIndex = 1035
-        Me.lblMcc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Txtdds
         '
@@ -575,7 +577,6 @@ Partial Class frmMilkGateEntryOut
         Me.lblTransporterCode.Name = "lblTransporterCode"
         Me.lblTransporterCode.Size = New System.Drawing.Size(159, 21)
         Me.lblTransporterCode.TabIndex = 1045
-        Me.lblTransporterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -614,7 +615,7 @@ Partial Class frmMilkGateEntryOut
         Me.txtEmpryCans.TabIndex = 1049
         Me.txtEmpryCans.Text = "0"
         Me.txtEmpryCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEmpryCans.Value = 0.0R
+        Me.txtEmpryCans.Value = 0R
         '
         'lblRoute
         '
@@ -625,7 +626,6 @@ Partial Class frmMilkGateEntryOut
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(270, 21)
         Me.lblRoute.TabIndex = 1038
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkOther
         '
@@ -754,7 +754,6 @@ Partial Class frmMilkGateEntryOut
         Me.lblVehicleNo.Name = "lblVehicleNo"
         Me.lblVehicleNo.Size = New System.Drawing.Size(53, 22)
         Me.lblVehicleNo.TabIndex = 34
-        Me.lblVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtVehicleNo
         '
@@ -965,6 +964,17 @@ Partial Class frmMilkGateEntryOut
         Me.btndelete.TabIndex = 3
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(287, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
+        '
         'frmMilkGateEntryOut
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1030,6 +1040,7 @@ Partial Class frmMilkGateEntryOut
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1084,4 +1095,5 @@ Partial Class frmMilkGateEntryOut
     Friend WithEvents txtGateOutWithoutMilkReceipt As common.Controls.MyTextBox
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents chkGateOutWithoutMilkReceipt As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class

@@ -90,6 +90,8 @@ Public Class clsMilkReceiptMCC
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_RECEIPT_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_RECEIPT_HEAD.DOC_CODE='" + obj.DOC_CODE + "'", trans)
             End If
             clsMilkReceiptMCCDetail.SaveData(obj.DOC_CODE, objList, obj.Dock_Collection_Milk_Type, obj.DOCK_Code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", "TSPL_MILK_RECEIPT_DETAIL", "DOC_CODE", trans)
+
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.DOC_CODE, obj.arrCustomFields, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -319,6 +321,7 @@ Public Class clsMilkReceiptMCC
             Dim obj As clsMilkReceiptMCC = clsMilkReceiptMCC.GetData(strDocNo, NavigatorType.Current)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_CODE, obj.DOC_DATE, Nothing)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", Nothing)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.DOC_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -412,6 +415,7 @@ Public Class clsMilkReceiptMCC
             If dt.Rows.Count > 0 Then
                 Throw New Exception("Code can not Deleted.It has been Sampled")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", trans)
 
             qry = "delete from TSPL_MILK_Receipt_DETAIL where DOC_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

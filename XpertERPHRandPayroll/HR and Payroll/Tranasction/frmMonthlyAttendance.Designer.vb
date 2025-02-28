@@ -25,9 +25,9 @@ Partial Class frmMonthlyAttendance
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMonthlyAttendance))
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -87,6 +87,7 @@ Partial Class frmMonthlyAttendance
         Me.Export = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_Grid = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnBiometric = New Telerik.WinControls.UI.RadButton()
         Me.btnDeleteDS = New Telerik.WinControls.UI.RadButton()
         Me.btnFillAttendance = New Telerik.WinControls.UI.RadButton()
@@ -100,7 +101,6 @@ Partial Class frmMonthlyAttendance
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -155,6 +155,7 @@ Partial Class frmMonthlyAttendance
         CType(Me.gvAttendanceSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAttendanceSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBiometric, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDeleteDS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnFillAttendance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -166,7 +167,6 @@ Partial Class frmMonthlyAttendance
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -382,7 +382,7 @@ Partial Class frmMonthlyAttendance
         Me.gvMonthlyAttendance.MasterTemplate.EnableGrouping = False
         Me.gvMonthlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMonthlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvMonthlyAttendance.MyStopExport = False
         Me.gvMonthlyAttendance.Name = "gvMonthlyAttendance"
         Me.gvMonthlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -622,7 +622,7 @@ Partial Class frmMonthlyAttendance
         '
         Me.gvAttendanceDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvAttendanceDetail.MyStopExport = False
         Me.gvAttendanceDetail.Name = "gvAttendanceDetail"
         Me.gvAttendanceDetail.ShowHeaderCellButtons = True
@@ -865,7 +865,7 @@ Partial Class frmMonthlyAttendance
         '
         Me.gvAttendanceSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAttendanceSummary.MyStopExport = False
         Me.gvAttendanceSummary.Name = "gvAttendanceSummary"
         Me.gvAttendanceSummary.ShowHeaderCellButtons = True
@@ -914,6 +914,16 @@ Partial Class frmMonthlyAttendance
         Me.Export_Grid.AccessibleName = "Export Grid"
         Me.Export_Grid.Name = "Export_Grid"
         Me.Export_Grid.Text = "Export Employee"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(229, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(58, 18)
+        Me.btnHistory.TabIndex = 260
+        Me.btnHistory.Text = "History"
         '
         'btnBiometric
         '
@@ -1035,16 +1045,6 @@ Partial Class frmMonthlyAttendance
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(229, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(58, 18)
-        Me.btnHistory.TabIndex = 260
-        Me.btnHistory.Text = "History"
-        '
         'frmMonthlyAttendance
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1115,6 +1115,7 @@ Partial Class frmMonthlyAttendance
         CType(Me.gvAttendanceSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAttendanceSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBiometric, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDeleteDS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnFillAttendance, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1126,7 +1127,6 @@ Partial Class frmMonthlyAttendance
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

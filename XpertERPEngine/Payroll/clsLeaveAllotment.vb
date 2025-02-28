@@ -34,6 +34,10 @@ Public Class clsLeaveAllotment
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_ALLOTMENT", "LVALLOTMENT_CODE", "TSPL_LEAVE_ALLOTMENTDETAIL", "LVALLOTMENT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_ALLOTMENT", "LVALLOTMENT_CODE", "TSPL_LEAVE_ALLOTMENTDETAIL", "LVALLOTMENT_CODE", Nothing)
+
             isSaved = clsLeaveAllotmentDetails.DeleteData(strCode)
             Dim qry As String
             qry = "delete from TSPL_LEAVE_ALLOTMENT where LVALLOTMENT_CODE ='" + strCode + "'"
@@ -130,6 +134,7 @@ Public Class clsLeaveAllotment
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_ALLOTMENT", OMInsertOrUpdate.Update, "LVALLOTMENT_CODE='" + obj.LVALLOTMENT_CODE + "'", trans)
             End If
             isSaved = objLeaveAllotmentDetails.SaveData(obj.LVALLOTMENT_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LVALLOTMENT_CODE, "TSPL_LEAVE_ALLOTMENT", "LVALLOTMENT_CODE", "TSPL_LEAVE_ALLOTMENTDETAIL", "LVALLOTMENT_CODE", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

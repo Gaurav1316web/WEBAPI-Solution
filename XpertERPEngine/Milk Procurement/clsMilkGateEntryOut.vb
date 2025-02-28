@@ -63,6 +63,8 @@ Public Class clsMilkGateEntryOut
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_GATE_ENTRY_OUT", OMInsertOrUpdate.Update, "TSPL_MILK_GATE_ENTRY_OUT.Gate_Out_Code='" + obj.Gate_Out_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Out_Code, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -135,6 +137,7 @@ Public Class clsMilkGateEntryOut
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Gross Weight Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Out_Code, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
 
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_OUT set Status=1, Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Gate_Out_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -158,6 +161,9 @@ Public Class clsMilkGateEntryOut
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
 
             Dim qry As String = "delete from TSPL_MILK_GATE_ENTRY_OUT where Gate_Out_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
