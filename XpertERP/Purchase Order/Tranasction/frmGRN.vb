@@ -3411,6 +3411,12 @@ Public Class frmGRN
                 Inter_unit_Purchk.Focus()
                 Return False
             End If
+        Else
+            If Inter_unit_Purchk.Checked Then
+                common.clsCommon.MyMessageBoxShow("Please map this vendor with cfp_uniton vendor master or uncheck interunit checkbox")
+                Inter_unit_Purchk.Focus()
+                Return False
+            End If
         End If
         'If Inter_unit_Purchk.Checked Then
         '        ' Check if the vehicle number is empty
