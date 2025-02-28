@@ -64,6 +64,8 @@ Public Class clsMilkGateEntryWeighment
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", OMInsertOrUpdate.Update, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT.Weighment_Code='" + obj.Weighment_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -106,6 +108,7 @@ Public Class clsMilkGateEntryWeighment
             clsCommon.AddColumnsForChange(coll, "TW_Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "TW_Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", OMInsertOrUpdate.Update, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT.Weighment_Code='" + obj.Weighment_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -185,7 +188,7 @@ Public Class clsMilkGateEntryWeighment
             If (obj.GW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Gross Weight Already Post on :" + clsCommon.GetPrintDate(obj.GW_Posted_Date, "dd/MM/yyyy"))
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_WEIGHTMENT set GW_Status=1, GW_Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',GW_Posted_By='" + objCommonVar.CurrentUserCode + "' where Weighment_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
@@ -218,7 +221,7 @@ Public Class clsMilkGateEntryWeighment
             If (obj.TW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Tare Weight Already Post on :" + clsCommon.GetPrintDate(obj.TW_Posted_Date, "dd/MM/yyyy"))
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_WEIGHTMENT set TW_Status=1, TW_Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',TW_Posted_By='" + objCommonVar.CurrentUserCode + "' where Weighment_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
@@ -240,7 +243,7 @@ Public Class clsMilkGateEntryWeighment
             If (obj.GW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.GW_Posted_Date, "dd/MM/yyyy"))
             End If
-             
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "delete from TSPL_MILK_GATE_ENTRY_WEIGHTMENT where Weighment_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()

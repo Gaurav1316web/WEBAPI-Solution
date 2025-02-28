@@ -22,8 +22,8 @@ Partial Class frmMilkGateEntryWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnPendingTareWeight = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -267,6 +267,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShift.FieldCode = Nothing
         Me.cboShift.FieldDesc = Nothing
@@ -277,10 +278,10 @@ Partial Class frmMilkGateEntryWeighment
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem3)
-        Me.cboShift.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(447, 17)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -311,7 +312,6 @@ Partial Class frmMilkGateEntryWeighment
         Me.lblTransporterName.Name = "lblTransporterName"
         Me.lblTransporterName.Size = New System.Drawing.Size(235, 21)
         Me.lblTransporterName.TabIndex = 1046
-        Me.lblTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtFilledCans
         '
@@ -340,7 +340,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.txtFilledCans.TabIndex = 1047
         Me.txtFilledCans.Text = "0"
         Me.txtFilledCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFilledCans.Value = 0.0R
+        Me.txtFilledCans.Value = 0R
         '
         'txtMCC
         '
@@ -387,7 +387,6 @@ Partial Class frmMilkGateEntryWeighment
         Me.lblMcc.Name = "lblMcc"
         Me.lblMcc.Size = New System.Drawing.Size(235, 21)
         Me.lblMcc.TabIndex = 1035
-        Me.lblMcc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Txtdds
         '
@@ -418,7 +417,6 @@ Partial Class frmMilkGateEntryWeighment
         Me.lblTransporterCode.Name = "lblTransporterCode"
         Me.lblTransporterCode.Size = New System.Drawing.Size(197, 21)
         Me.lblTransporterCode.TabIndex = 1045
-        Me.lblTransporterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -457,7 +455,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.txtEmpryCans.TabIndex = 1049
         Me.txtEmpryCans.Text = "0"
         Me.txtEmpryCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEmpryCans.Value = 0.0R
+        Me.txtEmpryCans.Value = 0R
         '
         'lblRoute
         '
@@ -468,7 +466,6 @@ Partial Class frmMilkGateEntryWeighment
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(235, 21)
         Me.lblRoute.TabIndex = 1038
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkOther
         '
@@ -607,7 +604,6 @@ Partial Class frmMilkGateEntryWeighment
         Me.lblVehicleNo.Name = "lblVehicleNo"
         Me.lblVehicleNo.Size = New System.Drawing.Size(64, 20)
         Me.lblVehicleNo.TabIndex = 34
-        Me.lblVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtVehicleNo
         '
@@ -631,7 +627,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.txtVehicleNo.ReferenceFieldDesc = Nothing
         Me.txtVehicleNo.ReferenceFieldName = Nothing
         Me.txtVehicleNo.ReferenceTableName = Nothing
-        Me.txtVehicleNo.Size = New System.Drawing.Size(126, 18)
+        Me.txtVehicleNo.Size = New System.Drawing.Size(126, 20)
         Me.txtVehicleNo.TabIndex = 1040
         '
         'MyLabel2
@@ -770,7 +766,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.TxtTareWeight.TabIndex = 1057
         Me.TxtTareWeight.Text = "0"
         Me.TxtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTareWeight.Value = 0.0R
+        Me.TxtTareWeight.Value = 0R
         '
         'txtNetWeight
         '
@@ -798,7 +794,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.txtNetWeight.TabIndex = 1059
         Me.txtNetWeight.Text = "0"
         Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0.0R
+        Me.txtNetWeight.Value = 0R
         '
         'MyLabel6
         '
@@ -846,7 +842,7 @@ Partial Class frmMilkGateEntryWeighment
         Me.txtGrossWeight.TabIndex = 1058
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0.0R
+        Me.txtGrossWeight.Value = 0R
         '
         'MyLabel3
         '
@@ -974,8 +970,12 @@ Partial Class frmMilkGateEntryWeighment
         'UcWeighing1
         '
         Me.UcWeighing1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.UcWeighing1.form_ID = Nothing
+        Me.UcWeighing1.LiveReading = 0R
         Me.UcWeighing1.Location = New System.Drawing.Point(0, 0)
+        Me.UcWeighing1.Machine = ""
         Me.UcWeighing1.Name = "UcWeighing1"
+        Me.UcWeighing1.Port = ""
         Me.UcWeighing1.Size = New System.Drawing.Size(914, 64)
         Me.UcWeighing1.TabIndex = 2
         '

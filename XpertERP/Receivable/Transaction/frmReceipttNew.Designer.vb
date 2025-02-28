@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -95,7 +95,7 @@ Partial Class FrmReceipttNew
         Me.LblBookingNo = New common.Controls.MyLabel()
         Me.fndBookingNo = New common.UserControls.txtFinder()
         Me.txtlocation = New common.UserControls.txtFinder()
-        Me.RadLabel18 = New Telerik.WinControls.UI.RadLabel()
+        Me.lblLocPrefix = New Telerik.WinControls.UI.RadLabel()
         Me.lblOutstanding = New common.Controls.MyLabel()
         Me.MyLabel23 = New common.Controls.MyLabel()
         Me.MyLabel22 = New common.Controls.MyLabel()
@@ -188,6 +188,7 @@ Partial Class FrmReceipttNew
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.gvTaxDetail = New common.UserControls.MyRadGridView()
         Me.gvItem = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnOpenBankCashBook = New Telerik.WinControls.UI.RadButton()
         Me.btnVoidCheck = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintCheck = New Telerik.WinControls.UI.RadButton()
@@ -206,7 +207,8 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel18 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -276,7 +278,7 @@ Partial Class FrmReceipttNew
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblLocDesp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblBookingNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOutstanding, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -362,6 +364,7 @@ Partial Class FrmReceipttNew
         CType(Me.gvTaxDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnVoidCheck, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintCheck, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -377,7 +380,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -599,6 +602,8 @@ Partial Class FrmReceipttNew
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocationPrefix)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel18)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtsalesmanCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtTDSAmt)
         Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCurrConv)
@@ -623,7 +628,7 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.Controls.Add(Me.LblBookingNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndBookingNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtlocation)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel18)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocPrefix)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblOutstanding)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel23)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel22)
@@ -1536,7 +1541,7 @@ Partial Class FrmReceipttNew
         Me.txtlocation.IsSourceFromTable = False
         Me.txtlocation.IsSourceFromValueList = False
         Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(641, 111)
+        Me.txtlocation.Location = New System.Drawing.Point(999, 212)
         Me.txtlocation.MendatroryField = True
         Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtlocation.MyLinkLable1 = Nothing
@@ -1547,17 +1552,17 @@ Partial Class FrmReceipttNew
         Me.txtlocation.ReferenceFieldDesc = Nothing
         Me.txtlocation.ReferenceFieldName = Nothing
         Me.txtlocation.ReferenceTableName = Nothing
-        Me.txtlocation.Size = New System.Drawing.Size(152, 17)
+        Me.txtlocation.Size = New System.Drawing.Size(147, 17)
         Me.txtlocation.TabIndex = 611
         Me.txtlocation.Value = ""
         '
-        'RadLabel18
+        'lblLocPrefix
         '
-        Me.RadLabel18.Location = New System.Drawing.Point(576, 112)
-        Me.RadLabel18.Name = "RadLabel18"
-        Me.RadLabel18.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel18.TabIndex = 612
-        Me.RadLabel18.Text = "Location"
+        Me.lblLocPrefix.Location = New System.Drawing.Point(576, 112)
+        Me.lblLocPrefix.Name = "lblLocPrefix"
+        Me.lblLocPrefix.Size = New System.Drawing.Size(49, 18)
+        Me.lblLocPrefix.TabIndex = 612
+        Me.lblLocPrefix.Text = "Location"
         '
         'lblOutstanding
         '
@@ -2603,7 +2608,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.dgvReceipt.MyStopExport = False
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2630,7 +2635,7 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.dgvmiscpayment.MyStopExport = False
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2977,7 +2982,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3004,7 +3009,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3013,6 +3018,16 @@ Partial Class FrmReceipttNew
         Me.gvItem.TabIndex = 7
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(437, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 16
+        Me.btnHistory.Text = "History"
         '
         'btnOpenBankCashBook
         '
@@ -3220,15 +3235,39 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
-        'btnHistory
+        'RadLabel18
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(437, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
-        Me.btnHistory.TabIndex = 16
-        Me.btnHistory.Text = "History"
+        Me.RadLabel18.Location = New System.Drawing.Point(897, 211)
+        Me.RadLabel18.Name = "RadLabel18"
+        Me.RadLabel18.Size = New System.Drawing.Size(96, 18)
+        Me.RadLabel18.TabIndex = 12135
+        Me.RadLabel18.Text = "Location Segment"
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(641, 109)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(152, 17)
+        Me.txtLocationPrefix.TabIndex = 12136
+        Me.txtLocationPrefix.Value = ""
         '
         'FrmReceipttNew
         '
@@ -3319,7 +3358,7 @@ Partial Class FrmReceipttNew
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblLocDesp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblBookingNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocPrefix, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblOutstanding, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3409,6 +3448,7 @@ Partial Class FrmReceipttNew
         CType(Me.gvTaxDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnVoidCheck, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintCheck, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3424,7 +3464,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3552,7 +3592,7 @@ Partial Class FrmReceipttNew
     Friend WithEvents btnVoidCheck As Telerik.WinControls.UI.RadButton
     Friend WithEvents LblLocDesp As common.Controls.MyLabel
     Friend WithEvents txtlocation As common.UserControls.txtFinder
-    Friend WithEvents RadLabel18 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents lblLocPrefix As Telerik.WinControls.UI.RadLabel
     Friend WithEvents chkOpening As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents TxtForeignBankCharges As common.MyNumBox
     Friend WithEvents MyLabel25 As common.Controls.MyLabel
@@ -3612,5 +3652,7 @@ Partial Class FrmReceipttNew
     Friend WithEvents fndCustomer As common.UserControls.txtFinder
     Friend WithEvents txtsalesmanCode As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadLabel18 As RadLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
 End Class
 

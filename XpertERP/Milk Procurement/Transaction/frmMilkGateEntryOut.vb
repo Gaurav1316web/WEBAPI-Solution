@@ -424,4 +424,16 @@ Public Class frmMilkGateEntryOut
     Private Sub chkGateOutWithoutMilkReceipt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkGateOutWithoutMilkReceipt.ToggleStateChanged
         txtGateOutWithoutMilkReceipt.Enabled = chkGateOutWithoutMilkReceipt.Checked
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Gate_Out_Code", "TSPL_MILK_GATE_ENTRY_OUT")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

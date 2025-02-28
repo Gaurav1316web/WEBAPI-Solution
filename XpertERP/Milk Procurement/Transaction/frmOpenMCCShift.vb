@@ -477,6 +477,8 @@ Public Class FrmOpenMCCShift
                 Throw New Exception("Code not found to delete")
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmOpenMCCShift, txtmccode.Value, dtpShiftDate.Value, Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", Nothing)
 
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
@@ -1014,6 +1016,18 @@ Public Class FrmOpenMCCShift
 
     Private Sub txtCLR_Validating(sender As Object, e As CancelEventArgs) Handles txtCLR.Validating
         CalculateSNFFromCLR()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "MCC_SHIFT_CODE", "TSPL_OPEN_MCC_SHIFT")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Sub CalculateSNFFromCLR()

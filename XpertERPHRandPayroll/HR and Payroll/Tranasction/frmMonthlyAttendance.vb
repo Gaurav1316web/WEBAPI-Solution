@@ -2072,7 +2072,7 @@ Public Class frmMonthlyAttendance
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Document_No", "TSPL_MONTHLY_ATTENDANCE", "TSPL_MONTHLY_ATTENDANCE_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "MTA_CODE", "TSPL_MONTHLY_ATTENDANCE", "TSPL_MONTHLY_ATTENDANCE_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

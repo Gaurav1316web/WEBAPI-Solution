@@ -248,6 +248,7 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -447,6 +448,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -466,6 +468,7 @@ Partial Class frmMCCMaterialSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintEwayBill)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
@@ -3618,6 +3621,17 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Size = New System.Drawing.Size(1282, 20)
         Me.RadMenu1.TabIndex = 3
         '
+        'btnHistory1
+        '
+        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory1.Location = New System.Drawing.Point(1009, 3)
+        Me.btnHistory1.Name = "btnHistory1"
+        Me.btnHistory1.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory1.TabIndex = 1424
+        Me.btnHistory1.Text = "History"
+        Me.btnHistory1.Visible = False
+        '
         'frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3847,6 +3861,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4064,5 +4079,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents btnPrintEwayBill As RadButton
     Friend WithEvents rbtnCancel As RadButton
+    Friend WithEvents btnHistory1 As RadButton
 End Class
 
