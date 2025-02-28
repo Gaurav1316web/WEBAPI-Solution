@@ -11151,7 +11151,7 @@ Public Class clsCreateAllTable
             coll.Add("FarmType", "varchar(10) NOT  NULL default 'PP'")
             coll.Add("MCC_Code_Selected", "varchar(30) NULL references TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
             qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -26588,6 +26588,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Voucher_No", "varchar(50) NULL")
             coll.Add("IsOpening", "integer not null default 0")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MULTIPLE_DEDUCTION_DETAIL' and COLUMN_NAME='Trans_Type'"

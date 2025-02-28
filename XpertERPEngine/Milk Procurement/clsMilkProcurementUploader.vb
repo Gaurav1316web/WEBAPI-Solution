@@ -67,7 +67,9 @@ Public Class clsMilkProcurementUploaderHead
             End If
 
             If isNewEntry Then
-                obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No like '" + obj.MCC_Code + "%' ", trans))
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.MilkProcurementUploader, "", obj.MCC_Code, False)
+
+                ' obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No like '" + obj.MCC_Code + "%' ", trans))
                 If clsCommon.myLen(obj.Document_No) <= 0 Then
                     obj.Document_No = obj.MCC_Code + "0000000000"
                 End If
