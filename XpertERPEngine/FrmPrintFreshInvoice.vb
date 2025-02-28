@@ -1039,8 +1039,9 @@ Left Outer Join (select Ship_To_Code,Ship_To_Desc,Ship_To_Type_Desc,(TSPL_SHIP_T
 Left Outer Join TSPL_CITY_MASTER On TSPL_CITY_MASTER.City_Code=TSPL_SHIP_TO_LOCATION.City_Code
 Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_SHIP_TO_LOCATION.State) As TSPL_SHIP_TO_LOCATION ON TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                Qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code 
-                         AND TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code = TSPL_SD_SHIPMENT_HEAD.Route_No"
+                'Qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+                '         AND TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code = TSPL_SD_SHIPMENT_HEAD.Route_No"
+                Qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.pk_id  =TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID 		"
             End If
             Qry += " Full join  (select DOCUMENT_CODE,Item_Code as Scheme_Item_Code,SUM(Qty ) AS SUB_QTY,SUM(Crate) AS schemeInCrates from  " + IIf(isCancel, "TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data", "TSPL_SD_SALE_INVOICE_DETAIL") + " as inn where DOCUMENT_CODE in (" + strinvoiceNo + ") and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  
 TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  

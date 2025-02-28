@@ -1975,7 +1975,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 Else
                     obj.Location_GL_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code in (select BANKACC from TSPL_BANK_MASTER where BANK_CODE='" + txtBankCode.Value + "')"))
                 End If
-
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 obj.Employee_Type = clsCommon.myCstr(ddlEmployeeType.SelectedValue)
                 obj.Employee_Advance_Type = clsCommon.myCstr(ddlEmployeeAdvanceType.SelectedValue)
                 obj.memorndmamt = "0"
@@ -3141,6 +3141,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             obj = clsPaymentHeader.GetData(strDocumentNo, navType)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Payment_No) > 0) Then
 
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
                 txtPaymentNo.Value = obj.Payment_No
                 txtDescription.Text = obj.Entry_Desc
                 dtpPayment.Value = obj.Payment_Date
@@ -5024,6 +5025,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                             obj.ConvRate = 1
                         End If
                         obj.PAYMENT_AMOUNT_BASE_CURRENCY = obj.Payment_Amount * obj.ConvRate
+
                         obj.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC,3) from TSPL_Bank_Master Where Bank_Code='" + obj.Bank_Code + "'", trans))
                         obj.Location_GL_Code = obj.Location_Code
                         obj.PDC_Cheque = "N'"
@@ -7979,6 +7981,19 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             clsERPFuncationalityOLD.ShowTransHistoryData(txtPaymentNo.Value, "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
