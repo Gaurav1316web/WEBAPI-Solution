@@ -23,7 +23,7 @@ Partial Class FrmEmpIncrement
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEmpIncrement))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.LocationCode = New common.UserControls.txtFinder()
@@ -73,6 +73,7 @@ Partial Class FrmEmpIncrement
         Me.mnuExportWithIncrementAmt = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExportWithNewSalary = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -115,6 +116,7 @@ Partial Class FrmEmpIncrement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +135,7 @@ Partial Class FrmEmpIncrement
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -646,13 +649,14 @@ Partial Class FrmEmpIncrement
         Me.gvSalary.MasterTemplate.EnableGrouping = False
         Me.gvSalary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSalary.MyStopExport = False
         Me.gvSalary.Name = "gvSalary"
         Me.gvSalary.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalary.ShowHeaderCellButtons = True
         Me.gvSalary.Size = New System.Drawing.Size(1150, 217)
         Me.gvSalary.TabIndex = 5
+        Me.gvSalary.VarID = ""
         '
         'btnPrint
         '
@@ -760,6 +764,16 @@ Partial Class FrmEmpIncrement
         Me.rmClose.Name = "rmClose"
         Me.rmClose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(289, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'FrmEmpIncrement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -816,6 +830,7 @@ Partial Class FrmEmpIncrement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -870,5 +885,6 @@ Partial Class FrmEmpIncrement
     Friend WithEvents lblNewSalary As common.Controls.MyLabel
     Friend WithEvents lblNewSalaryTotal As common.Controls.MyLabel
     Friend WithEvents LocationCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

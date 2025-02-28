@@ -39,7 +39,8 @@ Public Class clsEmployeeShiftChange
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
-
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD", "EMP_SHIFT_CODE", "TSPL_EMPLOYEE_SHIFT_CHANGE_DETAIL", "EMP_SHIFT_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD", "EMP_SHIFT_CODE", "TSPL_EMPLOYEE_SHIFT_CHANGE_DETAIL", "EMP_SHIFT_CODE", trans)
             Dim qry As String
             qry = "delete from TSPL_EMPLOYEE_SHIFT_CHANGE_DETAIL where EMP_SHIFT_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -124,6 +125,8 @@ Public Class clsEmployeeShiftChange
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD.EMP_SHIFT_CODE='" + obj.EMP_SHIFT_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsEmployeeShiftChangeDetail.SaveData(obj.EMP_SHIFT_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_SHIFT_CODE, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD", "EMP_SHIFT_CODE", "TSPL_EMPLOYEE_SHIFT_CHANGE_DETAIL", "EMP_SHIFT_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

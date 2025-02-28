@@ -87,6 +87,7 @@ Partial Class FrmOpenMCCShift
         Me.RadMenu = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -151,6 +152,7 @@ Partial Class FrmOpenMCCShift
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -168,6 +170,7 @@ Partial Class FrmOpenMCCShift
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -188,7 +191,6 @@ Partial Class FrmOpenMCCShift
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(893, 443)
         Me.RadPageView1.TabIndex = 1045
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -278,7 +280,7 @@ Partial Class FrmOpenMCCShift
         Me.txtCLR.TabIndex = 19
         Me.txtCLR.Text = "0"
         Me.txtCLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCLR.Value = 0.0R
+        Me.txtCLR.Value = 0R
         '
         'MyLabel13
         '
@@ -316,7 +318,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtManualSNF_Per.TabIndex = 1039
         Me.TxtManualSNF_Per.Text = "0"
         Me.TxtManualSNF_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualSNF_Per.Value = 0.0R
+        Me.TxtManualSNF_Per.Value = 0R
         '
         'LblManualSNF_Per
         '
@@ -410,7 +412,7 @@ Partial Class FrmOpenMCCShift
         Me.txtsystemsnf.TabIndex = 1056
         Me.txtsystemsnf.Text = "0"
         Me.txtsystemsnf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsystemsnf.Value = 0.0R
+        Me.txtsystemsnf.Value = 0R
         '
         'MyLabel5
         '
@@ -448,7 +450,7 @@ Partial Class FrmOpenMCCShift
         Me.txtsystemstock.TabIndex = 1052
         Me.txtsystemstock.Text = "0"
         Me.txtsystemstock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsystemstock.Value = 0.0R
+        Me.txtsystemstock.Value = 0R
         '
         'txtsystemfat
         '
@@ -476,7 +478,7 @@ Partial Class FrmOpenMCCShift
         Me.txtsystemfat.TabIndex = 1054
         Me.txtsystemfat.Text = "0"
         Me.txtsystemfat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsystemfat.Value = 0.0R
+        Me.txtsystemfat.Value = 0R
         '
         'MyLabel2
         '
@@ -525,7 +527,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtManualStock.TabIndex = 1031
         Me.TxtManualStock.Text = "0"
         Me.TxtManualStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualStock.Value = 0.0R
+        Me.TxtManualStock.Value = 0R
         '
         'LblManualStock
         '
@@ -631,7 +633,6 @@ Partial Class FrmOpenMCCShift
         Me.LblIrregularMccName.Name = "LblIrregularMccName"
         Me.LblIrregularMccName.Size = New System.Drawing.Size(259, 18)
         Me.LblIrregularMccName.TabIndex = 1026
-        Me.LblIrregularMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblIrregularMccName.TextWrap = False
         '
         'MyLabel9
@@ -680,7 +681,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtManualFAT.TabIndex = 1033
         Me.TxtManualFAT.Text = "0"
         Me.TxtManualFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualFAT.Value = 0.0R
+        Me.TxtManualFAT.Value = 0R
         '
         'dtpShiftDate
         '
@@ -806,7 +807,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtManualFat_Per.TabIndex = 1037
         Me.TxtManualFat_Per.Text = "0"
         Me.TxtManualFat_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualFat_Per.Value = 0.0R
+        Me.TxtManualFat_Per.Value = 0R
         '
         'TxtManualSNF
         '
@@ -834,7 +835,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtManualSNF.TabIndex = 1035
         Me.TxtManualSNF.Text = "0"
         Me.TxtManualSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualSNF.Value = 0.0R
+        Me.TxtManualSNF.Value = 0R
         '
         'TxtBookSNF_per
         '
@@ -862,7 +863,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtBookSNF_per.TabIndex = 1033
         Me.TxtBookSNF_per.Text = "0"
         Me.TxtBookSNF_per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBookSNF_per.Value = 0.0R
+        Me.TxtBookSNF_per.Value = 0R
         Me.TxtBookSNF_per.Visible = False
         '
         'LblBookSNF_Per
@@ -886,7 +887,6 @@ Partial Class FrmOpenMCCShift
         Me.lblmccname.Name = "lblmccname"
         Me.lblmccname.Size = New System.Drawing.Size(166, 18)
         Me.lblmccname.TabIndex = 52
-        Me.lblmccname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblmccname.TextWrap = False
         '
         'txtmccode
@@ -930,6 +930,7 @@ Partial Class FrmOpenMCCShift
         Me.cmbShift.AutoCompleteDisplayMember = Nothing
         Me.cmbShift.AutoCompleteValueMember = Nothing
         Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
         Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbShift.FieldCode = Nothing
         Me.cmbShift.FieldDesc = Nothing
@@ -998,7 +999,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtActualStock.TabIndex = 1025
         Me.TxtActualStock.Text = "0"
         Me.TxtActualStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtActualStock.Value = 0.0R
+        Me.TxtActualStock.Value = 0R
         Me.TxtActualStock.Visible = False
         '
         'TxtBookFat_Per
@@ -1027,7 +1028,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtBookFat_Per.TabIndex = 1031
         Me.TxtBookFat_Per.Text = "0"
         Me.TxtBookFat_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBookFat_Per.Value = 0.0R
+        Me.TxtBookFat_Per.Value = 0R
         Me.TxtBookFat_Per.Visible = False
         '
         'LblBookFat_Per
@@ -1078,7 +1079,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtActualFat.TabIndex = 1027
         Me.TxtActualFat.Text = "0"
         Me.TxtActualFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtActualFat.Value = 0.0R
+        Me.TxtActualFat.Value = 0R
         Me.TxtActualFat.Visible = False
         '
         'LblBookSNF
@@ -1118,7 +1119,7 @@ Partial Class FrmOpenMCCShift
         Me.TxtActualSNF.TabIndex = 1029
         Me.TxtActualSNF.Text = "0"
         Me.TxtActualSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtActualSNF.Value = 0.0R
+        Me.TxtActualSNF.Value = 0R
         Me.TxtActualSNF.Visible = False
         '
         'RadPageViewPage2
@@ -1192,7 +1193,6 @@ Partial Class FrmOpenMCCShift
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(890, 20)
         Me.RadMenu1.TabIndex = 321
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -1211,10 +1211,18 @@ Partial Class FrmOpenMCCShift
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(175, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'FrmOpenMCCShift
         '
@@ -1298,6 +1306,7 @@ Partial Class FrmOpenMCCShift
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1368,5 +1377,6 @@ Partial Class FrmOpenMCCShift
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents txtCLR As common.MyNumBox
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

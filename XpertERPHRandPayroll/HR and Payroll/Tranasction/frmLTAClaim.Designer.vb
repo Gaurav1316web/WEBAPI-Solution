@@ -24,37 +24,39 @@ Partial Class frmLTAClaim
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLTAClaim))
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lblTotalAmount = New common.Controls.MyLabel
-        Me.lblTotal = New common.Controls.MyLabel
-        Me.dtToDate = New common.Controls.MyDateTimePicker
-        Me.lblToDate = New common.Controls.MyLabel
-        Me.dtFDate = New common.Controls.MyDateTimePicker
-        Me.gvClaimPeriod = New common.UserControls.MyRadGridView
-        Me.txtDOJ = New common.Controls.MyLabel
-        Me.lblDeptCode = New common.Controls.MyLabel
-        Me.lblDesignationCode = New common.Controls.MyLabel
-        Me.lblDeptName = New common.Controls.MyLabel
-        Me.UsLock1 = New common.usLock
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.lblDesignationName = New common.Controls.MyLabel
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.lblFromPayPeriod = New common.Controls.MyLabel
-        Me.lblDesignation = New common.Controls.MyLabel
-        Me.lblDOJ = New common.Controls.MyLabel
-        Me.lblEmpCode = New common.Controls.MyLabel
-        Me.txtEmpCode = New common.UserControls.txtFinder
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblLTACode = New common.Controls.MyLabel
-        Me.lblDepartment = New common.Controls.MyLabel
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnShow = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblTotalAmount = New common.Controls.MyLabel()
+        Me.lblTotal = New common.Controls.MyLabel()
+        Me.dtToDate = New common.Controls.MyDateTimePicker()
+        Me.lblToDate = New common.Controls.MyLabel()
+        Me.dtFDate = New common.Controls.MyDateTimePicker()
+        Me.gvClaimPeriod = New common.UserControls.MyRadGridView()
+        Me.txtDOJ = New common.Controls.MyLabel()
+        Me.lblDeptCode = New common.Controls.MyLabel()
+        Me.lblDesignationCode = New common.Controls.MyLabel()
+        Me.lblDeptName = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblDesignationName = New common.Controls.MyLabel()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.lblFromPayPeriod = New common.Controls.MyLabel()
+        Me.lblDesignation = New common.Controls.MyLabel()
+        Me.lblDOJ = New common.Controls.MyLabel()
+        Me.lblEmpCode = New common.Controls.MyLabel()
+        Me.txtEmpCode = New common.UserControls.txtFinder()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblLTACode = New common.Controls.MyLabel()
+        Me.lblDepartment = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnShow = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -86,6 +88,7 @@ Partial Class frmLTAClaim
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +138,7 @@ Partial Class frmLTAClaim
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShow)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -149,6 +153,7 @@ Partial Class frmLTAClaim
         '
         Me.lblTotalAmount.AutoSize = False
         Me.lblTotalAmount.BorderVisible = True
+        Me.lblTotalAmount.FieldName = Nothing
         Me.lblTotalAmount.Location = New System.Drawing.Point(154, 139)
         Me.lblTotalAmount.Name = "lblTotalAmount"
         Me.lblTotalAmount.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -160,8 +165,9 @@ Partial Class frmLTAClaim
         'lblTotal
         '
         Me.lblTotal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotal.FieldName = Nothing
         Me.lblTotal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotal.Location = New System.Drawing.Point(14, 142)
         Me.lblTotal.Name = "lblTotal"
@@ -171,9 +177,18 @@ Partial Class frmLTAClaim
         '
         'dtToDate
         '
+        Me.dtToDate.CalculationExpression = Nothing
         Me.dtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtToDate.FieldCode = Nothing
+        Me.dtToDate.FieldDesc = Nothing
+        Me.dtToDate.FieldMaxLength = 0
+        Me.dtToDate.FieldName = Nothing
         Me.dtToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtToDate.isCalculatedField = False
+        Me.dtToDate.IsSourceFromTable = False
+        Me.dtToDate.IsSourceFromValueList = False
+        Me.dtToDate.IsUnique = False
         Me.dtToDate.Location = New System.Drawing.Point(411, 163)
         Me.dtToDate.MendatroryField = True
         Me.dtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -181,6 +196,9 @@ Partial Class frmLTAClaim
         Me.dtToDate.MyLinkLable2 = Nothing
         Me.dtToDate.Name = "dtToDate"
         Me.dtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtToDate.ReferenceFieldDesc = Nothing
+        Me.dtToDate.ReferenceFieldName = Nothing
+        Me.dtToDate.ReferenceTableName = Nothing
         Me.dtToDate.Size = New System.Drawing.Size(132, 18)
         Me.dtToDate.TabIndex = 210
         Me.dtToDate.TabStop = False
@@ -189,6 +207,7 @@ Partial Class frmLTAClaim
         '
         'lblToDate
         '
+        Me.lblToDate.FieldName = Nothing
         Me.lblToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblToDate.Location = New System.Drawing.Point(300, 165)
         Me.lblToDate.Name = "lblToDate"
@@ -198,9 +217,18 @@ Partial Class frmLTAClaim
         '
         'dtFDate
         '
+        Me.dtFDate.CalculationExpression = Nothing
         Me.dtFDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtFDate.FieldCode = Nothing
+        Me.dtFDate.FieldDesc = Nothing
+        Me.dtFDate.FieldMaxLength = 0
+        Me.dtFDate.FieldName = Nothing
         Me.dtFDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtFDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtFDate.isCalculatedField = False
+        Me.dtFDate.IsSourceFromTable = False
+        Me.dtFDate.IsSourceFromValueList = False
+        Me.dtFDate.IsUnique = False
         Me.dtFDate.Location = New System.Drawing.Point(114, 165)
         Me.dtFDate.MendatroryField = True
         Me.dtFDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -208,6 +236,9 @@ Partial Class frmLTAClaim
         Me.dtFDate.MyLinkLable2 = Nothing
         Me.dtFDate.Name = "dtFDate"
         Me.dtFDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtFDate.ReferenceFieldDesc = Nothing
+        Me.dtFDate.ReferenceFieldName = Nothing
+        Me.dtFDate.ReferenceTableName = Nothing
         Me.dtFDate.Size = New System.Drawing.Size(132, 18)
         Me.dtFDate.TabIndex = 209
         Me.dtFDate.TabStop = False
@@ -217,8 +248,8 @@ Partial Class frmLTAClaim
         'gvClaimPeriod
         '
         Me.gvClaimPeriod.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvClaimPeriod.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvClaimPeriod.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvClaimPeriod.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -226,56 +257,61 @@ Partial Class frmLTAClaim
         Me.gvClaimPeriod.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvClaimPeriod.Location = New System.Drawing.Point(14, 197)
         '
-        'gvClaimPeriod
+        '
         '
         Me.gvClaimPeriod.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvClaimPeriod.MasterTemplate.AllowAddNewRow = False
         Me.gvClaimPeriod.MasterTemplate.EnableGrouping = False
+        Me.gvClaimPeriod.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvClaimPeriod.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvClaimPeriod.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvClaimPeriod.MyStopExport = False
         Me.gvClaimPeriod.Name = "gvClaimPeriod"
         Me.gvClaimPeriod.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvClaimPeriod.ShowHeaderCellButtons = True
         Me.gvClaimPeriod.Size = New System.Drawing.Size(529, 260)
         Me.gvClaimPeriod.TabIndex = 208
-        Me.gvClaimPeriod.Text = "RadGridView1"
+        Me.gvClaimPeriod.VarID = ""
         '
         'txtDOJ
         '
         Me.txtDOJ.AutoSize = False
         Me.txtDOJ.BorderVisible = True
+        Me.txtDOJ.FieldName = Nothing
         Me.txtDOJ.Location = New System.Drawing.Point(114, 69)
         Me.txtDOJ.Name = "txtDOJ"
         Me.txtDOJ.Size = New System.Drawing.Size(180, 19)
         Me.txtDOJ.TabIndex = 202
-        Me.txtDOJ.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDeptCode
         '
         Me.lblDeptCode.AutoSize = False
         Me.lblDeptCode.BorderVisible = True
+        Me.lblDeptCode.FieldName = Nothing
         Me.lblDeptCode.Location = New System.Drawing.Point(114, 115)
         Me.lblDeptCode.Name = "lblDeptCode"
         Me.lblDeptCode.Size = New System.Drawing.Size(180, 19)
         Me.lblDeptCode.TabIndex = 201
-        Me.lblDeptCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDesignationCode
         '
         Me.lblDesignationCode.AutoSize = False
         Me.lblDesignationCode.BorderVisible = True
+        Me.lblDesignationCode.FieldName = Nothing
         Me.lblDesignationCode.Location = New System.Drawing.Point(114, 90)
         Me.lblDesignationCode.Name = "lblDesignationCode"
         Me.lblDesignationCode.Size = New System.Drawing.Size(180, 19)
         Me.lblDesignationCode.TabIndex = 201
-        Me.lblDesignationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDeptName
         '
         Me.lblDeptName.AutoSize = False
         Me.lblDeptName.BorderVisible = True
+        Me.lblDeptName.FieldName = Nothing
         Me.lblDeptName.Location = New System.Drawing.Point(300, 115)
         Me.lblDeptName.Name = "lblDeptName"
         Me.lblDeptName.Size = New System.Drawing.Size(243, 19)
         Me.lblDeptName.TabIndex = 201
-        Me.lblDeptName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -300,24 +336,25 @@ Partial Class frmLTAClaim
         '
         Me.lblDesignationName.AutoSize = False
         Me.lblDesignationName.BorderVisible = True
+        Me.lblDesignationName.FieldName = Nothing
         Me.lblDesignationName.Location = New System.Drawing.Point(300, 90)
         Me.lblDesignationName.Name = "lblDesignationName"
         Me.lblDesignationName.Size = New System.Drawing.Size(243, 19)
         Me.lblDesignationName.TabIndex = 200
-        Me.lblDesignationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(300, 45)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(243, 19)
         Me.lblEmpName.TabIndex = 199
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblFromPayPeriod
         '
+        Me.lblFromPayPeriod.FieldName = Nothing
         Me.lblFromPayPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFromPayPeriod.Location = New System.Drawing.Point(14, 165)
         Me.lblFromPayPeriod.Name = "lblFromPayPeriod"
@@ -327,6 +364,7 @@ Partial Class frmLTAClaim
         '
         'lblDesignation
         '
+        Me.lblDesignation.FieldName = Nothing
         Me.lblDesignation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDesignation.Location = New System.Drawing.Point(14, 93)
         Me.lblDesignation.Name = "lblDesignation"
@@ -336,6 +374,7 @@ Partial Class frmLTAClaim
         '
         'lblDOJ
         '
+        Me.lblDOJ.FieldName = Nothing
         Me.lblDOJ.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDOJ.Location = New System.Drawing.Point(14, 69)
         Me.lblDOJ.Name = "lblDOJ"
@@ -345,6 +384,7 @@ Partial Class frmLTAClaim
         '
         'lblEmpCode
         '
+        Me.lblEmpCode.FieldName = Nothing
         Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmpCode.Location = New System.Drawing.Point(13, 48)
         Me.lblEmpCode.Name = "lblEmpCode"
@@ -354,19 +394,33 @@ Partial Class frmLTAClaim
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(114, 45)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmpCode.MyLinkLable1 = Me.lblEmpCode
         Me.txtEmpCode.MyLinkLable2 = Nothing
         Me.txtEmpCode.MyReadOnly = False
+        Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(180, 19)
         Me.txtEmpCode.TabIndex = 1
         Me.txtEmpCode.Value = ""
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(114, 17)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -382,6 +436,7 @@ Partial Class frmLTAClaim
         '
         'lblLTACode
         '
+        Me.lblLTACode.FieldName = Nothing
         Me.lblLTACode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLTACode.Location = New System.Drawing.Point(14, 24)
         Me.lblLTACode.Name = "lblLTACode"
@@ -391,6 +446,7 @@ Partial Class frmLTAClaim
         '
         'lblDepartment
         '
+        Me.lblDepartment.FieldName = Nothing
         Me.lblDepartment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDepartment.Location = New System.Drawing.Point(14, 118)
         Me.lblDepartment.Name = "lblDepartment"
@@ -459,6 +515,17 @@ Partial Class frmLTAClaim
         Me.btndelete.TabIndex = 17
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Enabled = False
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(367, 11)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 133
+        Me.btnHistory.Text = "History"
+        '
         'frmLTAClaim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -503,6 +570,7 @@ Partial Class frmLTAClaim
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -537,4 +605,5 @@ Partial Class frmLTAClaim
     Friend WithEvents lblTotal As common.Controls.MyLabel
     Friend WithEvents lblTotalAmount As common.Controls.MyLabel
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

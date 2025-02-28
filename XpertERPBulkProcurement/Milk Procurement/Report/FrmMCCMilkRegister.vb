@@ -5226,11 +5226,13 @@ Public Class FrmMCCMilkRegister
         End If
 
         If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
-            whrcls += " AND TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")"
+            whrcls += " AND TSPL_VLC_MASTER_HEAD.VLC_Code IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")"
         End If
         Try
             If chkRouteWiseDateWise.Checked Then
-                strquery = "select * from (select ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Route_Code ORDER BY TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,  CASE 
+                strquery = " select  ROW_NUMBER() OVER (PARTITION BY ([Route Code]) ORDER BY ([Route Code]), max(VLC),Shift_Date) as SNo,(PK_Id)PK_Id,(Shift_Date)Shift_Date,max(fromdate) fromdate, max(todate)todate,max(UploaderNo)UploaderNo,max(VLC)VLC,MAX([VLC Name])[VLC Name],MAX(MCC_NAME)MCC_NAME,MAX(MCC_Code)MCC_Code,MAX(Tanker_No)Tanker_No,([Route Code])[Route Code],max(ROUTE_NAME)ROUTE_NAME,max(Document_No)Document_No,(Shift)Shift,max(Qty)Qty,max(FAT)FAT,max(SNF)SNF,MAX(FATKG)FATKG,MAX(SNFKG)SNFKG,max(Milk_Type)Milk_Type, 
+                max([Good Qty])[Good Qty] , max([Good FAT %])[Good FAT %],max([Good FATKg])[Good FATKg],max([Good SNF %])[Good SNF %],max([Good SNFKG])[Good SNFKG],max([SOUR Qty])[SOUR Qty],max([SOUR FAT %])[SOUR FAT %],max([SOUR FATKg])[SOUR FATKg],max([SOUR SNF %])[SOUR SNF %],max([SOUR SNFKG])[SOUR SNFKG],max([CURD Qty])[CURD Qty],max([CURD FAT %])[CURD FAT %],max([CURD FATKg])[CURD FATKg],max([CURD SNF %])[CURD SNF %],max([CURD SNFKG])[CURD SNFKG],max([Adulteration Qty])[Adulteration Qty],max([Adulteration FAT %])[Adulteration FAT %],max([Adulteration FATKg])[Adulteration FATKg],max([Adulteration SNF %])[Adulteration SNF %],max([Adulteration SNFKG])[Adulteration SNFKG] from (
+        select ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Route_Code ORDER BY TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,  CASE 
         WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E' THEN DATEADD(DAY, -1, CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103))
         WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M' THEN CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103)
         ELSE NULL  -- Optional: handle unknown shifts
@@ -5261,9 +5263,10 @@ Public Class FrmMCCMilkRegister
                     left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
                     left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
                     left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-                    Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code WHERE 2=2 
+                    Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code WHERE 2=2 " + whrcls + "
 )XXfinal  where  (
-    XXfinal.Shift_Date BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "')  and (Shift='" + Fromshift + "' or Shift='" + Toshift + "') and (Shift='" + Toshift + "' or Shift='" + Fromshift + "')   ORDER BY XXfinal.PK_Id,XXfinal.SNO ASC"
+    XXfinal.Shift_Date BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "')  and (Shift='" + Fromshift + "' or Shift='" + Toshift + "') and (Shift='" + Toshift + "' or Shift='" + Fromshift + "')   group by [Route Code],Shift_Date,shift,PK_Id
+	ORDER BY Shift_Date ASC,Shift Desc "
             Else
                 strquery = "SELECT 
     TSPL_MILK_COLLECTION_MCC.Route_Code AS [Route Code],

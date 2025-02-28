@@ -173,6 +173,7 @@ Public Class clsPaymentHeader
 
     Public Against_Salary_Generation_Code As String
     Public Against_Incentive_Detail_No As String
+    Public Location_Code_Prefix As String = Nothing
 #End Region
 
 
@@ -218,6 +219,8 @@ Public Class clsPaymentHeader
             trans = clsDBFuncationality.GetTransactin()
         End If
         Dim isSaved As Boolean = True
+        Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
+
         Try
 
 
@@ -475,6 +478,7 @@ Public Class clsPaymentHeader
             clsCommon.AddColumnsForChange(coll, "Route_NO", obj.Route_NO)
             clsCommon.AddColumnsForChange(coll, "Route_Description", obj.Route_Description)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
             clsCommon.AddColumnsForChange(coll, "Location_Description", obj.Location_Description)
             clsCommon.AddColumnsForChange(coll, "IsRecoCleared", obj.IsRecoCleared)
             clsCommon.AddColumnsForChange(coll, "IsChkReverse", obj.IsChkReverse)
@@ -589,15 +593,23 @@ Public Class clsPaymentHeader
                 qry = "select Bank_type,BANKACC from TSPL_BANK_MASTER where BANK_CODE='" + obj.Bank_Code + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
-                Dim BankAcc As String = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
-                If (BankAcc.Length >= 3) Then
-                    BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
-                    ''No need to check becaulse all acount will be now with location segment.
-                    'If (IsNumeric(BankAcc)) Then
-                    '    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
-                    'End If
+                Dim BankAcc As String = ""
+                Dim isLocationCodeSegment As Boolean
+                If ApplyLocationWisePrefix Then
+                    BankAcc = obj.Location_Code_Prefix
+                    isLocationCodeSegment = False
                 Else
-                    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                    isLocationCodeSegment = True
+                    BankAcc = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
+                    If (BankAcc.Length >= 3) Then
+                        BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
+                        ''No need to check becaulse all acount will be now with location segment.
+                        'If (IsNumeric(BankAcc)) Then
+                        '    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                        'End If
+                    Else
+                        Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                    End If
                 End If
 
                 Dim strPaymentType As String = clsDocType.Payment
@@ -610,18 +622,18 @@ Public Class clsPaymentHeader
                     obj.Payment_No = CreateNewDocumentNoWithExistingDocumentNo
                 Else
                     If clsCommon.CompairString(obj.Payment_Type, "AD") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowUseApplyDocSeriesForPayment, clsFixedParameterCode.AllowUseApplyDocSeriesForPayment, trans)), "1") = CompairStringResult.Equal Then
-                        obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.ApplyDoc, BankAcc, True)
+                        obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.ApplyDoc, BankAcc, isLocationCodeSegment)
                     Else
                         If clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal Then
-                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Bank, BankAcc, True)
+                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Bank, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "C") = CompairStringResult.Equal Then
-                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Cash, BankAcc, True)
+                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Cash, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "P") = CompairStringResult.Equal Then
-                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.PettyCash, BankAcc, True)
+                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.PettyCash, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "O") = CompairStringResult.Equal Then
-                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Others, BankAcc, True)
+                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "S") = CompairStringResult.Equal Then
-                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Others, BankAcc, True)
+                            obj.Payment_No = clsERPFuncationality.GetNextCode(trans, obj.Payment_Date, strPaymentType, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                         Else
                             Throw New Exception("Please set the Bank Type for Bank SETTLEMENT")
                         End If
@@ -729,7 +741,7 @@ Public Class clsPaymentHeader
         " TSPL_PAYMENT_HEADER.Level5_User_code, TSPL_PAYMENT_HEADER.Comp_Code, TSPL_PAYMENT_HEADER.Debit_Account, TSPL_PAYMENT_HEADER.Credit_Account, " &
         " TSPL_PAYMENT_HEADER.Balance_Amt, TSPL_PAYMENT_HEADER.Total_Applied_Amount, TSPL_PAYMENT_HEADER.Total_Security_Amount, TSPL_PAYMENT_HEADER.Transport_Id, TSPL_PAYMENT_HEADER.FIFO_Balance, " &
         " TSPL_PAYMENT_HEADER.QuickEntryNo, TSPL_PAYMENT_HEADER.LoadOutNo, TSPL_PAYMENT_HEADER.Salesman_Code, TSPL_PAYMENT_HEADER.Salesman_Name, " &
-        " TSPL_PAYMENT_HEADER.Route_NO, TSPL_PAYMENT_HEADER.Route_Description, TSPL_PAYMENT_HEADER.Location_Code, " &
+        " TSPL_PAYMENT_HEADER.Route_NO, TSPL_PAYMENT_HEADER.Route_Description, TSPL_PAYMENT_HEADER.Location_Code,TSPL_PAYMENT_HEADER.Location_Code_Prefix, " &
         " TSPL_PAYMENT_HEADER.Location_Description, TSPL_PAYMENT_HEADER.IsRecoCleared, TSPL_PAYMENT_HEADER.IsChkReverse,Loadout_No,
           TSPL_PAYMENT_HEADER.MP_Code_For_Advance, TSPL_PAYMENT_HEADER.Bank_Charges, TSPL_PAYMENT_HEADER.Bank_Charges_Ac,CFormRecd,
           CForm_InvoiceNo,TSPL_PAYMENT_HEADER.CURRENCY_CODE,TSPL_PAYMENT_HEADER.CONVRATE,TSPL_PAYMENT_HEADER.APPLICABLEFROM, " &
@@ -806,6 +818,7 @@ Public Class clsPaymentHeader
             obj.Saving = (clsCommon.myCDecimal(dt.Rows(0)("Saving")) = 1)
             obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
             obj.Location_GL_Code = clsCommon.myCstr(dt.Rows(0)("Location_GL_Code"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             If IsDBNull(dt.Rows(0)("DateAndTime")) = True Then
                 obj.DateAndTime = Nothing
             Else
