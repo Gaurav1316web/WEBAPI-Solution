@@ -155,9 +155,9 @@ from TSPL_MILK_SRN_Head
 inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_Head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE 
 left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.item_code=TSPL_MILK_srn_DETAIL.Item_Code 
 where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
-                        If Not MultipleFinderFillAuto Then
-                            qry += " And TSPL_MILK_SRN_Head.MCC_CODE='" & strMCCCode & "' "
-                        End If
+                        'If Not MultipleFinderFillAuto Then
+                        '    qry += " And TSPL_MILK_SRN_Head.MCC_CODE='" & strMCCCode & "' "
+                        'End If
                         If Not isPickPendingMilkSRNinNextPaymentCycle Then
                             qry += " AND convert(date,DOC_DATE,103) >=convert(date,'" & txtFromDate.Date & "',103) "
                         End If

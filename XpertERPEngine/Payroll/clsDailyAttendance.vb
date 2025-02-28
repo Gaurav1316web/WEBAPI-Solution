@@ -36,6 +36,9 @@ Public Class clsDailyAttendance
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DAILY_ATTENDANCE", "DLA_CODE", "TSPL_DAILY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DAILY_ATTENDANCE", "DLA_CODE", "TSPL_DAILY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
+
 
             Dim qry As String
             qry = "delete from TSPL_DAILY_ATTENDANCE_DETAIL where DLA_CODE ='" + strCode + "'"
@@ -166,7 +169,7 @@ Public Class clsDailyAttendance
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAILY_ATTENDANCE", OMInsertOrUpdate.Update, "TSPL_DAILY_ATTENDANCE.DLA_CODE='" + obj.DLA_CODE + "'", trans)
         End If
         isSaved = isSaved AndAlso clsDailyAttendanceDetail.SaveData(obj.DLA_CODE, obj, trans)
-
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DLA_CODE, "TSPL_DAILY_ATTENDANCE", "DLA_CODE", "TSPL_DAILY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
         Return isSaved
     End Function
 

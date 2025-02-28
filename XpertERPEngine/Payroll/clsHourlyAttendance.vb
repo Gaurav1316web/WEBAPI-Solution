@@ -42,6 +42,8 @@ Public Class clsHourlyAttendance
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_HOURLY_ATTENDANCE", "DLA_CODE", "TSPL_HOURLY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_HOURLY_ATTENDANCE", "DLA_CODE", "TSPL_HOURLY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_HOURLY_ATTENDANCE_DETAIL where DLA_CODE ='" + strCode + "'"
@@ -184,6 +186,8 @@ Public Class clsHourlyAttendance
 
 
             isSaved = isSaved AndAlso clsHourlyAttendanceDetail.SaveData(obj.DLA_CODE, objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DLA_CODE, "TSPL_HOURLY_ATTENDANCE", "DLA_CODE", "TSPL_HOURLY_ATTENDANCE_DETAIL", "DLA_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

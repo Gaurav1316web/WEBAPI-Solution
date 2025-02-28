@@ -16,6 +16,7 @@ Public Class clsSNInvoiceHead
     Public EInvoiceAckDate As DateTime? = Nothing
     Public EInvoiceQRCode As String = Nothing
     Public is_taxable As Double = 0
+    Public Inter_unit_sale As Integer = 0
     Public Is_Delivered As Integer = 0
     Public podate As DateTime? = Nothing
     Public Form_38_No As String = Nothing
@@ -241,6 +242,7 @@ Public Class clsSNInvoiceHead
                 clsCommon.AddColumnsForChange(coll, "cust_po_date", clsCommon.GetPrintDate(obj.podate, "dd/MMM/yyyy hh:mm tt"))
             End If
             clsCommon.AddColumnsForChange(coll, "is_taxable", obj.is_taxable)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", obj.Inter_unit_sale)
             clsCommon.AddColumnsForChange(coll, "EWayBillNo", obj.EWayBillNo)
             clsCommon.AddColumnsForChange(coll, "Electronic_Ref_No", obj.Electronic_Ref_No)
             clsCommon.AddColumnsForChange(coll, "EWayBillREmarks", obj.EwayBillRemarks)

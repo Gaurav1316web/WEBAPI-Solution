@@ -31,6 +31,7 @@ Partial Class frmSNShipment
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Inter_unit_salechk = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel27 = New common.Controls.MyLabel()
         Me.lblDocCreditLimit = New common.Controls.MyLabel()
         Me.lbltransporter = New common.Controls.MyLabel()
@@ -271,6 +272,7 @@ Partial Class frmSNShipment
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -534,7 +536,7 @@ Partial Class frmSNShipment
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1255, 537)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -543,6 +545,7 @@ Partial Class frmSNShipment
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Inter_unit_salechk)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel27)
         Me.RadPageViewPage1.Controls.Add(Me.lblDocCreditLimit)
         Me.RadPageViewPage1.Controls.Add(Me.lbltransporter)
@@ -639,6 +642,14 @@ Partial Class frmSNShipment
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage1.Text = "Shipment/Dispatch"
+        '
+        'Inter_unit_salechk
+        '
+        Me.Inter_unit_salechk.Location = New System.Drawing.Point(1080, -3)
+        Me.Inter_unit_salechk.Name = "Inter_unit_salechk"
+        Me.Inter_unit_salechk.Size = New System.Drawing.Size(91, 18)
+        Me.Inter_unit_salechk.TabIndex = 1436
+        Me.Inter_unit_salechk.Text = "Inter Unit Sale"
         '
         'MyLabel27
         '
@@ -3961,6 +3972,7 @@ Partial Class frmSNShipment
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4430,5 +4442,6 @@ Partial Class frmSNShipment
     Friend WithEvents MyLabel27 As common.Controls.MyLabel
     Friend WithEvents lblDocCreditLimit As common.Controls.MyLabel
     Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
+    Friend WithEvents Inter_unit_salechk As RadCheckBox
 End Class
 

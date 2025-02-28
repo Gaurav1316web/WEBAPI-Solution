@@ -41,6 +41,9 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.BtnSplitDetail = New Telerik.WinControls.UI.RadSplitButton()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
@@ -69,6 +72,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageViewPage3.SuspendLayout()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,6 +94,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnSplitDetail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplit)
@@ -108,7 +113,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(736, 349)
         Me.RadPageView1.TabIndex = 7
         '
@@ -342,6 +347,28 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv2.TabIndex = 6
         Me.gv2.VarID = ""
         '
+        'BtnSplitDetail
+        '
+        Me.BtnSplitDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnSplitDetail.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.BtnSplitDetail.Location = New System.Drawing.Point(339, 5)
+        Me.BtnSplitDetail.Name = "BtnSplitDetail"
+        Me.BtnSplitDetail.Size = New System.Drawing.Size(95, 22)
+        Me.BtnSplitDetail.TabIndex = 356
+        Me.BtnSplitDetail.Text = "ExportDetail"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Excel"
+        Me.RadMenuItem1.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "PDF"
+        Me.RadMenuItem2.UseCompatibleTextRendering = False
+        '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -440,6 +467,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.RadPageViewPage3.ResumeLayout(False)
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnSplitDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
@@ -474,5 +502,8 @@ Partial Class Weightment_Auto_and_Manual_Report
     Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents BtnSplitDetail As RadSplitButton
+    Friend WithEvents RadMenuItem1 As RadMenuItem
+    Friend WithEvents RadMenuItem2 As RadMenuItem
 End Class
 

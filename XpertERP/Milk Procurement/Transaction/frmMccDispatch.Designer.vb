@@ -23,6 +23,10 @@ Partial Class FrmMccDispatch
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem22 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem23 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -31,22 +35,18 @@ Partial Class FrmMccDispatch
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem19 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -159,6 +159,7 @@ Partial Class FrmMccDispatch
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvPaperSeal = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.btnRefresh = New Telerik.WinControls.UI.RadButton()
         Me.txtTotalAmount = New common.Controls.MyTextBox()
@@ -239,7 +240,8 @@ Partial Class FrmMccDispatch
         Me.lblSNFPer = New common.Controls.MyLabel()
         Me.xxx = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -404,6 +406,7 @@ Partial Class FrmMccDispatch
         CType(Me.txtSealNo9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAfterMilkIn, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.btnReverseAfterMilkIn.SuspendLayout()
         CType(Me.btnUpdateTanker, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQtyInKg, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -447,6 +450,8 @@ Partial Class FrmMccDispatch
         CType(Me.txtSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.xxx, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -507,6 +512,7 @@ Partial Class FrmMccDispatch
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnJE)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReverseAfterMilkIn)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnUpdateTanker)
@@ -620,14 +626,14 @@ Partial Class FrmMccDispatch
         Me.CboMachine.IsSourceFromTable = False
         Me.CboMachine.IsSourceFromValueList = False
         Me.CboMachine.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.CboMachine.Items.Add(RadListDataItem1)
-        Me.CboMachine.Items.Add(RadListDataItem2)
-        Me.CboMachine.Items.Add(RadListDataItem3)
-        Me.CboMachine.Items.Add(RadListDataItem4)
+        RadListDataItem21.Text = "COM1"
+        RadListDataItem22.Text = "COM2"
+        RadListDataItem23.Text = "COM3"
+        RadListDataItem24.Text = "COM4"
+        Me.CboMachine.Items.Add(RadListDataItem21)
+        Me.CboMachine.Items.Add(RadListDataItem22)
+        Me.CboMachine.Items.Add(RadListDataItem23)
+        Me.CboMachine.Items.Add(RadListDataItem24)
         Me.CboMachine.Location = New System.Drawing.Point(529, 46)
         Me.CboMachine.MendatroryField = True
         Me.CboMachine.MyLinkLable1 = Me.MyLabel15
@@ -703,14 +709,14 @@ Partial Class FrmMccDispatch
         Me.cboComPort.IsSourceFromTable = False
         Me.cboComPort.IsSourceFromValueList = False
         Me.cboComPort.IsUnique = False
-        RadListDataItem5.Text = "COM1"
-        RadListDataItem6.Text = "COM2"
-        RadListDataItem7.Text = "COM3"
-        RadListDataItem8.Text = "COM4"
-        Me.cboComPort.Items.Add(RadListDataItem5)
-        Me.cboComPort.Items.Add(RadListDataItem6)
-        Me.cboComPort.Items.Add(RadListDataItem7)
-        Me.cboComPort.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        Me.cboComPort.Items.Add(RadListDataItem1)
+        Me.cboComPort.Items.Add(RadListDataItem2)
+        Me.cboComPort.Items.Add(RadListDataItem3)
+        Me.cboComPort.Items.Add(RadListDataItem4)
         Me.cboComPort.Location = New System.Drawing.Point(362, 45)
         Me.cboComPort.MendatroryField = True
         Me.cboComPort.MyLinkLable1 = Me.lblComPort
@@ -754,14 +760,14 @@ Partial Class FrmMccDispatch
         Me.cboECOPro.IsSourceFromTable = False
         Me.cboECOPro.IsSourceFromValueList = False
         Me.cboECOPro.IsUnique = False
-        RadListDataItem9.Text = "COM1"
-        RadListDataItem10.Text = "COM2"
-        RadListDataItem11.Text = "COM3"
-        RadListDataItem12.Text = "COM4"
-        Me.cboECOPro.Items.Add(RadListDataItem9)
-        Me.cboECOPro.Items.Add(RadListDataItem10)
-        Me.cboECOPro.Items.Add(RadListDataItem11)
-        Me.cboECOPro.Items.Add(RadListDataItem12)
+        RadListDataItem5.Text = "COM1"
+        RadListDataItem6.Text = "COM2"
+        RadListDataItem7.Text = "COM3"
+        RadListDataItem8.Text = "COM4"
+        Me.cboECOPro.Items.Add(RadListDataItem5)
+        Me.cboECOPro.Items.Add(RadListDataItem6)
+        Me.cboECOPro.Items.Add(RadListDataItem7)
+        Me.cboECOPro.Items.Add(RadListDataItem8)
         Me.cboECOPro.Location = New System.Drawing.Point(209, 44)
         Me.cboECOPro.MendatroryField = True
         Me.cboECOPro.MyLinkLable1 = Me.MyLabel5
@@ -828,10 +834,10 @@ Partial Class FrmMccDispatch
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1059, 277)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1059, 273)
         Me.RadPageViewPage1.Text = "General"
         '
         'RadGroupBox1
@@ -891,7 +897,7 @@ Partial Class FrmMccDispatch
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1059, 277)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1059, 273)
         Me.RadGroupBox1.TabIndex = 0
         '
         'chkJobWork
@@ -1243,10 +1249,10 @@ Partial Class FrmMccDispatch
         Me.ddlLevel.IsSourceFromTable = False
         Me.ddlLevel.IsSourceFromValueList = False
         Me.ddlLevel.IsUnique = False
-        RadListDataItem13.Text = "MCC"
-        RadListDataItem14.Text = "PLANT"
-        Me.ddlLevel.Items.Add(RadListDataItem13)
-        Me.ddlLevel.Items.Add(RadListDataItem14)
+        RadListDataItem17.Text = "MCC"
+        RadListDataItem18.Text = "PLANT"
+        Me.ddlLevel.Items.Add(RadListDataItem17)
+        Me.ddlLevel.Items.Add(RadListDataItem18)
         Me.ddlLevel.Location = New System.Drawing.Point(41, 16)
         Me.ddlLevel.MendatroryField = True
         Me.ddlLevel.MyLinkLable1 = Me.MyLabel16
@@ -2125,10 +2131,10 @@ Partial Class FrmMccDispatch
         Me.ddlTankerFull.IsSourceFromTable = False
         Me.ddlTankerFull.IsSourceFromValueList = False
         Me.ddlTankerFull.IsUnique = False
-        RadListDataItem15.Text = "YES"
-        RadListDataItem16.Text = "NO"
-        Me.ddlTankerFull.Items.Add(RadListDataItem15)
-        Me.ddlTankerFull.Items.Add(RadListDataItem16)
+        RadListDataItem9.Text = "YES"
+        RadListDataItem10.Text = "NO"
+        Me.ddlTankerFull.Items.Add(RadListDataItem9)
+        Me.ddlTankerFull.Items.Add(RadListDataItem10)
         Me.ddlTankerFull.Location = New System.Drawing.Point(120, 97)
         Me.ddlTankerFull.MendatroryField = False
         Me.ddlTankerFull.MyLinkLable1 = Me.lblTankerFull
@@ -2231,10 +2237,10 @@ Partial Class FrmMccDispatch
         Me.ddlTankerDispatchTo.IsSourceFromTable = False
         Me.ddlTankerDispatchTo.IsSourceFromValueList = False
         Me.ddlTankerDispatchTo.IsUnique = False
-        RadListDataItem17.Text = "MCC"
-        RadListDataItem18.Text = "PLANT"
-        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem17)
-        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem18)
+        RadListDataItem11.Text = "MCC"
+        RadListDataItem12.Text = "PLANT"
+        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem11)
+        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem12)
         Me.ddlTankerDispatchTo.Location = New System.Drawing.Point(121, 52)
         Me.ddlTankerDispatchTo.MendatroryField = True
         Me.ddlTankerDispatchTo.MyLinkLable1 = Me.lblTankerDispatchTo
@@ -2261,10 +2267,10 @@ Partial Class FrmMccDispatch
         Me.ddlControlSample.IsSourceFromTable = False
         Me.ddlControlSample.IsSourceFromValueList = False
         Me.ddlControlSample.IsUnique = False
-        RadListDataItem19.Text = "YES"
-        RadListDataItem20.Text = "NO"
-        Me.ddlControlSample.Items.Add(RadListDataItem19)
-        Me.ddlControlSample.Items.Add(RadListDataItem20)
+        RadListDataItem15.Text = "YES"
+        RadListDataItem16.Text = "NO"
+        Me.ddlControlSample.Items.Add(RadListDataItem15)
+        Me.ddlControlSample.Items.Add(RadListDataItem16)
         Me.ddlControlSample.Location = New System.Drawing.Point(382, 97)
         Me.ddlControlSample.MendatroryField = False
         Me.ddlControlSample.MyLinkLable1 = Me.lblControlSample
@@ -2279,7 +2285,7 @@ Partial Class FrmMccDispatch
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.RadSplitContainer1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1059, 273)
@@ -2335,7 +2341,7 @@ Partial Class FrmMccDispatch
         '
         Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
         Me.gvManualSeal.ShowHeaderCellButtons = True
@@ -2378,7 +2384,7 @@ Partial Class FrmMccDispatch
         '
         Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
         Me.gvPaperSeal.ShowHeaderCellButtons = True
@@ -2389,11 +2395,19 @@ Partial Class FrmMccDispatch
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1059, 273)
         Me.pvpCustomFields.Text = "Custom Fields"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1059, 273)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'RadPageViewPage3
         '
@@ -2407,7 +2421,7 @@ Partial Class FrmMccDispatch
         Me.RadPageViewPage3.Controls.Add(Me.txtPaymentType)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel9)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel8)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(102.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1059, 273)
@@ -2570,7 +2584,7 @@ Partial Class FrmMccDispatch
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox5)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(78.0!, 24.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(82.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1059, 273)
@@ -2754,7 +2768,7 @@ Partial Class FrmMccDispatch
         '
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
@@ -3159,7 +3173,7 @@ Partial Class FrmMccDispatch
         '
         Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(932, 4)
+        Me.btnJE.Location = New System.Drawing.Point(938, 4)
         Me.btnJE.Name = "btnJE"
         Me.btnJE.Size = New System.Drawing.Size(71, 19)
         Me.btnJE.TabIndex = 223
@@ -3168,8 +3182,9 @@ Partial Class FrmMccDispatch
         'btnReverseAfterMilkIn
         '
         Me.btnReverseAfterMilkIn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseAfterMilkIn.Controls.Add(Me.RadButton1)
         Me.btnReverseAfterMilkIn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAfterMilkIn.Location = New System.Drawing.Point(758, 3)
+        Me.btnReverseAfterMilkIn.Location = New System.Drawing.Point(741, 3)
         Me.btnReverseAfterMilkIn.Name = "btnReverseAfterMilkIn"
         Me.btnReverseAfterMilkIn.Size = New System.Drawing.Size(128, 18)
         Me.btnReverseAfterMilkIn.TabIndex = 221
@@ -3715,18 +3730,32 @@ Partial Class FrmMccDispatch
         '
         'xxx
         '
-        Me.xxx.ViewDefinition = TableViewDefinition4
+        Me.xxx.ViewDefinition = TableViewDefinition8
         '
         'Timer1
         '
         '
-        'UcCustomFields1
+        'RadButton1
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1059, 273)
-        Me.UcCustomFields1.TabIndex = 2
+        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(134, 4)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(68, 18)
+        Me.RadButton1.TabIndex = 224
+        Me.RadButton1.Text = "Reverse"
+        Me.RadButton1.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(870, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 224
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'FrmMccDispatch
         '
@@ -3915,6 +3944,7 @@ Partial Class FrmMccDispatch
         CType(Me.txtSealNo9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAfterMilkIn, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.btnReverseAfterMilkIn.ResumeLayout(False)
         CType(Me.btnUpdateTanker, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQtyInKg, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3967,6 +3997,8 @@ Partial Class FrmMccDispatch
         CType(Me.txtSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.xxx, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -4164,5 +4196,7 @@ Partial Class FrmMccDispatch
     Friend WithEvents chkJobWork As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents btnReverseAfterMilkIn As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnJE As RadButton
+    Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadButton1 As RadButton
 End Class
 

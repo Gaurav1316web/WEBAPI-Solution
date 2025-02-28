@@ -22,6 +22,7 @@ Partial Class FrmRFQ
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtRFQNo = New common.UserControls.txtNavigator()
@@ -52,6 +53,7 @@ Partial Class FrmRFQ
         Me.txtRmks = New common.Controls.MyTextBox()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,6 +86,7 @@ Partial Class FrmRFQ
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -402,10 +405,13 @@ Partial Class FrmRFQ
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -413,7 +419,7 @@ Partial Class FrmRFQ
         Me.gv1.Size = New System.Drawing.Size(490, 175)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnClose
         '
@@ -587,6 +593,7 @@ Partial Class FrmRFQ
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -594,6 +601,16 @@ Partial Class FrmRFQ
         Me.SplitContainer1.Size = New System.Drawing.Size(531, 428)
         Me.SplitContainer1.SplitterDistance = 391
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btHistory
+        '
+        Me.btHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btHistory.Location = New System.Drawing.Point(228, 8)
+        Me.btHistory.Name = "btHistory"
+        Me.btHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btHistory.TabIndex = 4
+        Me.btHistory.Text = "History"
         '
         'FrmRFQ
         '
@@ -641,6 +658,7 @@ Partial Class FrmRFQ
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -675,5 +693,6 @@ Partial Class FrmRFQ
     Friend WithEvents txtRmks As common.Controls.MyTextBox
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btHistory As RadButton
 End Class
 

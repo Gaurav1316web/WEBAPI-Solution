@@ -24,13 +24,13 @@ Partial Class frmAcquisionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -141,6 +141,7 @@ Partial Class frmAcquisionEntry
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -245,6 +246,7 @@ Partial Class frmAcquisionEntry
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -265,6 +267,7 @@ Partial Class frmAcquisionEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -840,12 +843,12 @@ Partial Class frmAcquisionEntry
         Me.ddlAcqType.IsSourceFromTable = False
         Me.ddlAcqType.IsSourceFromValueList = False
         Me.ddlAcqType.IsUnique = False
-        RadListDataItem1.Text = "Direct"
-        RadListDataItem2.Text = "Asset"
-        RadListDataItem3.Text = "Assembled"
-        Me.ddlAcqType.Items.Add(RadListDataItem1)
-        Me.ddlAcqType.Items.Add(RadListDataItem2)
-        Me.ddlAcqType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Direct"
+        RadListDataItem5.Text = "Asset"
+        RadListDataItem6.Text = "Assembled"
+        Me.ddlAcqType.Items.Add(RadListDataItem4)
+        Me.ddlAcqType.Items.Add(RadListDataItem5)
+        Me.ddlAcqType.Items.Add(RadListDataItem6)
         Me.ddlAcqType.Location = New System.Drawing.Point(102, 89)
         Me.ddlAcqType.MendatroryField = False
         Me.ddlAcqType.MyLinkLable1 = Nothing
@@ -1123,7 +1126,7 @@ Partial Class frmAcquisionEntry
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1131,6 +1134,7 @@ Partial Class frmAcquisionEntry
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1004, 195)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
         '
         'RadLabel4
         '
@@ -1481,13 +1485,14 @@ Partial Class frmAcquisionEntry
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1024, 266)
         Me.gv2.TabIndex = 1
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -1513,7 +1518,7 @@ Partial Class frmAcquisionEntry
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1522,6 +1527,7 @@ Partial Class frmAcquisionEntry
         Me.gvAC.Size = New System.Drawing.Size(1029, 408)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -1743,7 +1749,7 @@ Partial Class frmAcquisionEntry
         Me.gvAssemble.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAssemble.MasterTemplate.ShowFilteringRow = False
         Me.gvAssemble.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAssemble.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAssemble.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvAssemble.MyStopExport = False
         Me.gvAssemble.Name = "gvAssemble"
         Me.gvAssemble.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1751,11 +1757,12 @@ Partial Class frmAcquisionEntry
         Me.gvAssemble.ShowHeaderCellButtons = True
         Me.gvAssemble.Size = New System.Drawing.Size(1004, 375)
         Me.gvAssemble.TabIndex = 0
+        Me.gvAssemble.VarID = ""
         '
         'butCostCenterAndHirerachy_Update_AfterPost
         '
         Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(539, 2)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(523, 2)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
         Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
         Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 49
@@ -1765,9 +1772,9 @@ Partial Class frmAcquisionEntry
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(869, 3)
+        Me.btnShowInventory.Location = New System.Drawing.Point(894, 3)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(105, 20)
+        Me.btnShowInventory.Size = New System.Drawing.Size(89, 20)
         Me.btnShowInventory.TabIndex = 48
         Me.btnShowInventory.Text = "Show Inventory"
         '
@@ -1775,7 +1782,7 @@ Partial Class frmAcquisionEntry
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(745, 2)
+        Me.btnReverse.Location = New System.Drawing.Point(772, 2)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(121, 22)
         Me.btnReverse.TabIndex = 25
@@ -1785,16 +1792,16 @@ Partial Class frmAcquisionEntry
         'btnUnSelect
         '
         Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnSelect.Location = New System.Drawing.Point(473, 2)
+        Me.btnUnSelect.Location = New System.Drawing.Point(461, 2)
         Me.btnUnSelect.Name = "btnUnSelect"
-        Me.btnUnSelect.Size = New System.Drawing.Size(62, 22)
+        Me.btnUnSelect.Size = New System.Drawing.Size(60, 22)
         Me.btnUnSelect.TabIndex = 24
         Me.btnUnSelect.Text = "Select All"
         '
         'btnTDSDetail
         '
         Me.btnTDSDetail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnTDSDetail.Location = New System.Drawing.Point(233, 2)
+        Me.btnTDSDetail.Location = New System.Drawing.Point(229, 2)
         Me.btnTDSDetail.Name = "btnTDSDetail"
         Me.btnTDSDetail.Size = New System.Drawing.Size(69, 22)
         Me.btnTDSDetail.TabIndex = 6
@@ -1803,9 +1810,9 @@ Partial Class frmAcquisionEntry
         'btnChangeDepDetail
         '
         Me.btnChangeDepDetail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnChangeDepDetail.Location = New System.Drawing.Point(305, 2)
+        Me.btnChangeDepDetail.Location = New System.Drawing.Point(299, 2)
         Me.btnChangeDepDetail.Name = "btnChangeDepDetail"
-        Me.btnChangeDepDetail.Size = New System.Drawing.Size(164, 22)
+        Me.btnChangeDepDetail.Size = New System.Drawing.Size(159, 22)
         Me.btnChangeDepDetail.TabIndex = 4
         Me.btnChangeDepDetail.Text = "Change Depreciation Details"
         '
@@ -1840,9 +1847,9 @@ Partial Class frmAcquisionEntry
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(977, 2)
+        Me.btnClose.Location = New System.Drawing.Point(984, 2)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.Size = New System.Drawing.Size(62, 22)
         Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "Close"
         '
@@ -1854,6 +1861,16 @@ Partial Class frmAcquisionEntry
         Me.btnSave.Size = New System.Drawing.Size(56, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(711, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(60, 22)
+        Me.btnHistory.TabIndex = 50
+        Me.btnHistory.Text = "History"
         '
         'frmAcquisionEntry
         '
@@ -1978,6 +1995,7 @@ Partial Class frmAcquisionEntry
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2092,5 +2110,6 @@ Partial Class frmAcquisionEntry
     Friend WithEvents lblSRNDate As common.Controls.MyLabel
     Friend WithEvents lblPIDate As common.Controls.MyLabel
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

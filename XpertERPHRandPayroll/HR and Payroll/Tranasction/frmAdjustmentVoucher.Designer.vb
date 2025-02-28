@@ -25,6 +25,7 @@ Partial Class frmAdjustmentVoucher
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAdjustmentVoucher))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -57,6 +58,7 @@ Partial Class frmAdjustmentVoucher
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -83,6 +85,7 @@ Partial Class frmAdjustmentVoucher
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -123,6 +126,7 @@ Partial Class frmAdjustmentVoucher
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -152,14 +156,23 @@ Partial Class frmAdjustmentVoucher
         '
         Me.lblLocationName.AutoSize = False
         Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
         Me.lblLocationName.Location = New System.Drawing.Point(352, 47)
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(222, 19)
         Me.lblLocationName.TabIndex = 199
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'FndLocationCode
         '
+        Me.FndLocationCode.CalculationExpression = Nothing
+        Me.FndLocationCode.FieldCode = Nothing
+        Me.FndLocationCode.FieldDesc = Nothing
+        Me.FndLocationCode.FieldMaxLength = 0
+        Me.FndLocationCode.FieldName = Nothing
+        Me.FndLocationCode.isCalculatedField = False
+        Me.FndLocationCode.IsSourceFromTable = False
+        Me.FndLocationCode.IsSourceFromValueList = False
+        Me.FndLocationCode.IsUnique = False
         Me.FndLocationCode.Location = New System.Drawing.Point(129, 47)
         Me.FndLocationCode.MendatroryField = True
         Me.FndLocationCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -168,12 +181,16 @@ Partial Class frmAdjustmentVoucher
         Me.FndLocationCode.MyReadOnly = False
         Me.FndLocationCode.MyShowMasterFormButton = False
         Me.FndLocationCode.Name = "FndLocationCode"
+        Me.FndLocationCode.ReferenceFieldDesc = Nothing
+        Me.FndLocationCode.ReferenceFieldName = Nothing
+        Me.FndLocationCode.ReferenceTableName = Nothing
         Me.FndLocationCode.Size = New System.Drawing.Size(221, 19)
         Me.FndLocationCode.TabIndex = 198
         Me.FndLocationCode.Value = ""
         '
         'lblLocationCode
         '
+        Me.lblLocationCode.FieldName = Nothing
         Me.lblLocationCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocationCode.Location = New System.Drawing.Point(10, 50)
         Me.lblLocationCode.Name = "lblLocationCode"
@@ -193,6 +210,7 @@ Partial Class frmAdjustmentVoucher
         '
         'lblEmpCode
         '
+        Me.lblEmpCode.FieldName = Nothing
         Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmpCode.Location = New System.Drawing.Point(365, 151)
         Me.lblEmpCode.Name = "lblEmpCode"
@@ -203,6 +221,15 @@ Partial Class frmAdjustmentVoucher
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(485, 157)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -211,6 +238,9 @@ Partial Class frmAdjustmentVoucher
         Me.txtEmpCode.MyReadOnly = False
         Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(207, 19)
         Me.txtEmpCode.TabIndex = 4
         Me.txtEmpCode.Value = ""
@@ -220,32 +250,32 @@ Partial Class frmAdjustmentVoucher
         '
         Me.lblAdjustmentByName.AutoSize = False
         Me.lblAdjustmentByName.BorderVisible = True
+        Me.lblAdjustmentByName.FieldName = Nothing
         Me.lblAdjustmentByName.Location = New System.Drawing.Point(352, 117)
         Me.lblAdjustmentByName.Name = "lblAdjustmentByName"
         Me.lblAdjustmentByName.Size = New System.Drawing.Size(222, 19)
         Me.lblAdjustmentByName.TabIndex = 8
-        Me.lblAdjustmentByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(708, 157)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(26, 19)
         Me.lblEmpName.TabIndex = 5
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblEmpName.Visible = False
         '
         'lblPayPeriodName
         '
         Me.lblPayPeriodName.AutoSize = False
         Me.lblPayPeriodName.BorderVisible = True
+        Me.lblPayPeriodName.FieldName = Nothing
         Me.lblPayPeriodName.Location = New System.Drawing.Point(352, 67)
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(222, 19)
         Me.lblPayPeriodName.TabIndex = 3
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnNew
         '
@@ -258,6 +288,15 @@ Partial Class frmAdjustmentVoucher
         '
         'findPayperiod
         '
+        Me.findPayperiod.CalculationExpression = Nothing
+        Me.findPayperiod.FieldCode = Nothing
+        Me.findPayperiod.FieldDesc = Nothing
+        Me.findPayperiod.FieldMaxLength = 0
+        Me.findPayperiod.FieldName = Nothing
+        Me.findPayperiod.isCalculatedField = False
+        Me.findPayperiod.IsSourceFromTable = False
+        Me.findPayperiod.IsSourceFromValueList = False
+        Me.findPayperiod.IsUnique = False
         Me.findPayperiod.Location = New System.Drawing.Point(129, 69)
         Me.findPayperiod.MendatroryField = True
         Me.findPayperiod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -266,12 +305,16 @@ Partial Class frmAdjustmentVoucher
         Me.findPayperiod.MyReadOnly = False
         Me.findPayperiod.MyShowMasterFormButton = False
         Me.findPayperiod.Name = "findPayperiod"
+        Me.findPayperiod.ReferenceFieldDesc = Nothing
+        Me.findPayperiod.ReferenceFieldName = Nothing
+        Me.findPayperiod.ReferenceTableName = Nothing
         Me.findPayperiod.Size = New System.Drawing.Size(221, 19)
         Me.findPayperiod.TabIndex = 2
         Me.findPayperiod.Value = ""
         '
         'lblPayPeriod
         '
+        Me.lblPayPeriod.FieldName = Nothing
         Me.lblPayPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPayPeriod.Location = New System.Drawing.Point(10, 72)
         Me.lblPayPeriod.Name = "lblPayPeriod"
@@ -282,7 +325,16 @@ Partial Class frmAdjustmentVoucher
         'txtDescription
         '
         Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(129, 142)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = True
@@ -290,11 +342,15 @@ Partial Class frmAdjustmentVoucher
         Me.txtDescription.MyLinkLable1 = Me.lblRemarks
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(221, 47)
         Me.txtDescription.TabIndex = 9
         '
         'lblRemarks
         '
+        Me.lblRemarks.FieldName = Nothing
         Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRemarks.Location = New System.Drawing.Point(12, 159)
         Me.lblRemarks.Name = "lblRemarks"
@@ -304,6 +360,7 @@ Partial Class frmAdjustmentVoucher
         '
         'lblAdjustBy
         '
+        Me.lblAdjustBy.FieldName = Nothing
         Me.lblAdjustBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustBy.Location = New System.Drawing.Point(10, 117)
         Me.lblAdjustBy.Name = "lblAdjustBy"
@@ -313,6 +370,15 @@ Partial Class frmAdjustmentVoucher
         '
         'txtAdjustBy
         '
+        Me.txtAdjustBy.CalculationExpression = Nothing
+        Me.txtAdjustBy.FieldCode = Nothing
+        Me.txtAdjustBy.FieldDesc = Nothing
+        Me.txtAdjustBy.FieldMaxLength = 0
+        Me.txtAdjustBy.FieldName = Nothing
+        Me.txtAdjustBy.isCalculatedField = False
+        Me.txtAdjustBy.IsSourceFromTable = False
+        Me.txtAdjustBy.IsSourceFromValueList = False
+        Me.txtAdjustBy.IsUnique = False
         Me.txtAdjustBy.Location = New System.Drawing.Point(129, 117)
         Me.txtAdjustBy.MendatroryField = False
         Me.txtAdjustBy.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -321,12 +387,16 @@ Partial Class frmAdjustmentVoucher
         Me.txtAdjustBy.MyReadOnly = False
         Me.txtAdjustBy.MyShowMasterFormButton = False
         Me.txtAdjustBy.Name = "txtAdjustBy"
+        Me.txtAdjustBy.ReferenceFieldDesc = Nothing
+        Me.txtAdjustBy.ReferenceFieldName = Nothing
+        Me.txtAdjustBy.ReferenceTableName = Nothing
         Me.txtAdjustBy.Size = New System.Drawing.Size(221, 19)
         Me.txtAdjustBy.TabIndex = 7
         Me.txtAdjustBy.Value = ""
         '
         'lblAdjustmentDate
         '
+        Me.lblAdjustmentDate.FieldName = Nothing
         Me.lblAdjustmentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentDate.Location = New System.Drawing.Point(10, 93)
         Me.lblAdjustmentDate.Name = "lblAdjustmentDate"
@@ -336,9 +406,18 @@ Partial Class frmAdjustmentVoucher
         '
         'dtpAdjustDate
         '
+        Me.dtpAdjustDate.CalculationExpression = Nothing
         Me.dtpAdjustDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpAdjustDate.FieldCode = Nothing
+        Me.dtpAdjustDate.FieldDesc = Nothing
+        Me.dtpAdjustDate.FieldMaxLength = 0
+        Me.dtpAdjustDate.FieldName = Nothing
         Me.dtpAdjustDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpAdjustDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpAdjustDate.isCalculatedField = False
+        Me.dtpAdjustDate.IsSourceFromTable = False
+        Me.dtpAdjustDate.IsSourceFromValueList = False
+        Me.dtpAdjustDate.IsUnique = False
         Me.dtpAdjustDate.Location = New System.Drawing.Point(129, 94)
         Me.dtpAdjustDate.MendatroryField = True
         Me.dtpAdjustDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -346,6 +425,9 @@ Partial Class frmAdjustmentVoucher
         Me.dtpAdjustDate.MyLinkLable2 = Nothing
         Me.dtpAdjustDate.Name = "dtpAdjustDate"
         Me.dtpAdjustDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpAdjustDate.ReferenceFieldDesc = Nothing
+        Me.dtpAdjustDate.ReferenceFieldName = Nothing
+        Me.dtpAdjustDate.ReferenceTableName = Nothing
         Me.dtpAdjustDate.Size = New System.Drawing.Size(130, 18)
         Me.dtpAdjustDate.TabIndex = 6
         Me.dtpAdjustDate.TabStop = False
@@ -354,6 +436,7 @@ Partial Class frmAdjustmentVoucher
         '
         'txtcode
         '
+        Me.txtcode.FieldName = Nothing
         Me.txtcode.Location = New System.Drawing.Point(129, 21)
         Me.txtcode.MendatroryField = True
         Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -369,6 +452,7 @@ Partial Class frmAdjustmentVoucher
         '
         'lblAdjustmentCode
         '
+        Me.lblAdjustmentCode.FieldName = Nothing
         Me.lblAdjustmentCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentCode.Location = New System.Drawing.Point(12, 28)
         Me.lblAdjustmentCode.Name = "lblAdjustmentCode"
@@ -388,20 +472,23 @@ Partial Class frmAdjustmentVoucher
         Me.gvAdjustmentVoucher.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAdjustmentVoucher.Location = New System.Drawing.Point(9, 195)
         '
-        'gvAdjustmentVoucher
+        '
         '
         Me.gvAdjustmentVoucher.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvAdjustmentVoucher.MasterTemplate.AllowAddNewRow = False
         Me.gvAdjustmentVoucher.MasterTemplate.AutoGenerateColumns = False
         Me.gvAdjustmentVoucher.MasterTemplate.EnableGrouping = False
+        Me.gvAdjustmentVoucher.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAdjustmentVoucher.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAdjustmentVoucher.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvAdjustmentVoucher.MyStopExport = False
         Me.gvAdjustmentVoucher.Name = "gvAdjustmentVoucher"
         Me.gvAdjustmentVoucher.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAdjustmentVoucher.ShowHeaderCellButtons = True
         Me.gvAdjustmentVoucher.Size = New System.Drawing.Size(739, 264)
         Me.gvAdjustmentVoucher.TabIndex = 10
         Me.gvAdjustmentVoucher.TabStop = False
-        Me.gvAdjustmentVoucher.Text = "RadGridView4"
+        Me.gvAdjustmentVoucher.VarID = ""
         '
         'btnPost
         '
@@ -450,29 +537,32 @@ Partial Class frmAdjustmentVoucher
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(757, 20)
         Me.RadMenu2.TabIndex = 16
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Export Blank Sheet"
-        Me.RadMenuItem1.AccessibleName = "Export Blank Sheet"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Export Blank Sheet"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(225, 16)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'frmAdjustmentVoucher
         '
@@ -514,6 +604,7 @@ Partial Class frmAdjustmentVoucher
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -551,4 +642,5 @@ Partial Class frmAdjustmentVoucher
     Friend WithEvents FndLocationCode As common.UserControls.txtFinder
     Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

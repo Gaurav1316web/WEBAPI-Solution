@@ -99,6 +99,8 @@ Public Class ClsTDSPayment
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TDS_PAYMENT_HEADER", OMInsertOrUpdate.Update, "TSPL_TDS_PAYMENT_HEADER.Document_No='" + obj.Document_No + "'", trans)
             End If
             ClsTDSPaymentDetail.saveData(obj.arrTDSPaymentDetail, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TDS_PAYMENT_HEADER", "Document_No", "TSPL_TDS_PAYMENT_DETAIL", "Document_No", trans)
+
             ClsTDSPaymentDetailTDS_ND.saveData(obj.arrTDSPaymentDetail_TDS_ND, obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -228,11 +230,15 @@ Public Class ClsTDSPayment
     End Function
     Public Shared Function DeleteData(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         Dim isSaved As Boolean = False
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TDS_PAYMENT_HEADER", "Document_No", "TSPL_TDS_PAYMENT_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TDS_PAYMENT_HEADER", "Document_No", "TSPL_TDS_PAYMENT_DETAIL", "Document_No", trans)
+
             Dim qry As String = ""
 
             qry = "delete from TSPL_TDS_PAYMENT_DETAIL where Document_No='" + strDocNo + "'"

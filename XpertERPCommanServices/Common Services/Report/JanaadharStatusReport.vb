@@ -45,7 +45,11 @@ Public Class JanaadharStatusReport
 	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
                                     sum(case when Active=0 and len(mm.fax)>1 then 1 else 0 end) as JA_aadhar,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
-                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count,
+                                    CAST(ROUND(CASE WHEN COUNT(ISNULL(mm.Jan_Aadhar_No_Verified, 0)) > 0 
+                                    THEN (COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END), 0) * 100.0) / COUNT(ISNULL(mm.Jan_Aadhar_No_Verified, 0))
+                                    ELSE 0 END,2) AS DECIMAL(10, 2)) AS Verified_Farmer_Per,
+									COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 and convert(date,Jan_Aadhar_No_Verified_On,103) between '01-Feb-2024' and '29-Feb-2024' THEN 1 ELSE 0 END),0) AS DateWise_Verified_Count
                                 FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code ) X
                                 LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code"
                     Else
@@ -168,6 +172,12 @@ Public Class JanaadharStatusReport
         Dim item4 As New GridViewSummaryItem("JA_aadhar", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
+        Dim item6 As New GridViewSummaryItem("DateWise_Verified_Count", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        'Dim item7 As New GridViewSummaryItem("Verified_Farmer_Per", "{0:f0}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item7)
+
         Dim item5 As New GridViewSummaryItem("Verified_Farmer_Per", "{0:F2}", "sum(Jan_Aadhar_Verified_Count)*100/sum(Total_MP_Codes)")
         'Dim item5 As New GridViewSummaryItem()
         'item5.FormatString = "{0:F2}"
@@ -278,13 +288,16 @@ Public Class JanaadharStatusReport
     End Sub
 
     Private Sub rbtnTransaction_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTransaction.CheckStateChanged
-        If rbtnTransaction.IsChecked = False Then
-            txtFromDate.Enabled = True
-            txtToDate.Enabled = True
-        Else
-            txtFromDate.Enabled = False
-            txtToDate.Enabled = False
-        End If
+        'If rbtnTransaction.IsChecked = False Then
+        '    txtFromDate.Enabled = True
+        '    txtToDate.Enabled = True
+        'Else
+        '    txtFromDate.Enabled = False
+        '    txtToDate.Enabled = False
+        'End If
     End Sub
 
+    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
+        Me.Close()
+    End Sub
 End Class

@@ -43,6 +43,8 @@ Public Class clsWeeklyHolidays
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_WEEKLY_HOLIDAYS", "WKHOLIDAY_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_WEEKLY_HOLIDAYS", "WKHOLIDAY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_WEEKLY_HOLIDAYS_EMP_MAPPING where WKHOLIDAY_CODE ='" + strCode + "'"
@@ -172,6 +174,8 @@ Public Class clsWeeklyHolidays
             If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
                 isSaved = isSaved AndAlso clsWeeklyHolidaysEmpMapping.SaveData(obj.WKHOLIDAY_CODE, obj.arr, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.WKHOLIDAY_CODE, "TSPL_WEEKLY_HOLIDAYS", "WKHOLIDAY_CODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

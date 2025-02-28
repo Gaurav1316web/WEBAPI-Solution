@@ -296,4 +296,16 @@ Public Class frmLeaveStartingDateSetting
         str = "select EMP_CODE as 'Emp Code', LEAVE_CODE as 'Leave Code', ALLOT_STARTDATE as 'Allot Start Date', AVAIL_STARTDATE as 'Avail Start Date' from TSPL_LEAVE_STARTINGDATE "
         transportSql.ExporttoExcel(str, Me)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "EMP_CODE", "TSPL_LEAVE_STARTINGDATE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -39,6 +39,9 @@ Public Class clsConveyanceClaim
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONVEYANCE_CLAIM", "CLAIM_CODE", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONVEYANCE_CLAIM", "CLAIM_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_CONVEYANCE_CLAIM where CLAIM_CODE ='" + strCode + "'"
@@ -130,6 +133,7 @@ Public Class clsConveyanceClaim
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CONVEYANCE_CLAIM", OMInsertOrUpdate.Update, "CLAIM_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CONVEYANCE_CLAIM", "CLAIM_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

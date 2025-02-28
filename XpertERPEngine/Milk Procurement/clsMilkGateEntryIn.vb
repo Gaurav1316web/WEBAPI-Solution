@@ -106,6 +106,8 @@ Public Class clsMilkGateEntryIn
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_GATE_ENTRY_IN", OMInsertOrUpdate.Update, "TSPL_MILK_GATE_ENTRY_IN.Entry_Code='" + obj.Entry_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Entry_Code, "TSPL_MILK_GATE_ENTRY_IN", "Entry_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -194,7 +196,7 @@ Public Class clsMilkGateEntryIn
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_GATE_ENTRY_IN", "Entry_Code", trans)
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_IN set Status=1, Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Entry_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
@@ -213,6 +215,9 @@ Public Class clsMilkGateEntryIn
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Entry_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_GATE_ENTRY_IN", "Entry_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_GATE_ENTRY_IN", "Entry_Code", trans)
+
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If

@@ -2018,8 +2018,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         End Try
     End Sub
 
-    Function TruncateToDecimalPlaces(value As Double, decimalPlaces As Integer) As Double
-        Dim factor As Double = Math.Pow(10, decimalPlaces)
+    Function TruncateToDecimalPlaces(value As Decimal, decimalPlaces As Integer) As Double
+        Dim factor As Decimal = Math.Pow(10, decimalPlaces)
         Return Math.Truncate(value * factor) / factor
     End Function
     Private Sub UpdateCurrentRow1(ByVal IntRowNo As Integer)
@@ -2240,7 +2240,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblNetPrice As Decimal = dblAmtAfterDis / dblQty
             End If
             Dim dblTotTaxAmt As Decimal = GetCurrentRowTotalTaxAmt(IntRowNo)
-            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
+            Dim dblTotTCSTaxAmt As Decimal = GetCurrentRowTotalTCSTaxAmt(IntRowNo)
+            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - (dblTotTaxAmt - dblTotTCSTaxAmt), 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblTotTaxAmt, 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis, 3), 2, 4)
@@ -2256,6 +2257,21 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Function GetCurrentRowTotalTCSTaxAmt(ByVal IntRowNo As Integer) As Double
+        Dim dblTotTax As Double = 0
+        For ii As Integer = 1 To 10
+            Dim strii As String = clsCommon.myCstr(ii)
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+                Else
+                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+                End If
+            End If
+
+        Next
+        Return dblTotTax
+    End Function
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
@@ -2616,9 +2632,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-            lblAmtWithDiscount.Text = dblNetAmt - (dblTaxTotAmt)
+            lblAmtWithDiscount.Text = clsCommon.myRoundOFF(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt), 2, 4)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
-            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblTaxTotAmt), 2) - dblDisAmt)
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt)), 2) - dblDisAmt)
         Else
             lblAmtWithDiscount.Text = dblNetAmt - (dblDisAmt)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
@@ -2633,14 +2649,21 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
             lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
         Else
-            lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt + dblTotalTcsAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            Else
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            End If
             'lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
             'lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
 
         End If
-        txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
+            txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
         txtTCAmt.Text = clsCommon.myFormat(dblTCAmt)
         txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
         'End If

@@ -1157,4 +1157,16 @@ Public Class frmEmployee_Salary
     Private Sub gvSalary_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvSalary.CellFormatting
 
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "EMP_SAL_CODE", "TSPL_EMPLOYEE_SALARY", "TSPL_EMPLOYEE_SALARY_PAYHEADS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

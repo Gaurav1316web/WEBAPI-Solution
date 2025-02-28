@@ -271,7 +271,7 @@ Public Class clsAssetIssueReturn
                     clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                     clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDB, "TSPL_ASSET_ISSUE_RETURN", OMInsertOrUpdate.Insert, "", trans)
-
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Asset_Id, "TSPL_ASSET_ISSUE_RETURN", "Asset_Id", trans)
                     '-------------------------Updates Data In Asset Acquisition-------------------------------------------
                     Dim coll1 As New Hashtable()
                     'Select is_Issued, Issue_Return_Date, Issue_Return_Entity
@@ -286,8 +286,12 @@ Public Class clsAssetIssueReturn
                     clsCommon.AddColumnsForChange(coll1, "To_Entity", obj.To_Entity)
 
                     clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll1, ArrDB, "TSPL_ACQUISITION_DETAIL", OMInsertOrUpdate.Update, "TSPL_ACQUISITION_DETAIL.Asset_Code = '" + obj.Asset_Id + "'", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Asset_Id, "TSPL_ACQUISITION_DETAIL", "Asset_Code", trans)
+
                     '------------------------------------------------------------------------------------------------
                 Next
+
+
                 trans.Commit()
             End If
         Catch err As Exception
