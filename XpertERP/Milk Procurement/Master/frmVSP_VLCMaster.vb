@@ -63,13 +63,13 @@ Public Class frmVSP_VLCMaster
         ToolTipvendor.SetToolTip(btnnew, "New")
         '' Anubhooti 4-Aug-2014 BM00000003319
         LoadAccountType()
-        If EnableBankFromMaster Then
-            txtbankcodedes.Visible = True
+        ' If EnableBankFromMaster Then
+        txtbankcodedes.Visible = True
             txtbankcodedes2.Visible = True
-        Else
-            txtbankcodedes.Visible = False
-            txtbankcodedes2.Visible = False
-        End If
+        'Else
+        '    txtbankcodedes.Visible = False
+        '    txtbankcodedes2.Visible = False
+        'End If
 
         ''
         fndvendorNo_text_changed()
@@ -7181,6 +7181,21 @@ Public Class frmVSP_VLCMaster
         End If
         Me.Controls.Remove(gv1)
     End Sub
+
+    Private Sub fndbankcode_Click(sender As Object, e As EventArgs) Handles fndbankcode.Click
+        If clsCommon.myLen(fndbankcode.Text) > 0 Then
+            txtbankcodedes.Text = fndbankcode.Text
+        End If
+
+    End Sub
+
+    Private Sub fndbankcode2_Click(sender As Object, e As EventArgs) Handles fndbankcode2.Click
+        If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+            txtbankcodedes2.Text = fndbankcode2.Text
+        End If
+    End Sub
+
+
 
 
     'Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click
