@@ -3402,20 +3402,29 @@ Public Class frmGRN
             Return False
         End If
 
-        If objCommonVar.RCDFCFP Then
+
+        Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
+        If qrychk = 1 Then
             If Inter_unit_Purchk.Checked Then
-                ' Check if the vehicle number is empty
-                Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
-                If qry = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Map this Vendor on Vendor master screen with cfp_unit checkbox")
-                    Return False
-                End If
             Else
                 common.clsCommon.MyMessageBoxShow("Please check interunitPurchase checkbox")
                 Inter_unit_Purchk.Focus()
                 Return False
             End If
         End If
+        'If Inter_unit_Purchk.Checked Then
+        '        ' Check if the vehicle number is empty
+        '        Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
+        '        If qry = 0 Then
+        '            common.clsCommon.MyMessageBoxShow("Please Map this Vendor on Vendor master screen with cfp_unit checkbox")
+        '            Return False
+        '        End If
+        '    Else
+        '        common.clsCommon.MyMessageBoxShow("Please check interunitPurchase checkbox")
+        '        Inter_unit_Purchk.Focus()
+        '        Return False
+        '    End If
+
 
         '===========Added By Rohit on Aug 12,2015=======
         If clsCommon.myLen(txtShipToLocation.Value) > 0 And Not isApplyBrachAccounting Then
@@ -5557,7 +5566,10 @@ Public Class frmGRN
             ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
                 AddNew()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
-                SaveData(False)
+                If AllowToSave(False) Then
+                    SaveData(False)
+                End If
+                'SaveData(False)
             ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
                 PostData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
