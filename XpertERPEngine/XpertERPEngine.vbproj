@@ -173,8 +173,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
-    <Reference Include="zxing %281%29">
-      <HintPath>..\XpertERP\bin\Debug\zxing (1).dll</HintPath>
+    <Reference Include="zxing">
+      <HintPath>..\..\DLL\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
