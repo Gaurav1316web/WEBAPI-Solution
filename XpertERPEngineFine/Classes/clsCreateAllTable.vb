@@ -8642,6 +8642,8 @@ Public Class clsCreateAllTable
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_BOOKING_MATSER", "Document_No", "", True)
+            qry = "alter table TSPL_BOOKING_DETAIL alter column item_rate Decimal(18,6) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             ''richa for Booking detail payment
             coll = New Dictionary(Of String, String)()
