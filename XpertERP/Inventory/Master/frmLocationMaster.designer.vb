@@ -28,6 +28,7 @@ Partial Class frmLocationMaster
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -35,22 +36,21 @@ Partial Class frmLocationMaster
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition61 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition62 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition63 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition64 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition65 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition66 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition67 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition68 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition69 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition70 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition71 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition72 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition73 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition74 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition75 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -265,6 +265,7 @@ Partial Class frmLocationMaster
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.PgHOAddress = New Telerik.WinControls.UI.RadPageViewPage()
@@ -327,7 +328,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.chkIsProduction = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -626,6 +627,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -708,7 +710,7 @@ Partial Class frmLocationMaster
         Me.RadMenu1.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenu1.HorizontalPopupAlignment = Telerik.WinControls.UI.HorizontalPopupAlignment.LeftToRight
         Me.RadMenu1.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
-        Me.RadMenu1.Location = New System.Drawing.Point(118, 330)
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenu1.Minimum = New System.Drawing.Size(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
@@ -820,15 +822,16 @@ Partial Class frmLocationMaster
         'Details
         '
         Me.Details.Controls.Add(Me.radgroupbox)
-        Me.Details.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
-        Me.Details.Location = New System.Drawing.Point(10, 33)
+        Me.Details.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.Details.Location = New System.Drawing.Point(10, 37)
         Me.Details.Name = "Details"
-        Me.Details.Size = New System.Drawing.Size(863, 546)
+        Me.Details.Size = New System.Drawing.Size(863, 542)
         Me.Details.Text = "Details"
         '
         'radgroupbox
         '
         Me.radgroupbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.radgroupbox.Controls.Add(Me.chkIsProduction)
         Me.radgroupbox.Controls.Add(Me.txtPhone2)
         Me.radgroupbox.Controls.Add(Me.txtPhone1)
         Me.radgroupbox.Controls.Add(Me.txtTelephone)
@@ -927,7 +930,7 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Location = New System.Drawing.Point(0, 0)
         Me.radgroupbox.Name = "radgroupbox"
         Me.radgroupbox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.radgroupbox.Size = New System.Drawing.Size(863, 546)
+        Me.radgroupbox.Size = New System.Drawing.Size(863, 542)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
         '
@@ -1033,11 +1036,11 @@ Partial Class frmLocationMaster
         RadListDataItem1.Text = "Select"
         RadListDataItem2.Text = "1"
         RadListDataItem3.Text = "2"
-        RadListDataItem4.Text = "3"
+        RadListDataItem15.Text = "3"
         Me.cmbNoOfShift.Items.Add(RadListDataItem1)
         Me.cmbNoOfShift.Items.Add(RadListDataItem2)
         Me.cmbNoOfShift.Items.Add(RadListDataItem3)
-        Me.cmbNoOfShift.Items.Add(RadListDataItem4)
+        Me.cmbNoOfShift.Items.Add(RadListDataItem15)
         Me.cmbNoOfShift.Location = New System.Drawing.Point(801, 419)
         Me.cmbNoOfShift.MendatroryField = False
         Me.cmbNoOfShift.MyLinkLable1 = Me.lblNoOfShift
@@ -1114,7 +1117,7 @@ Partial Class frmLocationMaster
         'chkIsMainPlant
         '
         Me.chkIsMainPlant.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsMainPlant.Location = New System.Drawing.Point(689, 284)
+        Me.chkIsMainPlant.Location = New System.Drawing.Point(678, 284)
         Me.chkIsMainPlant.Name = "chkIsMainPlant"
         Me.chkIsMainPlant.Size = New System.Drawing.Size(74, 16)
         Me.chkIsMainPlant.TabIndex = 1393
@@ -1376,7 +1379,7 @@ Partial Class frmLocationMaster
         'chkUseInJobWork
         '
         Me.chkUseInJobWork.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkUseInJobWork.Location = New System.Drawing.Point(580, 283)
+        Me.chkUseInJobWork.Location = New System.Drawing.Point(569, 283)
         Me.chkUseInJobWork.Name = "chkUseInJobWork"
         Me.chkUseInJobWork.Size = New System.Drawing.Size(103, 16)
         Me.chkUseInJobWork.TabIndex = 1381
@@ -1893,7 +1896,7 @@ Partial Class frmLocationMaster
         'chkCSA
         '
         Me.chkCSA.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCSA.Location = New System.Drawing.Point(532, 283)
+        Me.chkCSA.Location = New System.Drawing.Point(526, 283)
         Me.chkCSA.Name = "chkCSA"
         Me.chkCSA.Size = New System.Drawing.Size(43, 16)
         Me.chkCSA.TabIndex = 32
@@ -1902,7 +1905,7 @@ Partial Class frmLocationMaster
         'chkRejected
         '
         Me.chkRejected.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkRejected.Location = New System.Drawing.Point(464, 283)
+        Me.chkRejected.Location = New System.Drawing.Point(459, 283)
         Me.chkRejected.Name = "chkRejected"
         Me.chkRejected.Size = New System.Drawing.Size(65, 16)
         Me.chkRejected.TabIndex = 23
@@ -2362,7 +2365,7 @@ Partial Class frmLocationMaster
         'chkInactive
         '
         Me.chkInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkInactive.Location = New System.Drawing.Point(401, 283)
+        Me.chkInactive.Location = New System.Drawing.Point(397, 283)
         Me.chkInactive.Name = "chkInactive"
         Me.chkInactive.Size = New System.Drawing.Size(59, 16)
         Me.chkInactive.TabIndex = 30
@@ -2384,14 +2387,14 @@ Partial Class frmLocationMaster
         Me.ddlLocationType.IsSourceFromTable = False
         Me.ddlLocationType.IsSourceFromValueList = False
         Me.ddlLocationType.IsUnique = False
-        RadListDataItem5.Text = "Physical"
-        RadListDataItem6.Text = "Logical"
-        RadListDataItem7.Text = "WorkOrder"
-        RadListDataItem8.Text = "Virtual"
+        RadListDataItem4.Text = "Physical"
+        RadListDataItem5.Text = "Logical"
+        RadListDataItem6.Text = "WorkOrder"
+        RadListDataItem7.Text = "Virtual"
+        Me.ddlLocationType.Items.Add(RadListDataItem4)
         Me.ddlLocationType.Items.Add(RadListDataItem5)
         Me.ddlLocationType.Items.Add(RadListDataItem6)
         Me.ddlLocationType.Items.Add(RadListDataItem7)
-        Me.ddlLocationType.Items.Add(RadListDataItem8)
         Me.ddlLocationType.Location = New System.Drawing.Point(110, 282)
         Me.ddlLocationType.MendatroryField = False
         Me.ddlLocationType.MyLinkLable1 = Me.lblLocationType
@@ -2637,7 +2640,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage2.Controls.Add(Me.lblLocationSegmentCode)
         Me.RadPageViewPage2.Controls.Add(Me.ddlType)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(79.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(863, 542)
@@ -3424,12 +3427,12 @@ Partial Class frmLocationMaster
         Me.ddlType.IsSourceFromTable = False
         Me.ddlType.IsSourceFromValueList = False
         Me.ddlType.IsUnique = False
-        RadListDataItem9.Text = "Depot"
-        RadListDataItem10.Text = "Manufacturing Unit"
-        RadListDataItem11.Text = "PLANT"
+        RadListDataItem8.Text = "Depot"
+        RadListDataItem9.Text = "Manufacturing Unit"
+        RadListDataItem10.Text = "PLANT"
+        Me.ddlType.Items.Add(RadListDataItem8)
         Me.ddlType.Items.Add(RadListDataItem9)
         Me.ddlType.Items.Add(RadListDataItem10)
-        Me.ddlType.Items.Add(RadListDataItem11)
         Me.ddlType.Location = New System.Drawing.Point(434, 5)
         Me.ddlType.MendatroryField = False
         Me.ddlType.MyLinkLable1 = Me.RadLabel1
@@ -3454,7 +3457,7 @@ Partial Class frmLocationMaster
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadPageView3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 24.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(57.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(863, 546)
@@ -3476,7 +3479,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.SplitContainer4)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
         Me.RadPageViewPage8.Size = New System.Drawing.Size(842, 502)
@@ -3534,7 +3536,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition61
         Me.gvSaleLocal.MyStopExport = False
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3561,7 +3563,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition62
         Me.gvSaleItemDetailsLocal.MyStopExport = False
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3588,7 +3590,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition63
         Me.gvSaleTaxLocal.MyStopExport = False
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3601,7 +3603,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.SplitContainer5)
-        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(842, 494)
@@ -3659,7 +3660,7 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition64
         Me.gvSaleInterState.MyStopExport = False
         Me.gvSaleInterState.Name = "gvSaleInterState"
         Me.gvSaleInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3686,7 +3687,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition65
         Me.gvSaleItemDetailsInterState.MyStopExport = False
         Me.gvSaleItemDetailsInterState.Name = "gvSaleItemDetailsInterState"
         Me.gvSaleItemDetailsInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3713,7 +3714,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition66
         Me.gvSaleTaxInterState.MyStopExport = False
         Me.gvSaleTaxInterState.Name = "gvSaleTaxInterState"
         Me.gvSaleTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3726,7 +3727,7 @@ Partial Class frmLocationMaster
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadPageView2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(77.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(81.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(863, 542)
@@ -3748,7 +3749,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(842, 498)
@@ -3769,7 +3769,7 @@ Partial Class frmLocationMaster
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvPurchaseTaxLocal)
         Me.SplitContainer2.Size = New System.Drawing.Size(842, 498)
-        Me.SplitContainer2.SplitterDistance = 219
+        Me.SplitContainer2.SplitterDistance = 218
         Me.SplitContainer2.TabIndex = 0
         '
         'gvPurchaseLocal
@@ -3789,12 +3789,12 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition67
         Me.gvPurchaseLocal.MyStopExport = False
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.Size = New System.Drawing.Size(842, 219)
+        Me.gvPurchaseLocal.Size = New System.Drawing.Size(842, 218)
         Me.gvPurchaseLocal.TabIndex = 4
         Me.gvPurchaseLocal.TabStop = False
         Me.gvPurchaseLocal.VarID = ""
@@ -3816,12 +3816,12 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition68
         Me.gvPurchaseTaxLocal.MyStopExport = False
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(842, 275)
+        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(842, 276)
         Me.gvPurchaseTaxLocal.TabIndex = 3
         Me.gvPurchaseTaxLocal.TabStop = False
         Me.gvPurchaseTaxLocal.VarID = ""
@@ -3829,7 +3829,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(767, 444)
@@ -3870,7 +3869,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition69
         Me.gvPurchaseInterState.MyStopExport = False
         Me.gvPurchaseInterState.Name = "gvPurchaseInterState"
         Me.gvPurchaseInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3897,7 +3896,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition70
         Me.gvPurchaseTaxInterState.MyStopExport = False
         Me.gvPurchaseTaxInterState.Name = "gvPurchaseTaxInterState"
         Me.gvPurchaseTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3910,7 +3909,7 @@ Partial Class frmLocationMaster
         'pageTransferTax
         '
         Me.pageTransferTax.Controls.Add(Me.RadPageView4)
-        Me.pageTransferTax.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
+        Me.pageTransferTax.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.pageTransferTax.Location = New System.Drawing.Point(10, 37)
         Me.pageTransferTax.Name = "pageTransferTax"
         Me.pageTransferTax.Size = New System.Drawing.Size(863, 542)
@@ -3932,7 +3931,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage10
         '
         Me.RadPageViewPage10.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
         Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage10.Name = "RadPageViewPage10"
         Me.RadPageViewPage10.Size = New System.Drawing.Size(842, 498)
@@ -3973,7 +3971,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition71
         Me.gvTransferLocal.MyStopExport = False
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4000,7 +3998,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition72
         Me.gvTransferTaxLocal.MyStopExport = False
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4013,7 +4011,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage11
         '
         Me.RadPageViewPage11.Controls.Add(Me.SplitContainer7)
-        Me.RadPageViewPage11.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage11.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage11.Name = "RadPageViewPage11"
         Me.RadPageViewPage11.Size = New System.Drawing.Size(767, 444)
@@ -4054,7 +4051,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition73
         Me.gvTransferInterState.MyStopExport = False
         Me.gvTransferInterState.Name = "gvTransferInterState"
         Me.gvTransferInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4081,7 +4078,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition74
         Me.gvTransferTaxInterState.MyStopExport = False
         Me.gvTransferTaxInterState.Name = "gvTransferTaxInterState"
         Me.gvTransferTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4095,7 +4092,7 @@ Partial Class frmLocationMaster
         '
         Me.RadPageViewPage4.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage4.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(106.0!, 24.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(863, 542)
@@ -4110,7 +4107,7 @@ Partial Class frmLocationMaster
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition75
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
@@ -4178,16 +4175,24 @@ Partial Class frmLocationMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(863, 542)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(863, 542)
+        Me.UcCustomFields1.TabIndex = 2
+        '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(863, 542)
@@ -4204,7 +4209,7 @@ Partial Class frmLocationMaster
         'PgHOAddress
         '
         Me.PgHOAddress.Controls.Add(Me.GrpHeadOfc)
-        Me.PgHOAddress.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
+        Me.PgHOAddress.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.PgHOAddress.Location = New System.Drawing.Point(10, 37)
         Me.PgHOAddress.Name = "PgHOAddress"
         Me.PgHOAddress.Size = New System.Drawing.Size(863, 542)
@@ -4286,7 +4291,7 @@ Partial Class frmLocationMaster
         '
         Me.RadPageViewPage12.Controls.Add(Me.ChkIsJobwork)
         Me.RadPageViewPage12.Controls.Add(Me.GrpJobwork)
-        Me.RadPageViewPage12.ItemSize = New System.Drawing.SizeF(91.0!, 24.0!)
+        Me.RadPageViewPage12.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage12.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage12.Name = "RadPageViewPage12"
         Me.RadPageViewPage12.Size = New System.Drawing.Size(863, 542)
@@ -4332,7 +4337,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage13
         '
         Me.RadPageViewPage13.Controls.Add(Me.SplitContainer8)
-        Me.RadPageViewPage13.ItemSize = New System.Drawing.SizeF(80.0!, 24.0!)
         Me.RadPageViewPage13.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage13.Name = "RadPageViewPage13"
         Me.RadPageViewPage13.Size = New System.Drawing.Size(750, 162)
@@ -4463,7 +4467,7 @@ Partial Class frmLocationMaster
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox7)
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox6)
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox5)
-        Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(73.0!, 24.0!)
+        Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
         Me.PageBankDetails.Location = New System.Drawing.Point(10, 37)
         Me.PageBankDetails.Name = "PageBankDetails"
         Me.PageBankDetails.Size = New System.Drawing.Size(863, 542)
@@ -5189,13 +5193,14 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'UcCustomFields1
+        'chkIsProduction
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(863, 542)
-        Me.UcCustomFields1.TabIndex = 2
+        Me.chkIsProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsProduction.Location = New System.Drawing.Point(758, 282)
+        Me.chkIsProduction.Name = "chkIsProduction"
+        Me.chkIsProduction.Size = New System.Drawing.Size(86, 16)
+        Me.chkIsProduction.TabIndex = 1394
+        Me.chkIsProduction.Text = "Is Production"
         '
         'frmLocationMaster
         '
@@ -5527,6 +5532,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5809,5 +5815,6 @@ Partial Class frmLocationMaster
     Friend WithEvents QcDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel37 As common.Controls.MyLabel
     Friend WithEvents txtTarget As common.MyNumBox
+    Friend WithEvents chkIsProduction As RadCheckBox
 End Class
 

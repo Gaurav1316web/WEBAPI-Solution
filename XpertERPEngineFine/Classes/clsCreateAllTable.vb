@@ -14201,6 +14201,7 @@ Public Class clsCreateAllTable
             coll.Add("accountholdername", "varchar(100) null")
             coll.Add("BankUPI_ID", "varchar(50) null")
             coll.Add("IsMainPlant", "integer not null default 0")
+            coll.Add("IsProduction", "integer not null default 0")
             coll.Add("Uploader_No", "varchar(100) null")
             coll.Add("MP_Collection_Running_Date", "Date NULL")
             coll.Add("Bank", "Varchar(100) null")
