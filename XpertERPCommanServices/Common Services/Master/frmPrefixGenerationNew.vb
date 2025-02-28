@@ -32,6 +32,7 @@ Public Class FrmPrefixGenerationNew
     Dim isTransactionTypeReadOnly As Boolean = False
     Dim isLoadForm As Boolean = False
     Dim isInsidechkFinancialYearStyle As Boolean = False
+    Dim ApplyLocationWisePrefix As Boolean = False
 #End Region
 
     Private Sub FrmPrefixGenerationNew_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -44,6 +45,7 @@ Public Class FrmPrefixGenerationNew
         Catch ex As Exception
         End Try
         isLoadForm = True
+        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
         clsDocType.SetDefaultValues()
         InsertPrefixForItemType()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -401,19 +403,25 @@ Public Class FrmPrefixGenerationNew
                             gv1.CurrentRow.Cells(colLoaction).Value = ""
                             Exit Sub
                         End If
-                        If clsCommon.myCdbl(dt.Rows(0)("Is_State_Wise")) = 1 Then
-                            qry = "select STATE_CODE as Code,STATE_NAME as Name from TSPL_STATE_MASTER"
-                            gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("StatePrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
-                        ElseIf clsCommon.myCdbl(dt.Rows(0)("Is_MCC_Wise")) = 1 Then
-                            qry = "select MCC_Code as Code,MCC_NAME as Name from TSPL_MCC_MASTER"
-                            gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("MCCPrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
-                        ElseIf clsCommon.myCdbl(dt.Rows(0)("Is_Route_Wise")) = 1 Then
-                            qry = "select Route_No as Code,Route_Desc as Name from TSPL_ROUTE_MASTER"
-                            gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("MCCPrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
+                        If ApplyLocationWisePrefix Then
+                            qry = "Select Location_Code as LocationCode,Location_Desc as Description from TSPL_LOCATION_MASTER "
+                            gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("StatePrefix", qry, "LocationCode", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
                         Else
-                            qry = "select Segment_code as [SegmnentCode],Description as [Description] from TSPL_GL_SEGMENT_CODE"
-                            gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("PrefixGen", qry, "SegmnentCode", "Seg_No='7'", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "SegmnentCode", False))
+                            If clsCommon.myCdbl(dt.Rows(0)("Is_State_Wise")) = 1 Then
+                                qry = "select STATE_CODE as Code,STATE_NAME as Name from TSPL_STATE_MASTER"
+                                gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("StatePrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
+                            ElseIf clsCommon.myCdbl(dt.Rows(0)("Is_MCC_Wise")) = 1 Then
+                                qry = "select MCC_Code as Code,MCC_NAME as Name from TSPL_MCC_MASTER"
+                                gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("MCCPrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
+                            ElseIf clsCommon.myCdbl(dt.Rows(0)("Is_Route_Wise")) = 1 Then
+                                qry = "select Route_No as Code,Route_Desc as Name from TSPL_ROUTE_MASTER"
+                                gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("MCCPrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "", False))
+                            Else
+                                qry = "select Segment_code as [SegmnentCode],Description as [Description] from TSPL_GL_SEGMENT_CODE"
+                                gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("PrefixGen", qry, "SegmnentCode", "Seg_No='7'", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "SegmnentCode", False))
+                            End If
                         End If
+
                         gv1.CurrentRow.Cells(colIsValueChanged).Value = True
                     ElseIf (clsCommon.CompairString(e.Column.Name, colNextNumber) = CompairStringResult.Equal) Then
                         Dim dblVal As Double = Math.Round(clsCommon.myCdbl(gv1.CurrentRow.Cells(colNextNumber).Value), 0, MidpointRounding.AwayFromZero)

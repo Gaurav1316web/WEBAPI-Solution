@@ -442,6 +442,7 @@ Public Class clsFixedParameterType
     Public Const PaymentReceiptTypeRunReceiptCounter As String = "PaymentReceiptTypeRunReceiptCounter"
     Public Const CounterFinancialYearStyle As String = "CounterFinancialYearStyle"
     Public Const LinkFinancialYearStyleWithGSTDate As String = "LinkFinancialYearStyleWithGSTDate"
+    Public Const ApplyLocationWisePrefix As String = "Apply Location Wise Prefix"
     Public Const CashDiscountFromClaimMaster As String = "CashDiscountFromClaimMaster"
     Public Const TransferTransTypeRouteHide As String = "TransferTransTypeRouteHide"
     Public Const AllowNegtiveOfSaleInvoiceBlanceAmt As String = "AllowNegtiveOfSaleInvoiceBlanceAmt"
@@ -1861,6 +1862,7 @@ Public Class clsFixedParameterCode
     Public Const PaymentReceiptTypeRunReceiptCounter As String = "PaymentReceiptTypeRunReceiptCounter"
     Public Const CounterFinancialYearStyle As String = "CounterFinancialYearStyle"
     Public Const LinkFinancialYearStyleWithGSTDate As String = "LinkFinancialYearStyleWithGSTDate"
+    Public Const ApplyLocationWisePrefix As String = "Apply Location Wise Prefix"
     Public Const CashDiscountFromClaimMaster As String = "CashDiscountFromClaimMaster"
     Public Const TransferTransTypeRouteHide As String = "TransferTransTypeRouteHide"
     Public Const AllowNegtiveOfSaleInvoiceBlanceAmt As String = "AllowNegtiveOfSaleInvoiceBlanceAmt"
@@ -3394,6 +3396,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentReceiptTypeRunReceiptCounter, clsFixedParameterCode.PaymentReceiptTypeRunReceiptCounter, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CounterFinancialYearStyle, clsFixedParameterCode.CounterFinancialYearStyle, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.LinkFinancialYearStyleWithGSTDate, clsFixedParameterCode.LinkFinancialYearStyleWithGSTDate, "", "OFF: [FY Format 17-18].ON: [FY Format 17] Applicable After GST Start Date")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CashDiscountFromClaimMaster, clsFixedParameterCode.CashDiscountFromClaimMaster, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransferTransTypeRouteHide, clsFixedParameterCode.TransferTransTypeRouteHide, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, "", "")
@@ -5087,6 +5090,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.DBF, clsFixedParameterCode.FATDivideBy, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.DBF, clsFixedParameterCode.SNFDivideBy, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.PrefixGeneration, clsFixedParameterType.LinkFinancialYearStyleWithGSTDate, clsFixedParameterCode.LinkFinancialYearStyleWithGSTDate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PrefixGeneration, clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnARInvoiceEntry, clsFixedParameterType.AllowCreditNoteWithoutReference, clsFixedParameterCode.AllowCreditNoteWithoutReference, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnARInvoiceEntry, clsFixedParameterType.AllowUseApplyDocSeriesForReceipt, clsFixedParameterCode.AllowUseApplyDocSeriesForReceipt, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnARInvoiceEntry, clsFixedParameterType.AllowUseApplyDocSeriesForPayment, clsFixedParameterCode.AllowUseApplyDocSeriesForPayment, EnumControlType.CheckBox)

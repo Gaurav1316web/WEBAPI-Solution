@@ -324,28 +324,95 @@ Public Class rptCustItemWiseSaleReport
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
-            Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
-                                   MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Out_Qty) AS out_qty,MAX(UoM) as UoM,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,Sum(Amount) as Amount,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
-                                  FROM (SELECT ItemConvinUOMKG.UOM_Code AS kg,ItemConvinUOMLTR.UOM_Code AS ltr,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_TRANSFER_ORDER_detail.Unit_code,TSPL_TRANSFER_ORDER_detail.Out_Qty,TSPL_TRANSFER_ORDER_detail.Amount,
-                                    Case WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
-                                    THEN ItemConvinUOMLTR.UOM_Code  WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 THEN ItemConvinUOMKG.UOM_Code end as UoM,
-                                    CAST(CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
-                                   THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMLTR.Conversion_Factor  
-                                   WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 
-                                   THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMKG.Conversion_Factor  
-                                   ELSE 0 END 
-                                   AS DECIMAL(18,2)) AS QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1, 
-                                   TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,Document_Date 
-                                   FROM TSPL_TRANSFER_ORDER_detail
-                                   LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.Document_No = TSPL_TRANSFER_ORDER_DETAIL.Document_No
-                                   LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_TRANSFER_ORDER_DETAIL.item_code
-                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code
-                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMLTR ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMLTR.Item_Code 
-                                   AND ItemConvinUOMLTR.UOM_Code = 'LTR'
-                                   LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMKG ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMKG.Item_Code 
-                                   AND ItemConvinUOMKG.UOM_Code = 'KG'
-                                   LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
-                                    GROUP BY Item_Code"
+            'Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+            '                       MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Out_Qty) AS out_qty,MAX(UoM) as UoM,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,Sum(Amount) as Amount,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
+            '                      FROM (SELECT ItemConvinUOMKG.UOM_Code AS kg,ItemConvinUOMLTR.UOM_Code AS ltr,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_TRANSFER_ORDER_detail.Unit_code,TSPL_TRANSFER_ORDER_detail.Out_Qty,TSPL_TRANSFER_ORDER_detail.Amount,
+            '                        Case WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
+            '                        THEN ItemConvinUOMLTR.UOM_Code  WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 THEN ItemConvinUOMKG.UOM_Code end as UoM,
+            '                        CAST(CASE WHEN TSPL_ITEM_MASTER.Is_FreshItem = 1 
+            '                       THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMLTR.Conversion_Factor  
+            '                       WHEN TSPL_ITEM_MASTER.Is_Ambient = 1 
+            '                       THEN TSPL_TRANSFER_ORDER_detail.Out_Qty * ItemConvReportUOM.Conversion_Factor / ItemConvinUOMKG.Conversion_Factor  
+            '                       ELSE 0 END 
+            '                       AS DECIMAL(18,2)) AS QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1, 
+            '                       TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,Document_Date 
+            '                       FROM TSPL_TRANSFER_ORDER_detail
+            '                       LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.Document_No = TSPL_TRANSFER_ORDER_DETAIL.Document_No
+            '                       LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_TRANSFER_ORDER_DETAIL.item_code
+            '                       LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code
+            '                       LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMLTR ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMLTR.Item_Code 
+            '                       AND ItemConvinUOMLTR.UOM_Code = 'LTR'
+            '                       LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMKG ON TSPL_TRANSFER_ORDER_detail.Item_Code = ItemConvinUOMKG.Item_Code 
+            '                       AND ItemConvinUOMKG.UOM_Code = 'KG'
+            '                       LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
+            '                        GROUP BY Item_Code"
+
+            Qry = "SELECT 
+    Item_Code, 
+    MAX(Item_Desc) AS Item_Desc, 
+    SUM(Out_Qty) AS Out_Qty, 
+    SUM(QtyPouch) AS QtyPouch, 
+    SUM(Amount) AS Amount, 
+    '01-Sep-2024' AS Fromdate, 
+    '10-Sep-2024' AS ToDate, 
+    MAX(Add1) AS Add1, 
+    MAX(Add2) AS Add2, 
+    MAX(Add3) AS Add3, 
+    MAX(City_Code) AS City_Code, 
+    MAX(State) AS State
+FROM (
+    SELECT 
+        xx.*, 
+        (xx.Out_Qty * tab2.Rate) AS Amount, 
+        tab2.Rate
+    FROM (
+        SELECT 
+            TSPL_TRANSFER_ORDER_DETAIL.Item_Code, 
+            MAX(TSPL_TRANSFER_ORDER_HEAD.Price_Code) AS Price_Code, 
+            TSPL_TRANSFER_ORDER_HEAD.Document_Date, 
+            '01-Sep-2024' AS Fromdate, 
+            '10-Sep-2024' AS ToDate, 
+            MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
+            MAX(TSPL_COMPANY_MASTER.Add1) AS Add1, 
+            MAX(TSPL_COMPANY_MASTER.Add2) AS Add2, 
+            MAX(TSPL_COMPANY_MASTER.Add3) AS Add3, 
+            MAX(TSPL_LOCATION_MASTER.City_Code) AS City_Code, 
+            MAX(TSPL_LOCATION_MASTER.State) AS State, 
+            MAX(TSPL_TRANSFER_ORDER_DETAIL.Item_Desc) AS Item_Desc, 
+            SUM(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty) AS Out_Qty, 
+            MAX(TSPL_TRANSFER_ORDER_DETAIL.Unit_code) AS UoM, 
+            MAX(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * 
+                ItemConvReportUOM.Conversion_Factor / 
+                ItemConvinUOMpouch.Conversion_Factor) AS QtyPouch, 
+            TSPL_TRANSFER_ORDER_DETAIL.Unit_code
+        FROM TSPL_TRANSFER_ORDER_DETAIL 
+        LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD 
+        ON TSPL_TRANSFER_ORDER_HEAD.Document_No = TSPL_TRANSFER_ORDER_DETAIL.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER 
+        ON TSPL_ITEM_MASTER.Item_Code = TSPL_TRANSFER_ORDER_DETAIL.Item_Code
+        LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM
+        ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvReportUOM.Item_Code
+        AND TSPL_TRANSFER_ORDER_DETAIL.Unit_code = ItemConvReportUOM.UOM_Code
+        LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMpouch
+        ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOMpouch.Item_Code
+        AND ItemConvinUOMpouch.UOM_Code = 'Pouch'
+        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
+        LEFT OUTER JOIN TSPL_LOCATION_MASTER 
+        ON TSPL_LOCATION_MASTER.Location_Code = TSPL_TRANSFER_ORDER_DETAIL.Location 
+        WHERE TSPL_ITEM_MASTER.Is_FreshItem = 1  and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' GROUP BY TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
+    ) xx
+    OUTER APPLY ( 
+        SELECT TOP 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price AS Rate
+        FROM TSPL_ITEM_PRICE_PLAN_DETAIL
+        LEFT JOIN TSPL_ITEM_PRICE_PLAN_HEADER 
+        ON TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
+        WHERE TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code = xx.Price_Code  
+        AND TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code = xx.Item_Code 
+        AND TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date <= xx.Document_Date 
+        ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
+    ) AS tab2
+) xxx 
+GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

@@ -42,6 +42,7 @@ Partial Class frmGRN
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.Inter_unit_Purchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSkipPurchaseQc = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkJobWorkOutward = New Telerik.WinControls.UI.RadCheckBox()
         Me.txt_transporterdocbility = New common.Controls.MyTextBox()
@@ -224,7 +225,6 @@ Partial Class frmGRN
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.Inter_unit_Purchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -234,6 +234,7 @@ Partial Class frmGRN
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipPurchaseQc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_transporterdocbility, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -405,7 +406,6 @@ Partial Class frmGRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -455,7 +455,7 @@ Partial Class frmGRN
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1013, 429)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -560,6 +560,14 @@ Partial Class frmGRN
         Me.SplitContainer2.Size = New System.Drawing.Size(992, 383)
         Me.SplitContainer2.SplitterDistance = 225
         Me.SplitContainer2.TabIndex = 0
+        '
+        'Inter_unit_Purchk
+        '
+        Me.Inter_unit_Purchk.Location = New System.Drawing.Point(912, 6)
+        Me.Inter_unit_Purchk.Name = "Inter_unit_Purchk"
+        Me.Inter_unit_Purchk.Size = New System.Drawing.Size(115, 18)
+        Me.Inter_unit_Purchk.TabIndex = 1485
+        Me.Inter_unit_Purchk.Text = "Inter Unit Purchase"
         '
         'chkSkipPurchaseQc
         '
@@ -3282,14 +3290,6 @@ Partial Class frmGRN
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'Inter_unit_Purchk
-        '
-        Me.Inter_unit_Purchk.Location = New System.Drawing.Point(912, 6)
-        Me.Inter_unit_Purchk.Name = "Inter_unit_Purchk"
-        Me.Inter_unit_Purchk.Size = New System.Drawing.Size(115, 18)
-        Me.Inter_unit_Purchk.TabIndex = 1485
-        Me.Inter_unit_Purchk.Text = "Inter Unit Purchase"
-        '
         'frmGRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3315,6 +3315,7 @@ Partial Class frmGRN
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipPurchaseQc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txt_transporterdocbility, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3498,7 +3499,6 @@ Partial Class frmGRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

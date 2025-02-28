@@ -15708,7 +15708,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_SALARY", coll, "unique (EMP_CODE,REVISION_NO)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_SALARY", coll, "unique (EMP_CODE,REVISION_NO)", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("EMP_SAL_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_EMPLOYEE_SALARY(EMP_SAL_CODE)")
@@ -18761,6 +18761,7 @@ Public Class clsCreateAllTable
             coll.Add("Online_Transaction_ID", "varchar(50) NULL")
             coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
             coll.Add("Against_ECollect", "integer NULL")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -28514,6 +28515,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_VSP_Asset_Lost", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Saving", "INTEGER NULL")
             coll.Add("TDS_Provision", "INTEGER not null default 0")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, False, "", "Payment_No", "Payment_Date", True)
             '' PJC tables ends here
 
