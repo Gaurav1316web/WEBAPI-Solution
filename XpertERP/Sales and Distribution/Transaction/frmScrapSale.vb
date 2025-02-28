@@ -2198,6 +2198,12 @@ Public Class frmScrapSale
                 Inter_unit_salechk.Focus()
                 Return False
             End If
+        Else
+            If Inter_unit_salechk.Checked Then
+                common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or uncheck interunit checkbox")
+                Inter_unit_salechk.Focus()
+                Return False
+            End If
         End If
 
         'If Inter_unit_salechk.Checked Then
