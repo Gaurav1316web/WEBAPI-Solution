@@ -540,7 +540,7 @@ Public Class frmOutputEntry
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "Document_No", "TSPL_OUTPUT_ENTRY", "")
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "Doc_Code", "TSPL_OUTPUT_ENTRY")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

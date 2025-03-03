@@ -80,13 +80,25 @@ Public Class clsERPFuncationality
             strLocatinSegmentCode = strLocationCode
         Else
             If clsCommon.myLen(strLocationCode) > 0 Then
-                If isLocationCodeisSegment = False Then
-                    qry = "select 1 from TSPL_LOCATION_MASTER where Location_Code = '" + strLocationCode + "'"
-                    dt = clsDBFuncationality.GetDataTable(qry, trans)
-                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        Throw New Exception(strLocationCode + " is not a Location ")
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    If isLocationCodeisSegment = False And isLocationCodeisMCC = False And isLocationCodeisRoute = False And isLocationCodeisState = False Then
+                        qry = "select 1 from TSPL_LOCATION_MASTER where Location_Code = '" + strLocationCode + "'"
+                        dt = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            Throw New Exception(strLocationCode + " is not a Location ")
+                        End If
+                        strLocatinSegmentCode = strLocationCode
+                    Else
+                        If InStr(strLocationCode, ",") > 0 Then
+                            strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code FROM TSPL_LOCATION_MASTER WHERE Location_Code IN (" + strLocationCode + ")", trans))
+                        Else
+                            strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + strLocationCode + "'", trans))
+
+                        End If
+                        If clsCommon.myLen(strLocatinSegmentCode) <= 0 Then
+                            Throw New Exception("Location Segment code Not found for Location :" + strLocationCode)
+                        End If
                     End If
-                    strLocatinSegmentCode = strLocationCode
                 Else
                     If InStr(strLocationCode, ",") > 0 Then
                         strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code FROM TSPL_LOCATION_MASTER WHERE Location_Code IN (" + strLocationCode + ")", trans))
@@ -204,7 +216,7 @@ Public Class clsERPFuncationality
             If clsCommon.myLen(strLocatinSegmentCode) > 0 Then
                 If isLocationCodeisState Then
                     strException += "State - " + strLocatinSegmentCode + Environment.NewLine
-                ElseIf (Not isLocationCodeisSegment And Not isLocationCodeisRoute And Not isLocationCodeisMCC) And clsCommon.myLen(strLocationCode) > 0 Then
+                ElseIf (Not isLocationCodeisSegment And Not isLocationCodeisRoute And Not isLocationCodeisMCC) And clsCommon.myLen(strLocationCode) > 0 AndAlso objCommonVar.ApplyLocationWisePrefix Then
                     strException += " Location - " + strLocationCode + Environment.NewLine
                 Else
                     strException += "Segment Location - " + strLocatinSegmentCode + Environment.NewLine
