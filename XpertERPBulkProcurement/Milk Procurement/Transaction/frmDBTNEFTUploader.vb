@@ -364,6 +364,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 gv.Columns(ii).FormatString = ""
                 gv.Columns(ii).BestFit()
             Next
+            gv.Columns("PK_Id").IsVisible = False
             For ii As Integer = 0 To dtPerforma.Rows.Count - 1
                 If clsCommon.CompairString(gv.Name, "gvFarmer") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
@@ -623,7 +624,7 @@ where 2=2 "
         End Try
     End Sub
     Function GetQry(ByVal TableName As String, ByVal GrpByFarmer As Boolean) As String
-        Dim qry As String = "Select " + TableName + ".SNo as [" + clsDBTNEFTPerforma.colSlNo + "]," + TableName + ".Against_MP_Incentive_TR AS [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "]," + TableName + ".VLC_Uploader_Code AS [" + clsDBTNEFTPerforma.colSociety + "]
+        Dim qry As String = "Select  " + TableName + ".PK_Id, " + TableName + ".SNo as [" + clsDBTNEFTPerforma.colSlNo + "]," + TableName + ".Against_MP_Incentive_TR AS [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "]," + TableName + ".VLC_Uploader_Code AS [" + clsDBTNEFTPerforma.colSociety + "]
                 ," + TableName + ".MP_Uploader_Code AS [" + clsDBTNEFTPerforma.colMPUploaderCode + "]"
 
         'If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
@@ -644,9 +645,9 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VLC_MA
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
 where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
         If GrpByFarmer Then
-            qry = "select ROW_NUMBER() OVER (ORDER BY [" + clsDBTNEFTPerforma.colFarmerCode + "]) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + qry + ")xx group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
+            qry = "select min(PK_Id) as PK_Id,ROW_NUMBER() OVER (ORDER BY [" + clsDBTNEFTPerforma.colFarmerCode + "]) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + qry + ")xx group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
         End If
-        Dim strMain As String = "Select "
+        Dim strMain As String = "Select PK_Id,"
         For ii As Integer = 0 To dtPerforma.Rows.Count - 1
             If GrpByFarmer Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
