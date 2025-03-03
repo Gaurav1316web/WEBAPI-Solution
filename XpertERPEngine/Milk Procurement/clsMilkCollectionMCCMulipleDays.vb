@@ -77,7 +77,7 @@ Public Class clsMilkCollectionMCCMulipleDays
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsMilkCollectionMCCMulipleDaysDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -158,6 +158,7 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)
@@ -309,7 +310,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_N
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)

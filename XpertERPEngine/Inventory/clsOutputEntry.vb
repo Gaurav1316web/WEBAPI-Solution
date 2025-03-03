@@ -75,6 +75,8 @@ Public Class clsOutputEntry
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OUTPUT_ENTRY", OMInsertOrUpdate.Update, "TSPL_OUTPUT_ENTRY.Doc_Code='" + obj.Doc_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_OUTPUT_ENTRY", "Doc_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -173,6 +175,7 @@ Public Class clsOutputEntry
             '    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Doc_Date, "Asset Account Change, Against Acquisition Code:  " & obj.Acquisition_Code, "AQ-AC", "Asset Account Change", strDocNo, "Asset Account Change", "V", strDocNo, "Asset Account Change", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             'End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_OUTPUT_ENTRY", "Doc_Code", trans)
 
             qry = "Update TSPL_OUTPUT_ENTRY set Status=1, Posted_Date='" + clsCommon.GetPrintDate(dtPostDate, "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Doc_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -310,6 +313,9 @@ Public Class clsOutputEntry
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_OUTPUT_ENTRY", "Doc_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_OUTPUT_ENTRY", "Doc_Code", trans)
 
                 qry = "delete from TSPL_OUTPUT_ENTRY where Doc_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

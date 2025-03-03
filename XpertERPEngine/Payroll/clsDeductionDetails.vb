@@ -201,6 +201,8 @@ Public Class clsDeductionDetails
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DEDUCTION", "DEDUCTION_CODE", "TSPL_DEDUCTION_DETAIL", "DEDUCTION_CODE", Nothing)
+
             Dim qry As String = "Update TSPL_DEDUCTION set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DEDUCTION_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception

@@ -1777,6 +1777,7 @@ where 2=2 "
                         If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                             Throw New Exception("Please Fill at list one Item")
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
                         If (obj.SaveData(obj, True, trans)) = False Then
                             trans.Rollback()
                         End If

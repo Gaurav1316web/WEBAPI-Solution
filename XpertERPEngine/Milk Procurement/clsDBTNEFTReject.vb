@@ -102,6 +102,9 @@ Public Class clsDBTNEFTReject
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
             Dim qry As String = ""
             qry = "delete from TSPL_DBT_NEFT_REJECT_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -136,6 +139,8 @@ Public Class clsDBTNEFTReject
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
