@@ -23,12 +23,15 @@ Partial Class FrmARInvoiceEntry
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmARInvoiceEntry))
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.RadLabel7 = New Telerik.WinControls.UI.RadLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -130,6 +133,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintServiceInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
@@ -159,13 +163,15 @@ Partial Class FrmARInvoiceEntry
         Me.rmiOPInvoiceForTCS = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -261,6 +267,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintServiceInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -271,7 +278,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlLocation.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -298,7 +305,7 @@ Partial Class FrmARInvoiceEntry
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1070, 455)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1102, 455)
         Me.SplitContainer1.SplitterDistance = 416
         Me.SplitContainer1.TabIndex = 1
         '
@@ -315,7 +322,7 @@ Partial Class FrmARInvoiceEntry
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1070, 416)
+        Me.RadPageView1.Size = New System.Drawing.Size(1102, 416)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -323,6 +330,7 @@ Partial Class FrmARInvoiceEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.pnlLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.txtDataAndTimeSelection)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
@@ -374,14 +382,59 @@ Partial Class FrmARInvoiceEntry
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(68.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1049, 370)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1081, 370)
         Me.RadPageViewPage1.Text = "Document"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(214, 3)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(267, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(89, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
+        '
+        'RadLabel7
+        '
+        Me.RadLabel7.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel7.Name = "RadLabel7"
+        Me.RadLabel7.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel7.TabIndex = 12145
+        Me.RadLabel7.Text = "Location"
         '
         'MyLabel10
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(287, 157)
+        Me.MyLabel10.Location = New System.Drawing.Point(311, 157)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel10.TabIndex = 176
@@ -401,7 +454,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtDataAndTimeSelection.IsSourceFromTable = False
         Me.txtDataAndTimeSelection.IsSourceFromValueList = False
         Me.txtDataAndTimeSelection.IsUnique = False
-        Me.txtDataAndTimeSelection.Location = New System.Drawing.Point(374, 156)
+        Me.txtDataAndTimeSelection.Location = New System.Drawing.Point(393, 156)
         Me.txtDataAndTimeSelection.MendatroryField = False
         Me.txtDataAndTimeSelection.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDataAndTimeSelection.MyLinkLable1 = Nothing
@@ -440,7 +493,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtTapalNo.IsSourceFromTable = False
         Me.txtTapalNo.IsSourceFromValueList = False
         Me.txtTapalNo.IsUnique = False
-        Me.txtTapalNo.Location = New System.Drawing.Point(90, 156)
+        Me.txtTapalNo.Location = New System.Drawing.Point(115, 156)
         Me.txtTapalNo.MendatroryField = False
         Me.txtTapalNo.MyLinkLable1 = Nothing
         Me.txtTapalNo.MyLinkLable2 = Nothing
@@ -453,7 +506,7 @@ Partial Class FrmARInvoiceEntry
         '
         'chkAgainstServiceInvoice
         '
-        Me.chkAgainstServiceInvoice.Location = New System.Drawing.Point(842, 108)
+        Me.chkAgainstServiceInvoice.Location = New System.Drawing.Point(869, 108)
         Me.chkAgainstServiceInvoice.Name = "chkAgainstServiceInvoice"
         Me.chkAgainstServiceInvoice.Size = New System.Drawing.Size(135, 18)
         Me.chkAgainstServiceInvoice.TabIndex = 172
@@ -463,7 +516,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.Panel2.Controls.Add(Me.txtSercurityReceiptNo)
         Me.Panel2.Controls.Add(Me.MyLabel8)
-        Me.Panel2.Location = New System.Drawing.Point(732, 129)
+        Me.Panel2.Location = New System.Drawing.Point(759, 129)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(317, 24)
         Me.Panel2.TabIndex = 171
@@ -507,7 +560,7 @@ Partial Class FrmARInvoiceEntry
         '
         'chkAgainstSecurityReceiptNo
         '
-        Me.chkAgainstSecurityReceiptNo.Location = New System.Drawing.Point(732, 109)
+        Me.chkAgainstSecurityReceiptNo.Location = New System.Drawing.Point(759, 109)
         Me.chkAgainstSecurityReceiptNo.Name = "chkAgainstSecurityReceiptNo"
         Me.chkAgainstSecurityReceiptNo.Size = New System.Drawing.Size(100, 18)
         Me.chkAgainstSecurityReceiptNo.TabIndex = 169
@@ -525,7 +578,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtServiceVisitCode.IsSourceFromTable = False
         Me.txtServiceVisitCode.IsSourceFromValueList = False
         Me.txtServiceVisitCode.IsUnique = False
-        Me.txtServiceVisitCode.Location = New System.Drawing.Point(842, 66)
+        Me.txtServiceVisitCode.Location = New System.Drawing.Point(869, 66)
         Me.txtServiceVisitCode.MaxLength = 30
         Me.txtServiceVisitCode.MendatroryField = False
         Me.txtServiceVisitCode.MyLinkLable1 = Nothing
@@ -549,7 +602,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtVCGNo.IsSourceFromTable = False
         Me.txtVCGNo.IsSourceFromValueList = False
         Me.txtVCGNo.IsUnique = False
-        Me.txtVCGNo.Location = New System.Drawing.Point(842, 43)
+        Me.txtVCGNo.Location = New System.Drawing.Point(869, 43)
         Me.txtVCGNo.MaxLength = 30
         Me.txtVCGNo.MendatroryField = False
         Me.txtVCGNo.MyLinkLable1 = Nothing
@@ -573,7 +626,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtSaleReturnNo.IsSourceFromTable = False
         Me.txtSaleReturnNo.IsSourceFromValueList = False
         Me.txtSaleReturnNo.IsUnique = False
-        Me.txtSaleReturnNo.Location = New System.Drawing.Point(842, 23)
+        Me.txtSaleReturnNo.Location = New System.Drawing.Point(869, 23)
         Me.txtSaleReturnNo.MaxLength = 30
         Me.txtSaleReturnNo.MendatroryField = False
         Me.txtSaleReturnNo.MyLinkLable1 = Nothing
@@ -597,7 +650,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtSaleInvoice.IsSourceFromTable = False
         Me.txtSaleInvoice.IsSourceFromValueList = False
         Me.txtSaleInvoice.IsUnique = False
-        Me.txtSaleInvoice.Location = New System.Drawing.Point(842, 1)
+        Me.txtSaleInvoice.Location = New System.Drawing.Point(869, 1)
         Me.txtSaleInvoice.MaxLength = 30
         Me.txtSaleInvoice.MendatroryField = False
         Me.txtSaleInvoice.MyLinkLable1 = Nothing
@@ -613,7 +666,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(732, 68)
+        Me.MyLabel7.Location = New System.Drawing.Point(759, 68)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(86, 16)
         Me.MyLabel7.TabIndex = 166
@@ -634,7 +687,7 @@ Partial Class FrmARInvoiceEntry
         Me.ddlSecDepositType.IsSourceFromTable = False
         Me.ddlSecDepositType.IsSourceFromValueList = False
         Me.ddlSecDepositType.IsUnique = False
-        Me.ddlSecDepositType.Location = New System.Drawing.Point(842, 87)
+        Me.ddlSecDepositType.Location = New System.Drawing.Point(869, 87)
         Me.ddlSecDepositType.MendatroryField = False
         Me.ddlSecDepositType.MyLinkLable1 = Nothing
         Me.ddlSecDepositType.MyLinkLable2 = Nothing
@@ -647,7 +700,7 @@ Partial Class FrmARInvoiceEntry
         '
         'chkSecurityDposit
         '
-        Me.chkSecurityDposit.Location = New System.Drawing.Point(732, 88)
+        Me.chkSecurityDposit.Location = New System.Drawing.Point(759, 88)
         Me.chkSecurityDposit.Name = "chkSecurityDposit"
         Me.chkSecurityDposit.Size = New System.Drawing.Size(101, 18)
         Me.chkSecurityDposit.TabIndex = 163
@@ -657,7 +710,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(732, 46)
+        Me.MyLabel3.Location = New System.Drawing.Point(759, 46)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(55, 16)
         Me.MyLabel3.TabIndex = 162
@@ -669,7 +722,7 @@ Partial Class FrmARInvoiceEntry
         Me.LblLocDesp.BorderVisible = True
         Me.LblLocDesp.FieldName = Nothing
         Me.LblLocDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblLocDesp.Location = New System.Drawing.Point(237, 25)
+        Me.LblLocDesp.Location = New System.Drawing.Point(264, 25)
         Me.LblLocDesp.Name = "LblLocDesp"
         Me.LblLocDesp.Size = New System.Drawing.Size(492, 18)
         Me.LblLocDesp.TabIndex = 160
@@ -679,7 +732,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(732, 23)
+        Me.MyLabel6.Location = New System.Drawing.Point(759, 23)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(84, 16)
         Me.MyLabel6.TabIndex = 159
@@ -689,7 +742,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(732, 1)
+        Me.MyLabel5.Location = New System.Drawing.Point(759, 1)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(86, 16)
         Me.MyLabel5.TabIndex = 158
@@ -700,7 +753,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblReturnType.Enabled = False
         Me.lblReturnType.FieldName = Nothing
         Me.lblReturnType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReturnType.Location = New System.Drawing.Point(506, 133)
+        Me.lblReturnType.Location = New System.Drawing.Point(533, 133)
         Me.lblReturnType.Name = "lblReturnType"
         Me.lblReturnType.Size = New System.Drawing.Size(92, 16)
         Me.lblReturnType.TabIndex = 156
@@ -723,7 +776,7 @@ Partial Class FrmARInvoiceEntry
         Me.ddlReturnType.IsSourceFromTable = False
         Me.ddlReturnType.IsSourceFromValueList = False
         Me.ddlReturnType.IsUnique = False
-        Me.ddlReturnType.Location = New System.Drawing.Point(608, 131)
+        Me.ddlReturnType.Location = New System.Drawing.Point(633, 131)
         Me.ddlReturnType.MendatroryField = True
         Me.ddlReturnType.MyLinkLable1 = Me.lblReturnType
         Me.ddlReturnType.MyLinkLable2 = Nothing
@@ -742,7 +795,7 @@ Partial Class FrmARInvoiceEntry
         Me.pnlPCJ.Controls.Add(Me.lblProject)
         Me.pnlPCJ.Location = New System.Drawing.Point(3, 129)
         Me.pnlPCJ.Name = "pnlPCJ"
-        Me.pnlPCJ.Size = New System.Drawing.Size(501, 23)
+        Me.pnlPCJ.Size = New System.Drawing.Size(536, 23)
         Me.pnlPCJ.TabIndex = 11
         '
         'MyLabel4
@@ -766,7 +819,7 @@ Partial Class FrmARInvoiceEntry
         Me.fndProject.IsSourceFromTable = False
         Me.fndProject.IsSourceFromValueList = False
         Me.fndProject.IsUnique = False
-        Me.fndProject.Location = New System.Drawing.Point(88, 3)
+        Me.fndProject.Location = New System.Drawing.Point(113, 3)
         Me.fndProject.MendatroryField = False
         Me.fndProject.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndProject.MyLinkLable1 = Me.MyLabel4
@@ -787,7 +840,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblProject.BorderVisible = True
         Me.lblProject.FieldName = Nothing
         Me.lblProject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProject.Location = New System.Drawing.Point(237, 3)
+        Me.lblProject.Location = New System.Drawing.Point(262, 3)
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(264, 18)
         Me.lblProject.TabIndex = 1
@@ -814,7 +867,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtlocation.IsSourceFromTable = False
         Me.txtlocation.IsSourceFromValueList = False
         Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(90, 25)
+        Me.txtlocation.Location = New System.Drawing.Point(117, 25)
         Me.txtlocation.MendatroryField = True
         Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtlocation.MyLinkLable1 = Nothing
@@ -833,15 +886,15 @@ Partial Class FrmARInvoiceEntry
         '
         Me.RadLabel3.Location = New System.Drawing.Point(3, 25)
         Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel3.Size = New System.Drawing.Size(96, 18)
         Me.RadLabel3.TabIndex = 24
-        Me.RadLabel3.Text = "Location"
+        Me.RadLabel3.Text = "Location Segment"
         '
         'btnDrillDown
         '
         Me.btnDrillDown.Image = CType(resources.GetObject("btnDrillDown.Image"), System.Drawing.Image)
         Me.btnDrillDown.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnDrillDown.Location = New System.Drawing.Point(376, 1)
+        Me.btnDrillDown.Location = New System.Drawing.Point(403, 1)
         Me.btnDrillDown.Name = "btnDrillDown"
         Me.btnDrillDown.Size = New System.Drawing.Size(20, 20)
         Me.btnDrillDown.TabIndex = 2
@@ -857,7 +910,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtACSet.IsSourceFromTable = False
         Me.txtACSet.IsSourceFromValueList = False
         Me.txtACSet.IsUnique = False
-        Me.txtACSet.Location = New System.Drawing.Point(608, 88)
+        Me.txtACSet.Location = New System.Drawing.Point(633, 88)
         Me.txtACSet.MendatroryField = False
         Me.txtACSet.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtACSet.MyLinkLable1 = Nothing
@@ -883,7 +936,7 @@ Partial Class FrmARInvoiceEntry
         Me.TxtCustomer.IsSourceFromTable = False
         Me.TxtCustomer.IsSourceFromValueList = False
         Me.TxtCustomer.IsUnique = False
-        Me.TxtCustomer.Location = New System.Drawing.Point(90, 67)
+        Me.TxtCustomer.Location = New System.Drawing.Point(117, 67)
         Me.TxtCustomer.MendatroryField = True
         Me.TxtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtCustomer.MyLinkLable1 = Nothing
@@ -909,7 +962,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtRefDocNo.IsSourceFromTable = False
         Me.txtRefDocNo.IsSourceFromValueList = False
         Me.txtRefDocNo.IsUnique = False
-        Me.txtRefDocNo.Location = New System.Drawing.Point(90, 109)
+        Me.txtRefDocNo.Location = New System.Drawing.Point(117, 109)
         Me.txtRefDocNo.MendatroryField = False
         Me.txtRefDocNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRefDocNo.MyLinkLable1 = Nothing
@@ -927,7 +980,7 @@ Partial Class FrmARInvoiceEntry
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(608, -1)
+        Me.UsLock1.Location = New System.Drawing.Point(635, -1)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(118, 20)
@@ -948,7 +1001,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.Location = New System.Drawing.Point(237, 110)
+        Me.RadLabel12.Location = New System.Drawing.Point(264, 110)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(100, 16)
         Me.RadLabel12.TabIndex = 17
@@ -961,7 +1014,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(341, 109)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(368, 109)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(160, 18)
         Me.lblTotRAmt1.TabIndex = 14
@@ -979,7 +1032,7 @@ Partial Class FrmARInvoiceEntry
         Me.RadGroupBox2.Location = New System.Drawing.Point(1, 179)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1047, 190)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1079, 190)
         Me.RadGroupBox2.TabIndex = 12
         Me.RadGroupBox2.Text = "Details"
         '
@@ -998,13 +1051,13 @@ Partial Class FrmARInvoiceEntry
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1027, 160)
+        Me.gv1.Size = New System.Drawing.Size(1059, 160)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1013,7 +1066,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.RadLabel8.FieldName = Nothing
         Me.RadLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel8.Location = New System.Drawing.Point(506, 110)
+        Me.RadLabel8.Location = New System.Drawing.Point(533, 110)
         Me.RadLabel8.Name = "RadLabel8"
         Me.RadLabel8.Size = New System.Drawing.Size(53, 16)
         Me.RadLabel8.TabIndex = 19
@@ -1023,7 +1076,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(506, 89)
+        Me.RadLabel6.Location = New System.Drawing.Point(533, 89)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(67, 16)
         Me.RadLabel6.TabIndex = 20
@@ -1033,7 +1086,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(237, 89)
+        Me.RadLabel5.Location = New System.Drawing.Point(264, 89)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(86, 16)
         Me.RadLabel5.TabIndex = 10
@@ -1052,7 +1105,7 @@ Partial Class FrmARInvoiceEntry
         'chkOnHold
         '
         Me.chkOnHold.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkOnHold.Location = New System.Drawing.Point(399, 3)
+        Me.chkOnHold.Location = New System.Drawing.Point(426, 3)
         Me.chkOnHold.Name = "chkOnHold"
         Me.chkOnHold.Size = New System.Drawing.Size(62, 16)
         Me.chkOnHold.TabIndex = 3
@@ -1064,7 +1117,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblVendorName.BorderVisible = True
         Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVendorName.Location = New System.Drawing.Point(237, 67)
+        Me.lblVendorName.Location = New System.Drawing.Point(264, 67)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(492, 18)
         Me.lblVendorName.TabIndex = 8
@@ -1094,7 +1147,7 @@ Partial Class FrmARInvoiceEntry
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(356, 1)
+        Me.btnAddNew.Location = New System.Drawing.Point(383, 1)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 1
@@ -1102,7 +1155,7 @@ Partial Class FrmARInvoiceEntry
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(90, 1)
+        Me.txtDocNo.Location = New System.Drawing.Point(117, 1)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -1128,7 +1181,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtOrderNo.IsSourceFromTable = False
         Me.txtOrderNo.IsSourceFromValueList = False
         Me.txtOrderNo.IsUnique = False
-        Me.txtOrderNo.Location = New System.Drawing.Point(608, 109)
+        Me.txtOrderNo.Location = New System.Drawing.Point(633, 109)
         Me.txtOrderNo.MaxLength = 30
         Me.txtOrderNo.MendatroryField = False
         Me.txtOrderNo.MyLinkLable1 = Nothing
@@ -1157,7 +1210,7 @@ Partial Class FrmARInvoiceEntry
         Me.cboDocType.IsSourceFromTable = False
         Me.cboDocType.IsSourceFromValueList = False
         Me.cboDocType.IsUnique = False
-        Me.cboDocType.Location = New System.Drawing.Point(341, 88)
+        Me.cboDocType.Location = New System.Drawing.Point(368, 88)
         Me.cboDocType.MendatroryField = False
         Me.cboDocType.MyLinkLable1 = Nothing
         Me.cboDocType.MyLinkLable2 = Nothing
@@ -1183,7 +1236,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(90, 88)
+        Me.txtDate.Location = New System.Drawing.Point(117, 88)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Nothing
@@ -1211,7 +1264,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(90, 46)
+        Me.txtDesc.Location = New System.Drawing.Point(117, 46)
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Nothing
         Me.txtDesc.MyLinkLable2 = Nothing
@@ -1432,7 +1485,7 @@ Partial Class FrmARInvoiceEntry
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1506,7 +1559,7 @@ Partial Class FrmARInvoiceEntry
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1886,6 +1939,15 @@ Partial Class FrmARInvoiceEntry
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(698, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
+        '
         'butCostCenterAndHirerachy_Update_AfterPost
         '
         Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1956,7 +2018,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(996, 6)
+        Me.btnClose.Location = New System.Drawing.Point(1028, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 4
@@ -2075,7 +2137,7 @@ Partial Class FrmARInvoiceEntry
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1070, 455)
+        Me.Panel1.Size = New System.Drawing.Size(1102, 455)
         Me.Panel1.TabIndex = 3
         '
         'RadMenu1
@@ -2083,23 +2145,24 @@ Partial Class FrmARInvoiceEntry
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1070, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1102, 20)
         Me.RadMenu1.TabIndex = 1
         '
-        'btnHistory
+        'pnlLocation
         '
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(698, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
-        Me.btnHistory.TabIndex = 10
-        Me.btnHistory.Text = "History"
+        Me.pnlLocation.Controls.Add(Me.RadLabel7)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(543, 154)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(529, 23)
+        Me.pnlLocation.TabIndex = 12147
         '
         'FrmARInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1070, 475)
+        Me.ClientSize = New System.Drawing.Size(1102, 475)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -2116,6 +2179,8 @@ Partial Class FrmARInvoiceEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2219,6 +2284,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintServiceInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2229,7 +2295,8 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2369,5 +2436,9 @@ Partial Class FrmARInvoiceEntry
     Friend WithEvents rmiOPInvoiceForTCS As RadMenuItem
     Friend WithEvents rmiExportOPInvoiceForTCS As RadMenuItem
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
+    Friend WithEvents RadLabel7 As RadLabel
+    Friend WithEvents pnlLocation As Panel
 End Class
 
