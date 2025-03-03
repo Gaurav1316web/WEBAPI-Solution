@@ -65,6 +65,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             End If
             clsMilkCollectionDCSMCCDetail.SaveData(obj.Document_No, obj.ArrMCC, trans)
             clsMilkCollectionDCSDetail.SaveData(obj.Document_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -135,6 +137,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
+
             HistoryUpdate(strCode, trans)
 
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + obj.Document_No + "'", trans)
@@ -194,11 +198,12 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     Throw New Exception("Please Set Suspence DCS")
                 End If
+                HistoryUpdate(strCode, trans)
                 qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence_VLC_Code=VLC_Code,VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' where Document_No='" + obj.Document_No + "' and Suspence=1 "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 'qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' where Document_No='" + +obj.Document_No + "' and Suspence=1 "
                 'clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                HistoryUpdate(strCode, trans)
+                ''HistoryUpdate(strCode, trans)
                 obj = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
             End If
 

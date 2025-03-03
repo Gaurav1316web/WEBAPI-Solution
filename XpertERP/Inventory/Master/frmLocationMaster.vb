@@ -849,6 +849,7 @@ Public Class frmLocationMaster
             End If
             obj.Is_Registered = IIf(chkregistered.Checked = True, 1, 0)
             obj.IsMainPlant = IIf(chkIsMainPlant.Checked = True, 1, 0)
+            obj.IsProduction = IIf(chkIsProduction.Checked = True, 1, 0)
 
             obj.Arr = New List(Of clsLocationWiseTax)
             For ii As Integer = 0 To gvPurchaseTaxLocal.Rows.Count - 1
@@ -1090,7 +1091,7 @@ Public Class frmLocationMaster
             TxtMultiLocation.arrValueMember = arrlist
             TxtMultiLocation.arrDispalyMember = arrlist
 
-            dr = clsDBFuncationality.GetDataTable("select  Location_Desc,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2,Add3,Add4,TSPL_LOCATION_MASTER.City_Code as City_Name,State,TSPL_MCC_MAster.Pin_code ,Country ,TSPL_LOCATION_MASTER.telphone,TSPL_LOCATION_MASTER.Email ,Location_Type ,Loc_Status ,Status_date,Excisable ,Loc_Segment_Code ,Type ,Purchase_Tax_Group ,Sales_Tax_Group ,Ecc_Number ,Registration_Number ,Commissionerate ,Range_Code ,Range_Name ,Range_Address ,Division_Code ,Division_Name ,Division_Address ,TIN_No ,TAN_No ,TCAN_No ,Service_Tax_Reg_No,DutyPaid, Purchase_Tax_GroupIS, Sales_Tax_GroupIS, Stock_Transfer_Filled_Ac, Stock_Transfer_Empty_Ac,GIT_Type,GIT_location, CST_No, Phone1, Phone2,vendor_code,Location_Category,Rejected_Type,Rejected_Location,CSA_Type,Cust_Code,Category_Struct_Code,Is_Section,Is_Sub_Location,Section_Code,Main_Location_Code,CSA_Commision_Rate,CSA_Commision_Type,Commision_Acc,stock_transfer_ac,Loss_ac,CSA_Commission_RS_PERS,Is_Consumption_Location,HoAdd1,HoAdd2,NearestCity,ESIC_NO,PF_NO,is_Jobwork,Jobwork_Vendor,Jobwork_Item,DairyDispatchFromDO,tspl_location_master.Loc_Short_Name,tspl_location_master.GSTNO,tspl_location_master.GSTEntity,tspl_location_master.GSTBlank,tspl_location_master.GSTDegit,tspl_location_master.Registered,isnull(UseInJobWork,0) as UseInJobWork,isnull(TSPL_LOCATION_MASTER.Silo_Capacity,0) as Silo_Capacity,isnull(TSPL_LOCATION_MASTER.Is_Insurance,0) as Is_Insurance,isnull(TSPL_LOCATION_MASTER.InsuranceNo,'') as InsuranceNo,TSPL_LOCATION_MASTER.InsuranceFromDate,TSPL_LOCATION_MASTER.InsuranceToDate,IsParlour,IsSubLocationWise,TSPL_LOCATION_MASTER.accountholdername, TSPL_LOCATION_MASTER.bankaccno, TSPL_LOCATION_MASTER.bankifsccode,TSPL_LOCATION_MASTER.BankUPI_ID,isnull(TSPL_LOCATION_MASTER.IsMainPlant,0) as IsMainPlant,TSPL_LOCATION_MASTER.MP_Collection_Running_Date,TSPL_LOCATION_MASTER.Uploader_No,TSPL_LOCATION_MASTER.Bank,TSPL_LOCATION_MASTER.Branch,TSPL_LOCATION_MASTER.ACType,No_Of_Shift,TSPL_LOCATION_MASTER.PAN_NO ,QC_IS,CMA_CML,GradeType,ValidUpto,QCStartDate,Manager_Name,Manager_Destination,Remarks,Target from TSPL_LOCATION_MASTER left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code where TSPL_LOCATION_MASTER.Location_Code='" + fndLocation.Value + "'")
+            dr = clsDBFuncationality.GetDataTable("select Location_Desc,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2,Add3,Add4,TSPL_LOCATION_MASTER.City_Code as City_Name,State,TSPL_MCC_MAster.Pin_code ,Country ,TSPL_LOCATION_MASTER.telphone,TSPL_LOCATION_MASTER.Email ,Location_Type ,Loc_Status ,Status_date,Excisable ,Loc_Segment_Code ,Type ,Purchase_Tax_Group ,Sales_Tax_Group ,Ecc_Number ,Registration_Number ,Commissionerate ,Range_Code ,Range_Name ,Range_Address ,Division_Code ,Division_Name ,Division_Address ,TIN_No ,TAN_No ,TCAN_No ,Service_Tax_Reg_No,DutyPaid, Purchase_Tax_GroupIS, Sales_Tax_GroupIS, Stock_Transfer_Filled_Ac, Stock_Transfer_Empty_Ac,GIT_Type,GIT_location, CST_No, Phone1, Phone2,vendor_code,Location_Category,Rejected_Type,Rejected_Location,CSA_Type,Cust_Code,Category_Struct_Code,Is_Section,Is_Sub_Location,Section_Code,Main_Location_Code,CSA_Commision_Rate,CSA_Commision_Type,Commision_Acc,stock_transfer_ac,Loss_ac,CSA_Commission_RS_PERS,Is_Consumption_Location,HoAdd1,HoAdd2,NearestCity,ESIC_NO,PF_NO,is_Jobwork,Jobwork_Vendor,Jobwork_Item,DairyDispatchFromDO,tspl_location_master.Loc_Short_Name,tspl_location_master.GSTNO,tspl_location_master.GSTEntity,tspl_location_master.GSTBlank,tspl_location_master.GSTDegit,tspl_location_master.Registered,isnull(UseInJobWork,0) as UseInJobWork,isnull(TSPL_LOCATION_MASTER.Silo_Capacity,0) as Silo_Capacity,isnull(TSPL_LOCATION_MASTER.Is_Insurance,0) as Is_Insurance,isnull(TSPL_LOCATION_MASTER.InsuranceNo,'') as InsuranceNo,TSPL_LOCATION_MASTER.InsuranceFromDate,TSPL_LOCATION_MASTER.InsuranceToDate,IsParlour,IsSubLocationWise,TSPL_LOCATION_MASTER.accountholdername, TSPL_LOCATION_MASTER.bankaccno, TSPL_LOCATION_MASTER.bankifsccode,TSPL_LOCATION_MASTER.BankUPI_ID,isnull(TSPL_LOCATION_MASTER.IsMainPlant,0) as IsMainPlant,TSPL_LOCATION_MASTER.MP_Collection_Running_Date,TSPL_LOCATION_MASTER.Uploader_No,TSPL_LOCATION_MASTER.Bank,TSPL_LOCATION_MASTER.Branch,TSPL_LOCATION_MASTER.ACType,No_Of_Shift,TSPL_LOCATION_MASTER.PAN_NO ,QC_IS,CMA_CML,GradeType,ValidUpto,QCStartDate,Manager_Name,Manager_Destination,Remarks,Target, IsProduction from TSPL_LOCATION_MASTER left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code where TSPL_LOCATION_MASTER.Location_Code='" + fndLocation.Value + "'")
             'obj=clsLocation.GetData()
             For Each row As DataRow In dr.Rows
                 isInsideLoadData = True
@@ -1165,6 +1166,7 @@ Public Class frmLocationMaster
                 txt_capacity.Text = clsCommon.myCdbl(row("Silo_Capacity"))
                 'Ticket- BHA/27/07/18-000198
                 chkIsMainPlant.Checked = IIf(clsCommon.myCstr(row("IsMainPlant")) = "1", True, False)
+                chkIsProduction.Checked = IIf(clsCommon.myCstr(row("IsProduction")) = "1", True, False)
                 isEdit = True
                 chk_HO.Checked = False
                 If clsCommon.CompairString(cmbloc_cate.SelectedValue, "HO") = CompairStringResult.Equal Then
@@ -1696,6 +1698,7 @@ Public Class frmLocationMaster
         txtBankIFSCCode.Text = ""
         txtBankUPI_Id.Text = ""
         chkIsMainPlant.Checked = False
+        chkIsProduction.Checked = False
         txtBank.Text = ""
         txtBranch.Text = ""
         txtACType.Text = ""

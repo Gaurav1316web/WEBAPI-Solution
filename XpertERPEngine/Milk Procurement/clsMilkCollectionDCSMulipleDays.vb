@@ -78,6 +78,8 @@ Public Class clsMilkCollectionDCSMulipleDays
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsMilkCollectionDCSMulipleDaysDetail.SaveData(obj.Document_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -155,6 +157,7 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)
@@ -375,6 +378,7 @@ where 2=2"
                     End If
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
             If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
                 For Each objSD As clsTemp In arrShiftDetail
                     Dim arrMCC As New ArrayList
@@ -382,6 +386,7 @@ where 2=2"
                     clsMilkShiftUploaderHead.DeleteCollectionBulk(objSD.C_Date, objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", arrMCC, True, trans)
                 Next
             End If
+
             If changeStatus Then
                 If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
                     For Each str As String In arrAllDoc
