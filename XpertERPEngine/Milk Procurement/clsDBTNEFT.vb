@@ -164,6 +164,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
 
             Dim qry As String = ""
             qry = "delete from TSPL_DBT_NEFT_DETAIL where Document_Code='" + strDocNo + "'"
@@ -215,6 +217,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
