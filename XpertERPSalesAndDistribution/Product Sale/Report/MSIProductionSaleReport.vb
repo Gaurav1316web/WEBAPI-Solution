@@ -77,16 +77,68 @@ Public Class MSIProductionSaleReport
                 FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
             End If
             Dim DailySalesrptqry As String = ""
+            Dim DailySalesrptperiodicallyqry As String = ""
             If rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
-
-            ElseIf rdbDispatch.IsChecked = True Then
-            DailySalesrptqry = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/1000 as Qty
+                DailySalesrptqry = "select sum(isnull(yy.qty,0)) qty from (
+                                    Select xx.DocDate,(XX.SaleQty-XX.ReturnQty)Qty from(select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as SaleQty,0 as ReturnQty
                                           from TSPL_SD_SHIPMENT_DETAIL
                                           left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
                                           left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                                           left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
                                           LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                DailySalesrptqry += " UNION ALL
+										    select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,0 as SaleQty,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as ReturnQty
+                                          from TSPL_SD_SALE_RETURN_DETAIL
+                                          left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
+                DailySalesrptqry += ")XX )yy"
+            ElseIf rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                DailySalesrptqry = "select sum(isnull(yy.qty,0)) qty from (
+                                    Select xx.DocDate,(XX.SaleQty-XX.ReturnQty)Qty from(select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as SaleQty,0 as ReturnQty
+                                          from TSPL_SD_SALE_INVOICE_DETAIL
+                                          left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                DailySalesrptqry += " UNION ALL
+										    select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,0 as SaleQty,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as ReturnQty
+                                          from TSPL_SD_SALE_RETURN_DETAIL
+                                          left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
+                DailySalesrptqry += ")XX )yy"
+            ElseIf rdbDispatch.IsChecked = True Then
+                DailySalesrptqry = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
+                                          from TSPL_SD_SHIPMENT_DETAIL
+                                          left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
@@ -94,13 +146,14 @@ Public Class MSIProductionSaleReport
                     DailySalesrptqry += "" + Stocktransferdispatch + ""
                 End If
             ElseIf rdbInvoice.IsChecked = True Then
-                DailySalesrptqry = "select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/1000 as Qty
+                DailySalesrptqry = "select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
                                           from TSPL_SD_SALE_INVOICE_DETAIL
                                           left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
                                           left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
                                           left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                                           LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
@@ -108,13 +161,14 @@ Public Class MSIProductionSaleReport
                     DailySalesrptqry += "" + stocktransferinvoice + ""
                 End If
             ElseIf rdbSaleReturn.IsChecked = True Then
-                DailySalesrptqry = "select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/1000 as Qty
+                DailySalesrptqry = "select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
                                           from TSPL_SD_SALE_RETURN_DETAIL
                                           left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                           left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
                                           left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
                                           LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
                                           where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
@@ -124,15 +178,109 @@ Public Class MSIProductionSaleReport
             'and FG_for_CF_RPT=1 "
             Dim dtsalesdaily As DataTable = clsDBFuncationality.GetDataTable(DailySalesrptqry)
 
-            Dim DailySalesrptperiodicallyqry As String = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/1000 as Qty
-                                                      from TSPL_SD_SHIPMENT_DETAIL
-                                                      left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-                                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-                                                      left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-                                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-                                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
-				                                      where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
-				                                      and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and FG_for_CF_RPT=1 "
+            If rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                DailySalesrptperiodicallyqry = "select sum(isnull(yy.qty,0)) qty from (
+                                    Select xx.DocDate,(XX.SaleQty-XX.ReturnQty)Qty from(select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as SaleQty,0 as ReturnQty
+                                          from TSPL_SD_SHIPMENT_DETAIL
+                                          left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                DailySalesrptperiodicallyqry += " UNION ALL
+										    select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,0 as SaleQty,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as ReturnQty
+                                          from TSPL_SD_SALE_RETURN_DETAIL
+                                          left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
+                DailySalesrptperiodicallyqry += ")XX )yy"
+            ElseIf rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                DailySalesrptperiodicallyqry = "select sum(isnull(yy.qty,0)) qty from (
+                                    Select xx.DocDate,(XX.SaleQty-XX.ReturnQty)Qty from(select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as SaleQty,0 as ReturnQty
+                                          from TSPL_SD_SALE_INVOICE_DETAIL
+                                          left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                DailySalesrptperiodicallyqry += " UNION ALL
+										    select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,0 as SaleQty,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as ReturnQty
+                                          from TSPL_SD_SALE_RETURN_DETAIL
+                                          left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
+                DailySalesrptperiodicallyqry += ")XX )yy"
+            ElseIf rdbDispatch.IsChecked = True Then
+                DailySalesrptperiodicallyqry = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
+                                          from TSPL_SD_SHIPMENT_DETAIL
+                                          left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                If rdbStockTransfer.IsChecked = True Then
+                    DailySalesrptperiodicallyqry += "" + Stocktransferdispatch + ""
+                End If
+            ElseIf rdbInvoice.IsChecked = True Then
+                DailySalesrptperiodicallyqry = "select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
+                                          from TSPL_SD_SALE_INVOICE_DETAIL
+                                          left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
+				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                If rdbStockTransfer.IsChecked = True Then
+                    DailySalesrptperiodicallyqry += "" + stocktransferinvoice + ""
+                End If
+            ElseIf rdbSaleReturn.IsChecked = True Then
+                DailySalesrptperiodicallyqry = "select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
+                                          from TSPL_SD_SALE_RETURN_DETAIL
+                                          left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                                          left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                                          where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                          and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
+            End If
+
             Dim dtsalesperiodically As DataTable = clsDBFuncationality.GetDataTable(DailySalesrptperiodicallyqry)
 
             Dim Inventoryreport As String = "select SUM(CASE WHEN INOUT='I' THEN 1 ELSE -1 END * stock_Qty)/1000 AS QTY from tspl_inventory_movement

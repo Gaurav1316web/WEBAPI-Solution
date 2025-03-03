@@ -8,6 +8,7 @@ Public Class FrmReceipttNew
 #Region "Variable"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isSettlementBankOnly As Boolean = False
+    Dim ApplyLocationWisePrefix As Boolean = False
     Public RcptType As String = Nothing
     Public strRcptNo As String = Nothing
     Dim inSideLoadData As Boolean = False
@@ -245,6 +246,15 @@ Public Class FrmReceipttNew
             Me.Close()
         End Try
         ''------------------------
+        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
+
+        If ApplyLocationWisePrefix Then
+            lblLocPrefix.Visible = True
+            txtLocationPrefix.Visible = True
+        Else
+            txtLocationPrefix.Visible = False
+            lblLocPrefix.Visible = False
+        End If
         isApplyBranchAccounting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, Nothing)) = 1, True, False)
         isCustomerFinderLocationWiseARReceipt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CustomerMasterFinderOnLocationwiseARReceipt, clsFixedParameterCode.CustomerMasterFinderOnLocationwiseARReceipt, Nothing)) = 1, True, False)
         isApplyCostCenter = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInARInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInARInvoiceEntry, Nothing)) = 1
@@ -821,6 +831,12 @@ Public Class FrmReceipttNew
             '    Return False
             'End If 
             '=================Added by Richa AGARWAL 8 nOV,2019
+            If ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
+            End If
             If clsCommon.myLen(txtEntrDesc.Text) <= 0 AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "Description can't be blank.", Me.Text)
                 txtEntrDesc.Focus()

@@ -22,14 +22,14 @@ Partial Class FrmPaymentNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -63,8 +63,10 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
-        Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
+        Me.pnlCform = New System.Windows.Forms.Panel()
+        Me.chkCForm = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.txtCFormInvNo = New common.UserControls.txtFinder()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtmulPI = New common.UserControls.txtMultiSelectFinder()
         Me.chkTDSProvision = New common.Controls.MyCheckBox()
@@ -206,11 +208,10 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.pnlCform = New System.Windows.Forms.Panel()
-        Me.chkCForm = New Telerik.WinControls.UI.RadCheckBox()
-        Me.MyLabel18 = New common.Controls.MyLabel()
-        Me.txtCFormInvNo = New common.UserControls.txtFinder()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
         Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -248,7 +249,9 @@ Partial Class FrmPaymentNew
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlCform.SuspendLayout()
+        CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -378,9 +381,8 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlCform.SuspendLayout()
-        CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -447,6 +449,7 @@ Partial Class FrmPaymentNew
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -943,10 +946,8 @@ Partial Class FrmPaymentNew
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtLocationPrefixName)
+        Me.RadGroupBox1.Controls.Add(Me.pnlLocation)
         Me.RadGroupBox1.Controls.Add(Me.pnlCform)
-        Me.RadGroupBox1.Controls.Add(Me.txtLocationPrefix)
-        Me.RadGroupBox1.Controls.Add(Me.RadLabel2)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel15)
         Me.RadGroupBox1.Controls.Add(Me.txtmulPI)
         Me.RadGroupBox1.Controls.Add(Me.chkTDSProvision)
@@ -1010,39 +1011,62 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Size = New System.Drawing.Size(1212, 228)
         Me.RadGroupBox1.TabIndex = 0
         '
-        'txtLocationPrefix
+        'pnlCform
         '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(94, 204)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(164, 17)
-        Me.txtLocationPrefix.TabIndex = 12140
-        Me.txtLocationPrefix.Value = ""
+        Me.pnlCform.Controls.Add(Me.chkCForm)
+        Me.pnlCform.Controls.Add(Me.MyLabel18)
+        Me.pnlCform.Controls.Add(Me.txtCFormInvNo)
+        Me.pnlCform.Location = New System.Drawing.Point(516, 41)
+        Me.pnlCform.Name = "pnlCform"
+        Me.pnlCform.Size = New System.Drawing.Size(291, 21)
+        Me.pnlCform.TabIndex = 12142
         '
-        'RadLabel2
+        'chkCForm
         '
-        Me.RadLabel2.Location = New System.Drawing.Point(6, 203)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel2.TabIndex = 12141
-        Me.RadLabel2.Text = "Location"
+        Me.chkCForm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkCForm.Location = New System.Drawing.Point(3, 4)
+        Me.chkCForm.Name = "chkCForm"
+        Me.chkCForm.Size = New System.Drawing.Size(96, 16)
+        Me.chkCForm.TabIndex = 0
+        Me.chkCForm.Text = "Against CForm"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel18.Location = New System.Drawing.Point(111, 3)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(42, 16)
+        Me.MyLabel18.TabIndex = 1
+        Me.MyLabel18.Text = "Inv. No"
+        Me.MyLabel18.Visible = False
+        '
+        'txtCFormInvNo
+        '
+        Me.txtCFormInvNo.CalculationExpression = Nothing
+        Me.txtCFormInvNo.FieldCode = Nothing
+        Me.txtCFormInvNo.FieldDesc = Nothing
+        Me.txtCFormInvNo.FieldMaxLength = 0
+        Me.txtCFormInvNo.FieldName = Nothing
+        Me.txtCFormInvNo.isCalculatedField = False
+        Me.txtCFormInvNo.IsSourceFromTable = False
+        Me.txtCFormInvNo.IsSourceFromValueList = False
+        Me.txtCFormInvNo.IsUnique = False
+        Me.txtCFormInvNo.Location = New System.Drawing.Point(155, 3)
+        Me.txtCFormInvNo.MendatroryField = True
+        Me.txtCFormInvNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCFormInvNo.MyLinkLable1 = Nothing
+        Me.txtCFormInvNo.MyLinkLable2 = Nothing
+        Me.txtCFormInvNo.MyReadOnly = False
+        Me.txtCFormInvNo.MyShowMasterFormButton = False
+        Me.txtCFormInvNo.Name = "txtCFormInvNo"
+        Me.txtCFormInvNo.ReferenceFieldDesc = Nothing
+        Me.txtCFormInvNo.ReferenceFieldName = Nothing
+        Me.txtCFormInvNo.ReferenceTableName = Nothing
+        Me.txtCFormInvNo.Size = New System.Drawing.Size(134, 16)
+        Me.txtCFormInvNo.TabIndex = 2
+        Me.txtCFormInvNo.Value = ""
+        Me.txtCFormInvNo.Visible = False
         '
         'MyLabel15
         '
@@ -1213,10 +1237,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeAdvanceType.IsSourceFromTable = False
         Me.ddlEmployeeAdvanceType.IsSourceFromValueList = False
         Me.ddlEmployeeAdvanceType.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem1)
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem5)
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem6)
         Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(980, 157)
         Me.ddlEmployeeAdvanceType.MendatroryField = True
         Me.ddlEmployeeAdvanceType.MyLinkLable1 = Me.MyLabel14
@@ -1301,10 +1325,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem1)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem2)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(982, 135)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -2397,7 +2421,7 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.EnableFiltering = True
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2717,7 +2741,7 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2744,7 +2768,7 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2892,7 +2916,7 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3080,62 +3104,23 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'pnlCform
+        'pnlLocation
         '
-        Me.pnlCform.Controls.Add(Me.chkCForm)
-        Me.pnlCform.Controls.Add(Me.MyLabel18)
-        Me.pnlCform.Controls.Add(Me.txtCFormInvNo)
-        Me.pnlCform.Location = New System.Drawing.Point(516, 41)
-        Me.pnlCform.Name = "pnlCform"
-        Me.pnlCform.Size = New System.Drawing.Size(291, 21)
-        Me.pnlCform.TabIndex = 12142
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(5, 203)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(599, 23)
+        Me.pnlLocation.TabIndex = 12149
         '
-        'chkCForm
+        'RadLabel23
         '
-        Me.chkCForm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCForm.Location = New System.Drawing.Point(3, 4)
-        Me.chkCForm.Name = "chkCForm"
-        Me.chkCForm.Size = New System.Drawing.Size(96, 16)
-        Me.chkCForm.TabIndex = 0
-        Me.chkCForm.Text = "Against CForm"
-        '
-        'MyLabel18
-        '
-        Me.MyLabel18.FieldName = Nothing
-        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(111, 3)
-        Me.MyLabel18.Name = "MyLabel18"
-        Me.MyLabel18.Size = New System.Drawing.Size(42, 16)
-        Me.MyLabel18.TabIndex = 1
-        Me.MyLabel18.Text = "Inv. No"
-        Me.MyLabel18.Visible = False
-        '
-        'txtCFormInvNo
-        '
-        Me.txtCFormInvNo.CalculationExpression = Nothing
-        Me.txtCFormInvNo.FieldCode = Nothing
-        Me.txtCFormInvNo.FieldDesc = Nothing
-        Me.txtCFormInvNo.FieldMaxLength = 0
-        Me.txtCFormInvNo.FieldName = Nothing
-        Me.txtCFormInvNo.isCalculatedField = False
-        Me.txtCFormInvNo.IsSourceFromTable = False
-        Me.txtCFormInvNo.IsSourceFromValueList = False
-        Me.txtCFormInvNo.IsUnique = False
-        Me.txtCFormInvNo.Location = New System.Drawing.Point(155, 3)
-        Me.txtCFormInvNo.MendatroryField = True
-        Me.txtCFormInvNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCFormInvNo.MyLinkLable1 = Nothing
-        Me.txtCFormInvNo.MyLinkLable2 = Nothing
-        Me.txtCFormInvNo.MyReadOnly = False
-        Me.txtCFormInvNo.MyShowMasterFormButton = False
-        Me.txtCFormInvNo.Name = "txtCFormInvNo"
-        Me.txtCFormInvNo.ReferenceFieldDesc = Nothing
-        Me.txtCFormInvNo.ReferenceFieldName = Nothing
-        Me.txtCFormInvNo.ReferenceTableName = Nothing
-        Me.txtCFormInvNo.Size = New System.Drawing.Size(134, 16)
-        Me.txtCFormInvNo.TabIndex = 2
-        Me.txtCFormInvNo.Value = ""
-        Me.txtCFormInvNo.Visible = False
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
         '
         'txtLocationPrefixName
         '
@@ -3143,10 +3128,36 @@ Partial Class FrmPaymentNew
         Me.txtLocationPrefixName.BorderVisible = True
         Me.txtLocationPrefixName.FieldName = Nothing
         Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(260, 204)
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(217, 3)
         Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(251, 18)
-        Me.txtLocationPrefixName.TabIndex = 12143
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(373, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(89, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
         '
         'FrmPaymentNew
         '
@@ -3203,7 +3214,10 @@ Partial Class FrmPaymentNew
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlCform.ResumeLayout(False)
+        Me.pnlCform.PerformLayout()
+        CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3342,10 +3356,9 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlCform.ResumeLayout(False)
-        Me.pnlCform.PerformLayout()
-        CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -3525,12 +3538,13 @@ Partial Class FrmPaymentNew
     Friend WithEvents txtmulPI As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
-    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
-    Friend WithEvents RadLabel2 As RadLabel
     Friend WithEvents pnlCform As Panel
     Friend WithEvents chkCForm As RadCheckBox
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents txtCFormInvNo As common.UserControls.txtFinder
+    Friend WithEvents pnlLocation As Panel
+    Friend WithEvents RadLabel23 As RadLabel
     Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
 End Class
 

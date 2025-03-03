@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -41,6 +41,8 @@ Partial Class FrmReceipttNew
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.RadLabel18 = New Telerik.WinControls.UI.RadLabel()
         Me.txtsalesmanCode = New common.UserControls.txtFinder()
         Me.txtTDSAmt = New common.MyNumBox()
         Me.pnlCurrConv = New System.Windows.Forms.Panel()
@@ -207,8 +209,6 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadLabel18 = New Telerik.WinControls.UI.RadLabel()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -230,6 +230,7 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTDSAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCurrConv.SuspendLayout()
         CType(Me.TxtForeignBankCharges, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -380,7 +381,6 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -687,6 +687,40 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(641, 109)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(152, 17)
+        Me.txtLocationPrefix.TabIndex = 12136
+        Me.txtLocationPrefix.Value = ""
+        '
+        'RadLabel18
+        '
+        Me.RadLabel18.Location = New System.Drawing.Point(897, 211)
+        Me.RadLabel18.Name = "RadLabel18"
+        Me.RadLabel18.Size = New System.Drawing.Size(96, 18)
+        Me.RadLabel18.TabIndex = 12135
+        Me.RadLabel18.Text = "Location Segment"
         '
         'txtsalesmanCode
         '
@@ -1558,7 +1592,7 @@ Partial Class FrmReceipttNew
         '
         'lblLocPrefix
         '
-        Me.lblLocPrefix.Location = New System.Drawing.Point(576, 112)
+        Me.lblLocPrefix.Location = New System.Drawing.Point(576, 110)
         Me.lblLocPrefix.Name = "lblLocPrefix"
         Me.lblLocPrefix.Size = New System.Drawing.Size(49, 18)
         Me.lblLocPrefix.TabIndex = 612
@@ -2608,7 +2642,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvReceipt.MyStopExport = False
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2635,7 +2669,7 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgvmiscpayment.MyStopExport = False
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2982,7 +3016,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3009,7 +3043,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3235,40 +3269,6 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
-        'RadLabel18
-        '
-        Me.RadLabel18.Location = New System.Drawing.Point(897, 211)
-        Me.RadLabel18.Name = "RadLabel18"
-        Me.RadLabel18.Size = New System.Drawing.Size(96, 18)
-        Me.RadLabel18.TabIndex = 12135
-        Me.RadLabel18.Text = "Location Segment"
-        '
-        'txtLocationPrefix
-        '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(641, 109)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(152, 17)
-        Me.txtLocationPrefix.TabIndex = 12136
-        Me.txtLocationPrefix.Value = ""
-        '
         'FrmReceipttNew
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3306,6 +3306,7 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTDSAmt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlCurrConv.ResumeLayout(False)
         Me.pnlCurrConv.PerformLayout()
@@ -3464,7 +3465,6 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
