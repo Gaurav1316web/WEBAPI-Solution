@@ -1266,7 +1266,12 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
             'If clsCommon.myCDecimal(txtTotPendingSNF.Text) > 0 Then
             '    Throw New Exception("Plese fill all MCC Details SNF is Remaining")
             'End If
-            If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.myCdbl(txtTotEnteredFATPer.Text) <= 0 AndAlso clsCommon.myCdbl(txtTotEnteredSNFPer.Text) <= 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "FAT : " + txtTotEnteredFATPer.Text + " and SNF : " + txtTotEnteredSNFPer.Text + "" + Environment.NewLine + "Are you sure to post ?", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure ?", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkCollectionMCC.PostData(txtDocNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)

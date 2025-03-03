@@ -23,11 +23,14 @@ Partial Class FrmMultipleProcDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMultipleProcDeduction))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.RadLabel3 = New Telerik.WinControls.UI.RadLabel()
         Me.chkOpening = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtVoucherNo = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -86,6 +89,8 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,6 +196,9 @@ Partial Class FrmMultipleProcDeduction
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefixName)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefix)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel3)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkOpening)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtVoucherNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
@@ -218,13 +226,60 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer2.Size = New System.Drawing.Size(1020, 412)
-        Me.SplitContainer2.SplitterDistance = 132
+        Me.SplitContainer2.SplitterDistance = 145
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 617
         '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(285, 120)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(463, 18)
+        Me.txtLocationPrefixName.TabIndex = 1524
+        Me.txtLocationPrefixName.TextWrap = False
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(135, 119)
+        Me.txtLocationPrefix.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(143, 20)
+        Me.txtLocationPrefix.TabIndex = 1522
+        Me.txtLocationPrefix.Value = ""
+        '
+        'RadLabel3
+        '
+        Me.RadLabel3.Location = New System.Drawing.Point(10, 120)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel3.TabIndex = 1523
+        Me.RadLabel3.Text = "Location"
+        '
         'chkOpening
         '
-        Me.chkOpening.Location = New System.Drawing.Point(729, 10)
+        Me.chkOpening.Location = New System.Drawing.Point(768, 10)
         Me.chkOpening.Name = "chkOpening"
         Me.chkOpening.Size = New System.Drawing.Size(64, 18)
         Me.chkOpening.TabIndex = 1519
@@ -242,7 +297,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtVoucherNo.IsSourceFromTable = False
         Me.txtVoucherNo.IsSourceFromValueList = False
         Me.txtVoucherNo.IsUnique = False
-        Me.txtVoucherNo.Location = New System.Drawing.Point(548, 95)
+        Me.txtVoucherNo.Location = New System.Drawing.Point(587, 95)
         Me.txtVoucherNo.MendatroryField = False
         Me.txtVoucherNo.MyLinkLable1 = Nothing
         Me.txtVoucherNo.MyLinkLable2 = Nothing
@@ -257,7 +312,7 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(476, 97)
+        Me.MyLabel1.Location = New System.Drawing.Point(515, 97)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(66, 16)
         Me.MyLabel1.TabIndex = 621
@@ -276,7 +331,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtFiscalYear.IsSourceFromTable = False
         Me.txtFiscalYear.IsSourceFromValueList = False
         Me.txtFiscalYear.IsUnique = False
-        Me.txtFiscalYear.Location = New System.Drawing.Point(303, 96)
+        Me.txtFiscalYear.Location = New System.Drawing.Point(342, 96)
         Me.txtFiscalYear.MendatroryField = False
         Me.txtFiscalYear.MyLinkLable1 = Nothing
         Me.txtFiscalYear.MyLinkLable2 = Nothing
@@ -292,7 +347,7 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(236, 98)
+        Me.MyLabel6.Location = New System.Drawing.Point(275, 98)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel6.TabIndex = 619
@@ -311,7 +366,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtPaymentCycleNo.IsSourceFromTable = False
         Me.txtPaymentCycleNo.IsSourceFromValueList = False
         Me.txtPaymentCycleNo.IsUnique = False
-        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(96, 96)
+        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(135, 96)
         Me.txtPaymentCycleNo.MendatroryField = False
         Me.txtPaymentCycleNo.MyLinkLable1 = Nothing
         Me.txtPaymentCycleNo.MyLinkLable2 = Nothing
@@ -355,7 +410,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(97, 51)
+        Me.txtDesc.Location = New System.Drawing.Point(136, 51)
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Nothing
         Me.txtDesc.MyLinkLable2 = Nothing
@@ -380,7 +435,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(472, 9)
+        Me.txtDate.Location = New System.Drawing.Point(511, 9)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -400,7 +455,7 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(385, 11)
+        Me.RadLabel4.Location = New System.Drawing.Point(424, 11)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(85, 16)
         Me.RadLabel4.TabIndex = 25
@@ -417,7 +472,7 @@ Partial Class FrmMultipleProcDeduction
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(98, 8)
+        Me.txtDocNo.Location = New System.Drawing.Point(137, 8)
         Me.txtDocNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -445,7 +500,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(96, 73)
+        Me.txtMCC.Location = New System.Drawing.Point(135, 73)
         Me.txtMCC.MendatroryField = False
         Me.txtMCC.MyLinkLable1 = Nothing
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -461,7 +516,7 @@ Partial Class FrmMultipleProcDeduction
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(340, 8)
+        Me.btnAddNew.Location = New System.Drawing.Point(379, 8)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(19, 20)
         Me.btnAddNew.TabIndex = 1
@@ -479,7 +534,7 @@ Partial Class FrmMultipleProcDeduction
         Me.lblMCC.IsSourceFromTable = False
         Me.lblMCC.IsSourceFromValueList = False
         Me.lblMCC.IsUnique = False
-        Me.lblMCC.Location = New System.Drawing.Point(234, 73)
+        Me.lblMCC.Location = New System.Drawing.Point(273, 73)
         Me.lblMCC.MendatroryField = False
         Me.lblMCC.MyLinkLable1 = Nothing
         Me.lblMCC.MyLinkLable2 = Nothing
@@ -503,7 +558,7 @@ Partial Class FrmMultipleProcDeduction
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(592, 7)
+        Me.UsLock1.Location = New System.Drawing.Point(631, 6)
         Me.UsLock1.Margin = New System.Windows.Forms.Padding(4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
@@ -517,7 +572,7 @@ Partial Class FrmMultipleProcDeduction
         Me.LblLocDesp.BorderVisible = True
         Me.LblLocDesp.FieldName = Nothing
         Me.LblLocDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblLocDesp.Location = New System.Drawing.Point(246, 32)
+        Me.LblLocDesp.Location = New System.Drawing.Point(284, 32)
         Me.LblLocDesp.Name = "LblLocDesp"
         Me.LblLocDesp.Size = New System.Drawing.Size(464, 18)
         Me.LblLocDesp.TabIndex = 41
@@ -527,7 +582,7 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.btnDrillDown.Image = CType(resources.GetObject("btnDrillDown.Image"), System.Drawing.Image)
         Me.btnDrillDown.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnDrillDown.Location = New System.Drawing.Point(358, 8)
+        Me.btnDrillDown.Location = New System.Drawing.Point(397, 8)
         Me.btnDrillDown.Name = "btnDrillDown"
         Me.btnDrillDown.Size = New System.Drawing.Size(20, 20)
         Me.btnDrillDown.TabIndex = 2
@@ -543,7 +598,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtlocation.IsSourceFromTable = False
         Me.txtlocation.IsSourceFromValueList = False
         Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(97, 32)
+        Me.txtlocation.Location = New System.Drawing.Point(136, 32)
         Me.txtlocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtlocation.MendatroryField = True
         Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -563,9 +618,9 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.RadLabel18.Location = New System.Drawing.Point(10, 32)
         Me.RadLabel18.Name = "RadLabel18"
-        Me.RadLabel18.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel18.Size = New System.Drawing.Size(96, 18)
         Me.RadLabel18.TabIndex = 31
-        Me.RadLabel18.Text = "Location"
+        Me.RadLabel18.Text = "Location Segment"
         '
         'RadGroupBox2
         '
@@ -577,7 +632,7 @@ Partial Class FrmMultipleProcDeduction
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1020, 277)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1020, 264)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Details"
         '
@@ -597,13 +652,13 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1000, 247)
+        Me.gv1.Size = New System.Drawing.Size(1000, 234)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -826,6 +881,8 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -923,5 +980,8 @@ Partial Class FrmMultipleProcDeduction
     Friend WithEvents btnExport As RadButton
     Friend WithEvents btnSaveLayout As RadMenuItem
     Friend WithEvents btnDeleteLayout As RadMenuItem
+    Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
+    Friend WithEvents RadLabel3 As RadLabel
 End Class
 

@@ -3388,6 +3388,7 @@ Public Class FrmReceipttNew
 
     Public Sub funReset()
         txtDONo.Enabled = True
+        txtLocationPrefix.Value = ""
         txtTaxGroup.Enabled = True
         fndBankCode.Enabled = True
         fndPayType.Enabled = True

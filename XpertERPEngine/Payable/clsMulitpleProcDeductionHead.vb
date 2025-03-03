@@ -16,6 +16,7 @@ Public Class clsMultipleProcDeductionHead
     Public IsPosted As Integer = 0
     Public Voucher_No As String = String.Empty
     Public IsOpening As Integer = 0
+    Public Location_Code_Prefix As String = Nothing
     Public Arr As List(Of clsMultipleProcDeductionDetail) = Nothing
 #End Region
 
@@ -39,6 +40,7 @@ Public Class clsMultipleProcDeductionHead
     Public Function SaveData(ByVal obj As clsMultipleProcDeductionHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
 
         Dim isSaved As Boolean = True
+        Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
         If clsCommon.myLen(obj.loc_code) <= 0 Then
             Throw New Exception("Please first select Location")
         End If
@@ -64,7 +66,11 @@ where Document_No ='" + obj.Document_No + "'", trans))
 
 
         If (isNewEntry) Then
-            obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MultipleProcDed, "", obj.loc_code, True)
+            If ApplyLocationWisePrefix Then
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MultipleProcDed, "", obj.Location_Code_Prefix, False)
+            Else
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MultipleProcDed, "", obj.loc_code, True)
+            End If
         End If
         If (clsCommon.myLen(obj.Document_No) <= 0) Then
             Throw New Exception("Error in Document Code Generation")
@@ -73,6 +79,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
         clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.loc_code)
+        clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
         clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code, True)
         clsCommon.AddColumnsForChange(coll, "MCC_Name", obj.MCC_Name, True)
         clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
@@ -109,6 +116,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.loc_code = clsCommon.myCstr(dt.Rows(0)("Loc_Code"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             obj.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
             obj.MCC_Name = clsCommon.myCstr(dt.Rows(0)("MCC_Name"))
             obj.Voucher_No = clsCommon.myCstr(dt.Rows(0)("Voucher_No"))

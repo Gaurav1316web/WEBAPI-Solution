@@ -3802,6 +3802,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         fndDocNo.Value = ""
         txtNEFTUploaderREFNo.Text = ""
         fndDocNo.MyReadOnly = False
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         arrStrIssueItemCode = Nothing
         arrStrIssueItemDesc = Nothing
         arrStrMccSaleItemCode = Nothing
@@ -4240,7 +4242,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             obj.To_Date = clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy")
             obj.Loc_Seg_Code = clsCommon.myCstr(fndLoc.Value)
             obj.Area_Location_Code = clsCommon.myCstr(fndArea.Value)
-
+            obj.Location_Code_Prefix = txtLocationPrefix.Value
             obj.MCC_Code_Selected = txtMCC.Text
             ''richa agarwal 07-jan-2016
             If btnSave.Text = "Update" Then
@@ -4719,7 +4721,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 Else
                     txtLocName.Text = ""
                 End If
-
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 dtpFromDate.Value = obj.From_Date
                 dtpToDate.Value = obj.To_Date
                 dtpDate.Value = obj.Doc_Date
@@ -9114,6 +9121,25 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
                 End If
             Else
                 Console.WriteLine("file is not gendrated by send bill to DCS")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim whrCls As String = " 1=1 "
+            Dim qry As String = " Select Location_Code as LocationCode,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrCls += " and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")  "
+            End If
+
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationPrefix", qry, "LocationCode", "", txtLocationPrefix.Value, "LocationCode", isButtonClicked, "")
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

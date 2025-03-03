@@ -714,6 +714,18 @@ Public Class frmDCSFinancialEntry
             End If
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocumentNo.Value, "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
 
 
