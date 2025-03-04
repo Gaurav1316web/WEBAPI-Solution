@@ -22,13 +22,13 @@ Partial Class FrmProvisionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -69,6 +69,7 @@ Partial Class FrmProvisionEntry
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -107,6 +108,7 @@ Partial Class FrmProvisionEntry
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,6 +127,7 @@ Partial Class FrmProvisionEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -460,10 +463,10 @@ Partial Class FrmProvisionEntry
         Me.ddlProvMonth.IsSourceFromTable = False
         Me.ddlProvMonth.IsSourceFromValueList = False
         Me.ddlProvMonth.IsUnique = False
-        RadListDataItem1.Text = "MCC"
-        RadListDataItem2.Text = "PLANT"
-        Me.ddlProvMonth.Items.Add(RadListDataItem1)
-        Me.ddlProvMonth.Items.Add(RadListDataItem2)
+        RadListDataItem7.Text = "MCC"
+        RadListDataItem8.Text = "PLANT"
+        Me.ddlProvMonth.Items.Add(RadListDataItem7)
+        Me.ddlProvMonth.Items.Add(RadListDataItem8)
         Me.ddlProvMonth.Location = New System.Drawing.Point(414, 81)
         Me.ddlProvMonth.MendatroryField = True
         Me.ddlProvMonth.MyLinkLable1 = Me.MyLabel1
@@ -500,10 +503,10 @@ Partial Class FrmProvisionEntry
         Me.ddlProvType.IsSourceFromTable = False
         Me.ddlProvType.IsSourceFromValueList = False
         Me.ddlProvType.IsUnique = False
-        RadListDataItem3.Text = "MCC"
-        RadListDataItem4.Text = "PLANT"
-        Me.ddlProvType.Items.Add(RadListDataItem3)
-        Me.ddlProvType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "MCC"
+        RadListDataItem2.Text = "PLANT"
+        Me.ddlProvType.Items.Add(RadListDataItem1)
+        Me.ddlProvType.Items.Add(RadListDataItem2)
         Me.ddlProvType.Location = New System.Drawing.Point(96, 81)
         Me.ddlProvType.MendatroryField = True
         Me.ddlProvType.MyLinkLable1 = Me.lblProvType
@@ -600,10 +603,10 @@ Partial Class FrmProvisionEntry
         Me.ddlVendorType.IsSourceFromTable = False
         Me.ddlVendorType.IsSourceFromValueList = False
         Me.ddlVendorType.IsUnique = False
-        RadListDataItem5.Text = "MCC"
-        RadListDataItem6.Text = "PLANT"
-        Me.ddlVendorType.Items.Add(RadListDataItem5)
-        Me.ddlVendorType.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "MCC"
+        RadListDataItem4.Text = "PLANT"
+        Me.ddlVendorType.Items.Add(RadListDataItem3)
+        Me.ddlVendorType.Items.Add(RadListDataItem4)
         Me.ddlVendorType.Location = New System.Drawing.Point(96, 56)
         Me.ddlVendorType.MendatroryField = True
         Me.ddlVendorType.MyLinkLable1 = Me.lblVendorType
@@ -708,12 +711,13 @@ Partial Class FrmProvisionEntry
         '
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(838, 378)
         Me.gv.TabIndex = 265
+        Me.gv.VarID = ""
         '
         'btnReverse
         '
@@ -764,6 +768,16 @@ Partial Class FrmProvisionEntry
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 5
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(213, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
         '
         'FrmProvisionEntry
         '
@@ -817,6 +831,7 @@ Partial Class FrmProvisionEntry
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -861,5 +876,6 @@ Partial Class FrmProvisionEntry
     Friend WithEvents TxtMultiSelectProvision As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel34 As common.Controls.MyLabel
     Friend WithEvents btnMultiDelete As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -42,12 +42,42 @@ Public Class rptCustItemWiseSaleReport
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         funreset()
     End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If BtnStcRegisterPartyandItemWiseSummary.IsChecked Then
+            VarID += "_STRS"
+        ElseIf BtnStcRegisterItemWiseSummary.IsChecked Then
+            VarID += "_SRIS"
+        ElseIf BtnProductWiseSaleQuantity.IsChecked Then
+            VarID += "_PWSQ"
+        ElseIf BtnMilkStcSummary.IsChecked Then
+            VarID += "_MSS"
+        ElseIf BtnPartySaleMilkProductt.IsChecked Then
+            VarID += "_PSMP"
+        ElseIf BtnProductSalesSummary.IsChecked Then
+            VarID += "_PSS"
+        ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
+            VarID += "_BWSM"
+        ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
+            VarID += "_BSMS"
+        End If
+        If rbtnDetail.IsChecked Then
+            VarID += "_DE"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_SM"
+        End If
+        gv1.VarID = VarID
+
+    End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         If BtnProductWiseSaleQuantity.IsChecked Then
             ProductWiseSale(False)
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
             BillWisesaleSummary(False)
+        ElseIf BtnPartySaleMilkProductt.IsChecked Then
+            PartySaleMilkProductt(False)
         ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
             BillwiseSaleOfMilk(False)
         ElseIf BtnProductSalesSummary.IsChecked Then
@@ -164,7 +194,7 @@ Public Class rptCustItemWiseSaleReport
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -372,7 +402,7 @@ Public Class rptCustItemWiseSaleReport
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -501,7 +531,7 @@ GROUP BY Item_Code"
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -620,7 +650,7 @@ GROUP BY Item_Code"
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -648,44 +678,71 @@ GROUP BY Item_Code"
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
             Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
-                                   MAX(Sale_Invoice_No) as Bill_No,sum(TAX5_Amt) as Tcs,Sum(Distributor_Commission_TotalAmt) as Trp_Charge,MAX(Customer_Name) as Customer_Name,
-                                    MAX(Item_Desc) AS Item_Desc, 
-                        Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
-                    FROM (
-                        SELECT 
+                   
 	                    TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,
-                            TSPL_ITEM_MASTER.Item_Desc, 
-                            TSPL_ITEM_MASTER.Item_Code, 
-                            TSPL_SD_SHIPMENT_DETAIL.Unit_code, 
-                            TSPL_SD_SHIPMENT_DETAIL.Qty,
-                    cast(
-                                    (
-                                      TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
-                                    ) as Decimal(18, 2)
-                                  ) as QtyAccToReportUOM,
-                            ItemConvReportUOM.UOM_Code, 
-                            TSPL_COMPANY_MASTER.Comp_Name, 
-                            TSPL_COMPANY_MASTER.Add1, 
-                            TSPL_COMPANY_MASTER.Add2, 
-                            TSPL_COMPANY_MASTER.Add3, 
-                            TSPL_COMPANY_MASTER.City_Code, 
-                            TSPL_COMPANY_MASTER.State,
-		                    TSPL_SD_SHIPMENT_DETAIL.Amount,
-							TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,
-							TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,
-							TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,
-                            TSPL_CUSTOMER_MASTER.Customer_Name,
-                            Document_Date 
-                        FROM TSPL_SD_SHIPMENT_DETAIL
-                        LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-                        left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-                        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
-                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
-                                        and ItemConvReportUOM.Report_UOM = 1
-                                         left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
-                                       and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 ) xx 
-                GROUP BY Item_Code"
+    MAX(TSPL_ITEM_MASTER.Item_Desc) AS Item_Desc, 
+    MAX(TSPL_ITEM_MASTER.Item_Code) AS Item_Code, 
+    MAX(TSPL_SD_SHIPMENT_DETAIL.Unit_code) AS Unit_code, 
+    SUM(TSPL_SD_SHIPMENT_DETAIL.Qty) AS Qty,
+    SUM(
+        TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
+    ) AS QtyAccToReportUOM,
+    SUM(Amount - ISNULL(Distributor_Commission_Amt, 0) + 
+        CASE 
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX1 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX10 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt 
+            ELSE 0 
+        END
+    ) AS Total_Amount,
+    MAX(ItemConvReportUOM.UOM_Code) AS UOM_Code, 
+    MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
+    MAX(TSPL_COMPANY_MASTER.Add1) AS Add1, 
+    MAX(TSPL_COMPANY_MASTER.Add2) AS Add2, 
+    MAX(TSPL_COMPANY_MASTER.Add3) AS Add3, 
+    MAX(TSPL_COMPANY_MASTER.City_Code) AS City_Code, 
+    MAX(TSPL_COMPANY_MASTER.State) AS State,
+    SUM(TSPL_SD_SHIPMENT_DETAIL.Amount) AS Amount,
+    MAX(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) AS Sale_Invoice_No,
+    SUM(TSPL_SD_SHIPMENT_HEAD.TAX5_Amt) AS TAX5_Amt,
+    SUM(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt) AS Distributor_Commission_Amt,
+    MAX(TSPL_CUSTOMER_MASTER.Customer_Name) AS Customer_Name,
+    SUM(
+        CASE 
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX1 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            WHEN TSPL_SD_SHIPMENT_HEAD.TAX10 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt 
+            ELSE 0 
+        END
+    ) AS [TCS Amt],
+    MAX(Document_Date) AS Document_Date
+FROM TSPL_SD_SHIPMENT_DETAIL
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD 
+    ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
+    ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+LEFT OUTER JOIN TSPL_ITEM_MASTER 
+    ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
+LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM 
+    ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code AND ItemConvReportUOM.Report_UOM = 1
+LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM 
+    ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code AND TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+LEFT JOIN TSPL_COMPANY_MASTER 
+    ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 GROUP BY TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -700,7 +757,7 @@ GROUP BY Item_Code"
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -709,6 +766,211 @@ GROUP BY Item_Code"
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
+                    frmCRV = Nothing
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub PartySaleMilkProductt(ByVal print As Boolean)
+        Try
+            Dim Qry As String = ""
+            Dim BaseQry As String = ""
+            Dim dt As DataTable = Nothing
+            Dim whr As String = ""
+            '            Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+            '    MAX(Customer_Name) AS Party,
+            '    MAX(GSTNO) AS GSTIN,
+            '	sum(CASE WHEN IsTaxable = 1 THEN Amount ELSE 0 END) AS Taxable_Value,
+            '    sum(CASE WHEN IsTaxable = 0 THEN Amount ELSE 0 END) AS Non_Taxable_Value,
+            '	SUM([KKF Amt]) + Sum([Mandi Tax Amt]) + SUM([CGST Amt]) + Sum([SGST Amt]) + SUM([IGST Amt]) AS GST_Amount,
+            '	sum(CASE WHEN IsTaxable = 1 THEN Amount ELSE 0 END) 
+            '    + sum(CASE WHEN IsTaxable = 0 THEN Amount ELSE 0 END) 
+            '    + SUM([CGST Amt]) + SUM([SGST Amt]) + SUM([IGST Amt]) AS Sale_Amount,
+            '    SUM([TCS Amt]) AS TCS_Amount,
+            '    sum(Distributor_Commission_Amt) AS Trp_and_Other_Charge,
+            '    sum(CASE WHEN IsTaxable = 1 THEN Amount ELSE 0 END) 
+            '    + sum(CASE WHEN IsTaxable = 0 THEN Amount ELSE 0 END) 
+            '    + SUM([CGST Amt]) + SUM([SGST Amt]) + SUM([IGST Amt]) + Sum([TCS Amt]) + sum(Distributor_Commission_Amt) AS Bill_Amount,
+            '	 MAX(Comp_Name) AS Comp_Name,
+            '    MAX(Add1) AS Add1,
+            '    MAX(Add2) AS Add2,
+            '    MAX(Add3) AS Add3,
+            '	SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,
+            '    MAX(UOM_Code) AS UOM_Code,
+            '	SUM([CGST Amt]) as CGST,
+            '	SUM([SGST Amt]) as SGST,
+            '	SUM([IGST Amt]) as IGST,
+            '	SUM([Mandi Tax Amt]) as mandi,
+            '	SUM([KKF Amt]) as KKF
+            '    FROM ( SELECT 
+            '        TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,
+            '        TSPL_ITEM_MASTER.Item_Desc,
+            '        TSPL_ITEM_MASTER.Item_Code,
+            '        TSPL_SD_SHIPMENT_DETAIL.Unit_code,
+            '        TSPL_SD_SHIPMENT_DETAIL.Qty,
+            '        TSPL_ITEM_MASTER.IsTaxable,
+            '       CAST((TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / Report_UOM.Conversion_Factor) AS DECIMAL(18, 2)
+            '       ) AS QtyAccToReportUOM,
+            '        Report_UOM.UOM_Code, 
+            '        TSPL_COMPANY_MASTER.Comp_Name, 
+            '        TSPL_COMPANY_MASTER.Add1, 
+            '        TSPL_COMPANY_MASTER.Add2, 
+            '        TSPL_COMPANY_MASTER.Add3, 
+            '        TSPL_COMPANY_MASTER.City_Code, 
+            '        TSPL_COMPANY_MASTER.State,
+            '        TSPL_SD_SHIPMENT_DETAIL.Amount,
+            '        TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,
+            '        TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,
+            '        TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,
+            '        TSPL_CUSTOMER_MASTER.Customer_Name,
+            '        TSPL_CUSTOMER_MASTER.GSTNO,
+            '		CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='KKF' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END 
+            '    				AS [KKF Amt],
+            '                           CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='MANDITAX' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END 
+            '    				AS  [Mandi Tax Amt],
+            '		CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='CGST' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END  AS [CGST Amt],
+
+            '        CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='SGST' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END  AS [SGST Amt],
+
+            '	CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='IGST'  THEN isnull (TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='IGST'  THEN isnull (TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='IGST'  THEN isnull (TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='IGST'  THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt,0)
+            '    				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='IGST' THEN isnull(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt,0) else 0 END AS [IGST Amt],
+
+            '    CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
+            '            WHEN TSPL_SD_SHIPMENT_HEAD.TAX10 = 'TCS' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt
+            '            ELSE 0 
+            '        END AS [TCS Amt],
+            '        Document_Date 
+            '    FROM TSPL_SD_SHIPMENT_DETAIL
+            '    LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD 
+            '        ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+            '    LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
+            '        ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+            '    LEFT OUTER JOIN TSPL_ITEM_MASTER 
+            '        ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
+            '    LEFT JOIN
+            '(select Item_Code,UOM_Code,Conversion_Factor from	TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM where  Report_UOM =1) Report_UOM ON Report_UOM.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+            'and Report_UOM.UOM_Code = TSPL_SD_SHIPMENT_DETAIL.Unit_code
+            '    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM 
+            '        ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
+            '        AND TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+            '    LEFT JOIN TSPL_COMPANY_MASTER 
+            '        ON 2 = 2 
+            '    WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
+            '                GROUP BY Customer_Name"
+            '            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            Qry = " 
+    select 
+XXFinal.Customer_Name,MAX(XXFinal.FromDate) as FromDate,MAX(XXFinal.ToDate) as ToDate,
+MAX(XXFinal.GSTNO) as GSTNO, SUM(XXFinal.Taxable_Amount) as Taxable_Amount,SUM(XXFinal.Non_Taxable_Amount)as Non_Taxable_Amount, SUM(XXFinal.GSTAmt) as GSTAmt,
+SUM(XXFinal.Sale_Amt) as Sale_Amt,SUM(XXFinal.TCS_AMT) as TCS_AMT, SUM(XXFinal.Trp_othcharg) as [Trip & other Charge],SUM(XXFinal.Bill_Amt) as Bill_Amt,
+MAX(XXFinal.Comp_Name) as Comp_Name,
+MAX(XXFinal.CompAddress) as CompAddress
+from(
+select xx.*, (xx.Taxable_Amount +xx.Non_Taxable_Amount+xx.GSTAmt) as Sale_Amt,((xx.Taxable_Amount+xx.Non_Taxable_Amount+xx.GSTAmt+xx.TCS_AMT) -(xx.Trp_othcharg)) as Bill_Amt 
+from(
+select 
+TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+TSPL_COMPANY_MASTER.Comp_Name,
+(TSPL_COMPANY_MASTER.Add1 +TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress, 
+TSPL_CUSTOMER_MASTER.GSTNO as GSTNO ,
+ case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
+ case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
+ Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,0) else(
+Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt)else (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt +TSPL_SD_SHIPMENT_HEAD.TAX4_Amt) end) else 0 end) end as GSTAmt,
+Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,0) else(
+Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then TSPL_SD_SHIPMENT_HEAD.TAX4_Amt else (case when    
+TSPL_SD_SHIPMENT_HEAD.TAX5='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SHIPMENT_HEAD.tax2='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX2_Amt else ((case when TSPL_SD_SHIPMENT_HEAD.tax3='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
+
+(isnull(TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,0) + isnull(TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,0) ) as Trp_othcharg
+from TSPL_SD_SHIPMENT_HEAD
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
+    WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'and TSPL_SD_SHIPMENT_HEAD.Status=1 
+) xx
+) XXFinal 
+group by XXFinal.Customer_Name"
+            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    SetGridFormationn()
+                    'ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    'EnableDisableControls(False)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                ElseIf print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     frmCRV = Nothing
 
                 End If
@@ -773,7 +1035,7 @@ GROUP BY Item_Code"
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -906,7 +1168,7 @@ GROUP BY Item_Code"
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                    'SetGridFormation()
+                    SetGridFormationn()
                     'ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
                     'EnableDisableControls(False)
@@ -919,14 +1181,32 @@ GROUP BY Item_Code"
 
                 End If
             Else
-                    clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow("No data found")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
+    Sub SetGridFormationn()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).Width = 80
+        Next
+    End Sub
+
     Sub funreset()
+        BtnStcRegisterPartyandItemWiseSummary.IsChecked = False
+        BtnStcRegisterItemWiseSummary.IsChecked = False
+        BtnProductWiseSaleQuantity.IsChecked = False
+        BtnMilkStcSummary.IsChecked = False
+        BtnPartySaleMilkProductt.IsChecked = False
+        BtnProductSalesSummary.IsChecked = False
+        BtnBillWiseSaleOfMilk.IsChecked = False
+        BtnBillWiseSaleOfMilkSummary.IsChecked = False
         EnableDisableControls(True)
         gv1.DataSource = Nothing
         rbtnDocumentDate.IsChecked = True
@@ -1114,7 +1394,7 @@ GROUP BY Item_Code"
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
                     ElseIf BtnBillWiseSaleOfMilk.IsChecked = True Then
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
-                    ElseIf BtnPartySaleMilkProduct.IsChecked = True Then
+                    ElseIf BtnPartySaleMilkProductt.IsChecked = True Then
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     ElseIf BtnProductSalesSummary.IsChecked = True Then
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
@@ -1290,7 +1570,7 @@ GROUP BY Item_Code"
         If clsCommon.myLen(MyBase.Form_ID) > 0 Then
             gv1.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
-            obj.ReportID = MyBase.Form_ID
+            obj.ReportID = MyBase.Form_ID + gv1.VarID
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout = New MemoryStream()
             gv1.SaveLayout(obj.GridLayout)
@@ -1370,6 +1650,8 @@ GROUP BY Item_Code"
             ProductWiseSale(True)
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
             BillWisesaleSummary(True)
+        ElseIf BtnPartySaleMilkProductt.IsChecked Then
+            PartySaleMilkProductt(True)
         ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
             BillwiseSaleOfMilk(True)
         ElseIf BtnProductSalesSummary.IsChecked Then

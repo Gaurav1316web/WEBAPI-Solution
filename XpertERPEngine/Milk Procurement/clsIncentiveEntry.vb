@@ -74,7 +74,10 @@ Public Class clsIncentiveEntryHead
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INCENTIVE_ENTRY_HEAD", OMInsertOrUpdate.Update, "Doc_Code='" + obj.Doc_Code + "'", trans)
         End If
         clsIncentiveEntryDetail.SaveData(obj.Doc_Code, obj.Doc_Date, obj.arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_INCENTIVE_ENTRY_DETAIL", "Doc_Code", trans)
+
         clsIncentiveEntryInvoiceDetail.SaveData(obj.Doc_Code, obj.arrInvoice, trans)
+
         Return True
     End Function
 
@@ -139,7 +142,7 @@ Public Class clsIncentiveEntryHead
         If obj.Is_Post = ERPTransactionStatus.Posted Then
             Throw New Exception("Already posted transaction - " + obj.Doc_Code)
         End If
-
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_INCENTIVE_ENTRY_DETAIL", "Doc_Code", trans)
         For Each objtr As clsIncentiveEntryDetail In obj.arr
             CreateCreditNote(obj, objtr, trans)
         Next
@@ -446,6 +449,10 @@ Public Class clsIncentiveEntryHead
                 If (obj.Is_Post = ERPTransactionStatus.Posted) Then
                     Throw New Exception("Already Posted")
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_INCENTIVE_ENTRY_DETAIL", "Doc_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_INCENTIVE_ENTRY_DETAIL", "Doc_Code", trans)
+
                 Dim qry As String = "delete from TSPL_INCENTIVE_ENTRY_INVOICE_DETAIL where Doc_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_INCENTIVE_ENTRY_DETAIL where Doc_Code='" + strCode + "'"

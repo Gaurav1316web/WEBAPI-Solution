@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -41,7 +41,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.BtnMilkStcSummary = New common.Controls.MyRadioButton()
         Me.BtnStcRegisterItemWiseSummary = New common.Controls.MyRadioButton()
         Me.BtnBillWiseSaleOfMilk = New common.Controls.MyRadioButton()
-        Me.BtnPartySaleMilkProduct = New common.Controls.MyRadioButton()
+        Me.BtnPartySaleMilkProductt = New common.Controls.MyRadioButton()
         Me.BtnProductWiseSaleQuantity = New common.Controls.MyRadioButton()
         Me.BtnStcRegisterPartyandItemWiseSummary = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -88,7 +88,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPartySaleMilkProductt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -257,7 +257,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.BKNGroupBox.Controls.Add(Me.BtnMilkStcSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterItemWiseSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilk)
-        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProduct)
+        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProductt)
         Me.BKNGroupBox.Controls.Add(Me.BtnProductWiseSaleQuantity)
         Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterPartyandItemWiseSummary)
         Me.BKNGroupBox.HeaderText = ""
@@ -323,16 +323,16 @@ Partial Class rptCustItemWiseSaleReport
         Me.BtnBillWiseSaleOfMilk.TabStop = False
         Me.BtnBillWiseSaleOfMilk.Text = "Bill Wise Sale Of Milk"
         '
-        'BtnPartySaleMilkProduct
+        'BtnPartySaleMilkProductt
         '
-        Me.BtnPartySaleMilkProduct.Location = New System.Drawing.Point(4, 52)
-        Me.BtnPartySaleMilkProduct.MyLinkLable1 = Nothing
-        Me.BtnPartySaleMilkProduct.MyLinkLable2 = Nothing
-        Me.BtnPartySaleMilkProduct.Name = "BtnPartySaleMilkProduct"
-        Me.BtnPartySaleMilkProduct.Size = New System.Drawing.Size(139, 18)
-        Me.BtnPartySaleMilkProduct.TabIndex = 398
-        Me.BtnPartySaleMilkProduct.TabStop = False
-        Me.BtnPartySaleMilkProduct.Text = "Party Sale (Milk&Product)"
+        Me.BtnPartySaleMilkProductt.Location = New System.Drawing.Point(4, 52)
+        Me.BtnPartySaleMilkProductt.MyLinkLable1 = Nothing
+        Me.BtnPartySaleMilkProductt.MyLinkLable2 = Nothing
+        Me.BtnPartySaleMilkProductt.Name = "BtnPartySaleMilkProductt"
+        Me.BtnPartySaleMilkProductt.Size = New System.Drawing.Size(158, 18)
+        Me.BtnPartySaleMilkProductt.TabIndex = 398
+        Me.BtnPartySaleMilkProductt.TabStop = False
+        Me.BtnPartySaleMilkProductt.Text = "Party Sale Milk and Product"
         '
         'BtnProductWiseSaleQuantity
         '
@@ -561,7 +561,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -669,7 +669,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPartySaleMilkProductt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -734,7 +734,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents BtnMilkStcSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnStcRegisterItemWiseSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnBillWiseSaleOfMilk As common.Controls.MyRadioButton
-    Friend WithEvents BtnPartySaleMilkProduct As common.Controls.MyRadioButton
+    Friend WithEvents BtnPartySaleMilkProductt As common.Controls.MyRadioButton
     Friend WithEvents BtnProductWiseSaleQuantity As common.Controls.MyRadioButton
     Friend WithEvents BtnStcRegisterPartyandItemWiseSummary As common.Controls.MyRadioButton
     Friend WithEvents RadGroupBox3 As RadGroupBox
