@@ -91,7 +91,11 @@ Public Class FrmMultipleProcDeduction
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
-
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
 
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -523,7 +527,13 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 Return False
             End If
             btnSave.Focus()
-
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                    Return False
+                End If
+            End If
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
                 txtlocation.Focus()
                 Throw New Exception("Please first select Location")

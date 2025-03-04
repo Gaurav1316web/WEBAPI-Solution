@@ -219,8 +219,6 @@ Public Class clsPaymentHeader
             trans = clsDBFuncationality.GetTransactin()
         End If
         Dim isSaved As Boolean = True
-        Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
-
         Try
 
 
@@ -595,7 +593,7 @@ Public Class clsPaymentHeader
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
                 Dim BankAcc As String = ""
                 Dim isLocationCodeSegment As Boolean
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     BankAcc = obj.Location_Code_Prefix
                     isLocationCodeSegment = False
                 Else

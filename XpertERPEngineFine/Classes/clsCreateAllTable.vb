@@ -5645,6 +5645,7 @@ Public Class clsCreateAllTable
             coll.Add("DateAndTime", "DATETIME NULL")
             coll.Add("TapalNo", "VARCHAR(100) NULL")
             coll.Add("FarmerInVendor", "varchar(20) null")
+            coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Head", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -15414,6 +15415,7 @@ Public Class clsCreateAllTable
             coll.Add("Document_No", "varchar(30)  NOT NULL")
             coll.Add("IsChequeBounce", "char(1)  not null default 'N'")
             coll.Add("Reverse_TDS_Amount", "decimal (18,2)  not null default 0")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_REVERSE", coll, "", True, False, "", "Reverse_Code", "Reversal_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -16806,6 +16808,7 @@ Public Class clsCreateAllTable
             coll.Add("Bank_Charges_Ac", "Varchar(50) null")
             coll.Add("From_Date", "Datetime  NULL")
             coll.Add("To_Date", "Datetime  NULL")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_TRANSFER", coll, "", True, False, "", "Transfer_No", "Transfer_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -26796,6 +26799,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("DateAndTime", "DATETIME NULL")
             coll.Add("TapalNo", "VARCHAR(100) NULL")
             coll.Add("VSP_CODE", "VARCHAR(12) NULL")
+            coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOURNAL_MASTER", coll, Nothing, True, True, "", "Voucher_No", "Voucher_Date", True)
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOURNAL_MASTER_SYNC", coll, Nothing, False, False)
 

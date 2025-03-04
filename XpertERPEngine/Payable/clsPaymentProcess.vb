@@ -126,7 +126,7 @@ Public Class clsPaymentProcessHead
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Loc_Seg_Code", clsCommon.myCstr(obj.Loc_Seg_Code))
-            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(obj.Location_Code_Prefix))
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(obj.Location_Code_Prefix), True)
             clsCommon.AddColumnsForChange(coll, "PaymentDesc", clsCommon.myCstr(obj.PaymentDesc))
             clsCommon.AddColumnsForChange(coll, "MCC_Code_Selected", obj.MCC_Code_Selected, True)
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
@@ -150,8 +150,7 @@ Public Class clsPaymentProcessHead
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
                 Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1)
-                Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Location_Code_Prefix, False)
                 Else
                     If MultipleFinderFillAuto Then
