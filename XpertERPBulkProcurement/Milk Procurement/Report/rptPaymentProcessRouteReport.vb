@@ -56,6 +56,8 @@ Public Class rptPaymentProcessRouteReport
             dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
             dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
             Reset()
+            RadPageViewPage3.Text = "Report 2"
+            RadPageViewPage4.Text = "Report 3"
             gbSummaryReportType.Visible = False
             lblMCC.Visible = False
             If SettShowMultipleLegers Then
@@ -3769,7 +3771,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             Dim dt1 As DataTable = Nothing
 
 
-            qry = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            qry = " select 'Date Range : " + clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd/MMM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(dtpDailySummaryToDate.Value, "dd/MMM/yyyy") + "' As [DateRange],'" + objCommonVar.CurrComp_Code1 + "' As CompCode, Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG  from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
                                   where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
@@ -3944,10 +3946,14 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
 
                 Dim frmCRV As New frmCrystalReportViewer()
                 If PaymentCWchk.Checked = True Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReportCycleWise", "")
+                    End If
                     frmCRV = Nothing
-                Else
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                     frmCRV = Nothing
                 End If
             Else
@@ -3981,7 +3987,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     End Sub
     Private Sub btnPrintDailySummaryRouteWise_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummaryRouteWise.Click
         Try
-            Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            Dim qry As String = " select 'Date Range : " + clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd/MMM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(dtpDailySummaryToDate.Value, "dd/MMM/yyyy") + "' As [DateRange],Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT TSPL_BULK_ROUTE_MASTER.ROUTE_NO as ROUTE_CODE,max(TSPL_BULK_ROUTE_MASTER.route_name) as Route_name, max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG 								  
 								   from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
@@ -5303,9 +5309,13 @@ TSPL_MILK_COLLECTION_MCC
 
     Private Sub btnMCCWise_Click(sender As Object, e As EventArgs) Handles btnMCCWise.Click
         Try
+            Dim strCity As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_City_MASTER.City_Name from TSPL_City_MASTER 
+Inner Join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.City_Code=TSPL_City_MASTER.City_Code
+where TSPL_LOCATION_MASTER.IsMainPlant=1 And TSPL_LOCATION_MASTER.Location_Code='" + objCommonVar.CurrLocationCode + "'"))
+
             Dim Qry As String = "Select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,
 TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,
-CONCAT('MCC Wise Quantity Report from ','" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "',' to ','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "',' for ','" + objCommonVar.CurrLocationName + " Unit') As FromToDate,
+CONCAT('MCC Wise Quantity Report from ','" + clsCommon.GetPrintDate(txtDateFrom.Value, "dd/MMM/yyyy") + "',' to ','" + clsCommon.GetPrintDate(txtDateTo.Value, "dd/MMM/yyyy") + "',' for ','" + strCity + "',' Unit') As FromToDate,
 final.* from (Select [Route Code],MAX([Route Name]) As [Route Name],
 Mcc_Code_VLC_Uploader As [MCC Uploader Code], Max(MCC) As MCC,MAX([MCC Name]) As [MCC Name],
 Sum(Qty) As Qty ,Round(Case When Max([Days])>0 Then  Sum(Qty)/Max([Days]) Else 0 End,2) As [Average]
@@ -5344,8 +5354,8 @@ TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc , TSPL_MILK_SRN_DETAIL
                 Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.GetMulcallString(fndMultMCC.arrValueMember) + ")"
             End If
             Qry += ")xyz  
- Group By [Route Code],Mcc_Code_VLC_Uploader)final Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
- Order By [Route Code],[MCC Uploader Code]"
+ Group By [Route Code],Mcc_Code_VLC_Uploader)final 
+Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' Order By [Route Code],[MCC Uploader Code]"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()

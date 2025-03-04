@@ -12,6 +12,7 @@ Public Class frmGRN
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim ApplySendApprovalSetting As Boolean = False
     Private PurchaseModulePickFixTaxRate As Boolean = False
     Dim AllowPurchaseModulewithUniqueItem As Integer = 0
     Dim Tolerence_Qty As Double = 0
@@ -313,6 +314,8 @@ Public Class frmGRN
         Is_RGP_After_PO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, Nothing)) = "1", True, False))
         AutoClosePO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, Nothing)) = "1", True, False))
         AutoClosePOBasedOnSRNQtyWithTolerance = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = "1", True, False))
+        ApplySendApprovalSetting = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplySendApprovalSetting, clsFixedParameterCode.ApplySendApprovalSetting, Nothing)) = "1", True, False))
+
         If AutoClosePO Or AutoClosePOBasedOnSRNQtyWithTolerance Then
             txtinvoiceno.Visible = True
             txt_invdate.Visible = True
@@ -552,6 +555,8 @@ Public Class frmGRN
         btncancel.Visible = False
         chkSkipPurchaseQc.Enabled = False
         chkSkipPurchaseQc.Checked = False
+        Inter_unit_Purchk.Enabled = True
+        Inter_unit_Purchk.Checked = False
         'txtRgp_no.Enabled = True
         chkJobWorkOutward.Checked = False
         'btncancel.Visible = False
@@ -3397,6 +3402,36 @@ Public Class frmGRN
             Return False
         End If
 
+
+        Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
+        If qrychk = 1 Then
+            If Inter_unit_Purchk.Checked Then
+            Else
+                common.clsCommon.MyMessageBoxShow("Please check interunitPurchase checkbox")
+                Inter_unit_Purchk.Focus()
+                Return False
+            End If
+        Else
+            If Inter_unit_Purchk.Checked Then
+                common.clsCommon.MyMessageBoxShow("Please map this vendor with cfp_uniton vendor master or uncheck interunit checkbox")
+                Inter_unit_Purchk.Focus()
+                Return False
+            End If
+        End If
+        'If Inter_unit_Purchk.Checked Then
+        '        ' Check if the vehicle number is empty
+        '        Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' "))
+        '        If qry = 0 Then
+        '            common.clsCommon.MyMessageBoxShow("Please Map this Vendor on Vendor master screen with cfp_unit checkbox")
+        '            Return False
+        '        End If
+        '    Else
+        '        common.clsCommon.MyMessageBoxShow("Please check interunitPurchase checkbox")
+        '        Inter_unit_Purchk.Focus()
+        '        Return False
+        '    End If
+
+
         '===========Added By Rohit on Aug 12,2015=======
         If clsCommon.myLen(txtShipToLocation.Value) > 0 And Not isApplyBrachAccounting Then
             If Not clsCommon.CompairString(txtShipToLocation.Value, txtBillToLocation.Value) = CompairStringResult.Equal Then
@@ -3541,34 +3576,36 @@ Public Class frmGRN
                             End If
                             'Return False
                         ElseIf ChekPostBtn Then
-                            If ApproveQty <= 0 Then
-                                Dim userResponse As DialogResult
-                                userResponse = clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity with Damage(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ") " + strTemp + " .At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + Environment.NewLine + "Are you sure to send for approval ? ", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes
-                                If userResponse = -1 Then
-                                    Dim Count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Program_Code) from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + txtDocNo.Value + "'"))
-                                    If Count > 0 Then
-                                        clsCommon.MyMessageBoxShow(Me, "Document already send for approval but approval pending", Me.Text)
-                                        Return False
-                                    Else
-                                        If SendDocumentForApproval((dblQty - dblPendingQty)) Then
+                            If ApplySendApprovalSetting Then
+                                If ApproveQty <= 0 Then
+                                    Dim userResponse As DialogResult
+                                    userResponse = clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity with Damage(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ") " + strTemp + " .At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + Environment.NewLine + "Are you sure to send for approval ? ", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes
+                                    If userResponse = -1 Then
+                                        Dim Count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Program_Code) from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + txtDocNo.Value + "'"))
+                                        If Count > 0 Then
+                                            clsCommon.MyMessageBoxShow(Me, "Document already send for approval but approval pending", Me.Text)
                                             Return False
+                                        Else
+                                            If SendDocumentForApproval((dblQty - dblPendingQty)) Then
+                                                Return False
+                                            End If
                                         End If
+                                    Else
+                                        Return False
+                                    End If
+                                ElseIf ApproveQty > 0 Then
+                                    If dblQty > (dblPendingQty + ApproveQty) Then
+                                        clsCommon.MyMessageBoxShow(Me, "Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Total Qty is " + clsCommon.myCstr(dblPendingQty + ApproveQty) + "." + Environment.NewLine + "Entered Qty can't be more then Total Qty.", Me.Text)
+                                        Return False
+                                    ElseIf clsCommon.MyMessageBoxShow("Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Are you sure to continue... ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No AndAlso ApproveQty > 0 Then
+                                        Return False
                                     End If
                                 Else
                                     Return False
                                 End If
-                            ElseIf ApproveQty > 0 Then
-                                If dblQty > (dblPendingQty + ApproveQty) Then
-                                    clsCommon.MyMessageBoxShow(Me, "Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Total Qty is " + clsCommon.myCstr(dblPendingQty + ApproveQty) + "." + Environment.NewLine + "Entered Qty can't be more then Total Qty.", Me.Text)
-                                    Return False
-                                ElseIf clsCommon.MyMessageBoxShow("Entered Qty is " + clsCommon.myCstr(dblQty) + "." + Environment.NewLine + "Pending Qty Is " + clsCommon.myCstr(dblPendingQty) + "." + Environment.NewLine + "Approved Qty is " + clsCommon.myCstr(ApproveQty) + "." + Environment.NewLine + "Are you sure to continue... ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No AndAlso ApproveQty > 0 Then
-                                    Return False
-                                End If
-                            Else
-                                Return False
                             End If
                         End If
-                    End If
+                        End If
                 End If
             End If
             If Not arrICode.Contains(strICode) Then
@@ -3763,6 +3800,7 @@ Public Class frmGRN
         Try
             Dim obj As New clsGRNHead()
             obj.IsSkipPurchaseQC = IIf(chkSkipPurchaseQc.Checked = True, 1, 0)
+            obj.Inter_unit_Purchase = IIf(Inter_unit_Purchk.Checked = True, 1, 0)
             obj.isJobWorkOutward = IIf(chkJobWorkOutward.Checked = True, 1, 0)
             obj.GRN_No = txtDocNo.Value
             obj.GRN_Date = txtDate.Value
@@ -4303,6 +4341,7 @@ Public Class frmGRN
                     btncancel.Visible = False
                 End If
                 chkSkipPurchaseQc.Checked = IIf(obj.IsSkipPurchaseQC = 1, True, False)
+                Inter_unit_Purchk.Checked = IIf(obj.Inter_unit_Purchase = 1, True, False)
                 chkJobWorkOutward.Checked = IIf(obj.isJobWorkOutward = 1, True, False)
                 chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(obj.Vendor_Code)
                 chkSkipPurchaseQc.Enabled = IIf(clsVendorMaster.IsAllowSkipPurchaseQC(obj.Vendor_Code) = True, True, False)
@@ -5533,7 +5572,10 @@ Public Class frmGRN
             ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
                 AddNew()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
-                SaveData(False)
+                If AllowToSave(False) Then
+                    SaveData(False)
+                End If
+                'SaveData(False)
             ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
                 PostData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then

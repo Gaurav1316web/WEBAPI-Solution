@@ -24,6 +24,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMilkPurchaseInvoiceMCC))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -103,6 +104,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -178,6 +180,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -196,6 +199,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnViewTDSDetails)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBillOfSupply)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -219,7 +223,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(988, 494)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -605,7 +608,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.lblMccName.Name = "lblMccName"
         Me.lblMccName.Size = New System.Drawing.Size(381, 19)
         Me.lblMccName.TabIndex = 28
-        Me.lblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel10
         '
@@ -658,7 +660,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel7.Location = New System.Drawing.Point(439, 71)
         Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel7.Size = New System.Drawing.Size(85, 18)
         Me.MyLabel7.TabIndex = 27
         Me.MyLabel7.Text = "Secretary Name"
         '
@@ -845,7 +847,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(381, 19)
         Me.lblRouteDesc.TabIndex = 30
-        Me.lblRouteDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVSPCode
         '
@@ -867,7 +868,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.lblVSPDesc.Name = "lblVSPDesc"
         Me.lblVSPDesc.Size = New System.Drawing.Size(381, 19)
         Me.lblVSPDesc.TabIndex = 27
-        Me.lblVSPDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDocDate
         '
@@ -973,11 +973,14 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -985,7 +988,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.gv1.Size = New System.Drawing.Size(947, 150)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'pvpCustomFields
         '
@@ -1319,7 +1322,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(988, 20)
         Me.rdmenufile.TabIndex = 67
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -1331,17 +1333,25 @@ Partial Class frmMilkPurchaseInvoiceMCC
         '
         'BtnsaveLayout
         '
-        Me.BtnsaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnsaveLayout.AccessibleName = "Save Layout"
         Me.BtnsaveLayout.Name = "BtnsaveLayout"
         Me.BtnsaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Enabled = False
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(509, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 22)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'frmMilkPurchaseInvoiceMCC
         '
@@ -1435,6 +1445,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1519,5 +1530,6 @@ Partial Class frmMilkPurchaseInvoiceMCC
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents lblRoundOffAmount As common.Controls.MyLabel
     Friend WithEvents btnViewTDSDetails As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

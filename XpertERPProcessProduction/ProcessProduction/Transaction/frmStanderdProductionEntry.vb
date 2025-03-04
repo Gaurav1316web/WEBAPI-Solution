@@ -1,5 +1,4 @@
-﻿
-Imports common
+﻿Imports common
 
 Public Class frmStanderdProductionEntry
     Inherits FrmMainTranScreen
@@ -17,6 +16,7 @@ Public Class frmStanderdProductionEntry
     Const colItemCode As String = "ItemCode"
     Const colItemDesc As String = "ItemDesc"
     Const colUOMBag As String = "UOMBag"
+    Const colReprocessQty As String = "colReprocessQty"
     Const colFINAL_PROD_Qty_Bag As String = "colFINAL_PROD_Qty_Bag"
     Const colUOM As String = "UOM"
     Const colConsumptionQtyOriginal As String = "colConsumptionQtyOriginal"
@@ -82,6 +82,19 @@ Public Class frmStanderdProductionEntry
     Dim SettGunnyBagTollerance As Decimal = 10
 #End Region
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Reprocess", "integer NULL")
+        coll.Add("Reprocess_Production_Entry", "Varchar(30) NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+        coll.Add("Reprocess_Item_Code", "varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Reprocess_H_Qty", "decimal(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY", coll, Nothing, True, True, "", "PROD_ENTRY_CODE", "PROD_DATE", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Reprocess_Qty", "decimal(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
+
+
+
         SetUserMgmtNew()
         DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
         If DecimalPointQty <= 0 Then
@@ -217,11 +230,9 @@ Public Class frmStanderdProductionEntry
         gvBatch.Columns.Clear()
 
         Dim LineNo As New GridViewTextBoxColumn
-
         Dim PPCode As New GridViewTextBoxColumn
         Dim ProdLineCode As New GridViewTextBoxColumn
         Dim BOMCode As New GridViewTextBoxColumn
-
         Dim ItemCode As New GridViewTextBoxColumn
         Dim ItemDesc As New GridViewTextBoxColumn
         Dim UOMBag As New GridViewTextBoxColumn
@@ -239,7 +250,6 @@ Public Class frmStanderdProductionEntry
         Dim EndTime As New GridViewDateTimeColumn
         Dim MfgDate As New GridViewDateTimeColumn
         Dim ExpDate As New GridViewDateTimeColumn
-
         Dim FIFOCost As New GridViewDecimalColumn
         Dim LIFOCost As New GridViewDecimalColumn
         Dim AvgCost As New GridViewDecimalColumn
@@ -253,22 +263,6 @@ Public Class frmStanderdProductionEntry
         LineNo.ReadOnly = True
         LineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvBatch.Columns.Add(LineNo)
-
-        'PPCode.FormatString = ""
-        'PPCode.HeaderText = "PP Code"
-        'PPCode.Name = colPPCode
-        'PPCode.Width = 70
-        'PPCode.ReadOnly = True
-        'PPCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(PPCode)
-
-        'ProdLineCode.FormatString = ""
-        'ProdLineCode.HeaderText = "Prod.Line Code"
-        'ProdLineCode.Name = colProdLineCode
-        'ProdLineCode.Width = 70
-        'ProdLineCode.ReadOnly = True
-        'ProdLineCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(ProdLineCode)
 
         BOMCode.FormatString = ""
         BOMCode.HeaderText = "BOM Code"
@@ -294,15 +288,19 @@ Public Class frmStanderdProductionEntry
         ItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvBatch.Columns.Add(ItemDesc)
 
-        UOMBag.FormatString = ""
-        UOMBag.HeaderText = "Bag Uom"
-        UOMBag.Name = colUOMBag
-        UOMBag.Width = 100
-        UOMBag.ReadOnly = True
-        UOMBag.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvBatch.Columns.Add(UOMBag)
-
         Dim repoFinalProdQtyBag As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoFinalProdQtyBag.FormatString = ""
+        repoFinalProdQtyBag.Name = colReprocessQty
+        repoFinalProdQtyBag.Width = 150
+        repoFinalProdQtyBag.HeaderText = "Reprocess Bag Qty"
+        repoFinalProdQtyBag.DecimalPlaces = DecimalPointQty
+        repoFinalProdQtyBag.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoFinalProdQtyBag.DecimalPlaces = 3
+        repoFinalProdQtyBag.ReadOnly = False
+        repoFinalProdQtyBag.IsVisible = False
+        gvBatch.MasterTemplate.Columns.Add(repoFinalProdQtyBag)
+
+        repoFinalProdQtyBag = New GridViewDecimalColumn()
         repoFinalProdQtyBag.FormatString = ""
         repoFinalProdQtyBag.Name = colFINAL_PROD_Qty_Bag
         repoFinalProdQtyBag.Width = 150
@@ -314,13 +312,13 @@ Public Class frmStanderdProductionEntry
         repoFinalProdQtyBag.IsVisible = True
         gvBatch.MasterTemplate.Columns.Add(repoFinalProdQtyBag)
 
-        UOM.FormatString = ""
-        UOM.HeaderText = "LCF UOM"
-        UOM.Name = colUOM
-        UOM.Width = 100
-        UOM.ReadOnly = True
-        UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvBatch.Columns.Add(UOM)
+        UOMBag.FormatString = ""
+        UOMBag.HeaderText = "Bag Uom"
+        UOMBag.Name = colUOMBag
+        UOMBag.Width = 100
+        UOMBag.ReadOnly = True
+        UOMBag.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvBatch.Columns.Add(UOMBag)
 
         Dim repoFinalProdQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoFinalProdQty.FormatString = ""
@@ -333,6 +331,14 @@ Public Class frmStanderdProductionEntry
         repoFinalProdQty.ReadOnly = True
         repoFinalProdQty.IsVisible = True
         gvBatch.MasterTemplate.Columns.Add(repoFinalProdQty)
+
+        UOM.FormatString = ""
+        UOM.HeaderText = "LCF UOM"
+        UOM.Name = colUOM
+        UOM.Width = 100
+        UOM.ReadOnly = True
+        UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvBatch.Columns.Add(UOM)
 
         BatchQty.FormatString = ""
         BatchQty.HeaderText = "Batch Qty"
@@ -426,20 +432,6 @@ Public Class frmStanderdProductionEntry
         LabTesting.IsVisible = False
         gvBatch.Columns.Add(LabTesting)
 
-        'Dim repoFinalProdQtyInBag As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'repoFinalProdQtyInBag.FormatString = ""
-        'repoFinalProdQtyInBag.Name = colFINAL_PROD_QtyInBag
-        'repoFinalProdQtyInBag.Width = 100
-        'repoFinalProdQtyInBag.HeaderText = "Production Bag Qty"
-        ''repoFinalProdQtyInBag.DecimalPlaces = DecimalPointQty
-        ''repoFinalProdQtyInBag.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        'repoFinalProdQtyInBag.DecimalPlaces = 0
-        'repoFinalProdQtyInBag.ReadOnly = False
-        'repoFinalProdQtyInBag.IsVisible = True
-        'gvBatch.MasterTemplate.Columns.Add(repoFinalProdQtyInBag)
-
-
-
         Dim repoSP_Location_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSP_Location_Code.FormatString = ""
         repoSP_Location_Code.Name = colSP_Loaction_Code
@@ -457,41 +449,6 @@ Public Class frmStanderdProductionEntry
         repoSP_Location_Desc.ReadOnly = True
         repoSP_Location_Desc.IsVisible = False
         gvBatch.MasterTemplate.Columns.Add(repoSP_Location_Desc)
-        'StartTime.Format = DateTimePickerFormat.Time
-        'StartTime.HeaderText = "Start Time"
-        'StartTime.Name = colStartTime
-        'StartTime.CustomFormat = "hh:mm tt"
-        'StartTime.FormatString = "{0:hh:mm tt}"
-        'StartTime.Width = 130
-        'StartTime.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(StartTime)
-
-        'EndTime.Format = DateTimePickerFormat.Time
-        'EndTime.HeaderText = "End Time"
-        'EndTime.CustomFormat = "hh:mm tt"
-        'EndTime.FormatString = "{0:hh:mm tt}"
-        'EndTime.Name = colEndTime
-        'EndTime.Width = 130
-        'EndTime.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(EndTime)
-
-        'MfgDate.FormatString = ""
-        'MfgDate.HeaderText = "Manufacturing Date"
-        'MfgDate.Name = colMfgDate
-        'MfgDate.Width = 100
-        'MfgDate.ReadOnly = True
-        'MfgDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(MfgDate)
-
-        'ExpDate.FormatString = ""
-        'ExpDate.HeaderText = "Expiry Date"
-        'ExpDate.Name = colExpDate
-        'ExpDate.Width = 100
-        ''ExpDate.ReadOnly = True
-        'ExpDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.Columns.Add(ExpDate)
-
-        ''costing columns
 
         CostingMethod.FormatString = ""
         CostingMethod.HeaderText = "Costing Method"
@@ -1216,6 +1173,12 @@ Public Class frmStanderdProductionEntry
         gvBatch.Rows.Clear()
         gvBatch.Rows.AddNew()
         ClickGo = False
+
+        chkReporcess.Checked = False
+        txtReprocessItem.Value = ""
+        txtReprocessProductionEntry.Value = ""
+        txtReprocessQty.Value = Nothing
+
         isCellValueChangedOpenGunny = False
     End Sub
     Function AllowToSave(Optional ByVal isPost As Boolean = False) As Boolean
@@ -1337,6 +1300,63 @@ Public Class frmStanderdProductionEntry
         End If
         UcAttachment1.AllowToSave()
 
+        If chkReporcess.Checked Then
+            If rbtnReprocessProuctionEnty.IsChecked Then
+                If clsCommon.myLen(txtReprocessProductionEntry.Value) <= 0 Then
+                    txtReprocessProductionEntry.Focus()
+                    Throw New Exception("Please select " + txtReprocessProductionEntry.MyLinkLable1.Text)
+                End If
+            End If
+            If clsCommon.myLen(txtReprocessItem.Value) <= 0 Then
+                txtReprocessItem.Focus()
+                Throw New Exception("Please select " + txtReprocessItem.MyLinkLable1.Text)
+            End If
+            If txtReprocessQty.Value <= 0 Then
+                txtReprocessQty.Focus()
+                Throw New Exception("Please enter " + txtReprocessQty.MyLinkLable1.Text)
+            End If
+            For Each grow As GridViewRowInfo In gvBatch.Rows
+                If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 Then
+                    If Not clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colItemCode).Value), txtReprocessItem.Value) = CompairStringResult.Equal Then
+                        txtReprocessQty.Focus()
+                        Throw New Exception("Invalid reprocess item [" + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "] It should be [" + txtReprocessItem.Value + "]")
+                    End If
+                    If clsCommon.myCDecimal(grow.Cells(colReprocessQty).Value) <= 0 Then
+                        Throw New Exception("Please enter reprocess Qty ")
+                    End If
+                End If
+            Next
+
+            If rbtnReprocessProuctionEnty.IsChecked Then
+                Dim qry As String = "select sum(Qty*RI) as Qty from (
+select TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,((TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY*MulConvFat.Conversion_Factor)/DivConvFat.Conversion_Factor)  as Qty,1 as RI ,1 as chk
+from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+inner join TSPL_ITEM_UOM_DETAIL as MulConvFat on MulConvFat.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MulConvFat.UOM_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.UNIT_CODE
+inner join TSPL_ITEM_UOM_DETAIL as DivConvFat on DivConvFat.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and DivConvFat.UOM_Code='Bag'
+where TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE='" + txtReprocessProductionEntry.Value + "'
+union all
+select TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Item_Code,TSPL_SPP_PRODUCTION_ENTRY.Reprocess_H_Qty as Qty,-1 as RI ,0 as chk
+from  TSPL_SPP_PRODUCTION_ENTRY  
+where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProductionEntry.Value + "' and TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE not in ('" + txtCode.Value + "')
+)xx group by ITEM_CODE having sum(Qty*RI)>0 and sum(chk)>0"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If txtReprocessQty.Value > clsCommon.myCDecimal(dt.Rows(0)("Qty")) Then
+                        txtReprocessQty.Focus()
+                        Throw New Exception("Available Qty for Reprocess is [" + clsCommon.myCstr(dt.Rows(0)("Qty")) + "]")
+                    End If
+                End If
+            End If
+
+            Dim availQty As Decimal = clsItemLocationDetails.getBalance(txtReprocessItem.Value, txtLocation.Value, txtCode.Value, clsCommon.GetDateWithEndTime(dtpDate.Value), Nothing, "Bag", 0)
+            If txtReprocessQty.Value > availQty Then
+                txtReprocessQty.Focus()
+                Throw New Exception("Available Qty for Reprocess item is [" + clsCommon.myCstr(availQty) + "]")
+            End If
+
+            EnterReprocessQty()
+        End If
         Return True
     End Function
     Function ValidateFatSNFQuantityControl() As Boolean
@@ -1425,6 +1445,20 @@ Public Class frmStanderdProductionEntry
                 'obj.ArrWF = New List(Of clsPPPEWFItemDetail)
                 'obj.ArrScrap = New List(Of clsPPScrapItemDetail)
 
+                If chkReporcess.Checked Then
+                    If rbtnReprocessProuctionEnty.IsChecked Then
+                        obj.Reprocess = 1
+                    Else
+                        obj.Reprocess = 2
+                    End If
+                    obj.Reprocess_Production_Entry = txtReprocessProductionEntry.Value
+                    obj.Reprocess_Item_Code = txtReprocessItem.Value
+                    obj.Reprocess_H_Qty = txtReprocessQty.Value
+                Else
+                    obj.Reprocess = 0
+                End If
+
+
 
                 For Each grow As GridViewRowInfo In gvBatch.Rows
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colItemCode).Value)) > 0 Then
@@ -1461,6 +1495,8 @@ Public Class frmStanderdProductionEntry
                         'obj1.FINAL_PRODUCTION_QTY_Max = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Max).Value)
 
                         obj1.LOCATION_CODE = clsCommon.myCstr(grow.Cells(colSP_Loaction_Code).Value)
+
+                        obj1.Reprocess_Qty = clsCommon.myCDecimal(grow.Cells(colReprocessQty).Value)
 
                         obj.ArrBatchItem.Add(obj1)
 
@@ -1633,6 +1669,20 @@ Public Class frmStanderdProductionEntry
             txtConsmLocOther.Value = obj.CONSM_LOCATION_CODE_Other
             lblConsmLocOtherDesc.Text = clsLocation.GetName(txtConsmLocOther.Value, Nothing)
 
+            If obj.Reprocess = 0 Then
+                chkReporcess.Checked = False
+            Else
+                chkReporcess.Checked = True
+                If obj.Reprocess = 1 Then
+                    rbtnReprocessProuctionEnty.IsChecked = True
+                Else
+                    rbtnReprocessStock.IsChecked = True
+                End If
+                txtReprocessProductionEntry.Value = obj.Reprocess_Production_Entry
+                txtReprocessItem.Value = obj.Reprocess_Item_Code
+                txtReprocessQty.Value = obj.Reprocess_H_Qty
+            End If
+
             Dim arr_BatchItem As New List(Of String)
             Dim arr_WrckageItem As New List(Of String)
             Dim arr_ScrapItem As New List(Of String)
@@ -1657,6 +1707,7 @@ Public Class frmStanderdProductionEntry
                     '' new code 
                     Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value = clsStanderdProductionEntry.GetPrevProductionQty(txtBatchNo.Text, txtCode.Value, objTr.ITEM_CODE, Nothing)
                     Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPendingBatchQty).Value = objTr.BATCH_QTY - clsCommon.myCDecimal(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value)
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colReprocessQty).Value = objTr.Reprocess_Qty
 
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colReceiptQty).Value = clsCommon.myCDecimal(objTr.RECEIPT_QTY)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colRejHead).Value = clsCommon.myCstr(objTr.REJ_HEAD)
@@ -1793,6 +1844,9 @@ Public Class frmStanderdProductionEntry
             UcAttachment1.LoadData(obj.PROD_ENTRY_CODE)
             '' load section 
             'FillSection()
+
+            SetReprocessVisbility()
+            SetReprocessProuctionFinderEnable()
         End If
         isInsideLoadData = False
 
@@ -2046,6 +2100,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         'End If
                         gvBatch.CurrentRow.Cells(colSP_Loaction_Code).Value = clsLocation.getFinder(WhrCls, gvBatch.CurrentRow.Cells(colSP_Loaction_Code).Value, False)
                         gvBatch.CurrentRow.Cells(colSP_Loaction_Desc).Value = clsLocation.GetName(gvBatch.CurrentRow.Cells(colSP_Loaction_Code).Value, Nothing)
+                    ElseIf e.Column Is gvBatch.Columns(colReprocessQty) Then
+                        EnterReprocessQty()
                     ElseIf e.Column Is gvBatch.Columns(colFINAL_PROD_Qty_Bag) Then
                         UpdateCurrentRow(gvBatch.CurrentRow.Index)
                         ClickGo = True
@@ -2059,6 +2115,16 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub EnterReprocessQty()
+        If clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colReprocessQty).Value) < txtReprocessQty.Value Then
+            gvBatch.CurrentRow.Cells(colReprocessQty).Value = txtReprocessQty.Value
+        End If
+        gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty_Bag).Value = clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colReprocessQty).Value) - txtReprocessQty.Value
+        UpdateCurrentRow(gvBatch.CurrentRow.Index)
+        ClickGo = True
+    End Sub
+
     Sub OpenBOMICode(ByVal isButtonClicked As Boolean)
         Dim icode As String = ""
         Dim whrCls As String = ""
@@ -2103,62 +2169,22 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     End Sub
     Sub OpenBOMCode(ByVal isButtonClicked As Boolean)
         Dim icode As String = ""
-        'Dim whrCls As String = ""
         Dim bomcode As String = ""
-        'icode = clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value)
-        'Dim sectionCondition As String = ""
-
-        'If clsCommon.myLen(fndItemCategory.Value) > 0 Then
-        '    sectionCondition = " and tspl_pp_bom_head.ITEM_CATEGORY_CODE='" + fndItemCategory.Value + "' "
-        'End If
-
-        'If clsCommon.myLen(icode) > 0 Then
-        '    whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)<>1 and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' " + sectionCondition + " "
-        'Else
-        '    whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)<>1 and tspl_item_master.item_type in ('F','S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' " + sectionCondition + " "
-        'End If
-
-        'Dim oldbomcode As String = clsCommon.myCstr(gvBatch.CurrentRow.Cells(colBOMCode).Value)
-
-        'Dim qry As String = " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code "
-        ''tspl_item_master.item_type in ('F','S') and
-        'Dim whr As String = "  isnull(TSPL_MF_BOM_HEAD.POSTED,'0')='1'  and
-        '                      ( ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' between cast(TSPL_MF_BOM_HEAD.START_DATE as date) and cast(TSPL_MF_BOM_HEAD.END_DATE as date) ) or
-        '                      (  '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' >=  cast(TSPL_MF_BOM_HEAD.START_DATE as date)  and TSPL_MF_BOM_HEAD.END_DATE is null) )"
-        '' bomcode = clsCommon.ShowSelectForm("SProductionBOM@Finder", qry, "Code", whr, "", "Code", isButtonClicked)  'clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, dtpDate.Value, isButtonClicked)
-        ''bomcode = clsCommon.ShowSelectForm("SProductionBOM@Finder", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked)
-        'qry = qry + " inner join ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + "   group by TSPL_MF_BOM_HEAD.prod_item_code )  TBL_REVISION on TBL_REVISION.prod_item_code = TSPL_MF_BOM_HEAD.prod_item_code and  TBL_REVISION.REVISION_NO = TSPL_MF_BOM_HEAD.revision_no "
-
-
-
-        '   Dim whr As String = "  isnull(TSPL_MF_BOM_HEAD.POSTED,'0')='1' and TSPL_MF_BOM_HEAD.Location_code='" + txtLocation.Value + "' and
-        '                         ( ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' between cast(TSPL_MF_BOM_HEAD.START_DATE as date) and cast(TSPL_MF_BOM_HEAD.END_DATE as date) ) or
-        '                         (  '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' >=  cast(TSPL_MF_BOM_HEAD.START_DATE as date)  and TSPL_MF_BOM_HEAD.END_DATE is null) )"
-
-        '   Dim qry As String = " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
-        'TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
-        '      inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
-        '      WHERE isnull(TSPL_MF_BOM_HEAD.POSTED,'0')='1' and TSPL_MF_BOM_HEAD.Location_code='" + txtLocation.Value + "' and NOT EXISTS ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + " AND  tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code  group by TSPL_MF_BOM_HEAD.prod_item_code ) "
-
-        '   qry += " UNION ALL "
-
-        '   qry += " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
-        '         TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
-        '           inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
-        '           INNER JOIN ( SELECT AAA.LOCATION_CODE,AAA.PROD_ITEM_CODE,MAX(AAA.REVISION_NO) AS REVISION_NO,AAA.BARLEY FROM ( select aa.LOCATION_CODE,aa.PROD_ITEM_CODE,MAX(aa.REVISION_NO) AS REVISION_NO ,AA.RM0001,AA.RM0006, case when ISNULL(aa.RM0001,0)='RM0001' AND ISNULL(aa.RM0006,0)='RM0006' THEN 0 WHEN ISNULL(aa.RM0001,0)<>'RM0001' AND ISNULL(aa.RM0006,0)='RM0006' THEN 1 WHEN ISNULL(aa.RM0001,0)='RM0001' AND ISNULL(aa.RM0006,0)<>'RM0006' THEN 0 END AS BARLEY from ( SELECT * FROM ( SELECT TSPL_MF_BOM_HEAD.LOCATION_CODE, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE, MAX(TSPL_MF_BOM_HEAD.REVISION_NO) AS REVISION_NO FROM TSPL_MF_BOM_HEAD LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE = TSPL_MF_BOM_HEAD.BOM_CODE WHERE CONSM_ITEM_CODE IN ('RM0001', 'RM0006') GROUP BY LOCATION_CODE, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE, CONSM_ITEM_CODE ) yy PIVOT ( MAX(yy.CONSM_ITEM_CODE) FOR yy.CONSM_ITEM_CODE IN ([RM0001], [RM0006]) ) AS xx )aa GROUP BY aa.LOCATION_CODE,aa.PROD_ITEM_CODE,aa.RM0006,AA.RM0001 )AAA GROUP BY AAA.LOCATION_CODE,AAA.PROD_ITEM_CODE,AAA.BARLEY ) TBL_REVISION ON TBL_REVISION.PROD_ITEM_CODE = TSPL_MF_BOM_HEAD.PROD_ITEM_CODE AND TBL_REVISION.REVISION_NO = TSPL_MF_BOM_HEAD.REVISION_NO and  TSPL_MF_BOM_HEAD.LOCATION_CODE='" + txtLocation.Value + "' and TSPL_MF_BOM_HEAD.POSTED='1' "
         Dim qry As String = "select * from (
-                            select TSPL_MF_BOM_HEAD.BOM_CODE AS CODE,TSPL_MF_BOM_HEAD.BOM_DATE AS BOM_DATE,TSPL_MF_BOM_HEAD.DESCRIPTION AS DESCRIPTION,TSPL_MF_BOM_HEAD.START_DATE AS [Valid From],TSPL_MF_BOM_HEAD.END_DATE AS [Valid Upto],TSPL_MF_BOM_HEAD.STATUS as status, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE AS [Main Item Code],TSPL_ITEM_MASTER.Item_Desc as [Item Description],TSPL_MF_BOM_HEAD.PROD_ITEM_UNIT_CODE as Unit,TSPL_MF_BOM_HEAD.PROD_QUANTITY as Quantity, TSPL_MF_BOM_HEAD.REVISION_NO AS [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor as Conversion_Factor,TSPL_ITEM_UOM_DETAIL.UOM_Code as UOM_code,TSPL_MF_BOM_HEAD.location_code AS location_code  
-                            from TSPL_MF_BOM_HEAD  
-                            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE  
-                            left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='BAG' 
-                            WHERE  TSPL_ITEM_MASTER.FG_for_CF=1 and TSPL_MF_BOM_HEAD.POSTED='1'   and CONVERT(DATE,GETDATE(),103) >= TSPL_MF_BOM_HEAD.START_DATE AND CONVERT(DATE,GETDATE(),103)<= TSPL_MF_BOM_HEAD.END_DATE
-                            AND LOCATION_CODE='" + txtLocation.Value + "'
-                            )xyyx "
+select TSPL_MF_BOM_HEAD.BOM_CODE AS CODE,TSPL_MF_BOM_HEAD.BOM_DATE AS BOM_DATE,TSPL_MF_BOM_HEAD.DESCRIPTION AS DESCRIPTION,TSPL_MF_BOM_HEAD.START_DATE AS [Valid From],TSPL_MF_BOM_HEAD.END_DATE AS [Valid Upto],TSPL_MF_BOM_HEAD.STATUS as status, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE AS [Main Item Code],TSPL_ITEM_MASTER.Item_Desc as [Item Description],TSPL_MF_BOM_HEAD.PROD_ITEM_UNIT_CODE as Unit,TSPL_MF_BOM_HEAD.PROD_QUANTITY as Quantity, TSPL_MF_BOM_HEAD.REVISION_NO AS [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor as Conversion_Factor,TSPL_ITEM_UOM_DETAIL.UOM_Code as UOM_code,TSPL_MF_BOM_HEAD.location_code AS location_code  
+from TSPL_MF_BOM_HEAD  
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE  
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='BAG' 
+WHERE  TSPL_ITEM_MASTER.FG_for_CF=1 and TSPL_MF_BOM_HEAD.POSTED='1'   and CONVERT(DATE,GETDATE(),103) >= TSPL_MF_BOM_HEAD.START_DATE AND CONVERT(DATE,GETDATE(),103)<= TSPL_MF_BOM_HEAD.END_DATE
+AND LOCATION_CODE='" + txtLocation.Value + "' "
+        If chkReporcess.Checked Then
+            qry += " and TSPL_MF_BOM_HEAD.PROD_ITEM_CODE='" + txtReprocessItem.Value + "' "
+        End If
+        qry += "  )xyyx "
 
         bomcode = clsCommon.ShowSelectForm("SProductionBOM@Finderr12345", qry, "Code", "", "Code", "", isButtonClicked)
         If clsCommon.myLen(bomcode) > 0 Then
             gvBatch.CurrentRow.Cells(colBOMCode).Value = bomcode
-            'gvBatch.CurrentRow.Cells(colBOMDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select prod_quantity from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'")), DecimalPointQty)
             gvBatch.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PROD_ITEM_UNIT_CODE from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_code from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
@@ -3106,5 +3132,73 @@ where TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
         End If
         clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_ENTRY", "TSPL_SPP_PRODUCTION_ENTRY_DETAIL")
     End Sub
+
+    Private Sub chkReporcess_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkReporcess.ToggleStateChanged
+        SetReprocessVisbility()
+    End Sub
+
+    Private Sub SetReprocessVisbility()
+        grpReprocess.Visible = chkReporcess.Checked
+        If gvBatch.MasterTemplate.Columns.Contains(colReprocessQty) Then
+            gvBatch.MasterTemplate.Columns(colReprocessQty).IsVisible = chkReporcess.Checked
+        End If
+    End Sub
+
+
+    Private Sub rbtnReprocessProuctionEnty_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnReprocessProuctionEnty.ToggleStateChanged, rbtnReprocessStock.ToggleStateChanged
+        SetReprocessProuctionFinderEnable()
+    End Sub
+
+    Private Sub SetReprocessProuctionFinderEnable()
+        txtReprocessProductionEntry.Enabled = rbtnReprocessProuctionEnty.IsChecked
+    End Sub
+
+    Private Sub txtReprocessProductionEntry__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReprocessProductionEntry._MYValidating
+        Try
+            If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                txtLocation.Focus()
+                Throw New Exception("Please select location")
+            End If
+            txtReprocessProductionEntry.Value = clsStanderdProductionEntry.GetFinder(" TSPL_SPP_PRODUCTION_ENTRY.POSTED=1 and TSPL_SPP_PRODUCTION_ENTRY.location_code in ('" + txtLocation.Value + "')", txtReprocessProductionEntry.Value, isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtReprocessItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReprocessItem._MYValidating
+        Try
+            If rbtnReprocessProuctionEnty.IsChecked Then
+                If clsCommon.myLen(txtReprocessProductionEntry.Value) <= 0 Then
+                    txtReprocessProductionEntry.Focus()
+                    Throw New Exception("Please select Reprocess Production Entry")
+                End If
+                Dim qry As String = "select TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as Code,TSPL_ITEM_MASTER.Item_Desc as Name from  TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE"
+                Dim whrCls As String = " PROD_ENTRY_CODE='" + txtReprocessProductionEntry.Value + "'"
+                txtReprocessItem.Value = clsCommon.ShowSelectForm("RePro@Pe", qry, "Code", whrCls, txtReprocessItem.Value, "", isButtonClicked)
+            Else
+                txtReprocessProductionEntry.Value = ""
+                Dim whrCls As String = " tspl_item_master.item_type in ('F','S') and tspl_item_master.Active='1'"
+                txtReprocessItem.Value = clsItemMaster.getFinder(whrCls, txtReprocessItem.Value, isButtonClicked)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gvBatch_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvBatch.CellFormatting
+        Try
+            If e.Column.Index >= 0 Then
+                If (e.Column Is gvBatch.Columns(colReprocessQty)) Then
+                    gvBatch.CurrentRow.Cells(colReprocessQty).ReadOnly = Not chkReporcess.IsChecked
+                ElseIf (e.Column Is gvBatch.Columns(colFINAL_PROD_Qty_Bag)) Then
+                    gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty_Bag).ReadOnly = chkReporcess.IsChecked
+                End If
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+
+
 End Class
 

@@ -24,11 +24,11 @@ Partial Class FrmEmployeeTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblChangedDivisionName = New common.Controls.MyLabel()
         Me.fndChangedDivision = New common.UserControls.txtFinder()
@@ -79,6 +79,7 @@ Partial Class FrmEmployeeTransfer
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -124,6 +125,7 @@ Partial Class FrmEmployeeTransfer
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -184,6 +186,7 @@ Partial Class FrmEmployeeTransfer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -383,10 +386,10 @@ Partial Class FrmEmployeeTransfer
         Me.cboSalary.IsSourceFromTable = False
         Me.cboSalary.IsSourceFromValueList = False
         Me.cboSalary.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.cboSalary.Items.Add(RadListDataItem1)
-        Me.cboSalary.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.cboSalary.Items.Add(RadListDataItem3)
+        Me.cboSalary.Items.Add(RadListDataItem4)
         Me.cboSalary.Location = New System.Drawing.Point(128, 294)
         Me.cboSalary.MendatroryField = False
         Me.cboSalary.MyLinkLable1 = Me.lblDocType
@@ -606,12 +609,12 @@ Partial Class FrmEmployeeTransfer
         Me.cboDocType.IsSourceFromTable = False
         Me.cboDocType.IsSourceFromValueList = False
         Me.cboDocType.IsUnique = False
-        RadListDataItem3.Text = "Transfer Letter(For Location)"
-        RadListDataItem4.Text = "Promotion Letter"
-        RadListDataItem5.Text = "Transfer Letter(For Department)"
-        Me.cboDocType.Items.Add(RadListDataItem3)
-        Me.cboDocType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Transfer Letter(For Location)"
+        RadListDataItem6.Text = "Promotion Letter"
+        RadListDataItem7.Text = "Transfer Letter(For Department)"
         Me.cboDocType.Items.Add(RadListDataItem5)
+        Me.cboDocType.Items.Add(RadListDataItem6)
+        Me.cboDocType.Items.Add(RadListDataItem7)
         Me.cboDocType.Location = New System.Drawing.Point(131, 36)
         Me.cboDocType.MendatroryField = False
         Me.cboDocType.MyLinkLable1 = Me.lblDocType
@@ -896,6 +899,16 @@ Partial Class FrmEmployeeTransfer
         Me.btnclose.TabIndex = 6
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(227, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'FrmEmployeeTransfer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -954,6 +967,7 @@ Partial Class FrmEmployeeTransfer
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1009,5 +1023,6 @@ Partial Class FrmEmployeeTransfer
     Friend WithEvents fndChangedDivision As common.UserControls.txtFinder
     Friend WithEvents lblChangedDivision As common.Controls.MyLabel
     Friend WithEvents lblChangedDivisionName As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

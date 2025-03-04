@@ -121,7 +121,7 @@ Public Class rptdailydispatch
                     TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt,TSPL_COMPANY_MASTER.Access_Officer, TSPL_SD_SHIPMENT_DETAIL.TAX2,TSPL_SD_SHIPMENT_DETAIL.TAX2_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate
                     from TSPL_SD_SHIPMENT_DETAIL
                 left outer join tspl_sd_shipment_head on tspl_sd_shipment_head.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
-                LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+                LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.pk_id  =TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID 		
                 AND TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code = TSPL_SD_SHIPMENT_HEAD.Route_No
                 left outer join tspl_item_master  on tspl_item_master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
                 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_sd_shipment_head.Customer_Code

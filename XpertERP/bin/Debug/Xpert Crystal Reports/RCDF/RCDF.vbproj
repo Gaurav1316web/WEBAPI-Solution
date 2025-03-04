@@ -1958,6 +1958,7 @@
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscCrosstabReport.rpt" />
@@ -1965,6 +1966,7 @@
     <None Include="Crystal Reports\Sales Report\crptTradeDiscount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscountnvoice.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTransferIncomplete.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptTransportationCharges.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTrialBalance.rpt" />
     <None Include="Crystal Reports\Sales Report\crptVehiclewiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\crptVisiVPOReport.rpt" />
@@ -2029,6 +2031,7 @@
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptGatePassBoothSlip.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />

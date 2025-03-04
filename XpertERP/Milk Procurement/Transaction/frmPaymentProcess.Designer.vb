@@ -22,20 +22,24 @@ Partial Class FrmPaymentProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition28 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition29 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition30 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition31 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition32 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition33 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition34 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition35 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition36 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.txtLocationPrefixName = New common.Controls.MyTextBox()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.lblPrePending = New common.usLock()
         Me.btnPrintBillMobUser = New Telerik.WinControls.UI.RadButton()
         Me.dtpDate = New common.Controls.MyDateTimePicker()
@@ -124,10 +128,14 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -219,6 +227,7 @@ Partial Class FrmPaymentProcess
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -228,19 +237,21 @@ Partial Class FrmPaymentProcess
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(924, 425)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(967, 425)
         Me.RadPageViewPage1.Text = "Payment Process"
         '
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.pnlLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblPrePending)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnPrintBillMobUser)
         Me.SplitContainer2.Panel1.Controls.Add(Me.dtpDate)
@@ -276,14 +287,83 @@ Partial Class FrmPaymentProcess
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv)
-        Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
-        Me.SplitContainer2.SplitterDistance = 160
+        Me.SplitContainer2.Size = New System.Drawing.Size(967, 425)
+        Me.SplitContainer2.SplitterDistance = 187
         Me.SplitContainer2.TabIndex = 265
+        '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(7, 160)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(440, 23)
+        Me.pnlLocation.TabIndex = 12150
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.CalculationExpression = Nothing
+        Me.txtLocationPrefixName.FieldCode = Nothing
+        Me.txtLocationPrefixName.FieldDesc = Nothing
+        Me.txtLocationPrefixName.FieldMaxLength = 0
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.isCalculatedField = False
+        Me.txtLocationPrefixName.IsSourceFromTable = False
+        Me.txtLocationPrefixName.IsSourceFromValueList = False
+        Me.txtLocationPrefixName.IsUnique = False
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(229, 1)
+        Me.txtLocationPrefixName.MaxLength = 150
+        Me.txtLocationPrefixName.MendatroryField = False
+        Me.txtLocationPrefixName.MyLinkLable1 = Nothing
+        Me.txtLocationPrefixName.MyLinkLable2 = Nothing
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.ReadOnly = True
+        Me.txtLocationPrefixName.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefixName.ReferenceFieldName = Nothing
+        Me.txtLocationPrefixName.ReferenceTableName = Nothing
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(200, 20)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        Me.txtLocationPrefixName.TabStop = False
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(101, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
         '
         'lblPrePending
         '
         Me.lblPrePending.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblPrePending.Location = New System.Drawing.Point(638, 4)
+        Me.lblPrePending.Location = New System.Drawing.Point(684, 4)
         Me.lblPrePending.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPrePending.Name = "lblPrePending"
         Me.lblPrePending.Size = New System.Drawing.Size(84, 20)
@@ -293,7 +373,7 @@ Partial Class FrmPaymentProcess
         'btnPrintBillMobUser
         '
         Me.btnPrintBillMobUser.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(827, 57)
+        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(869, 84)
         Me.btnPrintBillMobUser.Name = "btnPrintBillMobUser"
         Me.btnPrintBillMobUser.Size = New System.Drawing.Size(87, 18)
         Me.btnPrintBillMobUser.TabIndex = 287
@@ -313,7 +393,7 @@ Partial Class FrmPaymentProcess
         Me.dtpDate.IsSourceFromTable = False
         Me.dtpDate.IsSourceFromValueList = False
         Me.dtpDate.IsUnique = False
-        Me.dtpDate.Location = New System.Drawing.Point(487, 4)
+        Me.dtpDate.Location = New System.Drawing.Point(533, 4)
         Me.dtpDate.MendatroryField = False
         Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDate.MyLinkLable1 = Me.lblDocDate
@@ -333,7 +413,7 @@ Partial Class FrmPaymentProcess
         '
         Me.lblDocDate.FieldName = Nothing
         Me.lblDocDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocDate.Location = New System.Drawing.Point(356, 6)
+        Me.lblDocDate.Location = New System.Drawing.Point(403, 6)
         Me.lblDocDate.Name = "lblDocDate"
         Me.lblDocDate.Size = New System.Drawing.Size(122, 16)
         Me.lblDocDate.TabIndex = 262
@@ -341,7 +421,7 @@ Partial Class FrmPaymentProcess
         '
         'chkAll
         '
-        Me.chkAll.Location = New System.Drawing.Point(359, 22)
+        Me.chkAll.Location = New System.Drawing.Point(405, 22)
         Me.chkAll.MyLinkLable1 = Nothing
         Me.chkAll.MyLinkLable2 = Nothing
         Me.chkAll.Name = "chkAll"
@@ -353,7 +433,7 @@ Partial Class FrmPaymentProcess
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(644, 115)
+        Me.Label1.Location = New System.Drawing.Point(690, 115)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(30, 13)
         Me.Label1.TabIndex = 297
@@ -363,7 +443,7 @@ Partial Class FrmPaymentProcess
         '
         Me.mfndMcc.arrDispalyMember = Nothing
         Me.mfndMcc.arrValueMember = Nothing
-        Me.mfndMcc.Location = New System.Drawing.Point(361, 112)
+        Me.mfndMcc.Location = New System.Drawing.Point(407, 112)
         Me.mfndMcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mfndMcc.MyLinkLable1 = Me.MyLabel4
         Me.mfndMcc.MyLinkLable2 = Nothing
@@ -396,7 +476,7 @@ Partial Class FrmPaymentProcess
         Me.txtFiscalYear.IsSourceFromTable = False
         Me.txtFiscalYear.IsSourceFromValueList = False
         Me.txtFiscalYear.IsUnique = False
-        Me.txtFiscalYear.Location = New System.Drawing.Point(235, 113)
+        Me.txtFiscalYear.Location = New System.Drawing.Point(281, 113)
         Me.txtFiscalYear.MendatroryField = False
         Me.txtFiscalYear.MyLinkLable1 = Nothing
         Me.txtFiscalYear.MyLinkLable2 = Nothing
@@ -412,7 +492,7 @@ Partial Class FrmPaymentProcess
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(168, 115)
+        Me.MyLabel6.Location = New System.Drawing.Point(214, 115)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel6.TabIndex = 291
@@ -431,7 +511,7 @@ Partial Class FrmPaymentProcess
         Me.txtPaymentCycleNo.IsSourceFromTable = False
         Me.txtPaymentCycleNo.IsSourceFromValueList = False
         Me.txtPaymentCycleNo.IsUnique = False
-        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(51, 113)
+        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(97, 113)
         Me.txtPaymentCycleNo.MendatroryField = False
         Me.txtPaymentCycleNo.MyLinkLable1 = Nothing
         Me.txtPaymentCycleNo.MyLinkLable2 = Nothing
@@ -466,7 +546,7 @@ Partial Class FrmPaymentProcess
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(66, 46)
+        Me.txtMCC.Location = New System.Drawing.Point(112, 46)
         Me.txtMCC.MendatroryField = False
         Me.txtMCC.MyLinkLable1 = Nothing
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -490,7 +570,7 @@ Partial Class FrmPaymentProcess
         Me.lblMCC.IsSourceFromTable = False
         Me.lblMCC.IsSourceFromValueList = False
         Me.lblMCC.IsUnique = False
-        Me.lblMCC.Location = New System.Drawing.Point(204, 46)
+        Me.lblMCC.Location = New System.Drawing.Point(250, 46)
         Me.lblMCC.MendatroryField = False
         Me.lblMCC.MyLinkLable1 = Nothing
         Me.lblMCC.MyLinkLable2 = Nothing
@@ -515,7 +595,7 @@ Partial Class FrmPaymentProcess
         '
         Me.txtVSP.arrDispalyMember = Nothing
         Me.txtVSP.arrValueMember = Nothing
-        Me.txtVSP.Location = New System.Drawing.Point(51, 92)
+        Me.txtVSP.Location = New System.Drawing.Point(97, 92)
         Me.txtVSP.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVSP.MyLinkLable1 = Me.MyLabel4
         Me.txtVSP.MyLinkLable2 = Nothing
@@ -536,7 +616,7 @@ Partial Class FrmPaymentProcess
         Me.txtNEFTUploaderREFNo.IsSourceFromTable = False
         Me.txtNEFTUploaderREFNo.IsSourceFromValueList = False
         Me.txtNEFTUploaderREFNo.IsUnique = False
-        Me.txtNEFTUploaderREFNo.Location = New System.Drawing.Point(134, 134)
+        Me.txtNEFTUploaderREFNo.Location = New System.Drawing.Point(180, 134)
         Me.txtNEFTUploaderREFNo.MaxLength = 30
         Me.txtNEFTUploaderREFNo.MendatroryField = False
         Me.txtNEFTUploaderREFNo.MyLinkLable1 = Nothing
@@ -561,7 +641,7 @@ Partial Class FrmPaymentProcess
         'btnUnselectAll
         '
         Me.btnUnselectAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnselectAll.Location = New System.Drawing.Point(654, 134)
+        Me.btnUnselectAll.Location = New System.Drawing.Point(704, 134)
         Me.btnUnselectAll.Name = "btnUnselectAll"
         Me.btnUnselectAll.Size = New System.Drawing.Size(161, 21)
         Me.btnUnselectAll.TabIndex = 279
@@ -570,7 +650,7 @@ Partial Class FrmPaymentProcess
         'btnSelectAll
         '
         Me.btnSelectAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectAll.Location = New System.Drawing.Point(498, 134)
+        Me.btnSelectAll.Location = New System.Drawing.Point(544, 134)
         Me.btnSelectAll.Name = "btnSelectAll"
         Me.btnSelectAll.Size = New System.Drawing.Size(150, 21)
         Me.btnSelectAll.TabIndex = 278
@@ -589,7 +669,7 @@ Partial Class FrmPaymentProcess
         Me.txtLocName.IsSourceFromTable = False
         Me.txtLocName.IsSourceFromValueList = False
         Me.txtLocName.IsUnique = False
-        Me.txtLocName.Location = New System.Drawing.Point(204, 26)
+        Me.txtLocName.Location = New System.Drawing.Point(250, 26)
         Me.txtLocName.MendatroryField = False
         Me.txtLocName.MyLinkLable1 = Nothing
         Me.txtLocName.MyLinkLable2 = Nothing
@@ -606,9 +686,9 @@ Partial Class FrmPaymentProcess
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(5, 28)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
+        Me.lblLocation.Size = New System.Drawing.Size(97, 16)
         Me.lblLocation.TabIndex = 277
-        Me.lblLocation.Text = "Location"
+        Me.lblLocation.Text = "Location Segment"
         '
         'fndLoc
         '
@@ -621,7 +701,7 @@ Partial Class FrmPaymentProcess
         Me.fndLoc.IsSourceFromTable = False
         Me.fndLoc.IsSourceFromValueList = False
         Me.fndLoc.IsUnique = False
-        Me.fndLoc.Location = New System.Drawing.Point(66, 27)
+        Me.fndLoc.Location = New System.Drawing.Point(112, 27)
         Me.fndLoc.MendatroryField = True
         Me.fndLoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndLoc.MyLinkLable1 = Me.lblLocation
@@ -639,7 +719,7 @@ Partial Class FrmPaymentProcess
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(282, 70)
+        Me.btnGo.Location = New System.Drawing.Point(328, 70)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(68, 40)
         Me.btnGo.TabIndex = 266
@@ -651,9 +731,9 @@ Partial Class FrmPaymentProcess
         Me.GroupBox1.Controls.Add(Me.dtpToDate)
         Me.GroupBox1.Controls.Add(Me.MyLabel1)
         Me.GroupBox1.Controls.Add(Me.dtpFromDate)
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 61)
+        Me.GroupBox1.Location = New System.Drawing.Point(5, 61)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(272, 31)
+        Me.GroupBox1.Size = New System.Drawing.Size(319, 31)
         Me.GroupBox1.TabIndex = 263
         Me.GroupBox1.TabStop = False
         '
@@ -661,7 +741,7 @@ Partial Class FrmPaymentProcess
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(154, 11)
+        Me.MyLabel2.Location = New System.Drawing.Point(169, 11)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(19, 16)
         Me.MyLabel2.TabIndex = 266
@@ -680,7 +760,7 @@ Partial Class FrmPaymentProcess
         Me.dtpToDate.IsSourceFromTable = False
         Me.dtpToDate.IsSourceFromValueList = False
         Me.dtpToDate.IsUnique = False
-        Me.dtpToDate.Location = New System.Drawing.Point(181, 9)
+        Me.dtpToDate.Location = New System.Drawing.Point(211, 9)
         Me.dtpToDate.MendatroryField = False
         Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpToDate.MyLinkLable1 = Me.MyLabel2
@@ -701,7 +781,7 @@ Partial Class FrmPaymentProcess
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(5, 11)
+        Me.MyLabel1.Location = New System.Drawing.Point(2, 11)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(33, 16)
         Me.MyLabel1.TabIndex = 264
@@ -720,7 +800,7 @@ Partial Class FrmPaymentProcess
         Me.dtpFromDate.IsSourceFromTable = False
         Me.dtpFromDate.IsSourceFromValueList = False
         Me.dtpFromDate.IsUnique = False
-        Me.dtpFromDate.Location = New System.Drawing.Point(45, 9)
+        Me.dtpFromDate.Location = New System.Drawing.Point(57, 9)
         Me.dtpFromDate.MendatroryField = False
         Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFromDate.MyLinkLable1 = Me.MyLabel1
@@ -739,7 +819,7 @@ Partial Class FrmPaymentProcess
         'lblPending
         '
         Me.lblPending.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblPending.Location = New System.Drawing.Point(729, 4)
+        Me.lblPending.Location = New System.Drawing.Point(775, 4)
         Me.lblPending.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPending.Name = "lblPending"
         Me.lblPending.Size = New System.Drawing.Size(84, 20)
@@ -752,7 +832,7 @@ Partial Class FrmPaymentProcess
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(331, 4)
+        Me.btnReset.Location = New System.Drawing.Point(377, 4)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(19, 21)
         Me.btnReset.TabIndex = 260
@@ -769,7 +849,7 @@ Partial Class FrmPaymentProcess
         'fndDocNo
         '
         Me.fndDocNo.FieldName = Nothing
-        Me.fndDocNo.Location = New System.Drawing.Point(66, 4)
+        Me.fndDocNo.Location = New System.Drawing.Point(112, 4)
         Me.fndDocNo.MendatroryField = False
         Me.fndDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -793,7 +873,7 @@ Partial Class FrmPaymentProcess
         Me.GroupBox2.Controls.Add(Me.chkSkipPrevDeduction)
         Me.GroupBox2.Controls.Add(Me.chkSkipPrevItemIssue)
         Me.GroupBox2.Controls.Add(Me.chkSkipPrevMccSale)
-        Me.GroupBox2.Location = New System.Drawing.Point(353, 24)
+        Me.GroupBox2.Location = New System.Drawing.Point(399, 24)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(468, 87)
         Me.GroupBox2.TabIndex = 280
@@ -909,7 +989,7 @@ Partial Class FrmPaymentProcess
         Me.fndArea.IsSourceFromTable = False
         Me.fndArea.IsSourceFromValueList = False
         Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(677, 112)
+        Me.fndArea.Location = New System.Drawing.Point(729, 112)
         Me.fndArea.MendatroryField = True
         Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndArea.MyLinkLable1 = Me.lblLocation
@@ -934,11 +1014,11 @@ Partial Class FrmPaymentProcess
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowFilteringRow = False
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition25
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(924, 261)
+        Me.gv.Size = New System.Drawing.Size(967, 234)
         Me.gv.TabIndex = 0
         Me.gv.VarID = ""
         '
@@ -957,6 +1037,7 @@ Partial Class FrmPaymentProcess
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintHindi)
@@ -971,7 +1052,7 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(945, 503)
+        Me.SplitContainer1.Size = New System.Drawing.Size(988, 503)
         Me.SplitContainer1.SplitterDistance = 473
         Me.SplitContainer1.TabIndex = 2
         '
@@ -993,7 +1074,7 @@ Partial Class FrmPaymentProcess
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(945, 473)
+        Me.RadPageView1.Size = New System.Drawing.Size(988, 473)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -1017,7 +1098,7 @@ Partial Class FrmPaymentProcess
         Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvoice.MasterTemplate.ShowFilteringRow = False
         Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition26
         Me.gvInvoice.MyStopExport = False
         Me.gvInvoice.Name = "gvInvoice"
         Me.gvInvoice.ShowHeaderCellButtons = True
@@ -1055,7 +1136,7 @@ Partial Class FrmPaymentProcess
         Me.gvMccSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMccSale.MasterTemplate.ShowFilteringRow = False
         Me.gvMccSale.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMccSale.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvMccSale.MasterTemplate.ViewDefinition = TableViewDefinition27
         Me.gvMccSale.MyStopExport = False
         Me.gvMccSale.Name = "gvMccSale"
         Me.gvMccSale.ShowHeaderCellButtons = True
@@ -1082,7 +1163,7 @@ Partial Class FrmPaymentProcess
         Me.GvMccSaleReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvMccSaleReturn.MasterTemplate.ShowFilteringRow = False
         Me.GvMccSaleReturn.MasterTemplate.ShowHeaderCellButtons = True
-        Me.GvMccSaleReturn.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.GvMccSaleReturn.MasterTemplate.ViewDefinition = TableViewDefinition28
         Me.GvMccSaleReturn.MyStopExport = False
         Me.GvMccSaleReturn.Name = "GvMccSaleReturn"
         Me.GvMccSaleReturn.ShowHeaderCellButtons = True
@@ -1109,7 +1190,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssue.MasterTemplate.ShowFilteringRow = False
         Me.gvItemIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemIssue.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvItemIssue.MasterTemplate.ViewDefinition = TableViewDefinition29
         Me.gvItemIssue.MyStopExport = False
         Me.gvItemIssue.Name = "gvItemIssue"
         Me.gvItemIssue.ShowHeaderCellButtons = True
@@ -1136,7 +1217,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssueReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssueReturn.MasterTemplate.ShowFilteringRow = False
         Me.gvItemIssueReturn.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemIssueReturn.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvItemIssueReturn.MasterTemplate.ViewDefinition = TableViewDefinition30
         Me.gvItemIssueReturn.MyStopExport = False
         Me.gvItemIssueReturn.Name = "gvItemIssueReturn"
         Me.gvItemIssueReturn.ShowHeaderCellButtons = True
@@ -1163,7 +1244,7 @@ Partial Class FrmPaymentProcess
         Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowFilteringRow = False
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition31
         Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.ShowHeaderCellButtons = True
@@ -1190,7 +1271,7 @@ Partial Class FrmPaymentProcess
         Me.gvCreditNote.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCreditNote.MasterTemplate.ShowFilteringRow = False
         Me.gvCreditNote.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCreditNote.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvCreditNote.MasterTemplate.ViewDefinition = TableViewDefinition32
         Me.gvCreditNote.MyStopExport = False
         Me.gvCreditNote.Name = "gvCreditNote"
         Me.gvCreditNote.ShowHeaderCellButtons = True
@@ -1217,7 +1298,7 @@ Partial Class FrmPaymentProcess
         Me.gvAdvancePayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAdvancePayment.MasterTemplate.ShowFilteringRow = False
         Me.gvAdvancePayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAdvancePayment.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAdvancePayment.MasterTemplate.ViewDefinition = TableViewDefinition33
         Me.gvAdvancePayment.MyStopExport = False
         Me.gvAdvancePayment.Name = "gvAdvancePayment"
         Me.gvAdvancePayment.ShowHeaderCellButtons = True
@@ -1244,7 +1325,7 @@ Partial Class FrmPaymentProcess
         Me.gvAssetLost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAssetLost.MasterTemplate.ShowFilteringRow = False
         Me.gvAssetLost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAssetLost.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvAssetLost.MasterTemplate.ViewDefinition = TableViewDefinition34
         Me.gvAssetLost.MyStopExport = False
         Me.gvAssetLost.Name = "gvAssetLost"
         Me.gvAssetLost.ShowHeaderCellButtons = True
@@ -1271,7 +1352,7 @@ Partial Class FrmPaymentProcess
         Me.gvSaving.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaving.MasterTemplate.ShowFilteringRow = False
         Me.gvSaving.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaving.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvSaving.MasterTemplate.ViewDefinition = TableViewDefinition35
         Me.gvSaving.MyStopExport = False
         Me.gvSaving.Name = "gvSaving"
         Me.gvSaving.ShowHeaderCellButtons = True
@@ -1298,7 +1379,7 @@ Partial Class FrmPaymentProcess
         Me.gvCompulsory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCompulsory.MasterTemplate.ShowFilteringRow = False
         Me.gvCompulsory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCompulsory.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvCompulsory.MasterTemplate.ViewDefinition = TableViewDefinition36
         Me.gvCompulsory.MyStopExport = False
         Me.gvCompulsory.Name = "gvCompulsory"
         Me.gvCompulsory.ShowHeaderCellButtons = True
@@ -1430,7 +1511,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(895, 5)
+        Me.btnClose.Location = New System.Drawing.Point(938, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(46, 18)
         Me.btnClose.TabIndex = 8
@@ -1451,7 +1532,7 @@ Partial Class FrmPaymentProcess
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(945, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(988, 20)
         Me.RadMenu1.TabIndex = 5
         '
         'RadMenuItem3
@@ -1470,11 +1551,21 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(742, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(43, 18)
+        Me.btnHistory.TabIndex = 300
+        Me.btnHistory.Text = "History"
+        '
         'FrmPaymentProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(945, 523)
+        Me.ClientSize = New System.Drawing.Size(988, 523)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmPaymentProcess"
@@ -1488,6 +1579,10 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1582,6 +1677,7 @@ Partial Class FrmPaymentProcess
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1677,5 +1773,10 @@ Partial Class FrmPaymentProcess
     Friend WithEvents btnPost As RadButton
     Friend WithEvents btnUnpost As RadButton
     Friend WithEvents Label2 As Label
+    Friend WithEvents pnlLocation As Panel
+    Friend WithEvents txtLocationPrefixName As common.Controls.MyTextBox
+    Friend WithEvents RadLabel23 As RadLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

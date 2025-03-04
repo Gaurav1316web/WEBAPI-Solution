@@ -74,6 +74,11 @@ Public Class FrmBankTransfer
         txtchkdate.Enabled = False
         Lblchkno.Enabled = False
         IsLoadTransType = False
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         globalFunc.mandatoryText(txt_frombankname, txt_transferamount, txt_tobankname, txt_depositamount)
         Thread.CurrentThread.CurrentCulture = New CultureInfo("en-GB")
         Dim cd As GridViewMultiComboBoxColumn = TryCast(MasterTemplate.Columns(1), GridViewMultiComboBoxColumn)
@@ -383,6 +388,13 @@ Public Class FrmBankTransfer
                 End If
 
             End If
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                    Exit Sub
+                End If
+            End If
             '' UDL/08/03/19-000276 RICHA 
             If AllowFutureDateTransaction(dtp_transferpostingdate.Value, Nothing) = False Then
                 dtp_transferpostingdate.Focus()
@@ -538,32 +550,48 @@ Public Class FrmBankTransfer
                 Dim qry As String = "select Bank_type,BANKACC from TSPL_BANK_MASTER where BANK_CODE='" + strBank + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
-                Dim BankAcc As String = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
-                If (BankAcc.Length >= 3) Then
-                    BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
-                    If (IsNumeric(BankAcc)) Then
+                Dim BankAcc As String
+                Dim isLocationCodeSegment As Boolean
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    isLocationCodeSegment = False
+                    BankAcc = txtLocationPrefix.Value
+                Else
+                    isLocationCodeSegment = True
+                    BankAcc = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
+                    If (BankAcc.Length >= 3) Then
+                        BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
+                        If (IsNumeric(BankAcc)) Then
+                            Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                        End If
+                    Else
                         Throw New Exception("Bank Master's Bank Account should be have location segment Type")
                     End If
-                Else
-                    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
                 End If
 
                 If clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal Then
-                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Bank, BankAcc, True)
+                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Bank, BankAcc, isLocationCodeSegment)
                 ElseIf clsCommon.CompairString(BankType, "C") = CompairStringResult.Equal Then
-                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Cash, BankAcc, True)
+                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Cash, BankAcc, isLocationCodeSegment)
                 ElseIf clsCommon.CompairString(BankType, "P") = CompairStringResult.Equal Then
-                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.PettyCash, BankAcc, True)
+                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.PettyCash, BankAcc, isLocationCodeSegment)
                 ElseIf clsCommon.CompairString(BankType, "O") = CompairStringResult.Equal Then
-                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, True)
+                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                 ElseIf clsCommon.CompairString(BankType, "S") = CompairStringResult.Equal Then
-                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, True)
+                    STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                 Else
                     Throw New Exception("Plase set the Bank Type for Bank SETTLEMENT")
                 End If
             Else
-                Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + strBank + "'", trans)
-                STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.ContraVoucher, "", LocSegmentCode, True)
+                Dim LocSegmentCode As String
+                Dim isLocationCodeSegmentWise As Boolean
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    LocSegmentCode = txtLocationPrefix.Value
+                    isLocationCodeSegmentWise = False
+                Else
+                    LocSegmentCode = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + strBank + "'", trans)
+                    isLocationCodeSegmentWise = True
+                End If
+                STR = clsERPFuncationality.GetNextCode(trans, dtp_transferpostingdate.Value, clsDocType.ContraVoucher, "", LocSegmentCode, isLocationCodeSegmentWise)
                 ' STR = funautogenerateno(trans)
             End If
             If clsCommon.myLen(STR) <= 0 Then
@@ -592,6 +620,8 @@ Public Class FrmBankTransfer
             clsCommon.AddColumnsForChange(coll, "Remitt_To", clsCommon.myCstr(TxtRemittTo.Text))
             ''richa BHA/13/09/18-000545
             clsCommon.AddColumnsForChange(coll, "BankCharges", clsCommon.myCdbl(txtBankChargesAmt.Value))
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(txtLocationPrefix.Value), True)
+
             Dim strBankChargesAcc As String = Nothing
             If clsCommon.myCdbl(txtBankChargesAmt.Value) <> 0 Then
                 If clsCommon.CompairString(CmbTransType.SelectedValue, "B") = CompairStringResult.Equal Or clsCommon.CompairString(CmbTransType.SelectedValue, "W") = CompairStringResult.Equal Then
@@ -658,7 +688,7 @@ Public Class FrmBankTransfer
             'If clsCommon.myLen(strCratedDate) <= 0 Or IsDBNull(strCratedDate) = True Then
 
             'End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
             Dim PostingDate As String = clsCommon.GetPrintDate(dtp_transferpostingdate.Value, "dd/MMM/yyyy")
             connectSql.RunSpTransaction(trans, "sp_tspl_banktransfer_update", New SqlParameter("@Transfer_No", Fnd_Transfernumber.Value), New SqlParameter("@Transfer_Date", PostingDate), New SqlParameter("@Transfer_Posting_Date", PostingDate), New SqlParameter("@Description", txt_description.Text), New SqlParameter("@Reference", txt_references.Text), New SqlParameter("@TransType", CmbTransType.SelectedValue), New SqlParameter("@From_Bank_Code", Txt_frombankCode.Value), New SqlParameter("@From_Bank_Name", txt_frombankname.Text), New SqlParameter("@From_Bank_Acc_No", txt_frombankaccount.Text), New SqlParameter("@Transfer_Amount", txt_transferamount.Text), New SqlParameter("@From_Bank_GL_Acc", clsCommon.myCstr(MasterTemplate.Rows(0).Cells(1).Value)), New SqlParameter("@From_Bank_GLAcc_Desc", clsCommon.myCstr(MasterTemplate.Rows(0).Cells(2).Value)), New SqlParameter("@From_Bank_GL_Amount", MasterTemplate.Rows(0).Cells(3).Value), New SqlParameter("@To_Bank_Code", Txt_toBankCode.Value), New SqlParameter("@To_Bank_Name", txt_tobankname.Text), New SqlParameter("@To_Bank_Acc_No", txt_tobankaccount.Text), New SqlParameter("@Deposit_Amount", txt_depositamount.Text), New SqlParameter("@To_Bank_GL_Acc", MasterTemplate.Rows(1).Cells(1).Value), New SqlParameter("@To_Bank_GLAcc_Desc", MasterTemplate.Rows(1).Cells(2).Value), New SqlParameter("@To_Bank_GL_Amount", MasterTemplate.Rows(1).Cells(3).Value), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", strCreatedBy), New SqlParameter("@Created_Date", clsCommon.GETSERVERDATE(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", clsCommon.GETSERVERDATE(trans)), New SqlParameter("@comp_code", companyCode), New SqlParameter("@Cheque_No", txtchkno.Text), New SqlParameter("@Cheque_Date", clsCommon.GetPrintDate(txtchkdate.Value, "dd/MMM/yyyy")), New SqlParameter("@Payment_Mode", clsCommon.myCstr(fndPayType.Value)), New SqlParameter("@frmbnkaccno", clsCommon.myCstr(txtbnkaccnumber.Text)), New SqlParameter("@tobnkaccno", clsCommon.myCstr(txttranbnkaccno.Text)))
             '' Anubhooti 17-Dec-2014 BM00000004959
@@ -685,6 +715,8 @@ Public Class FrmBankTransfer
                 End If
             End If
             clsCommon.AddColumnsForChange(coll, "Bank_Charges_Ac", strBankChargesAcc, True)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(txtLocationPrefix.Value), True)
+
             ''-----------------
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_TRANSFER", OMInsertOrUpdate.Update, "TSPL_BANK_TRANSFER.Transfer_No='" + clsCommon.myCstr(Fnd_Transfernumber.Value) + "'", trans)
 
@@ -754,7 +786,7 @@ Public Class FrmBankTransfer
         Try
             'Ticket No  TEC/10/09/19-001007 Sanjay
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
             connectSql.RunSpTransaction(trans, "sp_tspl_banktransfer_delete", New SqlParameter("@Transfer_No", Fnd_Transfernumber.Value))
             If trans Is Nothing Then
                 myMessages.delete()
@@ -827,6 +859,8 @@ Public Class FrmBankTransfer
         txtchkno.Text = ""
         txtbnkaccnumber.Text = ""
         txt_depositamount.Text = ""
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         txt_depositamount.Text = ""
         txt_transferamount.Text = ""
         txtBankChargesAmt.Value = 0
@@ -907,7 +941,7 @@ Public Class FrmBankTransfer
         Try
             If Fnd_Transfernumber.Value <> "" Then
                 isLoad = True
-                ds = connectSql.RunSQLReturnDS(trans, "select Transfer_Posting_Date,Description,Reference,From_Bank_Code,From_Bank_Name,From_Bank_Acc_No,Transfer_Amount,From_Bank_GL_Acc,From_Bank_GLAcc_Desc,From_Bank_GL_Amount,To_Bank_Code,To_Bank_Name,To_Bank_Acc_No,Deposit_Amount,To_Bank_GL_Acc,To_Bank_GLAcc_Desc,To_Bank_GL_Amount,Cheque_No, Payment_Mode,from_bankaccnumber,to_bankaccnumber,Transaction_Type,Against_Withdrawal_No,Check_Print,ISNULL(Remitt_To,'') AS Remitt_To,BankCharges from TSPL_BANK_TRANSFER where Transfer_No = '" + Fnd_Transfernumber.Value + "'")
+                ds = connectSql.RunSQLReturnDS(trans, "select Transfer_Posting_Date,Description,Reference,From_Bank_Code,From_Bank_Name,From_Bank_Acc_No,Transfer_Amount,From_Bank_GL_Acc,From_Bank_GLAcc_Desc,From_Bank_GL_Amount,To_Bank_Code,To_Bank_Name,To_Bank_Acc_No,Deposit_Amount,To_Bank_GL_Acc,To_Bank_GLAcc_Desc,To_Bank_GL_Amount,Cheque_No, Payment_Mode,from_bankaccnumber,to_bankaccnumber,Transaction_Type,Against_Withdrawal_No,Check_Print,ISNULL(Remitt_To,'') AS Remitt_To,BankCharges,Location_Code_Prefix from TSPL_BANK_TRANSFER where Transfer_No = '" + Fnd_Transfernumber.Value + "'")
                 Dim dr As DataRow = ds.Tables(0).Rows(0)
                 CmbTransType.SelectedValue = clsCommon.myCstr(dr("Transaction_Type"))
                 dtp_transferpostingdate.Value = dr(0).ToString()
@@ -932,6 +966,12 @@ Public Class FrmBankTransfer
                 txtchkno.Text = clsCommon.myCstr(dr("Cheque_No"))
 
                 txtBankChargesAmt.Value = clsCommon.myCdbl(dr("BankCharges"))
+                txtLocationPrefix.Value = clsCommon.myCstr(dr("Location_Code_Prefix"))
+                If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 '' check printing
                 chkCheckPrint.Checked = IIf(dr("Check_Print").ToString() = 1, True, False)
                 If (dr("Check_Print").ToString() = 1 Or clsCommon.myLen(dr("Cheque_No").ToString()) > 0) Then
@@ -2252,5 +2292,23 @@ Public Class FrmBankTransfer
     ' Ticket No : TEC/07/05/19-000477 By Prabhakar
     Private Sub btnOpenBankCashBook_Click(sender As Object, e As EventArgs) Handles btnOpenBankCashBook.Click
         clsOpenBankCashBook.ShowBankCashBookDatails(Fnd_Transfernumber.Value)
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

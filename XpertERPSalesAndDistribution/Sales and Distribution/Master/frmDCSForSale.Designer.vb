@@ -49,6 +49,7 @@ Partial Class frmDCSforSale
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,6 +70,7 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -103,6 +105,7 @@ Partial Class frmDCSforSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -441,6 +444,16 @@ Partial Class frmDCSforSale
         Me.rdmenufile.Size = New System.Drawing.Size(636, 20)
         Me.rdmenufile.TabIndex = 8
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(160, 16)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
+        '
         'frmDCSforSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -475,6 +488,7 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -506,4 +520,5 @@ Partial Class frmDCSforSale
     Friend WithEvents lblDescription As common.Controls.MyLabel
     Friend WithEvents lblZone As common.Controls.MyLabel
     Friend WithEvents chkActive As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class

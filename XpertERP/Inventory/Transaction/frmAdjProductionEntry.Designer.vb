@@ -22,6 +22,7 @@ Partial Class frmAdjProductionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -76,6 +77,7 @@ Partial Class frmAdjProductionEntry
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -117,6 +119,7 @@ Partial Class frmAdjProductionEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -137,6 +140,7 @@ Partial Class frmAdjProductionEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -156,7 +160,6 @@ Partial Class frmAdjProductionEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(978, 464)
         Me.RadPageView1.TabIndex = 23
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -266,10 +269,13 @@ Partial Class frmAdjProductionEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -277,7 +283,7 @@ Partial Class frmAdjProductionEntry
         Me.gv1.Size = New System.Drawing.Size(937, 213)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'MyLabel5
         '
@@ -306,6 +312,7 @@ Partial Class frmAdjProductionEntry
         Me.cboAdjustmentType.AutoCompleteDisplayMember = Nothing
         Me.cboAdjustmentType.AutoCompleteValueMember = Nothing
         Me.cboAdjustmentType.CalculationExpression = Nothing
+        Me.cboAdjustmentType.DropDownAnimationEnabled = True
         Me.cboAdjustmentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboAdjustmentType.FieldCode = Nothing
         Me.cboAdjustmentType.FieldDesc = Nothing
@@ -400,7 +407,6 @@ Partial Class frmAdjProductionEntry
         Me.LblMainLocation.Name = "LblMainLocation"
         Me.LblMainLocation.Size = New System.Drawing.Size(313, 19)
         Me.LblMainLocation.TabIndex = 21
-        Me.LblMainLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblMainLocation.TextWrap = False
         '
         'RadLabel3
@@ -568,6 +574,7 @@ Partial Class frmAdjProductionEntry
         Me.cboTransType.AutoCompleteDisplayMember = Nothing
         Me.cboTransType.AutoCompleteValueMember = Nothing
         Me.cboTransType.CalculationExpression = Nothing
+        Me.cboTransType.DropDownAnimationEnabled = True
         Me.cboTransType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTransType.FieldCode = Nothing
         Me.cboTransType.FieldDesc = Nothing
@@ -632,7 +639,6 @@ Partial Class frmAdjProductionEntry
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(313, 19)
         Me.lblLocation.TabIndex = 10
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtLocation
@@ -725,13 +731,10 @@ Partial Class frmAdjProductionEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(982, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmiExport, Me.Opening, Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
@@ -746,15 +749,11 @@ Partial Class frmAdjProductionEntry
         '
         'Exporttoexcel
         '
-        Me.Exporttoexcel.AccessibleDescription = "Export to Excel"
-        Me.Exporttoexcel.AccessibleName = "Export to Excel"
         Me.Exporttoexcel.Name = "Exporttoexcel"
         Me.Exporttoexcel.Text = "Export to Excel"
         '
         'ExporttoExcelWithSerial
         '
-        Me.ExporttoExcelWithSerial.AccessibleDescription = "Export to Excel With Serial"
-        Me.ExporttoExcelWithSerial.AccessibleName = "Export to Excel With Serial"
         Me.ExporttoExcelWithSerial.Name = "ExporttoExcelWithSerial"
         Me.ExporttoExcelWithSerial.Text = "Export to Excel With Serial"
         '
@@ -767,37 +766,27 @@ Partial Class frmAdjProductionEntry
         '
         'Opening
         '
-        Me.Opening.AccessibleDescription = "Opening"
-        Me.Opening.AccessibleName = "Opening"
         Me.Opening.Items.AddRange(New Telerik.WinControls.RadItem() {Me.OpeningExcel, Me.OpeningwithSerial, Me.rmOpeningForMilkType})
         Me.Opening.Name = "Opening"
         Me.Opening.Text = "Opening"
         '
         'OpeningExcel
         '
-        Me.OpeningExcel.AccessibleDescription = "Opening"
-        Me.OpeningExcel.AccessibleName = "Opening"
         Me.OpeningExcel.Name = "OpeningExcel"
         Me.OpeningExcel.Text = "Opening"
         '
         'OpeningwithSerial
         '
-        Me.OpeningwithSerial.AccessibleDescription = "Opening With Serial"
-        Me.OpeningwithSerial.AccessibleName = "Opening With Serial"
         Me.OpeningwithSerial.Name = "OpeningwithSerial"
         Me.OpeningwithSerial.Text = "Opening With Serial"
         '
         'rmOpeningForMilkType
         '
-        Me.rmOpeningForMilkType.AccessibleDescription = "Opening For Milk Type"
-        Me.rmOpeningForMilkType.AccessibleName = "Opening For Milk Type"
         Me.rmOpeningForMilkType.Name = "rmOpeningForMilkType"
         Me.rmOpeningForMilkType.Text = "Opening For Milk Type"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem4, Me.RadMenuItem5, Me.RadMenuItem6})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
@@ -818,15 +807,11 @@ Partial Class frmAdjProductionEntry
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Export Blank Sheet"
-        Me.RadMenuItem5.AccessibleName = "Export Blank Sheet"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Export Blank Sheet"
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Export Sheet for Zero Balance"
-        Me.RadMenuItem6.AccessibleName = "Export Sheet for Zero Balance"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Export Sheet for Zero Balance"
         '
@@ -838,6 +823,15 @@ Partial Class frmAdjProductionEntry
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(982, 498)
         Me.Panel1.TabIndex = 2
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(289, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
         '
         'frmAdjProductionEntry
         '
@@ -895,6 +889,7 @@ Partial Class frmAdjProductionEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -954,5 +949,6 @@ Partial Class frmAdjProductionEntry
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents chkJobWork As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

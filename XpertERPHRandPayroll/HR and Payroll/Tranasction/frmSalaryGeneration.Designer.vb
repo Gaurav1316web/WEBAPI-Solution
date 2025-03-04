@@ -87,6 +87,7 @@ Partial Class frmSalaryGeneration
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblCompany = New common.Controls.MyLabel()
         Me.txtEmp = New common.UserControls.txtMultiSelectFinder()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtOthrPayableDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankAccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -141,6 +142,7 @@ Partial Class frmSalaryGeneration
         CType(Me.dtpGenerateDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCompany, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -700,9 +702,9 @@ Partial Class frmSalaryGeneration
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(78, 18)
+        Me.btnPost.Location = New System.Drawing.Point(68, 18)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(58, 21)
+        Me.btnPost.Size = New System.Drawing.Size(54, 21)
         Me.btnPost.TabIndex = 132
         Me.btnPost.Text = "Post"
         '
@@ -712,7 +714,7 @@ Partial Class frmSalaryGeneration
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnsave.Location = New System.Drawing.Point(5, 18)
         Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(71, 21)
+        Me.btnsave.Size = New System.Drawing.Size(61, 21)
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Generate"
         '
@@ -720,9 +722,9 @@ Partial Class frmSalaryGeneration
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(138, 18)
+        Me.btndelete.Location = New System.Drawing.Point(124, 18)
         Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(62, 21)
+        Me.btndelete.Size = New System.Drawing.Size(48, 21)
         Me.btndelete.TabIndex = 4
         Me.btndelete.Text = "Delete"
         '
@@ -730,9 +732,9 @@ Partial Class frmSalaryGeneration
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(772, 18)
+        Me.btnclose.Location = New System.Drawing.Point(779, 18)
         Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(71, 21)
+        Me.btnclose.Size = New System.Drawing.Size(64, 21)
         Me.btnclose.TabIndex = 5
         Me.btnclose.Text = "Close"
         '
@@ -920,9 +922,9 @@ Partial Class frmSalaryGeneration
         '
         Me.btnCreateFE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateFE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateFE.Location = New System.Drawing.Point(202, 18)
+        Me.btnCreateFE.Location = New System.Drawing.Point(174, 18)
         Me.btnCreateFE.Name = "btnCreateFE"
-        Me.btnCreateFE.Size = New System.Drawing.Size(129, 21)
+        Me.btnCreateFE.Size = New System.Drawing.Size(125, 21)
         Me.btnCreateFE.TabIndex = 219
         Me.btnCreateFE.Text = "Create Financial Entry"
         '
@@ -930,9 +932,9 @@ Partial Class frmSalaryGeneration
         '
         Me.btnSendMail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSendMail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSendMail.Location = New System.Drawing.Point(498, 18)
+        Me.btnSendMail.Location = New System.Drawing.Point(516, 18)
         Me.btnSendMail.Name = "btnSendMail"
-        Me.btnSendMail.Size = New System.Drawing.Size(68, 21)
+        Me.btnSendMail.Size = New System.Drawing.Size(65, 21)
         Me.btnSendMail.TabIndex = 220
         Me.btnSendMail.Text = "Send Mail"
         Me.btnSendMail.Visible = False
@@ -941,7 +943,7 @@ Partial Class frmSalaryGeneration
         '
         Me.btnViewFE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnViewFE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewFE.Location = New System.Drawing.Point(333, 18)
+        Me.btnViewFE.Location = New System.Drawing.Point(300, 18)
         Me.btnViewFE.Name = "btnViewFE"
         Me.btnViewFE.Size = New System.Drawing.Size(110, 21)
         Me.btnViewFE.TabIndex = 221
@@ -951,9 +953,9 @@ Partial Class frmSalaryGeneration
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(569, 18)
+        Me.RadButton1.Location = New System.Drawing.Point(582, 18)
         Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(112, 21)
+        Me.RadButton1.Size = New System.Drawing.Size(109, 21)
         Me.RadButton1.TabIndex = 222
         Me.RadButton1.Text = "View Payment Entry"
         '
@@ -961,7 +963,7 @@ Partial Class frmSalaryGeneration
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(445, 18)
+        Me.btnReverse.Location = New System.Drawing.Point(463, 18)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(51, 21)
         Me.btnReverse.TabIndex = 220
@@ -971,7 +973,7 @@ Partial Class frmSalaryGeneration
         '
         Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Location = New System.Drawing.Point(683, 18)
+        Me.RadButton2.Location = New System.Drawing.Point(692, 18)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(86, 21)
         Me.RadButton2.TabIndex = 223
@@ -1041,6 +1043,7 @@ Partial Class frmSalaryGeneration
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProgressBar1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton2)
@@ -1195,6 +1198,16 @@ Partial Class frmSalaryGeneration
         Me.txtEmp.Size = New System.Drawing.Size(566, 19)
         Me.txtEmp.TabIndex = 385
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(411, 18)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(49, 21)
+        Me.btnHistory.TabIndex = 224
+        Me.btnHistory.Text = "History"
+        '
         'frmSalaryGeneration
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1262,6 +1275,7 @@ Partial Class frmSalaryGeneration
         CType(Me.dtpGenerateDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCompany, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1328,4 +1342,5 @@ Partial Class frmSalaryGeneration
     Friend WithEvents lblPaymentDate As common.Controls.MyLabel
     Friend WithEvents fndBankCode As common.UserControls.txtFinder
     Friend WithEvents lblBankCode As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

@@ -131,6 +131,8 @@ Public Class clsAcknowledgementEntry
 
 
             clsAcknowledgementEntryDetail.SaveData(obj.Document_No, obj.arr, tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", tran)
+
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -414,7 +416,7 @@ Public Class clsAcknowledgementEntry
                 clsMilkTransferIn.ReverseAndUnpost(milktransferno, trans)
                 clsMilkTransferIn.deleteData(milktransferno, trans)
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", trans)
 
             Qry = "delete from TSPL_Gate_Out where AcknowEntryDocument_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
@@ -1632,6 +1634,9 @@ Public Class clsAcknowledgementEntry
     End Function
     Public Shared Function DeleteData(ByVal challano As String, ByVal tran As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, challano, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", tran)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, challano, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", tran)
 
             Dim qry As String = "delete from TSPL_Acknowlegement_Entry_Parameter_Detail where  Document_No='" & challano & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)

@@ -498,6 +498,8 @@ Public Class clsRequistionHead
             'End If
             Dim Approvallevel As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Case When COUNT(*)=0 Then 0 Else MAX(Approval_level) end From TSPL_REQUISITION_APPROVAL", trans))
             Dim qry As String = ""
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_REQUISITION_HEAD", "Requisition_Id", trans)
+
             If objCommonVar.IsDemoERP AndAlso Approvallevel <> 0 Then
                 qry = "Update TSPL_REQUISITION_HEAD set "
                 If Approvallevel <> 0 Then
@@ -662,6 +664,9 @@ Public Class clsRequistionHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+
                 Dim qry As String = "delete from TSPL_REQUISITION_DETAIL where Requisition_Id='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

@@ -211,6 +211,7 @@ Partial Class frmMCCMaterialSale
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintEwayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -422,6 +423,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -466,6 +468,7 @@ Partial Class frmMCCMaterialSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintEwayBill)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
@@ -3252,6 +3255,16 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnHistory1
+        '
+        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory1.Location = New System.Drawing.Point(1009, 3)
+        Me.btnHistory1.Name = "btnHistory1"
+        Me.btnHistory1.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory1.TabIndex = 1424
+        Me.btnHistory1.Text = "History"
+        '
         'rbtnCancel
         '
         Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -3820,6 +3833,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4064,5 +4078,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents btnPrintEwayBill As RadButton
     Friend WithEvents rbtnCancel As RadButton
+    Friend WithEvents btnHistory1 As RadButton
 End Class
 

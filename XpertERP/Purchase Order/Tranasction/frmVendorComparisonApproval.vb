@@ -498,4 +498,16 @@ Public Class frmVendorComparisonApproval
     Private Sub SplitContainer1_Panel2_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles SplitContainer1.Panel2.Paint
 
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtRFQNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select PurchaseOrder No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtRFQNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

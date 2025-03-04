@@ -1166,6 +1166,18 @@ Public Class FrmQualityCheckBulkSale
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndQcNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndQcNo.Value, "QC_No", "TSPL_QUALITY_CHECK_BULKSALE", "TSPL_QC_Parameter_Detail_BulKSALE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub FndTankerNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles FndTankerNo._MYValidating
         Dim dt As DataTable = Nothing
         'Qry = "Select LoadingTanker_No as Code ,LoadingTanker_Date as [Loading Tanker Date],Weighment_No as [Weighment No]  from TSPL_LOADING_TANKER_DETAIL_BULKSALE  "
@@ -1173,14 +1185,14 @@ Public Class FrmQualityCheckBulkSale
         'fndLoadingNo.Value = clsCommon.ShowSelectForm("Selector", Qry, "Code", " Posted=1 and TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code in (" + arrLoc + ") and  LoadingTanker_No not in (Select LoadingTanker_No from TSPL_Quality_Check_BulkSale where QC_No<>'" + fndQcNo.Value + "' and TSPL_QUALITY_CHECK_BULKSALE.Location_Code in (" + arrLoc + ") ) ", fndLoadingNo.Value, "", isButtonClicked)
         LblLoadingNo.Text = ClsLoadingTanker.getTankerFinder("TSPL_LOADING_TANKER_DETAIL_BULKSALE.Posted=1 and TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code in (" + arrLoc + ") and  LoadingTanker_No not in (Select LoadingTanker_No from TSPL_Quality_Check_BulkSale where QC_No<>'" + fndQcNo.Value + "' and TSPL_QUALITY_CHECK_BULKSALE.Location_Code in (" + arrLoc + ") ) ", FndTankerNo.Value, isButtonClicked)
         If ApplyMultiChamber Then
-            Qry = "Select max(TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No) as Weighment_No, max(TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No) as GateEntry_Document_No,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No) as Tanker_No,max(TSPL_TANKER_MASTER_SALE.Tanker_Code) as Tanker_Name,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc) as Chamber_Desc,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code) as Location_Code,max(TSPL_LOCATION_MASTER.Location_Desc) as Location_Desc,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No) as Silo_No ,max(SubLocationMaster.Location_Desc) as SubLocationDesc,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Item_Code) as Item_Code,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc ,max(TSPL_ITEM_MASTER.Unit_Code) as Unit_Code ,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Quantity) as Quantity from TSPL_WEIGHMENT_DETAIL_BULKSALE " & _
-             " Left Outer Join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " & _
-             " Left Outer Join TSPL_LOADING_TANKER_DETAIL_BULKSALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " & _
-             " Left Outer Join TSPL_TANKER_MASTER_SALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No=TSPL_TANKER_MASTER_SALE.Tanker_Code " & _
-             " Left Outer Join TSPL_TANKER_MASTER_SALE_DETAIL on TSPL_TANKER_MASTER_SALE_DETAIL.Tanker_Code=TSPL_TANKER_MASTER_SALE.Tanker_Code " & _
-             " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
-             " Left Outer Join TSPL_LOCATION_MASTER as SubLocationMaster on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No= SubLocationMaster.Location_Code " & _
-             " Left Outer Join TSPL_ITEM_MASTER on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
+            Qry = "Select max(TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No) as Weighment_No, max(TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No) as GateEntry_Document_No,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No) as Tanker_No,max(TSPL_TANKER_MASTER_SALE.Tanker_Code) as Tanker_Name,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc) as Chamber_Desc,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code) as Location_Code,max(TSPL_LOCATION_MASTER.Location_Desc) as Location_Desc,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No) as Silo_No ,max(SubLocationMaster.Location_Desc) as SubLocationDesc,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Item_Code) as Item_Code,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc ,max(TSPL_ITEM_MASTER.Unit_Code) as Unit_Code ,max(TSPL_LOADING_TANKER_DETAIL_BULKSALE.Quantity) as Quantity from TSPL_WEIGHMENT_DETAIL_BULKSALE " &
+             " Left Outer Join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " &
+             " Left Outer Join TSPL_LOADING_TANKER_DETAIL_BULKSALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " &
+             " Left Outer Join TSPL_TANKER_MASTER_SALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No=TSPL_TANKER_MASTER_SALE.Tanker_Code " &
+             " Left Outer Join TSPL_TANKER_MASTER_SALE_DETAIL on TSPL_TANKER_MASTER_SALE_DETAIL.Tanker_Code=TSPL_TANKER_MASTER_SALE.Tanker_Code " &
+             " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " &
+             " Left Outer Join TSPL_LOCATION_MASTER as SubLocationMaster on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No= SubLocationMaster.Location_Code " &
+             " Left Outer Join TSPL_ITEM_MASTER on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
              " where TSPL_LOADING_TANKER_DETAIL_BULKSALE.LoadingTanker_No='" + LblLoadingNo.Text + "' GROUP BY TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc"
         Else
             'Qry = "Select TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No, TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No,TSPL_TANKER_MASTER.Tanker_Name,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No ,SubLocationMaster.Location_Desc as SubLocationDesc,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Quantity from TSPL_WEIGHMENT_DETAIL_BULKSALE " & _
@@ -1191,17 +1203,17 @@ Public Class FrmQualityCheckBulkSale
             ' " Left Outer Join TSPL_ITEM_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
             ' " where TSPL_LOADING_TANKER_DETAIL_BULKSALE.LoadingTanker_No='" + LblLoadingNo.Text + "'"
             '' richa ERO/08/05/19-000597 show uom from sale oredr if sale order is created otherwise default uom of that item will be shown 
-            Qry = "Select TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No, TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No,TSPL_TANKER_MASTER.Tanker_Name,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code,TSPL_LOCATION_MASTER.Location_Desc, " & _
-            " TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No ,SubLocationMaster.Location_Desc as SubLocationDesc,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code, " & _
-            " TSPL_ITEM_MASTER.Item_Desc,case when isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'')<>'' then TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code else TSPL_ITEM_UOM_DETAIL.UOM_Code end as Unit_Code,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Quantity from TSPL_WEIGHMENT_DETAIL_BULKSALE " & _
-            " Left Outer Join TSPL_LOADING_TANKER_DETAIL_BULKSALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " & _
-            " Left Outer Join TSPL_TANKER_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No=TSPL_TANKER_MASTER.Tanker_No " & _
-            " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
-            " Left Outer Join TSPL_LOCATION_MASTER as SubLocationMaster on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No= SubLocationMaster.Location_Code " & _
-            " Left Outer Join TSPL_ITEM_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-            " left outer join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Document_No =TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No " & _
-            " left outer join TSPL_SALES_ORDER_DETAIL_BULKSALE on TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No =TSPL_GATEENTRY_SALE.Bulk_SO_No  " & _
-            " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_UOM_DETAIL.Default_UOM =1 " & _
+            Qry = "Select TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No, TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No,TSPL_TANKER_MASTER.Tanker_Name,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code,TSPL_LOCATION_MASTER.Location_Desc, " &
+            " TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No ,SubLocationMaster.Location_Desc as SubLocationDesc,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code, " &
+            " TSPL_ITEM_MASTER.Item_Desc,case when isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'')<>'' then TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code else TSPL_ITEM_UOM_DETAIL.UOM_Code end as Unit_Code,TSPL_LOADING_TANKER_DETAIL_BULKSALE.Quantity from TSPL_WEIGHMENT_DETAIL_BULKSALE " &
+            " Left Outer Join TSPL_LOADING_TANKER_DETAIL_BULKSALE on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE .Weighment_No " &
+            " Left Outer Join TSPL_TANKER_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Tanker_No=TSPL_TANKER_MASTER.Tanker_No " &
+            " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " &
+            " Left Outer Join TSPL_LOCATION_MASTER as SubLocationMaster on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Silo_No= SubLocationMaster.Location_Code " &
+            " Left Outer Join TSPL_ITEM_MASTER on TSPL_LOADING_TANKER_DETAIL_BULKSALE.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+            " left outer join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Document_No =TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No " &
+            " left outer join TSPL_SALES_ORDER_DETAIL_BULKSALE on TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No =TSPL_GATEENTRY_SALE.Bulk_SO_No  " &
+            " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_UOM_DETAIL.Default_UOM =1 " &
             " where TSPL_LOADING_TANKER_DETAIL_BULKSALE.LoadingTanker_No='" + LblLoadingNo.Text + "'"
         End If
 

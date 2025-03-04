@@ -944,6 +944,9 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
             Throw New Exception("Tender not found to Delete")
         End If
         Dim obj As clsTenderHead = clsTenderHead.GetData(strCode, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_tender_header", "DocumentCode", "tspl_tender_detail", "DocumentCode", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_tender_header", "DocumentCode", "tspl_tender_detail", "DocumentCode", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.DocumentCode) > 0) Then
             Try
                 If (obj.Posted = 1) Then

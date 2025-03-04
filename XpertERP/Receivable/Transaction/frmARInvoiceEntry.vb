@@ -105,7 +105,6 @@ Public Class FrmARInvoiceEntry
 #End Region
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         SettingCostCenter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInARInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInARInvoiceEntry, Nothing)) = 1)
         SettingCostCenterlevel = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableHirerachyCostCentre, clsFixedParameterCode.EnableHirerachyCostCentre, Nothing)) = 1)
         CostCenterAndHirerachyCodeUpdateAfterPost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CostCenterAndHirerachyCodeUpdateAfterPost, clsFixedParameterCode.CostCenterAndHirerachyCodeUpdateAfterPost, Nothing)) = 1, True, False)
@@ -115,7 +114,11 @@ Public Class FrmARInvoiceEntry
             clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
-
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         SetUserMgmtNew()
         SetMailRight()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -1905,10 +1908,12 @@ Public Class FrmARInvoiceEntry
     End Sub
 
     Sub AddNew()
-        butCostCenterAndHirerachy_Update_AfterPost.Visible = False
+        butCostCenterAndHirerachy_Update_AfterPost.Visible = False  
         txtlocation.Enabled = True
         txtlocation.Value = ""
         LblLocDesp.Text = ""
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         BlankAllControls()
         LoadBlankGridGL()
         LoadBlankGridTax()
@@ -1952,6 +1957,12 @@ Public Class FrmARInvoiceEntry
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
                 Return False
+            End If
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
             End If
             '===============================================================================
             If btnSave.Text = "Update" Then
@@ -2161,6 +2172,7 @@ Public Class FrmARInvoiceEntry
                 obj.Customer_Name = lblVendorName.Text
                 '------added by usha (31-10-2012)-----
                 obj.loc_code = txtlocation.Value
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 '------end-----
                 obj.Account_Set = txtACSet.Value
                 obj.Document_Type = clsCommon.myCstr(cboDocType.SelectedValue)
@@ -2554,6 +2566,12 @@ Public Class FrmARInvoiceEntry
                     LblLocDesp.Text = ""
                 End If
                 '-----------
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 lblVendorName.Text = obj.Customer_Name
                 txtACSet.Value = obj.Account_Set
                 cboDocType.SelectedValue = obj.Document_Type
@@ -5376,6 +5394,24 @@ Public Class FrmARInvoiceEntry
             clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_Customer_Invoice_Head", "TSPL_Customer_Invoice_Detail")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

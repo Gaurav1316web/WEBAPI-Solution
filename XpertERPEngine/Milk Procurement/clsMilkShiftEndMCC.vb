@@ -78,7 +78,9 @@ Public Class clsMilkShiftEndMCC
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkShiftEndMCC, clsCommon.myCstr(dt.Rows(0)("MCC_CODE")), clsCommon.myCDate(dt.Rows(0)("MCC_SHIFT_DATE")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_Shift_End_Head", "DOC_CODE", "TSPL_MILK_Shift_End_Head", "DOC_CODE", trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_Shift_End_DETAIL", "DOC_CODE", "TSPL_MILK_Shift_End_DETAIL", "DOC_CODE", trans)
             Dim qry As String
 
             qry = "update TSPL_OPEN_MCC_SHIFT set status='O' where mcc_Code=(SELECT MCC_CODE FROM TSPL_MILK_Shift_End_head WHERE DOC_CODE='" & strCode & "')" _
@@ -408,6 +410,8 @@ Public Class clsMilkShiftEndMCC
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_Shift_End_Head", OMInsertOrUpdate.Update, "TSPL_MILK_Shift_End_Head.DOC_CODE='" + obj.DOC_CODE + "'", trans)
             End If
             clsMilkShiftEndMCCDetail.SaveData(obj.DOC_CODE, objList, trans, isNewEntry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_Shift_End_Head", "DOC_CODE", "TSPL_MILK_Shift_End_DETAIL", "DOC_CODE", trans)
+
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.DOC_CODE, obj.arrCustomFields, trans)
 
             clsMilkGateEntryIn.ApprovePenaltyAmount(obj.ArrGateEntryWithPenalty, trans)
@@ -1761,7 +1765,9 @@ Public Class clsMilkShiftEndAttachment
                         clsDBFuncationality.ExecuteNonQuery(str)
                     End If
                 Next
+
             End If
+
             Return True
             'LoadData(Transaction_ID)
         Catch ex As Exception

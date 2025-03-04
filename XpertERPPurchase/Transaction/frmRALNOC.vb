@@ -50,7 +50,7 @@ Public Class frmRALNOC
         coll.Add("Modify_Date", "DateTime not NULL")
         coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
         coll.Add("Post_Date", "DateTime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC", coll, "", True, True, "", "Document_No", "Document_Date")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC", coll, "", True, True, "", "Document_No", "Document_Date", True)
 
 
         coll = New Dictionary(Of String, String)()
@@ -65,7 +65,7 @@ Public Class frmRALNOC
         coll.Add("Schedule_Short_Per", "decimal(18, 2) NULL")
         coll.Add("Schedule_Short", "decimal(18, 2) NULL")
         coll.Add("Late_Days", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
 
 
         coll = New Dictionary(Of String, String)()
@@ -932,4 +932,15 @@ where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "Document_No", "TSPL_RAL_NOC", "TSPL_RAL_NOC_SCHEDULE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

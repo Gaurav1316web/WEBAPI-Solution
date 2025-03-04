@@ -583,7 +583,7 @@ Partial Class frmTransferToSaving
         'btnHistory
         '
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(486, 7)
+        Me.btnHistory.Location = New System.Drawing.Point(484, 6)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(69, 22)
         Me.btnHistory.TabIndex = 1488

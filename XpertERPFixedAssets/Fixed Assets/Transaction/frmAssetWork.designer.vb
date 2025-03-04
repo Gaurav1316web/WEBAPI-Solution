@@ -24,10 +24,10 @@ Partial Class frmAssetWork
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -111,6 +111,7 @@ Partial Class frmAssetWork
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -190,6 +191,7 @@ Partial Class frmAssetWork
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -209,6 +211,7 @@ Partial Class frmAssetWork
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintJV)
@@ -701,10 +704,10 @@ Partial Class frmAssetWork
         Me.ddlype.IsSourceFromTable = False
         Me.ddlype.IsSourceFromValueList = False
         Me.ddlype.IsUnique = False
-        RadListDataItem1.Text = "Vendor"
-        RadListDataItem2.Text = "Other"
-        Me.ddlype.Items.Add(RadListDataItem1)
-        Me.ddlype.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Vendor"
+        RadListDataItem4.Text = "Other"
+        Me.ddlype.Items.Add(RadListDataItem3)
+        Me.ddlype.Items.Add(RadListDataItem4)
         Me.ddlype.Location = New System.Drawing.Point(606, 2)
         Me.ddlype.MendatroryField = False
         Me.ddlype.MyLinkLable1 = Nothing
@@ -899,7 +902,7 @@ Partial Class frmAssetWork
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -907,6 +910,7 @@ Partial Class frmAssetWork
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1060, 126)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
         '
         'RadLabel4
         '
@@ -1231,13 +1235,14 @@ Partial Class frmAssetWork
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(943, 243)
         Me.gv2.TabIndex = 1
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -1418,6 +1423,15 @@ Partial Class frmAssetWork
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(754, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 143
+        Me.btnHistory.Text = "History"
+        '
         'frmAssetWork
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1515,6 +1529,7 @@ Partial Class frmAssetWork
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1602,5 +1617,6 @@ Partial Class frmAssetWork
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

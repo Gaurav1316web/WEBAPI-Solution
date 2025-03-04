@@ -56,6 +56,8 @@ Public Class clsFFSettlement
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", trans)
 
             Dim qry As String
 
@@ -271,6 +273,7 @@ Public Class clsFFSettlement
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FF_SETTLEMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_FF_SETTLEMENT_HEAD.EMP_CODE='" + obj.EMP_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", trans)
 
             '' saving ff salary
             If Not obj.ObjListSalary Is Nothing Then

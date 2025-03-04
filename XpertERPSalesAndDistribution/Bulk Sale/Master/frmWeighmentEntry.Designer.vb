@@ -22,6 +22,7 @@ Partial Class FrmWeighmentEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblWeighment = New common.Controls.MyLabel()
@@ -51,12 +52,13 @@ Partial Class FrmWeighmentEntry
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvItemBulk = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,11 +92,12 @@ Partial Class FrmWeighmentEntry
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,6 +116,7 @@ Partial Class FrmWeighmentEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -178,7 +182,6 @@ Partial Class FrmWeighmentEntry
         Me.lblGateEntryNo.Name = "lblGateEntryNo"
         Me.lblGateEntryNo.Size = New System.Drawing.Size(125, 19)
         Me.lblGateEntryNo.TabIndex = 50
-        Me.lblGateEntryNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndWeighmentcode
         '
@@ -209,7 +212,7 @@ Partial Class FrmWeighmentEntry
         '
         'btnnew
         '
-        Me.btnnew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(366, 2)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 20)
@@ -322,7 +325,6 @@ Partial Class FrmWeighmentEntry
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(210, 19)
         Me.LblLocationName.TabIndex = 8
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -343,7 +345,6 @@ Partial Class FrmWeighmentEntry
         Me.LblTankerName.Name = "LblTankerName"
         Me.LblTankerName.Size = New System.Drawing.Size(210, 19)
         Me.LblTankerName.TabIndex = 6
-        Me.LblTankerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblTankerName.Visible = False
         '
         'MyLabel5
@@ -365,7 +366,6 @@ Partial Class FrmWeighmentEntry
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(125, 19)
         Me.lblLocationCode.TabIndex = 7
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'SplitContainer3
         '
@@ -403,7 +403,6 @@ Partial Class FrmWeighmentEntry
         Me.lblTankerNoValue.Name = "lblTankerNoValue"
         Me.lblTankerNoValue.Size = New System.Drawing.Size(56, 19)
         Me.lblTankerNoValue.TabIndex = 4
-        Me.lblTankerNoValue.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTankerNoValue.Visible = False
         '
         'MyLabel7
@@ -469,7 +468,7 @@ Partial Class FrmWeighmentEntry
         Me.TxtTareWeight.TabIndex = 9
         Me.TxtTareWeight.Text = "0"
         Me.TxtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTareWeight.Value = 0.0R
+        Me.TxtTareWeight.Value = 0R
         '
         'MyLabel3
         '
@@ -506,7 +505,7 @@ Partial Class FrmWeighmentEntry
         Me.txtNetWeight.TabIndex = 11
         Me.txtNetWeight.Text = "0"
         Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0.0R
+        Me.txtNetWeight.Value = 0R
         '
         'txtGrossWeight
         '
@@ -533,7 +532,7 @@ Partial Class FrmWeighmentEntry
         Me.txtGrossWeight.TabIndex = 10
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0.0R
+        Me.txtGrossWeight.Value = 0R
         '
         'MyLabel6
         '
@@ -562,14 +561,27 @@ Partial Class FrmWeighmentEntry
         Me.gvItemBulk.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItemBulk.Location = New System.Drawing.Point(2, 18)
         '
-        'gvItemBulk
         '
+        '
+        Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
         Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(867, 161)
         Me.gvItemBulk.TabIndex = 264
-        Me.gvItemBulk.Text = "RadGridView1"
+        Me.gvItemBulk.VarID = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(241, 8)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(76, 20)
+        Me.btnPrint.TabIndex = 4
+        Me.btnPrint.Text = "Print"
         '
         'btnPost
         '
@@ -612,7 +624,7 @@ Partial Class FrmWeighmentEntry
         '
         Me.UcWeighing1.Dock = System.Windows.Forms.DockStyle.Top
         Me.UcWeighing1.form_ID = Nothing
-        Me.UcWeighing1.LiveReading = 0.0R
+        Me.UcWeighing1.LiveReading = 0R
         Me.UcWeighing1.Location = New System.Drawing.Point(0, 0)
         Me.UcWeighing1.Machine = ""
         Me.UcWeighing1.Name = "UcWeighing1"
@@ -620,15 +632,15 @@ Partial Class FrmWeighmentEntry
         Me.UcWeighing1.Size = New System.Drawing.Size(879, 64)
         Me.UcWeighing1.TabIndex = 1
         '
-        'btnPrint
+        'btnHistory
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(241, 8)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(76, 20)
-        Me.btnPrint.TabIndex = 4
-        Me.btnPrint.Text = "Print"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(323, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(76, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'FrmWeighmentEntry
         '
@@ -678,11 +690,12 @@ Partial Class FrmWeighmentEntry
         Me.RadGroupBox1.ResumeLayout(False)
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -722,5 +735,6 @@ Partial Class FrmWeighmentEntry
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvItemBulk As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

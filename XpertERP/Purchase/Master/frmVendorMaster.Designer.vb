@@ -82,6 +82,7 @@ Partial Class frmVendorMaster
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.CFP_Unitchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.InActiveCF = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtPhone2 = New common.Controls.MyTextBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
@@ -342,6 +343,7 @@ Partial Class frmVendorMaster
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radScrollablePanel1.PanelContainer.SuspendLayout()
         Me.radScrollablePanel1.SuspendLayout()
+        CType(Me.CFP_Unitchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.InActiveCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1116,6 +1118,7 @@ Partial Class frmVendorMaster
         'radScrollablePanel1.PanelContainer
         '
         Me.radScrollablePanel1.PanelContainer.BackColor = System.Drawing.Color.Transparent
+        Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.CFP_Unitchk)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.InActiveCF)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtPhone2)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtPhone1)
@@ -1169,6 +1172,16 @@ Partial Class frmVendorMaster
         Me.radScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(945, 338)
         Me.radScrollablePanel1.Size = New System.Drawing.Size(964, 340)
         Me.radScrollablePanel1.TabIndex = 7355
+        '
+        'CFP_Unitchk
+        '
+        Me.CFP_Unitchk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CFP_Unitchk.Location = New System.Drawing.Point(800, 4)
+        Me.CFP_Unitchk.Name = "CFP_Unitchk"
+        Me.CFP_Unitchk.Size = New System.Drawing.Size(66, 16)
+        Me.CFP_Unitchk.TabIndex = 7357
+        Me.CFP_Unitchk.Text = "CFP Unit"
+        Me.CFP_Unitchk.Visible = False
         '
         'InActiveCF
         '
@@ -4853,6 +4866,7 @@ Partial Class frmVendorMaster
         Me.radScrollablePanel1.PanelContainer.PerformLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radScrollablePanel1.ResumeLayout(False)
+        CType(Me.CFP_Unitchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.InActiveCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5339,5 +5353,6 @@ Partial Class frmVendorMaster
     Friend WithEvents chkDefaultGrower As RadCheckBox
     Friend WithEvents chkSecurityDed As RadCheckBox
     Friend WithEvents chkPenaltyDed As RadCheckBox
+    Friend WithEvents CFP_Unitchk As RadCheckBox
 End Class
 

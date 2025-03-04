@@ -78,6 +78,14 @@ Public Class RCDFDashboard
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
+    'Sub EnableDisableCntrl(ByVal val As Boolean)
+    '    RadGroupBox3.Enabled = val
+    '    RadGroupBox4.Enabled = val
+    '    RadGroupBox5.Enabled = val
+    '    RadGroupBox6.Enabled = val
+    '    RadGroupBox1.Enabled = val
+    '    RadGroupBox2.Enabled = val
+    'End Sub
     Sub Reset()
         lblQuality.Text = "CURRENT STATUS"
         dtFinishGoods = Nothing
@@ -131,6 +139,7 @@ Public Class RCDFDashboard
 
 
         EnableDisableCntrl(True)
+        RadPageView1.SelectedPage = RadPageViewPage5
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Dim ii As Integer = 0
@@ -157,6 +166,7 @@ Public Class RCDFDashboard
             Load_Report_Account()
 
             clsCommon.ProgressBarPercentHide()
+            RadPageView1.SelectedPage = RadPageViewPage1
             EnableDisableCntrl(False)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -167,6 +177,10 @@ Public Class RCDFDashboard
         txtFromDate.Enabled = val
         txtToDate.Enabled = val
         txtLocation.Enabled = val
+        RadGroupBox3.Enabled = val
+        RadGroupBox4.Enabled = val
+        RadGroupBox5.Enabled = val
+        RadGroupBox6.Enabled = val
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         Me.Close()
@@ -842,9 +856,197 @@ Public Class RCDFDashboard
     End Sub
     Public Sub Load_Report_Finish_Goods()
         Try
+            Dim whr As String = ""
+            Dim Status As String = ""
+            Dim Status1 As String = ""
+            Dim FG As String = ""
+            Dim SFG As String = ""
+            Dim FGSFG As String = ""
+            Dim StatusInvoice As String = ""
+            Dim StatusReturn As String = ""
+            Dim Stocktransferdispatch As String = ""
+            Dim stocktransferinvoice As String = ""
+            If rdbPosted.IsChecked = True Then
+                Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=1 "
+                Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
+                StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
+                StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=1 "
+            ElseIf rdbUnposted.IsChecked = True Then
+                Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=0 "
+                Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
+                StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=0 "
+                StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=0 "
+            ElseIf rdbAll.IsChecked = True Then
+
+            End If
+
+            If rdbStockTransfer.IsChecked = True Then
+                Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=1 "
+                stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
+            End If
+            If rdbSaleTransfer.IsChecked = True Then
+                Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+            End If
+
+            If rdbFG.IsChecked = True Then
+                FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+            ElseIf rdbSFG.IsChecked = True Then
+                SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
+            ElseIf rdbfgsfg.IsChecked = True Then
+                FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
+            End If
+
+            If txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 AndAlso rdbDispatch.IsChecked = True Then
+                whr += " and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtLocation.Value) + "') "
+            ElseIf txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 AndAlso rdbInvoice.IsChecked = True Then
+                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtLocation.Value) + "') "
+            ElseIf txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 AndAlso rdbSaleTransfer.IsChecked = True Then
+                whr += " and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtLocation.Value) + "') "
+            Else
+                'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
+                'If clsCommon.myLen(arrLoc) > 0 Then
+                'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
+                'End If
+            End If
+            Dim sQuery As String
             If dtFinishGoods Is Nothing OrElse dtFinishGoods.Rows.Count <= 0 Then
-                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,MAX(SR_NO) AS SR_NO,Sum(Quantity)/100 As Quantity from (
-                select  convert(date, Document_Date,103) as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,SR_NO,Qty as Quantity   from (
+                sQuery = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,MAX(SR_NO) AS SR_NO,Sum(Quantity)/100 As Quantity from (
+                select  convert(date, Document_Date,103) as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,SR_NO,Qty as Quantity   from "
+                If rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                    sQuery += " ( Select Document_Date,price_CodeNon,SR_NO,(SaleQty-ReturnQty)Qty (
+                select TSPL_SD_SHIPMENT_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty) as SaleQty,0 as ReturnQty 
+                from TSPL_SD_SHIPMENT_DETAIL
+                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
+                "' and  TSPL_SD_SHIPMENT_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,0 as ReturnQty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),
+                (select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER"
+
+                    sQuery += " Union all
+                              select TSPL_SD_SALE_RETURN_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty) as ReturnQty
+                from TSPL_SD_SALE_RETURN_DETAIL
+                left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,0 as ReturnQty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),
+                (select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER)XX
+)x 
+                )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
+
+                ElseIf rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                    sQuery += " ( Select Document_Date,price_CodeNon,SR_NO,(SaleQty-ReturnQty)Qty (
+                select TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as SaleQty,0 as ReturnQty 
+                from TSPL_SD_SALE_INVOICE_DETAIL
+                left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
+                "' and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,0 as ReturnQty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),
+                (select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER"
+
+                    sQuery += " Union all
+                              select TSPL_SD_SALE_RETURN_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty) as ReturnQty
+                from TSPL_SD_SALE_RETURN_DETAIL
+                left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as SaleQty,0 as ReturnQty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),
+                (select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER)XX
+)x 
+                )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
+                ElseIf rdbSaleReturn.IsChecked = True Then
+                    sQuery += " (
+                select TSPL_SD_SALE_RETURN_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty) as Qty
+                from TSPL_SD_SALE_RETURN_DETAIL
+                left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
+                "' and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER
+                )x 
+                )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
+
+                ElseIf rdbInvoice.IsChecked = True Then
+                    sQuery += " (
                 select TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
@@ -860,10 +1062,12 @@ Public Class RCDFDashboard
                 AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
                 "' and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
-                If clsCommon.myLen(txtLocation.Value) > 0 Then
-                    sQuery += " and TSPL_SD_SALE_INVOICE_DETAIL.Location='" + txtLocation.Value + "' "
-                End If
-                sQuery += " union all
+                    sQuery += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    If rdbStockTransfer.IsChecked = True Then
+                        sQuery += "" + stocktransferinvoice + ""
+                    End If
+
+                    sQuery += " union all
                 select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
                 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
@@ -871,7 +1075,40 @@ Public Class RCDFDashboard
 				end as 'SR_NO',0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER
                 )x 
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
-                dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
+
+                ElseIf rdbDispatch.IsChecked = True Then
+                    sQuery += " (
+                select TSPL_SD_SHIPMENT_HEAD.Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty
+                from TSPL_SD_SHIPMENT_DETAIL
+                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
+                "' and  TSPL_SD_SHIPMENT_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    If rdbStockTransfer.IsChecked = True Then
+                        sQuery += "" + Stocktransferdispatch + ""
+                    End If
+
+                    sQuery += " union all
+                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER
+                )x 
+                )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
+
+                    dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
+                End If
             End If
 
             If dtFinishGoods IsNot Nothing AndAlso dtFinishGoods.Rows.Count > 0 Then

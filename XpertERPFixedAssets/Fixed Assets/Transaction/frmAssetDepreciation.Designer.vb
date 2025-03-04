@@ -351,10 +351,12 @@ Partial Class FrmAssetDepreciation
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(727, 445)
         Me.gv1.TabIndex = 4
+        Me.gv1.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -378,10 +380,12 @@ Partial Class FrmAssetDepreciation
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(727, 423)
         Me.gv2.TabIndex = 5
+        Me.gv2.VarID = ""
         '
         'Panel6
         '

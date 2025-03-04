@@ -154,6 +154,7 @@ Public Class clsVedorInvoiceHead
     Public Add_Charge_Amt10 As Double = 0
     Public Total_Add_Charge As Double = 0
     Public loc_code As String = Nothing
+    Public Location_Code_Prefix As String = Nothing
     Public Irregular_loc_code As String = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
 
@@ -356,7 +357,6 @@ Public Class clsVedorInvoiceHead
         If clsCommon.CompairString(obj.Form_ID, clsUserMgtCode.frmProcurementDeduction) = CompairStringResult.Equal Then
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
         End If
-
         If clsCommon.myCstr(obj.Invoice_Type) = "VS" Then
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.FrmVendorService, obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
         ElseIf obj.is_For_TDS = 1 Then
@@ -387,10 +387,20 @@ Public Class clsVedorInvoiceHead
         If obj.Arr.Count <= 0 Then
             Throw New Exception("Please fill at list one Account")
         End If
-        Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-        If clsCommon.myLen(strLocation) <= 0 Then
-            Throw New Exception("Please enter account with location segment")
+        Dim strLocation As String
+        Dim isLocationCodeSegment As Boolean
+
+        If objCommonVar.ApplyLocationWisePrefix Then
+            strLocation = obj.Location_Code_Prefix
+            isLocationCodeSegment = False
+        Else
+            isLocationCodeSegment = True
+            strLocation = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+            If clsCommon.myLen(strLocation) <= 0 Then
+                Throw New Exception("Please enter account with location segment")
+            End If
         End If
+
 
 
         Dim strDocNo As String = ""
@@ -410,27 +420,28 @@ Public Class clsVedorInvoiceHead
             If clsCommon.myLen(obj.Document_No) > 0 Then
                 ''No need to generate Code.
             ElseIf (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.APInvoice, strPrefixTransType, strLocation, True)
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.APInvoice, strPrefixTransType, strLocation, isLocationCodeSegment)
             ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(RefDocNo) > 0 And IsDirectEntry = True And CreateSeperateSeriesforRefDocAPinvforCreritdebit = 1 Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.DebitNote, clsDocTransactionType.DebitRefDoc, strLocation, True)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.DebitNote, clsDocTransactionType.DebitRefDoc, strLocation, isLocationCodeSegment)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.DebitNote, strPrefixTransType, strLocation, True)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.DebitNote, strPrefixTransType, strLocation, isLocationCodeSegment)
                 End If
             ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(RefDocNo) > 0 And IsDirectEntry = True And CreateSeperateSeriesforRefDocAPinvforCreritdebit = 1 Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.CreditNote, clsDocTransactionType.CreditRefDoc, strLocation, True)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.CreditNote, clsDocTransactionType.CreditRefDoc, strLocation, isLocationCodeSegment)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.CreditNote, strPrefixTransType, strLocation, True)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.CreditNote, strPrefixTransType, strLocation, isLocationCodeSegment)
                 End If
 
             ElseIf (clsCommon.CompairString(obj.Document_Type, "P") = CompairStringResult.Equal) Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.PurchaserOrder, strPrefixTransType, strLocation, True)
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Invoice_Entry_Date), clsDocType.PurchaserOrder, strPrefixTransType, strLocation, isLocationCodeSegment)
             End If
         End If
         If (clsCommon.myLen(obj.Document_No) <= 0) Then
             Throw New Exception("Error in Document Code Generation")
         End If
+        strLocation = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
 
         ''richa agarwal 
         Dim strcurrentfisyearstartdate As Date? = Nothing
@@ -489,6 +500,7 @@ Public Class clsVedorInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.loc_code)
         clsCommon.AddColumnsForChange(coll, "IRregular_loc_code", obj.Irregular_loc_code)
         '------------
+        clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
         clsCommon.AddColumnsForChange(coll, "RCM", IIf(obj.RCM, 1, 0))
         clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Transfer_To_Saving", IIf(obj.Transfer_To_Saving, 1, 0))
@@ -1340,6 +1352,7 @@ Public Class clsVedorInvoiceHead
             obj.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
             obj.MCC_Name = clsCommon.myCstr(dt.Rows(0)("MCC_Name"))
             obj.Irregular_loc_code = clsCommon.myCstr(dt.Rows(0)("Irregular_Loc_Code"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             obj.Vendor_Bank_Code = clsCommon.myCstr(dt.Rows(0)("Vendor_Bank_Code"))
             obj.Vendor_Bank_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Bank_Name"))
             obj.Branch_IFSC_Code = clsCommon.myCstr(dt.Rows(0)("Branch_IFSC_Code"))
@@ -4665,6 +4678,8 @@ Public Class clsVedorInvoiceHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
             '' Get Payment Entry Against AP Invoice
 
@@ -4753,8 +4768,8 @@ Public Class clsVedorInvoiceHead
 
             Qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
             'trans.Commit()
             Return True

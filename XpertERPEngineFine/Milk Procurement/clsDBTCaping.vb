@@ -95,6 +95,8 @@ Public Class clsDBTCaping
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
             Dim qry As String = ""
             qry = "delete from TSPL_DBT_CAPING_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -128,6 +130,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
             Dim qry As String = "Update TSPL_DBT_CAPING set Status=1 , Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()

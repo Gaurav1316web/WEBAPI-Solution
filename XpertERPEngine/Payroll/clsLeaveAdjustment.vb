@@ -31,6 +31,8 @@ Public Class clsLeaveAdjustment
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("LVADJUSTMENT_CODE not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_ADJUSTMENT", "LVADJUSTMENT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_ADJUSTMENT", "LVADJUSTMENT_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LEAVE_ADJUSTMENT where LVADJUSTMENT_CODE ='" + strCode + "'"
@@ -125,6 +127,7 @@ Public Class clsLeaveAdjustment
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_ADJUSTMENT", OMInsertOrUpdate.Update, "LVADJUSTMENT_CODE='" + obj.LVADJUSTMENT_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LVADJUSTMENT_CODE, "TSPL_LEAVE_ADJUSTMENT", "LVADJUSTMENT_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

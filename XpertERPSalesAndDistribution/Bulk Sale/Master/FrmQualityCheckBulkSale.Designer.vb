@@ -22,6 +22,8 @@ Partial Class FrmQualityCheckBulkSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.LblLoadingNo = New common.Controls.MyLabel()
@@ -64,6 +66,7 @@ Partial Class FrmQualityCheckBulkSale
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RDSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RDDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -107,6 +110,7 @@ Partial Class FrmQualityCheckBulkSale
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,6 +129,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -185,34 +190,35 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.LblLoadingNo.AutoSize = False
         Me.LblLoadingNo.BorderVisible = True
+        Me.LblLoadingNo.FieldName = Nothing
         Me.LblLoadingNo.Location = New System.Drawing.Point(109, 73)
         Me.LblLoadingNo.Name = "LblLoadingNo"
         Me.LblLoadingNo.Size = New System.Drawing.Size(170, 19)
         Me.LblLoadingNo.TabIndex = 327
-        Me.LblLoadingNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCustomerName
         '
         Me.lblCustomerName.AutoSize = False
         Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Location = New System.Drawing.Point(281, 138)
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(210, 19)
         Me.lblCustomerName.TabIndex = 325
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCustomerCode
         '
         Me.lblCustomerCode.AutoSize = False
         Me.lblCustomerCode.BorderVisible = True
+        Me.lblCustomerCode.FieldName = Nothing
         Me.lblCustomerCode.Location = New System.Drawing.Point(109, 138)
         Me.lblCustomerCode.Name = "lblCustomerCode"
         Me.lblCustomerCode.Size = New System.Drawing.Size(170, 19)
         Me.lblCustomerCode.TabIndex = 324
-        Me.lblCustomerCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel11
         '
+        Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel11.Location = New System.Drawing.Point(9, 139)
         Me.MyLabel11.Name = "MyLabel11"
@@ -222,6 +228,15 @@ Partial Class FrmQualityCheckBulkSale
         '
         'FndTankerNo
         '
+        Me.FndTankerNo.CalculationExpression = Nothing
+        Me.FndTankerNo.FieldCode = Nothing
+        Me.FndTankerNo.FieldDesc = Nothing
+        Me.FndTankerNo.FieldMaxLength = 0
+        Me.FndTankerNo.FieldName = Nothing
+        Me.FndTankerNo.isCalculatedField = False
+        Me.FndTankerNo.IsSourceFromTable = False
+        Me.FndTankerNo.IsSourceFromValueList = False
+        Me.FndTankerNo.IsUnique = False
         Me.FndTankerNo.Location = New System.Drawing.Point(109, 50)
         Me.FndTankerNo.MendatroryField = True
         Me.FndTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -230,6 +245,9 @@ Partial Class FrmQualityCheckBulkSale
         Me.FndTankerNo.MyReadOnly = False
         Me.FndTankerNo.MyShowMasterFormButton = False
         Me.FndTankerNo.Name = "FndTankerNo"
+        Me.FndTankerNo.ReferenceFieldDesc = Nothing
+        Me.FndTankerNo.ReferenceFieldName = Nothing
+        Me.FndTankerNo.ReferenceTableName = Nothing
         Me.FndTankerNo.Size = New System.Drawing.Size(170, 19)
         Me.FndTankerNo.TabIndex = 323
         Me.FndTankerNo.Value = ""
@@ -250,10 +268,18 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
+        Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(37, 42)
         Me.gvItem.TabIndex = 0
-        Me.gvItem.Text = "RadGridView1"
+        Me.gvItem.VarID = ""
         '
         'UsLock1
         '
@@ -269,14 +295,15 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.LblWeighmentNo.AutoSize = False
         Me.LblWeighmentNo.BorderVisible = True
+        Me.LblWeighmentNo.FieldName = Nothing
         Me.LblWeighmentNo.Location = New System.Drawing.Point(109, 94)
         Me.LblWeighmentNo.Name = "LblWeighmentNo"
         Me.LblWeighmentNo.Size = New System.Drawing.Size(170, 19)
         Me.LblWeighmentNo.TabIndex = 320
-        Me.LblWeighmentNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel9.Location = New System.Drawing.Point(9, 95)
         Me.MyLabel9.Name = "MyLabel9"
@@ -287,20 +314,33 @@ Partial Class FrmQualityCheckBulkSale
         'txtCorrectionFactor
         '
         Me.txtCorrectionFactor.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtCorrectionFactor.CalculationExpression = Nothing
         Me.txtCorrectionFactor.DecimalPlaces = 2
+        Me.txtCorrectionFactor.FieldCode = Nothing
+        Me.txtCorrectionFactor.FieldDesc = Nothing
+        Me.txtCorrectionFactor.FieldMaxLength = 0
+        Me.txtCorrectionFactor.FieldName = Nothing
+        Me.txtCorrectionFactor.isCalculatedField = False
+        Me.txtCorrectionFactor.IsSourceFromTable = False
+        Me.txtCorrectionFactor.IsSourceFromValueList = False
+        Me.txtCorrectionFactor.IsUnique = False
         Me.txtCorrectionFactor.Location = New System.Drawing.Point(109, 204)
         Me.txtCorrectionFactor.MendatroryField = True
         Me.txtCorrectionFactor.MyLinkLable1 = Nothing
         Me.txtCorrectionFactor.MyLinkLable2 = Nothing
         Me.txtCorrectionFactor.Name = "txtCorrectionFactor"
+        Me.txtCorrectionFactor.ReferenceFieldDesc = Nothing
+        Me.txtCorrectionFactor.ReferenceFieldName = Nothing
+        Me.txtCorrectionFactor.ReferenceTableName = Nothing
         Me.txtCorrectionFactor.Size = New System.Drawing.Size(170, 20)
         Me.txtCorrectionFactor.TabIndex = 4
         Me.txtCorrectionFactor.Text = "0"
         Me.txtCorrectionFactor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCorrectionFactor.Value = 0.0R
+        Me.txtCorrectionFactor.Value = 0R
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel6.Location = New System.Drawing.Point(9, 206)
         Me.MyLabel6.Name = "MyLabel6"
@@ -312,24 +352,25 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.lblSiloNo.AutoSize = False
         Me.lblSiloNo.BorderVisible = True
+        Me.lblSiloNo.FieldName = Nothing
         Me.lblSiloNo.Location = New System.Drawing.Point(109, 182)
         Me.lblSiloNo.Name = "lblSiloNo"
         Me.lblSiloNo.Size = New System.Drawing.Size(170, 19)
         Me.lblSiloNo.TabIndex = 9
-        Me.lblSiloNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGateEntryNo
         '
         Me.lblGateEntryNo.AutoSize = False
         Me.lblGateEntryNo.BorderVisible = True
+        Me.lblGateEntryNo.FieldName = Nothing
         Me.lblGateEntryNo.Location = New System.Drawing.Point(109, 116)
         Me.lblGateEntryNo.Name = "lblGateEntryNo"
         Me.lblGateEntryNo.Size = New System.Drawing.Size(170, 19)
         Me.lblGateEntryNo.TabIndex = 4
-        Me.lblGateEntryNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel7.Location = New System.Drawing.Point(9, 117)
         Me.MyLabel7.Name = "MyLabel7"
@@ -341,56 +382,57 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.LblSiloName.AutoSize = False
         Me.LblSiloName.BorderVisible = True
+        Me.LblSiloName.FieldName = Nothing
         Me.LblSiloName.Location = New System.Drawing.Point(281, 182)
         Me.LblSiloName.Name = "LblSiloName"
         Me.LblSiloName.Size = New System.Drawing.Size(210, 19)
         Me.LblSiloName.TabIndex = 10
-        Me.LblSiloName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblLocationName
         '
         Me.LblLocationName.AutoSize = False
         Me.LblLocationName.BorderVisible = True
+        Me.LblLocationName.FieldName = Nothing
         Me.LblLocationName.Location = New System.Drawing.Point(281, 160)
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(210, 19)
         Me.LblLocationName.TabIndex = 8
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblTankerName
         '
         Me.LblTankerName.AutoSize = False
         Me.LblTankerName.BorderVisible = True
+        Me.LblTankerName.FieldName = Nothing
         Me.LblTankerName.Location = New System.Drawing.Point(281, 116)
         Me.LblTankerName.Name = "LblTankerName"
         Me.LblTankerName.Size = New System.Drawing.Size(210, 19)
         Me.LblTankerName.TabIndex = 6
-        Me.LblTankerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblTankerName.Visible = False
         '
         'lblLocationCode
         '
         Me.lblLocationCode.AutoSize = False
         Me.lblLocationCode.BorderVisible = True
+        Me.lblLocationCode.FieldName = Nothing
         Me.lblLocationCode.Location = New System.Drawing.Point(109, 160)
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(170, 19)
         Me.lblLocationCode.TabIndex = 7
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTankerNoValue
         '
         Me.lblTankerNoValue.AutoSize = False
         Me.lblTankerNoValue.BorderVisible = True
+        Me.lblTankerNoValue.FieldName = Nothing
         Me.lblTankerNoValue.Location = New System.Drawing.Point(404, 76)
         Me.lblTankerNoValue.Name = "lblTankerNoValue"
         Me.lblTankerNoValue.Size = New System.Drawing.Size(125, 19)
         Me.lblTankerNoValue.TabIndex = 5
-        Me.lblTankerNoValue.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTankerNoValue.Visible = False
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel5.Location = New System.Drawing.Point(9, 161)
         Me.MyLabel5.Name = "MyLabel5"
@@ -400,6 +442,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel4.Location = New System.Drawing.Point(9, 51)
         Me.MyLabel4.Name = "MyLabel4"
@@ -409,6 +452,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel3.Location = New System.Drawing.Point(9, 183)
         Me.MyLabel3.Name = "MyLabel3"
@@ -418,7 +462,16 @@ Partial Class FrmQualityCheckBulkSale
         '
         'fndLoadingNo
         '
+        Me.fndLoadingNo.CalculationExpression = Nothing
         Me.fndLoadingNo.Enabled = False
+        Me.fndLoadingNo.FieldCode = Nothing
+        Me.fndLoadingNo.FieldDesc = Nothing
+        Me.fndLoadingNo.FieldMaxLength = 0
+        Me.fndLoadingNo.FieldName = Nothing
+        Me.fndLoadingNo.isCalculatedField = False
+        Me.fndLoadingNo.IsSourceFromTable = False
+        Me.fndLoadingNo.IsSourceFromValueList = False
+        Me.fndLoadingNo.IsUnique = False
         Me.fndLoadingNo.Location = New System.Drawing.Point(404, 48)
         Me.fndLoadingNo.MendatroryField = True
         Me.fndLoadingNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -427,6 +480,9 @@ Partial Class FrmQualityCheckBulkSale
         Me.fndLoadingNo.MyReadOnly = False
         Me.fndLoadingNo.MyShowMasterFormButton = False
         Me.fndLoadingNo.Name = "fndLoadingNo"
+        Me.fndLoadingNo.ReferenceFieldDesc = Nothing
+        Me.fndLoadingNo.ReferenceFieldName = Nothing
+        Me.fndLoadingNo.ReferenceTableName = Nothing
         Me.fndLoadingNo.Size = New System.Drawing.Size(125, 19)
         Me.fndLoadingNo.TabIndex = 3
         Me.fndLoadingNo.Value = ""
@@ -434,6 +490,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(9, 73)
         Me.MyLabel1.Name = "MyLabel1"
@@ -443,6 +500,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(9, 30)
         Me.MyLabel2.Name = "MyLabel2"
@@ -452,9 +510,18 @@ Partial Class FrmQualityCheckBulkSale
         '
         'txtQCdate
         '
+        Me.txtQCdate.CalculationExpression = Nothing
         Me.txtQCdate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtQCdate.FieldCode = Nothing
+        Me.txtQCdate.FieldDesc = Nothing
+        Me.txtQCdate.FieldMaxLength = 0
+        Me.txtQCdate.FieldName = Nothing
         Me.txtQCdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtQCdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtQCdate.isCalculatedField = False
+        Me.txtQCdate.IsSourceFromTable = False
+        Me.txtQCdate.IsSourceFromValueList = False
+        Me.txtQCdate.IsUnique = False
         Me.txtQCdate.Location = New System.Drawing.Point(109, 29)
         Me.txtQCdate.MendatroryField = True
         Me.txtQCdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -462,6 +529,9 @@ Partial Class FrmQualityCheckBulkSale
         Me.txtQCdate.MyLinkLable2 = Nothing
         Me.txtQCdate.Name = "txtQCdate"
         Me.txtQCdate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQCdate.ReferenceFieldDesc = Nothing
+        Me.txtQCdate.ReferenceFieldName = Nothing
+        Me.txtQCdate.ReferenceTableName = Nothing
         Me.txtQCdate.Size = New System.Drawing.Size(170, 18)
         Me.txtQCdate.TabIndex = 2
         Me.txtQCdate.TabStop = False
@@ -471,7 +541,7 @@ Partial Class FrmQualityCheckBulkSale
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnReset.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(383, 8)
         Me.btnReset.Name = "btnReset"
@@ -480,6 +550,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'lblQcNo
         '
+        Me.lblQcNo.FieldName = Nothing
         Me.lblQcNo.Location = New System.Drawing.Point(9, 8)
         Me.lblQcNo.Name = "lblQcNo"
         Me.lblQcNo.Size = New System.Drawing.Size(42, 18)
@@ -488,6 +559,7 @@ Partial Class FrmQualityCheckBulkSale
         '
         'fndQcNo
         '
+        Me.fndQcNo.FieldName = Nothing
         Me.fndQcNo.Location = New System.Drawing.Point(109, 8)
         Me.fndQcNo.MendatroryField = False
         Me.fndQcNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -517,10 +589,18 @@ Partial Class FrmQualityCheckBulkSale
         '
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
+        Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(841, 160)
         Me.gvParam.TabIndex = 0
-        Me.gvParam.Text = "RadGridView1"
+        Me.gvParam.VarID = ""
         '
         'btnPost
         '
@@ -566,29 +646,31 @@ Partial Class FrmQualityCheckBulkSale
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(845, 20)
         Me.RadMenu1.TabIndex = 10
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDSaveLayout, Me.RDDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RDSaveLayout
         '
-        Me.RDSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RDSaveLayout.AccessibleName = "Save Layout"
         Me.RDSaveLayout.Name = "RDSaveLayout"
         Me.RDSaveLayout.Text = "Save Layout"
         '
         'RDDeleteLayout
         '
-        Me.RDDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDDeleteLayout.Name = "RDDeleteLayout"
         Me.RDDeleteLayout.Text = "Delete Layout"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(240, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'FrmQualityCheckBulkSale
         '
@@ -647,6 +729,7 @@ Partial Class FrmQualityCheckBulkSale
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -694,5 +777,6 @@ Partial Class FrmQualityCheckBulkSale
     Friend WithEvents lblCustomerCode As common.Controls.MyLabel
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents LblLoadingNo As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

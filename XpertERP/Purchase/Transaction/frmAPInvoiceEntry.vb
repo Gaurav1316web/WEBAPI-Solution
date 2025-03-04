@@ -230,7 +230,6 @@ Public Class FrmAPInvoiceEntry
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-
         CalculateProvisionOnGateePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateProvisionOnGateePass, clsFixedParameterCode.CalculateProvisionOnGateePass, Nothing))
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         Try
@@ -239,6 +238,11 @@ Public Class FrmAPInvoiceEntry
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
             Me.Close()
         End Try
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         'BHA/01/10/18-000583 by balwinder on 04/10/2018
         SettingCostCenter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInAPInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInAPInvoiceEntry, Nothing)) = 1)
         SettingCostCenterlevel = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableHirerachyCostCentre, clsFixedParameterCode.EnableHirerachyCostCentre, Nothing)) = 1)
@@ -3071,6 +3075,8 @@ Public Class FrmAPInvoiceEntry
         txtAdd_Doc_TYpe.Text = ""
         LblVCGL.Text = ""
         TxtVendorNo.Enabled = True
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         TxtVendorNo.Value = ""
         txtlocation.Value = ""
         LblLocDesp.Text = ""
@@ -3170,9 +3176,16 @@ Public Class FrmAPInvoiceEntry
                 txtDate.Focus()
                 Return False
             End If
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
+            End If
             If clsCommon.myLen(txtTermCode.Value) > 0 Then
                 txtTermCode_TxtChanged()
             End If
+
             btnSave.Focus()
             If clsCommon.CompairString(cmbRefType.SelectedValue, "WO") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtRefDocNo.Value) > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "D") <> CompairStringResult.Equal Then
@@ -3608,6 +3621,8 @@ Public Class FrmAPInvoiceEntry
                 obj.Branch_IFSC_Code = TxtIFSCCode.Text
                 obj.Branch_Name = txtbranchname.Text
                 obj.Vendor_Bank_ACNo = txtVendor_Bank_ACNo.Text
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
+
                 ''added by priti
                 obj.RefDocType = clsCommon.myCstr(cmbRefType.SelectedValue)
                 obj.RefDocNo = txtRefDocNo.Value
@@ -4070,7 +4085,7 @@ Public Class FrmAPInvoiceEntry
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
                     txtTotalAmt.Enabled = False
-                    UsLock1.Status = ERPTransactionStatus.Approved
+                            UsLock1.Status = ERPTransactionStatus.Approved
                     If CostCenterAndHirerachyCodeUpdateAfterPost = True Then
                         butCostCenterAndHirerachy_Update_AfterPost.Visible = True
                     End If
@@ -4114,6 +4129,12 @@ Public Class FrmAPInvoiceEntry
                 If clsCommon.myLen(obj.DateAndTime) > 0 Then
                     txtDataAndTimeSelection.Value = obj.DateAndTime
                     txtDataAndTimeSelection.Checked = True
+                End If
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
                 End If
                 txtTapalNo.Text = clsCommon.myCstr(obj.TapalNo)
 
@@ -7830,4 +7851,23 @@ Public Class FrmAPInvoiceEntry
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class

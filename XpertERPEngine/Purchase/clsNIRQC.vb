@@ -108,7 +108,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
-
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
             qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -198,6 +198,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             obj.Form_38 = Nothing
             obj.Is_Internal = False
             obj.autosrnfromrgp = Nothing
+            obj.Inter_unit_purchase = objMRN.Inter_unit_Purchase
 
             If clsCommon.myLen(objMRN.TAX1) > 0 Then
                 obj.TAX1 = objMRN.TAX1

@@ -41,6 +41,7 @@ Public Class clsLeaveSetting
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_SETTING", "LEAVE_CODE", Nothing)
             Dim qry As String
             qry = "delete from TSPL_LEAVE_SETTING where LEAVE_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -166,6 +167,8 @@ Public Class clsLeaveSetting
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_SETTING", OMInsertOrUpdate.Update, "LEAVE_CODE='" + obj.Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsLeaveSettingSalSlabLeaveAlloted.SaveData(obj.Code, obj.objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_LEAVE_SETTING", "LEAVE_CODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             Throw New Exception(ex.Message)

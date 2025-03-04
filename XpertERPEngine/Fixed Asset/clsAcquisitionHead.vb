@@ -290,6 +290,8 @@ Public Class clsAcquisitionHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ACQUISITION_HEAD", OMInsertOrUpdate.Update, "TSPL_ACQUISITION_HEAD.Acquisition_Code='" + obj.Acquisition_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsAcquisitionDetail.SaveData(obj.Acquisition_Code, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+
             'isSaved = isSaved AndAlso clsAcquisitionPendingSRN.SaveData(obj.Acquisition_Code, Arr1, trans)
             isSaved = isSaved AndAlso clsRemittance.SaveData(obj.RemittanceObject, obj.Acquisition_Code, Loc_Code, trans)
             isSaved = isSaved AndAlso clsAssetAssembleDetail.SaveData(obj.Acquisition_Code, ArrAssemble, trans)
@@ -1448,6 +1450,9 @@ Public Class clsAcquisitionHead
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Acquisition_Code) > 0) Then
             Try
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
@@ -2271,6 +2276,8 @@ Public Class clsAssetAccountChangeHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", OMInsertOrUpdate.Update, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD.Doc_Code='" + obj.Doc_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsAssetAccountChangeDetail.SaveData(obj.Doc_Code, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -2366,7 +2373,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
             End If
 
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Dim ArryLst As ArrayList = New ArrayList()
             'Dim strQ As String = "select xx.Ac_Control, SUM(xx.Book_Source_value )  as Book_Source_value " &
             '        " from ( select TSPL_ACQUISITION_DETAIL.Book_Source_value,TSPL_Dep_AccountSet.Ac_Control as Ac_Control " &
@@ -2437,6 +2444,8 @@ Public Class clsAssetAccountChangeHead
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Document_No", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Document_No", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Document_No", trans)
 
                 qry = "delete from TSPL_ASSET_ACCOUNT_CHANGE_DETAIL where Doc_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -2464,6 +2473,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='AQ-AC' and Source_Doc_No='" + strCode + "')"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 

@@ -33,6 +33,9 @@ Public Class clsAdjustmentVoucher
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ADJUSTMENT_VOUCHER", "strDocNo", "TSPL_EMPADJUSTMENT_DETAIL", "strDocNo", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ADJUSTMENT_VOUCHER", "strDocNo", "TSPL_EMPADJUSTMENT_DETAIL", "strDocNo", trans)
+
             Dim qry As String
             qry = "delete from TSPL_EMPADJUSTMENT_DETAIL where ADJUSTMENT_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -138,6 +141,8 @@ Public Class clsAdjustmentVoucher
 
 
             isSaved = isSaved AndAlso clsAdjustmentVoucherDetail.SaveData(obj.ADJUSTMENT_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ADJUSTMENT_CODE, "TSPL_ADJUSTMENT_VOUCHER", "ADJUSTMENT_CODE", "TSPL_EMPADJUSTMENT_DETAIL", "ADJUSTMENT_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

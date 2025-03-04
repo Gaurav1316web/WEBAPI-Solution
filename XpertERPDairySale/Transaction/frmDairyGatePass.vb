@@ -90,6 +90,11 @@ Public Class frmDairyGatePass
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
         CreateTable()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            chkGhee.Visible = True
+        Else
+            chkGhee.Visible = False
+        End If
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
         'coll.Add("Closing_Date", "Datetime null")
@@ -348,43 +353,74 @@ Public Class frmDairyGatePass
                     strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
                 End If
                 If AlternateVechileforGatePass.Equals(1) Then
-                    Dim StrChkAvQuery As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                    Dim StrChkAvQuery As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                     "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code,Scheme_Item  " &
-                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                    "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        StrChkAvQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                    End If
+
+                    StrChkAvQuery += " left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                     "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                     "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                     "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "'   and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
                     If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                         StrChkAvQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                     End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        If chkGhee.Checked Then
+                            StrChkAvQuery += " and TSPL_BOOKING_MATSER.Is_GHEE = 1 "
+                        Else
+                            StrChkAvQuery += " and isnull(TSPL_BOOKING_MATSER.Is_GHEE,0) = 0 "
+                        End If
+                    End If
                     dt = New DataTable()
                     dt = clsDBFuncationality.GetDataTable(StrChkAvQuery)
                     If dt.Rows.Count > 0 Then
-                        strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                        strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                         "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code,Scheme_Item  " &
-                        "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                        "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
-                        "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
-                        "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
+                        "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            strQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                        End If
+                        strQuery += "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code Left outer join TSPL_CUSTOMER_MASTER On TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                        "where convert(Date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                         "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
                         If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                             strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                         End If
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            If chkGhee.Checked Then
+                                strQuery += " and TSPL_BOOKING_MATSER.Is_GHEE = 1 "
+                            Else
+                                strQuery += " and isnull(TSPL_BOOKING_MATSER.Is_GHEE,0) = 0 "
+                            End If
+                        End If
                     Else
-                        strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                        strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                        "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code,Scheme_Item  " &
-                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                       "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            strQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                        End If
+                        strQuery += "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                        "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                        "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                        "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & " "
                         If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                             strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                         End If
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            If chkGhee.Checked Then
+                                strQuery += " and TSPL_BOOKING_MATSER.Is_GHEE = 1 "
+                            Else
+                                strQuery += " and isnull(TSPL_BOOKING_MATSER.Is_GHEE,0) = 0 "
+                            End If
+                        End If
                     End If
                 Else
-                    strQuery = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.VehicleNo, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                    strQuery = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.VehicleNo, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                       "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit"
                     If AllowGatePassDemandTripWise Then
                         strQuery += " ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty, TSPL_SD_SHIPMENT_BOOKING_DETAIL.trip_no "
@@ -392,11 +428,14 @@ Public Class frmDairyGatePass
                         strQuery += " ,Qty"
                     End If
                     strQuery += ",TSPL_ITEM_MASTER.HSN_Code,Scheme_Item  " &
-                      "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                      "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                      "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        strQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                    End If
+                    strQuery += "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  "
                     If AllowGatePassDemandTripWise Then
-                        strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.unit_code "
+                        strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code "
                     End If
                     strQuery += "where convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
@@ -412,6 +451,13 @@ Public Class frmDairyGatePass
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                    End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        If chkGhee.Checked Then
+                            strQuery += " and TSPL_BOOKING_MATSER.Is_GHEE = 1 "
+                        Else
+                            strQuery += " and isnull(TSPL_BOOKING_MATSER.Is_GHEE,0) = 0 "
+                        End If
                     End If
                     If EnableProductSaleForJPR Then
                         If rbtn_Milk.IsChecked Then
@@ -756,6 +802,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     btnGo.Enabled = True
                 End If
                 btnSave.Text = "Update"
+                chkGhee.Checked = obj.Is_GHEE
                 If isCreateProvisionOfTransporterInDairyDispatch = True Then
                     If obj.Post = "Y" Then
                         btnSave.Enabled = False
@@ -857,7 +904,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtDriverMobNo.Text = obj.Driver_ContactNo
                 txtDistributorName.Text = obj.DistributorName
                 funLoadGrid(txtCode.Value)
-
             End If
             isInsideLoadData = False
         Catch ex As Exception
@@ -1023,6 +1069,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     obj.IsTransfer = 1
                     obj.AgainstTransferNo = clsCommon.myCstr(FndTransferNo.Value)
                 End If
+                obj.Is_GHEE = chkGhee.Checked
                 '=======================================================
 
                 Dim totalCrate As Integer = 0
@@ -1123,6 +1170,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         lblClosingDate.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         chkAgainstTransfer.Checked = False
+        chkGhee.Checked = False
         FndTransferNo.Value = ""
         txtTransporter.Enabled = False
         txtOpKM.Value = 0
@@ -1821,15 +1869,25 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
                 strQuery = " select distinct Route_No as Code,route_desc from (select Route_No ,route_desc from tspl_route_master where Status='A' ) final"
             Else
                 strQuery = " Select distinct Route_No As Code,route_desc from (" &
-    " Select distinct TSPL_SD_SHIPMENT_HEAD.Route_No,tspl_route_master.route_desc from TSPL_SD_SHIPMENT_HEAD " &
-    " left outer join tspl_route_master On tspl_route_master.route_no=TSPL_SD_SHIPMENT_HEAD.route_no " &
-    " where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' and TSPL_SD_SHIPMENT_HEAD.Route_No<>''" &
-    " ) final"
+    " Select distinct TSPL_SD_SHIPMENT_HEAD.Route_No,tspl_route_master.route_desc from TSPL_SD_SHIPMENT_HEAD "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    strQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                End If
+                strQuery += " left outer join tspl_route_master On tspl_route_master.route_no=TSPL_SD_SHIPMENT_HEAD.route_no " &
+    " where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' and TSPL_SD_SHIPMENT_HEAD.Route_No<>'' "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If chkGhee.Checked Then
+                        strQuery += " and TSPL_BOOKING_MATSER.Is_GHEE = 1 "
+                    Else
+                        strQuery += " and isnull(TSPL_BOOKING_MATSER.Is_GHEE,0) = 0 "
+                    End If
+                End If
+                strQuery += " ) final"
             End If
         End If
         fndRouteNo.Value = clsCommon.ShowSelectForm("DSRoute", strQuery, "code", "", fndRouteNo.Value, "", isButtonClicked)
         If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-            txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
+            txtRouteName.Text = clsDBFuncationality.getSingleValue("Select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
             If CreateGatePassFromDemand = True Then
                 Dim StrGP_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GPCode from TSPL_DAIRYSALE_GATEPASS_MASTER where convert(date, TSPL_DAIRYSALE_GATEPASS_MASTER.gpdate ,103)=convert(date,'" & txtDate.Value & "',103) and Route_No='" & fndRouteNo.Value & "'"))
                 If clsCommon.myLen(StrGP_No) > 0 Then
@@ -2320,13 +2378,16 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code)x
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         Try
             If clsCommon.myLen(txtCode.Value) > 0 Then
-
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    PrintBoothSlipData()
                 Else
-                    Throw New Exception("Data not Found!")
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
+                    Else
+                        Throw New Exception("Data not Found!")
+                    End If
                 End If
             Else
                 Throw New Exception("Document not Found!")
@@ -2336,6 +2397,103 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code)x
         End Try
     End Sub
 
+    Function PrintBoothSlipData() As Boolean
+        Try
+            Dim whrcls As String = ""
+
+            Dim qry As String = "( SELECT TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_VEHICLE_MASTER.DriverName,TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as Description,tspl_vehicle_master.Vehicle_Id,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1   ,(TSPL_ITEM_MASTER.Alies_Name)Short_Description, "
+            qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+            qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pouch,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount"
+            qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL "
+            qry += "left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE 
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = TSPL_SD_SHIPMENT_HEAD.Document_Code and TSPL_SD_SHIPMENT_DETAIL.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID = TSPL_SD_SHIPMENT_DETAIL.PK_ID
+left join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode = TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+  Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code  
+  Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+  Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
+where 2 = 2 and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtSupplyDate.Value)), "dd/MMM/yyyy") + "'  and status=1 "
+            If rbtnMorning.IsChecked Then
+                qry += " and Shift_Type = 'AM' "
+            ElseIf rbtnEvening.IsChecked Then
+                qry += " and Shift_Type = 'PM' "
+            End If
+            If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+                qry += " And Route_No = '" & fndRouteNo.Value & "' "
+            End If
+            qry += "))  "
+
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Print")
+                Return False
+                Exit Function
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,(Unit_code)Unit_code from (" + qry + ") x group by Item_Code,Unit_code order by Sku_Seq,Unit_code")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 11
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by (Cust_Code)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtSupplyDate.Value), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 ,"
+
+                    FinalQuery += "(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(DriverName)DriverName,'' as DMobNo,max(ShiftType)ShiftType,'" & objCommonVar.CurrentUser & "' as UserName, max(Route_No)Route_No,max(Route_Desc) as Route_Desc,sum(ItemNetAmount)ItemNetAmount,max(Document_Date) as Document_Date"
+                    For jj As Integer = 1 To 11
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                            strIUnitCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Unit_code"))
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "' and Unit_code = '" + strIUnitCode + "' then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+                    If ii > 1 Then
+                        FinalQuery += " ,null as Amount"
+                    Else
+                        FinalQuery += ",sum(ItemNetAmount)Amount"
+                    End If
+                    FinalQuery += " from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by Cust_Code"
+
+
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+                If dtPrint.Rows.Count > 0 Then
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dtPrint, "rptGatePassBoothSlip", "Gate Pass Booth Slip")
+                End If
+
+                frmCRV = Nothing
+            End If
+            Return False
+            Exit Function
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         Export(EnumExportTo.Excel)
     End Sub

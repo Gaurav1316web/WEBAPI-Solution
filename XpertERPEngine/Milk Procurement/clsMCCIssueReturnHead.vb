@@ -221,6 +221,8 @@ Public Class clsMCCIssueReturnHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSPAsset_HEAD", OMInsertOrUpdate.Update, "TSPL_VSPAsset_HEAD.Doc_No='" + obj.Doc_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsMCCIssueReturnDetail.SaveData(obj.Doc_No, obj.Doc_Type, obj.From_Location, obj.Doc_Date, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Doc_No, obj.arrCustomFields, trans)
 
             'If isSaved Then
@@ -1723,6 +1725,10 @@ Public Class clsMCCIssueReturnHead
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then
                     clsSerializeInvenotry.DeleteData("MCC-ARETURN", strCode, trans)  ''By Preeti gupta on 05/09/2016
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
+
                 Dim qry As String = "delete from TSPL_VSPAsset_DETAIL where Doc_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -1753,7 +1759,7 @@ Public Class clsMCCIssueReturnHead
             End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPAssetIssue, obj.From_Location, obj.Doc_Date, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
@@ -1763,7 +1769,7 @@ Public Class clsMCCIssueReturnHead
             If clsCommon.myLen(qry) > 0 Then
                 Throw New Exception("This Document No is used in AP Debit Note no [" + qry + "]")
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
             ''richa agarwal 01 Oct,2021
 
             Dim APInvoiceNo As String = clsDBFuncationality.getSingleValue("select Document_No  from TSPL_VENDOR_INVOICE_HEAD where isnull(Against_VSP_Asset_Issue ,'')='" + strCode + "'", trans)

@@ -42,6 +42,8 @@ Public Class clsDairyGatePassEntry
     Public Driver_ContactNo As String = Nothing
     Public DistributorName As String = Nothing
     Public Supply_Date As Date? = Nothing
+    Public Is_GHEE As Boolean = False
+
 
 #End Region
 
@@ -131,6 +133,7 @@ Public Class clsDairyGatePassEntry
             '============================================================================
             clsCommon.AddColumnsForChange(coll, "Opening_Km", obj.Opening_Km)
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
+            clsCommon.AddColumnsForChange(coll, "Is_GHEE", IIf(obj.Is_GHEE, 1, 0))
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
@@ -258,6 +261,7 @@ Public Class clsDairyGatePassEntry
             obj.TotalCrate = clsCommon.myCdbl(dt.Rows(0)("TotalCrate"))
             obj.TotalCAN = clsCommon.myCdbl(dt.Rows(0)("TotalCAN"))
             obj.IsTransfer = clsCommon.myCdbl(dt.Rows(0)("IsTransfer"))
+            obj.Is_GHEE = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_GHEE")) = 1, True, False)
             obj.AgainstTransferNo = clsCommon.myCstr(dt.Rows(0)("AgainstTransferNo"))
             'obj.AgainstDocumentCode = clsCommon.myCstr(dt.Rows(0)("AgainstDocumentCode"))
             obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))

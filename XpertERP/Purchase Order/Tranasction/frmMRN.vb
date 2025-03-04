@@ -6,6 +6,7 @@ Public Class frmMRN
     Inherits FrmMainTranScreen
 #Region "Variables"
     Private PurchaseModulePickFixTaxRate As Boolean = False
+    Public Inter_unit_Purchk As Integer = 0
     Dim ShowCapexCodeandSubCode As Boolean = False
     Public strGRN As String = ""
     Public Const RowTypeItem As String = "Item"
@@ -3298,6 +3299,7 @@ Public Class frmMRN
                 obj.RGP_Type = clsCommon.myCstr(txtRGPType.Text)
                 obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 obj.isHighClass = 0
+                obj.Inter_unit_Purchase = Inter_unit_Purchk
                 'stuti
                 obj.IsCancel = 0
                 If txt_RoadPermitDate.Text IsNot Nothing AndAlso clsCommon.myLen(txt_RoadPermitDate.Text) > 0 AndAlso IsDate(txt_RoadPermitDate.Text) Then
@@ -4758,154 +4760,155 @@ Public Class frmMRN
                 End If
                 '=======end here=====
 
+                Inter_unit_Purchk = clsCommon.myCdbl(objReq.Inter_unit_Purchase)
                 If (clsCommon.myLen(txtVendorNo.Value) <= 0) Then
-                    txtVendorNo.Value = frm.VendorCode
-                    lblVendorName.Text = frm.VendorName
-                    chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(frm.VendorCode)
-                End If
-                If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
-                    txtBillToLocation.Value = objReq.Bill_To_Location
-                    lblBillToLocation.Text = objReq.BillToLocationName
-                    txtBillToLocation.Enabled = False
-                End If
-                If (clsCommon.myLen(txtDesc.Text) <= 0) Then
-                    txtDesc.Text = objReq.Description
-                End If
-                If (clsCommon.myLen(txtDesc.Text) <= 0) Then
-                    txtRemarks.Text = objReq.Remarks
-                End If
-                If (clsCommon.myLen(txtRefNo.Text) <= 0) Then
-                    txtRefNo.Text = objReq.Ref_No
-                End If
-                If (clsCommon.myLen(txtDept.Value) <= 0) Then
-                    txtDept.Value = objReq.Dept
-                    lblDept.Text = objReq.Dept_Desc
-                End If
-                If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
-                    cboItemType.SelectedValue = objReq.Item_Type
-                End If
-                If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
-                    txtRemarks.Text = objReq.Remarks
-                End If
-                If clsCommon.myLen(txtCarrier.Text) <= 0 Then
-                    txtCarrier.Text = objReq.Carrier
-                End If
-                If clsCommon.myLen(txtVehicleNo.Text) <= 0 Then
-                    txtVehicleNo.Text = objReq.VehicleNo
-                End If
-                If clsCommon.myLen(txtGRNo.Text) <= 0 Then
-                    txtGRNo.Text = objReq.GRNo
-                End If
-                If clsCommon.myLen(txtGENo.Text) <= 0 Then
-                    txtGENo.Text = objReq.GENo
-                End If
-                If txtGEDate.Checked = False AndAlso objReq.GEDate.HasValue Then
-                    txtGEDate.Checked = True
-                    txtGEDate.Value = clsCommon.GetPrintDate(objReq.GEDate.Value, "dd-MM-yyyy")
-                End If
-                chkJobWorkOutward.Checked = IIf(objReq.isJobWorkOutward = 1, True, False)
-                txtShipToLocation.Value = objReq.Ship_To_Location
-                lblShipToLocation.Text = clsLocation.GetName(objReq.Ship_To_Location, Nothing)
-                txtShipToLocation.Enabled = False
-                txtSubLocation.Value = objReq.Sublocation_Code
-                lblSubLocation.Text = clsLocation.GetName(objReq.Sublocation_Code, Nothing)
-                txtSubLocation.Enabled = False
-                TxtRetention.Text = objReq.Retention
-                If (clsCommon.myLen(txtTermCode.Value) <= 0) Then
-                    txtTermCode.Value = objReq.Terms_Code
-                    lblTermName.Text = objReq.TermsName
-                    txtDueDate.Value = objReq.Due_Date
-                End If
+                        txtVendorNo.Value = frm.VendorCode
+                        lblVendorName.Text = frm.VendorName
+                        chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(frm.VendorCode)
+                    End If
+                    If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
+                        txtBillToLocation.Value = objReq.Bill_To_Location
+                        lblBillToLocation.Text = objReq.BillToLocationName
+                        txtBillToLocation.Enabled = False
+                    End If
+                    If (clsCommon.myLen(txtDesc.Text) <= 0) Then
+                        txtDesc.Text = objReq.Description
+                    End If
+                    If (clsCommon.myLen(txtDesc.Text) <= 0) Then
+                        txtRemarks.Text = objReq.Remarks
+                    End If
+                    If (clsCommon.myLen(txtRefNo.Text) <= 0) Then
+                        txtRefNo.Text = objReq.Ref_No
+                    End If
+                    If (clsCommon.myLen(txtDept.Value) <= 0) Then
+                        txtDept.Value = objReq.Dept
+                        lblDept.Text = objReq.Dept_Desc
+                    End If
+                    If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
+                        cboItemType.SelectedValue = objReq.Item_Type
+                    End If
+                    If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
+                        txtRemarks.Text = objReq.Remarks
+                    End If
+                    If clsCommon.myLen(txtCarrier.Text) <= 0 Then
+                        txtCarrier.Text = objReq.Carrier
+                    End If
+                    If clsCommon.myLen(txtVehicleNo.Text) <= 0 Then
+                        txtVehicleNo.Text = objReq.VehicleNo
+                    End If
+                    If clsCommon.myLen(txtGRNo.Text) <= 0 Then
+                        txtGRNo.Text = objReq.GRNo
+                    End If
+                    If clsCommon.myLen(txtGENo.Text) <= 0 Then
+                        txtGENo.Text = objReq.GENo
+                    End If
+                    If txtGEDate.Checked = False AndAlso objReq.GEDate.HasValue Then
+                        txtGEDate.Checked = True
+                        txtGEDate.Value = clsCommon.GetPrintDate(objReq.GEDate.Value, "dd-MM-yyyy")
+                    End If
+                    chkJobWorkOutward.Checked = IIf(objReq.isJobWorkOutward = 1, True, False)
+                    txtShipToLocation.Value = objReq.Ship_To_Location
+                    lblShipToLocation.Text = clsLocation.GetName(objReq.Ship_To_Location, Nothing)
+                    txtShipToLocation.Enabled = False
+                    txtSubLocation.Value = objReq.Sublocation_Code
+                    lblSubLocation.Text = clsLocation.GetName(objReq.Sublocation_Code, Nothing)
+                    txtSubLocation.Enabled = False
+                    TxtRetention.Text = objReq.Retention
+                    If (clsCommon.myLen(txtTermCode.Value) <= 0) Then
+                        txtTermCode.Value = objReq.Terms_Code
+                        lblTermName.Text = objReq.TermsName
+                        txtDueDate.Value = objReq.Due_Date
+                    End If
 
-                cboMRNType.SelectedValue = objReq.PurchaseOrder_Type
-                txtRGPType.Text = objReq.RGP_Type
-                ''RICHA AGARWAL AGAINST TICKET NO. BM00000006091 ON 04/05/2015
-                txtCurrencyCode.Value = objReq.CURRENCY_CODE
-                txtConversionRate.Value = objReq.ConvRate
-                txtCurrencyCode.Enabled = False
-                If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                    Dim Value As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isHighClass from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
-                    chkHighClass.Checked = IIf(Value = 1, True, False)
-                End If
-                ''-------------------------------------------
-                If objReq.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
-                    rbtnTaxCalAutomatic.IsChecked = True
-                ElseIf objReq.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
-                    rbtnTaxCalManual.IsChecked = True
-                End If
-                LoadBlankGridAC()
-                LoadBlankGridACInsurance()
-                If objReq.Arr_ACInsurance IsNot Nothing AndAlso objReq.Arr_ACInsurance.Count > 0 Then
-                    For Each objtr As clsGRNAdditionChargeInsurance In objReq.Arr_ACInsurance
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceCode).Value = objtr.AC_Code
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceName).Value = objtr.AC_Name
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceAmount).Value = objtr.Amount
-                        gvACInsurance.Rows.AddNew()
-                    Next
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code1) > 0) Then
+                    cboMRNType.SelectedValue = objReq.PurchaseOrder_Type
+                    txtRGPType.Text = objReq.RGP_Type
+                    ''RICHA AGARWAL AGAINST TICKET NO. BM00000006091 ON 04/05/2015
+                    txtCurrencyCode.Value = objReq.CURRENCY_CODE
+                    txtConversionRate.Value = objReq.ConvRate
+                    txtCurrencyCode.Enabled = False
+                    If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                        Dim Value As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isHighClass from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
+                        chkHighClass.Checked = IIf(Value = 1, True, False)
+                    End If
+                    ''-------------------------------------------
+                    If objReq.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
+                        rbtnTaxCalAutomatic.IsChecked = True
+                    ElseIf objReq.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
+                        rbtnTaxCalManual.IsChecked = True
+                    End If
+                    LoadBlankGridAC()
+                    LoadBlankGridACInsurance()
+                    If objReq.Arr_ACInsurance IsNot Nothing AndAlso objReq.Arr_ACInsurance.Count > 0 Then
+                        For Each objtr As clsGRNAdditionChargeInsurance In objReq.Arr_ACInsurance
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceCode).Value = objtr.AC_Code
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceName).Value = objtr.AC_Name
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceAmount).Value = objtr.Amount
+                            gvACInsurance.Rows.AddNew()
+                        Next
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code1) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code1
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name1
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt1
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code2) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code2
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name2
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt2
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code3) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code3
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name3
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt3
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code4) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code4
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name4
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt4
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code5) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code5
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name5
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt5
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code6) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code6
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name6
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt6
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code7) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code7
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name7
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt7
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code8) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code8
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name8
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt8
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code9) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code9
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name9
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt9
+                    End If
+                    If (clsCommon.myLen(objReq.Add_Charge_Code10) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code10
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name10
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt10
+                    End If
                     gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code1
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name1
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt1
                 End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code2) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code2
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name2
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt2
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code3) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code3
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name3
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt3
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code4) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code4
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name4
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt4
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code5) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code5
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name5
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt5
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code6) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code6
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name6
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt6
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code7) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code7
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name7
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt7
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code8) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code8
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name8
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt8
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code9) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code9
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name9
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt9
-                End If
-                If (clsCommon.myLen(objReq.Add_Charge_Code10) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objReq.Add_Charge_Code10
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objReq.Add_Charge_Name10
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objReq.Add_Charge_Amt10
-                End If
-                gvAC.Rows.AddNew()
-            End If
-            If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
+                If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                 gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
             End If
             Dim grnno As String = ""

@@ -54,6 +54,8 @@ Public Class clsDAArrear
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DA_Arrear_Header", OMInsertOrUpdate.Update, "  Document_Code='" + obj.document_code + "'", trans)
             End If
             ClsDAArrearDetail.SaveData(obj.document_code, obj.ArrD, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
+
             clsPayPeriod_detail.SaveData(obj.document_code, obj.Arr_PayPeriod, trans)
             clsDALocation_detail.SaveData(obj.document_code, obj.Arr_Location, trans)
             'ClsRmProcessLossDetail.SaveData(obj.document_code, obj.Arr_Pd, trans)
@@ -160,6 +162,9 @@ Public Class clsDAArrear
             If (isPosted = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
+
             Dim qry As String
             qry = "delete from TSPL_DAAREAR_PAYPERIOD_DETAIL where Document_code ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -183,6 +188,7 @@ Public Class clsDAArrear
             If (obj Is Nothing OrElse clsCommon.myLen(obj.document_code) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
