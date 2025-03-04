@@ -10,7 +10,6 @@ Public Class FrmPaymentProcess
 #Region "Variables"
     Dim IsBankAdviseStartDate As String
     Public isEmpOnAmtOnly As Boolean = False
-    Dim ApplyLocationWisePrefix As Boolean = False
     Public Const colSlno As String = "colSlno"
     Public Const colPurchaseInvoiceNo As String = "colPurchaseInvoiceNo"
     Public Const colAPInvoiceNo As String = "colAPInvoiceNo"
@@ -202,7 +201,11 @@ Public Class FrmPaymentProcess
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         settTDSRoundOffAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
@@ -3938,7 +3941,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             '    dtpDate.Focus()
             '    Return False
             'End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")

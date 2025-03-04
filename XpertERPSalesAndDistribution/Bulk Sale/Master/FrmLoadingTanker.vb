@@ -565,6 +565,18 @@ Public Class FrmLoadingTanker
         End If
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndLoadingcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndLoadingcode.Value, "LoadingTanker_No", "TSPL_LOADING_TANKER_DETAIL_BULKSALE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub gvItem_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gvItem.CellDoubleClick
         Dim intCount As Integer = 0
         Dim loadingSeq As Integer = 0
@@ -612,7 +624,7 @@ Public Class FrmLoadingTanker
                     gvItem.CurrentRow.Cells(colISelect).Value = False
                 End If
             End If
-            
+
         End If
     End Sub
 End Class

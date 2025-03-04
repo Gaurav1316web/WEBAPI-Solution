@@ -40,7 +40,6 @@ Public Class clsMultipleProcDeductionHead
     Public Function SaveData(ByVal obj As clsMultipleProcDeductionHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
 
         Dim isSaved As Boolean = True
-        Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
         If clsCommon.myLen(obj.loc_code) <= 0 Then
             Throw New Exception("Please first select Location")
         End If
@@ -66,7 +65,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
 
 
         If (isNewEntry) Then
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MultipleProcDed, "", obj.Location_Code_Prefix, False)
             Else
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MultipleProcDed, "", obj.loc_code, True)

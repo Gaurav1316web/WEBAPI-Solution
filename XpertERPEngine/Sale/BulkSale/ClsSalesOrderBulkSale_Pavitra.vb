@@ -80,7 +80,10 @@ Public Class ClsSalesOrderBulkSale_Pavitra
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SALES_ORDER_MASTER_BulkSale", OMInsertOrUpdate.Update, "TSPL_SALES_ORDER_MASTER_BulkSale.Document_No='" + obj.Document_No + "'", trans)
             End If
+
             clsSalesOrderDetailBulkSale_Pavitra.saveData(obj.arrSalesOrderDetailBulkSale, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -178,6 +181,10 @@ Public Class ClsSalesOrderBulkSale_Pavitra
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmSalesOrderBS, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
+
         Try
             Dim qry As String = ""
             qry = "delete from TSPL_SALES_ORDER_DETAIL_BulkSale where Document_No='" + strDocNo + "'"
@@ -212,6 +219,7 @@ Public Class ClsSalesOrderBulkSale_Pavitra
             End If
             Dim obj As ClsSalesOrderBulkSale_Pavitra = ClsSalesOrderBulkSale_Pavitra.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmSalesOrderBS, obj.Location_Code, obj.Document_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")

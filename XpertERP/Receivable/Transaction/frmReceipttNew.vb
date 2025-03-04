@@ -8,7 +8,6 @@ Public Class FrmReceipttNew
 #Region "Variable"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isSettlementBankOnly As Boolean = False
-    Dim ApplyLocationWisePrefix As Boolean = False
     Public RcptType As String = Nothing
     Public strRcptNo As String = Nothing
     Dim inSideLoadData As Boolean = False
@@ -246,9 +245,7 @@ Public Class FrmReceipttNew
             Me.Close()
         End Try
         ''------------------------
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
-
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             lblLocPrefix.Visible = True
             txtLocationPrefix.Visible = True
         Else
@@ -831,7 +828,7 @@ Public Class FrmReceipttNew
             '    Return False
             'End If 
             '=================Added by Richa AGARWAL 8 nOV,2019
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")

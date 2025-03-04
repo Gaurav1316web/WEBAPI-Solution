@@ -201,6 +201,9 @@ Public Class ClsDispatchBulkSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDispatchDetailBulkSale.saveData(obj.arrDispatchDetailBulkSale, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
+
+
             If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Approved from TSPL_Dispatch_BulkSale where Document_No='" + obj.Document_No + "'", trans), "Y") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(obj.CreditLimit) > 0 Then
                 qry = "update TSPL_CUSTOMER_MASTER set Credit_Limit=Credit_Limit+" + clsCommon.myCstr(obj.CreditLimit) + " where Cust_Code='" + obj.Customer_Code + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -399,6 +402,9 @@ Public Class ClsDispatchBulkSale
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
         Try
             Dim qry As String = ""
@@ -665,6 +671,7 @@ Public Class ClsDispatchBulkSale
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
+
             Dim Qry As String = "select Posted  from TSPL_Dispatch_BulkSale where Document_No ='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
@@ -690,6 +697,7 @@ Public Class ClsDispatchBulkSale
                 Throw New Exception(Qry)
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='DS-BS' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then

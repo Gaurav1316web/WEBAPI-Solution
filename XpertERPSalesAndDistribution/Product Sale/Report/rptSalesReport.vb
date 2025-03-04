@@ -104,7 +104,7 @@ Public Class rptSalesReport
 
             If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 AndAlso rdbDispatch.IsChecked = True Then
                 whr += " and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
-            ElseIf txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 AndAlso rdbDispatch.IsChecked = True Then
+            ElseIf txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 AndAlso rdbInvoice.IsChecked = True Then
                 whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             ElseIf txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 AndAlso rdbSaleTransfer.IsChecked = True Then
                 whr += " and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "

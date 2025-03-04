@@ -187,7 +187,6 @@ Public Class FrmAPInvoiceEntry
     Dim UseVLCUploaderCodeMPUploaderCodeInMCCProcurement As Boolean = False
     Dim FORMTYPE As String = Nothing
     Dim CostCenterAndHirerachyCodeUpdateAfterPost As Boolean = False
-    Dim ApplyLocationWisePrefix As Boolean = False
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -231,7 +230,6 @@ Public Class FrmAPInvoiceEntry
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
         CalculateProvisionOnGateePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateProvisionOnGateePass, clsFixedParameterCode.CalculateProvisionOnGateePass, Nothing))
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         Try
@@ -240,7 +238,7 @@ Public Class FrmAPInvoiceEntry
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
             Me.Close()
         End Try
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
@@ -3178,7 +3176,7 @@ Public Class FrmAPInvoiceEntry
                 txtDate.Focus()
                 Return False
             End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")

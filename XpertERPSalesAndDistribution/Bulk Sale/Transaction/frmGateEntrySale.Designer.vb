@@ -55,6 +55,7 @@ Partial Class FrmGateEntrySale
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -80,6 +81,7 @@ Partial Class FrmGateEntrySale
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,6 +127,7 @@ Partial Class FrmGateEntrySale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -338,7 +341,6 @@ Partial Class FrmGateEntrySale
         Me.LblCustomer.Name = "LblCustomer"
         Me.LblCustomer.Size = New System.Drawing.Size(381, 19)
         Me.LblCustomer.TabIndex = 295
-        Me.LblCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -386,7 +388,6 @@ Partial Class FrmGateEntrySale
         Me.lblItemName.Name = "lblItemName"
         Me.lblItemName.Size = New System.Drawing.Size(265, 19)
         Me.lblItemName.TabIndex = 291
-        Me.lblItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemName.Visible = False
         '
         'lblItemCode
@@ -398,7 +399,6 @@ Partial Class FrmGateEntrySale
         Me.lblItemCode.Name = "lblItemCode"
         Me.lblItemCode.Size = New System.Drawing.Size(114, 19)
         Me.lblItemCode.TabIndex = 291
-        Me.lblItemCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemCode.Visible = False
         '
         'lblTransporter
@@ -410,7 +410,6 @@ Partial Class FrmGateEntrySale
         Me.lblTransporter.Name = "lblTransporter"
         Me.lblTransporter.Size = New System.Drawing.Size(381, 19)
         Me.lblTransporter.TabIndex = 291
-        Me.lblTransporter.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTransporter.Visible = False
         '
         'MyLabel6
@@ -532,7 +531,6 @@ Partial Class FrmGateEntrySale
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(381, 19)
         Me.lblLocation.TabIndex = 288
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -585,7 +583,7 @@ Partial Class FrmGateEntrySale
         '
         'btnNew
         '
-        Me.btnNew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnNew.Location = New System.Drawing.Point(378, 9)
         Me.btnNew.Name = "btnNew"
@@ -645,6 +643,15 @@ Partial Class FrmGateEntrySale
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(242, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'FrmGateEntrySale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -683,6 +690,7 @@ Partial Class FrmGateEntrySale
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -720,5 +728,6 @@ Partial Class FrmGateEntrySale
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents lblItemName As common.Controls.MyLabel
     Friend WithEvents lblItemCode As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 
