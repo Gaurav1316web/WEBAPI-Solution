@@ -60,6 +60,8 @@ Public Class rptCustItemWiseSaleReport
             VarID += "_BWSM"
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
             VarID += "_BSMS"
+        ElseIf BtnTransportationCharges.IsChecked Then
+            VarID += "_TRCH"
         End If
         If rbtnDetail.IsChecked Then
             VarID += "_DE"
@@ -88,6 +90,8 @@ Public Class rptCustItemWiseSaleReport
             STCRegisterItemwiseSummarytotal(False)
         ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked Then
             STCRegisterItemwiseSummaryPartyWise(False)
+        ElseIf BtnTransportationCharges.IsChecked Then
+            TransportationCharges(False)
         Else
             LoadData()
         End If
@@ -981,6 +985,76 @@ group by XXFinal.Customer_Name"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub TransportationCharges(ByVal print As Boolean)
+        Try
+            Dim Qry As String = ""
+            Dim BaseQry As String = ""
+            Dim dt As DataTable = Nothing
+            Dim whr As String = ""
+            Qry = " SELECT  
+                    max(XXFinal.Customer_Name) as Customer_Name,MAX(XXFinal.FromDate) as FromDate,MAX(XXFinal.ToDate) as ToDate,
+                    sum(XXFinal.Trp_othcharg) as Trp_othcharg,SUM(XXFinal.Trp_othcharg) as Total_Amount,
+                    MAX(XXFinal.Comp_Name) as Comp_Name,
+                    MAX(XXFinal.CompAddress) as CompAddress
+                    from(
+                    select xx.*, (xx.Taxable_Amount +xx.Non_Taxable_Amount+xx.GSTAmt) as Sale_Amt,((xx.Taxable_Amount+xx.Non_Taxable_Amount+xx.GSTAmt+xx.TCS_AMT) -(xx.Trp_othcharg)) as Bill_Amt 
+                    from(
+                    select 
+                    TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+                                                        TSPL_COMPANY_MASTER.Comp_Name,
+                    (TSPL_COMPANY_MASTER.Add1 ) as CompAddress, 
+                     case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
+                     case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
+                     Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,0) else(
+                    Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt)else (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt +TSPL_SD_SHIPMENT_HEAD.TAX4_Amt) end) else 0 end) end as GSTAmt,
+                    Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,0) else(
+                    Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then TSPL_SD_SHIPMENT_HEAD.TAX4_Amt else (case when    
+                    TSPL_SD_SHIPMENT_HEAD.TAX5='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SHIPMENT_HEAD.tax2='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX2_Amt else ((case when TSPL_SD_SHIPMENT_HEAD.tax3='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
+
+                    (isnull(TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,0) + isnull(TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,0) ) as Trp_othcharg
+                    from TSPL_SD_SHIPMENT_HEAD
+                    left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                    left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        ) xx
+                        ) XXFinal 
+                        where XXFinal.Trp_othcharg>0
+                        group by XXFinal.Customer_Name"
+            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    SetGridFormationn()
+                    'ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    'EnableDisableControls(False)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                ElseIf print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptTransportationCharges", "Transportation Charges")
+                    frmCRV = Nothing
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Sub BillWisesaleSummary(ByVal print As Boolean)
         Try
             Dim Qry As String = ""
@@ -1207,6 +1281,7 @@ group by XXFinal.Customer_Name"
         BtnProductSalesSummary.IsChecked = False
         BtnBillWiseSaleOfMilk.IsChecked = False
         BtnBillWiseSaleOfMilkSummary.IsChecked = False
+        BtnTransportationCharges.IsChecked = False
         EnableDisableControls(True)
         gv1.DataSource = Nothing
         rbtnDocumentDate.IsChecked = True
@@ -1662,6 +1737,8 @@ group by XXFinal.Customer_Name"
             STCRegisterItemwiseSummarytotal(True)
         ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked Then
             STCRegisterItemwiseSummaryPartyWise(True)
+        ElseIf BtnTransportationCharges.IsChecked Then
+            TransportationCharges(True)
         Else
             isPrint = True
             LoadData()
