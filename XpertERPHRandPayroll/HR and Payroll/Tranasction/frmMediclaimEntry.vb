@@ -177,6 +177,7 @@ Public Class FrmMediclaimEntry
             If Not (common.clsCommon.MyMessageBoxShow(Me, "Post the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_MEDICLAIM_HEAD", "document_code", "tspl_mediclaim_detail", "document_code", Nothing)
 
             qry = "update TSPL_MEDICLAIM_HEAD set status='Y' where comp_code='" + objCommonVar.CurrentCompanyCode + "' and document_code='" + txtCode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -212,6 +213,8 @@ Public Class FrmMediclaimEntry
                     Return
                 End If
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_MEDICLAIM_HEAD", "document_code", "tspl_mediclaim_detail", "document_code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_MEDICLAIM_HEAD", "document_code", "tspl_mediclaim_detail", "document_code", Nothing)
 
             If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
@@ -693,4 +696,15 @@ Public Class FrmMediclaimEntry
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "document_code", "TSPL_MEDICLAIM_HEAD", "tspl_mediclaim_detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

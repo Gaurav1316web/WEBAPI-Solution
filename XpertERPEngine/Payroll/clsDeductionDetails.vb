@@ -40,6 +40,8 @@ Public Class clsDeductionDetails
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEDUCTION", "DEDUCTION_CODE", "TSPL_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEDUCTION", "DEDUCTION_CODE", "TSPL_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_DEDUCTION_DETAIL where DEDUCTION_CODE ='" + strCode + "'"
@@ -173,6 +175,9 @@ Public Class clsDeductionDetails
 
 
             isSaved = isSaved AndAlso clsDeductionPayHeadDetails.SaveData(obj.DEDUCTION_CODE, obj, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DEDUCTION_CODE, "TSPL_DEDUCTION", "DEDUCTION_CODE", "TSPL_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -196,6 +201,8 @@ Public Class clsDeductionDetails
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DEDUCTION", "DEDUCTION_CODE", "TSPL_DEDUCTION_DETAIL", "DEDUCTION_CODE", Nothing)
+
             Dim qry As String = "Update TSPL_DEDUCTION set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DEDUCTION_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception

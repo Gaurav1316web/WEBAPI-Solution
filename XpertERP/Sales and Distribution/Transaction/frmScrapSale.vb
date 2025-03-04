@@ -2190,18 +2190,34 @@ Public Class frmScrapSale
             End If
         End If
 
-        If Inter_unit_salechk.Checked Then
-            ' Check if the vehicle number is empty
-            Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from tspl_customer_master where Cust_Code ='" + fndcustNo.Value + "' "))
-            If qry = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Map this customer on customer master screen with cfp_unit checkbox")
+        Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + fndcustNo.Value + "' "))
+        If qrychk = 1 Then
+            If Inter_unit_salechk.Checked Then
+            Else
+                common.clsCommon.MyMessageBoxShow("Please check interunitSale checkbox")
+                Inter_unit_salechk.Focus()
                 Return False
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("Please check interunitsale checkbox")
-            Inter_unit_salechk.Focus()
-            Return False
+            If Inter_unit_salechk.Checked Then
+                common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or uncheck interunit checkbox")
+                Inter_unit_salechk.Focus()
+                Return False
+            End If
         End If
+
+        'If Inter_unit_salechk.Checked Then
+        '    ' Check if the vehicle number is empty
+        '    Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from tspl_customer_master where Cust_Code ='" + fndcustNo.Value + "' "))
+        '    If qry = 0 Then
+        '        common.clsCommon.MyMessageBoxShow("Please Map this customer on customer master screen with cfp_unit checkbox")
+        '        Return False
+        '    End If
+        'Else
+        '    common.clsCommon.MyMessageBoxShow("Please check interunitsale checkbox")
+        '    Inter_unit_salechk.Focus()
+        '    Return False
+        'End If
 
         If (clsCommon.myCdbl(lblDocAmount.Text)) > 0 Then
             Dim isValidAmt As Boolean = CustomerOutstandingAmount(fndcustNo.Value, Nothing)

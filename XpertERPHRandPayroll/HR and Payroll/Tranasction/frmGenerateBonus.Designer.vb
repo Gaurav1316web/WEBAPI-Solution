@@ -24,10 +24,10 @@ Partial Class frmGenerateBonus
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblPayablePayPeriodName = New common.Controls.MyLabel()
@@ -60,6 +60,7 @@ Partial Class frmGenerateBonus
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.fndLocation = New common.UserControls.txtFinder()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.PageFinalBonus = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -67,7 +68,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary = New common.UserControls.MyRadGridView()
         Me.pageBonusDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBonusDetail = New common.UserControls.MyRadGridView()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayablePayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,6 +95,7 @@ Partial Class frmGenerateBonus
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.PageFinalBonus.SuspendLayout()
@@ -105,7 +107,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.SuspendLayout()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -405,6 +407,7 @@ Partial Class frmGenerateBonus
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btndelete)
@@ -558,6 +561,15 @@ Partial Class frmGenerateBonus
         Me.fndLocation.TabIndex = 190
         Me.fndLocation.Value = ""
         '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.Location = New System.Drawing.Point(358, 16)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.TabIndex = 1
+        Me.btnNew.Text = " "
+        '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.PageFinalBonus)
@@ -579,10 +591,10 @@ Partial Class frmGenerateBonus
         'PageFinalBonus
         '
         Me.PageFinalBonus.Controls.Add(Me.gv1)
-        Me.PageFinalBonus.ItemSize = New System.Drawing.SizeF(72.0!, 22.0!)
-        Me.PageFinalBonus.Location = New System.Drawing.Point(10, 31)
+        Me.PageFinalBonus.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
+        Me.PageFinalBonus.Location = New System.Drawing.Point(10, 35)
         Me.PageFinalBonus.Name = "PageFinalBonus"
-        Me.PageFinalBonus.Size = New System.Drawing.Size(934, 246)
+        Me.PageFinalBonus.Size = New System.Drawing.Size(934, 242)
         Me.PageFinalBonus.Text = "Final Bonus"
         '
         'gv1
@@ -595,11 +607,11 @@ Partial Class frmGenerateBonus
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(934, 246)
+        Me.gv1.Size = New System.Drawing.Size(934, 242)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -607,7 +619,7 @@ Partial Class frmGenerateBonus
         'pageBonusSummary
         '
         Me.pageBonusSummary.Controls.Add(Me.gvBonusSummary)
-        Me.pageBonusSummary.ItemSize = New System.Drawing.SizeF(96.0!, 22.0!)
+        Me.pageBonusSummary.ItemSize = New System.Drawing.SizeF(100.0!, 26.0!)
         Me.pageBonusSummary.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusSummary.Name = "pageBonusSummary"
         Me.pageBonusSummary.Size = New System.Drawing.Size(934, 242)
@@ -624,7 +636,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary.MasterTemplate.EnableFiltering = True
         Me.gvBonusSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvBonusSummary.MyStopExport = False
         Me.gvBonusSummary.Name = "gvBonusSummary"
         Me.gvBonusSummary.ShowHeaderCellButtons = True
@@ -636,7 +648,7 @@ Partial Class frmGenerateBonus
         'pageBonusDetail
         '
         Me.pageBonusDetail.Controls.Add(Me.gvBonusDetail)
-        Me.pageBonusDetail.ItemSize = New System.Drawing.SizeF(76.0!, 22.0!)
+        Me.pageBonusDetail.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
         Me.pageBonusDetail.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusDetail.Name = "pageBonusDetail"
         Me.pageBonusDetail.Size = New System.Drawing.Size(934, 242)
@@ -653,7 +665,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.MasterTemplate.EnableFiltering = True
         Me.gvBonusDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvBonusDetail.MyStopExport = False
         Me.gvBonusDetail.Name = "gvBonusDetail"
         Me.gvBonusDetail.ShowHeaderCellButtons = True
@@ -662,14 +674,15 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.TabStop = False
         Me.gvBonusDetail.VarID = ""
         '
-        'btnNew
+        'btnHistory
         '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(358, 16)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
-        Me.btnNew.TabIndex = 1
-        Me.btnNew.Text = " "
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(312, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
         '
         'frmGenerateBonus
         '
@@ -711,6 +724,7 @@ Partial Class frmGenerateBonus
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.PageFinalBonus.ResumeLayout(False)
@@ -722,7 +736,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.ResumeLayout(False)
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -768,4 +782,5 @@ Partial Class frmGenerateBonus
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents fndLocation As common.UserControls.txtFinder
     Friend WithEvents txtCheckLeapyear As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

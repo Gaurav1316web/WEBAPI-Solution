@@ -87,6 +87,7 @@ Public Class clsRcptEntryHeader
     Public SaleOrderNo As String = Nothing
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
     Public Location_GL_Code As String = Nothing
+    Public Location_Code_Prefix As String = Nothing
     Public is_Opening As Boolean = False
     Public Distr_Code As String = ""
     Public Delivery_Code_PS As String = String.Empty
@@ -187,7 +188,7 @@ Public Class clsRcptEntryHeader
         Try
             '--------------------Checks Whether the Transaction is Locked or not----------------------------UDL/24/07/18-000206 richa 
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-
+            Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal Then
             Else
@@ -257,6 +258,7 @@ Public Class clsRcptEntryHeader
             End If
             '' Anubhooti 07-Jan-2014 BM00000005309
             clsCommon.AddColumnsForChange(coll, "Location_GL_Code", obj.Location_GL_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
             clsCommon.AddColumnsForChange(coll, "Cheque_From", obj.Cheque_From)
             clsCommon.AddColumnsForChange(coll, "From_Branch", obj.From_Branch)
             clsCommon.AddColumnsForChange(coll, "Receipt_Amount", obj.Receipt_Amount)
@@ -547,15 +549,23 @@ Public Class clsRcptEntryHeader
                 qry = "select Bank_type,BANKACC from TSPL_BANK_MASTER where BANK_CODE='" + obj.Bank_Code + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
-                Dim BankAcc As String = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
-                'No need To Check because now all account with location segment.
-                If (BankAcc.Length >= 3) Then
-                    BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
-                    'If (IsNumeric(BankAcc)) Then
-                    '    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
-                    'End If
+                Dim isLocationCodeSegment As Boolean
+                Dim BankAcc As String = ""
+                If ApplyLocationWisePrefix Then
+                    BankAcc = obj.Location_Code_Prefix
+                    isLocationCodeSegment = False
                 Else
-                    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                    isLocationCodeSegment = True
+                    BankAcc = clsCommon.myCstr(dt.Rows(0)("BANKACC"))
+                    'No need To Check because now all account with location segment.
+                    If (BankAcc.Length >= 3) Then
+                        BankAcc = BankAcc.Substring(BankAcc.Length - 3, 3)
+                        'If (IsNumeric(BankAcc)) Then
+                        '    Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                        'End If
+                    Else
+                        Throw New Exception("Bank Master's Bank Account should be have location segment Type")
+                    End If
                 End If
                 ''richa agarwal 27 Aug,2018
                 If clsCommon.myLen(CreateNewDocumentNoWithExistingDocumentNo) > 0 And isNewEntry = True Then
@@ -563,17 +573,17 @@ Public Class clsRcptEntryHeader
                 Else
                     If clsCommon.CompairString(obj.Receipt_Type, "F") = CompairStringResult.Equal Then '--in Case of Refund Document COunter will be of Payment
                         If clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) <= 0 Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Bank, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Bank, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) > 0 Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Tax, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Tax, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "C") = CompairStringResult.Equal Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Cash, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Cash, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "P") = CompairStringResult.Equal Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.PettyCash, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.PettyCash, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "O") = CompairStringResult.Equal Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                         ElseIf clsCommon.CompairString(BankType, "S") = CompairStringResult.Equal Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Payment, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                         Else
                             Throw New Exception("Please set the Bank Type for Bank " + obj.Bank_Code)
                         End If
@@ -853,7 +863,7 @@ Public Class clsRcptEntryHeader
         " TSPL_RECEIPT_HEADER.Level1_User_code, TSPL_RECEIPT_HEADER.Level2_User_code, TSPL_RECEIPT_HEADER.Level3_User_code, TSPL_RECEIPT_HEADER.Level4_User_code, TSPL_RECEIPT_HEADER.Level5_User_code," &
         " TSPL_RECEIPT_HEADER.Balance_Amt, TSPL_RECEIPT_HEADER.Document_No , TSPL_RECEIPT_HEADER.UnApply_Amt, TSPL_RECEIPT_HEADER.Payer, TSPL_RECEIPT_HEADER.Dr_Account, TSPL_RECEIPT_HEADER.Cr_Account, TSPL_RECEIPT_HEADER.UnApplied_Balance, TSPL_RECEIPT_HEADER.UnApplied_No," &
         " TSPL_RECEIPT_HEADER.FIFO_Balance, TSPL_RECEIPT_HEADER.QuickEntryNo, TSPL_RECEIPT_HEADER.SecurityDeposit, TSPL_RECEIPT_HEADER.IsRecoCleared, TSPL_RECEIPT_HEADER.IsChkReverse, TSPL_RECEIPT_HEADER.IsSalesmanType, TSPL_RECEIPT_HEADER.Salesman_Code, TSPL_RECEIPT_HEADER.Salesman_Name,TSPL_RECEIPT_HEADER.Loadout_No,TSPL_RECEIPT_HEADER.CFormRecd,TSPL_RECEIPT_HEADER.CForm_InvoiceNo,TSPL_RECEIPT_HEADER.SaleOrderNo," &
-        " TSPL_RECEIPT_HEADER.CURRENCY_CODE,TSPL_RECEIPT_HEADER.CONVRATE,TSPL_RECEIPT_HEADER.APPLICABLEFROM,TSPL_RECEIPT_HEADER.RECEIVED_AMOUNT_BASE_CURRENCY,TSPL_RECEIPT_HEADER.IsParentCust,TSPL_RECEIPT_HEADER.CHECK_PRINT,TSPL_RECEIPT_HEADER.Check_Code,TSPL_RECEIPT_HEADER.AUTO_GEN_BT_ENTRY,TSPL_RECEIPT_HEADER.TO_BANK_CODE,TSPL_RECEIPT_HEADER.Transfer_No, TSPL_RECEIPT_HEADER.Applied_Receipt,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'') As Location_GL_Code,TSPL_RECEIPT_HEADER.is_Opening,TSPL_RECEIPT_HEADER.Distr_Code, " &
+        " TSPL_RECEIPT_HEADER.CURRENCY_CODE,TSPL_RECEIPT_HEADER.CONVRATE,TSPL_RECEIPT_HEADER.APPLICABLEFROM,TSPL_RECEIPT_HEADER.RECEIVED_AMOUNT_BASE_CURRENCY,TSPL_RECEIPT_HEADER.IsParentCust,TSPL_RECEIPT_HEADER.CHECK_PRINT,TSPL_RECEIPT_HEADER.Check_Code,TSPL_RECEIPT_HEADER.AUTO_GEN_BT_ENTRY,TSPL_RECEIPT_HEADER.TO_BANK_CODE,TSPL_RECEIPT_HEADER.Transfer_No, TSPL_RECEIPT_HEADER.Applied_Receipt,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'') As Location_GL_Code,ISNULL(TSPL_RECEIPT_HEADER.Location_Code_Prefix,'') As Location_Code_Prefix,TSPL_RECEIPT_HEADER.is_Opening,TSPL_RECEIPT_HEADER.Distr_Code, " &
         " TSPL_RECEIPT_HEADER.Delivery_Code_PS,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_RECEIPT_HEADER.Tax_Amount_Advance,TSPL_RECEIPT_HEADER.Delivery_order_Amount,TSPL_RECEIPT_HEADER.DO_Total_Add_Amount, " &
         " TSPL_RECEIPT_HEADER.TAX1,TSPL_RECEIPT_HEADER.TAX1_Rate,TSPL_RECEIPT_HEADER.TAX1_Amt,TSPL_RECEIPT_HEADER.TAX1_Base_Amt,TSPL_RECEIPT_HEADER.TAX2,TSPL_RECEIPT_HEADER.TAX2_Rate,TSPL_RECEIPT_HEADER.TAX2_Amt,TSPL_RECEIPT_HEADER.TAX2_Base_Amt," &
         " TSPL_RECEIPT_HEADER.TAX3,TSPL_RECEIPT_HEADER.TAX3_Rate,TSPL_RECEIPT_HEADER.TAX3_Amt,TSPL_RECEIPT_HEADER.TAX3_Base_Amt,TSPL_RECEIPT_HEADER.TAX4,TSPL_RECEIPT_HEADER.TAX4_Rate," &
@@ -946,7 +956,7 @@ Public Class clsRcptEntryHeader
             obj.From_Branch = clsCommon.myCstr(dt.Rows(0)("From_Branch"))
             obj.Loadout_No = clsCommon.myCstr(dt.Rows(0)("Loadout_No"))
             obj.Location_GL_Code = clsCommon.myCstr(dt.Rows(0)("Location_GL_Code"))
-
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             obj.Delivery_order_Amount = clsCommon.myCdbl(dt.Rows(0)("Delivery_order_Amount"))
             obj.DO_Total_Add_Amount = clsCommon.myCdbl(dt.Rows(0)("DO_Total_Add_Amount"))
             obj.Tax_Amount_Advance = clsCommon.myCdbl(dt.Rows(0)("Tax_Amount_Advance"))

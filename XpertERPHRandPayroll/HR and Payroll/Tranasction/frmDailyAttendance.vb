@@ -728,4 +728,16 @@ Public Class frmDailyAttendance
       " '' as [28 th(FH)],'' as [28 th(SH)],'' as [29 th(FH)],'' as [29 th(SH)],'' as [30 th(FH)],'' as [30 th(SH)],'' as [31 st(FH)],'' as [31 st(SH)]"
         transportSql.ExporttoExcel(qry, Me)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "DLA_CODE", "TSPL_DAILY_ATTENDANCE", "TSPL_DAILY_ATTENDANCE_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

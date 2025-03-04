@@ -21,7 +21,7 @@ Partial Class frmDCSFinancialEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblDescription = New common.Controls.MyLabel()
@@ -45,6 +45,7 @@ Partial Class frmDCSFinancialEntry
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,6 +70,7 @@ Partial Class frmDCSFinancialEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -87,6 +89,7 @@ Partial Class frmDCSFinancialEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -373,19 +376,20 @@ Partial Class frmDCSFinancialEntry
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(825, 317)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(159, 6)
+        Me.btnPost.Location = New System.Drawing.Point(156, 6)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 20)
         Me.btnPost.TabIndex = 4
@@ -417,6 +421,16 @@ Partial Class frmDCSFinancialEntry
         Me.btnsave.Size = New System.Drawing.Size(73, 20)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(231, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'frmDCSFinancialEntry
         '
@@ -455,6 +469,7 @@ Partial Class frmDCSFinancialEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -482,5 +497,6 @@ Partial Class frmDCSFinancialEntry
     Friend WithEvents cboType As RadDropDownList
     Friend WithEvents lblDescription As common.Controls.MyLabel
     Friend WithEvents txtRemarks As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

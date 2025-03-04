@@ -16,7 +16,7 @@ Public Class clsPaymentProcessHead
     Public Comp_Code As String = ""
     Public DocRefNoForUploader As String = ""
     Public Area_Location_Code As String = ""
-
+    Public Location_Code_Prefix As String = Nothing
     Public ArrPPDetail As List(Of clsPaymentProcessDetail) = Nothing
     Public arrClsPaymentProcessInvoices As List(Of clsPaymentProcessInvoices) = Nothing
     Public arrClsPaymentProcessMccSale As List(Of clsPaymentProcessMCCSale) = Nothing
@@ -126,6 +126,7 @@ Public Class clsPaymentProcessHead
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Loc_Seg_Code", clsCommon.myCstr(obj.Loc_Seg_Code))
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(obj.Location_Code_Prefix))
             clsCommon.AddColumnsForChange(coll, "PaymentDesc", clsCommon.myCstr(obj.PaymentDesc))
             clsCommon.AddColumnsForChange(coll, "MCC_Code_Selected", obj.MCC_Code_Selected, True)
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
@@ -149,20 +150,26 @@ Public Class clsPaymentProcessHead
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
                 Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1)
-                If MultipleFinderFillAuto Then
-                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", "", False)
+                Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
+                If ApplyLocationWisePrefix Then
+                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Location_Code_Prefix, False)
                 Else
-                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Loc_Seg_Code, True)
+                    If MultipleFinderFillAuto Then
+                        obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", "", False)
+                    Else
+                        obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Loc_Seg_Code, True)
+                    End If
                 End If
+
 
                 'PaymentProcessWithoutLoc
                 clsCommon.AddColumnsForChange(coll, "Doc_No", obj.Doc_No)
-                If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                    Throw New Exception("Error In Doc No Generation")
-                End If
-                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Insert, "", trans)
-            Else
-                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Update, "Doc_No= '" + obj.Doc_No + "'", trans)
+                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                        Throw New Exception("Error In Doc No Generation")
+                    End If
+                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Insert, "", trans)
+                Else
+                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Update, "Doc_No= '" + obj.Doc_No + "'", trans)
             End If
 
 
@@ -1374,6 +1381,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                 obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
                 obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
                 obj.Loc_Seg_Code = clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code"))
+                obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
                 obj.isPrePosted = clsCommon.myCdbl(dt.Rows(0)("isPrePosted"))
                 obj.isPosted = clsCommon.myCdbl(dt.Rows(0)("isPosted"))
                 obj.PaymentDesc = clsCommon.myCstr(dt.Rows(0)("PaymentDesc"))
@@ -1478,7 +1486,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
             Dim str As String = ""
             Dim qry As String = ""
             If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1) = True Then
-                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [Plant Code],TSPL_GL_SEGMENT_CODE.description as [Plant Name], isnull (TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected,'') as [MCC Code]  , isnull (TSPL_MCC_MASTER.MCC_NAME,'') as [MCC Name] ,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName,TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] " &
+                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [Plant Code],TSPL_GL_SEGMENT_CODE.description as [Plant Name], isnull (TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected,'') as [MCC Code]  , isnull (TSPL_MCC_MASTER.MCC_NAME,'') as [MCC Name] ,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName,TSPL_PAYMENT_PROCESS_HEAD.Location_Code_Prefix as [Location Code Prefix],TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] " &
                 " From TSPL_PAYMENT_PROCESS_HEAD 
 left outer join TSPL_LOCATION_MASTER as AreaMaster on AreaMaster.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
 left outer join TSPL_GL_SEGMENT_CODE  on TSPL_GL_SEGMENT_CODE.segment_code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code 

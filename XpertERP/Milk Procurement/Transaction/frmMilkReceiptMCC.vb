@@ -1657,6 +1657,8 @@ a:              Next
         End Try
     End Sub
 
+
+
     Private Sub txtCan__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCan._MYValidating
         Dim obj As clsCanMaster = clsCanMaster.getFinderObeject("", txtCan.Value, isButtonClicked)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
@@ -1668,5 +1670,5 @@ a:              Next
         End If
     End Sub
 
-    
+
 End Class

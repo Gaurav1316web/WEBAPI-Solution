@@ -1958,6 +1958,7 @@
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscCrosstabReport.rpt" />

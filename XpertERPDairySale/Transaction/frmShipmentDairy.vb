@@ -15280,7 +15280,13 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
                         If Not AutoSchemeOnTotalDispatchQty Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "' and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
+                            Dim SchemeCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1  TSPL_SCHEME_MASTER_NEW.Scheme_Code
+from TSPL_SCHEME_MASTER_NEW 
+left join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_BENEFICIARY.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
+where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' then 2 else 3 end) end)
+ order by TSPL_SCHEME_MASTER_NEW.Start_Date desc", trans))
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "' and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(SchemeCode)
 
                         End If
                         If chkSampling.Checked Then
@@ -15414,7 +15420,13 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
                         If Not AutoSchemeOnTotalDispatchQty Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
+                            Dim SchemeCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1  TSPL_SCHEME_MASTER_NEW.Scheme_Code
+from TSPL_SCHEME_MASTER_NEW 
+left join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_BENEFICIARY.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
+where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' then 2 else 3 end) end)
+ order by TSPL_SCHEME_MASTER_NEW.Start_Date desc", trans))
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(SchemeCode)
 
                         End If
                         If chkSampling.Checked Then

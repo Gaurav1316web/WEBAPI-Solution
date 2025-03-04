@@ -113,6 +113,7 @@ Public Class objCommonVar
     Private Shared _InternalSMSEmailinPurchaseModule As Boolean
     Private Shared _MilkProcurementSNF2DecimalPlaces As Boolean
     Private Shared _ShowMCCFinderInPaymentProcess As Boolean
+    Private Shared _ApplyLocationWisePrefix As Boolean
     Private Shared _MilkSRNFATSNFDecimalPlaces As Integer
     Private Shared _PricePlan As Integer
     Private Shared _InstantSendTheSMS As Boolean
@@ -447,6 +448,14 @@ Public Class objCommonVar
         End Set
     End Property
 
+    Public Shared Property ApplyLocationWisePrefix() As Boolean
+        Get
+            Return _ApplyLocationWisePrefix
+        End Get
+        Set(ByVal Value As Boolean)
+            _ApplyLocationWisePrefix = Value
+        End Set
+    End Property
     Public Shared Property MilkProcurementSNF2DecimalPlaces() As Boolean
         Get
             Return _MilkProcurementSNF2DecimalPlaces
@@ -986,6 +995,7 @@ Public Class objCommonVar
 
         objCommonVar.MilkProcurementSNF2DecimalPlaces = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcurementSNF2DecimalPlaces, clsFixedParameterCode.MilkProcurementSNF2DecimalPlaces, Nothing)) = 1)
         objCommonVar.ShowMCCFinderInPaymentProcess = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
+        objCommonVar.ApplyLocationWisePrefix = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 1)
         objCommonVar.GenerateEWayBillWithEInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GenerateEWayBillWithEInvoice, clsFixedParameterCode.GenerateEWayBillWithEInvoice, Nothing)) = 1, True, False)
         objCommonVar.ApplyDefaultsInMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultsInMaster, clsFixedParameterCode.ApplyDefaultsInMaster, Nothing)) = 1, True, False)
         objCommonVar.RCDFCFP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)

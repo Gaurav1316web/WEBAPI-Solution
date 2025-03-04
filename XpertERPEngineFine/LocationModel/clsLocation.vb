@@ -129,6 +129,7 @@ Public Class clsLocation
     Public InsuranceToDate As Date?
     Public IsSubLocationWise As String = ""
     Public IsMainPlant As Integer = 0
+    Public Isproduction As Integer = 0
     Public MP_Collection_Running_Date As Date? = Nothing
     Public Uploader_No As String = Nothing
     Public No_Of_Shift As Integer = Nothing
@@ -467,6 +468,7 @@ Public Class clsLocation
             End If
             clsCommon.AddColumnsForChange(coll, "IsSubLocationWise", obj.IsSubLocationWise)
             clsCommon.AddColumnsForChange(coll, "IsMainPlant", obj.IsMainPlant)
+            clsCommon.AddColumnsForChange(coll, "Isproduction", obj.Isproduction)
             clsCommon.AddColumnsForChange(coll, "No_Of_Shift", obj.No_Of_Shift, True)
             If obj.MP_Collection_Running_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "MP_Collection_Running_Date", clsCommon.GetPrintDate(obj.MP_Collection_Running_Date, "dd/MMM/yyyy"))
@@ -644,6 +646,7 @@ Public Class clsLocation
                     obj.vendorname = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vendor_name from TSPL_VENDOR_MASTER where vendor_code='" + obj.vendrocode + "'"))
                 End If
                 obj.IsMainPlant = clsCommon.myCdbl(dt.Rows(0)("IsMainPlant"))
+                obj.Isproduction = clsCommon.myCdbl(dt.Rows(0)("Isproduction"))
                 obj.No_Of_Shift = IIf(clsCommon.myCdbl(dt.Rows(0)("No_Of_Shift")) > 0, clsCommon.myCdbl(dt.Rows(0)("No_Of_Shift")), Nothing)
                 If dt.Rows(0)("MP_Collection_Running_Date") IsNot DBNull.Value Then
                     obj.MP_Collection_Running_Date = clsCommon.myCDate(dt.Rows(0)("MP_Collection_Running_Date"))

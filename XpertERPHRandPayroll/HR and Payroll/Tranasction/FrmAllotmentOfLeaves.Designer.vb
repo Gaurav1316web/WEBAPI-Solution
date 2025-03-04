@@ -22,12 +22,12 @@ Partial Class FrmAllotmentOfLeaves
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAllotmentOfLeaves))
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -57,12 +57,13 @@ Partial Class FrmAllotmentOfLeaves
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadButton()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnAllotAll = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
-        Me.btnImport = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,12 +91,13 @@ Partial Class FrmAllotmentOfLeaves
         CType(Me.gvSalary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSalary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAllotAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,6 +116,7 @@ Partial Class FrmAllotmentOfLeaves
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAllotAll)
@@ -276,10 +279,10 @@ Partial Class FrmAllotmentOfLeaves
         Me.cboAllotmentType.IsSourceFromTable = False
         Me.cboAllotmentType.IsSourceFromValueList = False
         Me.cboAllotmentType.IsUnique = False
-        RadListDataItem3.Text = "Individual"
-        RadListDataItem4.Text = "All"
-        Me.cboAllotmentType.Items.Add(RadListDataItem3)
-        Me.cboAllotmentType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Individual"
+        RadListDataItem6.Text = "All"
+        Me.cboAllotmentType.Items.Add(RadListDataItem5)
+        Me.cboAllotmentType.Items.Add(RadListDataItem6)
         Me.cboAllotmentType.Location = New System.Drawing.Point(453, 33)
         Me.cboAllotmentType.MendatroryField = True
         Me.cboAllotmentType.MyLinkLable1 = Me.lblAllotmentType
@@ -317,10 +320,10 @@ Partial Class FrmAllotmentOfLeaves
         Me.cboDocType.IsSourceFromTable = False
         Me.cboDocType.IsSourceFromValueList = False
         Me.cboDocType.IsUnique = False
-        RadListDataItem5.Text = "Opening Balance"
-        RadListDataItem6.Text = "Leave Allocation"
-        Me.cboDocType.Items.Add(RadListDataItem5)
-        Me.cboDocType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Opening Balance"
+        RadListDataItem2.Text = "Leave Allocation"
+        Me.cboDocType.Items.Add(RadListDataItem1)
+        Me.cboDocType.Items.Add(RadListDataItem2)
         Me.cboDocType.Location = New System.Drawing.Point(110, 32)
         Me.cboDocType.MendatroryField = True
         Me.cboDocType.MyLinkLable1 = Me.lblDocType
@@ -534,14 +537,17 @@ Partial Class FrmAllotmentOfLeaves
         Me.gvSalary.MasterTemplate.AutoGenerateColumns = False
         Me.gvSalary.MasterTemplate.EnableCustomFiltering = True
         Me.gvSalary.MasterTemplate.EnableGrouping = False
+        Me.gvSalary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSalary.MyStopExport = False
         Me.gvSalary.Name = "gvSalary"
         Me.gvSalary.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalary.ShowHeaderCellButtons = True
         Me.gvSalary.Size = New System.Drawing.Size(956, 259)
         Me.gvSalary.TabIndex = 7
         Me.gvSalary.TabStop = False
+        Me.gvSalary.VarID = ""
         '
         'RadMenu2
         '
@@ -566,6 +572,26 @@ Partial Class FrmAllotmentOfLeaves
         '
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
+        '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnImport.Location = New System.Drawing.Point(333, 8)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(82, 21)
+        Me.btnImport.TabIndex = 9
+        Me.btnImport.Text = "Import"
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExport.Location = New System.Drawing.Point(245, 8)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(82, 21)
+        Me.btnExport.TabIndex = 8
+        Me.btnExport.Text = "Export"
         '
         'btnAllotAll
         '
@@ -608,25 +634,15 @@ Partial Class FrmAllotmentOfLeaves
         Me.btndelete.TabIndex = 5
         Me.btndelete.Text = "Delete"
         '
-        'btnExport
+        'btnHistory
         '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(245, 8)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(82, 21)
-        Me.btnExport.TabIndex = 8
-        Me.btnExport.Text = "Export"
-        '
-        'btnImport
-        '
-        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(333, 8)
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(82, 21)
-        Me.btnImport.TabIndex = 9
-        Me.btnImport.Text = "Import"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(421, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
         '
         'FrmAllotmentOfLeaves
         '
@@ -669,12 +685,13 @@ Partial Class FrmAllotmentOfLeaves
         CType(Me.gvSalary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSalary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAllotAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -714,5 +731,6 @@ Partial Class FrmAllotmentOfLeaves
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnImport As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnExport As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 
