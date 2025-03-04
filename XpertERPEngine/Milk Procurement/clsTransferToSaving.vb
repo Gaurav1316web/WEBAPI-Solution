@@ -283,6 +283,8 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + objTr.Vendor_Code + "'"
         End If
         Dim obj As clsTransferToSaving = clsTransferToSaving.GetData(strDocNo, NavigatorType.Current, False, trans)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.Loc_Seg_Code, obj.Document_Date, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TRANSFER_TO_SAVING", "Document_No", "TSPL_TRANSFER_TO_SAVING_DETAIL", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TRANSFER_TO_SAVING", "Document_No", "TSPL_TRANSFER_TO_SAVING_DETAIL", "Document_No", trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try

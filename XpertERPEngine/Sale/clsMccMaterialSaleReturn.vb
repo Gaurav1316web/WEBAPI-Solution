@@ -329,6 +329,8 @@ Public Class clsMccMaterialSaleReturn
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_RETURN_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsMccMaterialSaleReturnDetail.SaveData(obj.Document_Code, obj.Document_Date, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
             '''' to save item weight unit
             qry = "update TSPL_SD_SALE_RETURN_DETAIL set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code)  where Document_Code='" + obj.Document_Code + "'"
@@ -782,6 +784,8 @@ Public Class clsMccMaterialSaleReturn
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMCCMaterialSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -794,6 +798,7 @@ Public Class clsMccMaterialSaleReturn
                 trans.Commit()
                 Return False
             End If
+
             UpdateInventoryMovement(obj, trans, False)
             createARInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId)
             Dim qry As String = ""
@@ -1394,6 +1399,9 @@ Public Class clsMccMaterialSaleReturn
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMCCMaterialSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
                 ''
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

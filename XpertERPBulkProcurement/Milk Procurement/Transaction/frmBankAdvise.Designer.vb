@@ -44,13 +44,14 @@ Partial Class frmBankAdvise
         Me.fndPaymentProcessNo = New common.UserControls.txtFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtDocDate = New common.Controls.MyDateTimePicker()
+        Me.btnSendEmail = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.btnSendEmail = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,13 +70,14 @@ Partial Class frmBankAdvise
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +104,7 @@ Partial Class frmBankAdvise
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSendEmail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -411,6 +414,16 @@ Partial Class frmBankAdvise
         Me.txtDocDate.Text = "10/06/2011"
         Me.txtDocDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
         '
+        'btnSendEmail
+        '
+        Me.btnSendEmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSendEmail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSendEmail.Location = New System.Drawing.Point(396, 8)
+        Me.btnSendEmail.Name = "btnSendEmail"
+        Me.btnSendEmail.Size = New System.Drawing.Size(75, 22)
+        Me.btnSendEmail.TabIndex = 28
+        Me.btnSendEmail.Text = "Send Email"
+        '
         'btnReverseAndUnpost
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -472,15 +485,15 @@ Partial Class frmBankAdvise
         Me.btnPrint.TabIndex = 25
         Me.btnPrint.Text = "Print"
         '
-        'btnSendEmail
+        'btnHistory
         '
-        Me.btnSendEmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSendEmail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSendEmail.Location = New System.Drawing.Point(396, 8)
-        Me.btnSendEmail.Name = "btnSendEmail"
-        Me.btnSendEmail.Size = New System.Drawing.Size(75, 22)
-        Me.btnSendEmail.TabIndex = 28
-        Me.btnSendEmail.Text = "Send Email"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(474, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(62, 22)
+        Me.btnHistory.TabIndex = 29
+        Me.btnHistory.Text = "History"
         '
         'frmBankAdvise
         '
@@ -514,13 +527,14 @@ Partial Class frmBankAdvise
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -555,4 +569,5 @@ Partial Class frmBankAdvise
     Friend WithEvents txtPPArea As TextBox
     Friend WithEvents btnReverseAndUnpost As RadButton
     Friend WithEvents btnSendEmail As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
