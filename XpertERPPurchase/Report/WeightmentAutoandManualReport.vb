@@ -320,6 +320,9 @@ Public Class Weightment_Auto_and_Manual_Report
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
+        Dim item0 As New GridViewSummaryItem("Location", "Total: {0:F0}", GridAggregateFunction.Count)
+        summaryRowItem.Add(item0)
+
         Dim item1 As New GridViewSummaryItem("Auto Weighment", "{0:F0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
@@ -351,6 +354,9 @@ Public Class Weightment_Auto_and_Manual_Report
     Sub summaryDrill()
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item0 As New GridViewSummaryItem("Location", "Total: {0:F0}", GridAggregateFunction.Count)
+        summaryRowItem.Add(item0)
 
         Dim item1 As New GridViewSummaryItem("Gross Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -540,31 +546,115 @@ ORDER BY aa.Location_Code  "
     End Sub
 
     Private Sub gv1_ViewCellFormatting(sender As Object, e As UI.CellFormattingEventArgs) Handles gv1.ViewCellFormatting
-        ' Check if the cell belongs to a summary row
         If TypeOf e.CellElement Is GridSummaryCellElement Then
-            ' Check if the column is "Pending%" to apply right alignment
             Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
-
             If e.CellElement.ColumnInfo.Name = "Auto Weighment" Or e.CellElement.ColumnInfo.Name = "Manual Weighment" Or e.CellElement.ColumnInfo.Name = "Pending" Or e.CellElement.ColumnInfo.Name = "Total" Or e.CellElement.ColumnInfo.Name = "Auto%" Or e.CellElement.ColumnInfo.Name = "Manual%" Or e.CellElement.ColumnInfo.Name = "Pending%" Then
                 e.CellElement.TextAlignment = ContentAlignment.MiddleRight
             End If
-            summaryCell.ForeColor = Color.Blue
-
+            e.CellElement.Font = New Font("Arial", 8, FontStyle.Bold)
         End If
     End Sub
 
     Private Sub gv2_ViewCellFormatting(sender As Object, e As UI.CellFormattingEventArgs) Handles gv2.ViewCellFormatting
-        ' Check if the cell belongs to a summary row
         If TypeOf e.CellElement Is GridSummaryCellElement Then
-            ' Check if the column is "Pending%" to apply right alignment
             Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
-
-            If e.CellElement.ColumnInfo.Name = "Gross Weight" Or e.CellElement.ColumnInfo.Name = "" Or e.CellElement.ColumnInfo.Name = "Tare Weight" Or e.CellElement.ColumnInfo.Name = "Extra Weight" Or e.CellElement.ColumnInfo.Name = "Net Weight" Then
-                e.CellElement.TextAlignment = ContentAlignment.MiddleRight
-                summaryCell.ForeColor = Color.Blue
+            If e.CellElement.ColumnInfo.Name = "Location" Then
+                e.CellElement.TextAlignment = ContentAlignment.MiddleLeft
             End If
+            e.CellElement.TextAlignment = ContentAlignment.MiddleRight
+            e.CellElement.Font = New Font("Arial", 8, FontStyle.Bold)
+            e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Inherited)
+            e.CellElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Inherited)
+            e.CellElement.DrawFill = True
+            e.CellElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+
         End If
-
-
     End Sub
+    Private Sub gv1_ViewRowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gv1.ViewRowFormatting
+        If TypeOf e.RowElement Is GridDataRowElement Then
+            ' Get the Transaction Type column value
+            Dim transactionType As String = e.RowElement.RowInfo.Cells("Location").Value.ToString()
+            Select Case transactionType
+                Case "AJMR"
+                    e.RowElement.BackColor = Color.LightGreen
+                Case "BIKR"
+                    e.RowElement.BackColor = Color.LightGoldenrodYellow
+                Case "JODH"
+                    e.RowElement.BackColor = Color.LightCoral
+                Case "KALR"
+                    e.RowElement.BackColor = Color.LightSkyBlue
+                Case "LAMB"
+                    e.RowElement.BackColor = Color.LightSalmon
+                Case "NADB"
+                    e.RowElement.BackColor = Color.LightSeaGreen
+                Case "PALI"
+                    e.RowElement.BackColor = Color.LightPink
+                Case Else
+                    e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+            End Select
+            e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Inherited)
+            e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Inherited)
+            e.RowElement.DrawFill = True
+            e.RowElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+
+        End If
+    End Sub
+    Private Sub gv2_ViewRowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gv2.ViewRowFormatting
+        If TypeOf e.RowElement Is GridDataRowElement Then
+            Dim rowIndex As Integer = e.RowElement.RowInfo.Index
+            Dim transactionType As String = e.RowElement.RowInfo.Cells("Location").Value.ToString()
+            Select Case transactionType
+                Case "AJMR"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightGreen  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "BIKR"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightGoldenrodYellow  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "JODH"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightCoral  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "KALR"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightSkyBlue  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "LAMB"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightSalmon  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "NADB"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightSeaGreen  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case "PALI"
+                    If rowIndex Mod 2 = 0 Then
+                        e.RowElement.BackColor = Color.LightPink  ' Even row color
+                    Else
+                        e.RowElement.BackColor = Color.LightGray  ' Odd row color
+                    End If
+                Case Else
+                    e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+            End Select
+            If TypeOf e.RowElement Is GridSummaryRowElement Then
+                e.RowElement.Font = New Font("Arial", 8, FontStyle.Bold)
+            End If
+            e.RowElement.DrawFill = True
+
+        End If
+    End Sub
+
 End Class

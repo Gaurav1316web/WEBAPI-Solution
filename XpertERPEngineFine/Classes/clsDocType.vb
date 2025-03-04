@@ -402,6 +402,8 @@ Public Class clsDocType
     Public Const MilkCollectionMCC As String = "Milk Collection MCC"
     Public Const MilkCollectionMCCMuliple As String = "Milk Collection MCC Multiple"
     Public Const MilkCollectionDCS As String = "Milk Collection DCS"
+    Public Const MilkShiftUploader As String = "Milk Shift Uploader"
+    Public Const MilkProcurementUploader As String = "Milk Procurement Uploader"
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"

@@ -129,6 +129,8 @@ Public Class clsProvisionEntry
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PROVISION_ENTRY", OMInsertOrUpdate.Update, "tspl_provision_entry.Doc_No='" + obj.Doc_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_PROVISION_ENTRY", "Doc_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -255,6 +257,9 @@ Public Class clsProvisionEntry
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, tran)) = 1 Then
                 Throw New Exception("Transaction status should be Unposted for delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
 
             Qry = "delete from tspl_provision_Entry where  Doc_No='" & DocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, tran)

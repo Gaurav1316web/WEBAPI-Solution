@@ -36,7 +36,7 @@ Public Class clsBankAdvise
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE", OMInsertOrUpdate.Update, "Document_No= '" + obj.Document_No + "'", Nothing)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE", "Document_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BANK_ADVISE", "Document_No", Nothing)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -87,6 +87,9 @@ Public Class clsBankAdvise
 
     Public Shared Function deleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", trans)
+
             Dim Qry As String = "delete from TSPL_BANK_ADVISE where  Document_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
@@ -117,6 +120,7 @@ Public Class clsBankAdvise
             End If
             'Dim strDaterange As String = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd") + " - " + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd MMM yyyy")
             'CreateEmailContent(clsCommon.myCstr(dt.Rows(0)("Doc_No")), strDaterange, tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", tran)
 
             Qry = "Update TSPL_BANK_ADVISE Set Status=1 where  Document_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, tran)
@@ -164,6 +168,8 @@ where Document_No='" + strCode + "'"
             If obj Is Nothing OrElse clsCommon.myCDecimal(obj.Status) = 0 Then
                 Throw New Exception("Already unposted document No [" + strCode + "]")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE", "Document_No", tran)
+
             Dim Qry As String = "Update TSPL_BANK_ADVISE Set Status=0 where  Document_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, tran)
         Catch ex As Exception

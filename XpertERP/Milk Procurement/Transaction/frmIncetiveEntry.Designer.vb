@@ -22,6 +22,8 @@ Partial Class frmIncetiveEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.txtVSP = New common.UserControls.txtMultiSelectFinder()
@@ -58,6 +60,7 @@ Partial Class frmIncetiveEntry
         Me.gvInvoice = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,6 +97,7 @@ Partial Class frmIncetiveEntry
         CType(Me.gvInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -189,7 +193,7 @@ Partial Class frmIncetiveEntry
         Me.txtNoOfPaymentCycle.TabIndex = 1069
         Me.txtNoOfPaymentCycle.Text = "0"
         Me.txtNoOfPaymentCycle.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfPaymentCycle.Value = 0.0R
+        Me.txtNoOfPaymentCycle.Value = 0R
         '
         'MyLabel6
         '
@@ -493,6 +497,7 @@ Partial Class frmIncetiveEntry
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnHistory)
         Me.Panel1.Controls.Add(Me.btndelete)
         Me.Panel1.Controls.Add(Me.btnPost)
         Me.Panel1.Controls.Add(Me.btnClose)
@@ -538,16 +543,21 @@ Partial Class frmIncetiveEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(627, 154)
         Me.gv1.TabIndex = 3
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'RadPageView1
         '
@@ -559,7 +569,6 @@ Partial Class frmIncetiveEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(648, 202)
         Me.RadPageView1.TabIndex = 218
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage4
@@ -594,12 +603,17 @@ Partial Class frmIncetiveEntry
         '
         Me.gvInvoice.MasterTemplate.AllowDeleteRow = False
         Me.gvInvoice.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvInvoice.MyStopExport = False
         Me.gvInvoice.Name = "gvInvoice"
         Me.gvInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvInvoice.ShowGroupPanel = False
+        Me.gvInvoice.ShowHeaderCellButtons = True
         Me.gvInvoice.Size = New System.Drawing.Size(627, 154)
         Me.gvInvoice.TabIndex = 4
-        Me.gvInvoice.Text = "RadGridView1"
+        Me.gvInvoice.VarID = ""
         '
         'RadGroupBox2
         '
@@ -622,6 +636,14 @@ Partial Class frmIncetiveEntry
         Me.RadGroupBox4.Size = New System.Drawing.Size(648, 202)
         Me.RadGroupBox4.TabIndex = 219
         Me.RadGroupBox4.Text = "Paper Seal"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Location = New System.Drawing.Point(220, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(70, 23)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'frmIncetiveEntry
         '
@@ -677,6 +699,7 @@ Partial Class frmIncetiveEntry
         CType(Me.gvInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -717,5 +740,6 @@ Partial Class frmIncetiveEntry
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

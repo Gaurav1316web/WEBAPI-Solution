@@ -101,9 +101,11 @@ select TR_No,ROW_NUMBER() over(order by tr_no) as NewSNo from TSPL_MILK_SHIFT_UP
             End If
 
             If isNewEntry Then
-                obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select max(Document_No) from TSPL_MILK_SHIFT_UPLOADER_HEAD where Document_No like '" + obj.MCC_Code + "%' ", trans))
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Shift_Date, clsDocType.MilkShiftUploader, "", obj.MCC_Code, False)
+
+                '  obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select max(Document_No) from TSPL_MILK_SHIFT_UPLOADER_HEAD where Document_No like '" + obj.MCC_Code + "%' ", trans))
                 If clsCommon.myLen(obj.Document_No) <= 0 Then
-                    obj.Document_No = obj.MCC_Code + "0000000000"
+                    obj.Document_No = obj.MCC_Code + "0000000000"   
                 End If
                 obj.Document_No = clsCommon.incval(obj.Document_No)
             End If

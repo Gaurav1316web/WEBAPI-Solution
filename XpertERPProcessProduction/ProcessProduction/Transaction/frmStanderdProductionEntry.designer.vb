@@ -28,6 +28,17 @@ Partial Class frmStanderdProductionEntry
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkReporcess = New common.Controls.MyCheckBox()
+        Me.grpReprocess = New System.Windows.Forms.GroupBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtReprocessQty = New common.MyNumBox()
+        Me.txtReprocessItem = New common.UserControls.txtFinder()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtReprocessProductionEntry = New common.UserControls.txtFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.rbtnReprocessStock = New common.Controls.MyRadioButton()
+        Me.rbtnReprocessProuctionEnty = New common.Controls.MyRadioButton()
         Me.CboShift = New common.Controls.MyComboBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -92,6 +103,15 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpReprocess.SuspendLayout()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtReprocessQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnReprocessStock, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnReprocessProuctionEnty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -190,6 +210,8 @@ Partial Class frmStanderdProductionEntry
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkReporcess)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.grpReprocess)
         Me.SplitContainer2.Panel1.Controls.Add(Me.CboShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Panel1)
@@ -220,6 +242,176 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Size = New System.Drawing.Size(1036, 462)
         Me.SplitContainer2.SplitterDistance = 146
         Me.SplitContainer2.TabIndex = 2
+        '
+        'chkReporcess
+        '
+        Me.chkReporcess.Location = New System.Drawing.Point(590, 8)
+        Me.chkReporcess.MyLinkLable1 = Nothing
+        Me.chkReporcess.MyLinkLable2 = Nothing
+        Me.chkReporcess.Name = "chkReporcess"
+        Me.chkReporcess.Size = New System.Drawing.Size(71, 18)
+        Me.chkReporcess.TabIndex = 1521
+        Me.chkReporcess.Tag1 = Nothing
+        Me.chkReporcess.Text = "Reprocess"
+        '
+        'grpReprocess
+        '
+        Me.grpReprocess.Controls.Add(Me.MyLabel9)
+        Me.grpReprocess.Controls.Add(Me.MyLabel8)
+        Me.grpReprocess.Controls.Add(Me.txtReprocessQty)
+        Me.grpReprocess.Controls.Add(Me.txtReprocessItem)
+        Me.grpReprocess.Controls.Add(Me.MyLabel7)
+        Me.grpReprocess.Controls.Add(Me.txtReprocessProductionEntry)
+        Me.grpReprocess.Controls.Add(Me.MyLabel6)
+        Me.grpReprocess.Controls.Add(Me.rbtnReprocessStock)
+        Me.grpReprocess.Controls.Add(Me.rbtnReprocessProuctionEnty)
+        Me.grpReprocess.Location = New System.Drawing.Point(589, 25)
+        Me.grpReprocess.Name = "grpReprocess"
+        Me.grpReprocess.Size = New System.Drawing.Size(296, 96)
+        Me.grpReprocess.TabIndex = 1520
+        Me.grpReprocess.TabStop = False
+        Me.grpReprocess.Visible = False
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(264, 75)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(26, 16)
+        Me.MyLabel9.TabIndex = 22
+        Me.MyLabel9.Text = "Bag"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(6, 75)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(81, 16)
+        Me.MyLabel8.TabIndex = 21
+        Me.MyLabel8.Text = "Reprocess Qty"
+        '
+        'txtReprocessQty
+        '
+        Me.txtReprocessQty.CalculationExpression = Nothing
+        Me.txtReprocessQty.DecimalPlaces = 0
+        Me.txtReprocessQty.FieldCode = Nothing
+        Me.txtReprocessQty.FieldDesc = Nothing
+        Me.txtReprocessQty.FieldMaxLength = 0
+        Me.txtReprocessQty.FieldName = Nothing
+        Me.txtReprocessQty.isCalculatedField = False
+        Me.txtReprocessQty.IsSourceFromTable = False
+        Me.txtReprocessQty.IsSourceFromValueList = False
+        Me.txtReprocessQty.IsUnique = False
+        Me.txtReprocessQty.Location = New System.Drawing.Point(105, 73)
+        Me.txtReprocessQty.MendatroryField = True
+        Me.txtReprocessQty.MyLinkLable1 = Me.MyLabel8
+        Me.txtReprocessQty.MyLinkLable2 = Nothing
+        Me.txtReprocessQty.Name = "txtReprocessQty"
+        Me.txtReprocessQty.ReferenceFieldDesc = Nothing
+        Me.txtReprocessQty.ReferenceFieldName = Nothing
+        Me.txtReprocessQty.ReferenceTableName = Nothing
+        Me.txtReprocessQty.Size = New System.Drawing.Size(156, 20)
+        Me.txtReprocessQty.TabIndex = 20
+        Me.txtReprocessQty.Text = "0"
+        Me.txtReprocessQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtReprocessQty.Value = 0R
+        '
+        'txtReprocessItem
+        '
+        Me.txtReprocessItem.CalculationExpression = Nothing
+        Me.txtReprocessItem.FieldCode = Nothing
+        Me.txtReprocessItem.FieldDesc = Nothing
+        Me.txtReprocessItem.FieldMaxLength = 0
+        Me.txtReprocessItem.FieldName = Nothing
+        Me.txtReprocessItem.isCalculatedField = False
+        Me.txtReprocessItem.IsSourceFromTable = False
+        Me.txtReprocessItem.IsSourceFromValueList = False
+        Me.txtReprocessItem.IsUnique = False
+        Me.txtReprocessItem.Location = New System.Drawing.Point(105, 50)
+        Me.txtReprocessItem.MendatroryField = True
+        Me.txtReprocessItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReprocessItem.MyLinkLable1 = Me.MyLabel7
+        Me.txtReprocessItem.MyLinkLable2 = Nothing
+        Me.txtReprocessItem.MyReadOnly = False
+        Me.txtReprocessItem.MyShowMasterFormButton = False
+        Me.txtReprocessItem.Name = "txtReprocessItem"
+        Me.txtReprocessItem.ReferenceFieldDesc = Nothing
+        Me.txtReprocessItem.ReferenceFieldName = Nothing
+        Me.txtReprocessItem.ReferenceTableName = Nothing
+        Me.txtReprocessItem.Size = New System.Drawing.Size(188, 20)
+        Me.txtReprocessItem.TabIndex = 18
+        Me.txtReprocessItem.Value = ""
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(6, 52)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel7.TabIndex = 19
+        Me.MyLabel7.Text = "Produce Item"
+        '
+        'txtReprocessProductionEntry
+        '
+        Me.txtReprocessProductionEntry.CalculationExpression = Nothing
+        Me.txtReprocessProductionEntry.FieldCode = Nothing
+        Me.txtReprocessProductionEntry.FieldDesc = Nothing
+        Me.txtReprocessProductionEntry.FieldMaxLength = 0
+        Me.txtReprocessProductionEntry.FieldName = Nothing
+        Me.txtReprocessProductionEntry.isCalculatedField = False
+        Me.txtReprocessProductionEntry.IsSourceFromTable = False
+        Me.txtReprocessProductionEntry.IsSourceFromValueList = False
+        Me.txtReprocessProductionEntry.IsUnique = False
+        Me.txtReprocessProductionEntry.Location = New System.Drawing.Point(105, 27)
+        Me.txtReprocessProductionEntry.MendatroryField = True
+        Me.txtReprocessProductionEntry.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReprocessProductionEntry.MyLinkLable1 = Me.MyLabel6
+        Me.txtReprocessProductionEntry.MyLinkLable2 = Nothing
+        Me.txtReprocessProductionEntry.MyReadOnly = False
+        Me.txtReprocessProductionEntry.MyShowMasterFormButton = False
+        Me.txtReprocessProductionEntry.Name = "txtReprocessProductionEntry"
+        Me.txtReprocessProductionEntry.ReferenceFieldDesc = Nothing
+        Me.txtReprocessProductionEntry.ReferenceFieldName = Nothing
+        Me.txtReprocessProductionEntry.ReferenceTableName = Nothing
+        Me.txtReprocessProductionEntry.Size = New System.Drawing.Size(188, 20)
+        Me.txtReprocessProductionEntry.TabIndex = 16
+        Me.txtReprocessProductionEntry.Value = ""
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(6, 29)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(93, 16)
+        Me.MyLabel6.TabIndex = 17
+        Me.MyLabel6.Text = "Production Entry "
+        '
+        'rbtnReprocessStock
+        '
+        Me.rbtnReprocessStock.Location = New System.Drawing.Point(179, 7)
+        Me.rbtnReprocessStock.MyLinkLable1 = Nothing
+        Me.rbtnReprocessStock.MyLinkLable2 = Nothing
+        Me.rbtnReprocessStock.Name = "rbtnReprocessStock"
+        Me.rbtnReprocessStock.Size = New System.Drawing.Size(48, 18)
+        Me.rbtnReprocessStock.TabIndex = 1
+        Me.rbtnReprocessStock.TabStop = False
+        Me.rbtnReprocessStock.Text = "Stock"
+        '
+        'rbtnReprocessProuctionEnty
+        '
+        Me.rbtnReprocessProuctionEnty.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnReprocessProuctionEnty.Location = New System.Drawing.Point(69, 7)
+        Me.rbtnReprocessProuctionEnty.MyLinkLable1 = Nothing
+        Me.rbtnReprocessProuctionEnty.MyLinkLable2 = Nothing
+        Me.rbtnReprocessProuctionEnty.Name = "rbtnReprocessProuctionEnty"
+        Me.rbtnReprocessProuctionEnty.Size = New System.Drawing.Size(104, 18)
+        Me.rbtnReprocessProuctionEnty.TabIndex = 0
+        Me.rbtnReprocessProuctionEnty.Text = "Production Entry"
+        Me.rbtnReprocessProuctionEnty.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'CboShift
         '
@@ -267,9 +459,9 @@ Partial Class frmStanderdProductionEntry
         Me.Panel1.Controls.Add(Me.MyLabel2)
         Me.Panel1.Controls.Add(Me.txtConsmLocMilk)
         Me.Panel1.Controls.Add(Me.lblConsmLocMilkDesc)
-        Me.Panel1.Location = New System.Drawing.Point(855, 30)
+        Me.Panel1.Location = New System.Drawing.Point(939, 9)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(155, 67)
+        Me.Panel1.Size = New System.Drawing.Size(86, 46)
         Me.Panel1.TabIndex = 331
         Me.Panel1.Visible = False
         '
@@ -580,8 +772,6 @@ Partial Class frmStanderdProductionEntry
         '
         'txtComment
         '
-        Me.txtComment.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtComment.CalculationExpression = Nothing
         Me.txtComment.FieldCode = Nothing
         Me.txtComment.FieldDesc = Nothing
@@ -1070,6 +1260,16 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpReprocess.ResumeLayout(False)
+        Me.grpReprocess.PerformLayout()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtReprocessQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnReprocessStock, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnReprocessProuctionEnty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
@@ -1191,5 +1391,16 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gvGunny As common.UserControls.MyRadGridView
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkReporcess As common.Controls.MyCheckBox
+    Friend WithEvents grpReprocess As GroupBox
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtReprocessQty As common.MyNumBox
+    Friend WithEvents txtReprocessItem As common.UserControls.txtFinder
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtReprocessProductionEntry As common.UserControls.txtFinder
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents rbtnReprocessStock As common.Controls.MyRadioButton
+    Friend WithEvents rbtnReprocessProuctionEnty As common.Controls.MyRadioButton
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
 End Class
 
