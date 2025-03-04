@@ -102,6 +102,7 @@ Public Class clsBMCDCS_Trip
     Public Sample_No As Integer = 0
 
     Public MCC_Code As String = ""
+    Public Route_Code As String = ""
     Public Shared Function GetBMCDCS_Trip(ByVal Route_Code As String, ByVal Document_Date As DateTime, ByVal Trip_No As Integer, ByVal strVehicleNo As String) As List(Of clsBMCDCS_Trip)
         Dim obj As clsBMCDCSMobile = New clsBMCDCSMobile()
         Try

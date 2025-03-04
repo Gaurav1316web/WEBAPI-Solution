@@ -201,7 +201,6 @@ Public Class clsCustomerInvoiceHead
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         qry = "delete from TSPL_REMITTANCE where Document_No='" + obj.Document_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
 
             Dim strDocNo As String = ""
         If (isNewEntry) Then
@@ -212,7 +211,7 @@ Public Class clsCustomerInvoiceHead
                 End If
                 Dim isLocationCodeSegment As Boolean
                 Dim strLocation As String
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     isLocationCodeSegment = False
                     strLocation = obj.Location_Code_Prefix
                 Else
@@ -276,7 +275,7 @@ Public Class clsCustomerInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Customer_Name", obj.Customer_Name)
             '--------added by usha----
             clsCommon.AddColumnsForChange(coll, "Loc_code", obj.loc_code)
-            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
             '--------------
             clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
         clsCommon.AddColumnsForChange(coll, "Document_Type", obj.Document_Type)

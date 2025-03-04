@@ -10,7 +10,6 @@ Public Class FrmPaymentNew
     Private isSettlementBankOnly As Boolean = False
     Public strPaymentNo As String = Nothing
     Private isCellValueChangedTaxOpen As Boolean = False
-    Dim ApplyLocationWisePrefix As Boolean = False
     '-----------Used in Bank Reco---------------
     Dim isFlag As Boolean = False
     Public ChequeNo As String = Nothing
@@ -203,7 +202,6 @@ Public Class FrmPaymentNew
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
             Me.Close()
         End Try
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
         PDCSetting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PDCSetting, clsFixedParameterCode.PDCSetting, Nothing)) = 1, True, False)
         isApplyBranchAccounting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, Nothing)) = 1, True, False)
         isApplyCostCenter = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInAPInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInAPInvoiceEntry, Nothing)) = 1
@@ -213,7 +211,7 @@ Public Class FrmPaymentNew
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, Nothing)) = 1, True, False)
         CostCenterAndHirerachyCodeUpdateAfterPost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CostCenterAndHirerachyCodeUpdateAfterPost, clsFixedParameterCode.CostCenterAndHirerachyCodeUpdateAfterPost, Nothing)) = 1, True, False)
         SetUserMgmtNew()
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
@@ -2631,7 +2629,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 txtPaymentMode.Focus()
                 Throw New Exception("Payment Mode can't be blank")
             End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")

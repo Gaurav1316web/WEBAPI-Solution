@@ -8,7 +8,6 @@ Public Class FrmARInvoiceEntry
 
 #Region "Variables"
     Public strAPInvoice As String = Nothing
-    Dim ApplyLocationWisePrefix As Boolean = False
     Private blnInvoice As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
@@ -106,8 +105,6 @@ Public Class FrmARInvoiceEntry
 #End Region
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
-
         SettingCostCenter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInARInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInARInvoiceEntry, Nothing)) = 1)
         SettingCostCenterlevel = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableHirerachyCostCentre, clsFixedParameterCode.EnableHirerachyCostCentre, Nothing)) = 1)
         CostCenterAndHirerachyCodeUpdateAfterPost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CostCenterAndHirerachyCodeUpdateAfterPost, clsFixedParameterCode.CostCenterAndHirerachyCodeUpdateAfterPost, Nothing)) = 1, True, False)
@@ -117,7 +114,7 @@ Public Class FrmARInvoiceEntry
             clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
@@ -1961,7 +1958,7 @@ Public Class FrmARInvoiceEntry
                 txtDate.Focus()
                 Return False
             End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")

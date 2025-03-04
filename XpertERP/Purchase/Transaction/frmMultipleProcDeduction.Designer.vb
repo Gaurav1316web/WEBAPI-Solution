@@ -23,14 +23,11 @@ Partial Class FrmMultipleProcDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMultipleProcDeduction))
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtLocationPrefixName = New common.Controls.MyLabel()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
-        Me.RadLabel3 = New Telerik.WinControls.UI.RadLabel()
         Me.chkOpening = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtVoucherNo = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -80,6 +77,10 @@ Partial Class FrmMultipleProcDeduction
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -89,8 +90,6 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -128,6 +127,9 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -196,9 +198,7 @@ Partial Class FrmMultipleProcDeduction
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefixName)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefix)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel3)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.pnlLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkOpening)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtVoucherNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
@@ -229,53 +229,6 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.SplitterDistance = 145
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 617
-        '
-        'txtLocationPrefixName
-        '
-        Me.txtLocationPrefixName.AutoSize = False
-        Me.txtLocationPrefixName.BorderVisible = True
-        Me.txtLocationPrefixName.FieldName = Nothing
-        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(285, 120)
-        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(463, 18)
-        Me.txtLocationPrefixName.TabIndex = 1524
-        Me.txtLocationPrefixName.TextWrap = False
-        '
-        'txtLocationPrefix
-        '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(135, 119)
-        Me.txtLocationPrefix.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(143, 20)
-        Me.txtLocationPrefix.TabIndex = 1522
-        Me.txtLocationPrefix.Value = ""
-        '
-        'RadLabel3
-        '
-        Me.RadLabel3.Location = New System.Drawing.Point(10, 120)
-        Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel3.TabIndex = 1523
-        Me.RadLabel3.Text = "Location"
         '
         'chkOpening
         '
@@ -652,7 +605,7 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -856,6 +809,61 @@ Partial Class FrmMultipleProcDeduction
         Me.Panel1.Size = New System.Drawing.Size(1041, 498)
         Me.Panel1.TabIndex = 3
         '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(10, 121)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(738, 23)
+        Me.pnlLocation.TabIndex = 12150
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(274, 3)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(461, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(125, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(143, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
+        '
         'FrmMultipleProcDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -881,8 +889,6 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -921,6 +927,10 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -980,8 +990,9 @@ Partial Class FrmMultipleProcDeduction
     Friend WithEvents btnExport As RadButton
     Friend WithEvents btnSaveLayout As RadMenuItem
     Friend WithEvents btnDeleteLayout As RadMenuItem
+    Friend WithEvents pnlLocation As Panel
+    Friend WithEvents RadLabel23 As RadLabel
     Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
     Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
-    Friend WithEvents RadLabel3 As RadLabel
 End Class
 

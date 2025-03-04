@@ -188,7 +188,6 @@ Public Class clsRcptEntryHeader
         Try
             '--------------------Checks Whether the Transaction is Locked or not----------------------------UDL/24/07/18-000206 richa 
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-            Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal Then
             Else
@@ -551,7 +550,7 @@ Public Class clsRcptEntryHeader
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
                 Dim isLocationCodeSegment As Boolean
                 Dim BankAcc As String = ""
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     BankAcc = obj.Location_Code_Prefix
                     isLocationCodeSegment = False
                 Else
