@@ -22,6 +22,7 @@ Partial Class FrmSalesOrderBS_Pavitra
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -70,11 +71,12 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RDDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkSOclose = New System.Windows.Forms.CheckBox()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.chkSOclose = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -118,6 +120,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -141,6 +144,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkSOclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -161,7 +165,6 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1122, 412)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -248,7 +251,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.TxtToleranceinplus.TabIndex = 347
         Me.TxtToleranceinplus.Text = "0"
         Me.TxtToleranceinplus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtToleranceinplus.Value = 0.0R
+        Me.TxtToleranceinplus.Value = 0R
         '
         'MyLabel17
         '
@@ -286,7 +289,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.txtToleranceinminus.TabIndex = 345
         Me.txtToleranceinminus.Text = "0"
         Me.txtToleranceinminus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtToleranceinminus.Value = 0.0R
+        Me.txtToleranceinminus.Value = 0R
         '
         'MyLabel3
         '
@@ -334,7 +337,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.txtSNFRatio.TabIndex = 343
         Me.txtSNFRatio.Text = "0"
         Me.txtSNFRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFRatio.Value = 0.0R
+        Me.txtSNFRatio.Value = 0R
         '
         'TxtSNFWeightage
         '
@@ -362,7 +365,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0.0R
+        Me.TxtSNFWeightage.Value = 0R
         '
         'TxtFatWeightage
         '
@@ -390,7 +393,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0.0R
+        Me.TxtFatWeightage.Value = 0R
         '
         'MyLabel13
         '
@@ -464,7 +467,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.txtStanadardrate.TabIndex = 338
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0.0R
+        Me.txtStanadardrate.Value = 0R
         '
         'MyLabel15
         '
@@ -512,7 +515,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.txtfatRatio.TabIndex = 337
         Me.txtfatRatio.Text = "0"
         Me.txtfatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatRatio.Value = 0.0R
+        Me.txtfatRatio.Value = 0R
         '
         'MyLabel6
         '
@@ -561,16 +564,21 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1076, 166)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'lblTotRAmt1
         '
@@ -632,7 +640,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnReset.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(373, 6)
         Me.btnReset.Name = "btnReset"
@@ -814,7 +822,6 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(423, 19)
         Me.lblCustomerName.TabIndex = 353
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblLocationName
         '
@@ -825,7 +832,6 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(423, 19)
         Me.LblLocationName.TabIndex = 337
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel11
         '
@@ -897,29 +903,42 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1122, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RMSaveLayout, Me.RDDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RMSaveLayout
         '
-        Me.RMSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RMSaveLayout.AccessibleName = "Save Layout"
         Me.RMSaveLayout.Name = "RMSaveLayout"
         Me.RMSaveLayout.Text = "Save Layout"
         '
         'RDDeleteLayout
         '
-        Me.RDDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDDeleteLayout.Name = "RDDeleteLayout"
         Me.RDDeleteLayout.Text = "Delete Layout"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(245, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
+        '
+        'chkSOclose
+        '
+        Me.chkSOclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkSOclose.AutoSize = True
+        Me.chkSOclose.Location = New System.Drawing.Point(324, 14)
+        Me.chkSOclose.Name = "chkSOclose"
+        Me.chkSOclose.Size = New System.Drawing.Size(111, 17)
+        Me.chkSOclose.TabIndex = 10
+        Me.chkSOclose.Text = "Close Sale Order"
+        Me.chkSOclose.UseVisualStyleBackColor = True
         '
         'btnPost
         '
@@ -957,17 +976,6 @@ Partial Class FrmSalesOrderBS_Pavitra
         Me.btnsave.Size = New System.Drawing.Size(73, 20)
         Me.btnsave.TabIndex = 4
         Me.btnsave.Text = "Save"
-        '
-        'chkSOclose
-        '
-        Me.chkSOclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkSOclose.AutoSize = True
-        Me.chkSOclose.Location = New System.Drawing.Point(266, 14)
-        Me.chkSOclose.Name = "chkSOclose"
-        Me.chkSOclose.Size = New System.Drawing.Size(111, 17)
-        Me.chkSOclose.TabIndex = 10
-        Me.chkSOclose.Text = "Close Sale Order"
-        Me.chkSOclose.UseVisualStyleBackColor = True
         '
         'FrmSalesOrderBS_Pavitra
         '
@@ -1028,6 +1036,7 @@ Partial Class FrmSalesOrderBS_Pavitra
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1089,4 +1098,5 @@ Partial Class FrmSalesOrderBS_Pavitra
     Friend WithEvents RDDeleteLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents chkSOclose As System.Windows.Forms.CheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class

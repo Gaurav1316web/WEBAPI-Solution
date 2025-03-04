@@ -712,6 +712,18 @@ Public Class FrmGateEntrySale
             dt = Nothing
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndGateEntryNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndGateEntryNo.Value, "Document_No", "TSPL_GATEENTRY_SALE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     ' Ticket No : ERO/06/03/19-000504 by prabhakar 
     Private Sub fndOrderNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndOrderNo._MYValidating
         Dim qry As String = "Select TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No as Code,Convert(varchar,TSPL_SALES_ORDER_MASTER_BULKSALE.Document_Date,103) as [Dispatch Date],TSPL_SALES_ORDER_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_SALES_ORDER_MASTER_BULKSALE.Customer_Name as [Customer Name],TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Name [Location Name],TSPL_SALES_ORDER_MASTER_BULKSALE.PO_NO as [PO NO],Convert(varchar,TSPL_SALES_ORDER_MASTER_BULKSALE.PO_Date,103) as [PO Date],TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code as [Price Code],TSPL_SALES_ORDER_MASTER_BULKSALE.TERMS_Code as [Payment Terms],case when TSPL_SALES_ORDER_MASTER_BULKSALE.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_SALES_ORDER_MASTER_BULKSALE "

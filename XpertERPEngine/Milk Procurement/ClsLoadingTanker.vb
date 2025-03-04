@@ -101,6 +101,8 @@ Public Class ClsLoadingTanker
             End If
 
             clsloadingChemberNoDetails.SaveData(obj.LoadingTanker_No, obj.Arr, trans, obj.Weighment_No)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LoadingTanker_No, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
+
             'trans.Commit()
         Catch err As Exception
             ' trans.Rollback()
@@ -219,7 +221,8 @@ Public Class ClsLoadingTanker
 
 
         End If
-
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
         Try
             Dim qry As String = "delete from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No='" + strDocNo + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -255,6 +258,7 @@ Public Class ClsLoadingTanker
             End If
             Dim obj As ClsLoadingTanker = ClsLoadingTanker.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmLoadingTanker, obj.Location_Code, obj.LoadingTanker_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LoadingTanker_No, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.LoadingTanker_No) <= 0) Then
