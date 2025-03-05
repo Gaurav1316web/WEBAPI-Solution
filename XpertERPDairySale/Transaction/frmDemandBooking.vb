@@ -3429,8 +3429,20 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
                 Qry += " ,sum(isnull(TotalLtr_CustWise,0)) as [Milk In Ltr],sum(isnull(TotalCrates_ItemWise,0)) as [Crates],sum(isnull(MAmt,0)) as [Milk Amount],sum(isnull(PQty,0)) as [Product Quantity],sum(isnull(PAmt,0)) as [Product Amount] "
             End If
-            Qry += ",(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount]
-        from   
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+                Qry += ",(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount] "
+            Else
+                If rbtn_Fresh.IsChecked Then
+                    Qry += ",(sum(isnull(MAmt,0))) as [Total Amount] "
+                ElseIf rbtn_Ambient.IsChecked Then
+                    Qry += ",(sum(isnull(PAmt,0))) as [Total Amount] "
+                Else
+                    Qry += ",(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount] "
+                End If
+            End If
+
+            Qry += " from   
         (Select  max(Display_Seq) as Display_Seq,Cust_Code,max(Customer_Name) as Customer_Name,Item_Code,max(Alies_Name)+'#C' as Alies_Name#C
         ,max(Alies_Name)+'#P' AS Alies_Name#P
 		,max(Alies_Name)+'#L' AS Alies_Name#L,max(Alies_Name)+'#A' AS Alies_Name#A
