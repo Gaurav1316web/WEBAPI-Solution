@@ -13,6 +13,7 @@ Public Class frmDemandBooking
     Dim EnableLocation As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
     Dim isDepartmentRoute As Boolean = False
+    Dim isDepartmentRouteSetting As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
     Dim AllowMultipleUOMForProduct As Boolean = False
     Dim EnableResetDemand As Boolean = False
@@ -1744,6 +1745,12 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         Try
             If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
                 isDepartmentRoute = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select department_Route from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'")) = 1, True, False)
+                isDepartmentRouteSetting = False
+                If isDepartmentRoute Then
+                    If ApplyDepartmentRoute Then
+                        isDepartmentRouteSetting = True
+                    End If
+                End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
@@ -4900,6 +4907,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
     '        End Try
     '    End Sub
+
     Private Sub btnPrint1_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim qry As String = Nothing
@@ -4933,7 +4941,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 Dim arrRoute As New ArrayList
                 arrRoute.Add(txtRouteNo.Value)
-                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4, PageSetup.Landscap) ''
+                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4, PageSetup.Landscap, False, isDepartmentRouteSetting) ''
             Else
                 Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
                 Try
@@ -5454,27 +5462,50 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
     End Sub
     Public Sub PrintChallan()
         Try
+
             Dim qry As String = " select  max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name,( max(TSPL_COMPANY_MASTER.Add1) + max(TSPL_COMPANY_MASTER.Add2) + Max(TSPL_COMPANY_MASTER.Add3)) as Company_Address,
 max(TSPL_DEMAND_BOOKING_MASTER.Document_Date) as Document_Date,max(TSPL_DEMAND_BOOKING_MASTER.ShiftType) as ShiftType,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,
 max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_DEMAND_BOOKING_MASTER.Route_No) as Route_No,max(TSPL_Route_Master.Route_Desc)  as Route_Desc,
 max(TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code) as Vehicle_Code,max(TSPL_VEHICLE_MASTER.Number) as Vehicle_No,max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code,
 TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty ,
-sum(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate) as Item_Rate,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) as ItemNetAmount 
-from TSPL_DEMAND_BOOKING_MASTER
+sum(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate) as Item_Rate,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) as ItemNetAmount
+"
+            If isDepartmentRouteSetting Then
+                qry += " ,convert(int,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)*max(ITEMDETAIL.CFForLTR)/ max(ITEMDETAILInCrate.CFForLTR)) as Crate,
+  (sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)* max(ITEMDETAIL.CFForLTR)/ max(ITEMDETAILInpouch.CFForLTR) -((convert(int,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)* max(ITEMDETAIL.CFForLTR)/ max(ITEMDETAILInCrate.CFForLTR)))* max(ITEMDETAILInCrate.CFForLTR))) AS Pouch "
+            End If
+
+            qry += " from TSPL_DEMAND_BOOKING_MASTER
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_DEMAND_BOOKING_MASTER.location_code 
 Left Outer Join TSPL_Route_Master On TSPL_Route_Master.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No 
 Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
-left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = '" + objCommonVar.CurrComp_Code1 + "'
-where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Posted=1 and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
+left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = '" + objCommonVar.CurrComp_Code1 + "' "
+            If isDepartmentRouteSetting Then
+                qry += " Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+  Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR'  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
+  Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+            End If
+            qry += " where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Posted=1 and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
 group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Unit_code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDemandBookingChallan", "Demand Booking Challan")
-            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
-            frmCRV = Nothing
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If isDepartmentRouteSetting Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDemandBookingChallanForDepartment", "Demand Booking Challan For Department")
+                Else
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDemandBookingChallan", "Demand Booking Challan")
+                End If
+                'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
+                frmCRV = Nothing
+            Else
+                Throw New Exception("Data Not Found!")
+            End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -5713,7 +5744,7 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Dim arrRoute As New ArrayList
                 arrRoute.Add(txtRouteNo.Value)
-                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4, PageSetup.Landscap, True) ''
+                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4, PageSetup.Landscap, True, isDepartmentRouteSetting) ''
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

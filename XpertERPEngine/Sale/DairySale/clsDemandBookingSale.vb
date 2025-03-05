@@ -1405,9 +1405,9 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc", trans))
     '        Return True
     '    End Function
     Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As Boolean
-        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False)
+        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False, False)
     End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean) As Boolean
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean, ByVal isDepartmentRoute As Boolean) As Boolean
         Try
             If clsCommon.myLen(strShift) <= 0 Then
                 Throw New Exception("Please select Shift")
@@ -1428,15 +1428,26 @@ max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, ma
 sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,sum(XXFinal.PrevCrate) as Crate_Collect,
 max(XXFinal.CompanyName) as CompanyName ,max(XXFinal.TranspoterName) as TranspoterName,max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No,
 max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,
-sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust,sum(XXFinal.TCSAmount) as TCSAmount
-from ( 
+sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust,sum(XXFinal.TCSAmount) as TCSAmount "
+            If isDepartmentRoute Then
+                BaseQry += " ,MAX(XXFinal.CFCrate) as CFCrate,MAX(XXFinal.CFPouch) as CFPouch "
+            End If
+            BaseQry += "from ( 
 select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
-            BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
+            BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + " TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
+            If isDepartmentRoute Then
+                BaseQry += " convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as Crate, 0 As PrevCrate, 
+			 TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS Pouch,
+			  0 As PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+            Else
+                BaseQry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
 0 As PrevCrate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
-0 As PrevPouch,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,"
+0 As PrevPouch, "
+            End If
+
+
+            BaseQry += "TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,"
             If isSplitPrint Then
                 BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
             Else
@@ -1456,8 +1467,13 @@ Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No =
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR'  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR'  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+            If isDepartmentRoute Then
+                BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+            End If
+
+            BaseQry += "Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
@@ -1479,13 +1495,23 @@ and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon
             End If
             BaseQry += Environment.NewLine + " Union all "
             BaseQry += " select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
-            BaseQry += "'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
-TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-0 As Crate,
+            BaseQry += "'" + strShift + "'  as ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + "TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
+TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, "
+            If isDepartmentRoute Then
+                BaseQry += "  0 As Crate, convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as PrevCrate,          
+          0 As Pouch, 
+		    TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+            Else
+                BaseQry += " 0 As Crate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
 0 As Pouch, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
-0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
+Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch, "
+            End If
+            '0 As Crate,
+            'Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
+            '0 As Pouch, 
+            'Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
+            BaseQry +="0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
             If isSplitPrint Then
                 BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
             Else
@@ -1504,8 +1530,13 @@ Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No =
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+            If isDepartmentRoute Then
+                BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+            End If
+
+            BaseQry += " Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
@@ -1529,13 +1560,20 @@ where 2=2 "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 BaseQry += Environment.NewLine + " Union all "
                 BaseQry += " select  TSPL_CUSTOMER_MASTER.Cust_Code,"
-                BaseQry += "'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
-TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-0 As Crate,
+                BaseQry += "'" + strShift + "'  as ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + " TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
+TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, "
+                If isDepartmentRoute Then
+                    BaseQry += "  0 As Crate, convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as PrevCrate,          
+          0 As Pouch, 
+		    TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+                Else
+                    BaseQry += " 0 As Crate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
 0 As Pouch, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
-0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
+Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,"
+                End If
+
+                BaseQry += " 0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
                 If isSplitPrint Then
                     BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
                 Else
@@ -1564,27 +1602,31 @@ Left Outer Join TSPL_Demand_Booking_Detail On TSPL_Demand_Booking_Detail.Documen
 --Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_Demand_Booking_Detail.Document_No
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+                If isDepartmentRoute Then
+                    BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+                End If
+                BaseQry += "Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where 2=2 "
-                    If isSplitPrint Then
-                        BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
-                    End If
-                    BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
-                    If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                        BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
-                    End If
-                    'If IsFreshItem Then
-                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
-                    'ElseIf IsAmbientItem Then
-                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
-                    'End If
-                    'If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
-                    '    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
-                    'Else
-                    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                If isSplitPrint Then
+                    BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
+                End If
+                BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
+                If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
+                    BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
+                End If
+                'If IsFreshItem Then
+                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
+                'ElseIf IsAmbientItem Then
+                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
+                'End If
+                'If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
+                '    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                'Else
+                BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
                 'End If
                 If objCommonVar.ApplyBoothRouteMapping Then
                     BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=(select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
@@ -1600,10 +1642,10 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
 --left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No   
 --where 2=2  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code is not null " + Environment.NewLine
                 If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                        BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
-                    End If
+                    BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
                 End If
-                BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
+            End If
+            BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
 )xx) xfinal left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
             Dim qry As String = " select Short_Description from (" + BaseQry + " )xx Where Short_Description is Not Null group by Short_Description order by max(Sku_Seq)"
             Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -1612,10 +1654,22 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
             End If
             qry = "select Route_No ,max(Route_Desc) as Route_Desc,max(TranspoterName) as TranspoterName,max(DriverName) as DriverName,MAX(Vehicle_No) as Vehicle_No,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime ,max(ShiftType) as ShiftType,max(DocStatus) as DocStatus,Cust_Code,case when Credit_Customer='Y' then 'Department Booth' else 'Normal Booth' end as Credit_Customer "
             For Each drItem As DataRow In dtItem.Rows
-                qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+                If isDepartmentRoute Then
+                    qry += ",sum((QTYLtr) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+
+                Else
+                    qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+
+                End If
             Next
-            qry += ",sum(case when Credit_Customer='Y' then QTYLtr else Crate end) as [TotalCrate]
-,sum(ItemNetAmount) as ItemNetAmount"
+            If isDepartmentRoute Then
+                qry += ",sum(Crate) as [TotalCrate]"
+            Else
+                qry += ",sum(case when Credit_Customer='Y' then QTYLtr else Crate end) as [TotalCrate]"
+            End If
+            qry += ",sum(ItemNetAmount) as ItemNetAmount"
+            'End If
+
             If strShift = "Evening" Then
                 qry += " ,0 as AmountBE"
             Else
@@ -1636,6 +1690,15 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 ,sum( Crate * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [CRATE#$#" + clsCommon.myCstr(drItem("Short_Description")) + "]  
 ,sum( Pouch * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [POUCH#$#" + clsCommon.myCstr(drItem("Short_Description")) + "]  "
             Next
+            If isDepartmentRoute Then
+                BaseQry = " select SUM(XXXFinal.Qty) as QTYLtr,XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,XXXFinal.CFCrate,XXXFinal.CFPouch
+ ,convert(int,Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFCrate) as Crate,
+ (Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFPouch -((convert(int,Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFCrate) )* XXXFinal.CFCrate)) as Pouch,XXXFinal.Route_No
+ 
+ from(" + BaseQry + " )XXXFinal
+where XXXFinal.Short_Description is not null
+group by XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,XXXFinal.CFCrate,XXXFinal.CFPouch,XXXFinal.Route_No"
+            End If
             qry += " from ( " + BaseQry + " )  xx group by  Route_No order by Route_No "
             Dim dtTotal As DataTable = clsDBFuncationality.GetDataTable(qry)
             For Each drTotal As DataRow In dtTotal.Rows

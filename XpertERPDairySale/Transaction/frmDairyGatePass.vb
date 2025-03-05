@@ -15,6 +15,8 @@ Public Class frmDairyGatePass
     Dim VehicleNofromDispatch As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
     Dim AllowManualCrateForDispatch As Boolean = False
+    Dim ApplyDepartmentRoute As Boolean = False
+    Dim isDepartmentRoute As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
@@ -119,6 +121,8 @@ Public Class frmDairyGatePass
         EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
         AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+        ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+
         Addnew()
         LoadBlankGrid()
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
@@ -571,7 +575,9 @@ Public Class frmDairyGatePass
         Try
             LoadBlankGrid()
             Dim totalCrate As Integer = 0
-
+            If ApplyDepartmentRoute Then
+                isDepartmentRoute = clsCommon.myCBool(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Department_Route from TSPL_ROUTE_MASTER where Route_No='" + fndRouteNo.Value + "'")))
+            End If
             Dim totalCan As Integer = 0
             Dim qry As String = LoadQuery("", EnableDispatch)
             If arrShipmentFromMultiple IsNot Nothing AndAlso arrShipmentFromMultiple.Count > 0 Then
@@ -599,8 +605,10 @@ Public Class frmDairyGatePass
             Dim intLineNo As Integer = 0
             Dim strV As String = ""
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                Dim lstDRobj As New List(Of clsDRDetail)
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
+                        Dim DRobj As New clsDRDetail
                         Gv1.Rows.AddNew()
                         intLineNo += 1
                         If VehicleNofromDispatch Then
@@ -636,12 +644,16 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Tag = clsCommon.myCDecimal(dr("PK_ID"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = intLineNo
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("Item Code"))
+                        DRobj.Item_Code = clsCommon.myCstr(dr("Item Code"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
+                        DRobj.Unit_Code = clsCommon.myCstr(dr("Unit"))
                         If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("BalanceQty"))
+                            DRobj.Qty = clsCommon.myCDecimal(dr("Quantity"))
                         Else
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("Quantity"))
+                            DRobj.Qty = clsCommon.myCDecimal(dr("Quantity"))
                         End If
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSchemeItem).Value = clsCommon.myCstr(dr("Scheme_Item"))
@@ -660,6 +672,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                             End If
 
                         End If
+                        lstDRobj.Add(DRobj)
                         If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Can") = CompairStringResult.Equal Then
                             totalCan += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
                         End If
@@ -668,9 +681,26 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     End If
                 Next
                 ' **************************************************************************************************
+                If isDepartmentRoute Then
+                    totalCrate = 0
+                    Dim groupbyItem = From i In lstDRobj
+                                      Group By i.Item_Code, i.Unit_Code Into Group
+                                      Select New With {
+                        Key .Item = Item_Code,
+                        Key .Unit = Unit_Code,
+                        Key .TotalQty = Group.Sum(Function(x) x.Qty)
+                    }
+                    For Each result In groupbyItem
+                        Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                        Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(result.Unit) & "' "))
+                        Dim DispatchQty As Decimal = clsCommon.myCdbl(result.TotalQty) * ItemConvFactor
+
+                        totalCrate += clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
+                        'Console.WriteLine($"Item: {result.Item}, Unit: {result.Unit}, Total Quantity: {result.TotalQty}")
+                    Next
+                End If
                 If VehicleNofromDispatch Then
                     lblVehicleDesc.Text = clsCommon.GetMulcallStringWithComma(strVehicleNo)
-
                 End If
                 txtmultiBooking.Enabled = True
                 'Dim strAllDoc As String = " select STUFF((SELECT ',' + Document_Code from (select distinct PPPP.Document_Code from  ( " & qry & "    ) As PPPP  ) Final FOR XML PATH('')), 1, 1, '') "
@@ -739,10 +769,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     txtDate.Enabled = False
                     'txtSupplyDate.Enabled = False
                 Next
-                If Not AllowManualCrateForDispatch Then
-                    txtCrateQty.Text = totalCrate
-                    txtCanQty.Text = totalCan
+                If Not isDepartmentRoute Then
+                    If Not AllowManualCrateForDispatch Then
+                        txtCrateQty.Text = totalCrate
+                        txtCanQty.Text = totalCan
+                    End If
                 End If
+
 
             End If
         Catch ex As Exception
@@ -834,6 +867,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 '===============Added by preeti Gupta Against ticket no[BHA/17/08/18-000444]
                 fndRouteNo.Value = obj.Route_No
                 txtRouteName.Text = obj.Route_Desc
+                If ApplyDepartmentRoute Then
+                    isDepartmentRoute = clsCommon.myCBool(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Department_Route from TSPL_ROUTE_MASTER where Route_No='" + fndRouteNo.Value + "'")))
+                End If
                 txtCanQty.Text = obj.TotalCAN
                 txtCrateQty.Text = obj.TotalCrate
                 'If clsCommon.myLen(obj.AgainstDocumentCode) > 0 Then
@@ -875,6 +911,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         Finally
         End Try
     End Sub
+
     Function AllowToSave() As Boolean
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
@@ -1089,6 +1126,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             txtTripNo.Visible = False
             lblTripNo.Visible = False
         End If
+        isDepartmentRoute = False
         strVehicleNo = New List(Of String)
         txtTripNo.Text = ""
         txtTollAmount.Text = 0
@@ -1487,13 +1525,30 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         Return qry
     End Function
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
-    Private Function GetAttachQry(ByVal StrCode As String) As String
+    Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
-        Dim Qry As String = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+        Dim Qry As String = ""
+        If isDepartmentRoute Then
+            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
+Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',
+CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG',
+Case When Final.Column_Crate > 0 Then Cast( ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int) / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine',
+Case When Column_Crate > 0 Then ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int)-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int) / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate',
+(((Final.qty*Final.CFinLTR)-(Conversion_FactorCrt* Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int)))) as LoosePouch,CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2)) AS CrateQtydd,
+CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate ,
+Final.*,
+tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,
+TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2,
+case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
+        Else
+            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
                             Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',
                             CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate'," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "Pouch_Qty as LoosePouch, ", "(Pouch_Qty -  ( CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2))) * Conversion_FactorCrt/CFinPouch) As LoosePouch,") + " 
                            CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2)) AS CrateQtydd,
                            CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
+        End If
+
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += "  ,(qty * Conversion_Factor/CFinPrintUOM ) as PrintUOM,case when UPPER(Unit_code)='CRATE' then qty else 0 end as TotalCrate,case when UPPER(Unit_code)='BOX' then qty else 0 end as TotalBOX,    case when UPPER(Unit_code)='CFC' then qty else 0 end as TotalCFC "
         End If
@@ -1602,7 +1657,7 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
             Else
                 Dim dt2 As DataTable = Nothing
                 Dim subrptqry As String = ""
-                atchqry = GetAttachQry(Code)
+                atchqry = GetAttachQry(Code, isDepartmentRoute)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     subrptqry = CrateInOut()
@@ -1649,7 +1704,7 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
             If CreateGatePassFromDemand = True Then
                 frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
             Else
-                atchqry = GetAttachQry(Code)
+                atchqry = GetAttachQry(Code, isDepartmentRoute)
                 Dim subrptqry As String = CrateInOut()
                 Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(subrptqry)
 
@@ -1663,8 +1718,11 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
 
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-
+                        If isDepartmentRoute Then
+                            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR-DRP", "Dairy GatePass Entry DRP", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        Else
+                            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        End If
                     Else
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
 
@@ -1723,7 +1781,7 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
         Dim pdfpath As String = ""
         Try
             If settFileUpload Then
-                atchqry = GetAttachQry(Code)
+                atchqry = GetAttachQry(Code, isDepartmentRoute)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
@@ -2324,13 +2382,13 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code)x
                     PrintBoothSlipData()
                 Else
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
-                Else
-                    Throw New Exception("Data not Found!")
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
+                    Else
+                        Throw New Exception("Data not Found!")
+                    End If
                 End If
-            End If
             Else
                 Throw New Exception("Document not Found!")
             End If
@@ -2540,4 +2598,10 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
+End Class
+Public Class clsDRDetail
+    Public Item_Code As String
+    Public Unit_Code As String
+    Public Qty As Decimal
+
 End Class
