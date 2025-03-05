@@ -247,7 +247,7 @@ Public Class clsCreateAllTable
             coll.Add("Remarks", "varchar(200) Null")
             coll.Add("Toll_Charges", "decimal(18,2) Null")
             coll.Add("Total_Payable_Amount", "decimal(18,2) Null")
-
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

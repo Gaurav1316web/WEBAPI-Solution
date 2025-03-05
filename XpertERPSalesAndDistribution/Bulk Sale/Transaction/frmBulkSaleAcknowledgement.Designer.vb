@@ -47,6 +47,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtFATKg = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtCustomer = New common.Controls.MyLabel()
         Me.MyLabel20 = New common.Controls.MyLabel()
         Me.txtSaleAmount = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -74,7 +75,10 @@ Partial Class frmBulkSaleAcknowledgement
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.txtCustomer = New common.Controls.MyLabel()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel7 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -100,6 +104,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.txtFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSaleAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,7 +130,9 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -138,6 +145,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.pnlLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndBulkSaleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel19)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDiffAmount)
@@ -567,6 +575,18 @@ Partial Class frmBulkSaleAcknowledgement
         Me.RadGroupBox1.TabIndex = 14
         Me.RadGroupBox1.Text = "Bulk Sale Details"
         '
+        'txtCustomer
+        '
+        Me.txtCustomer.AutoSize = False
+        Me.txtCustomer.BorderVisible = True
+        Me.txtCustomer.FieldName = Nothing
+        Me.txtCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.Location = New System.Drawing.Point(79, 21)
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.Size = New System.Drawing.Size(110, 18)
+        Me.txtCustomer.TabIndex = 1451
+        Me.txtCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
         'MyLabel20
         '
         Me.MyLabel20.FieldName = Nothing
@@ -876,17 +896,60 @@ Partial Class frmBulkSaleAcknowledgement
         Me.btnsave.TabIndex = 5
         Me.btnsave.Text = "Save"
         '
-        'txtCustomer
+        'pnlLocation
         '
-        Me.txtCustomer.AutoSize = False
-        Me.txtCustomer.BorderVisible = True
-        Me.txtCustomer.FieldName = Nothing
-        Me.txtCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustomer.Location = New System.Drawing.Point(79, 21)
-        Me.txtCustomer.Name = "txtCustomer"
-        Me.txtCustomer.Size = New System.Drawing.Size(110, 18)
-        Me.txtCustomer.TabIndex = 1451
-        Me.txtCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.pnlLocation.Controls.Add(Me.RadLabel7)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(11, 277)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(458, 23)
+        Me.pnlLocation.TabIndex = 12148
+        '
+        'RadLabel7
+        '
+        Me.RadLabel7.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel7.Name = "RadLabel7"
+        Me.RadLabel7.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel7.TabIndex = 12145
+        Me.RadLabel7.Text = "Location"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(208, 3)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(247, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(79, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
         '
         'frmBulkSaleAcknowledgement
         '
@@ -927,6 +990,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSaleAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
@@ -952,7 +1016,10 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1010,4 +1077,8 @@ Partial Class frmBulkSaleAcknowledgement
     Friend WithEvents MyLabel20 As Controls.MyLabel
     Friend WithEvents fndBulkSaleNo As UserControls.txtFinder
     Friend WithEvents txtCustomer As Controls.MyLabel
+    Friend WithEvents pnlLocation As Panel
+    Friend WithEvents RadLabel7 As RadLabel
+    Friend WithEvents txtLocationPrefixName As Controls.MyLabel
+    Friend WithEvents txtLocationPrefix As UserControls.txtFinder
 End Class

@@ -23,6 +23,11 @@ Public Class frmBulkSaleAcknowledgement
     End Sub
     Private Sub frmBulkSaleAcknowledgement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         SetUserMgmtNew()
     End Sub
 
@@ -35,6 +40,8 @@ Public Class frmBulkSaleAcknowledgement
         txtDate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
         fndBulkSaleNo.Value = Nothing
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         txtQty.Value = Nothing
         txtFAT.Value = Nothing
         txtFATKg.Text = Nothing
@@ -138,6 +145,12 @@ Public Class frmBulkSaleAcknowledgement
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         Try
             If clsCommon.myLen(fndBulkSaleNo.Value) > 0 Then
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                        txtLocationPrefix.Focus()
+                        Throw New Exception("Please select Location")
+                    End If
+                End If
                 Dim obj As New clsBulkSaleAcknowledgement()
                 obj.Document_No = fndDocNo.Value
                 obj.Document_Date = txtDate.Value
@@ -152,6 +165,7 @@ Public Class frmBulkSaleAcknowledgement
                 obj.Amount = txtAmount.Value
                 obj.Diff_Amount = txtDiffAmount.Value
                 obj.Remarks = txtRemarks.Text
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 If clsCommon.myLen(fndDocNo.Value) <= 0 Then
                     isNewEntry = True
                 End If
@@ -182,8 +196,8 @@ Public Class frmBulkSaleAcknowledgement
 
     Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
         Try
-            Dim qry As String = "Select Document_No As [Document Code],Document_Date As [Document Date],Bulk_Dispatch_Document,Qty,FAT,FAT_KG,SNF,SNF_KG,FAT_Rate,Status From TSPL_BULK_SALE_ACKNOWLEDGEMENT "
-            fndDocNo.Value = clsCommon.ShowSelectForm("BulkSaleAck", qry, "Document Code", "", fndDocNo.Value, "", isButtonClicked)
+            Dim qry As String = "Select Document_No As DocumentCode,Document_Date As [Document Date],Bulk_Dispatch_Document,Location_Code_Prefix as [Location Code Prefix],Qty,FAT,FAT_KG,SNF,SNF_KG,FAT_Rate,Status From TSPL_BULK_SALE_ACKNOWLEDGEMENT "
+            fndDocNo.Value = clsCommon.ShowSelectForm("BulkSaleAck", qry, "DocumentCode", "", fndDocNo.Value, "", isButtonClicked)
             LoadDataBulkSaleAck(fndDocNo.Value, NavigatorType.Current)
             qry = Nothing
         Catch ex As Exception
@@ -240,6 +254,12 @@ Public Class frmBulkSaleAcknowledgement
                 txtAmount.Value = obj.Amount
                 txtRemarks.Text = obj.Remarks
                 txtDiffAmount.Value = obj.Diff_Amount
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
             Else
                 AddNew()
             End If
@@ -333,4 +353,23 @@ Public Class frmBulkSaleAcknowledgement
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
