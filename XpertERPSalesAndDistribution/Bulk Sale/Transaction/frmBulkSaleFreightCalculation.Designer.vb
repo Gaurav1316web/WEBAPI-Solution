@@ -21,9 +21,11 @@ Partial Class frmBulkSaleFreightCalculation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblTotalAmount = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtDieselHike = New common.MyNumBox()
@@ -55,14 +57,15 @@ Partial Class frmBulkSaleFreightCalculation
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.lblTotalAmount = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,8 +88,7 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -105,6 +107,7 @@ Partial Class frmBulkSaleFreightCalculation
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -151,6 +154,28 @@ Partial Class frmBulkSaleFreightCalculation
         Me.SplitContainer2.Size = New System.Drawing.Size(996, 452)
         Me.SplitContainer2.SplitterDistance = 98
         Me.SplitContainer2.TabIndex = 0
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(539, 31)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel5.TabIndex = 1097
+        Me.MyLabel5.Text = "Total  Amount"
+        '
+        'lblTotalAmount
+        '
+        Me.lblTotalAmount.AutoSize = False
+        Me.lblTotalAmount.BorderVisible = True
+        Me.lblTotalAmount.FieldName = Nothing
+        Me.lblTotalAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalAmount.Location = New System.Drawing.Point(631, 30)
+        Me.lblTotalAmount.Name = "lblTotalAmount"
+        Me.lblTotalAmount.Size = New System.Drawing.Size(104, 20)
+        Me.lblTotalAmount.TabIndex = 1098
+        Me.lblTotalAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnGo
         '
@@ -420,13 +445,14 @@ Partial Class frmBulkSaleFreightCalculation
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(996, 350)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadSplitButton1
         '
@@ -533,27 +559,14 @@ Partial Class frmBulkSaleFreightCalculation
         Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
         Me.RadMenu1.TabIndex = 12
         '
-        'MyLabel5
+        'btnHistory
         '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(539, 31)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel5.TabIndex = 1097
-        Me.MyLabel5.Text = "Total  Amount"
-        '
-        'lblTotalAmount
-        '
-        Me.lblTotalAmount.AutoSize = False
-        Me.lblTotalAmount.BorderVisible = True
-        Me.lblTotalAmount.FieldName = Nothing
-        Me.lblTotalAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalAmount.Location = New System.Drawing.Point(631, 30)
-        Me.lblTotalAmount.Name = "lblTotalAmount"
-        Me.lblTotalAmount.Size = New System.Drawing.Size(104, 20)
-        Me.lblTotalAmount.TabIndex = 1098
-        Me.lblTotalAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(451, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnHistory.TabIndex = 156
+        Me.btnHistory.Text = "History"
         '
         'frmBulkSaleFreightCalculation
         '
@@ -575,6 +588,8 @@ Partial Class frmBulkSaleFreightCalculation
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).EndInit()
@@ -597,8 +612,7 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -639,5 +653,6 @@ Partial Class frmBulkSaleFreightCalculation
     Friend WithEvents btnGo As RadButton
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblTotalAmount As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

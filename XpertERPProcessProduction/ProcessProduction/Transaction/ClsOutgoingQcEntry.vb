@@ -63,7 +63,11 @@ Public Class ClsOutgoingQcEntry
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PROD_QC_CHECK_HEAD", OMInsertOrUpdate.Update, "  Document_Code='" + obj.document_code + "'", trans)
             End If
+
             ClsTSPL_PROD_QC_CHECK_DETAIL.SaveData(obj.document_code, obj.Arr_Pd, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
+
             clsProductionEntry.SaveData(obj.document_code, obj.Arr_Prod, trans)
             Return True
         Catch ex As Exception
@@ -162,6 +166,7 @@ Public Class ClsOutgoingQcEntry
             If (obj.Status = "1") Then
                 Throw New Exception("Already Posted")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
             Dim qry As String = "Update TSPL_PROD_QC_CHECK_HEAD set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
@@ -188,6 +193,9 @@ Public Class ClsOutgoingQcEntry
             If (isPosted = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
 
 
             Dim qry As String
@@ -221,6 +229,7 @@ Public Class ClsOutgoingQcEntry
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
             Dim qry As String
             If obj.Status = 1 Then
                 qry = "update TSPL_PROD_QC_CHECK_HEAD set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"

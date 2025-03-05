@@ -22,7 +22,10 @@ Partial Class FrmTankerOut
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvManualSeal = New common.UserControls.MyRadGridView()
         Me.lblGateEntryNo = New common.Controls.MyLabel()
         Me.lblCustomerCode = New common.Controls.MyLabel()
         Me.lblLocationCode = New common.Controls.MyLabel()
@@ -45,11 +48,14 @@ Partial Class FrmTankerOut
         Me.fndGateOutNo = New common.UserControls.txtNavigator()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvManualSeal = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.gvManualSeal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvManualSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,10 +73,7 @@ Partial Class FrmTankerOut
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.gvManualSeal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvManualSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,11 +112,40 @@ Partial Class FrmTankerOut
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Size = New System.Drawing.Size(674, 512)
         Me.SplitContainer1.SplitterDistance = 471
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.gvManualSeal)
+        Me.RadGroupBox3.HeaderText = "Manual Seal"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(3, 184)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(668, 273)
+        Me.RadGroupBox3.TabIndex = 218
+        Me.RadGroupBox3.Text = "Manual Seal"
+        '
+        'gvManualSeal
+        '
+        Me.gvManualSeal.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvManualSeal.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvManualSeal.MyStopExport = False
+        Me.gvManualSeal.Name = "gvManualSeal"
+        Me.gvManualSeal.ShowHeaderCellButtons = True
+        Me.gvManualSeal.Size = New System.Drawing.Size(664, 253)
+        Me.gvManualSeal.TabIndex = 202
+        Me.gvManualSeal.VarID = ""
         '
         'lblGateEntryNo
         '
@@ -124,7 +156,6 @@ Partial Class FrmTankerOut
         Me.lblGateEntryNo.Name = "lblGateEntryNo"
         Me.lblGateEntryNo.Size = New System.Drawing.Size(147, 19)
         Me.lblGateEntryNo.TabIndex = 19
-        Me.lblGateEntryNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCustomerCode
         '
@@ -135,7 +166,6 @@ Partial Class FrmTankerOut
         Me.lblCustomerCode.Name = "lblCustomerCode"
         Me.lblCustomerCode.Size = New System.Drawing.Size(147, 19)
         Me.lblCustomerCode.TabIndex = 18
-        Me.lblCustomerCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationCode
         '
@@ -146,7 +176,6 @@ Partial Class FrmTankerOut
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(147, 19)
         Me.lblLocationCode.TabIndex = 17
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkGateOut
         '
@@ -206,7 +235,6 @@ Partial Class FrmTankerOut
         Me.lblTanker.Name = "lblTanker"
         Me.lblTanker.Size = New System.Drawing.Size(381, 19)
         Me.lblTanker.TabIndex = 16
-        Me.lblTanker.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTanker.Visible = False
         '
         'MyLabel3
@@ -256,7 +284,6 @@ Partial Class FrmTankerOut
         Me.LblCustomer.Name = "LblCustomer"
         Me.LblCustomer.Size = New System.Drawing.Size(381, 19)
         Me.LblCustomer.TabIndex = 10
-        Me.LblCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -341,7 +368,6 @@ Partial Class FrmTankerOut
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(381, 19)
         Me.lblLocation.TabIndex = 13
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -394,7 +420,7 @@ Partial Class FrmTankerOut
         '
         'btnNew
         '
-        Me.btnNew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnNew.Location = New System.Drawing.Point(346, 9)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(18, 20)
@@ -434,30 +460,14 @@ Partial Class FrmTankerOut
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'RadGroupBox3
+        'btnHistory
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.gvManualSeal)
-        Me.RadGroupBox3.HeaderText = "Manual Seal"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(3, 184)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(668, 273)
-        Me.RadGroupBox3.TabIndex = 218
-        Me.RadGroupBox3.Text = "Manual Seal"
-        '
-        'gvManualSeal
-        '
-        Me.gvManualSeal.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvManualSeal.Location = New System.Drawing.Point(2, 18)
-        '
-        'gvManualSeal
-        '
-        Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvManualSeal.Name = "gvManualSeal"
-        Me.gvManualSeal.ShowHeaderCellButtons = True
-        Me.gvManualSeal.Size = New System.Drawing.Size(664, 253)
-        Me.gvManualSeal.TabIndex = 202
-        Me.gvManualSeal.Text = "RadGridView1"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(91, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 2
+        Me.btnHistory.Text = "History"
         '
         'FrmTankerOut
         '
@@ -475,6 +485,10 @@ Partial Class FrmTankerOut
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        CType(Me.gvManualSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvManualSeal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -492,10 +506,7 @@ Partial Class FrmTankerOut
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        CType(Me.gvManualSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvManualSeal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -525,5 +536,6 @@ Partial Class FrmTankerOut
     Friend WithEvents lblLocationCode As common.Controls.MyLabel
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvManualSeal As common.UserControls.MyRadGridView
+    Friend WithEvents btnHistory As RadButton
 End Class
 

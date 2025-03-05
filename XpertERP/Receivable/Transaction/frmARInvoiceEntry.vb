@@ -8,7 +8,6 @@ Public Class FrmARInvoiceEntry
 
 #Region "Variables"
     Public strAPInvoice As String = Nothing
-    Dim ApplyLocationWisePrefix As Boolean = False
     Private blnInvoice As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
@@ -106,8 +105,6 @@ Public Class FrmARInvoiceEntry
 #End Region
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
-
         SettingCostCenter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInARInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInARInvoiceEntry, Nothing)) = 1)
         SettingCostCenterlevel = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableHirerachyCostCentre, clsFixedParameterCode.EnableHirerachyCostCentre, Nothing)) = 1)
         CostCenterAndHirerachyCodeUpdateAfterPost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CostCenterAndHirerachyCodeUpdateAfterPost, clsFixedParameterCode.CostCenterAndHirerachyCodeUpdateAfterPost, Nothing)) = 1, True, False)
@@ -117,7 +114,7 @@ Public Class FrmARInvoiceEntry
             clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
@@ -1961,7 +1958,7 @@ Public Class FrmARInvoiceEntry
                 txtDate.Focus()
                 Return False
             End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")
@@ -3213,7 +3210,7 @@ Public Class FrmARInvoiceEntry
     End Sub
     '============BM00000008196==================
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_Customer_Invoice_Head.Document_No as DocumentNo,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_Customer_Invoice_Head.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],case when TSPL_Customer_Invoice_Head.[status]=1 then 'Posted' else 'Pending'end as [Status],Account_Set as AccountSet,Against_Sale_No as [Against Sale Invoice],AgainstScrap as [Against Scrap No],case when coalesce(Against_Sale_Return_No,'')='' then coalesce(Against_MCC_Material_Sale_Return,'') else coalesce(Against_Sale_Return_No,'') end as [Against Sale Return],ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') AS [Against VCGL],Against_Asset_Disposal as [Against Asset Disposal],AgainstScrapReturn as [Against Scrap Return No] from TSPL_Customer_Invoice_Head left outer join TSPL_Customer_Invoice_Detail on TSPL_Customer_Invoice_Detail.Document_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_Customer_Invoice_Detail.SNo=1 "
+        Dim qry As String = "select TSPL_Customer_Invoice_Head.Document_No as DocumentNo,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_Customer_Invoice_Head.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],case when TSPL_Customer_Invoice_Head.[status]=1 then 'Posted' else 'Pending'end as [Status],Account_Set as AccountSet,Against_Sale_No as [Against Sale Invoice],AgainstScrap as [Against Scrap No],case when coalesce(Against_Sale_Return_No,'')='' then coalesce(Against_MCC_Material_Sale_Return,'') else coalesce(Against_Sale_Return_No,'') end as [Against Sale Return],ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') AS [Against VCGL],Against_Asset_Disposal as [Against Asset Disposal],AgainstScrapReturn as [Against Scrap Return No],TSPL_Customer_Invoice_Head.Location_Code_Prefix as [Location Code Prefix] from TSPL_Customer_Invoice_Head left outer join TSPL_Customer_Invoice_Detail on TSPL_Customer_Invoice_Detail.Document_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_Customer_Invoice_Detail.SNo=1 "
         '' Anubhooti 13-Mar-2015 (Fetch Alies Name On Customer Finder)
         qry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Customer_Invoice_Head.Customer_Code "
         Dim whrclas As String = "1=1"

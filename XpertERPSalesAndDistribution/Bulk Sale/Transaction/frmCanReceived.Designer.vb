@@ -22,7 +22,9 @@ Partial Class frmCanReceived
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCanReceived))
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -45,6 +47,7 @@ Partial Class frmCanReceived
         Me.fndCustomerNo = New common.UserControls.txtFinder()
         Me.fndLocation = New common.UserControls.txtFinder()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnExportToExcel = New Telerik.WinControls.UI.RadButton()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.BtnPreview = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,7 +66,7 @@ Partial Class frmCanReceived
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -88,6 +91,7 @@ Partial Class frmCanReceived
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportToExcel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,7 +102,7 @@ Partial Class frmCanReceived
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -118,6 +122,7 @@ Partial Class frmCanReceived
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportToExcel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
@@ -140,7 +145,6 @@ Partial Class frmCanReceived
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1243, 469)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -340,7 +344,6 @@ Partial Class frmCanReceived
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(287, 18)
         Me.lblLocationName.TabIndex = 55
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationName.TextWrap = False
         '
         'RadLabel15
@@ -379,10 +382,13 @@ Partial Class frmCanReceived
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -390,7 +396,7 @@ Partial Class frmCanReceived
         Me.gv1.Size = New System.Drawing.Size(1197, 305)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'lblCustomerName
         '
@@ -402,7 +408,6 @@ Partial Class frmCanReceived
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(287, 18)
         Me.lblCustomerName.TabIndex = 56
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName.TextWrap = False
         Me.lblCustomerName.Visible = False
         '
@@ -480,6 +485,16 @@ Partial Class frmCanReceived
         Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
         Me.btnAddNew.TabIndex = 1
         '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(500, 4)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(99, 22)
+        Me.btnShowInventory.TabIndex = 329
+        Me.btnShowInventory.Text = "Show Inventory"
+        '
         'btnExportToExcel
         '
         Me.btnExportToExcel.Location = New System.Drawing.Point(229, 4)
@@ -500,22 +515,16 @@ Partial Class frmCanReceived
         '
         'BtnPreview
         '
-        Me.BtnPreview.AccessibleDescription = "Preview"
-        Me.BtnPreview.AccessibleName = "Preview"
         Me.BtnPreview.Name = "BtnPreview"
         Me.BtnPreview.Text = "Preview"
         '
         'BtnSend
         '
-        Me.BtnSend.AccessibleDescription = "Send Mail/Sms"
-        Me.BtnSend.AccessibleName = "Send Mail/Sms"
         Me.BtnSend.Name = "BtnSend"
         Me.BtnSend.Text = "Send Mail/Sms"
         '
         'BtnSendForApproval
         '
-        Me.BtnSendForApproval.AccessibleDescription = "Send Mail For Approval"
-        Me.BtnSendForApproval.AccessibleName = "Send Mail For Approval"
         Me.BtnSendForApproval.Name = "BtnSendForApproval"
         Me.BtnSendForApproval.Text = "Send Mail For Approval"
         '
@@ -572,15 +581,11 @@ Partial Class frmCanReceived
         '
         'EmailSmsSetting
         '
-        Me.EmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.EmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.EmailSmsSetting.Name = "EmailSmsSetting"
         Me.EmailSmsSetting.Text = "Email/SMS Setting"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
@@ -600,20 +605,15 @@ Partial Class frmCanReceived
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1243, 20)
         Me.RadMenu1.TabIndex = 6
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
@@ -632,6 +632,7 @@ Partial Class frmCanReceived
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(50, 191)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -643,16 +644,19 @@ Partial Class frmCanReceived
         Me.RadMenuItem2.TabIndex = 5
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
         '
-        'btnShowInventory
+        'btnHistory
         '
-        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(500, 4)
-        Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(99, 22)
-        Me.btnShowInventory.TabIndex = 329
-        Me.btnShowInventory.Text = "Show Inventory"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(605, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(99, 22)
+        Me.btnHistory.TabIndex = 330
+        Me.btnHistory.Text = "History"
         '
         'frmCanReceived
         '
@@ -693,6 +697,7 @@ Partial Class frmCanReceived
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportToExcel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -703,7 +708,7 @@ Partial Class frmCanReceived
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -750,5 +755,6 @@ Partial Class frmCanReceived
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents chkClosingCustomer As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents btnShowInventory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

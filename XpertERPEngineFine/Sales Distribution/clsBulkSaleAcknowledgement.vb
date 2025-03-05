@@ -31,6 +31,7 @@ Public Class clsBulkSaleAcknowledgement
     Public Dispatch_FATRate As Decimal = 0
     Public Dispatch_SNFRate As Decimal = 0
     Public Dispatch_Amount As Decimal = 0
+    Public Location_Code_Prefix As String = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsBulkSaleAcknowledgement, ByVal isNewEntry As Boolean) As Boolean
@@ -52,6 +53,7 @@ Public Class clsBulkSaleAcknowledgement
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Document", obj.Bulk_Dispatch_Document)
             clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
             clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
             clsCommon.AddColumnsForChange(coll, "FAT_KG", obj.FAT_KG)
             clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
@@ -65,7 +67,11 @@ Public Class clsBulkSaleAcknowledgement
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCstr(DateTime.Now), clsDocType.BulkSaleAcknowledgement, "", objCommonVar.strCurrUserLocations)
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCstr(DateTime.Now), clsDocType.BulkSaleAcknowledgement, "", obj.Location_Code_Prefix, False)
+                Else
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCstr(DateTime.Now), clsDocType.BulkSaleAcknowledgement, "", objCommonVar.strCurrUserLocations)
+                End If
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
@@ -73,6 +79,8 @@ Public Class clsBulkSaleAcknowledgement
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", OMInsertOrUpdate.Update, "TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally
@@ -87,6 +95,10 @@ Public Class clsBulkSaleAcknowledgement
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
             Dim qry As String = "delete from TSPL_BULK_SALE_ACKNOWLEDGEMENT where Document_No='" + strDocNo + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
@@ -130,6 +142,7 @@ Public Class clsBulkSaleAcknowledgement
             obj.Diff_Amount = clsCommon.myCDecimal(dt.Rows(0)("Diff_Amount"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
         End If
         Return obj
     End Function
@@ -189,6 +202,7 @@ Public Class clsBulkSaleAcknowledgement
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Dispatch No not found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)

@@ -22,8 +22,8 @@ Partial Class frmReverseTransaction
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadTextBox1 = New common.Controls.MyTextBox()
         Me.RadTextBox2 = New common.Controls.MyTextBox()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -79,9 +79,13 @@ Partial Class frmReverseTransaction
         Me.btn_post = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnOpenBankCashBook = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseTransaction = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.txtLocationPrefixName = New common.Controls.MyTextBox()
         CType(Me.RadTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,9 +137,12 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -207,6 +214,7 @@ Partial Class frmReverseTransaction
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.pnlLocation)
         Me.RadGroupBox1.Controls.Add(Me.UsLock1)
         Me.RadGroupBox1.Controls.Add(Me.fndbankcode)
         Me.RadGroupBox1.Controls.Add(Me.fndreversecode)
@@ -371,10 +379,10 @@ Partial Class frmReverseTransaction
         Me.RadGroupBox2.Controls.Add(Me.lbl_ReasonForReversal)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Reverse Single Transaction"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 130)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 150)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(712, 194)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(712, 184)
         Me.RadGroupBox2.TabIndex = 6
         Me.RadGroupBox2.Text = "Reverse Single Transaction"
         '
@@ -856,11 +864,11 @@ Partial Class frmReverseTransaction
         Me.ddl_SourceApplication.IsSourceFromTable = False
         Me.ddl_SourceApplication.IsSourceFromValueList = False
         Me.ddl_SourceApplication.IsUnique = False
-        RadListDataItem3.Selected = True
-        RadListDataItem3.Text = "Account Payable"
-        RadListDataItem4.Text = "Account Receivable"
-        Me.ddl_SourceApplication.Items.Add(RadListDataItem3)
-        Me.ddl_SourceApplication.Items.Add(RadListDataItem4)
+        RadListDataItem1.Selected = True
+        RadListDataItem1.Text = "Account Payable"
+        RadListDataItem2.Text = "Account Receivable"
+        Me.ddl_SourceApplication.Items.Add(RadListDataItem1)
+        Me.ddl_SourceApplication.Items.Add(RadListDataItem2)
         Me.ddl_SourceApplication.Location = New System.Drawing.Point(148, 82)
         Me.ddl_SourceApplication.MendatroryField = False
         Me.ddl_SourceApplication.MyLinkLable1 = Nothing
@@ -1076,6 +1084,15 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.SplitterDistance = 337
         Me.SplitContainer1.TabIndex = 6
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(283, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 16
+        Me.btnHistory.Text = "History"
+        '
         'btnOpenBankCashBook
         '
         Me.btnOpenBankCashBook.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1097,14 +1114,74 @@ Partial Class frmReverseTransaction
         Me.btnReverseTransaction.Text = "Reverse And Unpost Transaction"
         Me.btnReverseTransaction.Visible = False
         '
-        'btnHistory
+        'pnlLocation
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(283, 12)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
-        Me.btnHistory.TabIndex = 16
-        Me.btnHistory.Text = "History"
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(13, 127)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(699, 23)
+        Me.pnlLocation.TabIndex = 12149
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(136, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(170, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.CalculationExpression = Nothing
+        Me.txtLocationPrefixName.FieldCode = Nothing
+        Me.txtLocationPrefixName.FieldDesc = Nothing
+        Me.txtLocationPrefixName.FieldMaxLength = 0
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.isCalculatedField = False
+        Me.txtLocationPrefixName.IsSourceFromTable = False
+        Me.txtLocationPrefixName.IsSourceFromValueList = False
+        Me.txtLocationPrefixName.IsUnique = False
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(319, 2)
+        Me.txtLocationPrefixName.MendatroryField = False
+        Me.txtLocationPrefixName.MyLinkLable1 = Nothing
+        Me.txtLocationPrefixName.MyLinkLable2 = Nothing
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.ReadOnly = True
+        Me.txtLocationPrefixName.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefixName.ReferenceFieldName = Nothing
+        Me.txtLocationPrefixName.ReferenceTableName = Nothing
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(377, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        Me.txtLocationPrefixName.TabStop = False
         '
         'frmReverseTransaction
         '
@@ -1172,9 +1249,13 @@ Partial Class frmReverseTransaction
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnOpenBankCashBook, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseTransaction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1238,6 +1319,10 @@ Partial Class frmReverseTransaction
     Friend WithEvents chkIsChequeBounce As common.Controls.MyCheckBox
     Friend WithEvents btnOpenBankCashBook As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents pnlLocation As Panel
+    Friend WithEvents txtLocationPrefixName As common.Controls.MyTextBox
+    Friend WithEvents RadLabel23 As RadLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
 End Class
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _

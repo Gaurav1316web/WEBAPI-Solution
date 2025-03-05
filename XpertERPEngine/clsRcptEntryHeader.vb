@@ -188,7 +188,6 @@ Public Class clsRcptEntryHeader
         Try
             '--------------------Checks Whether the Transaction is Locked or not----------------------------UDL/24/07/18-000206 richa 
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-            Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal Then
             Else
@@ -551,7 +550,7 @@ Public Class clsRcptEntryHeader
                 Dim BankType As String = clsCommon.myCstr(dt.Rows(0)("Bank_type"))
                 Dim isLocationCodeSegment As Boolean
                 Dim BankAcc As String = ""
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     BankAcc = obj.Location_Code_Prefix
                     isLocationCodeSegment = False
                 Else
@@ -592,25 +591,29 @@ Public Class clsRcptEntryHeader
                         ''====Added by Parteek 27/09/2017 Receipt_No location wise
 
                         If clsCommon.CompairString(obj.Receipt_Type, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) > 0 AndAlso clsCommon.myLen(obj.Document_No) <= 0 Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Normal, obj.Location_GL_Code, True)
+                            If objCommonVar.ApplyLocationWisePrefix Then
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Normal, obj.Location_Code_Prefix, False)
+                            Else
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Normal, obj.Location_GL_Code, True)
+                            End If
                             If clsCommon.myLen(obj.Receipt_No) <= 0 Then
                                 Throw New Exception("Please set the location " + obj.Location_GL_Code)
                             End If
                         ElseIf clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowUseApplyDocSeriesForReceipt, clsFixedParameterCode.AllowUseApplyDocSeriesForReceipt, trans)), "1") = CompairStringResult.Equal Then
-                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.ApplyDoc, BankAcc, True)
+                            obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.ApplyDoc, BankAcc, isLocationCodeSegment)
                         Else
-                            If clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) <= 0 Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Bank, BankAcc, True)
+                                If clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) <= 0 Then
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Bank, BankAcc, isLocationCodeSegment)
                             ElseIf clsCommon.CompairString(BankType, "B") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Tax_Group) > 0 Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Tax, BankAcc, True)
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Tax, BankAcc, isLocationCodeSegment)
                             ElseIf clsCommon.CompairString(BankType, "C") = CompairStringResult.Equal Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Cash, BankAcc, True)
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Cash, BankAcc, isLocationCodeSegment)
                             ElseIf clsCommon.CompairString(BankType, "P") = CompairStringResult.Equal Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.PettyCash, BankAcc, True)
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.PettyCash, BankAcc, isLocationCodeSegment)
                             ElseIf clsCommon.CompairString(BankType, "O") = CompairStringResult.Equal Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Others, BankAcc, True)
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Others, BankAcc, isLocationCodeSegment)
                             ElseIf clsCommon.CompairString(BankType, "S") = CompairStringResult.Equal Then
-                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Settlement, BankAcc, True)
+                                obj.Receipt_No = clsERPFuncationality.GetNextCode(trans, obj.Receipt_Date, clsDocType.Receipt, clsDocTransactionType.Settlement, BankAcc, isLocationCodeSegment)
                             Else
                                 Throw New Exception("Please set the Bank Type for Bank " + obj.Bank_Code)
                             End If

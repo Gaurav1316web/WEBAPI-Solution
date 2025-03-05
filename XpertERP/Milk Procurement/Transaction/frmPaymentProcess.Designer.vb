@@ -36,8 +36,9 @@ Partial Class FrmPaymentProcess
         Dim TableViewDefinition36 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
         Me.txtLocationPrefixName = New common.Controls.MyTextBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
         Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.lblPrePending = New common.usLock()
         Me.btnPrintBillMobUser = New Telerik.WinControls.UI.RadButton()
@@ -132,8 +133,9 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
         CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -249,9 +251,7 @@ Partial Class FrmPaymentProcess
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefixName)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel7)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocationPrefix)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.pnlLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblPrePending)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnPrintBillMobUser)
         Me.SplitContainer2.Panel1.Controls.Add(Me.dtpDate)
@@ -291,11 +291,19 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.SplitterDistance = 187
         Me.SplitContainer2.TabIndex = 265
         '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(7, 160)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(440, 23)
+        Me.pnlLocation.TabIndex = 12150
+        '
         'txtLocationPrefixName
         '
-        Me.txtLocationPrefixName.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
         Me.txtLocationPrefixName.CalculationExpression = Nothing
-        Me.txtLocationPrefixName.Enabled = False
         Me.txtLocationPrefixName.FieldCode = Nothing
         Me.txtLocationPrefixName.FieldDesc = Nothing
         Me.txtLocationPrefixName.FieldMaxLength = 0
@@ -304,26 +312,27 @@ Partial Class FrmPaymentProcess
         Me.txtLocationPrefixName.IsSourceFromTable = False
         Me.txtLocationPrefixName.IsSourceFromValueList = False
         Me.txtLocationPrefixName.IsUnique = False
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(250, 156)
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(229, 1)
+        Me.txtLocationPrefixName.MaxLength = 150
         Me.txtLocationPrefixName.MendatroryField = False
         Me.txtLocationPrefixName.MyLinkLable1 = Nothing
         Me.txtLocationPrefixName.MyLinkLable2 = Nothing
         Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.ReadOnly = True
         Me.txtLocationPrefixName.ReferenceFieldDesc = Nothing
         Me.txtLocationPrefixName.ReferenceFieldName = Nothing
         Me.txtLocationPrefixName.ReferenceTableName = Nothing
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(146, 20)
-        Me.txtLocationPrefixName.TabIndex = 300
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(200, 20)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        Me.txtLocationPrefixName.TabStop = False
         '
-        'MyLabel7
+        'RadLabel23
         '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(5, 158)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(52, 16)
-        Me.MyLabel7.TabIndex = 301
-        Me.MyLabel7.Text = "Location "
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
         '
         'txtLocationPrefix
         '
@@ -336,10 +345,10 @@ Partial Class FrmPaymentProcess
         Me.txtLocationPrefix.IsSourceFromTable = False
         Me.txtLocationPrefix.IsSourceFromValueList = False
         Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(112, 157)
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(101, 2)
         Me.txtLocationPrefix.MendatroryField = True
         Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Me.MyLabel7
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
         Me.txtLocationPrefix.MyLinkLable2 = Nothing
         Me.txtLocationPrefix.MyReadOnly = False
         Me.txtLocationPrefix.MyShowMasterFormButton = False
@@ -347,8 +356,8 @@ Partial Class FrmPaymentProcess
         Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
         Me.txtLocationPrefix.ReferenceFieldName = Nothing
         Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(136, 19)
-        Me.txtLocationPrefix.TabIndex = 299
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
         Me.txtLocationPrefix.Value = ""
         '
         'lblPrePending
@@ -1570,8 +1579,10 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
         CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1762,8 +1773,9 @@ Partial Class FrmPaymentProcess
     Friend WithEvents btnPost As RadButton
     Friend WithEvents btnUnpost As RadButton
     Friend WithEvents Label2 As Label
+    Friend WithEvents pnlLocation As Panel
     Friend WithEvents txtLocationPrefixName As common.Controls.MyTextBox
-    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents RadLabel23 As RadLabel
     Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
 End Class

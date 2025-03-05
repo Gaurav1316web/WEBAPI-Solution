@@ -357,7 +357,6 @@ Public Class clsVedorInvoiceHead
         If clsCommon.CompairString(obj.Form_ID, clsUserMgtCode.frmProcurementDeduction) = CompairStringResult.Equal Then
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
         End If
-        Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
         If clsCommon.myCstr(obj.Invoice_Type) = "VS" Then
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.FrmVendorService, obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
         ElseIf obj.is_For_TDS = 1 Then
@@ -391,7 +390,7 @@ Public Class clsVedorInvoiceHead
         Dim strLocation As String
         Dim isLocationCodeSegment As Boolean
 
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             strLocation = obj.Location_Code_Prefix
             isLocationCodeSegment = False
         Else
@@ -501,7 +500,7 @@ Public Class clsVedorInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.loc_code)
         clsCommon.AddColumnsForChange(coll, "IRregular_loc_code", obj.Irregular_loc_code)
         '------------
-        clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix)
+        clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
         clsCommon.AddColumnsForChange(coll, "RCM", IIf(obj.RCM, 1, 0))
         clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Transfer_To_Saving", IIf(obj.Transfer_To_Saving, 1, 0))

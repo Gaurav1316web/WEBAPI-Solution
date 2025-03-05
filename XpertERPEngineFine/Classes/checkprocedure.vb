@@ -1704,7 +1704,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmPaymentProcessFarmer, "Payment Process Farmer", "1.17.02.33", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 27)
         InsertDefaultValue(clsUserMgtCode.frmOutputEntry, "Output Entry", "1.17.02.43", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmAcknowledgementEntry, "Acknowledgement Entry", "1.17.02.44", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile", "1.17.02.45", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile Correction", "1.17.02.45", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.47", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.47", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.48", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)

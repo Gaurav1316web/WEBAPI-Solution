@@ -187,7 +187,6 @@ Public Class FrmAPInvoiceEntry
     Dim UseVLCUploaderCodeMPUploaderCodeInMCCProcurement As Boolean = False
     Dim FORMTYPE As String = Nothing
     Dim CostCenterAndHirerachyCodeUpdateAfterPost As Boolean = False
-    Dim ApplyLocationWisePrefix As Boolean = False
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -231,7 +230,6 @@ Public Class FrmAPInvoiceEntry
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        ApplyLocationWisePrefix = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, Nothing)) = 0, False, True)
         CalculateProvisionOnGateePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateProvisionOnGateePass, clsFixedParameterCode.CalculateProvisionOnGateePass, Nothing))
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         Try
@@ -240,7 +238,7 @@ Public Class FrmAPInvoiceEntry
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
             Me.Close()
         End Try
-        If ApplyLocationWisePrefix Then
+        If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
@@ -3178,7 +3176,7 @@ Public Class FrmAPInvoiceEntry
                 txtDate.Focus()
                 Return False
             End If
-            If ApplyLocationWisePrefix Then
+            If objCommonVar.ApplyLocationWisePrefix Then
                 If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
                     txtLocationPrefix.Focus()
                     Throw New Exception("Please select Location")
@@ -4905,7 +4903,7 @@ Public Class FrmAPInvoiceEntry
                             "Against_Acquisition as [Against Acquisition],TSPL_VENDOR_INVOICE_head.invoice_type as [Invoice Type]," &
                             "against_millkpurchaseinvoice_No as [Against Milk Purchase Invoice No],Against_bulkmillkpurchaseinvoice_No as [Against Bulk Milk Purchase Invoice No]," &
                             "against_asset_work as [Against Asset Work],case when Document_Type='C' then 'Credit Note'  when Document_Type ='D' then 'Debit Note'  when document_type='I' then 'Invoice' end  as [Document Type],case when TSPL_VENDOR_INVOICE_HEAD.GSTRegistered=0 then 'No' else 'Yes' end as GSTRegistered,Purchase_Tax_Invoice,Purchase_Tax_Invoice_Type " &
-                            " ,TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code as [Against Salary Generation],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Plant Name] from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 " &
+                            " ,TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code as [Against Salary Generation],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Plant Name],TSPL_VENDOR_INVOICE_HEAD.Location_Code_Prefix as [Location Code Prefix] from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 " &
                              " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
                              " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
                              "  Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC  Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_MCC_MASTER.Plant_Code   "

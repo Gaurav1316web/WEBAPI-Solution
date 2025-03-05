@@ -66,6 +66,11 @@ Public Class frmVCGLEntry
         ''If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
         ''    If funSetUserAccess() = False Then Exit Sub
         ''End If
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         AllowTransferVSPAmtToFarmerinVCGL = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowTransferVSPAmtToFarmerinVCGL, clsFixedParameterCode.AllowTransferVSPAmtToFarmerinVCGL, Nothing)) = 1, True, False)
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -548,6 +553,8 @@ Public Class frmVCGLEntry
         txtLocSegment.Value = ""
         cboDocType.SelectedIndex = 0
         gv1.Rows.AddNew()
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
     End Sub
 
     Function AllowToSave() As Boolean
@@ -558,6 +565,12 @@ Public Class frmVCGLEntry
             If chkpost = "1" Then
                 clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                 Return False
+            End If
+        End If
+        If objCommonVar.ApplyLocationWisePrefix Then
+            If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                txtLocationPrefix.Focus()
+                Throw New Exception("Please select Location")
             End If
         End If
         UpdateAllTotals()
@@ -635,7 +648,8 @@ Public Class frmVCGLEntry
                     'lblFarmerVendor.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where vendor_Code = '" + obj.FarmerInVendor + "' "))
                 End If
                 obj.Location_Segment = txtLocSegment.Value
-                    obj.VC_Code = TxtVendorNo.Value
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
+                obj.VC_Code = TxtVendorNo.Value
                     obj.VC_Name = lblVendorName.Text
                     obj.Remarks = txtRemarks.Text
                     obj.Tot_Dr_Amount = clsCommon.myCdbl(lblTotDrAmt.Text)
@@ -718,6 +732,12 @@ Public Class frmVCGLEntry
                 txtDate.Value = obj.Document_Date
                 cboDocType.SelectedValue = obj.Document_Type
                 txtLocSegment.Value = obj.Location_Segment
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 TxtVendorNo.Value = obj.VC_Code
                 '===============================update by richa agarwal 3 July,2018 ticket no. KDI/02/07/18-000383 pick vendor name from vendor master table instead of transaction table
                 If clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal Then
@@ -916,7 +936,7 @@ Public Class frmVCGLEntry
     End Sub
     '' Anubhooti 13-Mar-2015 (Fetch Alies Name On Vendor Finder) (KDI/02/07/18-000383 richa )
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select Document_No,convert(varchar,Document_Date,103) as Date,VC_Code as [Vendor/Customer/Farmer],case when ISNULL(Document_Type,'')='C' then TSPL_CUSTOMER_MASTER.Customer_Name when ISNULL(Document_Type,'')='F' then TSPL_MP_MASTER.MP_Name else TSPL_VENDOR_MASTER.Vendor_Name end as [Vendor/Customer/Farmer Name],CASE WHEN ISNULL(Document_Type,'')='C' THEN ISNULL(TSPL_CUSTOMER_MASTER.alies_name,'') WHEN ISNULL(Document_Type,'')='V' THEN ISNULL(TSPL_VENDOR_MASTER.alies_name,'') else ISNULL(TSPL_MP_MASTER.MP_Name,'') END [Alies Name],Remarks,case when TSPL_VCGL_Head.status=1 then 'Posted' else 'Pending' end Status from TSPL_VCGL_Head "
+        Dim qry As String = "select Document_No,convert(varchar,Document_Date,103) as Date,VC_Code as [Vendor/Customer/Farmer],case when ISNULL(Document_Type,'')='C' then TSPL_CUSTOMER_MASTER.Customer_Name when ISNULL(Document_Type,'')='F' then TSPL_MP_MASTER.MP_Name else TSPL_VENDOR_MASTER.Vendor_Name end as [Vendor/Customer/Farmer Name],CASE WHEN ISNULL(Document_Type,'')='C' THEN ISNULL(TSPL_CUSTOMER_MASTER.alies_name,'') WHEN ISNULL(Document_Type,'')='V' THEN ISNULL(TSPL_VENDOR_MASTER.alies_name,'') else ISNULL(TSPL_MP_MASTER.MP_Name,'') END [Alies Name],Remarks,TSPL_VCGL_Head.Location_Code_Prefix as [Location Code Prefix],case when TSPL_VCGL_Head.status=1 then 'Posted' else 'Pending' end Status from TSPL_VCGL_Head "
         qry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VCGL_HEAD.VC_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_HEAD.VC_Code=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_MP_MASTER ON TSPL_VCGL_HEAD.VC_Code=TSPL_MP_MASTER.MP_code "
         Dim whrclas As String = " "
@@ -1340,4 +1360,23 @@ Public Class frmVCGLEntry
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class

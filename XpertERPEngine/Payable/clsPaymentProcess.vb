@@ -126,7 +126,7 @@ Public Class clsPaymentProcessHead
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Loc_Seg_Code", clsCommon.myCstr(obj.Loc_Seg_Code))
-            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(obj.Location_Code_Prefix))
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", clsCommon.myCstr(obj.Location_Code_Prefix), True)
             clsCommon.AddColumnsForChange(coll, "PaymentDesc", clsCommon.myCstr(obj.PaymentDesc))
             clsCommon.AddColumnsForChange(coll, "MCC_Code_Selected", obj.MCC_Code_Selected, True)
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
@@ -150,8 +150,7 @@ Public Class clsPaymentProcessHead
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
                 Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1)
-                Dim ApplyLocationWisePrefix As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyLocationWisePrefix, clsFixedParameterCode.ApplyLocationWisePrefix, trans)) = 0, False, True)
-                If ApplyLocationWisePrefix Then
+                If objCommonVar.ApplyLocationWisePrefix Then
                     obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Location_Code_Prefix, False)
                 Else
                     If MultipleFinderFillAuto Then
@@ -433,7 +432,14 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         Dim objTrPay As clsPaymentAdjustmentEntryDetail = Nothing
                         If AdjAmt > obj.ArrPPDetail(i).Total_Invoice_Amount Then ''ERO/03/09/19-001016 by blaiwnder on 05/09/2019
                             Dim AmtToAdjustInCreditNote As Decimal = AdjAmt - obj.ArrPPDetail(i).Total_Invoice_Amount
-                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
+                            Dim dclRedDeduction As Decimal = 0
+                            For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRTo
+                                If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
+                                    dclRedDeduction = obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
+                                End If
+                            Next
+
+                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount + dclRedDeduction) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
                                 If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
                                     For k As Integer = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
                                         If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
