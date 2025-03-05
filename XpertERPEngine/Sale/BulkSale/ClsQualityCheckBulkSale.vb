@@ -146,6 +146,8 @@ Public Class ClsQualityCheckBulkSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_QUALITY_CHECK_BULKSALE", OMInsertOrUpdate.Update, "TSPL_QUALITY_CHECK_BULKSALE.QC_No='" + obj.QC_No + "'", trans)
             End If
             clsQcParamBulkSale.saveData(obj.arrQcParamDetail, obj.QC_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.QC_No, "TSPL_QUALITY_CHECK_BULKSALE", "QC_No", "TSPL_QC_Parameter_Detail_BulKSALE", "QC_No", trans)
+
             'trans.Commit()
         Catch err As Exception
             'trans.Rollback()
@@ -281,6 +283,9 @@ Public Class ClsQualityCheckBulkSale
 
 
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_QUALITY_CHECK_BULKSALE", "QC_No", "TSPL_QC_Parameter_Detail_BulKSALE", "QC_No", trans)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode,strDocNo, "TSPL_QUALITY_CHECK_BULKSALE", "QC_No", "TSPL_QC_Parameter_Detail_BulKSALE", "QC_No", trans)
 
         Try
             'clsQcParamBulkSale.deleteData(strDocNo)
@@ -320,6 +325,7 @@ Public Class ClsQualityCheckBulkSale
             Dim obj As ClsQualityCheckBulkSale = ClsQualityCheckBulkSale.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmQualityCheckBulkSale, obj.Location_Code, obj.QC_Date, trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.QC_No, "TSPL_QUALITY_CHECK_BULKSALE", "QC_No", "TSPL_QC_Parameter_Detail_BulKSALE", "QC_No", trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.QC_No) <= 0) Then
                 Throw New Exception("No Data found to Post")

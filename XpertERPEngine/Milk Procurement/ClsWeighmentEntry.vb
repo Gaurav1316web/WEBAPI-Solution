@@ -91,6 +91,8 @@ Public Class ClsWeighmentEntry
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WEIGHMENT_DETAIL_BULKSALE", OMInsertOrUpdate.Update, "TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No='" + obj.Weighment_No + "'", trans)
             End If
             clsWeighmentEntryChemberNoDetails.SaveData(obj.Weighment_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
+
             '  trans.Commit()
         Catch err As Exception
             '  trans.Rollback()
@@ -235,6 +237,9 @@ Public Class ClsWeighmentEntry
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmWeighmentEntry, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Weighment_Date")), trans)
 
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
 
         Try
             Dim qry As String = "delete from TSPL_WeighmentBulkSale_Chember_Details where Weighment_No='" + strDocNo + "'"
@@ -272,6 +277,7 @@ Public Class ClsWeighmentEntry
             End If
             Dim obj As ClsWeighmentEntry = ClsWeighmentEntry.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmWeighmentEntry, obj.Location_Code, obj.Weighment_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_No) <= 0) Then
