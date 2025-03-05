@@ -432,7 +432,14 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         Dim objTrPay As clsPaymentAdjustmentEntryDetail = Nothing
                         If AdjAmt > obj.ArrPPDetail(i).Total_Invoice_Amount Then ''ERO/03/09/19-001016 by blaiwnder on 05/09/2019
                             Dim AmtToAdjustInCreditNote As Decimal = AdjAmt - obj.ArrPPDetail(i).Total_Invoice_Amount
-                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
+                            Dim dclRedDeduction As Decimal = 0
+                            For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRTo
+                                If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
+                                    dclRedDeduction = obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
+                                End If
+                            Next
+
+                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount + dclRedDeduction) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
                                 If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
                                     For k As Integer = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
                                         If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then

@@ -247,6 +247,8 @@ Public Class clsCreateAllTable
             coll.Add("Remarks", "varchar(200) Null")
             coll.Add("Toll_Charges", "decimal(18,2) Null")
             coll.Add("Total_Payable_Amount", "decimal(18,2) Null")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True, False, "", "", "", True)
 
@@ -15922,7 +15924,7 @@ Public Class clsCreateAllTable
             coll.Add("Division", "VARCHAR(30)  NULL ")
             coll.Add("Document_Type", "char(1)  NULL ")
             coll.Add("Allotment_Type", "char(1)  NULL ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_ALLOTMENT", coll, Nothing, True, False,"","","",true)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_ALLOTMENT", coll, Nothing, True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("LVALLOTMENT_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_LEAVE_ALLOTMENT(LVALLOTMENT_CODE)")
@@ -22108,7 +22110,7 @@ Public Class clsCreateAllTable
             coll.Add("Retention", "decimal(18,2) NULL")
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             coll.Add("Inter_unit_purchase", "Integer default 0")
-           ' clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
+            ' clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date", True)
 
 
@@ -47295,7 +47297,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("GRN_Qty", "Decimal(18,2) null")
             coll.Add("UOM", "varchar(12) NULL")
             coll.Add("Is_Auto_Weighment", "Integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_DETAIL", coll, Nothing, True, True, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "",true)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_DETAIL", coll, Nothing, True, True, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")

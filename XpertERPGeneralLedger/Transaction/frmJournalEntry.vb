@@ -785,7 +785,7 @@ Public Class frmJournalEntry
         '                     " (SELECT     CASE WHEN Authorized = 'A' THEN 'Posted' ELSE 'Open' END AS Expr1) AS Status,TSPL_JOURNAL_MASTER.Remarks,Auto_Reverse As [Auto Reverse] " & _
         '                     "  FROM         TSPL_JOURNAL_MASTER LEFT OUTER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No"
 
-        Dim qry As String = "SELECT  distinct   TSPL_JOURNAL_MASTER.Voucher_No AS VoucherNo, TSPL_JOURNAL_MASTER.Voucher_Desc AS Description, " &
+        Dim qry As String = "SELECT  distinct   TSPL_JOURNAL_MASTER.Voucher_No AS VoucherNo, TSPL_JOURNAL_MASTER.Voucher_Desc AS Description,TSPL_JOURNAL_MASTER.Location_Code_Prefix as [Location Code Prefix], " &
                             " TSPL_JOURNAL_MASTER.Source_Code AS [Source Type], convert(varchar(11),TSPL_JOURNAL_MASTER.Voucher_Date,103) AS [Voucher Date],  " &
                             " TSPL_JOURNAL_MASTER.Source_Doc_No AS [Document No], convert(varchar(11),TSPL_JOURNAL_MASTER.Source_Doc_Date,103) AS [Document Date], " &
                             " case when TSPL_JOURNAL_MASTER.Source_Code= 'AR-IN' then  TSPL_Customer_Invoice_Head.Against_Sale_No  " &
