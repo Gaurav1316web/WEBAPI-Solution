@@ -2442,8 +2442,182 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             Dim ShiftType As String = ""
+            Dim qry As String = ""
+            Dim itemqry As String = ""
+            Dim Freshitem As String = ""
+            Dim ProductItem As String = ""
 
-            Dim qry As String = "select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
+            Freshitem = "Select max(TSPL_ITEM_MASTER.Short_Description)Fresh_Item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq from TSPL_SD_SHIPMENT_DETAIL
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
+And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' AND ((TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))
+ group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+            ProductItem = "Select max(TSPL_ITEM_MASTER.Short_Description)Product_item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq from TSPL_SD_SHIPMENT_DETAIL
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
+And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1
+ group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+            itemqry = "Select max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq from TSPL_SD_SHIPMENT_DETAIL
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
+And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "'
+ group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+
+            Dim itemName2 As String = Nothing
+            Dim itemName1 As String = Nothing
+            Dim itemNames1 As String = Nothing
+            Dim itemNames2 As String = Nothing
+            Dim itemNamesQty As String = Nothing
+            Dim itemNamesAmt As String = Nothing
+            Dim FinalItemNamesQty As String = Nothing
+            Dim FinalItemNamesAmt As String = Nothing
+            Dim ProductIemName As String = Nothing
+            Dim FreshItemName As String = Nothing
+            Dim FreshItemsName As String = Nothing
+            Dim ProductIemsName As String = Nothing
+            Dim ProductItemsAmt As String = Nothing
+            Dim ItemSubGroup As String = Nothing
+            Dim ItemSubGroupAvg As String = Nothing
+            Dim ItemsSubGroup As String = Nothing
+            Dim itemNamesFresh As String = Nothing
+            Dim itemNamesProduct As String = Nothing
+            Dim FreshItemNameMax As String = Nothing
+            Dim ProductItemNameMax As String = Nothing
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(itemqry)
+            Dim dtFresh As DataTable = clsDBFuncationality.GetDataTable(Freshitem)
+            Dim dtProduct As DataTable = clsDBFuncationality.GetDataTable(ProductItem)
+
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    'itemName1 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]" + ","
+                    itemName2 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]" + ","
+                    FinalItemNamesQty += "SUM(XXFINAL.[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]" + ","
+                    FinalItemNamesAmt += "SUM(XXFINAL.[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]" + ","
+
+                    If i = 0 Then
+                        itemNamesQty += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                        itemNamesAmt += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        itemNames1 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNames2 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
+                        itemName1 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+
+                    Else
+                        itemNamesQty += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                        itemNamesAmt += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        itemNames1 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNames2 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
+                        itemName1 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+
+
+                    End If
+                Next
+            End If
+            If dtFresh.Rows.Count > 0 Then
+                For i As Integer = 0 To dtFresh.Rows.Count - 1
+                    FreshItemName += " Sum(IsNull([" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "]" + ","
+                    FreshItemNameMax += "max(IsNull([" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "]" + ","
+                    If i = 0 Then
+                        itemNamesFresh += "ISNULL([" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "],0)"
+                        FreshItemsName += "[" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "] "
+                    Else
+                        itemNamesFresh += "+" + "ISNULL([" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "],0)"
+                        FreshItemsName += ", [" + clsCommon.myCstr(dtFresh.Rows(i)("Fresh_Item")) + "] "
+                    End If
+                Next
+            End If
+            If dtProduct.Rows.Count > 0 Then
+                For i As Integer = 0 To dtProduct.Rows.Count - 1
+                    ProductIemName += "Sum(IsNull([" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "],0)) As [" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "]" + ","
+                    ProductItemNameMax += " max(IsNull([" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "],0)) As [" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "]" + ","
+                    If i = 0 Then
+                        itemNamesProduct += "ISNULL([" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "],0)"
+                        ProductIemsName += "[" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "] "
+                    Else
+                        itemNamesProduct += "+" + "ISNULL([" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "],0)"
+
+                        ProductIemsName += ", [" + clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) + "] "
+                    End If
+                Next
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                qry = "Select Cust_Code,max(Customer_Name)Customer_Name, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) as Short_Description,
+sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
+
+from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+   TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
+  round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
+                ,round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
+				case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item
+    from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+  Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code  
+  Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+  Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code = I.item_code 
+
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
+and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
+)XXFinal
+group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+
+                If dtFresh.Rows.Count > 0 Then
+                    qry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProduct.Rows.Count > 0 Then
+                    qry += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                qry += " group by Cust_Code "
+
+                qry += " Union all 
+                       Select '' as Cust_Code,'Total' as Customer_Name ," & itemName1 & " ,sum(Amount) as Amount
+from (Select 1 AS Sno,Cust_Code,max(Customer_Name)Customer_Name, " & itemName1 & " ,sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) as Short_Description,
+sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
+
+from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+   TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
+  round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
+                ,round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
+				case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item
+    from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+  Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code  
+  Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+  Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code = I.item_code 
+
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='27-Nov-2024'
+and Route_No='HMH-B RT' and Shift_Type='PM' and status=1 )
+)XXFinal
+group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+                If dtFresh.Rows.Count > 0 Then
+                    qry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProduct.Rows.Count > 0 Then
+                    qry += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+
+                qry += " group by Cust_Code )XX group by SNo "
+            Else
+                qry = "select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount
 from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
@@ -2463,6 +2637,8 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
+
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             MyRadGridView1.DataSource = Nothing
