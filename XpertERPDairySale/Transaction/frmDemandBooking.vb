@@ -3320,8 +3320,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub TruckSheetExcel(ByVal TripNo As String)
+    Private Sub TruckSheetExcel(ByVal isExcelPDF As Boolean, ByVal TripNo As String)
         Dim BaseQry As String = Nothing
+        Dim doc As New clsMyPrintDocument()
         Dim GVTruckSheet As New RadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
@@ -3597,10 +3598,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + Environment.NewLine + "क्रेट"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.TopRight
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + Environment.NewLine + "थैली"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.TopRight
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " क्रेट"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " थैली"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate = True, chkCrate, chkCratePouch))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch = True, True, False))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#L").IsVisible = False
@@ -3608,18 +3609,18 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Next
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) + Environment.NewLine + " "
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.TopRight
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) + " "
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next
             ElseIf rbtn_Fresh.IsChecked = True Then
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + Environment.NewLine + "क्रेट"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.TopRight
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + Environment.NewLine + "थैली"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.TopRight
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " क्रेट"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " थैली"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate = True, chkCrate, chkCratePouch))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch = True, True, False))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#L").IsVisible = False
@@ -3628,8 +3629,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             ElseIf rbtn_Ambient.IsChecked = True Then
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) + Environment.NewLine + " "
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.TopRight
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) +  " "
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next
             End If
@@ -3801,17 +3802,60 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
             End If
 
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))
-            arrHeader.Add("Route : " & lblRouteDesc.Text & "    City : " & lblCityName.Text & "   Distributor : " & lblTransporterName.Text)
-            'arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
-            'arrHeader.Add("Route : " & lblRouteDesc.Text)
-            'arrHeader.Add("City : " & lblCityName.Text)
-            'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
-            'arrHeader.Add("Distributor : " & lblTransporterName.Text)
-            'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
-            transportSql.exportdata(GVTruckSheet, "", "Truck Sheet", , arrHeader, False, False, True)
+            If isExcelPDF Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))
+                arrHeader.Add("Route : " & lblRouteDesc.Text & "    City : " & lblCityName.Text & "   Distributor : " & lblTransporterName.Text)
+                'arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
+                'arrHeader.Add("Route : " & lblRouteDesc.Text)
+                'arrHeader.Add("City : " & lblCityName.Text)
+                'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+                'arrHeader.Add("Distributor : " & lblTransporterName.Text)
+                'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
+                transportSql.exportdata(GVTruckSheet, "", "Truck Sheet", , arrHeader, False, False, True)
+            Else
+                'doc.HeaderHeight = 60
+                'doc.Landscape = True
+                'doc.AssociatedObject = GVTruckSheet
+                'doc.HeaderFont = New Font("Arial", 8)
+                'doc.LeftUpperText = "Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy"))
+                'doc.LeftUpperFont = New Font("Arial", 8)
+                'doc.MiddleHeader = "City : " & lblCityName.Text
+                'doc.RightHeader = "Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening")
+                'doc.LeftMiddleText = "Route : " & lblRouteDesc.Text
+                'doc.LeftMiddleFont = New Font("Arial", 8)
+                'doc.LeftLowerText = "Distributor : " & lblTransporterName.Text & " || " & "Trip : " & clsCommon.myCstr(txtTripNo.Text)
+                'doc.LeftLowerFont = New Font("Arial", 8)
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 90
+                doc.Landscape = True
+                doc.AssociatedObject = GVTruckSheet
+                'Dim strHeader As String = "Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy"))
+                'strHeader += "  Route : " & lblRouteDesc.Text
+                'strHeader += "  City : " & lblCityName.Text
+                'strHeader += "  Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening")
+                'strHeader += "  Distributor : " & lblTransporterName.Text
+                'strHeader += "  Trip : " & clsCommon.myCstr(txtTripNo.Text)
+                Dim strHeader As String = "Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy"))
+                Dim strHeader2 As String = "Route : " & lblRouteDesc.Text
+                strHeader2 += " City : " & lblCityName.Text
+                strHeader2 += " Distributor : " & lblTransporterName.Text
+                strHeader2 += " Trip : " & clsCommon.myCstr(txtTripNo.Text)
+                strHeader2 += " Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening")
+                doc.LeftUpperText = strHeader
+                doc.LeftHeader = strHeader2
+                doc.LeftUpperFont = New Font("Arial", 16, FontStyle.Bold)
+                doc.HeaderFont = New Font("Arial", 16, FontStyle.Bold)
+                doc.AssociatedObject = GVTruckSheet
+                doc.Print()
+                doc = Nothing
+            End If
+
         Catch ex As Exception
+            doc = Nothing
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(GVTruckSheet)
@@ -4581,7 +4625,32 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         TruckSheet(EnumExportTo.Excel, TripNO)
     End Sub
     Private Sub rmi_TS_PDF_Click(sender As Object, e As EventArgs) Handles rmi_TS_PDF.Click
-        TruckSheet(EnumExportTo.PDF, "ALL")
+        Dim TripNO As String = ""
+        Dim qry As String = "select distinct CAST(Trip_No AS VARCHAR(10)) as Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        dr = dt.NewRow()
+        dr("Code") = "ALL"
+        'dr("Name") = "ALL"
+        dt.Rows.Add(dr)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            TripNO = clsCommon.myCstr(dt.Rows(0)("Code"))
+            If dt.Rows.Count > 1 Then
+                Dim frmFC As New FrmFreeComboBox
+                frmFC.ComboSource = dt
+                frmFC.ComboValueMember = "Code"
+                frmFC.ComboDisplayMember = "Code"
+                frmFC.LabelCaption = "Trip No"
+                frmFC.ShowDialog()
+                TripNO = frmFC.strRetValue
+            End If
+            If clsCommon.myLen(TripNO) > 0 Then
+                'If clsCommon.myLen(txtMCC.Value) > 0 Then
+                '    RefreshMCCCollectionDetail(txtMCC.Value, strMilkType, Nothing)
+                'End If
+                'LoadTransactionData(strMilkType)
+            End If
+        End If
+        TruckSheet(EnumExportTo.PDF, TripNO)
     End Sub
     Private Sub TruckSheet(ByVal exporter As EnumExportTo, ByVal TripNo As String)
         Try
@@ -4597,9 +4666,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             End If
             clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='Y' where document_no='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'")
             If exporter = EnumExportTo.Excel Then
-                TruckSheetExcel(TripNo)
-            Else
-                TruckSheetPDF()
+                TruckSheetExcel(True, TripNo)
+            End If
+            If exporter = EnumExportTo.PDF Then
+                TruckSheetExcel(False, TripNo)
+                'TruckSheetPDF()
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                 SplitButtonTruckSheet.Enabled = True
