@@ -145,6 +145,7 @@ Partial Class FrmBulkMilkSRN
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -272,6 +273,7 @@ Partial Class FrmBulkMilkSRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -290,6 +292,7 @@ Partial Class FrmBulkMilkSRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseRec)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintPO)
@@ -1415,6 +1418,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvItem.Size = New System.Drawing.Size(1172, 181)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'QcDetails
         '
@@ -1684,6 +1688,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1168, 100)
         Me.gvParam.TabIndex = 264
+        Me.gvParam.VarID = ""
         '
         'RadGroupBox2
         '
@@ -1712,6 +1717,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvRange.ShowHeaderCellButtons = True
         Me.gvRange.Size = New System.Drawing.Size(1168, 95)
         Me.gvRange.TabIndex = 264
+        Me.gvRange.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -2099,6 +2105,16 @@ Partial Class FrmBulkMilkSRN
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(865, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 48
+        Me.btnHistory.Text = "History"
+        '
         'FrmBulkMilkSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2246,6 +2262,7 @@ Partial Class FrmBulkMilkSRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2370,5 +2387,6 @@ Partial Class FrmBulkMilkSRN
     Friend WithEvents txtTransportCharges As common.MyNumBox
     Friend WithEvents fndReferenceNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

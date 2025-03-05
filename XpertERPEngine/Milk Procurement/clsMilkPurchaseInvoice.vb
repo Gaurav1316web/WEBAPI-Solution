@@ -902,6 +902,10 @@ Public Class clsMilkPurchaseInvoiceHead
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("DOC_DATE")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_PI_REMITTANCE where Document_No='" + strDocNo + "'", trans)
             Dim qry2 As String = "delete from TSPL_BULK_MILK_PURCHASE_INVOICE_head where DOc_no='" & strDocNo & "'"
             Dim qry1 As String = "delete from TSPL_BULK_MILK_PURCHASE_INVOICE_detail where doc_no='" & strDocNo & "'"
@@ -1023,6 +1027,7 @@ Public Class clsMilkPurchaseInvoiceHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", OMInsertOrUpdate.Update, "TSPL_BULK_MILK_PURCHASE_INVOICE_head.DOC_No='" + obj.DOC_NO + "'", trans)
             End If
             clsMilkPurchaseInvoiceDetail.saveData(obj.arrDetail, obj.DOC_NO, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_NO, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
             clsPIRemittance.SaveData(obj.objPIRemittance, obj.DOC_NO, obj.DOC_DATE, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

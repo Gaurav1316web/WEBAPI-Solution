@@ -581,6 +581,8 @@ Public Class FrmGateOut
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Gate_Out", "Doc_no", Nothing)
+
                 Dim strQry As String = "update TSPL_Gate_Out set IsPosted='1' where DOC_no='" & fndDocNo.Value & "'"
                 clsDBFuncationality.ExecuteNonQuery(strQry)
                 common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
@@ -612,5 +614,15 @@ Public Class FrmGateOut
         End Try
     End Sub
 
- 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndDocNo.Value, "Doc_no", "TSPL_Gate_Out")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
