@@ -178,6 +178,8 @@ Public Class clsGateEntry
             End If
             issaved = issaved AndAlso clsChemberNoDetails.SaveData(obj.Gate_Entry_No, obj.Arr1, trans)
             issaved = issaved AndAlso clsGateEntryChemberNoDetails.SaveData(obj.Gate_Entry_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Entry_No, "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -489,6 +491,7 @@ Public Class clsGateEntry
 
             End If
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_Gate_Entry_Price_Chart", "GE_Code", trans)
@@ -822,6 +825,7 @@ Public Class clsGateEntry
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
 
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
             Dim Qry As String = "select isPosted from Tspl_Gate_Entry_Details where Gate_Entry_No='" + strDocNo + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")

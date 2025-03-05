@@ -2506,4 +2506,16 @@ Public Class FrmWeighment
     Private Sub txtNewTare_TextChanged(sender As Object, e As EventArgs) Handles txtNewTare.TextChanged
         txtNewNetWt.Value = clsCommon.myCdbl(txtNewGross.Value) - clsCommon.myCdbl(txtNewTare.Value)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndDocNO.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndDocNO.Value, "Weighment_No", "TSPL_Weighment_Detail", "TSPL_Weighment_Chember_Details")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -383,6 +383,8 @@ Public Class ClsTankerOut
             Else
                 isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GATEOUT_SALE", OMInsertOrUpdate.Update, "TSPL_GATEOUT_SALE.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_GATEOUT_SALE", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

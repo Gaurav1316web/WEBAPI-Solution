@@ -22,8 +22,8 @@ Partial Class FrmWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -99,6 +99,7 @@ Partial Class FrmWeighment
         Me.mnuDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.gvItemMcc = New Telerik.WinControls.UI.MasterGridViewTemplate()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -172,6 +173,7 @@ Partial Class FrmWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemMcc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -220,6 +222,7 @@ Partial Class FrmWeighment
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPost)
@@ -1216,12 +1219,13 @@ Partial Class FrmWeighment
         '
         Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
         Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(1133, 198)
         Me.gvItemBulk.TabIndex = 264
+        Me.gvItemBulk.VarID = ""
         '
         'btnPrint
         '
@@ -1315,7 +1319,17 @@ Partial Class FrmWeighment
         '
         'gvItemMcc
         '
-        Me.gvItemMcc.ViewDefinition = TableViewDefinition2
+        Me.gvItemMcc.ViewDefinition = TableViewDefinition4
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(359, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'FrmWeighment
         '
@@ -1408,6 +1422,7 @@ Partial Class FrmWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemMcc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1488,5 +1503,6 @@ Partial Class FrmWeighment
     Friend WithEvents txtLineNo As common.MyNumBox
     Friend WithEvents fndRefrencesNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

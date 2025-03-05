@@ -22,6 +22,8 @@ Partial Class FrmBulkSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -72,6 +74,7 @@ Partial Class FrmBulkSaleReturn
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTCSTaxRate = New common.MyNumBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
@@ -92,7 +95,7 @@ Partial Class FrmBulkSaleReturn
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtTCSTaxRate = New common.MyNumBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -140,6 +143,7 @@ Partial Class FrmBulkSaleReturn
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,7 +160,7 @@ Partial Class FrmBulkSaleReturn
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -173,6 +177,7 @@ Partial Class FrmBulkSaleReturn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -196,7 +201,6 @@ Partial Class FrmBulkSaleReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(874, 449)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -454,7 +458,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblDispatchLocation.Name = "lblDispatchLocation"
         Me.lblDispatchLocation.Size = New System.Drawing.Size(292, 20)
         Me.lblDispatchLocation.TabIndex = 308
-        Me.lblDispatchLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel58
         '
@@ -580,7 +583,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(147, 19)
         Me.lblLocationCode.TabIndex = 304
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCustomerCode
         '
@@ -591,7 +593,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblCustomerCode.Name = "lblCustomerCode"
         Me.lblCustomerCode.Size = New System.Drawing.Size(148, 19)
         Me.lblCustomerCode.TabIndex = 303
-        Me.lblCustomerCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGateEntryNo
         '
@@ -602,7 +603,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblGateEntryNo.Name = "lblGateEntryNo"
         Me.lblGateEntryNo.Size = New System.Drawing.Size(147, 19)
         Me.lblGateEntryNo.TabIndex = 302
-        Me.lblGateEntryNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -681,7 +681,6 @@ Partial Class FrmBulkSaleReturn
         Me.LblSiloName.Name = "LblSiloName"
         Me.LblSiloName.Size = New System.Drawing.Size(292, 20)
         Me.LblSiloName.TabIndex = 296
-        Me.LblSiloName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'FndSiloNo
         '
@@ -738,7 +737,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(291, 20)
         Me.lblCustomerName.TabIndex = 9
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -785,7 +783,6 @@ Partial Class FrmBulkSaleReturn
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(291, 20)
         Me.LblLocationName.TabIndex = 12
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -863,10 +860,13 @@ Partial Class FrmBulkSaleReturn
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -874,7 +874,7 @@ Partial Class FrmBulkSaleReturn
         Me.gv1.Size = New System.Drawing.Size(828, 178)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'RadLabel1
         '
@@ -905,7 +905,7 @@ Partial Class FrmBulkSaleReturn
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(332, 1)
         Me.btnAddNew.Name = "btnAddNew"
@@ -925,6 +925,34 @@ Partial Class FrmBulkSaleReturn
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(853, 403)
         Me.RadPageViewPage2.Text = "Taxes"
+        '
+        'txtTCSTaxRate
+        '
+        Me.txtTCSTaxRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTCSTaxRate.CalculationExpression = Nothing
+        Me.txtTCSTaxRate.DecimalPlaces = 0
+        Me.txtTCSTaxRate.FieldCode = Nothing
+        Me.txtTCSTaxRate.FieldDesc = Nothing
+        Me.txtTCSTaxRate.FieldMaxLength = 0
+        Me.txtTCSTaxRate.FieldName = Nothing
+        Me.txtTCSTaxRate.isCalculatedField = False
+        Me.txtTCSTaxRate.IsSourceFromTable = False
+        Me.txtTCSTaxRate.IsSourceFromValueList = False
+        Me.txtTCSTaxRate.IsUnique = False
+        Me.txtTCSTaxRate.Location = New System.Drawing.Point(718, 10)
+        Me.txtTCSTaxRate.MendatroryField = False
+        Me.txtTCSTaxRate.MyLinkLable1 = Nothing
+        Me.txtTCSTaxRate.MyLinkLable2 = Nothing
+        Me.txtTCSTaxRate.Name = "txtTCSTaxRate"
+        Me.txtTCSTaxRate.ReferenceFieldDesc = Nothing
+        Me.txtTCSTaxRate.ReferenceFieldName = Nothing
+        Me.txtTCSTaxRate.ReferenceTableName = Nothing
+        Me.txtTCSTaxRate.Size = New System.Drawing.Size(115, 20)
+        Me.txtTCSTaxRate.TabIndex = 1410
+        Me.txtTCSTaxRate.Text = "0"
+        Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Visible = False
         '
         'GroupBox3
         '
@@ -1003,7 +1031,6 @@ Partial Class FrmBulkSaleReturn
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 17
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'gv2
@@ -1019,18 +1046,21 @@ Partial Class FrmBulkSaleReturn
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(4, 38)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(846, 342)
         Me.gv2.TabIndex = 19
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
+        Me.gv2.VarID = ""
         '
         'Attachments
         '
@@ -1125,57 +1155,31 @@ Partial Class FrmBulkSaleReturn
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(874, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RMSaveLayout, Me.RMDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RMSaveLayout
         '
-        Me.RMSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RMSaveLayout.AccessibleName = "Save Layout"
         Me.RMSaveLayout.Name = "RMSaveLayout"
         Me.RMSaveLayout.Text = "Save Layout"
         '
         'RMDeleteLayout
         '
-        Me.RMDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RMDeleteLayout.AccessibleName = "Delete Layout"
         Me.RMDeleteLayout.Name = "RMDeleteLayout"
         Me.RMDeleteLayout.Text = "Delete Layout"
         '
-        'txtTCSTaxRate
+        'btnHistory
         '
-        Me.txtTCSTaxRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtTCSTaxRate.CalculationExpression = Nothing
-        Me.txtTCSTaxRate.DecimalPlaces = 0
-        Me.txtTCSTaxRate.FieldCode = Nothing
-        Me.txtTCSTaxRate.FieldDesc = Nothing
-        Me.txtTCSTaxRate.FieldMaxLength = 0
-        Me.txtTCSTaxRate.FieldName = Nothing
-        Me.txtTCSTaxRate.isCalculatedField = False
-        Me.txtTCSTaxRate.IsSourceFromTable = False
-        Me.txtTCSTaxRate.IsSourceFromValueList = False
-        Me.txtTCSTaxRate.IsUnique = False
-        Me.txtTCSTaxRate.Location = New System.Drawing.Point(718, 10)
-        Me.txtTCSTaxRate.MendatroryField = False
-        Me.txtTCSTaxRate.MyLinkLable1 = Nothing
-        Me.txtTCSTaxRate.MyLinkLable2 = Nothing
-        Me.txtTCSTaxRate.Name = "txtTCSTaxRate"
-        Me.txtTCSTaxRate.ReferenceFieldDesc = Nothing
-        Me.txtTCSTaxRate.ReferenceFieldName = Nothing
-        Me.txtTCSTaxRate.ReferenceTableName = Nothing
-        Me.txtTCSTaxRate.Size = New System.Drawing.Size(115, 20)
-        Me.txtTCSTaxRate.TabIndex = 1410
-        Me.txtTCSTaxRate.Text = "0"
-        Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
-        Me.txtTCSTaxRate.Visible = False
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(502, 15)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
         '
         'FrmBulkSaleReturn
         '
@@ -1240,6 +1244,7 @@ Partial Class FrmBulkSaleReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1257,7 +1262,7 @@ Partial Class FrmBulkSaleReturn
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1334,5 +1339,6 @@ Partial Class FrmBulkSaleReturn
     Friend WithEvents MyLabel22 As common.Controls.MyLabel
     Friend WithEvents lblDocumentAmount As common.Controls.MyLabel
     Friend WithEvents txtTCSTaxRate As common.MyNumBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -55,6 +55,7 @@ Partial Class frmOutgoingQCEntry
         Me.txtlocation = New common.UserControls.txtFinder()
         Me.lblBMC = New common.Controls.MyLabel()
         Me.lblRoute = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
@@ -91,6 +92,7 @@ Partial Class frmOutgoingQCEntry
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,6 +115,7 @@ Partial Class frmOutgoingQCEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -508,6 +511,7 @@ Partial Class frmOutgoingQCEntry
         Me.gv1.Size = New System.Drawing.Size(986, 190)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'lblfgcode
         '
@@ -604,6 +608,16 @@ Partial Class frmOutgoingQCEntry
         Me.lblRoute.Size = New System.Drawing.Size(49, 18)
         Me.lblRoute.TabIndex = 392
         Me.lblRoute.Text = "FG Code"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(377, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.TabIndex = 441
+        Me.btnHistory.Text = "History"
         '
         'btnReverse
         '
@@ -709,6 +723,7 @@ Partial Class frmOutgoingQCEntry
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -757,4 +772,5 @@ Partial Class frmOutgoingQCEntry
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtAccept As Label
+    Friend WithEvents btnHistory As RadButton
 End Class
