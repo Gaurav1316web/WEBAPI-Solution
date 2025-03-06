@@ -154,6 +154,8 @@ Public Class ClsCanSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAN_SALE_HEAD", OMInsertOrUpdate.Update, "TSPL_CAN_SALE_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             ClsCanSaleDetail.saveData(obj.arrCanSaleDetail, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally
@@ -266,6 +268,8 @@ Public Class ClsCanSale
             Dim obj As New ClsCanSale()
             obj = ClsCanSale.GetData(strDocNo)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
             Dim qry As String = ""
                 qry = "delete from TSPL_CAN_SALE_DETAIL where Document_No='" + strDocNo + "'"
@@ -801,6 +805,8 @@ Public Class ClsCanSaleDispatch
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CANSALE_DISPATCH_HEAD", OMInsertOrUpdate.Update, "TSPL_CANSALE_DISPATCH_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             ClsCanSaleDispatchDetail.saveData(obj.arrCanSaleDispatchDetail, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_DISPATCH_HEAD", "Document_No", "TSPL_CANSALE_DISPATCH_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally
@@ -833,6 +839,7 @@ Public Class ClsCanSaleDispatch
             End If
             CreateInventoryMovement(obj, trans, settTankerDispatchAvgFATSNFPer)
             CreateJournalEntry(obj.Document_No, arrLoc, trans, "")
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_DISPATCH_HEAD", "Document_No", "TSPL_CANSALE_DISPATCH_DETAIL", "Document_No", trans)
 
             Dim qry = "Update TSPL_CANSALE_DISPATCH_HEAD set Posted=1, " &
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "'  " &
@@ -1869,6 +1876,8 @@ Public Class ClsCanSaleInvoice
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CANSALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_CANSALE_INVOICE_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             ClsCanSaleInvoiceDetail.saveData(obj.arrCanSaleInvoiceDetail, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_INVOICE_HEAD", "Document_No", "TSPL_CANSALE_INVOICE_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally
@@ -1997,6 +2006,7 @@ Public Class ClsCanSaleInvoice
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_INVOICE_HEAD", "Document_No", "TSPL_CANSALE_INVOICE_DETAIL", "Document_No", trans)
 
 
             createARInvoice(obj, "", "", trans)

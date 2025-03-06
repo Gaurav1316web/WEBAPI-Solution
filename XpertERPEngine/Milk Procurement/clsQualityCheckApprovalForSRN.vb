@@ -77,6 +77,8 @@ Public Class clsQualityCheckApprovalForSRN
 
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_APPROVAL_ENTRY", "Document_Code", trans)
+
             'If clsCommon.CompairString(objtr.QC_Status, "Rejected") = CompairStringResult.Equal Then
             '    clsCommon.MyMessageBoxShow("Data cannot be saved.")
             'Else

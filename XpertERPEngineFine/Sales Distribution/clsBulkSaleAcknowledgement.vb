@@ -79,6 +79,8 @@ Public Class clsBulkSaleAcknowledgement
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", OMInsertOrUpdate.Update, "TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally
@@ -93,6 +95,10 @@ Public Class clsBulkSaleAcknowledgement
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
             Dim qry As String = "delete from TSPL_BULK_SALE_ACKNOWLEDGEMENT where Document_No='" + strDocNo + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
@@ -196,6 +202,7 @@ Public Class clsBulkSaleAcknowledgement
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Dispatch No not found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)

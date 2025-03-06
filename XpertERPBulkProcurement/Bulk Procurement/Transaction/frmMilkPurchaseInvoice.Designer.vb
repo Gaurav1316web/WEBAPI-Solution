@@ -22,8 +22,8 @@ Partial Class FrmMilkPurchaseInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -102,6 +102,7 @@ Partial Class FrmMilkPurchaseInvoice
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtTotalAmt = New common.Controls.MyTextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnBillOfSupply = New Telerik.WinControls.UI.RadButton()
@@ -195,6 +196,7 @@ Partial Class FrmMilkPurchaseInvoice
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBillOfSupply, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -223,6 +225,7 @@ Partial Class FrmMilkPurchaseInvoice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnViewTDSDetails)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBillOfSupply)
@@ -938,7 +941,7 @@ Partial Class FrmMilkPurchaseInvoice
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -946,6 +949,7 @@ Partial Class FrmMilkPurchaseInvoice
         Me.gv1.Size = New System.Drawing.Size(1114, 212)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1071,7 +1075,7 @@ Partial Class FrmMilkPurchaseInvoice
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1079,6 +1083,7 @@ Partial Class FrmMilkPurchaseInvoice
         Me.gv2.Size = New System.Drawing.Size(1109, 292)
         Me.gv2.TabIndex = 10
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1542,6 +1547,16 @@ Partial Class FrmMilkPurchaseInvoice
         Me.txtTotalAmt.TabIndex = 347
         Me.txtTotalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(777, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 21)
+        Me.btnHistory.TabIndex = 47
+        Me.btnHistory.Text = "History"
+        '
         'btnViewTDSDetails
         '
         Me.btnViewTDSDetails.Enabled = False
@@ -1773,6 +1788,7 @@ Partial Class FrmMilkPurchaseInvoice
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBillOfSupply, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1883,5 +1899,6 @@ Partial Class FrmMilkPurchaseInvoice
     Friend WithEvents txtAmtAfterTDS As common.Controls.MyTextBox
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtTDSAmt As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

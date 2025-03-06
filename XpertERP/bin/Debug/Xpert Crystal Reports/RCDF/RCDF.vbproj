@@ -1840,6 +1840,7 @@
     <None Include="Crystal Reports\Sales Report\crptGatePassPreprinted.rpt" />
     <None Include="Crystal Reports\Sales Report\crptGatePassPreprintedold.rpt" />
     <None Include="Crystal Reports\Sales Report\crptGatePassVizag.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptGheeReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptGLVoucher.rpt" />
     <None Include="Crystal Reports\Sales Report\crptInventoryMovement.rpt" />
     <None Include="Crystal Reports\Sales Report\crptInvoiceAgainstInward.rpt" />
@@ -1961,6 +1962,7 @@
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptTcsSummaryReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscCrosstabReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscInvoicewise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTradeDiscount.rpt" />

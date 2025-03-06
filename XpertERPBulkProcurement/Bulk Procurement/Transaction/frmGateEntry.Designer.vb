@@ -167,6 +167,7 @@ Partial Class FrmGateEntry
         Me.gvManualSeal = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvPaperSeal = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -299,6 +300,7 @@ Partial Class FrmGateEntry
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gvPaperSeal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvPaperSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -385,6 +387,7 @@ Partial Class FrmGateEntry
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnUpdateFatSnfForContractor)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnUpdatePrice)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btn_amendment)
@@ -2230,6 +2233,16 @@ Partial Class FrmGateEntry
         Me.gvPaperSeal.TabIndex = 202
         Me.gvPaperSeal.VarID = ""
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(822, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
+        '
         'FrmGateEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2385,6 +2398,7 @@ Partial Class FrmGateEntry
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gvPaperSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvPaperSeal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2524,5 +2538,6 @@ Partial Class FrmGateEntry
     Friend WithEvents GrpRouteOrTankerDispatch As RadGroupBox
     Friend WithEvents chkAgainstRoute As RadRadioButton
     Friend WithEvents chkAgainstTankerDispatch As RadRadioButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -23,6 +23,10 @@ Partial Class FrmQualityCheck
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem25 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem26 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem27 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem28 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -43,14 +47,10 @@ Partial Class FrmQualityCheck
         Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem19 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem22 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem23 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpQCInDateTime = New common.Controls.MyDateTimePicker()
         Me.lblQcInDateAndTime = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
@@ -191,6 +191,7 @@ Partial Class FrmQualityCheck
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dtpQCInDateTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQcInDateAndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStatusValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -334,6 +335,7 @@ Partial Class FrmQualityCheck
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -811,14 +813,14 @@ Partial Class FrmQualityCheck
         Me.CmbMachine.IsSourceFromTable = False
         Me.CmbMachine.IsSourceFromValueList = False
         Me.CmbMachine.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.CmbMachine.Items.Add(RadListDataItem1)
-        Me.CmbMachine.Items.Add(RadListDataItem2)
-        Me.CmbMachine.Items.Add(RadListDataItem3)
-        Me.CmbMachine.Items.Add(RadListDataItem4)
+        RadListDataItem25.Text = "COM1"
+        RadListDataItem26.Text = "COM2"
+        RadListDataItem27.Text = "COM3"
+        RadListDataItem28.Text = "COM4"
+        Me.CmbMachine.Items.Add(RadListDataItem25)
+        Me.CmbMachine.Items.Add(RadListDataItem26)
+        Me.CmbMachine.Items.Add(RadListDataItem27)
+        Me.CmbMachine.Items.Add(RadListDataItem28)
         Me.CmbMachine.Location = New System.Drawing.Point(594, 58)
         Me.CmbMachine.MendatroryField = True
         Me.CmbMachine.MyLinkLable1 = Me.MyLabel9
@@ -883,14 +885,14 @@ Partial Class FrmQualityCheck
         Me.CMbCOmport.IsSourceFromTable = False
         Me.CMbCOmport.IsSourceFromValueList = False
         Me.CMbCOmport.IsUnique = False
-        RadListDataItem5.Text = "COM1"
-        RadListDataItem6.Text = "COM2"
-        RadListDataItem7.Text = "COM3"
-        RadListDataItem8.Text = "COM4"
-        Me.CMbCOmport.Items.Add(RadListDataItem5)
-        Me.CMbCOmport.Items.Add(RadListDataItem6)
-        Me.CMbCOmport.Items.Add(RadListDataItem7)
-        Me.CMbCOmport.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        Me.CMbCOmport.Items.Add(RadListDataItem1)
+        Me.CMbCOmport.Items.Add(RadListDataItem2)
+        Me.CMbCOmport.Items.Add(RadListDataItem3)
+        Me.CMbCOmport.Items.Add(RadListDataItem4)
         Me.CMbCOmport.Location = New System.Drawing.Point(427, 58)
         Me.CMbCOmport.MendatroryField = True
         Me.CMbCOmport.MyLinkLable1 = Me.MyLabel17
@@ -934,14 +936,14 @@ Partial Class FrmQualityCheck
         Me.CmbEcoProAdditional.IsSourceFromTable = False
         Me.CmbEcoProAdditional.IsSourceFromValueList = False
         Me.CmbEcoProAdditional.IsUnique = False
-        RadListDataItem9.Text = "COM1"
-        RadListDataItem10.Text = "COM2"
-        RadListDataItem11.Text = "COM3"
-        RadListDataItem12.Text = "COM4"
-        Me.CmbEcoProAdditional.Items.Add(RadListDataItem9)
-        Me.CmbEcoProAdditional.Items.Add(RadListDataItem10)
-        Me.CmbEcoProAdditional.Items.Add(RadListDataItem11)
-        Me.CmbEcoProAdditional.Items.Add(RadListDataItem12)
+        RadListDataItem5.Text = "COM1"
+        RadListDataItem6.Text = "COM2"
+        RadListDataItem7.Text = "COM3"
+        RadListDataItem8.Text = "COM4"
+        Me.CmbEcoProAdditional.Items.Add(RadListDataItem5)
+        Me.CmbEcoProAdditional.Items.Add(RadListDataItem6)
+        Me.CmbEcoProAdditional.Items.Add(RadListDataItem7)
+        Me.CmbEcoProAdditional.Items.Add(RadListDataItem8)
         Me.CmbEcoProAdditional.Location = New System.Drawing.Point(274, 58)
         Me.CmbEcoProAdditional.MendatroryField = True
         Me.CmbEcoProAdditional.MyLinkLable1 = Me.MyLabel14
@@ -1012,14 +1014,14 @@ Partial Class FrmQualityCheck
         Me.CboMachine.IsSourceFromTable = False
         Me.CboMachine.IsSourceFromValueList = False
         Me.CboMachine.IsUnique = False
-        RadListDataItem13.Text = "COM1"
-        RadListDataItem14.Text = "COM2"
-        RadListDataItem15.Text = "COM3"
-        RadListDataItem16.Text = "COM4"
-        Me.CboMachine.Items.Add(RadListDataItem13)
-        Me.CboMachine.Items.Add(RadListDataItem14)
-        Me.CboMachine.Items.Add(RadListDataItem15)
-        Me.CboMachine.Items.Add(RadListDataItem16)
+        RadListDataItem9.Text = "COM1"
+        RadListDataItem10.Text = "COM2"
+        RadListDataItem11.Text = "COM3"
+        RadListDataItem12.Text = "COM4"
+        Me.CboMachine.Items.Add(RadListDataItem9)
+        Me.CboMachine.Items.Add(RadListDataItem10)
+        Me.CboMachine.Items.Add(RadListDataItem11)
+        Me.CboMachine.Items.Add(RadListDataItem12)
         Me.CboMachine.Location = New System.Drawing.Point(594, 46)
         Me.CboMachine.MendatroryField = True
         Me.CboMachine.MyLinkLable1 = Me.MyLabel15
@@ -1095,14 +1097,14 @@ Partial Class FrmQualityCheck
         Me.cboComPort.IsSourceFromTable = False
         Me.cboComPort.IsSourceFromValueList = False
         Me.cboComPort.IsUnique = False
-        RadListDataItem17.Text = "COM1"
-        RadListDataItem18.Text = "COM2"
-        RadListDataItem19.Text = "COM3"
-        RadListDataItem20.Text = "COM4"
-        Me.cboComPort.Items.Add(RadListDataItem17)
-        Me.cboComPort.Items.Add(RadListDataItem18)
-        Me.cboComPort.Items.Add(RadListDataItem19)
-        Me.cboComPort.Items.Add(RadListDataItem20)
+        RadListDataItem13.Text = "COM1"
+        RadListDataItem14.Text = "COM2"
+        RadListDataItem15.Text = "COM3"
+        RadListDataItem16.Text = "COM4"
+        Me.cboComPort.Items.Add(RadListDataItem13)
+        Me.cboComPort.Items.Add(RadListDataItem14)
+        Me.cboComPort.Items.Add(RadListDataItem15)
+        Me.cboComPort.Items.Add(RadListDataItem16)
         Me.cboComPort.Location = New System.Drawing.Point(427, 45)
         Me.cboComPort.MendatroryField = True
         Me.cboComPort.MyLinkLable1 = Me.lblComPort
@@ -1146,14 +1148,14 @@ Partial Class FrmQualityCheck
         Me.cboECOPro.IsSourceFromTable = False
         Me.cboECOPro.IsSourceFromValueList = False
         Me.cboECOPro.IsUnique = False
-        RadListDataItem21.Text = "COM1"
-        RadListDataItem22.Text = "COM2"
-        RadListDataItem23.Text = "COM3"
-        RadListDataItem24.Text = "COM4"
-        Me.cboECOPro.Items.Add(RadListDataItem21)
-        Me.cboECOPro.Items.Add(RadListDataItem22)
-        Me.cboECOPro.Items.Add(RadListDataItem23)
-        Me.cboECOPro.Items.Add(RadListDataItem24)
+        RadListDataItem17.Text = "COM1"
+        RadListDataItem18.Text = "COM2"
+        RadListDataItem19.Text = "COM3"
+        RadListDataItem20.Text = "COM4"
+        Me.cboECOPro.Items.Add(RadListDataItem17)
+        Me.cboECOPro.Items.Add(RadListDataItem18)
+        Me.cboECOPro.Items.Add(RadListDataItem19)
+        Me.cboECOPro.Items.Add(RadListDataItem20)
         Me.cboECOPro.Location = New System.Drawing.Point(274, 44)
         Me.cboECOPro.MendatroryField = True
         Me.cboECOPro.MyLinkLable1 = Me.MyLabel5
@@ -1343,6 +1345,7 @@ Partial Class FrmQualityCheck
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnAmendment)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSendForSeparation)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnChangeFatClr)
@@ -2216,12 +2219,13 @@ Partial Class FrmQualityCheck
         '
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1021, 71)
         Me.gvParam.TabIndex = 264
+        Me.gvParam.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -2253,12 +2257,13 @@ Partial Class FrmQualityCheck
         '
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(1021, 324)
         Me.gvItem.TabIndex = 264
+        Me.gvItem.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2306,12 +2311,13 @@ Partial Class FrmQualityCheck
         '
         Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
         Me.gvManualSeal.ShowHeaderCellButtons = True
         Me.gvManualSeal.Size = New System.Drawing.Size(519, 323)
         Me.gvManualSeal.TabIndex = 203
+        Me.gvManualSeal.VarID = ""
         '
         'GroupBox2
         '
@@ -2333,18 +2339,19 @@ Partial Class FrmQualityCheck
         '
         Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
         Me.gvPaperSeal.ShowHeaderCellButtons = True
         Me.gvPaperSeal.Size = New System.Drawing.Size(490, 323)
         Me.gvPaperSeal.TabIndex = 203
+        Me.gvPaperSeal.VarID = ""
         '
         'btnAmendment
         '
         Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmendment.Location = New System.Drawing.Point(889, 6)
+        Me.btnAmendment.Location = New System.Drawing.Point(893, 6)
         Me.btnAmendment.Name = "btnAmendment"
         Me.btnAmendment.Size = New System.Drawing.Size(83, 18)
         Me.btnAmendment.TabIndex = 11
@@ -2355,7 +2362,7 @@ Partial Class FrmQualityCheck
         Me.btnSendForSeparation.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSendForSeparation.Enabled = False
         Me.btnSendForSeparation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSendForSeparation.Location = New System.Drawing.Point(748, 7)
+        Me.btnSendForSeparation.Location = New System.Drawing.Point(757, 7)
         Me.btnSendForSeparation.Name = "btnSendForSeparation"
         Me.btnSendForSeparation.Size = New System.Drawing.Size(135, 18)
         Me.btnSendForSeparation.TabIndex = 10
@@ -2363,7 +2370,7 @@ Partial Class FrmQualityCheck
         '
         'btnChangeFatClr
         '
-        Me.btnChangeFatClr.Location = New System.Drawing.Point(629, 7)
+        Me.btnChangeFatClr.Location = New System.Drawing.Point(641, 7)
         Me.btnChangeFatClr.Name = "btnChangeFatClr"
         Me.btnChangeFatClr.Size = New System.Drawing.Size(115, 18)
         Me.btnChangeFatClr.TabIndex = 9
@@ -2372,9 +2379,9 @@ Partial Class FrmQualityCheck
         '
         'btnManualReject
         '
-        Me.btnManualReject.Location = New System.Drawing.Point(523, 7)
+        Me.btnManualReject.Location = New System.Drawing.Point(552, 7)
         Me.btnManualReject.Name = "btnManualReject"
-        Me.btnManualReject.Size = New System.Drawing.Size(100, 18)
+        Me.btnManualReject.Size = New System.Drawing.Size(88, 18)
         Me.btnManualReject.TabIndex = 8
         Me.btnManualReject.Text = "Manual Reject"
         '
@@ -2382,9 +2389,9 @@ Partial Class FrmQualityCheck
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(456, 6)
+        Me.btnReverse.Location = New System.Drawing.Point(481, 7)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(60, 18)
+        Me.btnReverse.Size = New System.Drawing.Size(69, 18)
         Me.btnReverse.TabIndex = 7
         Me.btnReverse.Text = "Reverse"
         '
@@ -2392,9 +2399,9 @@ Partial Class FrmQualityCheck
         '
         Me.btnSendForApproval.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSendForApproval.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSendForApproval.Location = New System.Drawing.Point(291, 6)
+        Me.btnSendForApproval.Location = New System.Drawing.Point(323, 6)
         Me.btnSendForApproval.Name = "btnSendForApproval"
-        Me.btnSendForApproval.Size = New System.Drawing.Size(161, 18)
+        Me.btnSendForApproval.Size = New System.Drawing.Size(157, 18)
         Me.btnSendForApproval.TabIndex = 6
         Me.btnSendForApproval.Text = "Send For Special Approval"
         '
@@ -2402,9 +2409,9 @@ Partial Class FrmQualityCheck
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(217, 6)
+        Me.btnPrint.Location = New System.Drawing.Point(192, 6)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 18)
+        Me.btnPrint.Size = New System.Drawing.Size(61, 18)
         Me.btnPrint.TabIndex = 4
         Me.btnPrint.Text = "Print"
         '
@@ -2412,9 +2419,9 @@ Partial Class FrmQualityCheck
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(144, 6)
+        Me.btnPost.Location = New System.Drawing.Point(130, 6)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(68, 18)
+        Me.btnPost.Size = New System.Drawing.Size(58, 18)
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
@@ -2422,9 +2429,9 @@ Partial Class FrmQualityCheck
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(73, 6)
+        Me.btnDelete.Location = New System.Drawing.Point(67, 6)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
+        Me.btnDelete.Size = New System.Drawing.Size(60, 18)
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
@@ -2442,11 +2449,21 @@ Partial Class FrmQualityCheck
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(3, 6)
+        Me.btnSave.Location = New System.Drawing.Point(3, 5)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave.Size = New System.Drawing.Size(63, 18)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(255, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(61, 18)
+        Me.btnHistory.TabIndex = 12
+        Me.btnHistory.Text = "History"
         '
         'FrmQualityCheck
         '
@@ -2611,6 +2628,7 @@ Partial Class FrmQualityCheck
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2755,5 +2773,6 @@ Partial Class FrmQualityCheck
     Friend WithEvents btnAmendment As RadButton
     Friend WithEvents fndReferenceNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel38 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

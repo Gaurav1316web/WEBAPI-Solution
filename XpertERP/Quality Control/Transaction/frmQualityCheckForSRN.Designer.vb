@@ -22,8 +22,8 @@ Partial Class FrmQualityCheckForSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQualityCheckForSRN))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -105,6 +105,7 @@ Partial Class FrmQualityCheckForSRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -180,6 +181,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -199,6 +201,7 @@ Partial Class FrmQualityCheckForSRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRALWiseAnaysisPrint)
@@ -290,7 +293,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_MRN.MyStopExport = False
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -330,7 +333,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1276,9 +1279,9 @@ Partial Class FrmQualityCheckForSRN
         'btnpost
         '
         Me.btnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnpost.Location = New System.Drawing.Point(157, 4)
+        Me.btnpost.Location = New System.Drawing.Point(119, 4)
         Me.btnpost.Name = "btnpost"
-        Me.btnpost.Size = New System.Drawing.Size(75, 22)
+        Me.btnpost.Size = New System.Drawing.Size(51, 22)
         Me.btnpost.TabIndex = 2
         Me.btnpost.Text = "Post"
         '
@@ -1294,9 +1297,9 @@ Partial Class FrmQualityCheckForSRN
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(80, 4)
+        Me.btndelete.Location = New System.Drawing.Point(66, 4)
         Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(75, 22)
+        Me.btndelete.Size = New System.Drawing.Size(52, 22)
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
@@ -1305,9 +1308,18 @@ Partial Class FrmQualityCheckForSRN
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Location = New System.Drawing.Point(3, 4)
         Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(75, 22)
+        Me.btnsave.Size = New System.Drawing.Size(63, 22)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(172, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(61, 22)
+        Me.btnHistory.TabIndex = 161
+        Me.btnHistory.Text = "History"
         '
         'FrmQualityCheckForSRN
         '
@@ -1400,6 +1412,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1484,5 +1497,6 @@ Partial Class FrmQualityCheckForSRN
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents BtnCancel As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 
