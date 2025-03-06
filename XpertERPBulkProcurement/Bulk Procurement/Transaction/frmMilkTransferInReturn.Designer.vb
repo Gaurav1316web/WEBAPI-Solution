@@ -22,12 +22,12 @@ Partial Class frmMilkTransferInReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -113,6 +113,7 @@ Partial Class frmMilkTransferInReturn
         Me.txtQCNo = New common.Controls.MyTextBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer8 = New System.Windows.Forms.SplitContainer()
@@ -124,7 +125,6 @@ Partial Class frmMilkTransferInReturn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -221,6 +221,7 @@ Partial Class frmMilkTransferInReturn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -237,7 +238,6 @@ Partial Class frmMilkTransferInReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1144,7 +1144,7 @@ Partial Class frmMilkTransferInReturn
         Me.gvOldSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
@@ -1174,7 +1174,7 @@ Partial Class frmMilkTransferInReturn
         Me.gvOldSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
@@ -1522,7 +1522,7 @@ Partial Class frmMilkTransferInReturn
         Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
@@ -1687,13 +1687,23 @@ Partial Class frmMilkTransferInReturn
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1101, 256)
         Me.gvParam.TabIndex = 203
         Me.gvParam.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(354, 19)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 345
+        Me.btnHistory.Text = "History"
         '
         'btnShowInventory
         '
@@ -1755,7 +1765,7 @@ Partial Class frmMilkTransferInReturn
         Me.gvNewSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
@@ -1784,7 +1794,7 @@ Partial Class frmMilkTransferInReturn
         Me.gvNewSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True
@@ -1831,16 +1841,6 @@ Partial Class frmMilkTransferInReturn
         Me.btnDelete.Size = New System.Drawing.Size(68, 18)
         Me.btnDelete.TabIndex = 4
         Me.btnDelete.Text = "Delete"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(354, 19)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
-        Me.btnHistory.TabIndex = 345
-        Me.btnHistory.Text = "History"
         '
         'frmMilkTransferInReturn
         '
@@ -1957,6 +1957,7 @@ Partial Class frmMilkTransferInReturn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -1973,7 +1974,6 @@ Partial Class frmMilkTransferInReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

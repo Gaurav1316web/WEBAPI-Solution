@@ -393,11 +393,14 @@ Public Class clsBookingEntryDairySale
             End If
 
             isSaved = isSaved AndAlso clsBookingDetailDairySale.SaveData(obj.Document_No, Arr, trans, isNewEntry, obj.Document_Date, obj.Sub_Location_code)
-            isSaved = isSaved AndAlso clsBookingDetailDairySalePaymentMode.saveData(obj.arrBookingDetailDairySalePaymentMode, obj.Document_No, obj.Document_Date, trans)
-            If isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
-            End If
+            isSaved = isSaved AndAlso clsBookingDetailDairySalePaymentMode.saveData(obj.arrBookingDetailDairySalePaymentMode, obj.Document_No, obj.Document_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+
+            'If isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+
+            'End If
 
             Return isSaved
         Catch ex As Exception

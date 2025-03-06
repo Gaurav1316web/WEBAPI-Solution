@@ -6718,7 +6718,7 @@ Public Class clsCreateAllTable
             coll.Add("Qty", "FLOAT NOT NULL DEFAULT 0")
             coll.Add("HSN_Code", "varchar(30)  NULL")
             coll.Add("Scheme_Item", "char(1) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "", True)
             '=====================
 
 
@@ -38637,7 +38637,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("SNF_Rate", "float not null default 0")
             coll.Add("Fat_Amt", "float not null default 0")
             coll.Add("SNF_Amt", "float not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_PP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_PP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "", True)
 
 
 
