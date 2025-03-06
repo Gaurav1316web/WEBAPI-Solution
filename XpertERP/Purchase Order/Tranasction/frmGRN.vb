@@ -585,7 +585,11 @@ Public Class frmGRN
         lblShipToLocation.Text = ""
         txtBillToLocation.Enabled = True
         txtShipToLocation.Enabled = True
-        txtSubLocation.Enabled = True
+        If objCommonVar.RCDFCFP Then
+            txtSubLocation.Enabled = False
+        Else
+            txtSubLocation.Enabled = True
+        End If
         txtDesc.Text = ""
         txtRemarks.Text = ""
         txtComment.Text = ""
@@ -3262,7 +3266,11 @@ Public Class frmGRN
         btnUnpost.Visible = False
         MakeColumnReadOnly(False)
         AllowDepartmentMandatoryOnPurchaseCycle()
-        txtSubLocation.Enabled = True
+        If objCommonVar.RCDFCFP Then
+            txtSubLocation.Enabled = False
+        Else
+            txtSubLocation.Enabled = True
+        End If
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
         UcAttachment1.BlankAllControls()
@@ -5894,7 +5902,11 @@ Public Class frmGRN
                 txtShipToLocation.Enabled = False
                 txtSubLocation.Value = objPO.Sublocation_Code
                 lblSubLocation.Text = clsLocation.GetName(objPO.Sublocation_Code, Nothing)
-                txtSubLocation.Enabled = False
+                If objCommonVar.RCDFCFP Then
+                    txtSubLocation.Enabled = False
+                Else
+                    txtSubLocation.Enabled = True
+                End If
                 TxtRetention.Text = objPO.Retention
                 'End If 
                 If (clsCommon.myLen(txtDesc.Text) <= 0) Then
@@ -7307,9 +7319,17 @@ Public Class frmGRN
             cmbRGPType.SelectedValue = ""
         End If
         If clsCommon.CompairString(cmbGRNType.SelectedValue, "O") = CompairStringResult.Equal Then
-            txtSubLocation.Enabled = True
+            If objCommonVar.RCDFCFP Then
+                txtSubLocation.Enabled = False
+            Else
+                txtSubLocation.Enabled = True
+            End If
         Else
-            txtSubLocation.Enabled = False
+            If objCommonVar.RCDFCFP Then
+                txtSubLocation.Enabled = False
+            Else
+                txtSubLocation.Enabled = True
+            End If
             txtSubLocation.Value = ""
             lblShipToLocation.Text = ""
         End If
