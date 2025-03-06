@@ -102,7 +102,7 @@ Public Class FrmProductionAndSaleReport
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=1 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
             End If
-            If rdbSaleTransfer.IsChecked = True Then
+            If rdbSaleTransfer.IsChecked = True OrElse rdbSale.IsChecked = True Then
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
             End If
@@ -355,7 +355,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + ""
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + ""
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -371,7 +371,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -388,7 +388,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + ""
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -514,7 +514,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + ""
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -531,7 +531,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -548,7 +548,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + ""
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -784,11 +784,21 @@ Public Class FrmProductionAndSaleReport
 
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 If Print = True Then
+                    Gv1.Visible = True
+                    Gv1.DataSource = dt2
+                    Gv1.ReadOnly = True
+                    SetGridFormat(Gv1)
+                    ReStoreGridLayout()
+                    If rdbDaily.IsChecked = True Then
+                        View()
+                    End If
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing
                 Else
-                    gv1.Visible = True
+                    Gv1.Visible = True
                     gv1.DataSource = dt2
                     gv1.ReadOnly = True
                     SetGridFormat(gv1)
@@ -1327,10 +1337,6 @@ Public Class FrmProductionAndSaleReport
         slotCount += 1
     End Sub
 
-    Private Sub rdbSaleReturn_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbSaleReturn.ToggleStateChanged
-
-    End Sub
-
     Private Sub rdbSaleReturn_CheckStateChanged(sender As Object, e As EventArgs) Handles rdbSaleReturn.CheckStateChanged
         If rdbSaleReturn.IsChecked = True Then
             rdbDispatch.IsChecked = False
@@ -1338,5 +1344,13 @@ Public Class FrmProductionAndSaleReport
         Else
             rdbDispatch.IsChecked = True
         End If
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Try
+            fillGridReport(True)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

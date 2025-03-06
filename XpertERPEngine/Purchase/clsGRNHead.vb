@@ -657,7 +657,7 @@ Public Class clsGRNHead
                     obj.VisualQCUpdatedDate = clsCommon.myCDate(dt.Rows(0)("VisualQCUpdatedDate"))
                 End If
                 obj.IsSkipPurchaseQC = CInt(dt.Rows(0)("IsSkipPurchaseQC"))
-                obj.Inter_unit_Purchase = CInt(dt.Rows(0)("Inter_unit_Purchase"))
+                obj.Inter_unit_Purchase = clsCommon.myCdbl(dt.Rows(0)("Inter_unit_Purchase"))
                 obj.VisualQCStatus = CInt(dt.Rows(0)("VisualQCStatus"))
                 obj.VisualQCRemarks = clsCommon.myCstr(dt.Rows(0)("VisualQCRemarks"))
                 obj.isJobWorkOutward = clsCommon.myCstr(dt.Rows(0)("isJobWorkOutward"))

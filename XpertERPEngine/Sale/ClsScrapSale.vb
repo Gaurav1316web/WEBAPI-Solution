@@ -624,7 +624,7 @@ Public Class ClsScrapSaleHead
             obj.ToLoc_Code = clsCommon.myCstr(dt.Rows(0)("ToLoc_Code"))
             obj.CreateInvoice = clsCommon.myCstr(dt.Rows(0)("CreateInvoice"))
             obj.Create_E_Invoice = clsCommon.myCstr(dt.Rows(0)("Create_E_Invoice"))
-            obj.Inter_unit_sale = clsCommon.myCstr(dt.Rows(0)("Inter_unit_sale"))
+            obj.Inter_unit_sale = clsCommon.myCdbl(dt.Rows(0)("Inter_unit_sale"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.reff = clsCommon.myCstr(dt.Rows(0)("reff"))
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
