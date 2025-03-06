@@ -3329,15 +3329,17 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'
                 and TSPL_ITEM_MASTER.Is_Milk_Pouch=1 order by sku_seq"
             Dim ItemInUseProduct As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'
                 and TSPL_ITEM_MASTER.Is_Milk_Pouch=0 order by sku_seq"
-            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS Size from " + ItemInUse)
-            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS Size from " + ItemInUseProduct)
+            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size  from " + ItemInUse)
+            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size  from " + ItemInUseProduct)
             If (dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0) AndAlso (dtDataExistProduct Is Nothing OrElse dtDataExistProduct.Rows.Count = 0) Then
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
@@ -3598,9 +3600,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " क्रेट"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " क्रेट"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " थैली"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " थैली"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate = True, chkCrate, chkCratePouch))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch = True, True, False))
@@ -3609,7 +3611,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Next
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) + " "
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) '+ " "
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next
@@ -3617,9 +3619,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " क्रेट"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " क्रेट"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) + " थैली"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " थैली"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate = True, chkCrate, chkCratePouch))
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch = True, True, False))
@@ -3629,7 +3631,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             ElseIf rbtn_Ambient.IsChecked = True Then
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) +  " "
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) '+  " "
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next

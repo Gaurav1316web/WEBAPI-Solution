@@ -99,7 +99,7 @@ Public Class clsQualityCheck
                     Throw New Exception("QC No is in use")
                 End If
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
             Qry = "Update tspl_quality_check set isPosted = 0,Posting_Date=null where QC_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", trans)
@@ -199,6 +199,7 @@ Public Class clsQualityCheck
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
 
@@ -370,6 +371,8 @@ Public Class clsQualityCheck
             End If
             issaved = issaved AndAlso clsQcParam.saveData(obj.arrQcParam, obj.QC_No, trans, isHistory)
             issaved = issaved AndAlso clsQualityChemberNoDetails.SaveData(obj.QC_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.QC_No, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

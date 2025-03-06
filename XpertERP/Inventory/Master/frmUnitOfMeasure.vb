@@ -34,6 +34,7 @@ Public Class frmUnitOfCode
     Dim sql As String
     Const colCategoryType As String = "CategoryType"
     Const colGSTUnit As String = "colGSTUnit"
+    Const colUOMHindiDesc As String = "colUOMHindiDesc"
     Dim isLoadData As Boolean = True
 #End Region
 
@@ -132,8 +133,18 @@ Public Class frmUnitOfCode
         'repoGSTUnit.DisplayMember = "Name"
         MasterTemplate.MasterTemplate.Columns.Add(repoGSTUnit)
 
+        Dim repoUOMHindiDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoUOMHindiDesc.FormatString = ""
+        repoUOMHindiDesc.HeaderText = "UOM Desc Hindi"
+        repoUOMHindiDesc.Name = colUOMHindiDesc
+        repoUOMHindiDesc.Width = 100
+        repoUOMHindiDesc.ReadOnly = False
+        repoUOMHindiDesc.HeaderImage = My.Resources.Resources.search4
+        repoUOMHindiDesc.TextImageRelation = TextImageRelation.TextBeforeImage
+        MasterTemplate.MasterTemplate.Columns.Add(repoUOMHindiDesc)
+
         SetUserMgmtNew()
-        ds = RunSQLReturnDS("select unit_code [Unit of Measure],unit_desc [Description],Floor(Conv_Factor) as  [Default Conversion Factor], (case empty when 'Y' THEN 'True' else 'False' end) as empty, (case create_Price when 'Y' THEN 'True' else 'False' end) as price, Cast(Case When Weight_Type='Y' Then 1 Else 0 End as Bit) as Weight_Type, Cast(Case When Crate_Type='Y' Then 1 Else 0 End as Bit) as Crate_Type,Cast(Case When RT_Rate='Y' Then 1 Else 0 End as Bit) as RT_Rate,Cast(Case When Crate_Type='Y' Then 1 Else 0 End as Bit) as Crate_Type,Cast(Case When Ltr_Type='Y' Then 1 Else 0 End as Bit) as Ltr_Type,Cast(Case When Box_Type='Y' Then 1 Else 0 End as Bit) as Box_Type,Cast(Case When Can_Type='Y' Then 1 Else 0 End as Bit) as Can_Type, Cast(Case When Packet_Type='Y' Then 1 Else 0 End as Bit) as Packet_Type,Cast(IsDefault AS Bit) as IsDefault,Case When Item_Category='K' Then 'KG' when Item_Category='L' then 'LTR'   Else '' End  as Item_Category,isnull (GST_UNIT_CODE,'') as GST_UNIT_CODE  from tspl_unit_master")
+        ds = RunSQLReturnDS("select unit_code [Unit of Measure],unit_desc [Description],Floor(Conv_Factor) as  [Default Conversion Factor], (case empty when 'Y' THEN 'True' else 'False' end) as empty, (case create_Price when 'Y' THEN 'True' else 'False' end) as price, Cast(Case When Weight_Type='Y' Then 1 Else 0 End as Bit) as Weight_Type, Cast(Case When Crate_Type='Y' Then 1 Else 0 End as Bit) as Crate_Type,Cast(Case When RT_Rate='Y' Then 1 Else 0 End as Bit) as RT_Rate,Cast(Case When Crate_Type='Y' Then 1 Else 0 End as Bit) as Crate_Type,Cast(Case When Ltr_Type='Y' Then 1 Else 0 End as Bit) as Ltr_Type,Cast(Case When Box_Type='Y' Then 1 Else 0 End as Bit) as Box_Type,Cast(Case When Can_Type='Y' Then 1 Else 0 End as Bit) as Can_Type, Cast(Case When Packet_Type='Y' Then 1 Else 0 End as Bit) as Packet_Type,Cast(IsDefault AS Bit) as IsDefault,Case When Item_Category='K' Then 'KG' when Item_Category='L' then 'LTR'   Else '' End  as Item_Category,isnull (GST_UNIT_CODE,'') as GST_UNIT_CODE, ISNULL(Unit_Desc_Hindi,'') As UOM_Desc_Hindi  from tspl_unit_master")
 
         MasterTemplate.DataSource = Nothing
         MasterTemplate.Rows.Clear()
@@ -159,6 +170,9 @@ Public Class frmUnitOfCode
             If String.IsNullOrEmpty(Convert.ToString(ds.Tables(0).Rows(i)("GST_UNIT_CODE"))) = False Then
                 row.Cells(colGSTUnit).Value = Convert.ToString(ds.Tables(0).Rows(i)("GST_UNIT_CODE"))
             End If
+            If String.IsNullOrEmpty(Convert.ToString(ds.Tables(0).Rows(i)("UOM_Desc_Hindi"))) = False Then
+                row.Cells(colUOMHindiDesc).Value = Convert.ToString(ds.Tables(0).Rows(i)("UOM_Desc_Hindi"))
+            End If
             ' MasterTemplate.Rows(i).Cells(UOMColStockUnit).Value()
         Next
         Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_code,unit_desc,Conv_Factor from tspl_unit_master"))
@@ -177,7 +191,9 @@ Public Class frmUnitOfCode
 #Region "Button Click"
 
     Private Sub rdbtnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        If AllowToSave() Then SaveData()
+        If AllowToSave() Then
+            SaveData()
+        End If
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -249,6 +265,7 @@ Public Class frmUnitOfCode
         Dim Category_Type As Char = ""
         Dim GST_Unit_Code As String = ""
         Dim IsDefault As Integer = 0
+        Dim UOM_Desc_Hindi As String = Nothing
         Try
             'connectSql.OpenConnection()
             tran = clsDBFuncationality.GetTransactin()
@@ -323,6 +340,8 @@ Public Class frmUnitOfCode
                 If clsCommon.myLen(GST_Unit_Code) > 0 Then
                     strGST_Unit_Code = " , GST_UNIT_CODE = '" + GST_Unit_Code + "' "
                 End If
+
+
                 Dim UOmCOde As String = Convert.ToString(MasterTemplate.Rows(i).Cells(0).Value)
                 If String.IsNullOrEmpty(UOmCOde) Then
                     Throw New Exception("UOM Code can not be left blank.")
@@ -339,6 +358,17 @@ Public Class frmUnitOfCode
                     connectSql.RunSpTransaction(tran, "sp_tspl_unit_master_update", New SqlParameter("@unitcode", Convert.ToString(MasterTemplate.Rows(i).Cells(0).Value)), New SqlParameter("@Create_Price", createprice), New SqlParameter("@empty", check), New SqlParameter("@desc", Convert.ToString(MasterTemplate.Rows(i).Cells(1).Value)), New SqlParameter("@ConvFact", Convert.ToString(MasterTemplate.Rows(i).Cells(2).Value)), New SqlParameter("@Weight_Type", Weight_Type), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(tran)), New SqlParameter("@compcode", companyCode))
                     clsDBFuncationality.ExecuteNonQuery("UPDATE tspl_unit_master SET Crate_Type='" & Crate_Type & "',RT_Rate='" & rt_rate & "',Ltr_Type='" & Ltr_type & "',Box_Type='" & Box_type & "',CAN_Type='" & CAN_type & "' , Item_Category = '" & Category_Type & "' , Packet_Type = '" + Packet_type + "' , IsDefault = '" + clsCommon.myCstr(IsDefault) + "'" + strGST_Unit_Code + "   WHERE Unit_Code='" & Convert.ToString(MasterTemplate.Rows(i).Cells(0).Value) & "'", tran)
                 End If
+
+
+                Dim strUnit_Desc_Hindi As String = clsCommon.myCstr(MasterTemplate.Rows(i).Cells(colUOMHindiDesc).Value)
+                If clsCommon.myLen(strUnit_Desc_Hindi) > 0 Then
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Unit_Desc_Hindi", strUnit_Desc_Hindi, True, True)
+                    clsCommonFunctionality.UpdateDataTable(coll, "tspl_unit_master", OMInsertOrUpdate.Update, " tspl_unit_master.Unit_Code='" & Convert.ToString(MasterTemplate.Rows(i).Cells(0).Value) & "'", tran)
+                End If
+
+
+
             Next
             tran.Commit()
             myMessages.insert()

@@ -1140,37 +1140,35 @@ group by XXFinal.Customer_Name"
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
-            Qry = " select 
-                        max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.pan) as Pan,MAX(XXFinal.FromDate) as FromDate,
-                        MAX(XXFinal.ToDate) as ToDate,
-                        sum(XXFinal.Total_Amt-XXFinal.TCS_AMT) as Sale_Amount,
-                        SUM(XXFinal.TCS_AMT) as TCS_AMT,
-                        MAX(XXFinal.Comp_Name) as Comp_Name,
-                        MAX(XXFinal.CompAddress) as CompAddress
-                        from(
-                        select xx.*, (xx.Taxable_Amount +xx.Non_Taxable_Amount+xx.GSTAmt) as Sale_Amt,((xx.Taxable_Amount+xx.Non_Taxable_Amount+xx.GSTAmt+xx.TCS_AMT) -(xx.Trp_othcharg)) as Bill_Amt
-                        from(
-                        select 
-                        TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
-                         TSPL_COMPANY_MASTER.Comp_Name,
-
-                        (TSPL_COMPANY_MASTER.Add1 +TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress,
-                         case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
-                         case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
-
-                         Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,0) else(
-                        Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt)else (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt +TSPL_SD_SHIPMENT_HEAD.TAX4_Amt) end) else 0 end) end as GSTAmt,
-                        Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' then isnull(TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,0) else(
-                        Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' then TSPL_SD_SHIPMENT_HEAD.TAX4_Amt else (case when    
-                        TSPL_SD_SHIPMENT_HEAD.TAX5='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SHIPMENT_HEAD.tax2='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX2_Amt else ((case when TSPL_SD_SHIPMENT_HEAD.tax3='TCS' then TSPL_SD_SHIPMENT_HEAD.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,TSPL_SD_SHIPMENT_HEAD.Total_Amt,
-                        (isnull(TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,0) + isnull(TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,0) +isnull(TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,0) ) as Trp_othcharg,TSPL_CUSTOMER_MASTER.PAN
-                        from TSPL_SD_SHIPMENT_HEAD
-                        left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-                        left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
-                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1 
-                        ) xx
-                        ) XXFinal 
-                        where XXFinal.TCS_AMT>0 group by XXFinal.Customer_Name"
+            Qry = " select '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+                        Max(Customer_Name) as Customer_Name,
+						Max(Item_Desc) as Item_Desc,Item_Code ,
+                         Max(Unit_code) AS Unit_code,Sum(Qty) AS Qty,Sum(QtyAccToReportUOM) AS QtyAccToReportUOM,Max(UOM_Code) AS UOM_Code,max(Comp_Name) AS Comp_Name,max(Add1) AS Add1
+                    FROM (
+                        SELECT 
+	                    TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,
+                        TSPL_CUSTOMER_MASTER.Customer_Name,
+                        TSPL_SD_SHIPMENT_DETAIL.Unit_code, 
+                        TSPL_SD_SHIPMENT_DETAIL.Qty,
+						cast((TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
+						) as Decimal(18, 2)
+						) as QtyAccToReportUOM,
+                        ItemConvReportUOM.UOM_Code, 
+                        TSPL_COMPANY_MASTER.Comp_Name, 
+                        TSPL_COMPANY_MASTER.Add1 ,
+						TSPL_ITEM_MASTER.Item_Desc,
+						TSPL_ITEM_MASTER.Item_Code
+                        FROM TSPL_SD_SHIPMENT_DETAIL
+                        LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
+						left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                        left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
+                        and ItemConvReportUOM.Report_UOM = 1
+                        left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
+                        and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+						LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1 ) xx
+						group By Customer_Name,Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1193,7 +1191,7 @@ group by XXFinal.Customer_Name"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptTcsSummaryReport", "Tcs Summary Report")
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptGheeReport", "Ghee Report")
                     frmCRV = Nothing
 
                 End If

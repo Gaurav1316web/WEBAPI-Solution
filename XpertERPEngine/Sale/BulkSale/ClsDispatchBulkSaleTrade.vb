@@ -73,6 +73,7 @@ Public Class ClsDispatchBulkSaleTrade
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale_Trade", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale_Trade.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDispatchDetailTradeBulkSale.saveData(obj.arrDispatchDetailTradeBulkSale, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale_Trade", "Document_No", "TSPL_Dispatch_Detail_BulkSale_Trade", "Document_No", trans)
 
             ' trans.Commit()
         Catch err As Exception
