@@ -541,7 +541,7 @@ Public Class clsMilkPurchaseReturnHead
 
 
 
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", "TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL", "Pur_Return_No", trans)
 
 
             qry = "Update TSPL_Bulk_MILK_PURCHASE_RETURN_HEAD set isPosted=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy") + "' where Pur_Return_No='" + strDocNo + "'"
@@ -689,6 +689,10 @@ Public Class clsMilkPurchaseReturnHead
 
     Public Shared Function deleteData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", "TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL", "Pur_Return_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", "TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL", "Pur_Return_No", trans)
+
             Dim qry2 As String = "delete from TSPL_BULK_MILK_PURCHASE_RETURN_HEAD where Pur_Return_No='" & strDocNo & "'"
             Dim qry1 As String = "delete from TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL where Pur_Return_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
@@ -764,6 +768,8 @@ Public Class clsMilkPurchaseReturnHead
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", OMInsertOrUpdate.Update, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD.Pur_Return_No='" + obj.Pur_Return_No + "'", trans)
             End If
             issaved = issaved AndAlso clsMilkPurchaseReturnDetail.saveData(obj.arrDetail, obj.Pur_Return_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Pur_Return_No, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", "TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL", "Pur_Return_No", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -22,10 +22,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
@@ -73,14 +75,16 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnPartyWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnInvoiceWise = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -116,7 +120,8 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -174,6 +179,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.TxtItem)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
@@ -197,6 +203,31 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1104, 319)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'TxtItem
+        '
+        Me.TxtItem.arrDispalyMember = Nothing
+        Me.TxtItem.arrValueMember = Nothing
+        Me.TxtItem.Location = New System.Drawing.Point(85, 146)
+        Me.TxtItem.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItem.MyLinkLable1 = Me.MyLabel3
+        Me.TxtItem.MyLinkLable2 = Nothing
+        Me.TxtItem.MyNullText = "All"
+        Me.TxtItem.Name = "TxtItem"
+        Me.TxtItem.Size = New System.Drawing.Size(382, 19)
+        Me.TxtItem.TabIndex = 453
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(16, 146)
+        Me.MyLabel3.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel3.TabIndex = 454
+        Me.MyLabel3.Text = "Item Code"
+        '
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -204,7 +235,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadGroupBox6.Controls.Add(Me.rbtnProduct)
         Me.RadGroupBox6.Controls.Add(Me.rbtnMilk)
         Me.RadGroupBox6.HeaderText = "Type"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(508, 153)
+        Me.RadGroupBox6.Location = New System.Drawing.Point(485, 189)
         Me.RadGroupBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
@@ -227,7 +258,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'rbtnProduct
         '
         Me.rbtnProduct.AutoSize = True
-        Me.rbtnProduct.Location = New System.Drawing.Point(129, 16)
+        Me.rbtnProduct.Location = New System.Drawing.Point(129, 15)
         Me.rbtnProduct.Name = "rbtnProduct"
         Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
         Me.rbtnProduct.TabIndex = 3
@@ -238,7 +269,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'rbtnMilk
         '
         Me.rbtnMilk.AutoSize = True
-        Me.rbtnMilk.Location = New System.Drawing.Point(32, 16)
+        Me.rbtnMilk.Location = New System.Drawing.Point(15, 15)
         Me.rbtnMilk.Name = "rbtnMilk"
         Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
         Me.rbtnMilk.TabIndex = 2
@@ -252,7 +283,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadGroupBox2.Controls.Add(Me.rbtnSupplyDate)
         Me.RadGroupBox2.Controls.Add(Me.rbtnDocumentDate)
         Me.RadGroupBox2.HeaderText = "Date"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(508, 49)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(485, 97)
         Me.RadGroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
@@ -263,7 +294,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'rbtnSupplyDate
         '
         Me.rbtnSupplyDate.AutoSize = True
-        Me.rbtnSupplyDate.Location = New System.Drawing.Point(181, 16)
+        Me.rbtnSupplyDate.Location = New System.Drawing.Point(129, 16)
         Me.rbtnSupplyDate.Name = "rbtnSupplyDate"
         Me.rbtnSupplyDate.Size = New System.Drawing.Size(87, 17)
         Me.rbtnSupplyDate.TabIndex = 1
@@ -274,7 +305,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.rbtnDocumentDate.AutoSize = True
         Me.rbtnDocumentDate.Checked = True
-        Me.rbtnDocumentDate.Location = New System.Drawing.Point(32, 16)
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(15, 16)
         Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
         Me.rbtnDocumentDate.Size = New System.Drawing.Size(105, 17)
         Me.rbtnDocumentDate.TabIndex = 0
@@ -289,7 +320,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadGroupBox4.Controls.Add(Me.rbtnEvening)
         Me.RadGroupBox4.Controls.Add(Me.rbtnMorning)
         Me.RadGroupBox4.HeaderText = "Shift"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(508, 100)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(485, 143)
         Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
@@ -323,7 +354,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'rbtnMorning
         '
         Me.rbtnMorning.AutoSize = True
-        Me.rbtnMorning.Location = New System.Drawing.Point(30, 16)
+        Me.rbtnMorning.Location = New System.Drawing.Point(15, 16)
         Me.rbtnMorning.Name = "rbtnMorning"
         Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
         Me.rbtnMorning.TabIndex = 0
@@ -339,7 +370,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.lblCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCustomer.Location = New System.Drawing.Point(223, 52)
         Me.lblCustomer.Name = "lblCustomer"
-        Me.lblCustomer.Size = New System.Drawing.Size(230, 18)
+        Me.lblCustomer.Size = New System.Drawing.Size(244, 18)
         Me.lblCustomer.TabIndex = 419
         Me.lblCustomer.TextWrap = False
         '
@@ -373,7 +404,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(0, 53)
+        Me.MyLabel2.Location = New System.Drawing.Point(15, 53)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(55, 16)
         Me.MyLabel2.TabIndex = 417
@@ -383,7 +414,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.txtMultRoute.arrDispalyMember = Nothing
         Me.txtMultRoute.arrValueMember = Nothing
-        Me.txtMultRoute.Location = New System.Drawing.Point(85, 123)
+        Me.txtMultRoute.Location = New System.Drawing.Point(85, 122)
         Me.txtMultRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultRoute.MyLinkLable1 = Nothing
         Me.txtMultRoute.MyLinkLable2 = Nothing
@@ -407,7 +438,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.cboReportType.IsSourceFromTable = False
         Me.cboReportType.IsSourceFromValueList = False
         Me.cboReportType.IsUnique = False
-        Me.cboReportType.Location = New System.Drawing.Point(451, 16)
+        Me.cboReportType.Location = New System.Drawing.Point(563, 15)
         Me.cboReportType.MendatroryField = True
         Me.cboReportType.MyLinkLable1 = Nothing
         Me.cboReportType.MyLinkLable2 = Nothing
@@ -415,14 +446,14 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.cboReportType.ReferenceFieldDesc = Nothing
         Me.cboReportType.ReferenceFieldName = Nothing
         Me.cboReportType.ReferenceTableName = Nothing
-        Me.cboReportType.Size = New System.Drawing.Size(225, 20)
+        Me.cboReportType.Size = New System.Drawing.Size(246, 20)
         Me.cboReportType.TabIndex = 416
         '
         'lblRoute
         '
         Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(16, 124)
+        Me.lblRoute.Location = New System.Drawing.Point(16, 123)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(36, 18)
         Me.lblRoute.TabIndex = 412
@@ -436,10 +467,10 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadGroupBox1.Controls.Add(Me.lblToDate)
         Me.RadGroupBox1.Controls.Add(Me.lblfromDate)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(16, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(355, 44)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(451, 44)
         Me.RadGroupBox1.TabIndex = 0
         '
         'txtToDate
@@ -455,7 +486,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(251, 11)
+        Me.txtToDate.Location = New System.Drawing.Point(268, 11)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -484,7 +515,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(82, 11)
+        Me.txtFromDate.Location = New System.Drawing.Point(95, 11)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -503,7 +534,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(200, 13)
+        Me.lblToDate.Location = New System.Drawing.Point(213, 12)
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(45, 18)
         Me.lblToDate.TabIndex = 14
@@ -512,7 +543,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'lblfromDate
         '
         Me.lblfromDate.FieldName = Nothing
-        Me.lblfromDate.Location = New System.Drawing.Point(9, 12)
+        Me.lblfromDate.Location = New System.Drawing.Point(25, 12)
         Me.lblfromDate.Name = "lblfromDate"
         Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
         Me.lblfromDate.TabIndex = 13
@@ -557,7 +588,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(373, 16)
+        Me.MyLabel4.Location = New System.Drawing.Point(485, 15)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel4.TabIndex = 415
@@ -599,7 +630,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -762,30 +793,41 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.btnGo.TabIndex = 17
         Me.btnGo.Text = ">>>"
         '
-        'TxtItem
+        'RadGroupBox3
         '
-        Me.TxtItem.arrDispalyMember = Nothing
-        Me.TxtItem.arrValueMember = Nothing
-        Me.TxtItem.Location = New System.Drawing.Point(85, 146)
-        Me.TxtItem.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtItem.MyLinkLable1 = Me.MyLabel3
-        Me.TxtItem.MyLinkLable2 = Nothing
-        Me.TxtItem.MyNullText = "All"
-        Me.TxtItem.Name = "TxtItem"
-        Me.TxtItem.Size = New System.Drawing.Size(382, 19)
-        Me.TxtItem.TabIndex = 453
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnPartyWise)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnInvoiceWise)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(485, 51)
+        Me.RadGroupBox3.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox3.TabIndex = 455
+        Me.RadGroupBox3.Visible = False
         '
-        'MyLabel3
+        'rbtnPartyWise
         '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(16, 146)
-        Me.MyLabel3.Margin = New System.Windows.Forms.Padding(4)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(58, 18)
-        Me.MyLabel3.TabIndex = 454
-        Me.MyLabel3.Text = "Item Code"
+        Me.rbtnPartyWise.AutoSize = True
+        Me.rbtnPartyWise.Location = New System.Drawing.Point(129, 14)
+        Me.rbtnPartyWise.Name = "rbtnPartyWise"
+        Me.rbtnPartyWise.Size = New System.Drawing.Size(78, 17)
+        Me.rbtnPartyWise.TabIndex = 1
+        Me.rbtnPartyWise.Text = "Party Wise"
+        Me.rbtnPartyWise.UseVisualStyleBackColor = True
+        '
+        'rbtnInvoiceWise
+        '
+        Me.rbtnInvoiceWise.AutoSize = True
+        Me.rbtnInvoiceWise.Checked = True
+        Me.rbtnInvoiceWise.Location = New System.Drawing.Point(15, 14)
+        Me.rbtnInvoiceWise.Name = "rbtnInvoiceWise"
+        Me.rbtnInvoiceWise.Size = New System.Drawing.Size(89, 17)
+        Me.rbtnInvoiceWise.TabIndex = 0
+        Me.rbtnInvoiceWise.TabStop = True
+        Me.rbtnInvoiceWise.Text = "Invoice Wise"
+        Me.rbtnInvoiceWise.UseVisualStyleBackColor = True
         '
         'FrmPrintDistributerInvoiceStatement
         '
@@ -807,6 +849,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -846,7 +889,9 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -903,5 +948,8 @@ Partial Class FrmPrintDistributerInvoiceStatement
     Friend WithEvents rbtnMilk As RadioButton
     Friend WithEvents TxtItem As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbtnPartyWise As RadioButton
+    Friend WithEvents rbtnInvoiceWise As RadioButton
 End Class
 

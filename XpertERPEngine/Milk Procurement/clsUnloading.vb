@@ -279,7 +279,8 @@ Public Class clsUnloading
             End If
             Dim strQry As String = " update TSPL_MILK_UNLOADING set isPosted='1', Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where Unloading_no='" & StrDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(strQry, trans)
-          
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -1019,12 +1019,14 @@ Public Class clsSaleRegisterDetail
                     " Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else case when [trans type]='Fresh Sale Return' then [Amount Less Discount]+cast(Additional_Charge as numeric(18,2))  else ([Total Amount]-[Total Tax Amount]+cast(Additional_Charge as numeric(18,2))) end end) as [Sale Amount],Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else ([Total Amount]-[Total Tax Amount]+MANDI_TAX_AMT+cast(Additional_Charge as numeric(18,2))) end) as [Sale Amount GST]," &
                     " case when Scheme_Item='Y' then 0 else [Total Tax Amount] end as [Total Tax Amount], " &
                     " Convert(decimal(18,2),case when Scheme_Item='Y' then 0 else (cast(Additional_Charge as numeric(18,2))+[Total Amount]) end) as [Total Amount],"
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    strMCCMaterial += "([Total Amount] + isnull(Security_Amt,0)+ isnull(Transporter_Commission_Amt,0)) as [Gross Amount], "
-                Else
-                    'strMCCMaterial += " ([Total Amount] + isnull(Security_Amt,0)) as [Gross Amount], "
-                    strMCCMaterial += " ([Total Amount]  - TotalSubsidyAmt) as [Gross Amount], "
-                End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                strMCCMaterial += "([Total Amount] + isnull(Security_Amt,0)+ isnull(Transporter_Commission_Amt,0)) as [Gross Amount], "
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                strMCCMaterial += "([Total Amount] - isnull(Transporter_Commission_Amt,0)) as [Gross Amount], "
+            Else
+                'strMCCMaterial += " ([Total Amount] + isnull(Security_Amt,0)) as [Gross Amount], "
+                strMCCMaterial += " ([Total Amount]  - isnull(TotalSubsidyAmt,0)) as [Gross Amount], "
+            End If
                 strMCCMaterial += " [Ack No],CONVERT(varchar, ([ACK Date]), 103)[ACK Date],[IRN No],CustomerType,PaymentType,Payment_Terms as [Payment Terms],[Narration], " &
                     " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], " &
                      "  case when [trans type] in ('CSA Sale','CSA Sale Return') then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end) else case when [trans type] in ('Dairy Sale Return','Product Sale Return', 'Fresh Sale Return') then left(Item.Sales_Return_Account , Len(Item.Sales_Return_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end  end as [Sales Account], " &

@@ -2447,4 +2447,16 @@ LEFT OUTER JOIN  tspl_booking_detail ON TSPL_BOOKING_MATSER.Document_No=tspl_boo
             Next
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_GATEPASS_MASTER_DAIRYSALE", "TSPL_GATEPASS_DETAIL_DAIRYSALE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

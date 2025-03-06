@@ -110,11 +110,11 @@ Public Class clsMilkTransferIn
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(obj.Created_Date, "dd/MMM/yyyy hh:mm:ss tt"))
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_milk_transfer_in", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_Challan_No, "tspl_milk_transfer_in", "Receipt_Challan_No", trans)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_milk_transfer_in", OMInsertOrUpdate.Update, "tspl_milk_transfer_in.Receipt_Challan_No='" + obj.Receipt_Challan_No + "'", trans)
             End If
             'issaved = issaved And clsTransferInPaperSealDetail.SaveData(obj.arrPaperSeal, trans, False)
             'issaved = issaved And clsTransferInManualSealDetail.SaveData(obj.arrPaperSeal, trans, False)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_Challan_No, "tspl_milk_transfer_in", "Receipt_Challan_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -155,6 +155,8 @@ Public Class clsMilkTransferIn
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferIn, dt.Rows(0)("location_code"), dt.Rows(0)("Receipt_Challan_Date"), trans)
 
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_milk_transfer_in", "Receipt_Challan_No", trans)
+
             Dim Qry As String = "select isPosted from TSPL_MILK_TRANSFER_IN where Receipt_Challan_No='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")

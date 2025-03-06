@@ -2041,4 +2041,18 @@ Public Class FrmQCSeparation
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndQcNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            'clsERPFuncationalityOLD.ShowTransHistoryData(fndQcNo.Value, "QC_No", "tspl_quality_check", "TSPL_Quality_Chember_Details")
+            clsERPFuncationalityOLD.ShowHistoryData(fndQcNo.Value, "QC_No", "tspl_quality_check")
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -103,9 +103,10 @@ Public Class clsMilkTransferInReturn
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(obj.Created_Date, "dd/MMM/yyyy hh:mm:ss tt"))
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_TRANSFER_IN_RETURN", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_Challan_No, "TSPL_MILK_TRANSFER_IN_RETURN", "Receipt_Challan_No", trans)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_TRANSFER_IN_RETURN", OMInsertOrUpdate.Update, "TSPL_MILK_TRANSFER_IN_RETURN.Receipt_Challan_No='" + obj.Receipt_Challan_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_Challan_No, "TSPL_MILK_TRANSFER_IN_RETURN", "Receipt_Challan_No", trans)
+
             'issaved = issaved And clsTransferInPaperSealDetail.SaveData(obj.arrPaperSeal, trans, False)
             'issaved = issaved And clsTransferInManualSealDetail.SaveData(obj.arrPaperSeal, trans, False)
 
@@ -139,6 +140,7 @@ Public Class clsMilkTransferInReturn
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_TRANSFER_IN_RETURN", "Receipt_Challan_No", trans)
 
             ''Delete Consumption Entry by balwinder on 09/08/2017
             Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (" + Environment.NewLine + _
@@ -1328,6 +1330,8 @@ Public Class clsMilkTransferInReturn
             Dim isDeleted As Boolean = True
             '            Dim qry As String = "delete from TSPL_Milk_Transfer_In_Paper_Seal_Details where  chalan_No='" & strReceiptChallanNo & "'"
             '           isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strReceiptChallanNo, "TSPL_MILK_TRANSFER_IN_RETURN", "receipt_challan_Return_no", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strReceiptChallanNo, "TSPL_MILK_TRANSFER_IN_RETURN", "receipt_challan_Return_no", trans)
             Dim qry As String = "delete from TSPL_MILK_TRANSFER_IN_RETURN where  receipt_challan_Return_no='" & strReceiptChallanNo & "'"
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
