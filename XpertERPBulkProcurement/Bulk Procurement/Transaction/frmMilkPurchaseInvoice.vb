@@ -279,10 +279,14 @@ Public Class FrmMilkPurchaseInvoice
                             Reason = frm.strRmks
                         End If
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_NO, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
+
                         Try
                             For Each dr As DataRow In dt.Rows
                                 ''Delete Purchase Invoice Journal Entry 
                                 Dim docNo As String = clsCommon.myCstr(dr("InvGLVoucherNo"))
+
                                 If clsCommon.myLen(docNo) > 0 Then
                                     qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No  in ('" + docNo + "')"
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -4400,5 +4404,17 @@ Public Class FrmMilkPurchaseInvoice
             txtTDSAmt.Text = "0.00"
         End If
         txtAmtAfterTDS.Text = clsCommon.myFormat(clsCommon.myCDecimal(txtTotalAmt.Text) - clsCommon.myCDecimal(txtTDSAmt.Text))
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndDocNo.Value, "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

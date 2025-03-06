@@ -4309,7 +4309,11 @@ Public Class frmSRN
         UcAttachment1.BlankAllControls()
         btnReverse.Visible = False
         AllowDepartmentMandatoryOnPurchaseCycle()
-        txtSubLocation.Enabled = True
+        If objCommonVar.RCDFCFP Then
+            txtSubLocation.Enabled = False
+        Else
+            txtSubLocation.Enabled = True
+        End If
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
         txttender.Text = Nothing
@@ -6476,7 +6480,12 @@ Public Class frmSRN
                     Next
                     If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
-                            If chkJobWorkOutward.Checked = False Then
+                            'If chkJobWorkOutward.Checked = False Then
+                            '    txtSubLocation.Enabled = True
+                            'End If
+                            If objCommonVar.RCDFCFP Then
+                                txtSubLocation.Enabled = False
+                            Else
                                 txtSubLocation.Enabled = True
                             End If
                         End If
@@ -7241,7 +7250,12 @@ Public Class frmSRN
                     txtShipToLocation.Enabled = False
                     txtSubLocation.Value = objMRNHead.Sublocation_Code
                     lblSubLocation.Text = clsLocation.GetName(objMRNHead.Sublocation_Code, Nothing)
-                    txtSubLocation.Enabled = False
+                    'txtSubLocation.Enabled = False
+                    If objCommonVar.RCDFCFP Then
+                        txtSubLocation.Enabled = False
+                    Else
+                        txtSubLocation.Enabled = True
+                    End If
                     TxtRetention.Text = objMRNHead.Retention
                     If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
                         cboItemType.SelectedValue = objMRNHead.Item_Type
@@ -7691,7 +7705,12 @@ Public Class frmSRN
 
                     If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
-                            If chkJobWorkOutward.Checked = False Then
+                            'If chkJobWorkOutward.Checked = False Then
+                            '    txtSubLocation.Enabled = True
+                            'End If
+                            If objCommonVar.RCDFCFP Then
+                                txtSubLocation.Enabled = False
+                            Else
                                 txtSubLocation.Enabled = True
                             End If
                         End If

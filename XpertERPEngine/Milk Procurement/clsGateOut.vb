@@ -61,6 +61,9 @@ where TSPL_Gate_Out.Doc_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateOut, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Gate_Out", "Doc_no", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Gate_Out", "Doc_no", trans)
 
             Dim qry As String = "delete from TSPL_Gate_Out where doc_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
@@ -158,12 +161,15 @@ where TSPL_Gate_Out.Doc_No='" + obj.Doc_No + "'", trans)
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Gate_Out", OMInsertOrUpdate.Update, "TSPL_Gate_Out.Doc_no='" + obj.Doc_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Gate_Out", "Doc_no", trans)
+
             coll = New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Modified_By", clsCommon.myCstr(obj.Modify_By))
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans, "dd/MM/yyyy hh:mm:ss tt"), "dd/MM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "isGateOut", 1)
             clsCommon.AddColumnsForChange(coll, "Ref_Doc_No", "", True)
             issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_tanker_master", OMInsertOrUpdate.Update, "tspl_tanker_master.tanker_no='" + obj.Tanker_No + "'", trans)
+
             Dim QCStatus As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Param_Accepted from tspl_quality_check where QC_No='" & obj.QC_No & "'", trans))
             If QCStatus = 0 Then
                 issaved = issaved And clsDBFuncationality.ExecuteNonQuery("Update TSPL_Weighment_Detail set isPosted=1,Posting_Date='" & clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy") & "' where Weighment_No='" & obj.Weighment_No & "'", trans)

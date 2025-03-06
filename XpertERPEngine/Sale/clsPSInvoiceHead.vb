@@ -3212,9 +3212,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 " FOR XML PATH('') ), 1, 1, ''),'' ) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Voucher Number of Linked Advance Receipt]" &
                 " , case when isnull(xx.[Delivery No],'')='' then 0 else (select sum(Receipt_Amount) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Adjustment Amount of the Linked Advance Receipt], "
             End If
-            strMCCMaterial += " [LUT No],TCSBaseAmount,"
+            strMCCMaterial += " [LUT No],TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " PaymentType "
+                strMCCMaterial += " ,PaymentType "
             End If
             strMCCMaterial += "" & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " ,Fat_Amt as [Fat Amount],SNF_Amt as [SNF Amount],Standard_Rate as [Standard Rate] ", "") & " "
 
@@ -3669,7 +3669,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strScarpCommonQry += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms,  "
             End If
 
-            strScarpCommonQry += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SCRAPINVOICE_HEAD.Description as Narration,'' as Formtype,'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
+            strScarpCommonQry += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SCRAPINVOICE_HEAD.Description as Narration,'' as Formtype,'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
                                 " ,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd, " &
                                 " case when isnull(TSPL_SCRAPSALE_HEAD.Is_CashSale,'N')='Y' then 'Cash Sale Invoice' when isnull(TSPL_SCRAPSALE_HEAD.Is_Scrap,'N')='Y' then 'Scrap Sale Invoice' when isnull(TSPL_SCRAPSALE_HEAD.Doc_Type ,'S')='J' then 'Job Work Invoice' else 'Misc Sale Invoice' end as Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No as shipment_No ,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103 ) as Document_Date , " &
                                 " TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code ," &
@@ -3831,7 +3831,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strSDRCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
-            strSDRCommonQuery += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No],TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],(case when len(TSPL_SD_SALE_RETURN_HEAD.Description)<=0 then TSPL_SD_SALE_RETURN_HEAD.Comments else TSPL_SD_SALE_RETURN_HEAD.Description end) as Narration,'' as Formtype,(CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_RETURN_HEAD.IS_CANCELLED=1 THEN  TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'RC' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " &
+            strSDRCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No],TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],(case when len(TSPL_SD_SALE_RETURN_HEAD.Description)<=0 then TSPL_SD_SALE_RETURN_HEAD.Comments else TSPL_SD_SALE_RETURN_HEAD.Description end) as Narration,'' as Formtype,(CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_RETURN_HEAD.IS_CANCELLED=1 THEN  TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'RC' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " &
                               " TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_RETURN_HEAD.Document_Type,TSPL_SD_SALE_RETURN_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.Document_Code , " &
                               " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_RETURN_DETAIL.Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No , " &
                               " -TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code ,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost , " &
@@ -4010,7 +4010,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
-            strMCCMaterial += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as _Type,'' as [Form Type],'Bulk Sale Return' as [Trans Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALE_RETURN_MASTER_BULKSALE.Posted as Status,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] ,'Invoice' as [Invoice Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as [Document No] ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) as [Document_date],'' as [Narration],'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &
+            strMCCMaterial += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as _Type,'' as [Form Type],'Bulk Sale Return' as [Trans Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALE_RETURN_MASTER_BULKSALE.Posted as Status,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] ,'Invoice' as [Invoice Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as [Document No] ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) as [Document_date],'' as [Narration],'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &
                                " TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As [Customer Address] ,TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER .GST_Registered as [Registered],TSPL_CUSTOMER_MASTER .GST_COMPOSITION as [Composition],TSPL_CUSTOMER_MASTER .City_Code as [City Code],TSPL_CITY_MASTER .City_Name as [Place of Supply],TSPL_STATE_MASTER.GST_STATE_Code AS [Customer GST State Code] ,TSPL_CUSTOMER_MASTER.Parent_Customer_No as [Parent Customer No]," &
                                " Parent_Master.Cust_Code as [Parent Customer Code],Parent_Master.Customer_Name as [Parent Customer Name] ," &
                                " TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code as [Item Code],tspl_item_master.Item_Desc as [Item Name],tspl_item_master.HSN_Code as [HSN Code] ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as [Quantity] ,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code as [UOM],TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceRate as [Item Cost],TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatPer as [Fat Per] ,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFPer as [SNF Per] ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatKG as [Fat Kg] ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFKG as [SNF KG]  ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as [Discount Per],0 as [Discount Amount],0 as [Scheme Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as [Amount Less Discount] " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",-TSPL_SALE_RETURN_DETAIL_BULKSALE.Total_Tax_Amt as [Total Tax Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as [Total Amount], " &
@@ -4069,7 +4069,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strSDRCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
-            strSDRCommonQuery += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as Narration,'' as Formtype,'MS-SR' as Trans_Type,TSPL_SCRAPSALE_HEAD_RETURN.ispost as Status ,TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code, " &
+            strSDRCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as Narration,'' as Formtype,'MS-SR' as Trans_Type,TSPL_SCRAPSALE_HEAD_RETURN.ispost as Status ,TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code, " &
                               " TSPL_SCRAPSALE_HEAD_RETURN.Cust_Code AS Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SCRAPSALE_HEAD_RETURN.Invoice_Type ,'') AS Invoice_Type,TSPL_SCRAPSALE_HEAD_RETURN.Document_No , " &
                               " convert(varchar,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103 ) as Document_Date , TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code,TSPL_SCRAPSALE_DETAIL_RETURN.Line_No , " &
                               " -TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty as Qty ,TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code ,TSPL_SCRAPSALE_DETAIL_RETURN.price , " &
@@ -4926,7 +4926,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strDebitCreditCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
-            strDebitCreditCommonQuery += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date], TSPL_Customer_Invoice_Head.Description As Narration,'' as Formtype, 'Debit/Credit' as Trans_Type  ,TSPL_Customer_Invoice_Head.Status ,TSPL_Customer_Invoice_Head.Loc_Code as Bill_To_Location, " &
+            strDebitCreditCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date], TSPL_Customer_Invoice_Head.Description As Narration,'' as Formtype, 'Debit/Credit' as Trans_Type  ,TSPL_Customer_Invoice_Head.Status ,TSPL_Customer_Invoice_Head.Loc_Code as Bill_To_Location, " &
                                         " TSPL_Customer_Invoice_Head.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd," &
                                         " TSPL_Customer_Invoice_Head.Document_Type AS Invoice_Type,TSPL_Customer_Invoice_Head.Document_No as Document_Code , " &
                                         " convert(varchar,TSPL_Customer_Invoice_Head.Document_Date,103 ) as Document_Date , '' as Item_Code,TSPL_Customer_Invoice_detail.SNo as Line_No, " &
@@ -5073,7 +5073,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strSDCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
-            strSDCommonQuery += "TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SD_SALE_INVOICE_HEAD.Description as Narration,case when TSPL_SD_SALE_INVOICE_HEAD.Against_C_Form = 1 then 'C' else '' End as Formtype,case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location," &
+            strSDCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SD_SALE_INVOICE_HEAD.Description as Narration,case when TSPL_SD_SALE_INVOICE_HEAD.Against_C_Form = 1 then 'C' else '' End as Formtype,case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location," &
                            " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Code , " &
                            " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No , " &
                            " (case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 then 0 else TSPL_SD_SALE_INVOICE_DETAIL.Qty end) as Qty, " &
@@ -5273,13 +5273,13 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " &
                           " left join TSPL_LOCATION_MASTER as Loc on Loc.Location_Code=xx.[Location Code] " &
                           " left join TSPL_STATE_MASTER GSTState on loc.State=GSTState.STATE_CODE " &
-                          " left outer join (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_ROUTE_MASTER.Route_Desc,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_SD_SALE_INVOICE_HEAD.IRN_No"
+                          " left outer join (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_ROUTE_MASTER.Route_Desc,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_SD_SALE_INVOICE_HEAD.IRN_No "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
             strMCCMaterial += " ,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms "
         End If
 
-        strMCCMaterial += "from TSPL_SD_SALE_INVOICE_HEAD LEFT OUTER JOIN  TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No =TSPL_SD_SALE_INVOICE_HEAD.Route_No )  as Route_Table on Route_Table.Document_Code =[Document No] " &
+        strMCCMaterial += " from TSPL_SD_SALE_INVOICE_HEAD LEFT OUTER JOIN  TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No =TSPL_SD_SALE_INVOICE_HEAD.Route_No )  as Route_Table on Route_Table.Document_Code =[Document No] " &
                           " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.vsp_code=xx.[Customer Code] "
         If clsCommon.myLen(strCategoryTable) > 0 Then
             strMCCMaterial += " left outer join (" + strCategoryTable + ") as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=xx.[Item Code]"

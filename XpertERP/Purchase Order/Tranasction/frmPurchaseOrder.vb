@@ -4441,7 +4441,11 @@ Public Class frmPurchaseOrder
 
         gvCategoryValue.Rows.AddNew()
         gvTermsCdtion.Rows.AddNew()
-        txtSubLocation.Enabled = False
+        If objCommonVar.RCDFCFP Then
+            txtSubLocation.Enabled = False
+        Else
+            txtSubLocation.Enabled = True
+        End If
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
         chkGSTRegistered.Checked = True
@@ -6333,10 +6337,15 @@ Public Class frmPurchaseOrder
                 txtSubLocation.Value = obj.Sublocation_Code
                 TxtRetention.Text = obj.Retention
                 chkJobWorkOutward.Checked = obj.isJobWorkOutward
-                If chkJobWorkOutward.Checked = True Then
+                If objCommonVar.RCDFCFP Then
                     txtSubLocation.Enabled = False
-
+                Else
+                    txtSubLocation.Enabled = True
                 End If
+                'If chkJobWorkOutward.Checked = True Then
+                '    txtSubLocation.Enabled = False
+
+                'End If
                 chkJobWorkOutward.Enabled = False
                 lblSubLocation.Text = obj.SubLocationName
                 txtRemarks.Text = obj.Remarks
@@ -7067,7 +7076,7 @@ Public Class frmPurchaseOrder
                         txtBillToLocation.Enabled = False
                         ''------------------
                     End If
-                    If  obj.Status = ERPTransactionStatus.Pending OrElse obj.Status = ERPTransactionStatus.Approved Then
+                    If obj.Status = ERPTransactionStatus.Pending OrElse obj.Status = ERPTransactionStatus.Approved Then
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
@@ -10195,7 +10204,11 @@ Public Class frmPurchaseOrder
             clsCommon.MyMessageBoxShow(Me, "Please select Bill To location code before sub location", Me.Text)
             Exit Sub
         End If
-        txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & txtBillToLocation.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
+        If chkJobWorkOutward.Checked Then
+            txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & txtBillToLocation.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
+        Else
+            txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & txtBillToLocation.Value & "'  and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
+        End If
         If clsCommon.myLen(txtSubLocation.Value) > 0 Then
             lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
         Else
@@ -10204,15 +10217,15 @@ Public Class frmPurchaseOrder
         strLocations = Nothing
     End Sub
 
-    Private Sub chkJobWorkOutward_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkJobWorkOutward.ToggleStateChanged
-        If chkJobWorkOutward.Checked = True Then
-            txtSubLocation.Enabled = True
-        Else
-            txtSubLocation.Enabled = False
-            txtSubLocation.Value = ""
-            lblSubLocation.Text = ""
-        End If
-    End Sub
+    'Private Sub chkJobWorkOutward_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkJobWorkOutward.ToggleStateChanged
+    '    If chkJobWorkOutward.Checked = True Then
+    '        txtSubLocation.Enabled = True
+    '    Else
+    '        txtSubLocation.Enabled = False
+    '        txtSubLocation.Value = ""
+    '        lblSubLocation.Text = ""
+    '    End If
+    'End Sub
 
     ' Ticket No : KDI/02/05/18-000284 by Prabhakar
     Public Sub FillVendorDetails()

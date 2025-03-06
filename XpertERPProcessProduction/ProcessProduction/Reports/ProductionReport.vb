@@ -84,10 +84,10 @@ Public Class ProductionReport
                                    left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
 								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
-                                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE"
+                                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry = +" " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
-            qry = +" )Tab1
+            qry += " where " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
+            qry += " )Tab1
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN ('FG0001','FG0002','FG0003')  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
             If clsCommon.myLen(qry) > 0 Then
@@ -303,7 +303,10 @@ Public Class ProductionReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-
+            Dim Status1 As String = ""
+            Dim FG As String = ""
+            Dim SFG As String = ""
+            Dim FGSFG As String = ""
             Dim whr As String = ""
             If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
                 whr += " and LOCATION_CODE IN ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
@@ -313,8 +316,22 @@ Public Class ProductionReport
                 'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
                 'End If
             End If
+            If rdbPosted.IsChecked = True Then
+                Status1 = "  TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
+            ElseIf rdbUnposted.IsChecked = True Then
+                Status1 = "  TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
+            ElseIf rdbAll.IsChecked = True Then
 
-            Dim qry As String = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,ITEM_DESCRIPTION,[Item Code],isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            End If
+            If rdbFG.IsChecked = True Then
+                FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+            ElseIf rdbSFG.IsChecked = True Then
+                SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
+            ElseIf rdbfgsfg.IsChecked = True Then
+                FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
+            End If
+            Dim qry As String = ""
+            qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
                           FROM
@@ -323,9 +340,12 @@ Public Class ProductionReport
                                    left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
 								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
-                                    )Tab1
+                                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
+
+            qry += " where " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
+            qry += " )Tab1
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
-									where [Item Code] IN ('FG0001','FG0002','FG0003')  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr
+									where [Item Code] IN ('FG0001','FG0002','FG0003')  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -361,6 +381,8 @@ Public Class ProductionReport
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
 
     End Sub
 
