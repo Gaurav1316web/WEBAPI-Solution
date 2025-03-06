@@ -22,12 +22,12 @@ Partial Class FrmMilkTransferIn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -127,6 +127,7 @@ Partial Class FrmMilkTransferIn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -243,6 +244,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -281,6 +283,7 @@ Partial Class FrmMilkTransferIn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadGroupBox1)
@@ -673,7 +676,7 @@ Partial Class FrmMilkTransferIn
         Me.lblVendor.FieldName = Nothing
         Me.lblVendor.Location = New System.Drawing.Point(6, 32)
         Me.lblVendor.Name = "lblVendor"
-        Me.lblVendor.Size = New System.Drawing.Size(59, 18)
+        Me.lblVendor.Size = New System.Drawing.Size(60, 18)
         Me.lblVendor.TabIndex = 325
         Me.lblVendor.Text = "MCC/Plant"
         '
@@ -1172,12 +1175,13 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.Size = New System.Drawing.Size(544, 161)
         Me.gvOldSealPaper.TabIndex = 203
+        Me.gvOldSealPaper.VarID = ""
         '
         'GroupBox2
         '
@@ -1201,12 +1205,13 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
         Me.gvOldSeal.Size = New System.Drawing.Size(541, 161)
         Me.gvOldSeal.TabIndex = 202
+        Me.gvOldSeal.VarID = ""
         '
         'chkNewSealNo
         '
@@ -1548,12 +1553,13 @@ Partial Class FrmMilkTransferIn
         Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
         Me.gvWeighment.Size = New System.Drawing.Size(1101, 208)
         Me.gvWeighment.TabIndex = 203
+        Me.gvWeighment.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1712,12 +1718,13 @@ Partial Class FrmMilkTransferIn
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1101, 250)
         Me.gvParam.TabIndex = 203
+        Me.gvParam.VarID = ""
         '
         'btnJE
         '
@@ -1789,12 +1796,13 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSealPaper.TabIndex = 203
+        Me.gvNewSealPaper.VarID = ""
         '
         'GroupBox4
         '
@@ -1817,12 +1825,13 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True
         Me.gvNewSeal.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSeal.TabIndex = 202
+        Me.gvNewSeal.VarID = ""
         '
         'btnClose
         '
@@ -1863,6 +1872,17 @@ Partial Class FrmMilkTransferIn
         Me.btnDelete.Size = New System.Drawing.Size(68, 18)
         Me.btnDelete.TabIndex = 4
         Me.btnDelete.Text = "Delete"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(355, 20)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 346
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'FrmMilkTransferIn
         '
@@ -1999,6 +2019,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(false)
 
@@ -2102,5 +2123,6 @@ End Sub
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents fndReferenceNo As common.Controls.MyTextBox
     Friend WithEvents btnJE As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

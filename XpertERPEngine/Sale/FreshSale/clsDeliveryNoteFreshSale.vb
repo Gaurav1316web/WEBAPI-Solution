@@ -142,6 +142,7 @@ Public Class clsDeliveryNoteFreshSale
             End If
 
             isSaved = isSaved AndAlso clsDeliveryNoteFreshSaleDetail.SaveData(obj.Document_No, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
 
             qry = "Update  TSPL_CUSTOMER_MASTER set Credit_Limit =Credit_Limit  + " & obj.Credit_Limit & " where Cust_Code='" & obj.Customer_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -270,6 +271,8 @@ Public Class clsDeliveryNoteFreshSale
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDeliveryOrderDairy, obj.Location_Code, obj.Document_Date, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
 
                 Dim qry = "delete from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -336,8 +339,7 @@ Public Class clsDeliveryNoteFreshSale
                 End If
             End If
 
-
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
