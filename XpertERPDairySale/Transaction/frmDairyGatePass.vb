@@ -2662,8 +2662,8 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
   left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code = I.item_code 
 
-where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='27-Nov-2024'
-and Route_No='HMH-B RT' and Shift_Type='PM' and status=1 )
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
+and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
                 If dtFresh.Rows.Count > 0 Then
@@ -2732,19 +2732,28 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             '    Exit Sub
             'End If
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBookingQtyAmtReport & "'"))
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                arrHeader.Add(objCommonVar.CurrentCompanyName + "  Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType + " ")
+                'arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
+                arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "   Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "    Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
+                'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
+                'arrHeader.Add(("Shift Type: " + ShiftType + "  "))
+                'arrHeader.Add(("Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
+            Else
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBookingQtyAmtReport & "'"))
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
+                arrHeader.Add(("Route No: " + clsCommon.myCstr(fndRouteNo.Value) + "  "))
+                arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "  "))
+                arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
+                arrHeader.Add(("Shift Type: " + ShiftType + "  "))
 
-            arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
-            arrHeader.Add(("Route No: " + clsCommon.myCstr(fndRouteNo.Value) + "  "))
-            arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "  "))
-            arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
-            arrHeader.Add(("Shift Type: " + ShiftType + "  "))
+                arrHeader.Add(("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "  "))
+                arrHeader.Add(("Vehicle_No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
+                arrHeader.Add(("Driver: " + clsCommon.myCstr(txtDriverName.Text) + "  "))
+                arrHeader.Add(("Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
 
-            arrHeader.Add(("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "  "))
-            arrHeader.Add(("Vehicle_No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
-            arrHeader.Add(("Driver: " + clsCommon.myCstr(txtDriverName.Text) + "  "))
-            arrHeader.Add(("Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
+            End If
 
             'If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
             '    arrHeader.Add("Location : " + clsCommon.GetMulcallStringWithComma(txtLocation.arrDispalyMember))
