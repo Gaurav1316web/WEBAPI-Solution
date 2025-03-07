@@ -76,6 +76,7 @@ Public Class clsDemandAdjustment
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_ADJUSTMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code='" + clsCommon.myCstr(obj.Document_Code) + "' ", trans)
             End If
             clsDemandAdjustmentDetail.SaveData(obj.Document_Code, obj.Document_Date, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -287,6 +288,10 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+
             Dim StrQry As String = "delete from TSPL_DEMAND_ADJUSTMENT_DETAIL where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
             StrQry = "delete from TSPL_DEMAND_ADJUSTMENT_Head where Document_Code='" + strCode + "'"

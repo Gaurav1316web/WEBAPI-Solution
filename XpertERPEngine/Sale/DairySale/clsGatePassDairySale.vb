@@ -391,6 +391,7 @@ Public Class clsGatePassDairySale
                 "Modified_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' " & _
                 " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -6092,7 +6092,7 @@ Public Class frmPerformaInvoiceDairy
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "tspl_dairy_proforma_invoice_head", "TSPL_TRANSFER_TO_SAVING_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "tspl_dairy_proforma_invoice_head", "tspl_dairy_proforma_invoice_detail")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

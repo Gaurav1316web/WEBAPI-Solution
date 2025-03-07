@@ -619,7 +619,7 @@ Public Class frmTranspoterDeduction
         coll.Add("Comp_Code", "varchar(12) null")
         coll.Add("PostedDate", "datetime null")
 
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", coll)
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", coll, Nothing, True, False, "", "", "", True)
 
         coll = New Dictionary(Of String, String)()
         coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -642,13 +642,13 @@ Public Class frmTranspoterDeduction
         coll.Add("ShortageOfLoadingStaffSupervisors_Amount", "decimal(18, 2) NOT NULL DEFAULT 0 ")
         coll.Add("Net_Amount", "decimal(18, 2) NOT NULL DEFAULT 0 ")
         coll.Add("Remarks", "Varchar(500) null ")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL", coll, Nothing, False, False)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL", coll, Nothing, True, False, "", "", "", True)
 
         coll = New Dictionary(Of String, String)()
         coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
         coll.Add("Document_Code", "Varchar(30) null REFERENCES TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER(Document_Code)")
         coll.Add("Route_Code", "Varchar(30) null ")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_ROUTE", coll, Nothing, False, False)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_ROUTE", coll, Nothing, True, False, "", "", "", True)
 
 
         SetUserMgmtNew()
@@ -1012,6 +1012,18 @@ Public Class frmTranspoterDeduction
             mulRoute.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "TranspoterDeduMulRoute@fnd", qry, "Code", "", mulRoute.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
