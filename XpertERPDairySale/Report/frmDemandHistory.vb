@@ -15,6 +15,8 @@ Public Class frmDemandHistory
     Const colAmt As String = "colAmt"
     Const colHistBy As String = "colHistBy"
     Const colHistOn As String = "colHistOn"
+    Const colEventSource As String = "colEventSource"
+    Const colEventType As String = "colEventType"
     Const ReportID As String = "DemandHistoryGrid"
 
 #End Region
@@ -31,6 +33,7 @@ Public Class frmDemandHistory
         buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         txtDate.Value = clsCommon.GETSERVERDATE()
         Reset()
+
     End Sub
     Private Sub frmDemandHistory_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnGo.Enabled Then
@@ -190,6 +193,22 @@ Public Class frmDemandHistory
         repoAmt.Width = 50
         repoAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoAmt)
+        If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+            Dim repoEventType As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoEventType.FormatString = ""
+            repoEventType.HeaderText = "Event Type"
+            repoEventType.Name = colEventType
+            repoEventType.Width = 50
+            repoEventType.ReadOnly = True
+            gv1.MasterTemplate.Columns.Add(repoEventType)
+            Dim repoEventSource As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoEventSource.FormatString = ""
+            repoEventSource.HeaderText = "Event Source"
+            repoEventSource.Name = colEventSource
+            repoEventSource.Width = 50
+            repoEventSource.ReadOnly = True
+            gv1.MasterTemplate.Columns.Add(repoEventSource)
+        End If
         Dim repoHistBy As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoHistBy.FormatString = ""
         repoHistBy.HeaderText = "History By"
@@ -262,6 +281,11 @@ Public Class frmDemandHistory
                 Next
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+                If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+                    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colEventType).Name)
+                    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colEventSource).Name)
+                End If
+
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colHistBy).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colHistOn).Name)
 
@@ -315,8 +339,12 @@ Public Class frmDemandHistory
                         gv1.Rows(dblrows).Cells(colRouteNo).Value = obj.Route_No
                         gv1.Rows(dblrows).Cells(colCustCode).Value = obj.Cust_Code
                         gv1.Rows(dblrows).Cells(colCustName).Value = obj.Cust_Name
-                        gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
-                        gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
+                    gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
+                    If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+                        gv1.Rows(dblrows).Cells(colEventType).Value = obj.EventType
+                        gv1.Rows(dblrows).Cells(colEventSource).Value = obj.EventSource
+                    End If
+                    gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
                         gv1.Rows(dblrows).Cells(colHistOn).Value = obj.History_ON
 
 
@@ -325,18 +353,18 @@ Public Class frmDemandHistory
                             For Each objTr As clsDemandHistoryDetail In obj.Arr
                                 If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                     Dim k As Integer = 1
-                                    For columns = 8 To gv1.Columns.Count - 4
-                                        Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
-                                        k = k + 1
-                                        If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
+                                For columns = 8 To gv1.Columns.Count - 7
+                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                    k = k + 1
+                                    If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
 
                                         gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
 
                                     End If
-                                        dblAmt = objTr.Amount
-                                    Next
+                                    dblAmt = objTr.Amount
+                                Next
 
-                                End If
+                            End If
                             Next
                         End If
                     gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
@@ -473,7 +501,9 @@ Public Class frmDemandHistory
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
     End Sub
+
 
     Private Sub cmbScreenType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cmbScreenType.SelectedIndexChanged
         Try

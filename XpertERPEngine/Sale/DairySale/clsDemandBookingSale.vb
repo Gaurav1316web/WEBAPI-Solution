@@ -83,7 +83,94 @@ Public Class clsDemandBookingSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry, IsDemandUploader, obj.Route_No)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function SaveDemandHistoryData(ByVal obj As clsDemandBookingSale, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal operation_type As String, ByVal operation_Source As String, ByVal Hist_By As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim strQry As String = "Select  isnull(max(Hist_Version),0) from TSPL_Demand_Booking_Detail_History where Document_no='" + obj.Document_No + "'"
+            Dim Hist_version As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry, trans))
+
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each objTr As clsDemandBookingSaleDetail In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "TR_CODE", objTr.TR_CODE)
+                    clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+                    clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+                    clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
+                    clsCommon.AddColumnsForChange(coll, "Line_No", objTr.Line_No)
+                    clsCommon.AddColumnsForChange(coll, "Trip_No", objTr.Trip_No)
+                    clsCommon.AddColumnsForChange(coll, "Cust_Code", objTr.Cust_Code)
+                    clsCommon.AddColumnsForChange(coll, "Created_By", objTr.Created_By)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", objTr.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Unit_code", objTr.Unit_code)
+                    clsCommon.AddColumnsForChange(coll, "Qty", objTr.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Item_Rate", objTr.Rate)
+                    clsCommon.AddColumnsForChange(coll, "Price_Code", objTr.Price_Code)
+                    clsCommon.AddColumnsForChange(coll, "Vehicle_Code", objTr.Vehicle_Code)
+                    clsCommon.AddColumnsForChange(coll, "ShiftType", objTr.ShiftType)
+                    clsCommon.AddColumnsForChange(coll, "IsItemUpdate", objTr.IsItemUpdate)
+                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", objTr.TotalCrates_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", objTr.TotalLtr_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "ItemNetAmount", objTr.ItemNetAmount)
+                    clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", objTr.IsGatePassGenerated)
+                    clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", objTr.IsTruckSheetGenerated)
+                    clsCommon.AddColumnsForChange(coll, "TAX_Group", objTr.TAX_Group)
+                    clsCommon.AddColumnsForChange(coll, "TAX1", objTr.TAX1)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", objTr.TAX1_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Rate", objTr.TAX1_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Amt", objTr.TAX1_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2", objTr.TAX2)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", objTr.TAX2_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Rate", objTr.TAX2_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Amt", objTr.TAX2_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3", objTr.TAX3)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", objTr.TAX3_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Rate", objTr.TAX3_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Amt", objTr.TAX3_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4", objTr.TAX4)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", objTr.TAX4_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Rate", objTr.TAX4_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Amt", objTr.TAX4_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5", objTr.TAX5)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", objTr.TAX5_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Rate", objTr.TAX5_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Amt", objTr.TAX5_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6", objTr.TAX6)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", objTr.TAX6_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Rate", objTr.TAX6_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Amt", objTr.TAX6_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7", objTr.TAX7)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", objTr.TAX7_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Rate", objTr.TAX7_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Amt", objTr.TAX7_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8", objTr.TAX8)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", objTr.TAX8_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Rate", objTr.TAX8_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Amt", objTr.TAX8_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9", objTr.TAX9)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", objTr.TAX9_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Rate", objTr.TAX9_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Amt", objTr.TAX9_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10", objTr.TAX10)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", objTr.TAX10_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Rate", objTr.TAX10_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Amt", objTr.TAX10_Amt)
+                    clsCommon.AddColumnsForChange(coll, "change_timestamp", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                    clsCommon.AddColumnsForChange(coll, "operation_type", operation_type)
+                    clsCommon.AddColumnsForChange(coll, "operation_Source", operation_Source)
+                    clsCommon.AddColumnsForChange(coll, "Hist_Version", Hist_version + 1)
+                    clsCommon.AddColumnsForChange(coll, "Hist_By", Hist_By)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL_History", OMInsertOrUpdate.Insert, "", trans)
+
+                Next
+            End If
+
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -538,8 +625,11 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where TR_Code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "')"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
+                    SaveDemandHistoryData(obj, obj1, "Reset Booth", "ERP", objCommonVar.CurrentUserCode, trans)
+
                 End If
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
                 qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
                 Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
@@ -724,8 +814,10 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
                     isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
+                    SaveDemandHistoryData(obj, obj1, "Deleted ", "ERP", objCommonVar.CurrentUserCode, trans)
+
                 End If
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                 qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
@@ -813,6 +905,8 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             End If
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             'Dim Mobj As clsDemandBookingSale = GetData(strDocNo, NavigatorType.Current, trans)
+            SaveDemandHistoryData(obj, obj.Arr, "Post", "ERP", objCommonVar.CurrentUserCode, trans)
+
             If IsRepertOrder Then
                 Dim docno As String = ""
                 Dim isNewEntry As Boolean = False
@@ -1080,6 +1174,9 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
             'End If
             Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0,Posted_Morning=null,Posted_Evening=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current, trans)
+            SaveDemandHistoryData(obj, obj.Arr, "Reverse/Unpost", "ERP", objCommonVar.CurrentUserCode, trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
