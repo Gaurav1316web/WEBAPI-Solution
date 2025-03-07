@@ -48620,7 +48620,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("InputData", "float null")
             coll.Add("Description", "varchar(500) null")
             coll.Add("Description_Status", "varchar(15) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_PARA_DETAIL", coll, Nothing, False, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_PARA_DETAIL", coll, Nothing, True, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_MCC_Sale_Return_Head_Farmer(DOCUMENT_CODE)")
