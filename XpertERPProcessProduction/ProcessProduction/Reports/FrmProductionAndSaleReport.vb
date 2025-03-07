@@ -1353,4 +1353,69 @@ Public Class FrmProductionAndSaleReport
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Private Sub gv1_ViewRowFormatting(sender As Object, e As RowFormattingEventArgs) Handles Gv1.ViewRowFormatting
+        If TypeOf e.RowElement Is GridDataRowElement Then
+            Dim rowIndex As Integer = e.RowElement.RowInfo.Index
+
+            ' Apply alternating row colors (even/odd)
+            If rowIndex Mod 2 = 0 Then
+                e.RowElement.BackColor = Color.FromArgb(252, 228, 214)
+            Else
+                e.RowElement.BackColor = Color.White  ' Odd row color
+            End If
+
+            ' Ensure the color persists even on hover/selection
+            e.RowElement.DrawFill = True
+            e.RowElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+            'e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+            'e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Local)
+
+        End If
+
+        ' Formatting for the Summary Row
+        If TypeOf e.RowElement Is GridSummaryRowElement Then
+            e.RowElement.BackColor = Color.DarkSalmon
+            e.RowElement.Font = New Font("Arial", 8, FontStyle.Bold)
+            e.RowElement.DrawFill = True
+            e.RowElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+        End If
+    End Sub
+
+    Private Sub gv1_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles Gv1.ViewCellFormatting
+        If TypeOf e.CellElement Is GridDataCellElement AndAlso e.CellElement.RowInfo IsNot Nothing AndAlso e.CellElement.RowInfo.Index >= 0 Then
+            Dim columnName As String = e.CellElement.ColumnInfo.Name
+            Dim cellValue As Object = e.CellElement.Value
+
+            ' Conditional Cell Formatting
+            If columnName = "CUD" Or columnName = "CUM" Or columnName = "CUY" Then
+                Dim numericValue As Decimal
+                If cellValue IsNot Nothing AndAlso Decimal.TryParse(cellValue.ToString(), numericValue) Then
+                    If numericValue < 100 Then
+                        e.CellElement.BackColor = Color.FromArgb(249, 128, 128)
+                    Else
+                        e.CellElement.BackColor = Color.FromArgb(144, 238, 144)
+                    End If
+                End If
+            End If
+
+            ' Ensure the color persists
+            e.CellElement.DrawFill = True
+            e.CellElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+            'e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+            'e.CellElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Local)
+
+        End If
+
+        ' Summary Cell Formatting
+        If TypeOf e.CellElement Is GridSummaryCellElement Then
+            Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
+            e.CellElement.TextAlignment = ContentAlignment.MiddleRight
+            summaryCell.ForeColor = Color.Black
+            summaryCell.Font = New Font("Arial", 8, FontStyle.Bold)
+            summaryCell.BackColor = Color.FromArgb(244, 176, 132)
+            summaryCell.DrawFill = True
+            summaryCell.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+        End If
+    End Sub
+
 End Class

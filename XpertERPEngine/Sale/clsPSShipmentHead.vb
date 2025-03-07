@@ -938,6 +938,8 @@ Public Class clsPSShipmentHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SHIPMENT_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsPSShipmentHeadDetail.SaveData(obj.Document_Code, obj.Arr, trans, obj.Document_Date, IsDairyModule, obj.Trans_Type)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+
             If obj.ArrDemand IsNot Nothing Then
                 clsPSShipmentDemand.SaveData(obj.Document_Code, obj.ArrDemand, trans)
 
@@ -1902,6 +1904,8 @@ Public Class clsPSShipmentHead
                     If coll.Count > 0 Then
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Against_Shipment_No='" + strDocNo + "'")
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SALE_INVOICE_HEAD", "Against_Shipment_No", trans)
+
                 End If
             Catch ex2 As Exception
                 strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
@@ -2021,6 +2025,8 @@ Public Class clsPSShipmentHead
             qry = "Update TSPL_SD_SHIPMENT_HEAD set  Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+
             ''Invoice Should create after post of Shipment.
             If obj.Is_Create_Auto_Invoice Then
                 'Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj)
@@ -3351,6 +3357,7 @@ Public Class clsPSShipmentHead
                 TransType_Str = obj.Trans_Type
                 TransType_Str = TransType_Str & "-SH"
                 clsBatchInventory.DeleteData(TransType_Str, obj.Document_Code, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)

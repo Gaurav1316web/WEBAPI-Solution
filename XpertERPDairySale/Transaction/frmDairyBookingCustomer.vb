@@ -4775,6 +4775,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                      "Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " &
                      "where Document_No='" + txtDocNo.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_BOOKING_MATSER", "Document_No", trans)
+
                     ''For ii As Integer = 8 To gv1.Columns.Count - 1
                     ''Dim objBooking As clsBookingTemp = TryCast(gv1.Columns(ii).Tag, clsBookingTemp)
                     'Dim dblTotalAmt As Double = clsCommon.myCdbl(lblTotRAmt1.Text)
@@ -9748,6 +9750,18 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click_1(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_BOOKING_MATSER", "TSPL_BOOKING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

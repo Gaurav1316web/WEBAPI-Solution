@@ -36,6 +36,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnDocumentDate = New common.Controls.MyRadioButton()
         Me.rbtnSupplyDate = New common.Controls.MyRadioButton()
         Me.BKNGroupBox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnGheeReport = New common.Controls.MyRadioButton()
+        Me.BtnTcsSummary = New common.Controls.MyRadioButton()
         Me.BtnTransportationCharges = New common.Controls.MyRadioButton()
         Me.BtnBillWiseSaleOfMilkSummary = New common.Controls.MyRadioButton()
         Me.BtnProductSalesSummary = New common.Controls.MyRadioButton()
@@ -67,8 +69,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.BtnTcsSummary = New common.Controls.MyRadioButton()
-        Me.BtnGheeReport = New common.Controls.MyRadioButton()
+        Me.BtnRouteWiseSale = New common.Controls.MyRadioButton()
+        Me.BtnCreditPartyWiseSaleAmount = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -86,6 +88,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.rbtnSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BKNGroupBox.SuspendLayout()
+        CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnTransportationCharges, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,8 +118,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnRouteWiseSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCreditPartyWiseSaleAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -258,6 +262,8 @@ Partial Class rptCustItemWiseSaleReport
         'BKNGroupBox
         '
         Me.BKNGroupBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.BKNGroupBox.Controls.Add(Me.BtnCreditPartyWiseSaleAmount)
+        Me.BKNGroupBox.Controls.Add(Me.BtnRouteWiseSale)
         Me.BKNGroupBox.Controls.Add(Me.BtnGheeReport)
         Me.BKNGroupBox.Controls.Add(Me.BtnTcsSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnTransportationCharges)
@@ -276,6 +282,28 @@ Partial Class rptCustItemWiseSaleReport
         Me.BKNGroupBox.Size = New System.Drawing.Size(406, 151)
         Me.BKNGroupBox.TabIndex = 447
         Me.BKNGroupBox.Visible = False
+        '
+        'BtnGheeReport
+        '
+        Me.BtnGheeReport.Location = New System.Drawing.Point(272, 102)
+        Me.BtnGheeReport.MyLinkLable1 = Nothing
+        Me.BtnGheeReport.MyLinkLable2 = Nothing
+        Me.BtnGheeReport.Name = "BtnGheeReport"
+        Me.BtnGheeReport.Size = New System.Drawing.Size(83, 18)
+        Me.BtnGheeReport.TabIndex = 407
+        Me.BtnGheeReport.TabStop = False
+        Me.BtnGheeReport.Text = "Ghee Report"
+        '
+        'BtnTcsSummary
+        '
+        Me.BtnTcsSummary.Location = New System.Drawing.Point(164, 102)
+        Me.BtnTcsSummary.MyLinkLable1 = Nothing
+        Me.BtnTcsSummary.MyLinkLable2 = Nothing
+        Me.BtnTcsSummary.Name = "BtnTcsSummary"
+        Me.BtnTcsSummary.Size = New System.Drawing.Size(89, 18)
+        Me.BtnTcsSummary.TabIndex = 406
+        Me.BtnTcsSummary.TabStop = False
+        Me.BtnTcsSummary.Text = "Tcs Summary "
         '
         'BtnTransportationCharges
         '
@@ -651,27 +679,27 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'BtnTcsSummary
+        'BtnRouteWiseSale
         '
-        Me.BtnTcsSummary.Location = New System.Drawing.Point(164, 102)
-        Me.BtnTcsSummary.MyLinkLable1 = Nothing
-        Me.BtnTcsSummary.MyLinkLable2 = Nothing
-        Me.BtnTcsSummary.Name = "BtnTcsSummary"
-        Me.BtnTcsSummary.Size = New System.Drawing.Size(89, 18)
-        Me.BtnTcsSummary.TabIndex = 406
-        Me.BtnTcsSummary.TabStop = False
-        Me.BtnTcsSummary.Text = "Tcs Summary "
+        Me.BtnRouteWiseSale.Location = New System.Drawing.Point(5, 126)
+        Me.BtnRouteWiseSale.MyLinkLable1 = Nothing
+        Me.BtnRouteWiseSale.MyLinkLable2 = Nothing
+        Me.BtnRouteWiseSale.Name = "BtnRouteWiseSale"
+        Me.BtnRouteWiseSale.Size = New System.Drawing.Size(100, 18)
+        Me.BtnRouteWiseSale.TabIndex = 408
+        Me.BtnRouteWiseSale.TabStop = False
+        Me.BtnRouteWiseSale.Text = "Route Wise Sale"
         '
-        'BtnGheeReport
+        'BtnCreditPartyWiseSaleAmount
         '
-        Me.BtnGheeReport.Location = New System.Drawing.Point(272, 102)
-        Me.BtnGheeReport.MyLinkLable1 = Nothing
-        Me.BtnGheeReport.MyLinkLable2 = Nothing
-        Me.BtnGheeReport.Name = "BtnGheeReport"
-        Me.BtnGheeReport.Size = New System.Drawing.Size(83, 18)
-        Me.BtnGheeReport.TabIndex = 407
-        Me.BtnGheeReport.TabStop = False
-        Me.BtnGheeReport.Text = "Ghee Report"
+        Me.BtnCreditPartyWiseSaleAmount.Location = New System.Drawing.Point(164, 126)
+        Me.BtnCreditPartyWiseSaleAmount.MyLinkLable1 = Nothing
+        Me.BtnCreditPartyWiseSaleAmount.MyLinkLable2 = Nothing
+        Me.BtnCreditPartyWiseSaleAmount.Name = "BtnCreditPartyWiseSaleAmount"
+        Me.BtnCreditPartyWiseSaleAmount.Size = New System.Drawing.Size(173, 18)
+        Me.BtnCreditPartyWiseSaleAmount.TabIndex = 409
+        Me.BtnCreditPartyWiseSaleAmount.TabStop = False
+        Me.BtnCreditPartyWiseSaleAmount.Text = "Credit Party Wise Sale Amount"
         '
         'rptCustItemWiseSaleReport
         '
@@ -706,6 +734,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BKNGroupBox.ResumeLayout(False)
         Me.BKNGroupBox.PerformLayout()
+        CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnTransportationCharges, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).EndInit()
@@ -735,8 +765,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnRouteWiseSale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCreditPartyWiseSaleAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -788,5 +818,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents BtnTransportationCharges As common.Controls.MyRadioButton
     Friend WithEvents BtnTcsSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnGheeReport As common.Controls.MyRadioButton
+    Friend WithEvents BtnRouteWiseSale As common.Controls.MyRadioButton
+    Friend WithEvents BtnCreditPartyWiseSaleAmount As common.Controls.MyRadioButton
 End Class
 

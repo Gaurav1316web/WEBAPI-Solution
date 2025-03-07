@@ -115,6 +115,7 @@ Partial Class FrmMilkTransferIn
         Me.txtQCNo = New common.Controls.MyTextBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnJE = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -226,6 +227,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -281,6 +283,7 @@ Partial Class FrmMilkTransferIn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadGroupBox1)
@@ -673,7 +676,7 @@ Partial Class FrmMilkTransferIn
         Me.lblVendor.FieldName = Nothing
         Me.lblVendor.Location = New System.Drawing.Point(6, 32)
         Me.lblVendor.Name = "lblVendor"
-        Me.lblVendor.Size = New System.Drawing.Size(59, 18)
+        Me.lblVendor.Size = New System.Drawing.Size(60, 18)
         Me.lblVendor.TabIndex = 325
         Me.lblVendor.Text = "MCC/Plant"
         '
@@ -1178,6 +1181,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.Size = New System.Drawing.Size(544, 161)
         Me.gvOldSealPaper.TabIndex = 203
+        Me.gvOldSealPaper.VarID = ""
         '
         'GroupBox2
         '
@@ -1207,6 +1211,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.ShowHeaderCellButtons = True
         Me.gvOldSeal.Size = New System.Drawing.Size(541, 161)
         Me.gvOldSeal.TabIndex = 202
+        Me.gvOldSeal.VarID = ""
         '
         'chkNewSealNo
         '
@@ -1554,6 +1559,7 @@ Partial Class FrmMilkTransferIn
         Me.gvWeighment.ShowHeaderCellButtons = True
         Me.gvWeighment.Size = New System.Drawing.Size(1101, 208)
         Me.gvWeighment.TabIndex = 203
+        Me.gvWeighment.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1718,6 +1724,17 @@ Partial Class FrmMilkTransferIn
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1101, 250)
         Me.gvParam.TabIndex = 203
+        Me.gvParam.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(355, 20)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 346
+        Me.btnHistory.Text = "History"
         '
         'btnJE
         '
@@ -1795,6 +1812,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSealPaper.TabIndex = 203
+        Me.gvNewSealPaper.VarID = ""
         '
         'GroupBox4
         '
@@ -1823,6 +1841,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.ShowHeaderCellButtons = True
         Me.gvNewSeal.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSeal.TabIndex = 202
+        Me.gvNewSeal.VarID = ""
         '
         'btnClose
         '
@@ -1982,6 +2001,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2102,5 +2122,6 @@ End Sub
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents fndReferenceNo As common.Controls.MyTextBox
     Friend WithEvents btnJE As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -2029,4 +2029,16 @@ a:
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(fndRcptChalanNo.Value)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndRcptChalanNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndRcptChalanNo.Value, "Receipt_Challan_No", "TSPL_MILK_TRANSFER_IN_RETURN")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -22,10 +22,15 @@ Partial Class frmMRPForProduction
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtMRPDescription = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -82,6 +87,7 @@ Partial Class frmMRPForProduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtMRPDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -139,6 +145,7 @@ Partial Class frmMRPForProduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -236,6 +243,7 @@ Partial Class frmMRPForProduction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -260,7 +268,6 @@ Partial Class frmMRPForProduction
         Me.RadPageView1.SelectedPage = Me.pageGeneral
         Me.RadPageView1.Size = New System.Drawing.Size(771, 579)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageGeneral
@@ -294,20 +301,23 @@ Partial Class frmMRPForProduction
         Me.gvMRPDetal.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvMRPDetal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvMRPDetal
+        '
         '
         Me.gvMRPDetal.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvMRPDetal.MasterTemplate.AllowAddNewRow = False
         Me.gvMRPDetal.MasterTemplate.AutoGenerateColumns = False
         Me.gvMRPDetal.MasterTemplate.EnableGrouping = False
+        Me.gvMRPDetal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMRPDetal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMRPDetal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvMRPDetal.MyStopExport = False
         Me.gvMRPDetal.Name = "gvMRPDetal"
         Me.gvMRPDetal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMRPDetal.ShowHeaderCellButtons = True
         Me.gvMRPDetal.Size = New System.Drawing.Size(744, 317)
         Me.gvMRPDetal.TabIndex = 0
         Me.gvMRPDetal.TabStop = False
-        Me.gvMRPDetal.Text = "RadGridView1"
+        Me.gvMRPDetal.VarID = ""
         '
         'Panel1
         '
@@ -395,7 +405,6 @@ Partial Class frmMRPForProduction
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(236, 20)
         Me.lblDept.TabIndex = 289
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDept
         '
@@ -466,6 +475,7 @@ Partial Class frmMRPForProduction
         Me.TxtitemType.AutoCompleteDisplayMember = Nothing
         Me.TxtitemType.AutoCompleteValueMember = Nothing
         Me.TxtitemType.CalculationExpression = Nothing
+        Me.TxtitemType.DropDownAnimationEnabled = True
         Me.TxtitemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.TxtitemType.FieldCode = Nothing
         Me.TxtitemType.FieldDesc = Nothing
@@ -476,14 +486,14 @@ Partial Class frmMRPForProduction
         Me.TxtitemType.IsSourceFromTable = False
         Me.TxtitemType.IsSourceFromValueList = False
         Me.TxtitemType.IsUnique = False
-        RadListDataItem1.Text = "Open"
-        RadListDataItem2.Text = "Approved"
-        RadListDataItem3.Text = "On Hold"
-        RadListDataItem4.Text = "In-Active"
-        Me.TxtitemType.Items.Add(RadListDataItem1)
-        Me.TxtitemType.Items.Add(RadListDataItem2)
-        Me.TxtitemType.Items.Add(RadListDataItem3)
-        Me.TxtitemType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Open"
+        RadListDataItem6.Text = "Approved"
+        RadListDataItem7.Text = "On Hold"
+        RadListDataItem8.Text = "In-Active"
+        Me.TxtitemType.Items.Add(RadListDataItem5)
+        Me.TxtitemType.Items.Add(RadListDataItem6)
+        Me.TxtitemType.Items.Add(RadListDataItem7)
+        Me.TxtitemType.Items.Add(RadListDataItem8)
         Me.TxtitemType.Location = New System.Drawing.Point(108, 119)
         Me.TxtitemType.MendatroryField = True
         Me.TxtitemType.MyLinkLable1 = Me.MyLabel2
@@ -524,7 +534,6 @@ Partial Class frmMRPForProduction
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(291, 19)
         Me.lblLocationDesc.TabIndex = 268
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -814,14 +823,17 @@ Partial Class frmMRPForProduction
         Me.gvBalQty.MasterTemplate.AllowAddNewRow = False
         Me.gvBalQty.MasterTemplate.AutoGenerateColumns = False
         Me.gvBalQty.MasterTemplate.EnableGrouping = False
+        Me.gvBalQty.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBalQty.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBalQty.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvBalQty.MyStopExport = False
         Me.gvBalQty.Name = "gvBalQty"
         Me.gvBalQty.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBalQty.ShowHeaderCellButtons = True
         Me.gvBalQty.Size = New System.Drawing.Size(750, 531)
         Me.gvBalQty.TabIndex = 6
         Me.gvBalQty.TabStop = False
-        Me.gvBalQty.Text = "RadGridView1"
+        Me.gvBalQty.VarID = ""
         '
         'pageMRPItemDetails
         '
@@ -848,14 +860,17 @@ Partial Class frmMRPForProduction
         Me.gvBalItemDetails.MasterTemplate.AllowAddNewRow = False
         Me.gvBalItemDetails.MasterTemplate.AutoGenerateColumns = False
         Me.gvBalItemDetails.MasterTemplate.EnableGrouping = False
+        Me.gvBalItemDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBalItemDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBalItemDetails.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvBalItemDetails.MyStopExport = False
         Me.gvBalItemDetails.Name = "gvBalItemDetails"
         Me.gvBalItemDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBalItemDetails.ShowHeaderCellButtons = True
         Me.gvBalItemDetails.Size = New System.Drawing.Size(750, 531)
         Me.gvBalItemDetails.TabIndex = 7
         Me.gvBalItemDetails.TabStop = False
-        Me.gvBalItemDetails.Text = "RadGridView1"
+        Me.gvBalItemDetails.VarID = ""
         '
         'pagePendingPO
         '
@@ -882,14 +897,17 @@ Partial Class frmMRPForProduction
         Me.gvPendingPO.MasterTemplate.AllowAddNewRow = False
         Me.gvPendingPO.MasterTemplate.AutoGenerateColumns = False
         Me.gvPendingPO.MasterTemplate.EnableGrouping = False
+        Me.gvPendingPO.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPendingPO.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPendingPO.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvPendingPO.MyStopExport = False
         Me.gvPendingPO.Name = "gvPendingPO"
         Me.gvPendingPO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPendingPO.ShowHeaderCellButtons = True
         Me.gvPendingPO.Size = New System.Drawing.Size(750, 531)
         Me.gvPendingPO.TabIndex = 7
         Me.gvPendingPO.TabStop = False
-        Me.gvPendingPO.Text = "RadGridView1"
+        Me.gvPendingPO.VarID = ""
         '
         'PagePendingSRN
         '
@@ -916,14 +934,17 @@ Partial Class frmMRPForProduction
         Me.gvPendingSRN.MasterTemplate.AllowAddNewRow = False
         Me.gvPendingSRN.MasterTemplate.AutoGenerateColumns = False
         Me.gvPendingSRN.MasterTemplate.EnableGrouping = False
+        Me.gvPendingSRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPendingSRN.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPendingSRN.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvPendingSRN.MyStopExport = False
         Me.gvPendingSRN.Name = "gvPendingSRN"
         Me.gvPendingSRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPendingSRN.ShowHeaderCellButtons = True
         Me.gvPendingSRN.Size = New System.Drawing.Size(750, 531)
         Me.gvPendingSRN.TabIndex = 7
         Me.gvPendingSRN.TabStop = False
-        Me.gvPendingSRN.Text = "RadGridView1"
+        Me.gvPendingSRN.VarID = ""
         '
         'pageAttachment
         '
@@ -1003,6 +1024,16 @@ Partial Class frmMRPForProduction
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(391, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 22)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'frmMRPForProduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1074,6 +1105,7 @@ Partial Class frmMRPForProduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1134,4 +1166,5 @@ Partial Class frmMRPForProduction
     Friend WithEvents txtDept As common.UserControls.txtFinder
     Friend WithEvents txtReqNo As common.UserControls.txtNavigator
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class

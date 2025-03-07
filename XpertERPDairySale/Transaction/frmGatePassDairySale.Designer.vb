@@ -22,10 +22,10 @@ Partial Class frmGatePassDairySale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -106,6 +106,7 @@ Partial Class frmGatePassDairySale
         Me.EmailSettingCreditApproval = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -170,6 +171,7 @@ Partial Class frmGatePassDairySale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -189,6 +191,7 @@ Partial Class frmGatePassDairySale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnApproveCreditLimit)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
@@ -294,10 +297,10 @@ Partial Class frmGatePassDairySale
         Me.ddlPTSShift.AutoCompleteValueMember = Nothing
         Me.ddlPTSShift.DropDownAnimationEnabled = True
         Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.ddlPTSShift.Items.Add(RadListDataItem1)
-        Me.ddlPTSShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Morning"
+        RadListDataItem4.Text = "Evening"
+        Me.ddlPTSShift.Items.Add(RadListDataItem3)
+        Me.ddlPTSShift.Items.Add(RadListDataItem4)
         Me.ddlPTSShift.Location = New System.Drawing.Point(768, 23)
         Me.ddlPTSShift.Name = "ddlPTSShift"
         Me.ddlPTSShift.Size = New System.Drawing.Size(74, 20)
@@ -360,7 +363,7 @@ Partial Class frmGatePassDairySale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -369,6 +372,7 @@ Partial Class frmGatePassDairySale
         Me.gv1.Size = New System.Drawing.Size(979, 269)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'MyLabel1
         '
@@ -1334,9 +1338,19 @@ Partial Class frmGatePassDairySale
         Me.RadMenuItem2.TabIndex = 5
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(626, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'frmGatePassDairySale
         '
@@ -1420,6 +1434,7 @@ Partial Class frmGatePassDairySale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1505,5 +1520,6 @@ Partial Class frmGatePassDairySale
     Friend WithEvents Label1 As Label
     Friend WithEvents fndDemand As common.UserControls.txtFinder
     Friend WithEvents Label2 As Label
+    Friend WithEvents btnHistory As RadButton
 End Class
 

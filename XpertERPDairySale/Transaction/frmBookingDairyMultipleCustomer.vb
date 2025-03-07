@@ -2776,6 +2776,8 @@ Public Class frmBookingDairyMultipleCustomer
                             qry = "Update TSPL_BOOKING_DETAIL set Booking_Status=4 where Cust_Code='" & objBooking.CustCOde & "' and Document_No='" + txtDocNo.Value + "'  and Booking_Status<>5"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", trans)
+
                     Next
                     ''============Sanjeet(23/02/2018) Send Notification Alert for Ex Factory Date Entry, It show alert date befor one day of EX_factory_Date===========
                     Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairy + "'", trans))
@@ -4078,4 +4080,15 @@ Public Class frmBookingDairyMultipleCustomer
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_BOOKING_MATSER", "TSPL_BOOKING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

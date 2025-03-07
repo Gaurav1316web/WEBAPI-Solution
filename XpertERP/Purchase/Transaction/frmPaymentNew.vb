@@ -7997,7 +7997,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtPaymentNo.Value, "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtPaymentNo.Value, "Payment_No", "TSPL_PAYMENT_HEADER", "TSPL_PAYMENT_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

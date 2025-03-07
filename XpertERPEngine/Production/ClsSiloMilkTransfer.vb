@@ -85,6 +85,7 @@ Public Class ClsSiloMilkTransfer
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SILO_MILK_TRANSFER_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsSiloMilkTransferDetails.SaveData(obj.Document_Code, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SILO_MILK_TRANSFER_HEAD", "Document_Code", "TSPL_SILO_MILK_TRANSFER_DETAIL", "Document_Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

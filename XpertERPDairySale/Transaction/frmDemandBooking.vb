@@ -680,7 +680,11 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             btnPost.Enabled = True
             btn_TruckSheet.Enabled = False
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                SplitButtonTruckSheet.Enabled = True
+                If rdbnFreshAmbientBoth.IsChecked Then
+                    SplitButtonTruckSheet.Enabled = True
+                Else
+                    SplitButtonTruckSheet.Enabled = False
+                End If
             Else
                 SplitButtonTruckSheet.Enabled = False
             End If
@@ -3223,6 +3227,13 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 If rdbnFreshAmbientBoth.IsChecked Then
                     HideUnhideRowsAndColumnsOFGrid()
                 End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    If rdbnFreshAmbientBoth.IsChecked Then
+                        SplitButtonTruckSheet.Enabled = True
+                    Else
+                        SplitButtonTruckSheet.Enabled = False
+                    End If
+                End If
                 'HideUnhideRowsAndColumnsOFGrid()
             End If
             btnPrint.Enabled = False
@@ -3463,14 +3474,14 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 
             BaseQry += " Select '1' as  Code,TSPL_CUSTOMER_MASTER.Display_Seq,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,coalesce(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name 
 	, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Alies_Name_Hindi as Alies_Name
-	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc
-	,(CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as Qty_Crate
-	,(CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as Qty_Pouch
+	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,Cast(TSPL_DEMAND_BOOKING_DETAIL.Qty As Int)Qty,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc
+	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Crate
+	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Pouch
 	,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
     ,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise
-    ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as ProdQ
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as ProdQ
 	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=1 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as MAmt
-    ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as PQty
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as PQty
 	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as PAmt
 	 from TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
      On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -3698,19 +3709,19 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Dim dtFresh As DataTable = Nothing
                 Dim dtAmbient As DataTable = Nothing
                 If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
-                    strQry = "Select Alies_Name As [Product Name],Item_Code As [Item Code]," + strFUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
+                    strQry = "Select Alies_Name As [Product Name]," + strFUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
 from (" + BaseQry + ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strFUOMPivot + ") ) AS PivotTable "
                     strQry += " Union All "
-                    strQry += "Select '' As [Product Name],'Total :' As [Item Code]," + strFSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
+                    strQry += "Select 'Total : ' As [Product Name]," + strFSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
 from (" + BaseQry + ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strFUOMPivot + ") ) AS PivotTable "
                     dtFresh = clsDBFuncationality.GetDataTable(strQry)
                 End If
 
                 If rbtn_Ambient.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
-                    strQry = "Select Alies_Name As [Product Name],Item_Code As [Item Code]," + strPUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+                    strQry = "Select Alies_Name As [Product Name]," + strPUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
 from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strPUOMPivot + ") ) AS PivotTable "
                     strQry += " Union All "
-                    strQry += "Select '' As [Product Name],'Total :' As [Item Code]," + strPSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+                    strQry += "Select 'Total : ' As [Product Name]," + strPSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
 from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strPUOMPivot + ") ) AS PivotTable "
                     dtAmbient = clsDBFuncationality.GetDataTable(strQry)
                 End If
@@ -4675,7 +4686,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'TruckSheetPDF()
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                SplitButtonTruckSheet.Enabled = True
+                If rdbnFreshAmbientBoth.IsChecked Then
+                    SplitButtonTruckSheet.Enabled = True
+                Else
+                    SplitButtonTruckSheet.Enabled = False
+                End If
             Else
                 SplitButtonTruckSheet.Enabled = False
             End If
