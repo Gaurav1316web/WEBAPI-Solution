@@ -2733,7 +2733,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             'End If
             Dim arrHeader As List(Of String) = New List(Of String)()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                arrHeader.Add(("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "  Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType + " ")
+                arrHeader.Add(("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "  Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType + " "))
                 'arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
                 arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "   Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "    Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
                 'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
