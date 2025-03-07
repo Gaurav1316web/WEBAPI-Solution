@@ -30807,7 +30807,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BookingProformaNo", "varchar(30) NULL")
             coll.Add("Trans_Type", "varchar(10) NULL")
             coll.Add("PaymentTerm", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dairy_Proforma_Invoice_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dairy_Proforma_Invoice_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
 
 
 
@@ -52401,7 +52401,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Posted", "integer  NOT NULL DEFAULT 0")
             coll.Add("Additional_Security", "DECIMAL(18,2) null")
             coll.Add("Security_Part", "DECIMAL(18,2) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", coll, Nothing, False, False, "", "Doc_Code", "Doc_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", coll, Nothing, True, False, "", "Doc_Code", "Doc_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "Varchar(30) Not null primary key")
@@ -52418,7 +52418,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Additional_Security_Deposit_Amt", "DECIMAL(18,2) null")
             coll.Add("Security_To_Be_Taken", "DECIMAL(18,2) null")
             coll.Add("Net_Margin_Payable", "DECIMAL(18,2) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_INCENTIVE_DETAIL", coll, Nothing, False, False, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_INCENTIVE_DETAIL", coll, Nothing, True, False, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "Varchar(30) Not null primary key")

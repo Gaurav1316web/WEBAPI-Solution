@@ -22,11 +22,11 @@ Partial Class frmCustomerIncetiveEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.pnlSecuity = New System.Windows.Forms.Panel()
         Me.txtSecuityPart = New common.MyNumBox()
@@ -82,6 +82,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvInvoice = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.pnlSecuity.SuspendLayout()
@@ -140,6 +141,7 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.gvInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -581,6 +583,7 @@ Partial Class frmCustomerIncetiveEntry
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnHistory)
         Me.Panel1.Controls.Add(Me.btnExportExcel)
         Me.Panel1.Controls.Add(Me.RadSplitExp)
         Me.Panel1.Controls.Add(Me.btnReverse)
@@ -688,7 +691,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomer.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -696,6 +699,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomer.ShowHeaderCellButtons = True
         Me.gvCustomer.Size = New System.Drawing.Size(797, 292)
         Me.gvCustomer.TabIndex = 3
+        Me.gvCustomer.VarID = ""
         '
         'RadPageView1
         '
@@ -849,7 +853,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerIncentive.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCustomerIncentive.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomerIncentive.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomerIncentive.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCustomerIncentive.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCustomerIncentive.MyStopExport = False
         Me.gvCustomerIncentive.Name = "gvCustomerIncentive"
         Me.gvCustomerIncentive.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -857,6 +861,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerIncentive.ShowHeaderCellButtons = True
         Me.gvCustomerIncentive.Size = New System.Drawing.Size(797, 327)
         Me.gvCustomerIncentive.TabIndex = 7
+        Me.gvCustomerIncentive.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -883,7 +888,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerStructure.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCustomerStructure.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomerStructure.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomerStructure.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCustomerStructure.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvCustomerStructure.MyStopExport = False
         Me.gvCustomerStructure.Name = "gvCustomerStructure"
         Me.gvCustomerStructure.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -891,6 +896,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerStructure.ShowHeaderCellButtons = True
         Me.gvCustomerStructure.Size = New System.Drawing.Size(797, 327)
         Me.gvCustomerStructure.TabIndex = 6
+        Me.gvCustomerStructure.VarID = ""
         '
         'RadPageViewPage1
         '
@@ -917,7 +923,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerItem.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCustomerItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomerItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomerItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvCustomerItem.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvCustomerItem.MyStopExport = False
         Me.gvCustomerItem.Name = "gvCustomerItem"
         Me.gvCustomerItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -925,6 +931,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomerItem.ShowHeaderCellButtons = True
         Me.gvCustomerItem.Size = New System.Drawing.Size(797, 327)
         Me.gvCustomerItem.TabIndex = 5
+        Me.gvCustomerItem.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -951,7 +958,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvInvoice.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvInvoice.MyStopExport = False
         Me.gvInvoice.Name = "gvInvoice"
         Me.gvInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -959,6 +966,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvInvoice.ShowHeaderCellButtons = True
         Me.gvInvoice.Size = New System.Drawing.Size(797, 327)
         Me.gvInvoice.TabIndex = 4
+        Me.gvInvoice.VarID = ""
         '
         'RadGroupBox2
         '
@@ -981,6 +989,14 @@ Partial Class frmCustomerIncetiveEntry
         Me.RadGroupBox4.Size = New System.Drawing.Size(818, 375)
         Me.RadGroupBox4.TabIndex = 219
         Me.RadGroupBox4.Text = "Paper Seal"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Location = New System.Drawing.Point(677, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 23)
+        Me.btnHistory.TabIndex = 158
+        Me.btnHistory.Text = "History"
         '
         'frmCustomerIncetiveEntry
         '
@@ -1061,6 +1077,7 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.gvInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1120,5 +1137,6 @@ Partial Class frmCustomerIncetiveEntry
     Friend WithEvents TxtTotalAmount As common.MyNumBox
     Friend WithEvents TxtTotDeductionAmount As common.MyNumBox
     Friend WithEvents TxtTotIncentiveAmt As common.MyNumBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -1904,6 +1904,8 @@ Public Class clsPSShipmentHead
                     If coll.Count > 0 Then
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Against_Shipment_No='" + strDocNo + "'")
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SALE_INVOICE_HEAD", "Against_Shipment_No", trans)
+
                 End If
             Catch ex2 As Exception
                 strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
