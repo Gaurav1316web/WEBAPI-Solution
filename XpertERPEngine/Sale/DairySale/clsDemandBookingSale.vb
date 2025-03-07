@@ -725,6 +725,8 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                 qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1080,6 +1082,8 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
             'End If
             Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0,Posted_Morning=null,Posted_Evening=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

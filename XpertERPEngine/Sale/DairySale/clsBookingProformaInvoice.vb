@@ -461,7 +461,7 @@ Public Class clsBookingProformaInvoice
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "tspl_dairy_proforma_invoice_head", OMInsertOrUpdate.Update, "tspl_dairy_proforma_invoice_head.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsBookingProformaInvoiceDetail.SaveData(obj.Document_Code, obj.Arr, trans, obj.Document_Date)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "tspl_dairy_proforma_invoice_head", "Document_Code", "TSPL_TRANSFER_TO_SAVING_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "tspl_dairy_proforma_invoice_head", "Document_Code", "tspl_dairy_proforma_invoice_detail", "Document_Code", trans)
 
 
         Catch err As Exception
@@ -924,9 +924,9 @@ Public Class clsBookingProformaInvoice
                 End If
                 clsSerializeInvenotry.DeleteData("PI-IN", strCode, trans)
                 clsBatchInventory.DeleteData("PI-SH", strCode, trans)
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_dairy_proforma_invoice_head", "Document_Code", "TSPL_TRANSFER_TO_SAVING_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_dairy_proforma_invoice_head", "Document_Code", "tspl_dairy_proforma_invoice_detail", "Document_Code", trans)
 
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_dairy_proforma_invoice_head", "Document_Code", "TSPL_TRANSFER_TO_SAVING_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_dairy_proforma_invoice_head", "Document_Code", "tspl_dairy_proforma_invoice_detail", "Document_Code", trans)
 
                 Dim qry As String = "delete from tspl_dairy_proforma_invoice_detail where Document_Code='" + strCode + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
