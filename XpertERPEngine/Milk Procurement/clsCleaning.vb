@@ -68,6 +68,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
 
             Dim strQry As String = " update TSPL_cleaning set isPosted='1', Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & StrDocNo & "'"
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Cleaning", "Doc_no", trans)
 
             If isPosted Then
                 trans.Commit()

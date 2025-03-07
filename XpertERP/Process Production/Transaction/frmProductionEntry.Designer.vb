@@ -802,6 +802,7 @@ Partial Class frmProductionEntry
         Me.gvIssue.Size = New System.Drawing.Size(961, 234)
         Me.gvIssue.TabIndex = 1
         Me.gvIssue.TabStop = False
+        Me.gvIssue.VarID = ""
         '
         'pageStageDetail
         '
@@ -838,6 +839,7 @@ Partial Class frmProductionEntry
         Me.gvStage.Size = New System.Drawing.Size(961, 234)
         Me.gvStage.TabIndex = 1
         Me.gvStage.TabStop = False
+        Me.gvStage.VarID = ""
         '
         'pageBatchProduction
         '
@@ -888,6 +890,7 @@ Partial Class frmProductionEntry
         Me.gvBatch.Size = New System.Drawing.Size(941, 204)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
+        Me.gvBatch.VarID = ""
         '
         'pageParameterDetail
         '
@@ -924,6 +927,7 @@ Partial Class frmProductionEntry
         Me.gvParameter.Size = New System.Drawing.Size(961, 234)
         Me.gvParameter.TabIndex = 1
         Me.gvParameter.TabStop = False
+        Me.gvParameter.VarID = ""
         '
         'pageWreckageAndFlashing
         '
@@ -960,6 +964,7 @@ Partial Class frmProductionEntry
         Me.gvWreckage.Size = New System.Drawing.Size(961, 234)
         Me.gvWreckage.TabIndex = 1
         Me.gvWreckage.TabStop = False
+        Me.gvWreckage.VarID = ""
         '
         'pageScrapDetail
         '
@@ -996,6 +1001,7 @@ Partial Class frmProductionEntry
         Me.GvScrap.Size = New System.Drawing.Size(1015, 305)
         Me.GvScrap.TabIndex = 2
         Me.GvScrap.TabStop = False
+        Me.GvScrap.VarID = ""
         '
         'pageoverheadcost
         '
@@ -1045,6 +1051,7 @@ Partial Class frmProductionEntry
         Me.gvProductionCost.Size = New System.Drawing.Size(995, 275)
         Me.gvProductionCost.TabIndex = 0
         Me.gvProductionCost.TabStop = False
+        Me.gvProductionCost.VarID = ""
         '
         'pageSectionStock
         '
@@ -1081,6 +1088,7 @@ Partial Class frmProductionEntry
         Me.gvSectionStock.Size = New System.Drawing.Size(1015, 305)
         Me.gvSectionStock.TabIndex = 2
         Me.gvSectionStock.TabStop = False
+        Me.gvSectionStock.VarID = ""
         '
         'pageSectionStockHistory
         '
@@ -1117,6 +1125,7 @@ Partial Class frmProductionEntry
         Me.gvSectionStockHistory.Size = New System.Drawing.Size(1015, 305)
         Me.gvSectionStockHistory.TabIndex = 3
         Me.gvSectionStockHistory.TabStop = False
+        Me.gvSectionStockHistory.VarID = ""
         '
         'RadPageViewPage1
         '
@@ -1150,7 +1159,7 @@ Partial Class frmProductionEntry
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(71, 22)
         Me.btnHistory.TabIndex = 36
-        Me.btnHistory.Text = "&History"
+        Me.btnHistory.Text = "History"
         '
         'btnShowInventory
         '

@@ -89,8 +89,8 @@ Public Class MSIProductionSaleReport
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                                           where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
-                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') "
+                DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + "  "
                 DailySalesrptqry += " UNION ALL
 										    select max(TSPL_SD_SALE_RETURN_HEAD.Document_Date) as DocDate,0 as SaleQty,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as ReturnQty
                                           from TSPL_SD_SALE_RETURN_DETAIL
@@ -140,7 +140,7 @@ Public Class MSIProductionSaleReport
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale = 0 "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + Stocktransferdispatch + ""
@@ -155,7 +155,7 @@ Public Class MSIProductionSaleReport
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale = 0 "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + stocktransferinvoice + ""
@@ -245,7 +245,7 @@ Public Class MSIProductionSaleReport
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
 				                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale = 0   "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + Stocktransferdispatch + ""
@@ -261,7 +261,7 @@ Public Class MSIProductionSaleReport
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
 				                          and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale = 0 "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + stocktransferinvoice + ""

@@ -127,7 +127,7 @@ Public Class clsGatePassDairySale
             isSaved = isSaved AndAlso clsGatePassDairySaleDetail.SaveData(obj.Document_No, Arr, trans, obj.Customer_Code)
             isSaved = isSaved AndAlso clsGatePassDairyMultiBooking.SaveData(obj.Document_No, ArrInvoice, trans)
 
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -329,6 +329,8 @@ Public Class clsGatePassDairySale
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmGatePassDairy, obj.Location_Code, obj.Document_Date, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try

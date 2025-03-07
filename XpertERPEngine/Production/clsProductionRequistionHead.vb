@@ -203,6 +203,8 @@ Public Class clsProductionRequistionHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_REQUISITION_HEAD", OMInsertOrUpdate.Update, "Requisition_Id='" + obj.Requisition_Id + "'", trans)
             End If
             isSaved = isSaved AndAlso clsProductionRequistionDetail.SaveData(obj.Requisition_Id, obj.ArrTr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Requisition_Id, "TSPL_PP_REQUISITION_HEAD", "Requisition_Id", "TSPL_PP_REQUISITION_DETAIL", "Requisition_Id", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Requisition_Id, obj.arrCustomFields, trans)
             'Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.mbtnPurchaseRequistion + "'", trans))
             'If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal Then
@@ -530,6 +532,7 @@ Public Class clsProductionRequistionHead
 
             Dim qry As String = "Update TSPL_PP_REQUISITION_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Requisition_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PP_REQUISITION_HEAD", "Requisition_Id", "TSPL_PP_REQUISITION_DETAIL", "Requisition_Id", trans)
 
             'Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.mbtnPurchaseRequistion + "'", trans))
             'If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then
@@ -634,10 +637,14 @@ Public Class clsProductionRequistionHead
         ' trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Requisition_Id) > 0) Then
             Try
+
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionStoreRequest, obj.Location, obj.Requisition_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Requisition_Id, "TSPL_PP_REQUISITION_HEAD", "Requisition_Id", "TSPL_PP_REQUISITION_DETAIL", "Requisition_Id", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Requisition_Id, "TSPL_PP_REQUISITION_HEAD", "Requisition_Id", "TSPL_PP_REQUISITION_DETAIL", "Requisition_Id", trans)
+
                 Dim qry As String = "delete from TSPL_PP_REQUISITION_DETAIL where Requisition_Id='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -708,6 +715,8 @@ Public Class clsProductionRequistionHead
             ''''''''''''''
 
             qry = "update TSPL_PP_REQUISITION_HEAD set Status=0,Posting_Date=null where Requisition_Id='" + strDocNo + "'"
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PP_REQUISITION_HEAD", "Requisition_Id", "TSPL_PP_REQUISITION_DETAIL", "Requisition_Id", trans)
+
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -1532,6 +1532,8 @@ Public Class clsBulkMilkSRNReturn
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
             issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Bulk_Milk_SRN_Return", OMInsertOrUpdate.Insert, "", trans)
             issaved = issaved And postData(objReturn.SRN_NO, objReturn.SRN_Return_NO, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objReturn.SRN_Return_NO, "TSPL_Bulk_Milk_SRN_Return", "SRN_Return_NO", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
