@@ -8215,7 +8215,7 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "VARCHAR(30) NOT NULL")
             coll.Add("Created_By", "varchar(20)  NULL ")
             coll.Add("Created_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "", True)
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -8357,7 +8357,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", coll, Nothing, False, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
             coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_DCS_DEMAND_BOOKING_MASTER(Document_No)")
@@ -8372,7 +8372,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Unit_code", "Varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
