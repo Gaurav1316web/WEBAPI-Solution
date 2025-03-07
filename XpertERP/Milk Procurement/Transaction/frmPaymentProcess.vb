@@ -6883,7 +6883,11 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             " )xx " + Environment.NewLine +
             " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE " + Environment.NewLine +
             " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=xx.VLC_CODE " + Environment.NewLine +
-            " where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' order by xx.VSP_CODE"
+            " where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 "
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                qry += " And isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y'"
+            End If
+            qry += "  order by xx.VSP_CODE "
             '" where TSPL_VENDOR_MASTER.is_Hold_Payment_Process=0 " + Environment.NewLine +
 
 
