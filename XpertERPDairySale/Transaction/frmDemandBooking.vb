@@ -5851,6 +5851,7 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
         End Try
     End Sub
     Private Sub CrateHisTable()
+
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
