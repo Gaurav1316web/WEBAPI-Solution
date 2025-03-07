@@ -242,30 +242,34 @@ Public Class clsMPDCSInsentiveReco
 
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            Throw New Exception("Not implemented")
-            'Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strDocNo, NavigatorType.Current, trans)
-            'If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-            '    clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
-            'End If
+            Dim obj As clsMPDCSInsentiveReco = clsMPDCSInsentiveReco.GetData(strDocNo, NavigatorType.Current, "", trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            End If
 
-            'If Not obj.Status = ERPTransactionStatus.Approved Then
-            '    clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
-            'End If
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+            End If
 
-            ''Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
-            ''select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocNo + "')"
-            ''Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            ''If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            ''    Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-            ''End If
+            Dim qry As String = "select Document_Code from TSPL_DBT_CAPING where Reco_Code='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DBT Capping Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "] is generated.you cannot unpost it")
+            End If
 
-            'Dim coll As New Hashtable()
-            'clsCommon.AddColumnsForChange(coll, "Status", 0)
-            'clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            'clsCommon.AddColumnsForChange(coll, "Posting_Date", Nothing, True)
-            'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_No + "'", trans)
+            qry = "select Document_Code from TSPL_DBT_NEFT where From_Date='" + clsCommon.GetPrintDate(obj.Reco_Date, "dd/MMM/yyyy") + "' and To_Date='" + clsCommon.GetPrintDate(obj.Reco_Date_To, "dd/MMM/yyyy") + "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DBT NEFT Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "] is generated.you cannot unpost it")
+            End If
 
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posting_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + strDocNo + "'", trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", "Document_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

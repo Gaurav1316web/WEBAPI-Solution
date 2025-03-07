@@ -57,6 +57,9 @@ Public Class clsTransporterDeductionHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", OMInsertOrUpdate.Update, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsTransporterDeductionDetail.SaveData(obj.Document_Code, obj.Document_Date, obj.Arr, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "Document_Code", "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL", "Document_Code", trans)
+
             clsTransporterDeductionRoute.SaveData(obj.arrRoute, obj.Document_Code, obj.Document_Date, trans)
             If isSaved Then
                 trans.Commit()
@@ -159,6 +162,7 @@ Public Class clsTransporterDeductionHead
             'End If
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER set IsPosted='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  ,PostedDate = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
             trans.Commit()
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "Document_Code", trans)
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
@@ -201,7 +205,7 @@ Public Class clsTransporterDeductionHead
 
             Qry = "Update TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER set IsPosted = 'N' where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -281,6 +285,10 @@ Public Class clsTransporterDeductionHead
             If clsCommon.CompairString(obj.IsPosted, "Y") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "Document_Code", "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL", "Document_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER", "Document_Code", "TSPL_TRANSPOTER_DEDUCTION_ENTRY_DETAIL", "Document_Code", trans)
+
             Dim qry As String = Nothing
 
             qry = "delete from TSPL_TRANSPOTER_DEDUCTION_ENTRY_ROUTE where Document_Code='" + obj.Document_Code + "'"

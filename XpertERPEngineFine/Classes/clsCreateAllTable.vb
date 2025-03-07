@@ -1382,7 +1382,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime not null")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modify_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JobWork_Debit_Note_Detail", coll, Nothing, False, False, "TSPL_JOBWORK_DEBIT_NOTE_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JobWork_Debit_Note_Detail", coll, Nothing, True, False, "TSPL_JOBWORK_DEBIT_NOTE_HEAD", "Document_No", "")
 
             ''---------------End Table Structure
 
@@ -1633,7 +1633,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER", coll, Nothing, False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER", coll, Nothing, True, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Cust_Code", "Varchar(12) null")
@@ -1790,7 +1790,7 @@ Public Class clsCreateAllTable
             coll.Add("Trans_Type", "char(2) NULL")
             coll.Add("Trans_Type_Code", "varchar(30) NULL")
             coll.Add("Due_Date", "date NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_INVOICE_HEAD", coll, Nothing, False, False, "", "Sale_Invoice_No", "Sale_Invoice_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_INVOICE_HEAD", coll, Nothing, True, False, "", "Sale_Invoice_No", "Sale_Invoice_Date")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Level1_User_Code", "varchar(12) null")
@@ -1913,7 +1913,7 @@ Public Class clsCreateAllTable
             coll.Add("Price_Amount8", "decimal (18,2) NULL")
             coll.Add("Price_Amount9", "decimal (18,2) NULL")
             coll.Add("Price_Amount10", "decimal (18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_INVOICE_DETAIL", coll, Nothing, False, False, "TSPL_SALE_INVOICE_HEAD", "Sale_Invoice_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_INVOICE_DETAIL", coll, Nothing, True, False, "TSPL_SALE_INVOICE_HEAD", "Sale_Invoice_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Sale_Account_Amount", "decimal(18,2) null")
@@ -2009,7 +2009,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Post", "char(1) NULL")
             coll.Add("TPT", "decimal (18,2) NULL")
             coll.Add("Empty_Value", "decimal (18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_RETURN_HEAD", coll, Nothing, False, False, "", "Sale_Return_No", "Sale_Return_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_RETURN_HEAD", coll, Nothing, True, False, "", "Sale_Return_No", "Sale_Return_Date")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Unit_Cogs", "decimal(18,2) null")
@@ -2126,7 +2126,7 @@ Public Class clsCreateAllTable
             coll.Add("Empty_Value_Bottle", "decimal (18,2) NULL")
             coll.Add("Cust_Discount", "decimal (18,2) NULL")
             coll.Add("Total_Cust_Discount", "decimal (18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_RETURN_DETAIL", coll, Nothing, False, False, "TSPL_SALE_RETURN_HEAD", "Sale_Return_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_RETURN_DETAIL", coll, Nothing, True, False, "TSPL_SALE_RETURN_HEAD", "Sale_Return_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Transfer_No", "Varchar(30) null")
@@ -3270,7 +3270,7 @@ Public Class clsCreateAllTable
             coll.Add("Doc_Type", "varchar(20) null")
             coll.Add("To_Location", "varchar(50) null")
             coll.Add("Is_Manual", "INTEGER NOT NULL DEFAULT 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CForm_DETAIL", coll, "", False, False, "TSPL_CFORM_HEADER", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CForm_DETAIL", coll, "", True, False, "TSPL_CFORM_HEADER", "Document_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Cust_Code", "varchar(12) NULL")
@@ -3298,7 +3298,7 @@ Public Class clsCreateAllTable
             coll.Add("Expiry_Date", "date NULL")
             coll.Add("Tin_No", "varchar(20) NULL")
             coll.Add("CST_No", "varchar(20) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_item_Location_details", coll, Nothing, False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_item_Location_details", coll, Nothing, True, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("vehicle_code", "Varchar(12) null")
@@ -8249,7 +8249,7 @@ Public Class clsCreateAllTable
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -8316,7 +8316,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
                 qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
@@ -10865,7 +10865,7 @@ Public Class clsCreateAllTable
             coll.Add("Email_Content", "Varchar(max) null")
             coll.Add("Requested_Qty", "Decimal(18,2) Not Null Default 0")
             coll.Add("Approved_QTY", "Decimal(18,2) Not Null Default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSACTION_APPROVAL", coll, Nothing, False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSACTION_APPROVAL", coll, Nothing, True, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Module_Name", "varchar(100)  Primary Key")
@@ -29669,7 +29669,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BPL_Category", "varchar(50) NULL")
             coll.Add("Source_API", "int Null")
             coll.Add("Against_Open_Shift", "Varchar(30) null references TSPL_PARLOUR_SHIFT_OPEN(Document_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "Varchar(30) not null References TSPL_SD_POS_HEAD(DOCUMENT_CODE)")
@@ -29731,7 +29731,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Bar_Code", "Varchar(30) null References TSPL_ITEM_BARCODE(Bar_Code)")
             coll.Add("MRP", "Decimal(18,2) null")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_DETAIL", coll, Nothing, False, False, "TSPL_SD_POS_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_DETAIL", coll, Nothing, True, False, "TSPL_SD_POS_HEAD", "Document_Code", "", True)
 
             'coll = New Dictionary(Of String, String)()
             'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
@@ -29861,7 +29861,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Sampling", "integer not null default 0")
             coll.Add("Is_CustomerChanged", "Integer Default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", coll, Nothing, False, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_GATEPASS_MASTER_DAIRYSALE(Document_No)")
@@ -29892,7 +29892,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Selling_Price", "float not null default 0")
             coll.Add("Scheme_Code", "varchar(12) NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_DETAIL_DAIRYSALE", coll, Nothing, False, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_DETAIL_DAIRYSALE", coll, Nothing, True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "", True)
 
 
             '=================Added by preeti gupta=========
@@ -30942,7 +30942,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BOOK_Rate", "float NOT NULL DEFAULT 0")
             coll.Add("BOOK_RATE_UOM", "varchar(12)  NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dairy_Proforma_Invoice_DETAIL", coll, Nothing, False, False, "TSPL_DAIRY_PROFORMA_INVOICE_HEAD", "DOCUMENT_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dairy_Proforma_Invoice_DETAIL", coll, Nothing, True, False, "TSPL_DAIRY_PROFORMA_INVOICE_HEAD", "DOCUMENT_CODE", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
@@ -48597,13 +48597,13 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_Date", "Datetime  null")
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Posted_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
             coll.Add("Document_Code", "varchar(30) not null References TSPL_PROD_QC_CHECK_HEAD(Document_Code)")
             coll.Add("PROD_ENTRY_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY", coll, Nothing, False, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY", coll, Nothing, True, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
@@ -48620,7 +48620,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("InputData", "float null")
             coll.Add("Description", "varchar(500) null")
             coll.Add("Description_Status", "varchar(15) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_PARA_DETAIL", coll, Nothing, False, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_PARA_DETAIL", coll, Nothing, True, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_MCC_Sale_Return_Head_Farmer(DOCUMENT_CODE)")

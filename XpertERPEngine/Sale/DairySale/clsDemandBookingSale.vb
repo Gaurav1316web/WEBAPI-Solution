@@ -85,6 +85,8 @@ Public Class clsDemandBookingSale
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry, IsDemandUploader, obj.Route_No)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
             SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -94,7 +96,6 @@ Public Class clsDemandBookingSale
         Try
             Dim strQry As String = "Select  isnull(max(Hist_Version),0) from TSPL_Demand_Booking_Detail_History where Document_no='" + obj.Document_No + "'"
             Dim Hist_version As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry, trans))
-
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
                 For Each objTr As clsDemandBookingSaleDetail In Arr
                     Dim coll As New Hashtable()
@@ -627,7 +628,9 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
                     SaveDemandHistoryData(obj, obj1, "Reset Booth", "ERP", objCommonVar.CurrentUserCode, trans)
 
+
                 End If
+
                 'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
                 qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
@@ -816,6 +819,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
                     SaveDemandHistoryData(obj, obj1, "Deleted ", "ERP", objCommonVar.CurrentUserCode, trans)
 
+
                 End If
                 'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                 qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
@@ -906,6 +910,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             'Dim Mobj As clsDemandBookingSale = GetData(strDocNo, NavigatorType.Current, trans)
             SaveDemandHistoryData(obj, obj.Arr, "Post", "ERP", objCommonVar.CurrentUserCode, trans)
+
 
             If IsRepertOrder Then
                 Dim docno As String = ""
@@ -1176,6 +1181,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current, trans)
             SaveDemandHistoryData(obj, obj.Arr, "Reverse/Unpost", "ERP", objCommonVar.CurrentUserCode, trans)
+
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

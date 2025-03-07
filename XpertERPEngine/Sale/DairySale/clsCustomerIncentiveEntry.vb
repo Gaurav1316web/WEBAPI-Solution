@@ -590,6 +590,7 @@ Public Class clsCustomerIncentiveEntryHead
             Next
             qry = "update TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD set Posted=0,Posted_Date=null,Posted_By=null where Doc_Code='" + StrDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrDocNo, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

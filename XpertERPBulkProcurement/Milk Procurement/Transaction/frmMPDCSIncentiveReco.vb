@@ -1416,22 +1416,24 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            'If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-            '    '' REASON FOR DELETE 
-            '    Dim Reason As String = ""
-            '    Dim frm As New FrmFreeTxtBox1
-            '    frm.Text = "Remarks for Reverse"
-            '    frm.ShowDialog()
-            '    If clsCommon.myLen(frm.strRmks) <= 0 Then
-            '        Exit Sub
-            '    Else
-            '        Reason = frm.strRmks
-            '    End If
-
-            '    clsMilkCollectionMCC.ReverseAndUnpost(txtDocNo.Value)
-            '    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
-            '    LoadData(txtDocNo.Value, NavigatorType.Current)
-            'End If
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                Throw New Exception("No document found to unpost")
+            End If
+            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document [" + txtDocumentNo.Value + "] " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                '' REASON FOR DELETE 
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                clsMPDCSInsentiveReco.ReverseAndUnpost(txtDocumentNo.Value)
+                clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                LoadData(txtDocumentNo.Value, NavigatorType.Current)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
