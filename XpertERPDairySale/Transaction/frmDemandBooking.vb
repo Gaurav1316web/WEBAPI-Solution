@@ -2410,16 +2410,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                             Throw New Exception("Should be in multiple of 0.5")
                                                         End If
                                                     End If
-                                                    'If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                    '    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                    If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                        Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
 
-                                                    '    If DispatchQty >= (CrateConvFactor) Then
-                                                    '        dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
-                                                    '    Else
-                                                    '        dblTotalCrateRowWise = 0
-                                                    '        End If
+                                                        If DispatchQty >= (CrateConvFactor) Then
+                                                            dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
+                                                        Else
+                                                            dblTotalCrateRowWise = 0
+                                                        End If
 
-                                                    'End If
+                                                    End If
                                                 End If
                                             End If
                                             dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
@@ -2785,16 +2785,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                         Throw New Exception("Should be in multiple of 0.5")
                                                     End If
                                                 End If
-                                                'If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                '    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
 
-                                                '    If DispatchQty >= (CrateConvFactor) Then
-                                                '        dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
-                                                '    Else
-                                                '        dblTotalCrateRowWise = 0
-                                                '        End If
+                                                    If DispatchQty >= (CrateConvFactor) Then
+                                                        dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
+                                                    Else
+                                                        dblTotalCrateRowWise = 0
+                                                    End If
 
-                                                'End If
+                                                End If
                                             End If
                                         End If
 
@@ -2863,11 +2863,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
                     gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
                 End If
-                If isDepartmentRoute Then
-                    If ApplyDepartmentRoute Then
-                        gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
-                    End If
-                End If
+                'If isDepartmentRoute Then
+                '    If ApplyDepartmentRoute Then
+                '        gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
+                '    End If
+                'End If
                 dblDocTotalAmt = dblDocTotalAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colAmt).Value)
                 dblDocTotalLitre = dblDocTotalLitre + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colLitre).Value)
                 dblDocTotalCrate = dblDocTotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
