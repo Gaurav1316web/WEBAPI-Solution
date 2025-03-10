@@ -64,6 +64,8 @@ Public Class clsDCSDemand
             End If
 
             clsDCSDemandDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DCS_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -160,6 +162,10 @@ Public Class clsDCSDemand
                     Throw New Exception(" Document Not Found!")
                 End If
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DCS_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DCS_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
             qry = "delete from TSPL_DCS_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DCS_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "') "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DCS_DEMAND_BOOKING_MASTER where  Document_No='" + strCode + "'"
@@ -201,6 +207,7 @@ Public Class clsDCSDemand
             clsCommon.AddColumnsForChange(coll, "Posted", 1)
             clsCommon.AddColumnsForChange(coll, "Posting_Date", dtNow)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DCS_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

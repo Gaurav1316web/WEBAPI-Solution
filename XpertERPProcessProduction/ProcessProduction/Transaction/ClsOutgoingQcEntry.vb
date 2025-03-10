@@ -166,9 +166,10 @@ Public Class ClsOutgoingQcEntry
             If (obj.Status = "1") Then
                 Throw New Exception("Already Posted")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
             Dim qry As String = "Update TSPL_PROD_QC_CHECK_HEAD set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", trans)
+
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
             trans.Commit()
         Catch ex As Exception
@@ -235,6 +236,8 @@ Public Class ClsOutgoingQcEntry
                 qry = "update TSPL_PROD_QC_CHECK_HEAD set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

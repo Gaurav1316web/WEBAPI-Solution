@@ -22,6 +22,11 @@ Partial Class frmDairyBookingUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtPaymentMode = New common.UserControls.txtFinder()
@@ -285,7 +290,6 @@ Partial Class frmDairyBookingUploader
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(227, 18)
         Me.lblLocation.TabIndex = 1489
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtLocation
@@ -344,7 +348,6 @@ Partial Class frmDairyBookingUploader
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(113, 18)
         Me.lblToDate.TabIndex = 1484
-        Me.lblToDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToDate.TextWrap = False
         '
         'LblFromDate
@@ -357,7 +360,6 @@ Partial Class frmDairyBookingUploader
         Me.LblFromDate.Name = "LblFromDate"
         Me.LblFromDate.Size = New System.Drawing.Size(114, 18)
         Me.LblFromDate.TabIndex = 1483
-        Me.LblFromDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblFromDate.TextWrap = False
         '
         'MyLabel13
@@ -474,7 +476,6 @@ Partial Class frmDairyBookingUploader
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(697, 218)
         Me.RadPageView1.TabIndex = 24
-        Me.RadPageView1.Text = "Truck Sheet Import"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -491,10 +492,18 @@ Partial Class frmDairyBookingUploader
         '
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
+        Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(676, 170)
         Me.Gv1.TabIndex = 2
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         Me.Gv1.Visible = False
         '
         'RadPageViewPage2
@@ -528,19 +537,35 @@ Partial Class frmDairyBookingUploader
         '
         Me.gvTS.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTS.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTS.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTS.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTS.MyStopExport = False
         Me.gvTS.Name = "gvTS"
+        Me.gvTS.ShowHeaderCellButtons = True
         Me.gvTS.Size = New System.Drawing.Size(329, 133)
         Me.gvTS.TabIndex = 3
-        Me.gvTS.Text = "RadGridView1"
+        Me.gvTS.VarID = ""
         '
         'gvTSItem
         '
         Me.gvTSItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTSItem.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTSItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTSItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTSItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTSItem.MyStopExport = False
         Me.gvTSItem.Name = "gvTSItem"
+        Me.gvTSItem.ShowHeaderCellButtons = True
         Me.gvTSItem.Size = New System.Drawing.Size(343, 133)
         Me.gvTSItem.TabIndex = 4
-        Me.gvTSItem.Text = "RadGridView1"
+        Me.gvTSItem.VarID = ""
         '
         'Panel1
         '
@@ -601,7 +626,7 @@ Partial Class frmDairyBookingUploader
         Me.txtExcept.ReferenceFieldDesc = Nothing
         Me.txtExcept.ReferenceFieldName = Nothing
         Me.txtExcept.ReferenceTableName = Nothing
-        Me.txtExcept.Size = New System.Drawing.Size(82, 20)
+        Me.txtExcept.Size = New System.Drawing.Size(82, 0)
         Me.txtExcept.TabIndex = 341
         Me.txtExcept.Visible = False
         '
@@ -696,19 +721,35 @@ Partial Class frmDairyBookingUploader
         '
         Me.gvGP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGP.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGP.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvGP.MyStopExport = False
         Me.gvGP.Name = "gvGP"
+        Me.gvGP.ShowHeaderCellButtons = True
         Me.gvGP.Size = New System.Drawing.Size(329, 133)
         Me.gvGP.TabIndex = 3
-        Me.gvGP.Text = "RadGridView1"
+        Me.gvGP.VarID = ""
         '
         'gvGPItem
         '
         Me.gvGPItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGPItem.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGPItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGPItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGPItem.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvGPItem.MyStopExport = False
         Me.gvGPItem.Name = "gvGPItem"
+        Me.gvGPItem.ShowHeaderCellButtons = True
         Me.gvGPItem.Size = New System.Drawing.Size(343, 133)
         Me.gvGPItem.TabIndex = 4
-        Me.gvGPItem.Text = "RadGridView1"
+        Me.gvGPItem.VarID = ""
         '
         'Panel2
         '
@@ -807,7 +848,7 @@ Partial Class frmDairyBookingUploader
         '
         Me.btnSaveAndPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSaveAndPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSaveAndPost.Location = New System.Drawing.Point(145, 9)
+        Me.btnSaveAndPost.Location = New System.Drawing.Point(143, 9)
         Me.btnSaveAndPost.Name = "btnSaveAndPost"
         Me.btnSaveAndPost.Size = New System.Drawing.Size(88, 18)
         Me.btnSaveAndPost.TabIndex = 12
@@ -968,7 +1009,6 @@ Partial Class frmDairyBookingUploader
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gvTS As RadGridView
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtBrowse As common.Controls.MyTextBox
     Friend WithEvents btnGo As RadButton
@@ -976,7 +1016,6 @@ Partial Class frmDairyBookingUploader
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents OpenFileDialog As OpenFileDialog
     Friend WithEvents SplitContainer3 As SplitContainer
-    Friend WithEvents gvTSItem As RadGridView
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents rdbAgainstTruckSheet As RadRadioButton
     Friend WithEvents txtPaymentMode As common.UserControls.txtFinder
@@ -986,8 +1025,6 @@ Partial Class frmDairyBookingUploader
     Friend WithEvents txtExcept As common.Controls.MyTextBox
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents SplitContainer4 As SplitContainer
-    Friend WithEvents gvGP As RadGridView
-    Friend WithEvents gvGPItem As RadGridView
     Friend WithEvents Panel2 As Panel
     Friend WithEvents RadButton3 As RadButton
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
@@ -997,4 +1034,8 @@ Partial Class frmDairyBookingUploader
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents rdbAgainstGatePass As RadRadioButton
     Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents gvTS As common.UserControls.MyRadGridView
+    Friend WithEvents gvTSItem As common.UserControls.MyRadGridView
+    Friend WithEvents gvGP As common.UserControls.MyRadGridView
+    Friend WithEvents gvGPItem As common.UserControls.MyRadGridView
 End Class

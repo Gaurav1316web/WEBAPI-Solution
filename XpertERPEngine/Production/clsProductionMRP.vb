@@ -212,6 +212,8 @@ Public Class clsProductionMRP
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMRPForProduction, clsCommon.myCstr(dt.Rows(0)("MRP_Location")), clsCommon.myCDate(dt.Rows(0)("MRP_DATE")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_MRP_HEAD", "MRP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_MRP_HEAD", "MRP_CODE", trans)
 
             Dim qry As String
 
@@ -397,6 +399,8 @@ Public Class clsProductionMRP
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_MRP_HEAD", OMInsertOrUpdate.Update, "  TSPL_PP_MRP_HEAD.MRP_CODE='" + obj.MRP_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MRP_CODE, "TSPL_PP_MRP_HEAD", "MRP_CODE", trans)
+
             isSaved = isSaved AndAlso clsMRPPlanningCode.SaveData(obj.MRP_CODE, obj.MRP_DATE, obj.ArrProductionPlanCode, trans)
             isSaved = isSaved AndAlso clsMRPProductionDetail.SaveData(obj.MRP_CODE, obj.ObjListMRPDetail, trans)
             isSaved = isSaved AndAlso clsMRPProductionBOMDetail.SaveData(obj.MRP_CODE, obj.ObjListMRPBomDetail, trans)
@@ -454,6 +458,7 @@ Public Class clsProductionMRP
 
             qry = "Update TSPL_PP_MRP_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where MRP_CODE ='" + strDocNo + "' "
             issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PP_MRP_HEAD", "MRP_CODE", trans)
 
             obj = Nothing
 
@@ -717,6 +722,7 @@ Public Class clsProductionMRP
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             Qry = "Update TSPL_PP_MRP_HEAD set POSTED=0  where MRP_CODE ='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_MRP_HEAD", "MRP_CODE", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

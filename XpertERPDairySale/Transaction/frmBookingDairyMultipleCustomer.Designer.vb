@@ -22,14 +22,11 @@ Partial Class frmBookingDairyMultipleCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.lblLockUnlock = New common.Controls.MyLabel()
-        Me.btnEdit = New Telerik.WinControls.UI.RadButton()
-        Me.txtEx_Factory_Date = New common.Controls.MyDateTimePicker()
-        Me.RadLabel4 = New common.Controls.MyLabel()
-        Me.lbl_ExFactoryDate = New common.Controls.MyLabel()
-        Me.btn_ChangeVehical = New Telerik.WinControls.UI.RadButton()
         Me.GBVehical = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtMultiCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.btn_ApplyClose = New Telerik.WinControls.UI.RadButton()
@@ -37,6 +34,11 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.lblvandorno = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.btn_VehicalClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnEdit = New Telerik.WinControls.UI.RadButton()
+        Me.txtEx_Factory_Date = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.lbl_ExFactoryDate = New common.Controls.MyLabel()
+        Me.btn_ChangeVehical = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtn_Ambient = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtn_Fresh = New Telerik.WinControls.UI.RadRadioButton()
@@ -80,22 +82,23 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
         CType(Me.lblLockUnlock, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnEdit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtEx_Factory_Date, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_ExFactoryDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btn_ChangeVehical, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GBVehical, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBVehical.SuspendLayout()
         CType(Me.btn_ApplyClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_VehicalClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnEdit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEx_Factory_Date, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_ExFactoryDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_ChangeVehical, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,6 +138,7 @@ Partial Class frmBookingDairyMultipleCustomer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,7 +157,6 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.RadSplitContainer1.Size = New System.Drawing.Size(992, 420)
         Me.RadSplitContainer1.TabIndex = 0
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'SplitPanel1
         '
@@ -191,7 +194,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel1.Size = New System.Drawing.Size(992, 384)
-        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.4220183!)
+        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.4220183!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 154)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
@@ -207,77 +210,7 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.lblLockUnlock.Name = "lblLockUnlock"
         Me.lblLockUnlock.Size = New System.Drawing.Size(159, 18)
         Me.lblLockUnlock.TabIndex = 66
-        Me.lblLockUnlock.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLockUnlock.TextWrap = False
-        '
-        'btnEdit
-        '
-        Me.btnEdit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnEdit.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnEdit.Location = New System.Drawing.Point(389, 10)
-        Me.btnEdit.Name = "btnEdit"
-        Me.btnEdit.Size = New System.Drawing.Size(18, 21)
-        Me.btnEdit.TabIndex = 65
-        Me.btnEdit.Text = "E"
-        '
-        'txtEx_Factory_Date
-        '
-        Me.txtEx_Factory_Date.CalculationExpression = Nothing
-        Me.txtEx_Factory_Date.CustomFormat = "dd/MM/yyyy"
-        Me.txtEx_Factory_Date.FieldCode = Nothing
-        Me.txtEx_Factory_Date.FieldDesc = Nothing
-        Me.txtEx_Factory_Date.FieldMaxLength = 0
-        Me.txtEx_Factory_Date.FieldName = Nothing
-        Me.txtEx_Factory_Date.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEx_Factory_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtEx_Factory_Date.isCalculatedField = False
-        Me.txtEx_Factory_Date.IsSourceFromTable = False
-        Me.txtEx_Factory_Date.IsSourceFromValueList = False
-        Me.txtEx_Factory_Date.IsUnique = False
-        Me.txtEx_Factory_Date.Location = New System.Drawing.Point(894, 12)
-        Me.txtEx_Factory_Date.MendatroryField = False
-        Me.txtEx_Factory_Date.MinDate = New Date(1990, 1, 1, 0, 0, 0, 0)
-        Me.txtEx_Factory_Date.MyLinkLable1 = Me.RadLabel4
-        Me.txtEx_Factory_Date.MyLinkLable2 = Nothing
-        Me.txtEx_Factory_Date.Name = "txtEx_Factory_Date"
-        Me.txtEx_Factory_Date.NullDate = New Date(1990, 1, 1, 0, 0, 0, 0)
-        Me.txtEx_Factory_Date.ReferenceFieldDesc = Nothing
-        Me.txtEx_Factory_Date.ReferenceFieldName = Nothing
-        Me.txtEx_Factory_Date.ReferenceTableName = Nothing
-        Me.txtEx_Factory_Date.ShowCheckBox = True
-        Me.txtEx_Factory_Date.Size = New System.Drawing.Size(95, 18)
-        Me.txtEx_Factory_Date.TabIndex = 64
-        Me.txtEx_Factory_Date.TabStop = False
-        Me.txtEx_Factory_Date.Value = New Date(1990, 1, 1, 0, 0, 0, 0)
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.FieldName = Nothing
-        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(408, 14)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 47
-        Me.RadLabel4.Text = "Date"
-        '
-        'lbl_ExFactoryDate
-        '
-        Me.lbl_ExFactoryDate.FieldName = Nothing
-        Me.lbl_ExFactoryDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_ExFactoryDate.Location = New System.Drawing.Point(800, 14)
-        Me.lbl_ExFactoryDate.Name = "lbl_ExFactoryDate"
-        Me.lbl_ExFactoryDate.Size = New System.Drawing.Size(88, 16)
-        Me.lbl_ExFactoryDate.TabIndex = 63
-        Me.lbl_ExFactoryDate.Text = "Ex-Factory Date"
-        '
-        'btn_ChangeVehical
-        '
-        Me.btn_ChangeVehical.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_ChangeVehical.Location = New System.Drawing.Point(858, 36)
-        Me.btn_ChangeVehical.Name = "btn_ChangeVehical"
-        Me.btn_ChangeVehical.Size = New System.Drawing.Size(103, 18)
-        Me.btn_ChangeVehical.TabIndex = 62
-        Me.btn_ChangeVehical.Text = "Change Vehicle"
         '
         'GBVehical
         '
@@ -371,6 +304,75 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.btn_VehicalClose.TabIndex = 59
         Me.btn_VehicalClose.Text = "Close"
         '
+        'btnEdit
+        '
+        Me.btnEdit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEdit.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnEdit.Location = New System.Drawing.Point(389, 10)
+        Me.btnEdit.Name = "btnEdit"
+        Me.btnEdit.Size = New System.Drawing.Size(18, 21)
+        Me.btnEdit.TabIndex = 65
+        Me.btnEdit.Text = "E"
+        '
+        'txtEx_Factory_Date
+        '
+        Me.txtEx_Factory_Date.CalculationExpression = Nothing
+        Me.txtEx_Factory_Date.CustomFormat = "dd/MM/yyyy"
+        Me.txtEx_Factory_Date.FieldCode = Nothing
+        Me.txtEx_Factory_Date.FieldDesc = Nothing
+        Me.txtEx_Factory_Date.FieldMaxLength = 0
+        Me.txtEx_Factory_Date.FieldName = Nothing
+        Me.txtEx_Factory_Date.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEx_Factory_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEx_Factory_Date.isCalculatedField = False
+        Me.txtEx_Factory_Date.IsSourceFromTable = False
+        Me.txtEx_Factory_Date.IsSourceFromValueList = False
+        Me.txtEx_Factory_Date.IsUnique = False
+        Me.txtEx_Factory_Date.Location = New System.Drawing.Point(894, 12)
+        Me.txtEx_Factory_Date.MendatroryField = False
+        Me.txtEx_Factory_Date.MinDate = New Date(1990, 1, 1, 0, 0, 0, 0)
+        Me.txtEx_Factory_Date.MyLinkLable1 = Me.RadLabel4
+        Me.txtEx_Factory_Date.MyLinkLable2 = Nothing
+        Me.txtEx_Factory_Date.Name = "txtEx_Factory_Date"
+        Me.txtEx_Factory_Date.NullDate = New Date(1990, 1, 1, 0, 0, 0, 0)
+        Me.txtEx_Factory_Date.ReferenceFieldDesc = Nothing
+        Me.txtEx_Factory_Date.ReferenceFieldName = Nothing
+        Me.txtEx_Factory_Date.ReferenceTableName = Nothing
+        Me.txtEx_Factory_Date.ShowCheckBox = True
+        Me.txtEx_Factory_Date.Size = New System.Drawing.Size(95, 18)
+        Me.txtEx_Factory_Date.TabIndex = 64
+        Me.txtEx_Factory_Date.TabStop = False
+        Me.txtEx_Factory_Date.Value = New Date(1990, 1, 1, 0, 0, 0, 0)
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(408, 14)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 47
+        Me.RadLabel4.Text = "Date"
+        '
+        'lbl_ExFactoryDate
+        '
+        Me.lbl_ExFactoryDate.FieldName = Nothing
+        Me.lbl_ExFactoryDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_ExFactoryDate.Location = New System.Drawing.Point(800, 14)
+        Me.lbl_ExFactoryDate.Name = "lbl_ExFactoryDate"
+        Me.lbl_ExFactoryDate.Size = New System.Drawing.Size(88, 16)
+        Me.lbl_ExFactoryDate.TabIndex = 63
+        Me.lbl_ExFactoryDate.Text = "Ex-Factory Date"
+        '
+        'btn_ChangeVehical
+        '
+        Me.btn_ChangeVehical.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_ChangeVehical.Location = New System.Drawing.Point(858, 36)
+        Me.btn_ChangeVehical.Name = "btn_ChangeVehical"
+        Me.btn_ChangeVehical.Size = New System.Drawing.Size(103, 18)
+        Me.btn_ChangeVehical.TabIndex = 62
+        Me.btn_ChangeVehical.Text = "Change Vehicle"
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -412,7 +414,6 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.lblName.Name = "lblName"
         Me.lblName.Size = New System.Drawing.Size(177, 18)
         Me.lblName.TabIndex = 59
-        Me.lblName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblName.TextWrap = False
         '
         'txtCustomer
@@ -461,7 +462,6 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(176, 18)
         Me.lblLocation.TabIndex = 22
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'btnSerach
@@ -499,6 +499,7 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.ddlTaxType.AutoCompleteDisplayMember = Nothing
         Me.ddlTaxType.AutoCompleteValueMember = Nothing
         Me.ddlTaxType.CalculationExpression = Nothing
+        Me.ddlTaxType.DropDownAnimationEnabled = True
         Me.ddlTaxType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTaxType.FieldCode = Nothing
         Me.ddlTaxType.FieldDesc = Nothing
@@ -575,7 +576,6 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.lblCustGrp.Name = "lblCustGrp"
         Me.lblCustGrp.Size = New System.Drawing.Size(176, 18)
         Me.lblCustGrp.TabIndex = 54
-        Me.lblCustGrp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustGrp.TextWrap = False
         '
         'chkCreateDO
@@ -651,12 +651,15 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(10, 20)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -664,7 +667,7 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.gv2.Size = New System.Drawing.Size(961, 234)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
+        Me.gv2.VarID = ""
         '
         'gv1
         '
@@ -677,12 +680,15 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -690,7 +696,7 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.gv1.Size = New System.Drawing.Size(961, 234)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'txtDate
         '
@@ -751,6 +757,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         'SplitPanel2
         '
+        Me.SplitPanel2.Controls.Add(Me.btnHistory)
         Me.SplitPanel2.Controls.Add(Me.btnreverse)
         Me.SplitPanel2.Controls.Add(Me.btnUnlock)
         Me.SplitPanel2.Controls.Add(Me.btnPerformaInvoice)
@@ -769,7 +776,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel2.Size = New System.Drawing.Size(992, 32)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.4220183!)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.4220183!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -154)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -779,7 +786,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(693, 7)
+        Me.btnreverse.Location = New System.Drawing.Point(714, 7)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(143, 20)
         Me.btnreverse.TabIndex = 22
@@ -790,9 +797,9 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnUnlock.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnUnlock.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnlock.Location = New System.Drawing.Point(845, 7)
+        Me.btnUnlock.Location = New System.Drawing.Point(861, 7)
         Me.btnUnlock.Name = "btnUnlock"
-        Me.btnUnlock.Size = New System.Drawing.Size(69, 20)
+        Me.btnUnlock.Size = New System.Drawing.Size(56, 20)
         Me.btnUnlock.TabIndex = 20
         Me.btnUnlock.Text = "Unlock"
         '
@@ -800,7 +807,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnPerformaInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPerformaInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPerformaInvoice.Location = New System.Drawing.Point(600, 7)
+        Me.btnPerformaInvoice.Location = New System.Drawing.Point(624, 7)
         Me.btnPerformaInvoice.Name = "btnPerformaInvoice"
         Me.btnPerformaInvoice.Size = New System.Drawing.Size(87, 20)
         Me.btnPerformaInvoice.TabIndex = 19
@@ -810,7 +817,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnPrintBooking.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBooking.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBooking.Location = New System.Drawing.Point(507, 7)
+        Me.btnPrintBooking.Location = New System.Drawing.Point(535, 7)
         Me.btnPrintBooking.Name = "btnPrintBooking"
         Me.btnPrintBooking.Size = New System.Drawing.Size(87, 20)
         Me.btnPrintBooking.TabIndex = 18
@@ -820,7 +827,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnCreateDO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateDO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateDO.Location = New System.Drawing.Point(378, 7)
+        Me.btnCreateDO.Location = New System.Drawing.Point(409, 7)
         Me.btnCreateDO.Name = "btnCreateDO"
         Me.btnCreateDO.Size = New System.Drawing.Size(123, 20)
         Me.btnCreateDO.TabIndex = 17
@@ -830,9 +837,9 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(303, 7)
+        Me.btnReset.Location = New System.Drawing.Point(281, 6)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(69, 20)
+        Me.btnReset.Size = New System.Drawing.Size(64, 20)
         Me.btnReset.TabIndex = 16
         Me.btnReset.Text = "Reset"
         '
@@ -840,9 +847,9 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(80, 6)
+        Me.btnPost.Location = New System.Drawing.Point(75, 6)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.Size = New System.Drawing.Size(67, 20)
         Me.btnPost.TabIndex = 15
         Me.btnPost.Text = "Post"
         '
@@ -850,7 +857,7 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(228, 6)
+        Me.btnPrint.Location = New System.Drawing.Point(210, 6)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 20)
         Me.btnPrint.TabIndex = 4
@@ -860,9 +867,9 @@ Partial Class frmBookingDairyMultipleCustomer
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(153, 6)
+        Me.btnDelete.Location = New System.Drawing.Point(144, 6)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 20)
+        Me.btnDelete.Size = New System.Drawing.Size(64, 20)
         Me.btnDelete.TabIndex = 13
         Me.btnDelete.Text = "Delete"
         '
@@ -882,7 +889,7 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(5, 6)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 20)
+        Me.btnSave.Size = New System.Drawing.Size(67, 20)
         Me.btnSave.TabIndex = 12
         Me.btnSave.Text = "Save"
         '
@@ -893,50 +900,47 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(992, 20)
         Me.RadMenu1.TabIndex = 7
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnSaveLayout, Me.btnLayout, Me.btnExport, Me.btnImport, Me.btnSendEmailSMS})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'btnSaveLayout
         '
-        Me.btnSaveLayout.AccessibleDescription = "Save Layout"
-        Me.btnSaveLayout.AccessibleName = "Save Layout"
         Me.btnSaveLayout.Name = "btnSaveLayout"
         Me.btnSaveLayout.Text = "Save Layout"
         '
         'btnLayout
         '
-        Me.btnLayout.AccessibleDescription = "Delete Layout"
-        Me.btnLayout.AccessibleName = "Delete Layout"
         Me.btnLayout.Name = "btnLayout"
         Me.btnLayout.Text = "Delete Layout"
         '
         'btnExport
         '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
         '
         'btnImport
         '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Text = "Import"
         '
         'btnSendEmailSMS
         '
-        Me.btnSendEmailSMS.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.btnSendEmailSMS.AccessibleName = "E-Mail/SMS Setting"
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(347, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(58, 20)
+        Me.btnHistory.TabIndex = 23
+        Me.btnHistory.Text = "History"
         '
         'frmBookingDairyMultipleCustomer
         '
@@ -958,11 +962,6 @@ Partial Class frmBookingDairyMultipleCustomer
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
         CType(Me.lblLockUnlock, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnEdit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtEx_Factory_Date, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_ExFactoryDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btn_ChangeVehical, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GBVehical, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBVehical.ResumeLayout(False)
         Me.GBVehical.PerformLayout()
@@ -970,6 +969,11 @@ Partial Class frmBookingDairyMultipleCustomer
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_VehicalClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnEdit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEx_Factory_Date, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_ExFactoryDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_ChangeVehical, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -1011,6 +1015,7 @@ Partial Class frmBookingDairyMultipleCustomer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1074,5 +1079,6 @@ Partial Class frmBookingDairyMultipleCustomer
     Friend WithEvents btnUnlock As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnreverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtMultiCustomer As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

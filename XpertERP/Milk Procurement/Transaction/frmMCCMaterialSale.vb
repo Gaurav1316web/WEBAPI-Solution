@@ -882,7 +882,7 @@ Public Class frmMCCMaterialSale
         repoHDisAmt.Name = colHeadDisPerAmt
         repoHDisAmt.Width = 80
         repoHDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoHDisAmt.VisibleInColumnChooser = False
+        repoHDisAmt.VisibleInColumnChooser = True
         repoHDisAmt.ReadOnly = True
         repoHDisAmt.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoHDisAmt)
@@ -3199,6 +3199,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             lblTotalDisSubsidy.Visible = False
 
         End If
+        lblTotalDisSubsidy.Text = 0
+        lblTotalSubsidy.Text = 0
         SETGSTControl()
         If AllowPlandDeptMCCLocation = True Then
             Dim obj As New clsMCCCodes()
@@ -7238,7 +7240,8 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             For Each gro As GridViewRowInfo In gv1.Rows
                 gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
                 If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
-                    dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                    'dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                    dblDiscountAmt = Math.Round(txtDiscAmt.Value * TotalItemQty, 2)
                     gro.Cells(colHeadDiscamt).Value = Math.Round((dblDiscountAmt), 2)
                 Else
                     gro.Cells(colHeadDiscamt).Value = 0
@@ -8585,8 +8588,8 @@ a:          End If
                     lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
                 End If
             Else
-                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
             End If
 
         Catch ex As Exception
@@ -8731,5 +8734,9 @@ a:          End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub txtDiscPer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscPer.KeyPress
+        lblTotalDisSubsidy.Text = clsCommon.myRoundOFF(clsCommon.myCdbl(lblAmtWithDiscount.Text) * (clsCommon.myCdbl(txtDiscPer.Text) / 100), 2, 4)
     End Sub
 End Class

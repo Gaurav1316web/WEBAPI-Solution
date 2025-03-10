@@ -3764,7 +3764,7 @@ Public Class frmProductionEntry
                 clsCommon.MyMessageBoxShow(Me, "Select Receipt Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PRODUCTION_ENTRY_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

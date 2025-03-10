@@ -3941,4 +3941,16 @@ Public Class frmSNPOS
         Dim frm As New FrmEmailAndSMSRecipients()
         frm.ShowDialog()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_SD_POS_HEAD", "TSPL_SD_POS_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

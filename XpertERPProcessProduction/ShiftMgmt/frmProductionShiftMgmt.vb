@@ -2951,7 +2951,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SHIFT_MGMT", "TSPL_PRODUCTION_UPLOADER_DETAIL")
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "Document_No", "TSPL_SHIFT_MGMT")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -1799,6 +1799,7 @@
     <None Include="Crystal Reports\Sales Report\crptChapterHeadWise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCheckSlipReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCommissionMasterHistory.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptCreditPartyWiseSaleAmount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCustomeEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCustomerEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\crptCustomerRanking.rpt" />
@@ -1928,6 +1929,7 @@
     <None Include="Crystal Reports\Sales Report\crptRG1DetailsMRPWise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Summary%28B4 address%29.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Summary.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptRouteWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDiscDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDiscInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDiscSummary.rpt" />

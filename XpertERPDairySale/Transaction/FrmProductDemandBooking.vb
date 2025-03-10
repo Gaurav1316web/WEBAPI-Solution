@@ -982,7 +982,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             'coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
             coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_PRODUCT_DEMAND_BOOKING_MASTER(Document_No)")
@@ -1047,7 +1047,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "", True)
         Catch ex As Exception
         End Try
     End Sub
@@ -2058,6 +2058,18 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             Next
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "TSPL_Product_DEMAND_BOOKING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

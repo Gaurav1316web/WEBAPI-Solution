@@ -763,7 +763,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Modified_Date", "Datetime NOT NULL")
         coll.Add("Created_By", "varchar(20)  NULL ")
         coll.Add("Created_Date", "Datetime  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", coll, Nothing, True, False, "", "Document_Code", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", coll, Nothing, True, False, "", "Document_Code", "", True)
         coll = New Dictionary(Of String, String)()
         coll.Add("Document_Code", "VARCHAR(30) NOT NULL REFERENCES TSPL_DEMAND_ADJUSTMENT_HEAD(Document_Code) ")
         coll.Add("TR_Code", "varchar(30) Not NULL")
@@ -822,7 +822,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("TAX10_Amt", "Decimal(18,2) NULL")
         coll.Add("TAX10_Base_Amt", "Decimal(18,2) NULL")
 
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_DETAIL", coll, "", True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_DETAIL", coll, "", True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "", True)
     End Sub
     Function AllowToSave() As Boolean
         Try
@@ -1341,4 +1341,15 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_DEMAND_ADJUSTMENT_HEAD", "TSPL_TTSPL_DEMAND_ADJUSTMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

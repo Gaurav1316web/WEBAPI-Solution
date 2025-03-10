@@ -2489,7 +2489,11 @@ Public Class clsEkoPro
         PriceCode = ""
         dclRefNegativeRate = 0
         Try
-            If Not clsVendorMaster.IsVLCDripSaver(vlcCode, tran) Then
+            Dim isDripSaver As Boolean = False
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                isDripSaver = clsVendorMaster.IsVLCDripSaver(vlcCode, tran)
+            End If
+            If Not isDripSaver Then
                 If objCommonVar.PricePlan = 6 Then
                     Rate = GetRateCalculatedRAJ(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran)
                 ElseIf objCommonVar.PricePlan = 7 Then
@@ -2935,12 +2939,14 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
         Dim Rate As Double = 0
         Try
             CLR = clsERPFuncationality.myDclInZeroPointFive(CLR)
-
-            If Not clsVendorMaster.IsVLCDripSaver(vlcCode, tran) Then
+            Dim isDripSaver As Boolean = False
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                isDripSaver = clsVendorMaster.IsVLCDripSaver(vlcCode, tran)
+            End If
+            If Not isDripSaver Then
                 Dim qry As String = "select top 1 rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code from TSPL_FAT_SNF_UPLOADER_MASTER "
                 'inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & MccCode & "' and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code 
                 'inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code='" & vlcCode & "' and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code 
-
                 qry += " where  posted='1'"
                 If objCommonVar.DisplayTypeInMilkReceipt Then
                     qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='" + strMilkType + "' "
