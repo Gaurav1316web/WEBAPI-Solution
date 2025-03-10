@@ -75,6 +75,8 @@ Public Class clsProductionShiftMgmt
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT", OMInsertOrUpdate.Update, "TSPL_SHIFT_MGMT.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SHIFT_MGMT", "Document_No", trans)
+
             clsProductionShiftMgmtOpen.SaveData(obj.Document_No, obj.ArrOP, trans)
             clsProductionShiftMgmtReceiptPlantMilk.SaveData(obj.Document_No, obj.ArrRecPlant, trans)
             clsProductionShiftMgmtReceiptBulkMilk.SaveData(obj.Document_No, obj.ArrRecBulk, trans)
@@ -151,6 +153,8 @@ where 2=2 "
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SHIFT_MGMT", "Document_No", trans)
+
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_CLOSE where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK where Document_No='" + obj.Document_No + "'", trans)
@@ -923,7 +927,7 @@ where TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.Document_No='" + obj.Document_No + 
 
             Qry = "Update TSPL_SHIFT_MGMT set Status = 0 where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SHIFT_MGMT", "Document_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

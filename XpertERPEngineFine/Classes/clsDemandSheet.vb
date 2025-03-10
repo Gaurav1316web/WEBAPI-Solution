@@ -261,6 +261,8 @@ Public Class clsDemandHistoryMaster
     Public Cust_Name As String = Nothing
     Public ShiftType As String = Nothing
     Public History_By As String = Nothing
+    Public EventType As String = Nothing
+    Public EventSource As String = Nothing
     Public History_ON As DateTime = Nothing
     Public Arr As List(Of clsDemandHistoryDetail) = Nothing
 #End Region
@@ -392,111 +394,10 @@ ORDER BY TSPL_BOOKING_MATSER_Hist_Data.Hist_On DESC;"
             Dim obj As clsDemandHistoryMaster = Nothing
 
 
-            'Dim StrQry As String = "WITH MaxHistVersions AS (
-            '   SELECT 
-            '        TR_Code,Document_No,
-            '        (Hist_Version) AS Max_Hist_Version
-            '    FROM TSPL_DEMAND_BOOKING_Detail_Hist_Data
-            '    GROUP BY Document_No,TR_Code,Hist_Version
-            ')
 
-            'SELECT 
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No AS Document_No,
-            '   TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code AS TR_Code,
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.route_no AS Route_No,
-            '    TSPL_ITEM_MASTER.Item_Code AS Item_Name,
-            '    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.ItemNetAmount AS Amount,
-            '    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Qty AS Qty,
-            '    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Unit_code AS Unit_Code,
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_By AS History_By,
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On AS History_ON,
-            '    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code AS Cust_Code,
-            '    TSPL_CUSTOMER_MASTER.Customer_Name AS Customer_Name,
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType AS ShiftType,
-            '    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code,
-            '    TSPL_ITEM_MASTER.Short_Description AS Item_Desc,
-            '    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version AS Hist_Version
-            'FROM TSPL_DEMAND_BOOKING_MASTER_Hist_Data
-            'LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL_Hist_Data 
-            '    ON TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No = TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No
-            'LEFT JOIN TSPL_ITEM_MASTER 
-            '    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code = TSPL_ITEM_MASTER.Item_Code
-            'LEFT JOIN TSPL_CUSTOMER_MASTER 
-            '    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code
-            'INNER JOIN MaxHistVersions 
-            '    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code = MaxHistVersions.TR_Code
-            '    AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
-            'WHERE CONVERT(date, TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
-            '  AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType = '" + Shift + "'
-            '  AND TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = '" + Booth + "'
-            'ORDER BY TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On DESC"
-
-
-
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry, trans)
-            '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '                Dim HisVersion As Integer = 0
-
-            '                For Each objdr As DataRow In dt.Rows
-            '                    obj = New clsDemandHistoryMaster()
-            '                    obj.Document_No = clsCommon.myCstr(objdr("TR_Code"))
-            '                    obj.Hist_Version = clsCommon.myCstr(objdr("Hist_Version"))
-            '                    If lstStr.Contains(obj.Demand_No + "-" + clsCommon.myCstr(obj.Hist_Version)) Then
-            '                        Continue For
-            '                    End If
-            '                    lstStr.Add(obj.Demand_No + "-" + clsCommon.myCstr(obj.Hist_Version))
-            '                    obj.History_Version = HisVersion
-            '                    obj.Demand_No = clsCommon.myCstr(objdr("Document_No"))
-            '                    obj.Route_No = clsCommon.myCstr(objdr("Route_No"))
-            '                    obj.Cust_Code = clsCommon.myCstr(objdr("Cust_Code"))
-            '                    obj.Cust_Name = clsCommon.myCstr(objdr("Customer_Name"))
-            '                    obj.ShiftType = clsCommon.myCstr(objdr("ShiftType"))
-            '                    obj.History_By = clsCommon.myCstr(objdr("History_By"))
-            '                    obj.History_ON = clsCommon.GetPrintDate(objdr("History_ON"), "dd/MMM/yyyy HH:mm:ss")
-            '                    Dim hisDoc As String = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER_Hist_Data where Document_No='" + obj.Demand_No + "'", trans)
-            '                    If clsCommon.myLen(hisDoc) > 0 Then
-            '                        StrQry = "WITH MaxHistVersions AS (
-            '    SELECT 
-            '        TR_Code,Document_No,
-            '        (Hist_Version) AS Max_Hist_Version
-            '    FROM TSPL_DEMAND_BOOKING_Detail_Hist_Data
-            '    GROUP BY Document_No,TR_Code,Hist_Version
-            ')
-            'select TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code,Cust_Code,Item_Code,Unit_code,Qty,ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By from TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
-            'left join TSPL_DEMAND_BOOKING_MASTER_Hist_Data on TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No=TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No
-            'INNER JOIN MaxHistVersions 
-            '    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code = MaxHistVersions.TR_Code
-            '    AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
-            'where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version='" + clsCommon.myCstr(obj.Hist_Version) + "' and TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No='" + obj.Demand_No + "' and TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code='" + obj.Cust_Code + "'"
-            '                        'Else
-            '                        '    StrQry = "select Document_No,Cust_Code,Item_Code,Unit_code,Booking_Qty,Amount_with_Tax from TSPL_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
-            '                    End If
-            '                    Dim dt1 As DataTable = New DataTable()
-            '                    dt1 = clsDBFuncationality.GetDataTable(StrQry, trans)
-            '                    If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
-            '                        obj.Arr = New List(Of clsDemandHistoryDetail)
-            '                        Dim objTr As clsDemandHistoryDetail
-            '                        For Each dr As DataRow In dt1.Rows
-            '                            objTr = New clsDemandHistoryDetail
-            '                            objTr.Document_No = clsCommon.myCstr(dr("TR_Code"))
-            '                            objTr.Cust_Code = clsCommon.myCstr(dr("Cust_Code"))
-            '                            objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
-            '                            objTr.Unit_Code = clsCommon.myCstr(dr("Unit_code"))
-            '                            objTr.Qty = clsCommon.myCdbl(dr("Qty"))
-            '                            objTr.Hist_By = clsCommon.myCstr(dr("Hist_By"))
-            '                            objTr.Amount = clsCommon.myCdbl(dr("ItemNetAmount"))
-            '                            obj.Arr.Add(objTr)
-            '                        Next
-
-            '                    End If
-            '                    HisVersion += 1
-            '                    lstobj.Add(obj)
-            '                Next
-            '            End If
             Dim DocNo As New List(Of String)
-            Dim dts As DataTable = clsDBFuncationality.GetDataTable("select distinct TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No from TSPL_DEMAND_BOOKING_MASTER_Hist_Data
-left join TSPL_DEMAND_BOOKING_DETAIL_Hist_Data on TSPL_DEMAND_BOOKING_MASTER_Hist_Data.document_No=TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No
-where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType='" + Shift + "' and Convert(date,TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code='" + Booth + "'", trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable("select distinct TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_No from TSPL_DEMAND_BOOKING_DETAIL_HISTORY
+where TSPL_DEMAND_BOOKING_DETAIL_HISTORY.ShiftType='" + Shift + "' and Convert(date,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Cust_Code='" + Booth + "'", trans)
             If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
                 For Each drs As DataRow In dts.Rows
                     DocNo.Add(clsCommon.myCstr(drs("Document_No")))
@@ -504,14 +405,14 @@ where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType='" + Shift + "' and Convert
             End If
 
             Dim strQry As String = "WITH VersionedData AS (
-    SELECT item_code,Unit_code,Qty,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_On,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code,LAG(Qty) OVER (PARTITION BY item_code ORDER BY Hist_Version) AS PreviousQty
-    FROM  TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
+    SELECT item_code,Unit_code,Qty,Operation_Type,Operation_Source,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.change_timestamp,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_No,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Cust_Code,LAG(Qty) OVER (PARTITION BY item_code ORDER BY Hist_Version) AS PreviousQty
+    FROM  TSPL_DEMAND_BOOKING_DETAIL_HISTORY 
     WHERE Document_No in (" + clsCommon.GetMulcallString(DocNo) + ") AND Cust_Code = '" + Booth + "')
 SELECT 
-    item_code, Unit_code, Qty,Hist_Version,Hist_By,Hist_On,VersionedData.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Document_No,TSPL_CUSTOMER_MASTER.Route_No
+    item_code, Unit_code, Qty,Operation_Type,Operation_Source,Hist_Version,Hist_By,change_timestamp,VersionedData.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Document_No,TSPL_CUSTOMER_MASTER.Route_No
 FROM VersionedData left join TSPL_CUSTOMER_MASTER on VersionedData.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 WHERE Qty <> PreviousQty OR PreviousQty is null
-ORDER BY  Hist_On desc"
+ORDER BY  change_timestamp desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim HisVersion As Integer = 0
@@ -530,10 +431,12 @@ ORDER BY  Hist_On desc"
                     obj.Cust_Code = clsCommon.myCstr(objdr("Cust_Code"))
                     obj.Cust_Name = clsCommon.myCstr(objdr("Customer_Name"))
                     obj.ShiftType = clsCommon.myCstr(Shift)
+                    obj.EventType = clsCommon.myCstr(objdr("Operation_Type"))
+                    obj.EventSource = clsCommon.myCstr(objdr("Operation_Source"))
                     obj.History_By = clsCommon.myCstr(objdr("Hist_By"))
-                    obj.History_ON = clsCommon.GetPrintDate(objdr("Hist_On"), "dd/MMM/yyyy HH:mm:ss")
-                    strQry = "select TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code,Cust_Code,Item_Code,Unit_code,Qty,ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By from TSPL_DEMAND_BOOKING_DETAIL_Hist_Data where TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_Version='" + clsCommon.myCstr(objdr("Hist_Version")) + "'   and TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No ='" + obj.Document_No + "' and 
-TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code='" + Booth + "'"
+                    obj.History_ON = clsCommon.GetPrintDate(objdr("change_timestamp"), "dd/MMM/yyyy HH:mm:ss")
+                    strQry = "select TSPL_DEMAND_BOOKING_DETAIL_HISTORY.TR_Code,Cust_Code,Item_Code,Unit_code,Qty,ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Hist_By from TSPL_DEMAND_BOOKING_DETAIL_HISTORY where TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Hist_Version='" + clsCommon.myCstr(objdr("Hist_Version")) + "'   and TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_No ='" + obj.Document_No + "' and 
+TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Cust_Code='" + Booth + "'"
                     Dim dt1 As DataTable = New DataTable()
                     dt1 = clsDBFuncationality.GetDataTable(strQry, trans)
                     If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then

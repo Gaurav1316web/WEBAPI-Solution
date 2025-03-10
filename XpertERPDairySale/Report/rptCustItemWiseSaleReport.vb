@@ -66,6 +66,10 @@ Public Class rptCustItemWiseSaleReport
             VarID += "_TCSSM"
         ElseIf BtnGheeReport.IsChecked Then
             VarID += "_GHRP"
+        ElseIf BtnRouteWiseSale.IsChecked Then
+            VarID += "_RWS"
+        ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
+            VarID += "_CPWSA"
         End If
         If rbtnDetail.IsChecked Then
             VarID += "_DE"
@@ -100,6 +104,10 @@ Public Class rptCustItemWiseSaleReport
             TcsSummary(False)
         ElseIf BtnGheeReport.IsChecked Then
             GheeReport(False)
+        ElseIf BtnRouteWiseSale.IsChecked Then
+            RouteWiseSale(False)
+        ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
+            CreditPartyWiseSaleAmount(False)
         Else
             LoadData()
         End If
@@ -469,8 +477,8 @@ Public Class rptCustItemWiseSaleReport
     SUM(Out_Qty) AS Out_Qty, 
     SUM(QtyPouch) AS QtyPouch, 
     SUM(Amount) AS Amount, 
-    '01-Sep-2024' AS Fromdate, 
-    '10-Sep-2024' AS ToDate, 
+    '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AS Fromdate, 
+    '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AS ToDate, 
     MAX(Add1) AS Add1, 
     MAX(Add2) AS Add2, 
     MAX(Add3) AS Add3, 
@@ -486,8 +494,8 @@ FROM (
             TSPL_TRANSFER_ORDER_DETAIL.Item_Code, 
             MAX(TSPL_TRANSFER_ORDER_HEAD.Price_Code) AS Price_Code, 
             TSPL_TRANSFER_ORDER_HEAD.Document_Date, 
-            '01-Sep-2024' AS Fromdate, 
-            '10-Sep-2024' AS ToDate, 
+            '' AS Fromdate, 
+            '' AS ToDate, 
             MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
             MAX(TSPL_COMPANY_MASTER.Add1) AS Add1, 
             MAX(TSPL_COMPANY_MASTER.Add2) AS Add2, 
@@ -646,7 +654,7 @@ GROUP BY Item_Code"
                     LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
+                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where TSPL_ITEM_MASTER.Is_Ambient = 1  and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
                 GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -997,9 +1005,15 @@ group by XXFinal.Customer_Name"
     Sub TransportationCharges(ByVal print As Boolean)
         Try
             Dim Qry As String = ""
+            Dim whrcls As String = ""
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
+
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                whrcls = " and TSPL_CUSTOMER_MASTER.Cust_Code in (''," & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
+            End If
+
             Qry = " SELECT  
                     max(XXFinal.Customer_Name) as Customer_Name,MAX(XXFinal.FromDate) as FromDate,MAX(XXFinal.ToDate) as ToDate,
                     sum(XXFinal.Trp_othcharg) as Trp_othcharg,SUM(XXFinal.Trp_othcharg) as Total_Amount,
@@ -1024,7 +1038,7 @@ group by XXFinal.Customer_Name"
                     from TSPL_SD_SHIPMENT_HEAD
                     left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                     left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
-                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1 " & whrcls & "
                         ) xx
                         ) XXFinal 
                         where XXFinal.Trp_othcharg>0
@@ -1066,9 +1080,14 @@ group by XXFinal.Customer_Name"
     Sub TcsSummary(ByVal print As Boolean)
         Try
             Dim Qry As String = ""
+            Dim whrcls As String = ""
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                whrcls = " and TSPL_CUSTOMER_MASTER.Cust_Code in (''," & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
+            End If
+
             Qry = " select 
                         max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.pan) as Pan,MAX(XXFinal.FromDate) as FromDate,
                         MAX(XXFinal.ToDate) as ToDate,
@@ -1083,7 +1102,7 @@ group by XXFinal.Customer_Name"
                         TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                          TSPL_COMPANY_MASTER.Comp_Name,
 
-                        (TSPL_COMPANY_MASTER.Add1 +TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress,
+                        (TSPL_COMPANY_MASTER.Add1 ) as CompAddress,
                          case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
                          case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
 
@@ -1096,7 +1115,7 @@ group by XXFinal.Customer_Name"
                         from TSPL_SD_SHIPMENT_HEAD
                         left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                         left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
-                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  " & whrcls & "
                         ) xx
                         ) XXFinal 
                         where XXFinal.TCS_AMT>0 group by XXFinal.Customer_Name"
@@ -1137,9 +1156,15 @@ group by XXFinal.Customer_Name"
     Sub GheeReport(ByVal print As Boolean)
         Try
             Dim Qry As String = ""
+            Dim whrcls As String = ""
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
+
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                whrcls = " and TSPL_CUSTOMER_MASTER.Cust_Code in (''," & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
+            End If
+
             Qry = " select '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                         Max(Customer_Name) as Customer_Name,
 						Max(Item_Desc) as Item_Desc,Item_Code ,
@@ -1167,7 +1192,7 @@ group by XXFinal.Customer_Name"
                         left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                         and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
 						LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
-                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1 ) xx
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1  AND TSPL_ITEM_MASTER.Item_Desc LIKE '%Ghee%'  " & whrcls & " ) xx
 						group By Customer_Name,Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -1202,6 +1227,165 @@ group by XXFinal.Customer_Name"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+    Sub RouteWiseSale(ByVal print As Boolean)
+        Try
+            Dim Qry As String = ""
+            Dim BaseQry As String = ""
+            Dim dt As DataTable = Nothing
+            Dim whr As String = ""
+            Qry = " select '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+                                                MAX(TSPL_ROUTE_MASTER.Route_Desc) AS Route_Desc,
+                                                MAX(TSPL_SD_SHIPMENT_HEAD.Route_No) AS Route_No,
+                            MAX(TSPL_SD_SHIPMENT_HEAD.Shift_Type) AS Shift_Type,
+                            SUM(
+                                TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
+                            ) AS QtyAccToReportUOM,
+                            SUM(
+                                CASE 
+                                    WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'Am' 
+                                    THEN TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor 
+                                    ELSE 0 
+                                END
+                            ) AS qty_Am,
+                            SUM(
+                                CASE 
+                                    WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' 
+                                    THEN TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor 
+                                    ELSE 0 
+                                END
+                            ) AS qty_PM,
+                            MAX(ItemConvReportUOM.UOM_Code) AS UOM_Code, 
+                            MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
+                            MAX(TSPL_COMPANY_MASTER.Add1) AS Add1
+                        FROM TSPL_SD_SHIPMENT_DETAIL
+                        LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD 
+                            ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                        LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
+                            ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                        LEFT OUTER JOIN TSPL_ITEM_MASTER 
+                            ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
+                        left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
+                        LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM 
+                            ON TSPL_ITEM_MASTER.Item_Code = ItemConvReportUOM.Item_Code AND ItemConvReportUOM.Report_UOM = 1
+                        LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM 
+                            ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code AND TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+                        LEFT JOIN TSPL_COMPANY_MASTER 
+                            ON 2 = 2
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND TSPL_ITEM_MASTER.IsTaxable = 0 
+                        AND TSPL_SD_SHIPMENT_HEAD.Route_No <> 'DIRECT' 
+	                    AND TSPL_SD_SHIPMENT_HEAD.Route_No <> 'DIRECT1' 
+                    GROUP BY TSPL_SD_SHIPMENT_HEAD.Route_No"
+            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    SetGridFormationn()
+                    'ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    'EnableDisableControls(False)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                ElseIf print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptRouteWiseSale", "Route Wise Sale")
+                    frmCRV = Nothing
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+
+    Sub CreditPartyWiseSaleAmount(ByVal print As Boolean)
+        Try
+            Dim Qry As String = ""
+            Dim BaseQry As String = ""
+            Dim whrcls As String = ""
+            Dim dt As DataTable = Nothing
+            Dim whr As String = ""
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                whrcls = " and TSPL_CUSTOMER_MASTER.Cust_Code in (''," & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
+            End If
+            Qry = " select '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
+                            TSPL_CUSTOMER_MASTER.Customer_Name,
+                            Max(TSPL_CUSTOMER_MASTER.cust_code) as cust_code,
+                            Sum(CASE 
+                                WHEN TSPL_ITEM_MASTER.IsTaxable = 0 THEN TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt  
+                                ELSE 0 
+                            END) AS Milk_Amount, 
+                            Sum(CASE 
+                                WHEN TSPL_ITEM_MASTER.IsTaxable = 1 THEN TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt 
+                                ELSE 0 
+                            END) AS Product_Amount,
+	                        Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt) AS amount,
+	                        MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
+                            MAX(TSPL_COMPANY_MASTER.Add1) AS Add1 
+                        FROM TSPL_SD_SHIPMENT_HEAD 
+                        LEFT OUTER JOIN TSPL_SD_SHIPMENT_DETAIL 
+                            ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = TSPL_SD_SHIPMENT_HEAD.Document_Code
+                        LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
+                            ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                        LEFT OUTER JOIN TSPL_ITEM_MASTER 
+                            ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
+	                        LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM 
+                            ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code AND TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & whrcls & "
+                        AND TSPL_CUSTOMER_MASTER.Credit_Customer = 'Y'
+                        GROUP BY 
+                            TSPL_CUSTOMER_MASTER.Customer_Name"
+            dt = clsDBFuncationality.GetDataTable(Qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    SetGridFormationn()
+                    'ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    'EnableDisableControls(False)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                ElseIf print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptCreditPartyWiseSaleAmount", "Credit Party Wise Sale Amount")
+                    frmCRV = Nothing
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 
     Sub BillWisesaleSummary(ByVal print As Boolean)
         Try
@@ -1314,7 +1498,7 @@ group by XXFinal.Customer_Name"
                                     and ItemConvReportUOM.Report_UOM = 1
                                      left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                    and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                    LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' ) xx 
+                    LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 ) xx 
                 GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(qry)
 
@@ -1372,6 +1556,8 @@ group by XXFinal.Customer_Name"
         BtnTransportationCharges.IsChecked = False
         BtnTcsSummary.IsChecked = False
         BtnGheeReport.IsChecked = False
+        BtnRouteWiseSale.IsChecked = False
+        BtnCreditPartyWiseSaleAmount.IsChecked = False
         EnableDisableControls(True)
         gv1.DataSource = Nothing
         rbtnDocumentDate.IsChecked = True
@@ -1833,6 +2019,10 @@ group by XXFinal.Customer_Name"
             TcsSummary(True)
         ElseIf BtnGheeReport.IsChecked Then
             GheeReport(True)
+        ElseIf BtnRouteWiseSale.IsChecked Then
+            RouteWiseSale(True)
+        ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
+            CreditPartyWiseSaleAmount(True)
         Else
             isPrint = True
             LoadData()

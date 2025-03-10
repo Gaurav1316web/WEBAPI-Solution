@@ -23,7 +23,7 @@ Partial Class FrmQCSeparation
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpQCInDateTime = New common.Controls.MyDateTimePicker()
         Me.lblQcInDateAndTime = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
@@ -100,6 +100,7 @@ Partial Class FrmQCSeparation
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dtpQCInDateTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQcInDateAndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStatusValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,6 +173,7 @@ Partial Class FrmQCSeparation
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -466,6 +468,7 @@ Partial Class FrmQCSeparation
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrint)
@@ -1210,12 +1213,13 @@ Partial Class FrmQCSeparation
         '
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1034, 229)
         Me.gvParam.TabIndex = 264
+        Me.gvParam.VarID = ""
         '
         'RadButton1
         '
@@ -1286,6 +1290,16 @@ Partial Class FrmQCSeparation
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(565, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
         '
         'FrmQCSeparation
         '
@@ -1376,6 +1390,7 @@ Partial Class FrmQCSeparation
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1456,5 +1471,6 @@ Partial Class FrmQCSeparation
     Friend WithEvents MyLabel37 As common.Controls.MyLabel
     Friend WithEvents txtSubLocation As common.UserControls.txtFinder
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

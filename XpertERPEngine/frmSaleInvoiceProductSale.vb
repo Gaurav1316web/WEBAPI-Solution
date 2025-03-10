@@ -9285,4 +9285,15 @@ TabBatch On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And TabB
         End Try
     End Sub
 
+    Private Sub btnHistory1_Click(sender As Object, e As EventArgs) Handles btnHistory1.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

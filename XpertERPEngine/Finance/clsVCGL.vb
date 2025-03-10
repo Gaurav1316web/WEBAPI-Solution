@@ -129,6 +129,8 @@ Public Class clsVCGLHead
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VCGL_Head", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         End If
         isSaved = isSaved AndAlso clsVCGLDetail.SaveData(obj.Document_No, obj.Location_Segment, Arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+
         Return isSaved
     End Function
 

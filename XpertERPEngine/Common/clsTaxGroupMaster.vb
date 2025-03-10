@@ -2838,6 +2838,7 @@ Public Class clsVendorMaster
     End Function
 
     Public Shared Function IsVLCDripSaver(ByVal strVLCCode As String, ByVal tran As SqlTransaction) As Boolean ''ERO/06/03/19-000508 by balwinder on 08/04/2019
+
         Dim qry As String = "select TSPL_VENDOR_MASTER.is_Drip_Saver from TSPL_VLC_MASTER_HEAD" + Environment.NewLine +
         "left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code" + Environment.NewLine +
         "where TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "' and TSPL_VENDOR_MASTER.is_Drip_Saver='Y'"

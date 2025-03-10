@@ -22,9 +22,10 @@ Partial Class frmDemand_Sheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.cmbShift = New common.Controls.MyComboBox()
         Me.txtAddress = New common.Controls.MyTextBox()
         Me.lblAddress = New common.Controls.MyLabel()
         Me.txtDistributor = New common.Controls.MyTextBox()
@@ -41,13 +42,13 @@ Partial Class frmDemand_Sheet
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.cmbShift = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,7 +64,6 @@ Partial Class frmDemand_Sheet
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,6 +114,32 @@ Partial Class frmDemand_Sheet
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 414)
         Me.SplitContainer2.SplitterDistance = 66
         Me.SplitContainer2.TabIndex = 0
+        '
+        'cmbShift
+        '
+        Me.cmbShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbShift.AutoCompleteValueMember = Nothing
+        Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
+        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbShift.FieldCode = Nothing
+        Me.cmbShift.FieldDesc = Nothing
+        Me.cmbShift.FieldMaxLength = 0
+        Me.cmbShift.FieldName = Nothing
+        Me.cmbShift.isCalculatedField = False
+        Me.cmbShift.IsSourceFromTable = False
+        Me.cmbShift.IsSourceFromValueList = False
+        Me.cmbShift.IsUnique = False
+        Me.cmbShift.Location = New System.Drawing.Point(311, 10)
+        Me.cmbShift.MendatroryField = True
+        Me.cmbShift.MyLinkLable1 = Nothing
+        Me.cmbShift.MyLinkLable2 = Nothing
+        Me.cmbShift.Name = "cmbShift"
+        Me.cmbShift.ReferenceFieldDesc = Nothing
+        Me.cmbShift.ReferenceFieldName = Nothing
+        Me.cmbShift.ReferenceTableName = Nothing
+        Me.cmbShift.Size = New System.Drawing.Size(94, 20)
+        Me.cmbShift.TabIndex = 1474
         '
         'txtAddress
         '
@@ -310,7 +336,7 @@ Partial Class frmDemand_Sheet
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowGroupPanel = False
@@ -360,32 +386,6 @@ Partial Class frmDemand_Sheet
         Me.btnSave.TabIndex = 86
         Me.btnSave.Text = "Save"
         '
-        'cmbShift
-        '
-        Me.cmbShift.AutoCompleteDisplayMember = Nothing
-        Me.cmbShift.AutoCompleteValueMember = Nothing
-        Me.cmbShift.CalculationExpression = Nothing
-        Me.cmbShift.DropDownAnimationEnabled = True
-        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbShift.FieldCode = Nothing
-        Me.cmbShift.FieldDesc = Nothing
-        Me.cmbShift.FieldMaxLength = 0
-        Me.cmbShift.FieldName = Nothing
-        Me.cmbShift.isCalculatedField = False
-        Me.cmbShift.IsSourceFromTable = False
-        Me.cmbShift.IsSourceFromValueList = False
-        Me.cmbShift.IsUnique = False
-        Me.cmbShift.Location = New System.Drawing.Point(311, 10)
-        Me.cmbShift.MendatroryField = True
-        Me.cmbShift.MyLinkLable1 = Nothing
-        Me.cmbShift.MyLinkLable2 = Nothing
-        Me.cmbShift.Name = "cmbShift"
-        Me.cmbShift.ReferenceFieldDesc = Nothing
-        Me.cmbShift.ReferenceFieldName = Nothing
-        Me.cmbShift.ReferenceTableName = Nothing
-        Me.cmbShift.Size = New System.Drawing.Size(94, 20)
-        Me.cmbShift.TabIndex = 1474
-        '
         'frmDemand_Sheet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -405,6 +405,7 @@ Partial Class frmDemand_Sheet
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -420,7 +421,6 @@ Partial Class frmDemand_Sheet
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

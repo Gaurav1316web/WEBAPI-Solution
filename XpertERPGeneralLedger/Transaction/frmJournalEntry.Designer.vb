@@ -90,6 +90,10 @@ Partial Class frmJournalEntry
         Me.btnAuth = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.fndSrcType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.txtLocationPrefixName = New common.Controls.MyTextBox()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.txtTapalNo = New common.Controls.MyTextBox()
         Me.MyLabel37 = New common.Controls.MyLabel()
@@ -140,10 +144,6 @@ Partial Class frmJournalEntry
         Me.txtFromExpDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.btnSendToTally = New Telerik.WinControls.UI.RadButton()
-        Me.pnlLocation = New System.Windows.Forms.Panel()
-        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
-        Me.txtLocationPrefixName = New common.Controls.MyTextBox()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,6 +188,9 @@ Partial Class frmJournalEntry
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fndSrcType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.fndSrcType.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -235,9 +238,6 @@ Partial Class frmJournalEntry
         CType(Me.txtFromExpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSendToTally, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlLocation.SuspendLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -876,6 +876,75 @@ Partial Class frmJournalEntry
         Me.fndSrcType.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.fndSrcType.Size = New System.Drawing.Size(1085, 411)
         Me.fndSrcType.TabIndex = 0
+        '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(10, 260)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(547, 23)
+        Me.pnlLocation.TabIndex = 12149
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.CalculationExpression = Nothing
+        Me.txtLocationPrefixName.FieldCode = Nothing
+        Me.txtLocationPrefixName.FieldDesc = Nothing
+        Me.txtLocationPrefixName.FieldMaxLength = 0
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.isCalculatedField = False
+        Me.txtLocationPrefixName.IsSourceFromTable = False
+        Me.txtLocationPrefixName.IsSourceFromValueList = False
+        Me.txtLocationPrefixName.IsUnique = False
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(233, 1)
+        Me.txtLocationPrefixName.MaxLength = 150
+        Me.txtLocationPrefixName.MendatroryField = False
+        Me.txtLocationPrefixName.MyLinkLable1 = Nothing
+        Me.txtLocationPrefixName.MyLinkLable2 = Nothing
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.ReadOnly = True
+        Me.txtLocationPrefixName.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefixName.ReferenceFieldName = Nothing
+        Me.txtLocationPrefixName.ReferenceTableName = Nothing
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(311, 20)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        Me.txtLocationPrefixName.TabStop = False
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(1, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(105, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
         '
         'MyLabel38
         '
@@ -1813,75 +1882,6 @@ Partial Class frmJournalEntry
         Me.btnSendToTally.TabIndex = 6
         Me.btnSendToTally.Text = "Send To Tally"
         '
-        'pnlLocation
-        '
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
-        Me.pnlLocation.Controls.Add(Me.RadLabel23)
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
-        Me.pnlLocation.Location = New System.Drawing.Point(10, 260)
-        Me.pnlLocation.Name = "pnlLocation"
-        Me.pnlLocation.Size = New System.Drawing.Size(547, 23)
-        Me.pnlLocation.TabIndex = 12149
-        '
-        'RadLabel23
-        '
-        Me.RadLabel23.Location = New System.Drawing.Point(1, 3)
-        Me.RadLabel23.Name = "RadLabel23"
-        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel23.TabIndex = 12145
-        Me.RadLabel23.Text = "Location"
-        '
-        'txtLocationPrefix
-        '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(105, 2)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
-        Me.txtLocationPrefix.TabIndex = 12144
-        Me.txtLocationPrefix.Value = ""
-        '
-        'txtLocationPrefixName
-        '
-        Me.txtLocationPrefixName.CalculationExpression = Nothing
-        Me.txtLocationPrefixName.FieldCode = Nothing
-        Me.txtLocationPrefixName.FieldDesc = Nothing
-        Me.txtLocationPrefixName.FieldMaxLength = 0
-        Me.txtLocationPrefixName.FieldName = Nothing
-        Me.txtLocationPrefixName.isCalculatedField = False
-        Me.txtLocationPrefixName.IsSourceFromTable = False
-        Me.txtLocationPrefixName.IsSourceFromValueList = False
-        Me.txtLocationPrefixName.IsUnique = False
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(233, 1)
-        Me.txtLocationPrefixName.MaxLength = 150
-        Me.txtLocationPrefixName.MendatroryField = False
-        Me.txtLocationPrefixName.MyLinkLable1 = Nothing
-        Me.txtLocationPrefixName.MyLinkLable2 = Nothing
-        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.ReadOnly = True
-        Me.txtLocationPrefixName.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefixName.ReferenceFieldName = Nothing
-        Me.txtLocationPrefixName.ReferenceTableName = Nothing
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(311, 20)
-        Me.txtLocationPrefixName.TabIndex = 12146
-        Me.txtLocationPrefixName.TabStop = False
-        '
         'frmJournalEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1946,6 +1946,10 @@ Partial Class frmJournalEntry
         CType(Me.fndSrcType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.fndSrcType.ResumeLayout(False)
         Me.fndSrcType.PerformLayout()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1995,10 +1999,6 @@ Partial Class frmJournalEntry
         CType(Me.txtFromExpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSendToTally, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlLocation.ResumeLayout(False)
-        Me.pnlLocation.PerformLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

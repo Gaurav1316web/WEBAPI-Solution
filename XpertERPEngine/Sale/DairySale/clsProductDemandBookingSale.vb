@@ -255,6 +255,7 @@ Public Class clsProductDemandBookingSale
                     isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsProductDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, False, obj.Route_No)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
@@ -347,7 +348,7 @@ Public Class clsProductDemandBookingSale
 
             PostData(FormId, strDocNo, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", trans)
 
             trans.Commit()
         Catch ex As Exception
@@ -446,6 +447,7 @@ Public Class clsProductDemandBookingSale
 
             Qry = "Update TSPL_Product_Demand_BOOKING_Master set Posted = 0 where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

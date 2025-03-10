@@ -168,6 +168,8 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + obj.Weighment_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
+
             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                 obj.Arr(0).SaveData(obj.Weighment_Code, obj.Arr, trans)
             End If
@@ -674,7 +676,8 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If

@@ -90,6 +90,8 @@ Public Class clsCustomerIncentiveEntryHead
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", OMInsertOrUpdate.Update, "Doc_Code='" + obj.Doc_Code + "'", trans)
         End If
         clsCustomerIncentiveEntryDetail.SaveData(obj.Doc_Code, obj.Doc_Date, obj.arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_CUSTOMER_INCENTIVE_DETAIL", "Doc_Code", trans)
+
         clsCustomerIncentiveEntryInvoiceWise.SaveData(obj.Doc_Code, obj.Doc_Date, obj.arrInvoice, trans)
         clsCustomerIncentiveEntryCustomerIncentiveWise.SaveData(obj.Doc_Code, obj.Doc_Date, obj.arrCustIncentive, trans)
         clsCustomerIncentiveEntryStrucreCustomerWise.SaveData(obj.Doc_Code, obj.Doc_Date, obj.arrCustStru, trans)
@@ -180,6 +182,8 @@ Public Class clsCustomerIncentiveEntryHead
         clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Posted", 1)
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", OMInsertOrUpdate.Update, "Doc_Code='" + strDocNo + "'", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", trans)
+
         Return True
     End Function
 
@@ -515,6 +519,10 @@ Public Class clsCustomerIncentiveEntryHead
                 If (obj.Posted = ERPTransactionStatus.Posted) Then
                     Throw New Exception("Already Posted")
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_CUSTOMER_INCENTIVE_DETAIL", "Doc_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", "TSPL_CUSTOMER_INCENTIVE_DETAIL", "Doc_Code", trans)
+
                 Dim qry As String = "delete from TSPL_CUSTOMER_INCENTIVE_INVOICE_WISE where Doc_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_CUSTOMER_INCENTIVE_CUSTOMER_INCENTIVE_WISE where Doc_Code='" + obj.Doc_Code + "'"
@@ -582,6 +590,7 @@ Public Class clsCustomerIncentiveEntryHead
             Next
             qry = "update TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD set Posted=0,Posted_Date=null,Posted_By=null where Doc_Code='" + StrDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrDocNo, "TSPL_CUSTOMER_INCENTIVE_ENTRY_HEAD", "Doc_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

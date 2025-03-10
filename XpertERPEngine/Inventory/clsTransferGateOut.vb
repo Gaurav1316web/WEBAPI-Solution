@@ -28,6 +28,8 @@ Public Class clsTransferGateOut
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Transfer_Gate_Out", "Document_No", trans)
 
             Dim qry As String = "delete from TSPL_Transfer_Gate_Out where Document_No='" & strDocNo & "'"
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Transfer_Gate_Out", "Document_No", trans)
+
             Dim isDeleted As Boolean = True
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Return isDeleted
