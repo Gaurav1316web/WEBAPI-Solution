@@ -149,6 +149,7 @@ Public Class clsSRNHead
     Public is_RGP_Non_Inventory As Boolean = False
     Public is_QCAccepted As Boolean = False
     Public AssessableAmt As Decimal = 0
+    Public Inter_unit_purchase As Integer = 0
 
     Public Arr As List(Of clsSRNDetail) = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
@@ -393,6 +394,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Internal", IIf(obj.Is_Internal, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_purchase", IIf(obj.Inter_unit_purchase, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Ref_No", obj.Ref_No)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Inv_No", obj.Inv_No)
@@ -575,6 +577,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.SRN_No='" + obj.SRN_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsSRNDetail.SaveData(obj.SRN_No, obj.SRN_Date, obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.SRN_No, obj.arrCustomFields, trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "SRN_No", obj.SRN_No, "TSPL_SRN_HEAD", trans)
             isSaved = isSaved AndAlso clsSRNRoadPermitDetail.SaveData_RoadPermit(obj.SRN_No, obj.Against_PO, obj.Arr_Road, trans)
@@ -1304,18 +1308,20 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
                         Dim objInventoryMovemnt As New clsInventoryMovement()
                         objInventoryMovemnt.InOut = "I"
-                        If clsCommon.myLen(obj.Ship_To_Location) > 0 Then
+                        If clsCommon.myLen(obj.Sublocation_Code) > 0 Then
+                            objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                        ElseIf clsCommon.myLen(obj.Ship_To_Location) > 0 Then
                             objInventoryMovemnt.Location_Code = obj.Ship_To_Location
                         Else
                             objInventoryMovemnt.Location_Code = obj.Bill_To_Location
                         End If
 
                         ''richa agarwal 4 Dec,2020
-                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
-                            If obj.isJobWorkOutward = 0 Then
-                                objInventoryMovemnt.Location_Code = obj.Sublocation_Code
-                            End If
-                        End If
+                        'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
+                        '    If obj.isJobWorkOutward = 0 Then
+                        '        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                        '    End If
+                        'End If
 
                         objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
                         objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
@@ -2524,6 +2530,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 End If
                 clsSRNAdditionChargeInsurance.DeleteData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("SRN", strCode, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
 
                 HistoryUpdate(strCode, trans)
                 Dim qry As String = "delete from TSPL_SRN_DETAIL where SRN_No='" + strCode + "'"
@@ -3395,7 +3402,15 @@ Public Class clsSRNDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Amt_After_Insurance", obj.Item_Amt_After_Insurance)
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                clsBatchInventory.SaveData("SRN", strDocNo, dtDocDate, "I", obj.Item_Code, IIf(clsCommon.myLen(objHead.Ship_To_Location) > 0, objHead.Ship_To_Location, objHead.Bill_To_Location), obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
+                Dim strLocationCode As String
+                If clsCommon.myLen(objHead.Sublocation_Code) > 0 Then
+                    strLocationCode = objHead.Sublocation_Code
+                ElseIf clsCommon.myLen(objHead.Ship_To_Location) > 0 Then
+                    strLocationCode = objHead.Ship_To_Location
+                Else
+                    strLocationCode = objHead.Bill_To_Location
+                End If
+                clsBatchInventory.SaveData("SRN", strDocNo, dtDocDate, "I", obj.Item_Code, strLocationCode, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
                 clsSerializeInvenotry.SaveData("SRN", strDocNo, dtDocDate, "I", obj.Item_Code, IIf(clsCommon.myLen(objHead.Ship_To_Location) > 0, objHead.Ship_To_Location, objHead.Bill_To_Location), obj.Line_No, obj.arrSrItem, trans)
             Next
         End If

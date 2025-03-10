@@ -22,6 +22,7 @@ Partial Class frmMccGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -32,6 +33,7 @@ Partial Class frmMccGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtLocDesc = New common.Controls.MyTextBox()
@@ -49,6 +51,7 @@ Partial Class frmMccGatePass
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -56,7 +59,6 @@ Partial Class frmMccGatePass
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +83,7 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,14 +97,17 @@ Partial Class frmMccGatePass
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 156)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1076, 319)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'lblSalesman
         '
@@ -181,6 +187,19 @@ Partial Class frmMccGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1076, 156)
         Me.Panel1.TabIndex = 0
+        '
+        'txtmultiBooking
+        '
+        Me.txtmultiBooking.arrDispalyMember = Nothing
+        Me.txtmultiBooking.arrValueMember = Nothing
+        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 80)
+        Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmultiBooking.MyLinkLable1 = Nothing
+        Me.txtmultiBooking.MyLinkLable2 = Nothing
+        Me.txtmultiBooking.MyNullText = "All"
+        Me.txtmultiBooking.Name = "txtmultiBooking"
+        Me.txtmultiBooking.Size = New System.Drawing.Size(633, 19)
+        Me.txtmultiBooking.TabIndex = 1459
         '
         'MyLabel5
         '
@@ -397,6 +416,7 @@ Partial Class frmMccGatePass
         Me.cmbtype.AutoCompleteDisplayMember = Nothing
         Me.cmbtype.AutoCompleteValueMember = Nothing
         Me.cmbtype.CalculationExpression = Nothing
+        Me.cmbtype.DropDownAnimationEnabled = True
         Me.cmbtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbtype.FieldCode = Nothing
         Me.cmbtype.FieldDesc = Nothing
@@ -489,6 +509,7 @@ Partial Class frmMccGatePass
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -498,6 +519,16 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Size = New System.Drawing.Size(1076, 519)
         Me.SplitContainer1.SplitterDistance = 475
         Me.SplitContainer1.TabIndex = 3
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(394, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 56
+        Me.btnHistory.Text = "History"
         '
         'btnPrint
         '
@@ -522,15 +553,11 @@ Partial Class frmMccGatePass
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "PrePrinted"
-        Me.RadMenuItem1.AccessibleName = "PrePrinted"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "PrePrinted"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Print"
-        Me.RadMenuItem2.AccessibleName = "Print"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Print"
         '
@@ -562,20 +589,6 @@ Partial Class frmMccGatePass
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1076, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'txtmultiBooking
-        '
-        Me.txtmultiBooking.arrDispalyMember = Nothing
-        Me.txtmultiBooking.arrValueMember = Nothing
-        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 80)
-        Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtmultiBooking.MyLinkLable1 = Nothing
-        Me.txtmultiBooking.MyLinkLable2 = Nothing
-        Me.txtmultiBooking.MyNullText = "All"
-        Me.txtmultiBooking.Name = "txtmultiBooking"
-        Me.txtmultiBooking.Size = New System.Drawing.Size(633, 19)
-        Me.txtmultiBooking.TabIndex = 1459
         '
         'frmMccGatePass
         '
@@ -615,6 +628,7 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -657,5 +671,6 @@ Partial Class frmMccGatePass
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtmultiBooking As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

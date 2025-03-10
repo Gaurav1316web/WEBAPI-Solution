@@ -369,12 +369,14 @@ left outer join tspl_company_master on 2 = 2
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim FromDates As String = clsCommon.myCstr(fromDate.Text)
+        Dim TODates As String = clsCommon.myCstr(ToDate.Text)
         Try
             Dim Qry As String = " ( select ROW_NUMBER() OVER (ORDER BY [DCS Code]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],(x.Code)Code,max(MCC_CODE)MCC_CODE,max(Area_location_code)Area_location_code,max(Mcc_Name)Mcc_Name,
                                  max(x.[DCS Type])[DCSType],max(x.[Is Own BMC])[IsOwnBMC],([Apply On])[ApplyOn],([Apply Type])[ApplyType],
                                  (x.[Formula])Formula  ,convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/DeductionAmount]  ,max(x.[Addition/Deduction Description])[Addition/DeductionDescription] 
 						         ,AccNo2,BankBranch2,BankName2,AccountType2,BankCode2
-                                 ,max(Add3)Add3,max(Add2)Add2,max(Add1)Add1,max(Comp_Name)Comp_Name,max(comp_code1)comp_code1 ,max(comp_code)comp_code  "
+                                 ,max(Add3)Add3,max(Add2)Add2,max(Add1)Add1,max(Comp_Name)Comp_Name,max(comp_code1)comp_code1 ,max(comp_code)comp_code ,MAX(GSTReg_No)GSTReg_No,max(FromDate)FromDate,max(TODate)TODate "
             If chkIfscno.Checked Then
                 Qry += ",IFSCCode2"
             End If
@@ -414,6 +416,8 @@ left outer join tspl_company_master on 2 = 2
 							        ,TSPL_MCC_MASTER.Mcc_Name
 									,TSPL_MCC_MASTER.Area_location_code
 ,tspl_company_master.comp_code1
+,									tspl_company_master.GSTReg_No
+,'" + FromDates + "' AS FromDate,'" + TODates + " ' as ToDate
 
                                      from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED
                                     LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.invoiceNo
@@ -425,7 +429,7 @@ left outer join tspl_company_master on 2 = 2
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 left outer join tspl_company_master on 2 = 2
                                     WHERE   ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')<>'' and
-                                    CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' 
+                                    CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(FromDates, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(TODates, "dd/MMM/yyyy") + "' 
                                     and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0  and TSPL_DCS_ADDITION_DEDUCTION.MarginDCS=1 "
             If clsCommon.myLen(txtMCC.Value) > 0 Then
                 Qry += " AND  TSPL_MILK_SRN_HEAD.MCC_CODE = '" + txtMCC.Value + "' "

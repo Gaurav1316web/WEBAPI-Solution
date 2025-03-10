@@ -22,8 +22,11 @@ Partial Class frmMilkShiftClosingMCC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -98,6 +101,7 @@ Partial Class frmMilkShiftClosingMCC
         Me.btnemailsetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnemailsmssettingforvsp = New Telerik.WinControls.UI.RadMenuItem()
         Me.gvUOM = New Telerik.WinControls.UI.MasterGridViewTemplate()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -171,6 +175,7 @@ Partial Class frmMilkShiftClosingMCC
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -189,6 +194,7 @@ Partial Class frmMilkShiftClosingMCC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -206,7 +212,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(988, 413)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -544,6 +549,7 @@ Partial Class frmMilkShiftClosingMCC
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShift.FieldCode = Nothing
         Me.cboShift.FieldDesc = Nothing
@@ -554,10 +560,10 @@ Partial Class frmMilkShiftClosingMCC
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(678, 40)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -648,7 +654,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView2.Size = New System.Drawing.Size(965, 269)
         Me.RadPageView2.TabIndex = 3
-        Me.RadPageView2.Text = "RadPageView2"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage2
@@ -670,11 +675,14 @@ Partial Class frmMilkShiftClosingMCC
         Me.GvRoute.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.GvRoute.Location = New System.Drawing.Point(0, 0)
         '
-        'GvRoute
+        '
         '
         Me.GvRoute.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.GvRoute.MasterTemplate.AllowDeleteRow = False
+        Me.GvRoute.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvRoute.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvRoute.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.GvRoute.MyStopExport = False
         Me.GvRoute.Name = "GvRoute"
         Me.GvRoute.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GvRoute.ShowGroupPanel = False
@@ -682,7 +690,7 @@ Partial Class frmMilkShiftClosingMCC
         Me.GvRoute.Size = New System.Drawing.Size(944, 221)
         Me.GvRoute.TabIndex = 1
         Me.GvRoute.TabStop = False
-        Me.GvRoute.Text = "RadGridView1"
+        Me.GvRoute.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -703,11 +711,14 @@ Partial Class frmMilkShiftClosingMCC
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -715,7 +726,7 @@ Partial Class frmMilkShiftClosingMCC
         Me.gv1.Size = New System.Drawing.Size(944, 221)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'Pg_StockDetail
         '
@@ -865,7 +876,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.LblFirstWeightmentSample.Name = "LblFirstWeightmentSample"
         Me.LblFirstWeightmentSample.Size = New System.Drawing.Size(344, 19)
         Me.LblFirstWeightmentSample.TabIndex = 1067
-        Me.LblFirstWeightmentSample.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblLastsampleFATTime
         '
@@ -876,7 +886,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.LblLastsampleFATTime.Name = "LblLastsampleFATTime"
         Me.LblLastsampleFATTime.Size = New System.Drawing.Size(344, 19)
         Me.LblLastsampleFATTime.TabIndex = 1067
-        Me.LblLastsampleFATTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblShiftOpeningTime
         '
@@ -887,7 +896,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.LblShiftOpeningTime.Name = "LblShiftOpeningTime"
         Me.LblShiftOpeningTime.Size = New System.Drawing.Size(344, 19)
         Me.LblShiftOpeningTime.TabIndex = 1066
-        Me.LblShiftOpeningTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -1325,7 +1333,6 @@ Partial Class frmMilkShiftClosingMCC
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(988, 20)
         Me.rdmenufile.TabIndex = 67
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -1337,15 +1344,11 @@ Partial Class frmMilkShiftClosingMCC
         '
         'BtnSaveLayout
         '
-        Me.BtnSaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnSaveLayout.AccessibleName = "Save Layout"
         Me.BtnSaveLayout.Name = "BtnSaveLayout"
         Me.BtnSaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
         '
@@ -1362,6 +1365,21 @@ Partial Class frmMilkShiftClosingMCC
         Me.btnemailsmssettingforvsp.AccessibleName = "Email & SMS Setting For VSP"
         Me.btnemailsmssettingforvsp.Name = "btnemailsmssettingforvsp"
         Me.btnemailsmssettingforvsp.Text = "Email & SMS Setting For Secretary"
+        '
+        'gvUOM
+        '
+        Me.gvUOM.ViewDefinition = TableViewDefinition6
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(159, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'frmMilkShiftClosingMCC
         '
@@ -1454,6 +1472,7 @@ Partial Class frmMilkShiftClosingMCC
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1533,5 +1552,6 @@ Partial Class frmMilkShiftClosingMCC
     Friend WithEvents fndAutoInLoc As common.UserControls.txtFinder
     Friend WithEvents MyLabel70 As common.Controls.MyLabel
     Friend WithEvents chkAskSiloatShiftEnd As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

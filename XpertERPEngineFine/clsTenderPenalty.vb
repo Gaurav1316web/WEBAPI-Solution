@@ -54,9 +54,9 @@ Public Class clsTenderPenalty
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_PENALTY", OMInsertOrUpdate.Update, "TSPL_TENDER_PENALTY.Document_No='" + obj.Document_No + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
 
             clsTenderPenaltyDetail.SaveData(obj.Document_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
 
             'If Not isNewEntry Then
             'End If
@@ -192,6 +192,9 @@ where 2=2"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.TenderShortPenalty, clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Location_Code, obj.Document_Date, trans)

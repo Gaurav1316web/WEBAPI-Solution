@@ -595,6 +595,8 @@ Public Class clsBulkMilkSRN
             clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmBulkMilkSRN, trans)
             Dim qry As String = ""
             Dim isDeleted As Boolean = True
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
             qry = "delete from TSPL_Bulk_MILK_SRN_Chember_Details where  srn_No='" & strDocNo & "'"
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -734,6 +736,7 @@ Public Class clsBulkMilkSRN
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_bulk_milk_srn", OMInsertOrUpdate.Update, "tspl_bulk_milk_srn.srn_no='" + obj.SRN_NO + "'", trans)
             End If
+
             If TankerFromMaster = 0 Then
                 If obj.arrObj IsNot Nothing AndAlso obj.arrObj.Count > 0 Then
                     issaved = issaved AndAlso clsSRNParam.saveData(obj.arrObj, obj.SRN_NO, trans)
@@ -743,6 +746,8 @@ Public Class clsBulkMilkSRN
             End If
 
             issaved = issaved AndAlso clsBulkMilkSRNChemberNoDetails.SaveData(obj.SRN_NO, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_NO, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1527,6 +1532,8 @@ Public Class clsBulkMilkSRNReturn
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
             issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Bulk_Milk_SRN_Return", OMInsertOrUpdate.Insert, "", trans)
             issaved = issaved And postData(objReturn.SRN_NO, objReturn.SRN_Return_NO, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objReturn.SRN_Return_NO, "TSPL_Bulk_Milk_SRN_Return", "SRN_Return_NO", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

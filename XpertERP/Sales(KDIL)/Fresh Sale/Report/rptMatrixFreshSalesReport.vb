@@ -5493,7 +5493,7 @@ FROM
 
     Private Sub btnSplitPrint_Click(sender As Object, e As EventArgs) Handles btnSplitPrint.Click
         Try
-            clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap, True)
+            clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap, True, False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

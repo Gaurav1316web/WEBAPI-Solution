@@ -3626,4 +3626,16 @@ a:
     Private Sub txtTransportCharges_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtTransportCharges.Validating
         OpenPriceChart(True)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndSRNNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndSRNNo.Value, "SRN_NO", "TSPL_Bulk_MILK_SRN", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

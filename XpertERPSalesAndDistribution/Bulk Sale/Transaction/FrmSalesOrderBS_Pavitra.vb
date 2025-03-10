@@ -1183,6 +1183,18 @@ Public Class FrmSalesOrderBS_Pavitra
             MessageBox.Show(err.Message)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndSONo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndSONo.Value, "Document_No", "TSPL_SALES_ORDER_MASTER_BulkSale", "TSPL_SALES_ORDER_DETAIL_BulkSale")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     ''richa ERO/08/05/19-000594
     Private Sub chkSOclose_CheckedChanged(sender As Object, e As EventArgs) Handles chkSOclose.CheckedChanged
         Try

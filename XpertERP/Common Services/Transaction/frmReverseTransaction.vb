@@ -69,6 +69,12 @@ Public Class frmReverseTransaction
     Private Sub frmReverseTransaction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
         isTDSReverse = False
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
+
         globalFunc.mandatoryText(txt_ReceiptReversedocument, txt_PaymentReverseDocument, txt_paymentAmount, txt_receiptAmount)
         txt_receiptAmount.Text = "0"
         fndreversecode.MyMaxLength = 30
@@ -313,6 +319,13 @@ Public Class frmReverseTransaction
                 dtp_reversaldate.Focus()
                 Return False
             End If
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                    Return False
+                End If
+            End If
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -544,7 +557,12 @@ Public Class frmReverseTransaction
                     Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select TSPL_GL_ACCOUNTS.Account_Seg_Code7 from TSPL_BANK_MASTER LEFT OUTER JOIN TSPL_GL_ACCOUNTS ON TSPL_GL_ACCOUNTS.Account_Code=TSPL_BANK_MASTER.BANKACC Where BANK_CODE='" + fndbankcode.Value + "'")
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
-                    Dim STR As String = clsERPFuncationality.GetNextCode(trans, RvslDate, clsDocType.BankRevseEnty, clsDocTransactionType.Account_Payable, LocSegmentCode, True)
+                    Dim STR As String
+                    If objCommonVar.ApplyLocationWisePrefix Then
+                        STR = clsERPFuncationality.GetNextCode(trans, RvslDate, clsDocType.BankRevseEnty, clsDocTransactionType.Account_Payable, txtLocationPrefix.Value, False)
+                    Else
+                        STR = clsERPFuncationality.GetNextCode(trans, RvslDate, clsDocType.BankRevseEnty, clsDocTransactionType.Account_Payable, LocSegmentCode, True)
+                    End If
                     trans.Commit()
                     Dim docAmount As Double
                     If objCommonVar.IsDemoERP Then
@@ -580,6 +598,8 @@ Public Class frmReverseTransaction
                         fndCheckPaymentNo.Focus()
                         Exit Sub
                     End If
+                    Dim qry As String = "Update TSPL_BANK_REVERSE set Location_Code_Prefix = '" + txtLocationPrefix.Value + "'" & " where Reverse_Code='" + STR + "' "
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     ''------------------------
 
                     'connectSql.RunSp("sp_tspl_bankreverse_insert", New SqlParameter("@Reverse_Code", STR), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AP"), New SqlParameter("@Reverse_Document", txt_PaymentReverseDocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", fndVendorNo.Value), New SqlParameter("@Vendor_Name", txt_VendorNo.Text), New SqlParameter("@Cust_Code", ""), New SqlParameter("@Cust_Name", ""), New SqlParameter("@Document_No", fndCheckPaymentNo.Value), New SqlParameter("@Cheque_No", txt_checkpaymentno.Text), New SqlParameter("@Amount", clsCommon.myCstr(docAmount)), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
@@ -765,6 +785,8 @@ Public Class frmReverseTransaction
                         fndCheckPaymentNo.Focus()
                         Exit Sub
                     End If
+                    Dim qry As String = "Update TSPL_BANK_REVERSE set Location_Code_Prefix = '" + txtLocationPrefix.Value + "'" & " where Reverse_Code='" + fndreversecode.Value + "' "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
                     ''------------------------
 
                     '  connectSql.RunSp("sp_tspl_bankreverse_update", New SqlParameter("@Reverse_Code", fndreversecode.Value), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AP"), New SqlParameter("@Reverse_Document", txt_PaymentReverseDocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", fndVendorNo.Value), New SqlParameter("@Vendor_Name", txt_VendorNo.Text), New SqlParameter("@Cust_Code", ""), New SqlParameter("@Cust_Name", ""), New SqlParameter("@Document_No", fndCheckPaymentNo.Value), New SqlParameter("@Cheque_No", txt_checkpaymentno.Text), New SqlParameter("@Amount", clsCommon.myCstr(docAmount)), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
@@ -936,6 +958,8 @@ Public Class frmReverseTransaction
         fundata()
         fndreversecode.Value = ""
         fndbankcode.Value = ""
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         txt_Bankcode.Text = ""
         txt_BankaccountNo.Text = ""
         txt_reason.Text = ""
@@ -1042,7 +1066,7 @@ Public Class frmReverseTransaction
                         If post.Trim() = "P" Then
                             UsLock1.Status = ERPTransactionStatus.Approved
 
-                            ds = connectSql.RunSQLReturnDS("select Reverse_Code,Bank_Code,Back_Acc_No,Reverse_Document,Reason,Reversal_Date,Vendor_Code,Vendor_Name,Cheque_No,Amount,Pay_Rec_Date,Document_No,isChequeBounce from TSPL_BANK_REVERSE where Reverse_Code = '" + fndreversecode.Value + "'")
+                            ds = connectSql.RunSQLReturnDS("select Reverse_Code,Bank_Code,Back_Acc_No,Reverse_Document,Reason,Reversal_Date,Vendor_Code,Vendor_Name,Cheque_No,Amount,Pay_Rec_Date,Document_No,isChequeBounce,Location_Code_Prefix from TSPL_BANK_REVERSE where Reverse_Code = '" + fndreversecode.Value + "'")
                             Dim dr As DataRow = ds.Tables(0).Rows(0)
                             fndreversecode.Value = dr(0).ToString()
                             fndbankcode.Value = dr(1).ToString()
@@ -1057,6 +1081,12 @@ Public Class frmReverseTransaction
                             txt_paymentAmount.Text = dr(9).ToString()
                             dtp_PayRecDate.Value = clsCommon.GetPrintDate(dr(10).ToString(), "dd/MM/yyyy")
                             fndCheckPaymentNo.Value = dr(11).ToString()
+                            txtLocationPrefix.Value = dr("Location_Code_Prefix").ToString()
+                            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                            Else
+                                txtLocationPrefixName.Text = ""
+                            End If
                             ddl_SourceApplication.Text = "Account Payable"
                             fndVendorNo.Visible = True
                             fndcustomerNo.Visible = False
@@ -1097,7 +1127,7 @@ Public Class frmReverseTransaction
                             End If
                             ''
                         Else
-                            ds = connectSql.RunSQLReturnDS("select Reverse_Code,Bank_Code,Back_Acc_No,Reverse_Document,Reason,Reversal_Date,Vendor_Code,Vendor_Name,Cheque_No,Amount,Pay_Rec_Date,Document_No, IsChequeBounce from TSPL_BANK_REVERSE where Reverse_Code = '" + fndreversecode.Value + "'")
+                            ds = connectSql.RunSQLReturnDS("select Reverse_Code,Bank_Code,Back_Acc_No,Reverse_Document,Reason,Reversal_Date,Vendor_Code,Vendor_Name,Cheque_No,Amount,Pay_Rec_Date,Document_No, IsChequeBounce,Location_Code_Prefix from TSPL_BANK_REVERSE where Reverse_Code = '" + fndreversecode.Value + "'")
                             Dim dr As DataRow = ds.Tables(0).Rows(0)
                             fndreversecode.Value = dr(0).ToString()
                             fndbankcode.Value = dr(1).ToString()
@@ -1116,6 +1146,12 @@ Public Class frmReverseTransaction
                                 chkIsChequeBounce.Checked = True
                             Else
                                 chkIsChequeBounce.Checked = False
+                            End If
+                            txtLocationPrefix.Value = dr("Location_Code_Prefix").ToString()
+                            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                            Else
+                                txtLocationPrefixName.Text = ""
                             End If
                             'fndCheckPaymentNo.Value = dr(8).ToString()
                             ddl_SourceApplication.Text = "Account Payable"
@@ -1624,11 +1660,11 @@ Public Class frmReverseTransaction
     End Sub
     'Edited By Abhishek Kumar===BM00000008261
     Private Sub fndreversecode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndreversecode._MYValidating
-        Dim Qry As String = "select TSPL_BANK_REVERSE.Reverse_Code as [Code], CONVERT(date,reversal_date,105) as [Date], Case When TSPL_BANK_REVERSE.Source_Type='AR' Then 'Account Receivable' else 'Account Payable' END as [Type], TSPL_BANK_REVERSE.Bank_Code as [Bank Code], Case When TSPL_BANK_REVERSE.Post='P' Then 'Posted' Else 'Unposted' End as [Status],TSPL_BANK_REVERSE.Document_No as [Payment No],TSPL_BANK_REVERSE.Cheque_No as [Cheque No] " & _
-        " ,case when TSPL_PAYMENT_HEADER.Payment_No is not null then 'Payment' else 'Receipt' end as [Payment/Receipt]" & _
-        " ,coalesce(TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_RECEIPT_HEADER.cust_code) as [Vendor/Customer Code],coalesce(TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_RECEIPT_HEADER.customer_name) as [Vendor/Customer Name],coalesce(TSPL_PAYMENT_HEADER.Payment_Amount,TSPL_RECEIPT_HEADER.receipt_amount) as [Payment/Receipt Amount] " & _
-        " ,case when TSPL_PAYMENT_HEADER.Payment_No is not null then (case when TSPL_PAYMENT_HEADER.Payment_Type='PY' then 'Payment' when TSPL_PAYMENT_HEADER.Payment_Type='AV' then 'Advance' when TSPL_PAYMENT_HEADER.Payment_Type='OA' then 'On Account' when TSPL_PAYMENT_HEADER.Payment_Type='MI' then 'Miscellaneous' when TSPL_PAYMENT_HEADER.Payment_Type='RC' then 'Receipt' when TSPL_PAYMENT_HEADER.Payment_Type='AD' then 'Apply Document' end) else " & _
-        " (case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'Advance' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'Apply Document' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'On Account' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'Unapplied' when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 'Refund' when TSPL_RECEIPT_HEADER.Receipt_Type='S' then 'Misc Refund' end) end as [Payment/Receipt Type]" & _
+        Dim Qry As String = "select TSPL_BANK_REVERSE.Reverse_Code as [Code], CONVERT(date,reversal_date,105) as [Date], Case When TSPL_BANK_REVERSE.Source_Type='AR' Then 'Account Receivable' else 'Account Payable' END as [Type], TSPL_BANK_REVERSE.Bank_Code as [Bank Code],TSPL_BANK_REVERSE.Location_Code_Prefix as [Location Code Prefix], Case When TSPL_BANK_REVERSE.Post='P' Then 'Posted' Else 'Unposted' End as [Status],TSPL_BANK_REVERSE.Document_No as [Payment No],TSPL_BANK_REVERSE.Cheque_No as [Cheque No] " &
+        " ,case when TSPL_PAYMENT_HEADER.Payment_No is not null then 'Payment' else 'Receipt' end as [Payment/Receipt]" &
+        " ,coalesce(TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_RECEIPT_HEADER.cust_code) as [Vendor/Customer Code],coalesce(TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_RECEIPT_HEADER.customer_name) as [Vendor/Customer Name],coalesce(TSPL_PAYMENT_HEADER.Payment_Amount,TSPL_RECEIPT_HEADER.receipt_amount) as [Payment/Receipt Amount] " &
+        " ,case when TSPL_PAYMENT_HEADER.Payment_No is not null then (case when TSPL_PAYMENT_HEADER.Payment_Type='PY' then 'Payment' when TSPL_PAYMENT_HEADER.Payment_Type='AV' then 'Advance' when TSPL_PAYMENT_HEADER.Payment_Type='OA' then 'On Account' when TSPL_PAYMENT_HEADER.Payment_Type='MI' then 'Miscellaneous' when TSPL_PAYMENT_HEADER.Payment_Type='RC' then 'Receipt' when TSPL_PAYMENT_HEADER.Payment_Type='AD' then 'Apply Document' end) else " &
+        " (case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'Advance' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'Apply Document' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'On Account' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'Unapplied' when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 'Refund' when TSPL_RECEIPT_HEADER.Receipt_Type='S' then 'Misc Refund' end) end as [Payment/Receipt Type]" &
         "  from TSPL_BANK_REVERSE LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.Bank_Code=TSPL_BANK_REVERSE.Bank_Code LEFT OUTER JOIN TSPL_PAYMENT_HEADER ON TSPL_BANK_REVERSE.Document_No=TSPL_PAYMENT_HEADER.Payment_No left outer join TSPL_RECEIPT_HEADER on TSPL_BANK_REVERSE.Document_No=TSPL_RECEIPT_HEADER.Receipt_No"
         Dim Bank_Code As String = FrmMainTranScreen.bankPermission(Nothing)
         Dim strWhrclas As String = "1=1"
@@ -2246,4 +2282,22 @@ Public Class frmReverseTransaction
     Private Sub btnOpenBankCashBook_Click(sender As Object, e As EventArgs) Handles btnOpenBankCashBook.Click
         clsOpenBankCashBook.ShowBankCashBookDatails(fndreversecode.Value)
     End Sub
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class

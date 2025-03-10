@@ -117,6 +117,7 @@ Public Class clsGateEntrySale
             Else
                 isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GATEENTRY_SALE", OMInsertOrUpdate.Update, "TSPL_GATEENTRY_SALE.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_GATEENTRY_SALE", "Document_No", trans)
 
             isSaved = clsDBFuncationality.ExecuteNonQuery("update TSPL_GATEENTRY_SALE set IsSaleReturn ='Y' where Document_No =(select SaleReturnAgaintGEN from TSPL_GATEENTRY_SALE where Document_No='" & obj.Document_No & "') ", trans)
         Catch ex As Exception
@@ -234,8 +235,10 @@ Public Class clsGateEntrySale
         Dim obj As clsGateEntrySale = clsGateEntrySale.GetData(strDocNo)
 
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmGateEntrySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), Nothing)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GATEENTRY_SALE", "Document_No", Nothing)
 
         'End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GATEENTRY_SALE", "Document_No", Nothing)
 
         Try
             Dim qry As String = "delete from TSPL_GATEENTRY_SALE where Document_No='" + strDocNo + "'"
@@ -380,6 +383,8 @@ Public Class ClsTankerOut
             Else
                 isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GATEOUT_SALE", OMInsertOrUpdate.Update, "TSPL_GATEOUT_SALE.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_GATEOUT_SALE", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

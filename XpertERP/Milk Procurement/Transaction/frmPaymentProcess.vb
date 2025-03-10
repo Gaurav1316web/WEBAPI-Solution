@@ -201,6 +201,11 @@ Public Class FrmPaymentProcess
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         settTDSRoundOffAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
@@ -3802,6 +3807,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         fndDocNo.Value = ""
         txtNEFTUploaderREFNo.Text = ""
         fndDocNo.MyReadOnly = False
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         arrStrIssueItemCode = Nothing
         arrStrIssueItemDesc = Nothing
         arrStrMccSaleItemCode = Nothing
@@ -3934,7 +3941,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             '    dtpDate.Focus()
             '    Return False
             'End If
-
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
+            End If
             If dtpFromDate.Value > dtpToDate.Value Then
                 Throw New Exception(" 'From Date' can't be larger than 'To Date'")
             End If
@@ -4240,7 +4252,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             obj.To_Date = clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy")
             obj.Loc_Seg_Code = clsCommon.myCstr(fndLoc.Value)
             obj.Area_Location_Code = clsCommon.myCstr(fndArea.Value)
-
+            obj.Location_Code_Prefix = txtLocationPrefix.Value
             obj.MCC_Code_Selected = txtMCC.Text
             ''richa agarwal 07-jan-2016
             If btnSave.Text = "Update" Then
@@ -4719,7 +4731,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 Else
                     txtLocName.Text = ""
                 End If
-
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 dtpFromDate.Value = obj.From_Date
                 dtpToDate.Value = obj.To_Date
                 dtpDate.Value = obj.Doc_Date
@@ -6866,7 +6883,11 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             " )xx " + Environment.NewLine +
             " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE " + Environment.NewLine +
             " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=xx.VLC_CODE " + Environment.NewLine +
-            " where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' order by xx.VSP_CODE"
+            " where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 "
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                qry += " And isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y'"
+            End If
+            qry += "  order by xx.VSP_CODE "
             '" where TSPL_VENDOR_MASTER.is_Hold_Payment_Process=0 " + Environment.NewLine +
 
 
@@ -9117,6 +9138,37 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim whrCls As String = " 1=1 "
+            Dim qry As String = " Select Location_Code as LocationCode,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrCls += " and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")  "
+            End If
+
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationPrefix", qry, "LocationCode", "", txtLocationPrefix.Value, "LocationCode", isButtonClicked, "")
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndDocNo.Value, "Doc_No", "TSPL_PAYMENT_PROCESS_HEAD", "TSPL_PAYMENT_PROCESS_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

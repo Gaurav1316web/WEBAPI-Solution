@@ -126,6 +126,9 @@ Public Class clsProductionEntry
 
             clsBatchInventory.DeleteData(clsUserMgtCode.frmProductionEntry, strCode, trans)
             clsBatchInventoryNew.DeleteData(clsUserMgtCode.frmProductionEntry, strCode, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", trans)
 
 
             Dim qry As String = "delete from TSPL_PP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
@@ -435,6 +438,8 @@ Public Class clsProductionEntry
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_PRODUCTION_ENTRY", OMInsertOrUpdate.Update, "TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE='" + obj.PROD_ENTRY_CODE + "'", trans)
             End If
             clsProductionEntryDetail.SaveDetailData(obj.PROD_ENTRY_CODE, obj, objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PROD_ENTRY_CODE, "TSPL_PP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", trans)
+
             clsProcessProductionPEIssueItemDetail.SaveData(obj.PROD_ENTRY_CODE, obj, obj.ArrIssueItem, trans)
             clsProcessProductionPEStageDetail.SaveData(obj.PROD_ENTRY_CODE, obj.ArrStage, trans)
             clsProcessProductionPEQCDetail.SaveData(obj.PROD_ENTRY_CODE, obj.ArrQC, trans)

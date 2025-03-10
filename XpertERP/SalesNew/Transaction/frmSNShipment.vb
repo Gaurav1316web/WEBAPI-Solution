@@ -3626,6 +3626,8 @@ Public Class frmSNShipment
         txtEWayBillDate.Checked = False
         chkIsTaxable.Checked = False
         chkIsTaxable.Enabled = True
+        Inter_unit_salechk.Checked = False
+        Inter_unit_salechk.Enabled = True
         btnPost.Visible = MyBase.isPostFlag
 
 
@@ -3725,6 +3727,34 @@ Public Class frmSNShipment
                     Return False
                 End If
             End If
+
+            Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + txtCustomer.Value + "' "))
+            If qrychk = 1 Then
+                If Inter_unit_salechk.Checked Then
+                Else
+                    common.clsCommon.MyMessageBoxShow("Please check interunitSale checkbox")
+                    Inter_unit_salechk.Focus()
+                    Return False
+                End If
+            Else
+                If Inter_unit_salechk.Checked Then
+                    common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or uncheck interunit checkbox")
+                    Inter_unit_salechk.Focus()
+                    Return False
+                End If
+            End If
+            'If Inter_unit_salechk.Checked Then
+            '    ' Check if the vehicle number is empty
+            '    Dim qry As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from tspl_customer_master where Cust_Code ='" + txtCustomer.Value + "' "))
+            '    If qry = 0 Then
+            '        common.clsCommon.MyMessageBoxShow("Please Map this customer on customer master screen with cfp_unit checkbox")
+            '        Return False
+            '    End If
+            'Else
+            '    common.clsCommon.MyMessageBoxShow("Please check interunitsale checkbox")
+            '    Inter_unit_salechk.Focus()
+            '    Return False
+            'End If
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
                 Return False
@@ -4033,6 +4063,7 @@ Public Class frmSNShipment
                 obj.Is_Internal = chkInternal.Checked
                 obj.PROJECT_ID = fndProject.Value
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
+                obj.Inter_unit_sale = IIf(Inter_unit_salechk.Checked, 1, 0)
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
                     obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
@@ -4476,6 +4507,8 @@ Public Class frmSNShipment
                 txtElecttefNo.Text = obj.Electronic_Ref_No
                 chkIsTaxable.Checked = IIf(obj.is_taxable = 1, True, False)
                 chkIsTaxable.Enabled = False
+                Inter_unit_salechk.Checked = IIf(obj.Inter_unit_sale = 1, True, False)
+                Inter_unit_salechk.Enabled = False
                 txtTermCode.Value = obj.Terms_Code
                 If obj.Due_Date IsNot Nothing Then
                     txtDueDate.Value = obj.Due_Date

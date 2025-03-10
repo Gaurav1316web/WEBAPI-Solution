@@ -22,6 +22,8 @@ Partial Class frmVSPAssetIssue
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -95,6 +97,7 @@ Partial Class frmVSPAssetIssue
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -156,6 +159,7 @@ Partial Class frmVSPAssetIssue
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -175,6 +179,7 @@ Partial Class frmVSPAssetIssue
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUploder)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport_and_Import)
@@ -201,7 +206,6 @@ Partial Class frmVSPAssetIssue
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(895, 533)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -269,7 +273,6 @@ Partial Class frmVSPAssetIssue
         Me.lblIssueTo.Name = "lblIssueTo"
         Me.lblIssueTo.Size = New System.Drawing.Size(132, 18)
         Me.lblIssueTo.TabIndex = 45
-        Me.lblIssueTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblIssueTo.TextWrap = False
         '
         'LblIssueNo
@@ -318,7 +321,6 @@ Partial Class frmVSPAssetIssue
         Me.lblToLocation.Name = "lblToLocation"
         Me.lblToLocation.Size = New System.Drawing.Size(26, 18)
         Me.lblToLocation.TabIndex = 42
-        Me.lblToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocation.TextWrap = False
         Me.lblToLocation.Visible = False
         '
@@ -367,27 +369,20 @@ Partial Class frmVSPAssetIssue
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(874, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Layout"
-        Me.RadMenuItem1.AccessibleName = "Layout"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnSaveLayout, Me.BtnDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Layout"
         '
         'BtnSaveLayout
         '
-        Me.BtnSaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnSaveLayout.AccessibleName = "Save Layout"
         Me.BtnSaveLayout.Name = "BtnSaveLayout"
         Me.BtnSaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
         '
@@ -497,7 +492,6 @@ Partial Class frmVSPAssetIssue
         Me.lblVehicleDesc.Name = "lblVehicleDesc"
         Me.lblVehicleDesc.Size = New System.Drawing.Size(538, 18)
         Me.lblVehicleDesc.TabIndex = 20
-        Me.lblVehicleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVehicleDesc.TextWrap = False
         '
         'MyLabel4
@@ -582,9 +576,12 @@ Partial Class frmVSPAssetIssue
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -592,7 +589,7 @@ Partial Class frmVSPAssetIssue
         Me.gv1.Size = New System.Drawing.Size(851, 197)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'RadLabel4
         '
@@ -614,7 +611,6 @@ Partial Class frmVSPAssetIssue
         Me.lblRequestBy.Name = "lblRequestBy"
         Me.lblRequestBy.Size = New System.Drawing.Size(132, 18)
         Me.lblRequestBy.TabIndex = 34
-        Me.lblRequestBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequestBy.TextWrap = False
         '
         'chkOnHold
@@ -646,7 +642,6 @@ Partial Class frmVSPAssetIssue
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(179, 18)
         Me.lblFromLocation.TabIndex = 36
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'RadLabel2
@@ -762,6 +757,7 @@ Partial Class frmVSPAssetIssue
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -923,7 +919,6 @@ Partial Class frmVSPAssetIssue
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 2
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -955,14 +950,17 @@ Partial Class frmVSPAssetIssue
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(871, 434)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
+        Me.gv2.VarID = ""
         '
         'RadLabel11
         '
@@ -1097,7 +1095,7 @@ Partial Class frmVSPAssetIssue
         Me.btnUploder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnUploder.Location = New System.Drawing.Point(531, 4)
         Me.btnUploder.Name = "btnUploder"
-        Me.btnUploder.Size = New System.Drawing.Size(106, 22)
+        Me.btnUploder.Size = New System.Drawing.Size(83, 22)
         Me.btnUploder.TabIndex = 11
         Me.btnUploder.Text = "Uploder"
         '
@@ -1123,15 +1121,11 @@ Partial Class frmVSPAssetIssue
         '
         'Btn_export
         '
-        Me.Btn_export.AccessibleDescription = "Export"
-        Me.Btn_export.AccessibleName = "Export"
         Me.Btn_export.Name = "Btn_export"
         Me.Btn_export.Text = "Export"
         '
         'BtnImport
         '
-        Me.BtnImport.AccessibleDescription = "Import"
-        Me.BtnImport.AccessibleName = "Import"
         Me.BtnImport.Name = "BtnImport"
         Me.BtnImport.Text = "Import"
         '
@@ -1202,6 +1196,16 @@ Partial Class frmVSPAssetIssue
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(617, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 22)
+        Me.btnHistory.TabIndex = 12
+        Me.btnHistory.Text = "History"
         '
         'frmVSPAssetIssue
         '
@@ -1279,6 +1283,7 @@ Partial Class frmVSPAssetIssue
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1356,5 +1361,6 @@ Partial Class frmVSPAssetIssue
     Friend WithEvents chkLost As RadCheckBox
     Friend WithEvents btnUploder As RadButton
     Friend WithEvents rmUploderBlankSheet As RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

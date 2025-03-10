@@ -55,6 +55,7 @@ Partial Class frmAdjustmentStore
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnCopy = New Telerik.WinControls.UI.RadButton()
         Me.cmdEditAndPost = New Telerik.WinControls.UI.RadButton()
@@ -115,6 +116,7 @@ Partial Class frmAdjustmentStore
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmdEditAndPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +150,7 @@ Partial Class frmAdjustmentStore
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCopy)
         Me.SplitContainer1.Panel2.Controls.Add(Me.cmdEditAndPost)
@@ -287,6 +290,7 @@ Partial Class frmAdjustmentStore
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -294,6 +298,7 @@ Partial Class frmAdjustmentStore
         Me.gv1.Size = New System.Drawing.Size(937, 213)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'MyLabel5
         '
@@ -677,6 +682,15 @@ Partial Class frmAdjustmentStore
         Me.txtLocation.TabIndex = 4
         Me.txtLocation.Value = ""
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(236, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(48, 22)
+        Me.btnHistory.TabIndex = 48
+        Me.btnHistory.Text = "History"
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -744,27 +758,27 @@ Partial Class frmAdjustmentStore
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(218, 2)
+        Me.RadButton1.Location = New System.Drawing.Point(182, 2)
         Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton1.Size = New System.Drawing.Size(52, 22)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Print"
         '
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(147, 2)
+        Me.btnDelete.Location = New System.Drawing.Point(127, 2)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(49, 22)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(76, 2)
+        Me.btnPost.Location = New System.Drawing.Point(69, 2)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 22)
+        Me.btnPost.Size = New System.Drawing.Size(55, 22)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
@@ -783,7 +797,7 @@ Partial Class frmAdjustmentStore
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(5, 2)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 22)
+        Me.btnSave.Size = New System.Drawing.Size(59, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
@@ -934,6 +948,7 @@ Partial Class frmAdjustmentStore
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmdEditAndPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1011,5 +1026,6 @@ Partial Class frmAdjustmentStore
     Friend WithEvents chkJobWork As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents btnCopy As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnShowInventory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

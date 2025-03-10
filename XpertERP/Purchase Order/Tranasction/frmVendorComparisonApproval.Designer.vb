@@ -22,21 +22,23 @@ Partial Class frmVendorComparisonApproval
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.UsLock1 = New common.usLock
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.txtReqDate = New common.Controls.MyTextBox
-        Me.txtRFQDate = New common.Controls.MyTextBox
-        Me.txtReqNo = New common.Controls.MyTextBox
-        Me.lblReq = New common.Controls.MyLabel
-        Me.txtRFQNo = New common.UserControls.txtFinder
-        Me.lblRFQno = New common.Controls.MyLabel
-        Me.RadLabel20 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnCreatePO = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtReqDate = New common.Controls.MyTextBox()
+        Me.txtRFQDate = New common.Controls.MyTextBox()
+        Me.txtReqNo = New common.Controls.MyTextBox()
+        Me.lblReq = New common.Controls.MyLabel()
+        Me.txtRFQNo = New common.UserControls.txtFinder()
+        Me.lblRFQno = New common.Controls.MyLabel()
+        Me.RadLabel20 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnCreatePO = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -54,6 +56,7 @@ Partial Class frmVendorComparisonApproval
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreatePO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -83,6 +86,7 @@ Partial Class frmVendorComparisonApproval
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCreatePO)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(705, 472)
@@ -111,7 +115,16 @@ Partial Class frmVendorComparisonApproval
         '
         'txtReqDate
         '
+        Me.txtReqDate.CalculationExpression = Nothing
+        Me.txtReqDate.FieldCode = Nothing
+        Me.txtReqDate.FieldDesc = Nothing
+        Me.txtReqDate.FieldMaxLength = 0
+        Me.txtReqDate.FieldName = Nothing
         Me.txtReqDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReqDate.isCalculatedField = False
+        Me.txtReqDate.IsSourceFromTable = False
+        Me.txtReqDate.IsSourceFromValueList = False
+        Me.txtReqDate.IsUnique = False
         Me.txtReqDate.Location = New System.Drawing.Point(289, 26)
         Me.txtReqDate.MaxLength = 50
         Me.txtReqDate.MendatroryField = False
@@ -119,12 +132,24 @@ Partial Class frmVendorComparisonApproval
         Me.txtReqDate.MyLinkLable2 = Nothing
         Me.txtReqDate.Name = "txtReqDate"
         Me.txtReqDate.ReadOnly = True
+        Me.txtReqDate.ReferenceFieldDesc = Nothing
+        Me.txtReqDate.ReferenceFieldName = Nothing
+        Me.txtReqDate.ReferenceTableName = Nothing
         Me.txtReqDate.Size = New System.Drawing.Size(143, 18)
         Me.txtReqDate.TabIndex = 4
         '
         'txtRFQDate
         '
+        Me.txtRFQDate.CalculationExpression = Nothing
+        Me.txtRFQDate.FieldCode = Nothing
+        Me.txtRFQDate.FieldDesc = Nothing
+        Me.txtRFQDate.FieldMaxLength = 0
+        Me.txtRFQDate.FieldName = Nothing
         Me.txtRFQDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRFQDate.isCalculatedField = False
+        Me.txtRFQDate.IsSourceFromTable = False
+        Me.txtRFQDate.IsSourceFromValueList = False
+        Me.txtRFQDate.IsUnique = False
         Me.txtRFQDate.Location = New System.Drawing.Point(289, 5)
         Me.txtRFQDate.MaxLength = 50
         Me.txtRFQDate.MendatroryField = False
@@ -132,12 +157,24 @@ Partial Class frmVendorComparisonApproval
         Me.txtRFQDate.MyLinkLable2 = Nothing
         Me.txtRFQDate.Name = "txtRFQDate"
         Me.txtRFQDate.ReadOnly = True
+        Me.txtRFQDate.ReferenceFieldDesc = Nothing
+        Me.txtRFQDate.ReferenceFieldName = Nothing
+        Me.txtRFQDate.ReferenceTableName = Nothing
         Me.txtRFQDate.Size = New System.Drawing.Size(143, 18)
         Me.txtRFQDate.TabIndex = 2
         '
         'txtReqNo
         '
+        Me.txtReqNo.CalculationExpression = Nothing
+        Me.txtReqNo.FieldCode = Nothing
+        Me.txtReqNo.FieldDesc = Nothing
+        Me.txtReqNo.FieldMaxLength = 0
+        Me.txtReqNo.FieldName = Nothing
         Me.txtReqNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReqNo.isCalculatedField = False
+        Me.txtReqNo.IsSourceFromTable = False
+        Me.txtReqNo.IsSourceFromValueList = False
+        Me.txtReqNo.IsUnique = False
         Me.txtReqNo.Location = New System.Drawing.Point(88, 26)
         Me.txtReqNo.MaxLength = 50
         Me.txtReqNo.MendatroryField = False
@@ -145,11 +182,15 @@ Partial Class frmVendorComparisonApproval
         Me.txtReqNo.MyLinkLable2 = Nothing
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.ReadOnly = True
+        Me.txtReqNo.ReferenceFieldDesc = Nothing
+        Me.txtReqNo.ReferenceFieldName = Nothing
+        Me.txtReqNo.ReferenceTableName = Nothing
         Me.txtReqNo.Size = New System.Drawing.Size(163, 18)
         Me.txtReqNo.TabIndex = 3
         '
         'lblReq
         '
+        Me.lblReq.FieldName = Nothing
         Me.lblReq.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblReq.Location = New System.Drawing.Point(1, 26)
         Me.lblReq.Name = "lblReq"
@@ -159,19 +200,33 @@ Partial Class frmVendorComparisonApproval
         '
         'txtRFQNo
         '
+        Me.txtRFQNo.CalculationExpression = Nothing
+        Me.txtRFQNo.FieldCode = Nothing
+        Me.txtRFQNo.FieldDesc = Nothing
+        Me.txtRFQNo.FieldMaxLength = 0
+        Me.txtRFQNo.FieldName = Nothing
+        Me.txtRFQNo.isCalculatedField = False
+        Me.txtRFQNo.IsSourceFromTable = False
+        Me.txtRFQNo.IsSourceFromValueList = False
+        Me.txtRFQNo.IsUnique = False
         Me.txtRFQNo.Location = New System.Drawing.Point(88, 5)
         Me.txtRFQNo.MendatroryField = True
         Me.txtRFQNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRFQNo.MyLinkLable1 = Me.lblRFQno
         Me.txtRFQNo.MyLinkLable2 = Nothing
         Me.txtRFQNo.MyReadOnly = False
+        Me.txtRFQNo.MyShowMasterFormButton = False
         Me.txtRFQNo.Name = "txtRFQNo"
+        Me.txtRFQNo.ReferenceFieldDesc = Nothing
+        Me.txtRFQNo.ReferenceFieldName = Nothing
+        Me.txtRFQNo.ReferenceTableName = Nothing
         Me.txtRFQNo.Size = New System.Drawing.Size(143, 19)
         Me.txtRFQNo.TabIndex = 0
         Me.txtRFQNo.Value = ""
         '
         'lblRFQno
         '
+        Me.lblRFQno.FieldName = Nothing
         Me.lblRFQno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRFQno.Location = New System.Drawing.Point(1, 6)
         Me.lblRFQno.Name = "lblRFQno"
@@ -181,6 +236,7 @@ Partial Class frmVendorComparisonApproval
         '
         'RadLabel20
         '
+        Me.RadLabel20.FieldName = Nothing
         Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel20.Location = New System.Drawing.Point(250, 28)
         Me.RadLabel20.Name = "RadLabel20"
@@ -190,6 +246,7 @@ Partial Class frmVendorComparisonApproval
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(255, 6)
         Me.RadLabel4.Name = "RadLabel4"
@@ -201,8 +258,8 @@ Partial Class frmVendorComparisonApproval
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = ""
@@ -221,12 +278,20 @@ Partial Class frmVendorComparisonApproval
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(677, 358)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnCreatePO
         '
@@ -246,6 +311,15 @@ Partial Class frmVendorComparisonApproval
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 1
         Me.btnClose.Text = "Close"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(196, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(62, 22)
+        Me.btnHistory.TabIndex = 2
+        Me.btnHistory.Text = "History"
         '
         'frmVendorComparisonApproval
         '
@@ -277,6 +351,7 @@ Partial Class frmVendorComparisonApproval
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreatePO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -296,5 +371,6 @@ Partial Class frmVendorComparisonApproval
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnCreatePO As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnHistory As RadButton
 End Class
 

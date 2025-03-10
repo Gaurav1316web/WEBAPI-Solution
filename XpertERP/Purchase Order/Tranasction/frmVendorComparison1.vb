@@ -218,6 +218,8 @@ Public Class FrmVendorComparison1
             If GetStatus(txtRFQNo.Value) = ERPTransactionStatus.Approved Then
                 Throw New Exception("Posted Transaction")
             End If
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtRFQNo.Value, "TSPL_VENDOR_QUOTATION_HEAD", "Transfer_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtRFQNo.Value, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", Nothing)
 
 
             Dim arrQuotation As New List(Of String)
@@ -249,6 +251,7 @@ Public Class FrmVendorComparison1
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                 Next
+
                 trans.Commit()
                 RadMessageBox.Show("Data Saved Successfully", Me.Text)
                 LoadData()
@@ -291,5 +294,17 @@ Public Class FrmVendorComparison1
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtRFQNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtRFQNo.Value, "Code", "TSPL_VENDOR_QUOTATION_HEAD", "TSPL_VENDOR_QUOTATION_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

@@ -70,9 +70,10 @@ Partial Class frmTransferKDILReturn
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -119,9 +120,10 @@ Partial Class frmTransferKDILReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,6 +143,7 @@ Partial Class frmTransferKDILReturn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -160,7 +163,6 @@ Partial Class frmTransferKDILReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(884, 420)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -266,6 +268,7 @@ Partial Class frmTransferKDILReturn
         Me.MyComboBox1.AutoCompleteDisplayMember = Nothing
         Me.MyComboBox1.AutoCompleteValueMember = Nothing
         Me.MyComboBox1.CalculationExpression = Nothing
+        Me.MyComboBox1.DropDownAnimationEnabled = True
         Me.MyComboBox1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.MyComboBox1.FieldCode = Nothing
         Me.MyComboBox1.FieldDesc = Nothing
@@ -368,6 +371,7 @@ Partial Class frmTransferKDILReturn
         'cmbDocumentType
         '
         Me.cmbDocumentType.CalculationExpression = Nothing
+        Me.cmbDocumentType.DropDownAnimationEnabled = True
         Me.cmbDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbDocumentType.FieldCode = Nothing
         Me.cmbDocumentType.FieldDesc = Nothing
@@ -456,7 +460,6 @@ Partial Class frmTransferKDILReturn
         Me.lblToLocation.Name = "lblToLocation"
         Me.lblToLocation.Size = New System.Drawing.Size(190, 18)
         Me.lblToLocation.TabIndex = 44
-        Me.lblToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocation.TextWrap = False
         '
         'lblToLocationDesc
@@ -469,7 +472,6 @@ Partial Class frmTransferKDILReturn
         Me.lblToLocationDesc.Name = "lblToLocationDesc"
         Me.lblToLocationDesc.Size = New System.Drawing.Size(310, 18)
         Me.lblToLocationDesc.TabIndex = 46
-        Me.lblToLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocationDesc.TextWrap = False
         '
         'MyLabel4
@@ -492,7 +494,6 @@ Partial Class frmTransferKDILReturn
         Me.lblVendorCode.Name = "lblVendorCode"
         Me.lblVendorCode.Size = New System.Drawing.Size(190, 18)
         Me.lblVendorCode.TabIndex = 15
-        Me.lblVendorCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorCode.TextWrap = False
         '
         'lblVendorName
@@ -505,7 +506,6 @@ Partial Class frmTransferKDILReturn
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(310, 18)
         Me.lblVendorName.TabIndex = 22
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'MyLabel6
@@ -528,7 +528,6 @@ Partial Class frmTransferKDILReturn
         Me.lblBillToLocationCode.Name = "lblBillToLocationCode"
         Me.lblBillToLocationCode.Size = New System.Drawing.Size(190, 18)
         Me.lblBillToLocationCode.TabIndex = 23
-        Me.lblBillToLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocationCode.TextWrap = False
         '
         'lblBillToLocationName
@@ -541,7 +540,6 @@ Partial Class frmTransferKDILReturn
         Me.lblBillToLocationName.Name = "lblBillToLocationName"
         Me.lblBillToLocationName.Size = New System.Drawing.Size(310, 18)
         Me.lblBillToLocationName.TabIndex = 25
-        Me.lblBillToLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocationName.TextWrap = False
         '
         'RadLabel19
@@ -824,6 +822,16 @@ Partial Class frmTransferKDILReturn
         Me.UcCustomFields1.Size = New System.Drawing.Size(863, 378)
         Me.UcCustomFields1.TabIndex = 1
         '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(698, 4)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(105, 22)
+        Me.btnShowInventory.TabIndex = 48
+        Me.btnShowInventory.Text = "Show Inventory"
+        '
         'btnClose
         '
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.None
@@ -845,15 +853,15 @@ Partial Class frmTransferKDILReturn
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save && Post"
         '
-        'btnShowInventory
+        'btnHistory
         '
-        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(698, 4)
-        Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(105, 22)
-        Me.btnShowInventory.TabIndex = 48
-        Me.btnShowInventory.Text = "Show Inventory"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(110, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(100, 22)
+        Me.btnHistory.TabIndex = 49
+        Me.btnHistory.Text = "History"
         '
         'frmTransferKDILReturn
         '
@@ -917,9 +925,10 @@ Partial Class frmTransferKDILReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -976,6 +985,6 @@ Partial Class frmTransferKDILReturn
     Friend WithEvents lblToLocation As common.Controls.MyLabel
     Friend WithEvents lblToLocationDesc As common.Controls.MyLabel
     Friend WithEvents btnShowInventory As Telerik.WinControls.UI.RadButton
-
+    Friend WithEvents btnHistory As RadButton
 End Class
 

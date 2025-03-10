@@ -194,7 +194,7 @@ Public Class clsSNPOSHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_POS_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_POS_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsSNPOSDetail.SaveData(obj.Document_Code, Arr, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_POS_HEAD", "Document_Code", "TSPL_SD_POS_DETAIL", "Document_Code", trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_POS_HEAD", trans)
             If isSaved Then
                 trans.Commit()
@@ -450,7 +450,7 @@ Public Class clsSNPOSHead
             qry = "Update TSPL_SD_POS_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'  "
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_POS_HEAD", "Document_Code", trans)
             If isSaved Then
                 trans.Commit()
             Else
@@ -1185,6 +1185,10 @@ Public Class clsSNPOSHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_POS_HEAD", "Document_Code", "TSPL_SD_POS_DETAIL", "Document_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_POS_HEAD", "Document_Code", "TSPL_SD_POS_DETAIL", "Document_Code", trans)
+
                 Dim qry As String = "delete from TSPL_SD_POS_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

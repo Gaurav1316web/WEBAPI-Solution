@@ -5,6 +5,7 @@ Public Class clsGRNHead
 
 #Region "Variables"
     Public IsSkipPurchaseQC As Integer = 0
+    Public Inter_unit_Purchase As Integer = 0
     Public isJobWorkOutward As Integer = 0
     Public ShowItemAllStructureWise As Boolean = False
     Public Amendment_No As Double = 0
@@ -321,6 +322,7 @@ Public Class clsGRNHead
             clsCommon.AddColumnsForChange(coll, "Against_Schedule_Code", obj.Against_Schedule_Code, True)
             clsCommon.AddColumnsForChange(coll, "RGP_Non_Inventory_Item", obj.RGP_Non_Inventory_Item)
             clsCommon.AddColumnsForChange(coll, "IsSkipPurchaseQC", obj.IsSkipPurchaseQC)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_Purchase", obj.Inter_unit_Purchase)
             If obj.GEDate.HasValue Then
                 clsCommon.AddColumnsForChange(coll, "GEDate", clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy"))
             Else
@@ -655,6 +657,7 @@ Public Class clsGRNHead
                     obj.VisualQCUpdatedDate = clsCommon.myCDate(dt.Rows(0)("VisualQCUpdatedDate"))
                 End If
                 obj.IsSkipPurchaseQC = CInt(dt.Rows(0)("IsSkipPurchaseQC"))
+                obj.Inter_unit_Purchase = clsCommon.myCdbl(dt.Rows(0)("Inter_unit_Purchase"))
                 obj.VisualQCStatus = CInt(dt.Rows(0)("VisualQCStatus"))
                 obj.VisualQCRemarks = clsCommon.myCstr(dt.Rows(0)("VisualQCRemarks"))
                 obj.isJobWorkOutward = clsCommon.myCstr(dt.Rows(0)("isJobWorkOutward"))
@@ -1551,6 +1554,9 @@ Public Class clsGRNHead
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsGRNHead = clsGRNHead.GetData(strCode, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
             Try
                 If (obj.Status = 1) Then

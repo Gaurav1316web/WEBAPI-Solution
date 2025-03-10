@@ -862,6 +862,18 @@ Public Class FrmWeighmentEntry
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndWeighmentcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndWeighmentcode.Value, "Weighment_No", "TSPL_WEIGHMENT_DETAIL_BULKSALE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     'sanjay Ticket No-UDL/26/04/19-000292
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Dim frmCRV As New frmCrystalReportViewer()

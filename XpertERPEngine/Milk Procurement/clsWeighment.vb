@@ -72,7 +72,7 @@ Public Class clsWeighment
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-          
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
             ''done by richa agarwal Against Ticket No. BHA/06/07/18-000133 on 21 Jan,2019 when created MILK Transfer In  and Gate Out auto
             Dim strQry As String = String.Empty
             Dim MCCChamberwise As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, trans))
@@ -376,6 +376,8 @@ Public Class clsWeighment
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_weighment_detail", OMInsertOrUpdate.Update, "tspl_weighment_detail.Weighment_No='" + obj.Weighment_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
+
             If Not isHistory Then
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_quality_check where isposted=1 and gate_entry_no='" & obj.Gate_Entry_No & "'  and weighment_no=''", trans)) > 0 Then
                     issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery("update tspl_quality_check set weighment_no='" & obj.Weighment_No & "',weighment_date='" & clsCommon.GetPrintDate(obj.Weighment_Date, "dd/MMM/yyyy") & "' where gate_entry_no='" & obj.Gate_Entry_No & "'", trans)
@@ -668,6 +670,7 @@ Public Class clsWeighment
                     Throw New Exception("Record is posted so you can not delete")
                 End If
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strWeighmentNo, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strWeighmentNo), "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
             Dim strQry As String = "delete from TSPL_Weighment_Chember_Details where Weighment_No='" & strWeighmentNo & "'"

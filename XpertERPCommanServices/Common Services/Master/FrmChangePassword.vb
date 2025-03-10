@@ -217,7 +217,34 @@ select distinct Password as PWD from TSPL_USER_MASTER_Hist_Data where User_Code=
         Me.Close()
     End Sub
 
-
+    ''Not working on DOIT Server but work on others
+    'Function MyChangeWindowsPassowrd(ByVal username As String, ByVal oldPassword As String, ByVal newPassword As String) As Boolean
+    '    Try
+    '        ' Use the local machine or domain
+    '        Using context As New PrincipalContext(ContextType.Machine) ' Use ContextType.Domain for domain users
+    '            ' Validate old password
+    '            If context.ValidateCredentials(username, oldPassword) Then
+    '                ' Change password
+    '                Dim user As UserPrincipal = UserPrincipal.FindByIdentity(context, username)
+    '                If user IsNot Nothing Then
+    '                    user.ChangePassword(oldPassword, newPassword)
+    '                    user.Save()
+    '                Else
+    '                    Throw New Exception("User not found!")
+    '                End If
+    '            Else
+    '                Throw New Exception("Invalid old password!")
+    '            End If
+    '        End Using
+    '    Catch ex As Exception
+    '        If ex.Message.Contains("Access is denied") Then
+    '            Return True
+    '        Else
+    '            Throw New Exception("Error: " & ex.Message)
+    '        End If
+    '    End Try
+    '    Return True
+    'End Function
 
 End Class
 

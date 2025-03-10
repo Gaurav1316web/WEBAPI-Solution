@@ -22,10 +22,13 @@ Partial Class rptSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbnCustgroup = New System.Windows.Forms.RadioButton()
+        Me.rbnPricegroup = New System.Windows.Forms.RadioButton()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.txtBillToLocation = New common.UserControls.txtFinder()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -43,15 +46,30 @@ Partial Class rptSalesReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbnPricegroup = New System.Windows.Forms.RadioButton()
-        Me.rbnCustgroup = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbAll = New common.Controls.MyRadioButton()
+        Me.rdbUnposted = New common.Controls.MyRadioButton()
+        Me.rdbPosted = New common.Controls.MyRadioButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbfgsfg = New common.Controls.MyRadioButton()
+        Me.rdbSFG = New common.Controls.MyRadioButton()
+        Me.rdbFG = New common.Controls.MyRadioButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbInvoice = New common.Controls.MyRadioButton()
+        Me.rdbDispatch = New common.Controls.MyRadioButton()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbSaleTransfer = New common.Controls.MyRadioButton()
+        Me.rdbStockTransfer = New common.Controls.MyRadioButton()
+        Me.rdbSaleReturn = New common.Controls.MyRadioButton()
+        Me.rdbSale = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -65,8 +83,26 @@ Partial Class rptSalesReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbUnposted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rdbfgsfg, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbSFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rdbInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.rdbSaleTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbStockTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,6 +142,10 @@ Partial Class rptSalesReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
@@ -117,13 +157,46 @@ Partial Class rptSalesReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 357)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbnCustgroup)
+        Me.RadGroupBox2.Controls.Add(Me.rbnPricegroup)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(381, 16)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(219, 36)
+        Me.RadGroupBox2.TabIndex = 45
+        '
+        'rbnCustgroup
+        '
+        Me.rbnCustgroup.AutoSize = True
+        Me.rbnCustgroup.Location = New System.Drawing.Point(103, 9)
+        Me.rbnCustgroup.Name = "rbnCustgroup"
+        Me.rbnCustgroup.Size = New System.Drawing.Size(110, 17)
+        Me.rbnCustgroup.TabIndex = 46
+        Me.rbnCustgroup.TabStop = True
+        Me.rbnCustgroup.Text = "Customer Group"
+        Me.rbnCustgroup.UseVisualStyleBackColor = True
+        '
+        'rbnPricegroup
+        '
+        Me.rbnPricegroup.AutoSize = True
+        Me.rbnPricegroup.Location = New System.Drawing.Point(14, 9)
+        Me.rbnPricegroup.Name = "rbnPricegroup"
+        Me.rbnPricegroup.Size = New System.Drawing.Size(85, 17)
+        Me.rbnPricegroup.TabIndex = 0
+        Me.rbnPricegroup.TabStop = True
+        Me.rbnPricegroup.Text = "Price Group"
+        Me.rbnPricegroup.UseVisualStyleBackColor = True
+        '
         'lblBillToLocation
         '
         Me.lblBillToLocation.AutoSize = False
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(188, 98)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(188, 71)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(187, 18)
         Me.lblBillToLocation.TabIndex = 44
@@ -140,7 +213,7 @@ Partial Class rptSalesReport
         Me.txtBillToLocation.IsSourceFromTable = False
         Me.txtBillToLocation.IsSourceFromValueList = False
         Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(83, 98)
+        Me.txtBillToLocation.Location = New System.Drawing.Point(83, 71)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBillToLocation.MyLinkLable1 = Nothing
@@ -158,7 +231,7 @@ Partial Class rptSalesReport
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(20, 103)
+        Me.Label3.Location = New System.Drawing.Point(20, 74)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 13)
         Me.Label3.TabIndex = 2
@@ -271,12 +344,13 @@ Partial Class rptSalesReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 357)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '
@@ -340,38 +414,193 @@ Partial Class rptSalesReport
         Me.btnGo.TabIndex = 43
         Me.btnGo.Text = ">>"
         '
-        'RadGroupBox2
+        'RadGroupBox3
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbnCustgroup)
-        Me.RadGroupBox2.Controls.Add(Me.rbnPricegroup)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(381, 16)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(219, 36)
-        Me.RadGroupBox2.TabIndex = 45
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rdbAll)
+        Me.RadGroupBox3.Controls.Add(Me.rdbUnposted)
+        Me.RadGroupBox3.Controls.Add(Me.rdbPosted)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(23, 95)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox3.TabIndex = 58
         '
-        'rbnPricegroup
+        'rdbAll
         '
-        Me.rbnPricegroup.AutoSize = True
-        Me.rbnPricegroup.Location = New System.Drawing.Point(14, 9)
-        Me.rbnPricegroup.Name = "rbnPricegroup"
-        Me.rbnPricegroup.Size = New System.Drawing.Size(85, 17)
-        Me.rbnPricegroup.TabIndex = 0
-        Me.rbnPricegroup.TabStop = True
-        Me.rbnPricegroup.Text = "Price Group"
-        Me.rbnPricegroup.UseVisualStyleBackColor = True
+        Me.rdbAll.Location = New System.Drawing.Point(170, 11)
+        Me.rdbAll.MyLinkLable1 = Nothing
+        Me.rdbAll.MyLinkLable2 = Nothing
+        Me.rdbAll.Name = "rdbAll"
+        Me.rdbAll.Size = New System.Drawing.Size(33, 18)
+        Me.rdbAll.TabIndex = 3
+        Me.rdbAll.TabStop = False
+        Me.rdbAll.Text = "All"
         '
-        'rbnCustgroup
+        'rdbUnposted
         '
-        Me.rbnCustgroup.AutoSize = True
-        Me.rbnCustgroup.Location = New System.Drawing.Point(103, 9)
-        Me.rbnCustgroup.Name = "rbnCustgroup"
-        Me.rbnCustgroup.Size = New System.Drawing.Size(110, 17)
-        Me.rbnCustgroup.TabIndex = 46
-        Me.rbnCustgroup.TabStop = True
-        Me.rbnCustgroup.Text = "Customer Group"
-        Me.rbnCustgroup.UseVisualStyleBackColor = True
+        Me.rdbUnposted.Location = New System.Drawing.Point(92, 11)
+        Me.rdbUnposted.MyLinkLable1 = Nothing
+        Me.rdbUnposted.MyLinkLable2 = Nothing
+        Me.rdbUnposted.Name = "rdbUnposted"
+        Me.rdbUnposted.Size = New System.Drawing.Size(69, 18)
+        Me.rdbUnposted.TabIndex = 2
+        Me.rdbUnposted.TabStop = False
+        Me.rdbUnposted.Text = "Unposted"
+        '
+        'rdbPosted
+        '
+        Me.rdbPosted.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbPosted.Location = New System.Drawing.Point(16, 11)
+        Me.rdbPosted.MyLinkLable1 = Nothing
+        Me.rdbPosted.MyLinkLable2 = Nothing
+        Me.rdbPosted.Name = "rdbPosted"
+        Me.rdbPosted.Size = New System.Drawing.Size(54, 18)
+        Me.rdbPosted.TabIndex = 1
+        Me.rdbPosted.Text = "Posted"
+        Me.rdbPosted.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rdbfgsfg)
+        Me.RadGroupBox5.Controls.Add(Me.rdbSFG)
+        Me.RadGroupBox5.Controls.Add(Me.rdbFG)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(23, 143)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox5.TabIndex = 60
+        '
+        'rdbfgsfg
+        '
+        Me.rdbfgsfg.Location = New System.Drawing.Point(170, 11)
+        Me.rdbfgsfg.MyLinkLable1 = Nothing
+        Me.rdbfgsfg.MyLinkLable2 = Nothing
+        Me.rdbfgsfg.Name = "rdbfgsfg"
+        Me.rdbfgsfg.Size = New System.Drawing.Size(33, 18)
+        Me.rdbfgsfg.TabIndex = 3
+        Me.rdbfgsfg.TabStop = False
+        Me.rdbfgsfg.Text = "All"
+        '
+        'rdbSFG
+        '
+        Me.rdbSFG.Location = New System.Drawing.Point(81, 11)
+        Me.rdbSFG.MyLinkLable1 = Nothing
+        Me.rdbSFG.MyLinkLable2 = Nothing
+        Me.rdbSFG.Name = "rdbSFG"
+        Me.rdbSFG.Size = New System.Drawing.Size(39, 18)
+        Me.rdbSFG.TabIndex = 2
+        Me.rdbSFG.TabStop = False
+        Me.rdbSFG.Text = "SFG"
+        '
+        'rdbFG
+        '
+        Me.rdbFG.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbFG.Location = New System.Drawing.Point(16, 11)
+        Me.rdbFG.MyLinkLable1 = Nothing
+        Me.rdbFG.MyLinkLable2 = Nothing
+        Me.rdbFG.Name = "rdbFG"
+        Me.rdbFG.Size = New System.Drawing.Size(33, 18)
+        Me.rdbFG.TabIndex = 1
+        Me.rdbFG.Text = "FG"
+        Me.rdbFG.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rdbInvoice)
+        Me.RadGroupBox4.Controls.Add(Me.rdbDispatch)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(23, 191)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox4.TabIndex = 61
+        '
+        'rdbInvoice
+        '
+        Me.rdbInvoice.Location = New System.Drawing.Point(135, 11)
+        Me.rdbInvoice.MyLinkLable1 = Nothing
+        Me.rdbInvoice.MyLinkLable2 = Nothing
+        Me.rdbInvoice.Name = "rdbInvoice"
+        Me.rdbInvoice.Size = New System.Drawing.Size(56, 18)
+        Me.rdbInvoice.TabIndex = 2
+        Me.rdbInvoice.TabStop = False
+        Me.rdbInvoice.Text = "Invoice"
+        '
+        'rdbDispatch
+        '
+        Me.rdbDispatch.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbDispatch.Location = New System.Drawing.Point(16, 11)
+        Me.rdbDispatch.MyLinkLable1 = Nothing
+        Me.rdbDispatch.MyLinkLable2 = Nothing
+        Me.rdbDispatch.Name = "rdbDispatch"
+        Me.rdbDispatch.Size = New System.Drawing.Size(107, 18)
+        Me.rdbDispatch.TabIndex = 1
+        Me.rdbDispatch.Text = "Challan(Dispatch)"
+        Me.rdbDispatch.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rdbSaleTransfer)
+        Me.RadGroupBox6.Controls.Add(Me.rdbStockTransfer)
+        Me.RadGroupBox6.Controls.Add(Me.rdbSaleReturn)
+        Me.RadGroupBox6.Controls.Add(Me.rdbSale)
+        Me.RadGroupBox6.HeaderText = ""
+        Me.RadGroupBox6.Location = New System.Drawing.Point(23, 239)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(366, 42)
+        Me.RadGroupBox6.TabIndex = 62
+        '
+        'rdbSaleTransfer
+        '
+        Me.rdbSaleTransfer.Location = New System.Drawing.Point(246, 11)
+        Me.rdbSaleTransfer.MyLinkLable1 = Nothing
+        Me.rdbSaleTransfer.MyLinkLable2 = Nothing
+        Me.rdbSaleTransfer.Name = "rdbSaleTransfer"
+        Me.rdbSaleTransfer.Size = New System.Drawing.Size(108, 18)
+        Me.rdbSaleTransfer.TabIndex = 4
+        Me.rdbSaleTransfer.TabStop = False
+        Me.rdbSaleTransfer.Text = "All(Sale+Transfer)"
+        '
+        'rdbStockTransfer
+        '
+        Me.rdbStockTransfer.Location = New System.Drawing.Point(149, 11)
+        Me.rdbStockTransfer.MyLinkLable1 = Nothing
+        Me.rdbStockTransfer.MyLinkLable2 = Nothing
+        Me.rdbStockTransfer.Name = "rdbStockTransfer"
+        Me.rdbStockTransfer.Size = New System.Drawing.Size(91, 18)
+        Me.rdbStockTransfer.TabIndex = 3
+        Me.rdbStockTransfer.TabStop = False
+        Me.rdbStockTransfer.Text = "Stock Transfer"
+        '
+        'rdbSaleReturn
+        '
+        Me.rdbSaleReturn.Location = New System.Drawing.Point(66, 11)
+        Me.rdbSaleReturn.MyLinkLable1 = Nothing
+        Me.rdbSaleReturn.MyLinkLable2 = Nothing
+        Me.rdbSaleReturn.Name = "rdbSaleReturn"
+        Me.rdbSaleReturn.Size = New System.Drawing.Size(77, 18)
+        Me.rdbSaleReturn.TabIndex = 2
+        Me.rdbSaleReturn.TabStop = False
+        Me.rdbSaleReturn.Text = "Sale Return"
+        '
+        'rdbSale
+        '
+        Me.rdbSale.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbSale.Location = New System.Drawing.Point(16, 11)
+        Me.rdbSale.MyLinkLable1 = Nothing
+        Me.rdbSale.MyLinkLable2 = Nothing
+        Me.rdbSale.Name = "rdbSale"
+        Me.rdbSale.Size = New System.Drawing.Size(41, 18)
+        Me.rdbSale.TabIndex = 1
+        Me.rdbSale.Text = "Sale"
+        Me.rdbSale.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rptSalesReport
         '
@@ -392,6 +621,9 @@ Partial Class rptSalesReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -406,9 +638,30 @@ Partial Class rptSalesReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbUnposted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rdbfgsfg, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbSFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rdbInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.rdbSaleTransfer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbStockTransfer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -437,4 +690,20 @@ Partial Class rptSalesReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbnCustgroup As RadioButton
     Friend WithEvents rbnPricegroup As RadioButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rdbAll As common.Controls.MyRadioButton
+    Friend WithEvents rdbUnposted As common.Controls.MyRadioButton
+    Friend WithEvents rdbPosted As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rdbfgsfg As common.Controls.MyRadioButton
+    Friend WithEvents rdbSFG As common.Controls.MyRadioButton
+    Friend WithEvents rdbFG As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rdbInvoice As common.Controls.MyRadioButton
+    Friend WithEvents rdbDispatch As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rdbSaleTransfer As common.Controls.MyRadioButton
+    Friend WithEvents rdbStockTransfer As common.Controls.MyRadioButton
+    Friend WithEvents rdbSaleReturn As common.Controls.MyRadioButton
+    Friend WithEvents rdbSale As common.Controls.MyRadioButton
 End Class

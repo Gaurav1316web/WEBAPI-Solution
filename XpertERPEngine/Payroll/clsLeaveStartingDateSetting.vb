@@ -22,6 +22,8 @@ Public Class clsLeaveStartingDateSetting
             If (clsCommon.myLen(strCode) <= 0) Or (clsCommon.myLen(strLeaveCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_STARTINGDATE", "EMP_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_STARTINGDATE", "EMP_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LEAVE_STARTINGDATE where EMP_CODE ='" + strCode + "' and LEAVE_CODE ='" + strLeaveCode + "' "
@@ -81,6 +83,8 @@ Public Class clsLeaveStartingDateSetting
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_STARTINGDATE", OMInsertOrUpdate.Update, "EMP_CODE='" + obj.EMP_CODE + "' and LEAVE_CODE ='" + obj.LEAVE_CODE + "' ")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_LEAVE_STARTINGDATE", "EMP_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -772,4 +772,15 @@ Public Class frmBulkSaleFreightCalculation
         gv1.Rows(IntRowNo).Cells("Total_Payable_Amount").Value = PayAmt + TollChr
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocumentNo.Value, "Document_Code", "TSPL_BLK_FREIGHT_CALC_HEAD", "TSPL_BLK_FREIGHT_CALC_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

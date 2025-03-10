@@ -25,25 +25,26 @@ Partial Class FrmEmployeeGratuity
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEmployeeGratuity))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.txtNOF = New common.MyNumBox
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.txtLastDrawnSalary = New common.MyNumBox
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.MyDateTimePicker2 = New common.Controls.MyDateTimePicker
-        Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.txtGratuity = New common.MyNumBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.lblOpeningDate = New common.Controls.MyLabel
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtNOF = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtLastDrawnSalary = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyDateTimePicker2 = New common.Controls.MyDateTimePicker()
+        Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtGratuity = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblOpeningDate = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,6 +65,7 @@ Partial Class FrmEmployeeGratuity
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -95,6 +97,7 @@ Partial Class FrmEmployeeGratuity
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -106,7 +109,16 @@ Partial Class FrmEmployeeGratuity
         'txtNOF
         '
         Me.txtNOF.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtNOF.CalculationExpression = Nothing
         Me.txtNOF.DecimalPlaces = 2
+        Me.txtNOF.FieldCode = Nothing
+        Me.txtNOF.FieldDesc = Nothing
+        Me.txtNOF.FieldMaxLength = 0
+        Me.txtNOF.FieldName = Nothing
+        Me.txtNOF.isCalculatedField = False
+        Me.txtNOF.IsSourceFromTable = False
+        Me.txtNOF.IsSourceFromValueList = False
+        Me.txtNOF.IsUnique = False
         Me.txtNOF.Location = New System.Drawing.Point(133, 106)
         Me.txtNOF.MaxLength = 6
         Me.txtNOF.MendatroryField = True
@@ -114,15 +126,19 @@ Partial Class FrmEmployeeGratuity
         Me.txtNOF.MyLinkLable2 = Nothing
         Me.txtNOF.Name = "txtNOF"
         Me.txtNOF.ReadOnly = True
+        Me.txtNOF.ReferenceFieldDesc = Nothing
+        Me.txtNOF.ReferenceFieldName = Nothing
+        Me.txtNOF.ReferenceTableName = Nothing
         Me.txtNOF.Size = New System.Drawing.Size(197, 20)
         Me.txtNOF.TabIndex = 6
         Me.txtNOF.TabStop = False
         Me.txtNOF.Text = "0"
         Me.txtNOF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNOF.Value = 0
+        Me.txtNOF.Value = 0R
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(12, 35)
         Me.MyLabel4.Name = "MyLabel4"
@@ -133,7 +149,16 @@ Partial Class FrmEmployeeGratuity
         'txtLastDrawnSalary
         '
         Me.txtLastDrawnSalary.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtLastDrawnSalary.CalculationExpression = Nothing
         Me.txtLastDrawnSalary.DecimalPlaces = 2
+        Me.txtLastDrawnSalary.FieldCode = Nothing
+        Me.txtLastDrawnSalary.FieldDesc = Nothing
+        Me.txtLastDrawnSalary.FieldMaxLength = 0
+        Me.txtLastDrawnSalary.FieldName = Nothing
+        Me.txtLastDrawnSalary.isCalculatedField = False
+        Me.txtLastDrawnSalary.IsSourceFromTable = False
+        Me.txtLastDrawnSalary.IsSourceFromValueList = False
+        Me.txtLastDrawnSalary.IsUnique = False
         Me.txtLastDrawnSalary.Location = New System.Drawing.Point(133, 82)
         Me.txtLastDrawnSalary.MaxLength = 6
         Me.txtLastDrawnSalary.MendatroryField = True
@@ -141,15 +166,19 @@ Partial Class FrmEmployeeGratuity
         Me.txtLastDrawnSalary.MyLinkLable2 = Nothing
         Me.txtLastDrawnSalary.Name = "txtLastDrawnSalary"
         Me.txtLastDrawnSalary.ReadOnly = True
+        Me.txtLastDrawnSalary.ReferenceFieldDesc = Nothing
+        Me.txtLastDrawnSalary.ReferenceFieldName = Nothing
+        Me.txtLastDrawnSalary.ReferenceTableName = Nothing
         Me.txtLastDrawnSalary.Size = New System.Drawing.Size(197, 20)
         Me.txtLastDrawnSalary.TabIndex = 5
         Me.txtLastDrawnSalary.TabStop = False
         Me.txtLastDrawnSalary.Text = "0"
         Me.txtLastDrawnSalary.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLastDrawnSalary.Value = 0
+        Me.txtLastDrawnSalary.Value = 0R
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(343, 64)
         Me.MyLabel5.Name = "MyLabel5"
@@ -159,9 +188,18 @@ Partial Class FrmEmployeeGratuity
         '
         'MyDateTimePicker2
         '
+        Me.MyDateTimePicker2.CalculationExpression = Nothing
         Me.MyDateTimePicker2.CustomFormat = "dd/MM/yyyy"
+        Me.MyDateTimePicker2.FieldCode = Nothing
+        Me.MyDateTimePicker2.FieldDesc = Nothing
+        Me.MyDateTimePicker2.FieldMaxLength = 0
+        Me.MyDateTimePicker2.FieldName = Nothing
         Me.MyDateTimePicker2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyDateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.MyDateTimePicker2.isCalculatedField = False
+        Me.MyDateTimePicker2.IsSourceFromTable = False
+        Me.MyDateTimePicker2.IsSourceFromValueList = False
+        Me.MyDateTimePicker2.IsUnique = False
         Me.MyDateTimePicker2.Location = New System.Drawing.Point(398, 62)
         Me.MyDateTimePicker2.MendatroryField = False
         Me.MyDateTimePicker2.MinDate = New Date(1950, 1, 1, 0, 0, 0, 0)
@@ -170,6 +208,9 @@ Partial Class FrmEmployeeGratuity
         Me.MyDateTimePicker2.Name = "MyDateTimePicker2"
         Me.MyDateTimePicker2.NullDate = New Date(1950, 1, 1, 0, 0, 0, 0)
         Me.MyDateTimePicker2.ReadOnly = True
+        Me.MyDateTimePicker2.ReferenceFieldDesc = Nothing
+        Me.MyDateTimePicker2.ReferenceFieldName = Nothing
+        Me.MyDateTimePicker2.ReferenceTableName = Nothing
         Me.MyDateTimePicker2.Size = New System.Drawing.Size(197, 18)
         Me.MyDateTimePicker2.TabIndex = 4
         Me.MyDateTimePicker2.TabStop = False
@@ -178,9 +219,18 @@ Partial Class FrmEmployeeGratuity
         '
         'MyDateTimePicker1
         '
+        Me.MyDateTimePicker1.CalculationExpression = Nothing
         Me.MyDateTimePicker1.CustomFormat = "dd/MM/yyyy"
+        Me.MyDateTimePicker1.FieldCode = Nothing
+        Me.MyDateTimePicker1.FieldDesc = Nothing
+        Me.MyDateTimePicker1.FieldMaxLength = 0
+        Me.MyDateTimePicker1.FieldName = Nothing
         Me.MyDateTimePicker1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyDateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.MyDateTimePicker1.isCalculatedField = False
+        Me.MyDateTimePicker1.IsSourceFromTable = False
+        Me.MyDateTimePicker1.IsSourceFromValueList = False
+        Me.MyDateTimePicker1.IsUnique = False
         Me.MyDateTimePicker1.Location = New System.Drawing.Point(133, 59)
         Me.MyDateTimePicker1.MendatroryField = False
         Me.MyDateTimePicker1.MinDate = New Date(1950, 1, 1, 0, 0, 0, 0)
@@ -189,6 +239,9 @@ Partial Class FrmEmployeeGratuity
         Me.MyDateTimePicker1.Name = "MyDateTimePicker1"
         Me.MyDateTimePicker1.NullDate = New Date(1950, 1, 1, 0, 0, 0, 0)
         Me.MyDateTimePicker1.ReadOnly = True
+        Me.MyDateTimePicker1.ReferenceFieldDesc = Nothing
+        Me.MyDateTimePicker1.ReferenceFieldName = Nothing
+        Me.MyDateTimePicker1.ReferenceTableName = Nothing
         Me.MyDateTimePicker1.Size = New System.Drawing.Size(197, 18)
         Me.MyDateTimePicker1.TabIndex = 3
         Me.MyDateTimePicker1.TabStop = False
@@ -197,6 +250,7 @@ Partial Class FrmEmployeeGratuity
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(12, 62)
         Me.MyLabel1.Name = "MyLabel1"
@@ -215,6 +269,7 @@ Partial Class FrmEmployeeGratuity
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(133, 33)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -232,14 +287,15 @@ Partial Class FrmEmployeeGratuity
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(398, 33)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(195, 19)
         Me.lblEmpName.TabIndex = 2
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(12, 132)
         Me.MyLabel3.Name = "MyLabel3"
@@ -250,7 +306,16 @@ Partial Class FrmEmployeeGratuity
         'txtGratuity
         '
         Me.txtGratuity.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtGratuity.CalculationExpression = Nothing
         Me.txtGratuity.DecimalPlaces = 2
+        Me.txtGratuity.FieldCode = Nothing
+        Me.txtGratuity.FieldDesc = Nothing
+        Me.txtGratuity.FieldMaxLength = 0
+        Me.txtGratuity.FieldName = Nothing
+        Me.txtGratuity.isCalculatedField = False
+        Me.txtGratuity.IsSourceFromTable = False
+        Me.txtGratuity.IsSourceFromValueList = False
+        Me.txtGratuity.IsUnique = False
         Me.txtGratuity.Location = New System.Drawing.Point(133, 130)
         Me.txtGratuity.MaxLength = 6
         Me.txtGratuity.MendatroryField = True
@@ -258,15 +323,19 @@ Partial Class FrmEmployeeGratuity
         Me.txtGratuity.MyLinkLable2 = Nothing
         Me.txtGratuity.Name = "txtGratuity"
         Me.txtGratuity.ReadOnly = True
+        Me.txtGratuity.ReferenceFieldDesc = Nothing
+        Me.txtGratuity.ReferenceFieldName = Nothing
+        Me.txtGratuity.ReferenceTableName = Nothing
         Me.txtGratuity.Size = New System.Drawing.Size(197, 20)
         Me.txtGratuity.TabIndex = 7
         Me.txtGratuity.TabStop = False
         Me.txtGratuity.Text = "0"
         Me.txtGratuity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGratuity.Value = 0
+        Me.txtGratuity.Value = 0R
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(12, 85)
         Me.MyLabel2.Name = "MyLabel2"
@@ -276,6 +345,7 @@ Partial Class FrmEmployeeGratuity
         '
         'lblOpeningDate
         '
+        Me.lblOpeningDate.FieldName = Nothing
         Me.lblOpeningDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOpeningDate.Location = New System.Drawing.Point(12, 110)
         Me.lblOpeningDate.Name = "lblOpeningDate"
@@ -323,6 +393,16 @@ Partial Class FrmEmployeeGratuity
         Me.btnclose.TabIndex = 3
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(219, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 22)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
+        '
         'FrmEmployeeGratuity
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -356,6 +436,7 @@ Partial Class FrmEmployeeGratuity
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -379,5 +460,6 @@ Partial Class FrmEmployeeGratuity
     Friend WithEvents txtLastDrawnSalary As common.MyNumBox
     Friend WithEvents txtNOF As common.MyNumBox
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

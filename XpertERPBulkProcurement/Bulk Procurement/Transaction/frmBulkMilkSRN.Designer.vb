@@ -22,9 +22,9 @@ Partial Class FrmBulkMilkSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -136,6 +136,7 @@ Partial Class FrmBulkMilkSRN
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.lblFATKg = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseRec = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintPO = New Telerik.WinControls.UI.RadButton()
@@ -263,6 +264,7 @@ Partial Class FrmBulkMilkSRN
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseRec, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintPO, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,6 +292,7 @@ Partial Class FrmBulkMilkSRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseRec)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintPO)
@@ -1406,7 +1409,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1415,6 +1418,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvItem.Size = New System.Drawing.Size(1172, 181)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'QcDetails
         '
@@ -1678,12 +1682,13 @@ Partial Class FrmBulkMilkSRN
         '
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1168, 100)
         Me.gvParam.TabIndex = 264
+        Me.gvParam.VarID = ""
         '
         'RadGroupBox2
         '
@@ -1706,12 +1711,13 @@ Partial Class FrmBulkMilkSRN
         '
         Me.gvRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRange.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvRange.MyStopExport = False
         Me.gvRange.Name = "gvRange"
         Me.gvRange.ShowHeaderCellButtons = True
         Me.gvRange.Size = New System.Drawing.Size(1168, 95)
         Me.gvRange.TabIndex = 264
+        Me.gvRange.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -2007,6 +2013,16 @@ Partial Class FrmBulkMilkSRN
         Me.MyLabel12.TabIndex = 324
         Me.MyLabel12.Text = "FAT KG"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(865, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 48
+        Me.btnHistory.Text = "History"
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2237,6 +2253,7 @@ Partial Class FrmBulkMilkSRN
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFATKg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseRec, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintPO, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2370,5 +2387,6 @@ Partial Class FrmBulkMilkSRN
     Friend WithEvents txtTransportCharges As common.MyNumBox
     Friend WithEvents fndReferenceNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

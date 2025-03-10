@@ -23,8 +23,11 @@ Partial Class frmAcknowledgementEntry
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuSaveLayOut = New Telerik.WinControls.UI.RadMenuItem()
@@ -74,6 +77,7 @@ Partial Class frmAcknowledgementEntry
         Me.MyLabel20 = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -120,6 +124,7 @@ Partial Class frmAcknowledgementEntry
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage8.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,27 +135,20 @@ Partial Class frmAcknowledgementEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1261, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayOut, Me.mnuDeleteLayout})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayOut
         '
-        Me.mnuSaveLayOut.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayOut.AccessibleName = "Save Layout"
         Me.mnuSaveLayOut.Name = "mnuSaveLayOut"
         Me.mnuSaveLayOut.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
@@ -169,6 +167,7 @@ Partial Class frmAcknowledgementEntry
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDelete)
@@ -189,7 +188,6 @@ Partial Class frmAcknowledgementEntry
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView2.Size = New System.Drawing.Size(1261, 220)
         Me.RadPageView2.TabIndex = 2
-        Me.RadPageView2.Text = "RadPageView2"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage6
@@ -207,15 +205,18 @@ Partial Class frmAcknowledgementEntry
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1240, 172)
         Me.gv.TabIndex = 203
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage7
         '
@@ -231,14 +232,17 @@ Partial Class frmAcknowledgementEntry
         Me.gvAE.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvAE.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAE
         '
+        '
+        Me.gvAE.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAE.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAE.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvAE.MyStopExport = False
         Me.gvAE.Name = "gvAE"
         Me.gvAE.ShowHeaderCellButtons = True
         Me.gvAE.Size = New System.Drawing.Size(1240, 172)
         Me.gvAE.TabIndex = 203
-        Me.gvAE.Text = "RadGridView1"
+        Me.gvAE.VarID = ""
         '
         'RadPageView1
         '
@@ -249,7 +253,6 @@ Partial Class frmAcknowledgementEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1261, 190)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -668,6 +671,7 @@ Partial Class frmAcknowledgementEntry
         Me.ddlTankerDispatchTo.AutoCompleteDisplayMember = Nothing
         Me.ddlTankerDispatchTo.AutoCompleteValueMember = Nothing
         Me.ddlTankerDispatchTo.CalculationExpression = Nothing
+        Me.ddlTankerDispatchTo.DropDownAnimationEnabled = True
         Me.ddlTankerDispatchTo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTankerDispatchTo.Enabled = False
         Me.ddlTankerDispatchTo.FieldCode = Nothing
@@ -678,10 +682,10 @@ Partial Class frmAcknowledgementEntry
         Me.ddlTankerDispatchTo.IsSourceFromTable = False
         Me.ddlTankerDispatchTo.IsSourceFromValueList = False
         Me.ddlTankerDispatchTo.IsUnique = False
-        RadListDataItem1.Text = "MCC"
-        RadListDataItem2.Text = "PLANT"
-        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem1)
-        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "MCC"
+        RadListDataItem4.Text = "PLANT"
+        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem3)
+        Me.ddlTankerDispatchTo.Items.Add(RadListDataItem4)
         Me.ddlTankerDispatchTo.Location = New System.Drawing.Point(137, 75)
         Me.ddlTankerDispatchTo.MendatroryField = True
         Me.ddlTankerDispatchTo.MyLinkLable1 = Me.lblTankerDispatchTo
@@ -765,6 +769,10 @@ Partial Class frmAcknowledgementEntry
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'xxx
+        '
+        Me.xxx.ViewDefinition = TableViewDefinition6
+        '
         'SplitContainer6
         '
         Me.SplitContainer6.Dock = System.Windows.Forms.DockStyle.Fill
@@ -838,6 +846,17 @@ Partial Class frmAcknowledgementEntry
         Me.RadPageViewPage8.Size = New System.Drawing.Size(1240, 203)
         Me.RadPageViewPage8.Text = "QC Details"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(596, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 22)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
+        '
         'frmAcknowledgementEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -898,6 +917,7 @@ Partial Class frmAcknowledgementEntry
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage8.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -954,5 +974,6 @@ Partial Class frmAcknowledgementEntry
     Friend WithEvents txtdispatchDate As common.Controls.MyDateTimePicker
     Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents gvAE As common.UserControls.MyRadGridView
+    Friend WithEvents btnHistory As RadButton
 End Class
 

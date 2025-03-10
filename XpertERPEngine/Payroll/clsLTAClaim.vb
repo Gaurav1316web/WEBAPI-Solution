@@ -124,6 +124,8 @@ Public Class clsLTAClaim
             End If
 
             isSaved = isSaved And clsLTAClaimDetail.SaveData(objLTAClaim.LTA_Code, objLTAClaim.objLTADetails, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objLTAClaim.LTA_Code, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -146,6 +148,8 @@ Public Class clsLTAClaim
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", Nothing)
+
             Dim qry As String = "Update TSPL_LTA_Claim_Head set POSTED=1, Posting_Date='" + strPostDate + "', Modified_Date='" + strPostDate + "', Modified_By='" + objCommonVar.CurrentUserCode + "' where LTA_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception

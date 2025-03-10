@@ -191,7 +191,7 @@ Public Class ClsInvoiceBulkSale
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_MASTER_BULKSAlE", OMInsertOrUpdate.Update, "TSPL_INVOICE_MASTER_BULKSAlE.Document_No='" + obj.Document_No + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsInvoiceDetailBulkSale.saveData(obj.arrInvoiceDetailBulkSale, obj.Document_No, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
             ' trans.Commit()
         Catch err As Exception
             'trans.Rollback()
@@ -456,7 +456,8 @@ Public Class ClsInvoiceBulkSale
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
         End If
-
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
         Try
             'ClsInvoiceDetailBulkSale.deleteData(strDocNo)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)

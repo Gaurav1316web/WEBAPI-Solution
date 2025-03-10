@@ -42,6 +42,8 @@ Public Class clsDairyGatePassEntry
     Public Driver_ContactNo As String = Nothing
     Public DistributorName As String = Nothing
     Public Supply_Date As Date? = Nothing
+    Public Is_GHEE As Boolean = False
+
 
 #End Region
 
@@ -131,6 +133,7 @@ Public Class clsDairyGatePassEntry
             '============================================================================
             clsCommon.AddColumnsForChange(coll, "Opening_Km", obj.Opening_Km)
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
+            clsCommon.AddColumnsForChange(coll, "Is_GHEE", IIf(obj.Is_GHEE, 1, 0))
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
@@ -149,6 +152,7 @@ Public Class clsDairyGatePassEntry
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_MASTER", OMInsertOrUpdate.Update, "TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" + obj.GPCode + "'", trans)
             End If
             isSaved = isSaved AndAlso clsDairyGPDetail.SaveData(obj.GPCode, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
 
@@ -258,6 +262,7 @@ Public Class clsDairyGatePassEntry
             obj.TotalCrate = clsCommon.myCdbl(dt.Rows(0)("TotalCrate"))
             obj.TotalCAN = clsCommon.myCdbl(dt.Rows(0)("TotalCAN"))
             obj.IsTransfer = clsCommon.myCdbl(dt.Rows(0)("IsTransfer"))
+            obj.Is_GHEE = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_GHEE")) = 1, True, False)
             obj.AgainstTransferNo = clsCommon.myCstr(dt.Rows(0)("AgainstTransferNo"))
             'obj.AgainstDocumentCode = clsCommon.myCstr(dt.Rows(0)("AgainstDocumentCode"))
             obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
@@ -491,7 +496,9 @@ Public Class clsDairyGatePassEntry
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
             If clsCommon.CompairString(obj.Post, "Y") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")
@@ -597,6 +604,7 @@ Public Class clsDairyGatePassEntry
 
 
             Qry = "update TSPL_DAIRYSALE_GATEPASS_MASTER set post='N',Closing_Km=0 , Closing_Date = null where GPCode='" + strCode + "'"
+
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
             trans.Commit()

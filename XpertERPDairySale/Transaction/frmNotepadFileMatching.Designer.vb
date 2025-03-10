@@ -22,6 +22,18 @@ Partial Class frmNotepadFileMatching
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
@@ -178,7 +190,6 @@ Partial Class frmNotepadFileMatching
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(845, 398)
         Me.RadPageView1.TabIndex = 24
-        Me.RadPageView1.Text = "Truck Sheet Import"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage2
@@ -198,10 +209,9 @@ Partial Class frmNotepadFileMatching
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
-        Me.RadPageView2.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView2.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView2.Size = New System.Drawing.Size(824, 350)
         Me.RadPageView2.TabIndex = 25
-        Me.RadPageView2.Text = "Truck Sheet Import"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -235,19 +245,35 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvTS.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTS.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTS.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTS.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTS.MyStopExport = False
         Me.gvTS.Name = "gvTS"
+        Me.gvTS.ShowHeaderCellButtons = True
         Me.gvTS.Size = New System.Drawing.Size(390, 265)
         Me.gvTS.TabIndex = 3
-        Me.gvTS.Text = "RadGridView1"
+        Me.gvTS.VarID = ""
         '
         'gvTSItem
         '
         Me.gvTSItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTSItem.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTSItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTSItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTSItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTSItem.MyStopExport = False
         Me.gvTSItem.Name = "gvTSItem"
+        Me.gvTSItem.ShowHeaderCellButtons = True
         Me.gvTSItem.Size = New System.Drawing.Size(409, 265)
         Me.gvTSItem.TabIndex = 4
-        Me.gvTSItem.Text = "RadGridView1"
+        Me.gvTSItem.VarID = ""
         '
         'Panel1
         '
@@ -363,19 +389,35 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvTSTecxpert.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTSTecxpert.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTSTecxpert.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTSTecxpert.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTSTecxpert.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTSTecxpert.MyStopExport = False
         Me.gvTSTecxpert.Name = "gvTSTecxpert"
+        Me.gvTSTecxpert.ShowHeaderCellButtons = True
         Me.gvTSTecxpert.Size = New System.Drawing.Size(390, 265)
         Me.gvTSTecxpert.TabIndex = 3
-        Me.gvTSTecxpert.Text = "RadGridView1"
+        Me.gvTSTecxpert.VarID = ""
         '
         'gvTSItemTecxpert
         '
         Me.gvTSItemTecxpert.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTSItemTecxpert.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvTSItemTecxpert.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTSItemTecxpert.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTSItemTecxpert.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTSItemTecxpert.MyStopExport = False
         Me.gvTSItemTecxpert.Name = "gvTSItemTecxpert"
+        Me.gvTSItemTecxpert.ShowHeaderCellButtons = True
         Me.gvTSItemTecxpert.Size = New System.Drawing.Size(409, 265)
         Me.gvTSItemTecxpert.TabIndex = 4
-        Me.gvTSItemTecxpert.Text = "RadGridView1"
+        Me.gvTSItemTecxpert.VarID = ""
         '
         'Panel4
         '
@@ -464,10 +506,18 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvTSMismatch.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvTSMismatch.Location = New System.Drawing.Point(0, 37)
+        '
+        '
+        '
+        Me.gvTSMismatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTSMismatch.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTSMismatch.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvTSMismatch.MyStopExport = False
         Me.gvTSMismatch.Name = "gvTSMismatch"
+        Me.gvTSMismatch.ShowHeaderCellButtons = True
         Me.gvTSMismatch.Size = New System.Drawing.Size(803, 265)
         Me.gvTSMismatch.TabIndex = 4
-        Me.gvTSMismatch.Text = "RadGridView1"
+        Me.gvTSMismatch.VarID = ""
         '
         'Panel5
         '
@@ -517,7 +567,6 @@ Partial Class frmNotepadFileMatching
         Me.RadPageView3.SelectedPage = Me.RadPageViewPage8
         Me.RadPageView3.Size = New System.Drawing.Size(824, 350)
         Me.RadPageView3.TabIndex = 26
-        Me.RadPageView3.Text = "Truck Sheet Import"
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage7
@@ -550,19 +599,35 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvGP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGP.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGP.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvGP.MyStopExport = False
         Me.gvGP.Name = "gvGP"
+        Me.gvGP.ShowHeaderCellButtons = True
         Me.gvGP.Size = New System.Drawing.Size(389, 265)
         Me.gvGP.TabIndex = 3
-        Me.gvGP.Text = "RadGridView1"
+        Me.gvGP.VarID = ""
         '
         'gvGPItem
         '
         Me.gvGPItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGPItem.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGPItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGPItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGPItem.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvGPItem.MyStopExport = False
         Me.gvGPItem.Name = "gvGPItem"
+        Me.gvGPItem.ShowHeaderCellButtons = True
         Me.gvGPItem.Size = New System.Drawing.Size(410, 265)
         Me.gvGPItem.TabIndex = 4
-        Me.gvGPItem.Text = "RadGridView1"
+        Me.gvGPItem.VarID = ""
         '
         'Panel2
         '
@@ -677,19 +742,35 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvGPTecxpert.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGPTecxpert.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGPTecxpert.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGPTecxpert.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGPTecxpert.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvGPTecxpert.MyStopExport = False
         Me.gvGPTecxpert.Name = "gvGPTecxpert"
+        Me.gvGPTecxpert.ShowHeaderCellButtons = True
         Me.gvGPTecxpert.Size = New System.Drawing.Size(389, 265)
         Me.gvGPTecxpert.TabIndex = 3
-        Me.gvGPTecxpert.Text = "RadGridView1"
+        Me.gvGPTecxpert.VarID = ""
         '
         'gvGPItemTecxpert
         '
         Me.gvGPItemTecxpert.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGPItemTecxpert.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvGPItemTecxpert.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGPItemTecxpert.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGPItemTecxpert.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvGPItemTecxpert.MyStopExport = False
         Me.gvGPItemTecxpert.Name = "gvGPItemTecxpert"
+        Me.gvGPItemTecxpert.ShowHeaderCellButtons = True
         Me.gvGPItemTecxpert.Size = New System.Drawing.Size(410, 265)
         Me.gvGPItemTecxpert.TabIndex = 4
-        Me.gvGPItemTecxpert.Text = "RadGridView1"
+        Me.gvGPItemTecxpert.VarID = ""
         '
         'Panel3
         '
@@ -777,10 +858,18 @@ Partial Class frmNotepadFileMatching
         '
         Me.gvGPMismatch.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvGPMismatch.Location = New System.Drawing.Point(0, 37)
+        '
+        '
+        '
+        Me.gvGPMismatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvGPMismatch.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGPMismatch.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvGPMismatch.MyStopExport = False
         Me.gvGPMismatch.Name = "gvGPMismatch"
+        Me.gvGPMismatch.ShowHeaderCellButtons = True
         Me.gvGPMismatch.Size = New System.Drawing.Size(803, 265)
         Me.gvGPMismatch.TabIndex = 4
-        Me.gvGPMismatch.Text = "RadGridView10"
+        Me.gvGPMismatch.VarID = ""
         '
         'Panel7
         '
@@ -817,16 +906,34 @@ Partial Class frmNotepadFileMatching
         'RadGridView3
         '
         Me.RadGridView3.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.RadGridView3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.RadGridView3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.RadGridView3.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.RadGridView3.MyStopExport = False
         Me.RadGridView3.Name = "RadGridView3"
+        Me.RadGridView3.ShowHeaderCellButtons = True
         Me.RadGridView3.Size = New System.Drawing.Size(240, 150)
         Me.RadGridView3.TabIndex = 0
+        Me.RadGridView3.VarID = ""
         '
         'RadGridView4
         '
         Me.RadGridView4.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.RadGridView4.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.RadGridView4.MasterTemplate.ShowHeaderCellButtons = True
+        Me.RadGridView4.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.RadGridView4.MyStopExport = False
         Me.RadGridView4.Name = "RadGridView4"
+        Me.RadGridView4.ShowHeaderCellButtons = True
         Me.RadGridView4.Size = New System.Drawing.Size(240, 150)
         Me.RadGridView4.TabIndex = 0
+        Me.RadGridView4.VarID = ""
         '
         'frmNotepadFileMatching
         '
@@ -932,19 +1039,15 @@ Partial Class frmNotepadFileMatching
     End Sub
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gvTS As RadGridView
     Friend WithEvents txtBrowse As common.Controls.MyTextBox
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnBrowse As RadButton
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents OpenFileDialog As OpenFileDialog
     Friend WithEvents SplitContainer3 As SplitContainer
-    Friend WithEvents gvTSItem As RadGridView
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents SplitContainer4 As SplitContainer
-    Friend WithEvents gvGP As RadGridView
-    Friend WithEvents gvGPItem As RadGridView
     Friend WithEvents RadButton3 As RadButton
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtFolderBrowse As common.Controls.MyTextBox
@@ -956,8 +1059,6 @@ Partial Class frmNotepadFileMatching
     Friend WithEvents Panel1 As Panel
     Friend WithEvents RadPageViewPage4 As RadPageViewPage
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents gvTSTecxpert As RadGridView
-    Friend WithEvents gvTSItemTecxpert As RadGridView
     Friend WithEvents Panel4 As Panel
     Friend WithEvents RadButton7 As RadButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
@@ -965,14 +1066,11 @@ Partial Class frmNotepadFileMatching
     Friend WithEvents RadButton8 As RadButton
     Friend WithEvents RadButton9 As RadButton
     Friend WithEvents RadPageViewPage5 As RadPageViewPage
-    Friend WithEvents gvTSMismatch As RadGridView
     Friend WithEvents Panel5 As Panel
     Friend WithEvents RadButton10 As RadButton
     Friend WithEvents RadPageView3 As RadPageView
     Friend WithEvents RadPageViewPage6 As RadPageViewPage
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents gvGPTecxpert As RadGridView
-    Friend WithEvents gvGPItemTecxpert As RadGridView
     Friend WithEvents Panel3 As Panel
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
@@ -982,13 +1080,22 @@ Partial Class frmNotepadFileMatching
     Friend WithEvents RadPageViewPage7 As RadPageViewPage
     Friend WithEvents Panel2 As Panel
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
-    Friend WithEvents gvGPMismatch As RadGridView
     Friend WithEvents Panel7 As Panel
     Friend WithEvents RadButton14 As RadButton
-    Friend WithEvents RadGridView3 As RadGridView
-    Friend WithEvents RadGridView4 As RadGridView
     Friend WithEvents RadButton11 As RadButton
     Friend WithEvents RadButton12 As RadButton
     Friend WithEvents RadButton13 As RadButton
     Friend WithEvents RadButton15 As RadButton
+    Friend WithEvents gvTS As common.UserControls.MyRadGridView
+    Friend WithEvents gvTSItem As common.UserControls.MyRadGridView
+    Friend WithEvents gvGP As common.UserControls.MyRadGridView
+    Friend WithEvents gvGPItem As common.UserControls.MyRadGridView
+    Friend WithEvents gvTSTecxpert As common.UserControls.MyRadGridView
+    Friend WithEvents gvTSItemTecxpert As common.UserControls.MyRadGridView
+    Friend WithEvents gvTSMismatch As common.UserControls.MyRadGridView
+    Friend WithEvents gvGPTecxpert As common.UserControls.MyRadGridView
+    Friend WithEvents gvGPItemTecxpert As common.UserControls.MyRadGridView
+    Friend WithEvents gvGPMismatch As common.UserControls.MyRadGridView
+    Friend WithEvents RadGridView3 As common.UserControls.MyRadGridView
+    Friend WithEvents RadGridView4 As common.UserControls.MyRadGridView
 End Class

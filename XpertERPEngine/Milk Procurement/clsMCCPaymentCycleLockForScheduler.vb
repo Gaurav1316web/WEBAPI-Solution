@@ -155,9 +155,9 @@ from TSPL_MILK_SRN_Head
 inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_Head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE 
 left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.item_code=TSPL_MILK_srn_DETAIL.Item_Code 
 where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
-                        If Not MultipleFinderFillAuto Then
-                            qry += " And TSPL_MILK_SRN_Head.MCC_CODE='" & strMCCCode & "' "
-                        End If
+                        'If Not MultipleFinderFillAuto Then
+                        '    qry += " And TSPL_MILK_SRN_Head.MCC_CODE='" & strMCCCode & "' "
+                        'End If
                         If Not isPickPendingMilkSRNinNextPaymentCycle Then
                             qry += " AND convert(date,DOC_DATE,103) >=convert(date,'" & txtFromDate.Date & "',103) "
                         End If
@@ -4660,7 +4660,10 @@ a:      Next
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=1"
         Else
-            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' and TSPL_VLC_MASTER_HEAD.IsSuspense=0 "
+            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0  and TSPL_VLC_MASTER_HEAD.IsSuspense=0 "
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                qry += " And isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' "
+            End If
         End If
 
         qry = qry & " order by xx.VSP_CODE "
@@ -4915,7 +4918,10 @@ a:      Next
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=1"
         Else
-            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' and  TSPL_VLC_MASTER_HEAD.IsSuspense=0  "
+            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and  TSPL_VLC_MASTER_HEAD.IsSuspense=0  "
+            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                qry += " and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' "
+            End If
         End If
         qry = qry & " order by xx.VSP_CODE "
         Return qry

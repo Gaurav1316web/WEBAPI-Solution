@@ -497,7 +497,7 @@ Public Class rptSaleRegisterDetail
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = False
-            If ddlReportType.SelectedValue = "Document Detail" AndAlso Gv1.Columns(ii).Name.Contains("TCS%") = True Then
+            If ddlReportType.SelectedValue = "Document Detail" AndAlso (Gv1.Columns(ii).Name.Contains("TCS%") = True OrElse Gv1.Columns(ii).Name.Contains("Item Rate") = True) Then
                 Gv1.Columns(ii).FormatString = "{0:n3}"
             Else
                 Gv1.Columns(ii).FormatString = "{0:n2}"

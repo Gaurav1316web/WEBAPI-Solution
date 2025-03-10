@@ -11,6 +11,7 @@ Public Class clsVCGLHead
     Public Document_Date As DateTime
     Public Document_Type As String = Nothing
     Public Location_Segment As String = Nothing
+    Public Location_Code_Prefix As String = Nothing
     Public DateAndTime As DateTime?
     Public TapalNo As String = String.Empty
     Public VC_Code As String = Nothing
@@ -59,7 +60,11 @@ Public Class clsVCGLHead
         Dim strDocNo As String = ""
 
         If (isNewEntry) Then
-            obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.VCGLEntry, "", obj.Location_Segment, True)
+            If objCommonVar.ApplyLocationWisePrefix Then
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.VCGLEntry, "", obj.Location_Code_Prefix, False)
+            Else
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.VCGLEntry, "", obj.Location_Segment, True)
+            End If
         End If
 
         If (clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -94,6 +99,7 @@ Public Class clsVCGLHead
         clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
         clsCommon.AddColumnsForChange(coll, "Document_Type", obj.Document_Type)
         clsCommon.AddColumnsForChange(coll, "Location_Segment", obj.Location_Segment)
+        clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
         clsCommon.AddColumnsForChange(coll, "VC_Code", obj.VC_Code)
         clsCommon.AddColumnsForChange(coll, "VC_Name", obj.VC_Name)
         clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
@@ -123,6 +129,8 @@ Public Class clsVCGLHead
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VCGL_Head", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         End If
         isSaved = isSaved AndAlso clsVCGLDetail.SaveData(obj.Document_No, obj.Location_Segment, Arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+
         Return isSaved
     End Function
 
@@ -142,6 +150,7 @@ Public Class clsVCGLHead
             obj.Document_Date = clsCommon.myCstr(dt.Rows(0)("Document_Date"))
             obj.Document_Type = clsCommon.myCstr(dt.Rows(0)("Document_Type"))
             obj.Location_Segment = clsCommon.myCstr(dt.Rows(0)("Location_Segment"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             obj.VC_Code = clsCommon.myCstr(dt.Rows(0)("VC_Code"))
             obj.VC_Name = clsCommon.myCstr(dt.Rows(0)("VC_Name"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
@@ -800,6 +809,7 @@ Public Class clsVCGLHead
                 If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_VCGL_Detail where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

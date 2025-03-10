@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmCreateAutoInvoiceBS
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,15 +20,13 @@ Partial Class FrmCreateAutoInvoiceBS
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.txtTotalAmt = New common.MyNumBox()
-        Me.txtTotalQty = New common.MyNumBox()
         Me.TxtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.dtptodate = New common.Controls.MyDateTimePicker()
@@ -54,6 +52,10 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtTotalQty = New common.MyNumBox()
+        Me.txtTotalAmt = New common.MyNumBox()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -61,17 +63,15 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdbSavelayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtptodate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,13 +97,14 @@ Partial Class FrmCreateAutoInvoiceBS
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +128,27 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.SplitContainer1.SplitterDistance = 477
         Me.SplitContainer1.TabIndex = 0
         '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadPageView1)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.txtTotalQty)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.txtTotalAmt)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1141, 477)
+        Me.SplitContainer2.SplitterDistance = 435
+        Me.SplitContainer2.TabIndex = 1
+        '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
@@ -138,7 +160,6 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1141, 435)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -165,84 +186,6 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1120, 389)
         Me.RadPageViewPage1.Text = "Invoice Note"
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(693, 17)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(52, 18)
-        Me.MyLabel6.TabIndex = 16
-        Me.MyLabel6.Text = "Total Qty"
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(901, 15)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(75, 18)
-        Me.MyLabel5.TabIndex = 16
-        Me.MyLabel5.Text = "Total Amount"
-        '
-        'txtTotalAmt
-        '
-        Me.txtTotalAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtTotalAmt.BackColor = System.Drawing.Color.White
-        Me.txtTotalAmt.CalculationExpression = Nothing
-        Me.txtTotalAmt.DecimalPlaces = 2
-        Me.txtTotalAmt.Enabled = False
-        Me.txtTotalAmt.FieldCode = Nothing
-        Me.txtTotalAmt.FieldDesc = Nothing
-        Me.txtTotalAmt.FieldMaxLength = 0
-        Me.txtTotalAmt.FieldName = Nothing
-        Me.txtTotalAmt.isCalculatedField = False
-        Me.txtTotalAmt.IsSourceFromTable = False
-        Me.txtTotalAmt.IsSourceFromValueList = False
-        Me.txtTotalAmt.IsUnique = False
-        Me.txtTotalAmt.Location = New System.Drawing.Point(982, 14)
-        Me.txtTotalAmt.MendatroryField = False
-        Me.txtTotalAmt.MyLinkLable1 = Nothing
-        Me.txtTotalAmt.MyLinkLable2 = Nothing
-        Me.txtTotalAmt.Name = "txtTotalAmt"
-        Me.txtTotalAmt.ReferenceFieldDesc = Nothing
-        Me.txtTotalAmt.ReferenceFieldName = Nothing
-        Me.txtTotalAmt.ReferenceTableName = Nothing
-        Me.txtTotalAmt.Size = New System.Drawing.Size(144, 20)
-        Me.txtTotalAmt.TabIndex = 17
-        Me.txtTotalAmt.Text = "0"
-        Me.txtTotalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalAmt.Value = 0.0R
-        '
-        'txtTotalQty
-        '
-        Me.txtTotalQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtTotalQty.BackColor = System.Drawing.Color.White
-        Me.txtTotalQty.CalculationExpression = Nothing
-        Me.txtTotalQty.DecimalPlaces = 2
-        Me.txtTotalQty.Enabled = False
-        Me.txtTotalQty.FieldCode = Nothing
-        Me.txtTotalQty.FieldDesc = Nothing
-        Me.txtTotalQty.FieldMaxLength = 0
-        Me.txtTotalQty.FieldName = Nothing
-        Me.txtTotalQty.isCalculatedField = False
-        Me.txtTotalQty.IsSourceFromTable = False
-        Me.txtTotalQty.IsSourceFromValueList = False
-        Me.txtTotalQty.IsUnique = False
-        Me.txtTotalQty.Location = New System.Drawing.Point(749, 15)
-        Me.txtTotalQty.MendatroryField = False
-        Me.txtTotalQty.MyLinkLable1 = Nothing
-        Me.txtTotalQty.MyLinkLable2 = Nothing
-        Me.txtTotalQty.Name = "txtTotalQty"
-        Me.txtTotalQty.ReferenceFieldDesc = Nothing
-        Me.txtTotalQty.ReferenceFieldName = Nothing
-        Me.txtTotalQty.ReferenceTableName = Nothing
-        Me.txtTotalQty.Size = New System.Drawing.Size(130, 20)
-        Me.txtTotalQty.TabIndex = 16
-        Me.txtTotalQty.Text = "0"
-        Me.txtTotalQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalQty.Value = 0.0R
         '
         'TxtInvoiceDate
         '
@@ -554,10 +497,13 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -565,7 +511,7 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.gv1.Size = New System.Drawing.Size(1095, 174)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'RadLabel2
         '
@@ -594,6 +540,84 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.UcAttachment1.Size = New System.Drawing.Size(1025, 357)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(693, 17)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(52, 18)
+        Me.MyLabel6.TabIndex = 16
+        Me.MyLabel6.Text = "Total Qty"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(901, 15)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(75, 18)
+        Me.MyLabel5.TabIndex = 16
+        Me.MyLabel5.Text = "Total Amount"
+        '
+        'txtTotalQty
+        '
+        Me.txtTotalQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtTotalQty.BackColor = System.Drawing.Color.White
+        Me.txtTotalQty.CalculationExpression = Nothing
+        Me.txtTotalQty.DecimalPlaces = 2
+        Me.txtTotalQty.Enabled = False
+        Me.txtTotalQty.FieldCode = Nothing
+        Me.txtTotalQty.FieldDesc = Nothing
+        Me.txtTotalQty.FieldMaxLength = 0
+        Me.txtTotalQty.FieldName = Nothing
+        Me.txtTotalQty.isCalculatedField = False
+        Me.txtTotalQty.IsSourceFromTable = False
+        Me.txtTotalQty.IsSourceFromValueList = False
+        Me.txtTotalQty.IsUnique = False
+        Me.txtTotalQty.Location = New System.Drawing.Point(749, 15)
+        Me.txtTotalQty.MendatroryField = False
+        Me.txtTotalQty.MyLinkLable1 = Nothing
+        Me.txtTotalQty.MyLinkLable2 = Nothing
+        Me.txtTotalQty.Name = "txtTotalQty"
+        Me.txtTotalQty.ReferenceFieldDesc = Nothing
+        Me.txtTotalQty.ReferenceFieldName = Nothing
+        Me.txtTotalQty.ReferenceTableName = Nothing
+        Me.txtTotalQty.Size = New System.Drawing.Size(130, 20)
+        Me.txtTotalQty.TabIndex = 16
+        Me.txtTotalQty.Text = "0"
+        Me.txtTotalQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotalQty.Value = 0R
+        '
+        'txtTotalAmt
+        '
+        Me.txtTotalAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtTotalAmt.BackColor = System.Drawing.Color.White
+        Me.txtTotalAmt.CalculationExpression = Nothing
+        Me.txtTotalAmt.DecimalPlaces = 2
+        Me.txtTotalAmt.Enabled = False
+        Me.txtTotalAmt.FieldCode = Nothing
+        Me.txtTotalAmt.FieldDesc = Nothing
+        Me.txtTotalAmt.FieldMaxLength = 0
+        Me.txtTotalAmt.FieldName = Nothing
+        Me.txtTotalAmt.isCalculatedField = False
+        Me.txtTotalAmt.IsSourceFromTable = False
+        Me.txtTotalAmt.IsSourceFromValueList = False
+        Me.txtTotalAmt.IsUnique = False
+        Me.txtTotalAmt.Location = New System.Drawing.Point(982, 14)
+        Me.txtTotalAmt.MendatroryField = False
+        Me.txtTotalAmt.MyLinkLable1 = Nothing
+        Me.txtTotalAmt.MyLinkLable2 = Nothing
+        Me.txtTotalAmt.Name = "txtTotalAmt"
+        Me.txtTotalAmt.ReferenceFieldDesc = Nothing
+        Me.txtTotalAmt.ReferenceFieldName = Nothing
+        Me.txtTotalAmt.ReferenceTableName = Nothing
+        Me.txtTotalAmt.Size = New System.Drawing.Size(144, 20)
+        Me.txtTotalAmt.TabIndex = 17
+        Me.txtTotalAmt.Text = "0"
+        Me.txtTotalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotalAmt.Value = 0R
         '
         'btnReset
         '
@@ -629,50 +653,22 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1141, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RdbSavelayout, Me.RdDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RdbSavelayout
         '
-        Me.RdbSavelayout.AccessibleDescription = "Save Layout"
-        Me.RdbSavelayout.AccessibleName = "Save Layout"
         Me.RdbSavelayout.Name = "RdbSavelayout"
         Me.RdbSavelayout.Text = "Save Layout"
         '
         'RdDeleteLayout
         '
-        Me.RdDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RdDeleteLayout.AccessibleName = "Delete Layout"
         Me.RdDeleteLayout.Name = "RdDeleteLayout"
         Me.RdDeleteLayout.Text = "Delete Layout"
-        '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer2.Panel1
-        '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadPageView1)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.MyLabel6)
-        Me.SplitContainer2.Panel2.Controls.Add(Me.MyLabel5)
-        Me.SplitContainer2.Panel2.Controls.Add(Me.txtTotalQty)
-        Me.SplitContainer2.Panel2.Controls.Add(Me.txtTotalAmt)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1141, 477)
-        Me.SplitContainer2.SplitterDistance = 435
-        Me.SplitContainer2.TabIndex = 1
         '
         'FrmCreateAutoInvoiceBS
         '
@@ -690,14 +686,14 @@ Partial Class FrmCreateAutoInvoiceBS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.PerformLayout()
+        Me.SplitContainer2.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtptodate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -725,14 +721,14 @@ Partial Class FrmCreateAutoInvoiceBS
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.PerformLayout()
-        Me.SplitContainer2.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

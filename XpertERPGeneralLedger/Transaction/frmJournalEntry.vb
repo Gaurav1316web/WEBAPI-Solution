@@ -49,7 +49,11 @@ Public Class frmJournalEntry
         settLockDate = clsFixedParameter.GetData(clsFixedParameterType.LockDate, clsFixedParameterCode.LockDate, Nothing)
         AllowJEofDifferentLocationOnJournalEntry = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJEofDifferentLocationOnJournalEntry, clsFixedParameterCode.AllowJEofDifferentLocationOnJournalEntry, Nothing)) = 1, True, False)
         CostCenterAndHirerachyCodeUpdateAfterPost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CostCenterAndHirerachyCodeUpdateAfterPost, clsFixedParameterCode.CostCenterAndHirerachyCodeUpdateAfterPost, Nothing)) = 1, True, False)
-
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
         Try
             ERPStartDate = clsCommon.myCDate(objCommonVar.ERPStartDate)
         Catch ex As Exception
@@ -203,7 +207,12 @@ Public Class frmJournalEntry
                 dtVoucher.Focus()
                 Return False
             End If
-
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
+            End If
             Dim arrAccountCode As New List(Of String)
             For ii As Integer = 0 To gdAcc1.Rows.Count - 1
                 Dim strACode As String = clsCommon.myCstr(gdAcc1.Rows(ii).Cells(1).Value)
@@ -776,7 +785,7 @@ Public Class frmJournalEntry
         '                     " (SELECT     CASE WHEN Authorized = 'A' THEN 'Posted' ELSE 'Open' END AS Expr1) AS Status,TSPL_JOURNAL_MASTER.Remarks,Auto_Reverse As [Auto Reverse] " & _
         '                     "  FROM         TSPL_JOURNAL_MASTER LEFT OUTER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No"
 
-        Dim qry As String = "SELECT  distinct   TSPL_JOURNAL_MASTER.Voucher_No AS VoucherNo, TSPL_JOURNAL_MASTER.Voucher_Desc AS Description, " &
+        Dim qry As String = "SELECT  distinct   TSPL_JOURNAL_MASTER.Voucher_No AS VoucherNo, TSPL_JOURNAL_MASTER.Voucher_Desc AS Description,TSPL_JOURNAL_MASTER.Location_Code_Prefix as [Location Code Prefix], " &
                             " TSPL_JOURNAL_MASTER.Source_Code AS [Source Type], convert(varchar(11),TSPL_JOURNAL_MASTER.Voucher_Date,103) AS [Voucher Date],  " &
                             " TSPL_JOURNAL_MASTER.Source_Doc_No AS [Document No], convert(varchar(11),TSPL_JOURNAL_MASTER.Source_Doc_Date,103) AS [Document Date], " &
                             " case when TSPL_JOURNAL_MASTER.Source_Code= 'AR-IN' then  TSPL_Customer_Invoice_Head.Against_Sale_No  " &
@@ -1074,7 +1083,12 @@ Public Class frmJournalEntry
         Try
             'Dim strFirstAccCode As String = clsCommon.myCstr(gdAcc1.Rows(i).Cells(1).Value)
             'strFirstAccCode = strFirstAccCode.Substring(clsCommon.myLen(strFirstAccCode) - 3, 3)
-            Dim StrVoucher As String = fnAutoGenerateNo(trans, clsCommon.myCDate(dtVoucher.Value, "dd/MM/yyyy"), True, txtLocation.Value, True)
+            Dim StrVoucher As String
+            If objCommonVar.ApplyLocationWisePrefix Then
+                StrVoucher = fnAutoGenerateNo(trans, clsCommon.myCDate(dtVoucher.Value, "dd/MM/yyyy"), True, txtLocationPrefix.Value, False)
+            Else
+                StrVoucher = fnAutoGenerateNo(trans, clsCommon.myCDate(dtVoucher.Value, "dd/MM/yyyy"), True, txtLocation.Value, True)
+            End If
 
             Dim strSrcType As String = ""
             If rdbCustomer.IsChecked = True Then
@@ -1126,7 +1140,9 @@ Public Class frmJournalEntry
                                         New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)),
                                         New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)),
                                         New SqlParameter("@Comp_Code", companyCode))
-            Dim qry As String = "Update TSPL_JOURNAL_MASTER set Segment_Code='" + txtLocation.Value + "',MonthlyReverse='" & IIf(chkMonthly.Checked, 1, 0) & "',ProgramCode='" & Program_Code & "',IND_AS='" & IIf(chkIndAS.Checked, 1, 0) & "', AgainstVoucherNoReverseEntry = '" + txtReverseVoucher.Value + "',TapalNo='" & clsCommon.myCstr(txtTapalNo.Text) & "' " & IIf(txtDataAndTimeSelection.Checked, ",DateAndTime='" & clsCommon.GetPrintDate(txtDataAndTimeSelection.Value, "dd/MMM/yyyy hh:mm tt") & "'  ", " ,DateAndTime=null ") & " where Voucher_No='" + StrVoucher + "' "
+            Dim qry As String = "Update TSPL_JOURNAL_MASTER set Location_Code_Prefix = '" + txtLocationPrefix.Value + "', Segment_Code='" + txtLocation.Value + "',MonthlyReverse='" & IIf(chkMonthly.Checked, 1, 0) & "',ProgramCode='" & Program_Code & "',IND_AS='" & IIf(chkIndAS.Checked, 1, 0) & "', AgainstVoucherNoReverseEntry = '" + txtReverseVoucher.Value + "',TapalNo='" & clsCommon.myCstr(txtTapalNo.Text) & "' " & IIf(txtDataAndTimeSelection.Checked, ",DateAndTime='" & clsCommon.GetPrintDate(txtDataAndTimeSelection.Value, "dd/MMM/yyyy hh:mm tt") & "'  ", " ,DateAndTime=null ") & " where Voucher_No='" + StrVoucher + "' "
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrVoucher, "tspl_journal_master", "Voucher_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strJrnl1 As String = "select journal_no from TSPL_JOURNAL_MASTER where Voucher_No='" + StrVoucher + "'"
             Dim Jrnl1 As String
@@ -1303,7 +1319,7 @@ Public Class frmJournalEntry
 
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_MASTER_UPDATE", New SqlParameter("@Voucher_No", fndVoucher.Value), New SqlParameter("@Voucher_Date", clsCommon.GetPrintDate(dtVoucher.Value.Date, "dd/MMM/yyyy")), New SqlParameter("@Source_Code", Me.fndSrcCode.Value), New SqlParameter("@Source_Desc", Me.txtSrcDesc.Text), New SqlParameter("@Posting_Date", clsCommon.GetPrintDate(Me.dtVoucher.Value.Date, "dd/MMM/yyyy")), New SqlParameter("@Voucher_Desc", Me.txtVoucherDesc.Text), New SqlParameter("@Remarks", Me.txtRemarks.Text), New SqlParameter("@Comments", Me.txtComments.Text), New SqlParameter("@Auto_Reverse", strRvrs), New SqlParameter("@Reverse_Date", ReverseDate), New SqlParameter("@Source_Type", strSrcType), New SqlParameter("@CustVend_Code", fndCode.Value), New SqlParameter("@CustVend_Name", Me.txtCodeDesc.Text), New SqlParameter("@Transaction_Type", strEntryType), New SqlParameter("@Total_Debit_Amt", Me.txtDr.Text), New SqlParameter("@Total_Credit_Amt", Me.txtCr.Text), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
 
-            Dim qry As String = "Update TSPL_JOURNAL_MASTER set Segment_Code='" & txtLocation.Value & "',IND_AS='" & IIf(chkIndAS.Checked, 1, 0) & "',MonthlyReverse='" & IIf(chkMonthly.Checked, 1, 0) & "' , AgainstVoucherNoReverseEntry = '" + txtReverseVoucher.Value + "',TapalNo='" & clsCommon.myCstr(txtTapalNo.Text) & "' " & IIf(txtDataAndTimeSelection.Checked, ",DateAndTime='" & clsCommon.GetPrintDate(txtDataAndTimeSelection.Value, "dd/MMM/yyyy hh:mm tt") & "'  ", ",DateAndTime=null ") & " where Voucher_No='" & fndVoucher.Value & "' "
+            Dim qry As String = "Update TSPL_JOURNAL_MASTER set Location_Code_Prefix = '" + txtLocationPrefix.Value + "', Segment_Code='" & txtLocation.Value & "',IND_AS='" & IIf(chkIndAS.Checked, 1, 0) & "',MonthlyReverse='" & IIf(chkMonthly.Checked, 1, 0) & "' , AgainstVoucherNoReverseEntry = '" + txtReverseVoucher.Value + "',TapalNo='" & clsCommon.myCstr(txtTapalNo.Text) & "' " & IIf(txtDataAndTimeSelection.Checked, ",DateAndTime='" & clsCommon.GetPrintDate(txtDataAndTimeSelection.Value, "dd/MMM/yyyy hh:mm tt") & "'  ", ",DateAndTime=null ") & " where Voucher_No='" & fndVoucher.Value & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_DETAILS_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
@@ -1434,7 +1450,7 @@ Public Class frmJournalEntry
                          "  TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Detail_Line_No as [Line No], TSPL_JOURNAL_DETAILS.Account_code as [Acc Code],  " &
                          "  TSPL_JOURNAL_DETAILS.Account_Desc as [Acc Desc], case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description as [Desc],  " &
                          "  TSPL_JOURNAL_DETAILS.Reference as [Ref], convert(varchar(11),TSPL_JOURNAL_DETAILS.Posting_Date,103) AS [Date], " &
-                         "  TSPL_JOURNAL_MASTER.SendToTally,TSPL_JOURNAL_MASTER.Segment_code,TSPL_JOURNAL_MASTER.MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_code as [Hierarchy Code], " &
+                         "  TSPL_JOURNAL_MASTER.SendToTally,TSPL_JOURNAL_MASTER.Segment_code,TSPL_JOURNAL_MASTER.Location_Code_Prefix,TSPL_JOURNAL_MASTER.MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_code as [Hierarchy Code], " &
                          " TSPL_JOURNAL_DETAILS.Cost_Centre_Code as [Cost Centre],TSPL_JOURNAL_MASTER.Ind_As , TSPL_JOURNAL_MASTER.AgainstVoucherNoReverseEntry,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime " &
                          "  FROM TSPL_JOURNAL_MASTER INNER JOIN " &
                          "  TSPL_JOURNAL_DETAILS ON   " &
@@ -1458,6 +1474,12 @@ Public Class frmJournalEntry
                 Me.txtComments.Text = ds.Tables(0).Rows(0).Item(10).ToString()
                 txtLocation.Enabled = False
                 txtLocation.Value = clsCommon.myCstr(ds.Tables(0).Rows(0).Item("Segment_code"))
+                txtLocationPrefix.Value = clsCommon.myCstr(ds.Tables(0).Rows(0).Item("Location_Code_Prefix"))
+                If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_SEGMENT_CODE where Segment_code='" + txtLocation.Value + "'"))
                 Dim strRvsrFlag As String = ds.Tables(0).Rows(0).Item(11).ToString()
                 If strRvsrFlag = "Y" OrElse clsCommon.CompairString(strRvsrFlag, "R") = CompairStringResult.Equal Then '' 31-July-2015 (Reverse 'R' means entry is reversed)
@@ -1665,6 +1687,8 @@ Public Class frmJournalEntry
         txtLocation.Enabled = True
         txtLocation.Value = ""
         lblLocation.Text = ""
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         txtDataAndTimeSelection.Value = clsCommon.GETSERVERDATE()
         txtTapalNo.Text = ""
         txtDataAndTimeSelection.Checked = False
@@ -3059,6 +3083,36 @@ Public Class frmJournalEntry
             common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndVoucher.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndVoucher.Value, "Voucher_No", "tspl_journal_master", "tspl_journal_details")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

@@ -91,7 +91,11 @@ Public Class FrmMultipleProcDeduction
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
-
+        If objCommonVar.ApplyLocationWisePrefix Then
+            pnlLocation.Visible = True
+        Else
+            pnlLocation.Visible = False
+        End If
 
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -499,6 +503,8 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
         txtlocation.Enabled = True
         BlankAllControls()
         LoadBlankGridGL()
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
         btnSave.Text = "Save"
         txtDocNo.MyReadOnly = False
         txtDate.Enabled = True
@@ -521,7 +527,13 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 Return False
             End If
             btnSave.Focus()
-
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                    Return False
+                End If
+            End If
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
                 txtlocation.Focus()
                 Throw New Exception("Please first select Location")
@@ -583,6 +595,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.loc_code = txtlocation.Value
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 obj.MCC_Code = txtMCC.Text
                 obj.MCC_Name = lblMCC.Text
                 obj.Remarks = txtDesc.Text
@@ -669,6 +682,12 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 txtlocation.Value = obj.loc_code
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code_Prefix)) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                Else
+                    txtLocationPrefixName.Text = ""
+                End If
                 txtMCC.Text = obj.MCC_Code
                 lblMCC.Text = obj.MCC_Name
                 txtDesc.Text = obj.Remarks
@@ -822,7 +841,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_MULTIPLE_DEDUCTION_head.Document_No ,convert(varchar,TSPL_MULTIPLE_DEDUCTION_head.Document_date,103) as Date,TSPL_MULTIPLE_DEDUCTION_head.Loc_Code as [Location Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Code as [MCC Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Name as [MCC Name],case when TSPL_MULTIPLE_DEDUCTION_head.IsPosted =1  then 'Approved' else 'Pending' end as Status   from TSPL_MULTIPLE_DEDUCTION_head "
+        Dim qry As String = "select TSPL_MULTIPLE_DEDUCTION_head.Document_No ,convert(varchar,TSPL_MULTIPLE_DEDUCTION_head.Document_date,103) as Date,TSPL_MULTIPLE_DEDUCTION_head.Loc_Code as [Location Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Code as [MCC Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Name as [MCC Name],TSPL_MULTIPLE_DEDUCTION_head.Location_Code_Prefix as [Location Code Prefix],case when TSPL_MULTIPLE_DEDUCTION_head.IsPosted =1  then 'Approved' else 'Pending' end as Status   from TSPL_MULTIPLE_DEDUCTION_head "
         LoadData(clsCommon.ShowSelectForm("PROCDeduction1", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_date"))
 
     End Sub
@@ -1393,5 +1412,24 @@ where TSPL_DEDUCTION_MASTER.Code='" + objImportTR.DeductionCode + "'"
     Private Sub btnDeleteLayout_Click(sender As Object, e As EventArgs) Handles btnDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim whrCls As String = " 1=1 "
+            Dim qry As String = " Select Location_Code as LocationCode,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrCls += " and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")  "
+            End If
+
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationPrefix", qry, "LocationCode", "", txtLocationPrefix.Value, "LocationCode", isButtonClicked, "")
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

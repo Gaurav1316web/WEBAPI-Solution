@@ -17,6 +17,7 @@ Public Class clsCustomerInvoiceHead
     Public Customer_Name As String = Nothing
     '-------- added by usha--
     Public loc_code As String = Nothing
+    Public Location_Code_Prefix As String = Nothing
     '-------end---
     Public Posting_Date As DateTime? = Nothing
     Public Account_Set As String = Nothing
@@ -201,52 +202,61 @@ Public Class clsCustomerInvoiceHead
         qry = "delete from TSPL_REMITTANCE where Document_No='" + obj.Document_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        Dim strDocNo As String = ""
+            Dim strDocNo As String = ""
         If (isNewEntry) Then
             Dim CreateSeperateSeriesforRefDocARinvforCreditdebit As Integer = 0
             CreateSeperateSeriesforRefDocARinvforCreditdebit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateSeperateSeriesforRefDocARinvforCreditdebit, clsFixedParameterCode.CreateSeperateSeriesforRefDocARinvforCreditdebit, trans))
-            If obj.Arr.Count <= 0 Then
-                Throw New Exception("Please fill at list one Account")
-            End If
-            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-            If clsCommon.myLen(strLocation) <= 0 Then
-                Throw New Exception("Please enter account wiht location segment")
-            End If
-            If clsCommon.myLen(strARNoForRecreateOnly) > 0 Then
+                If obj.Arr.Count <= 0 Then
+                    Throw New Exception("Please fill at list one Account")
+                End If
+                Dim isLocationCodeSegment As Boolean
+                Dim strLocation As String
+                If objCommonVar.ApplyLocationWisePrefix Then
+                    isLocationCodeSegment = False
+                    strLocation = obj.Location_Code_Prefix
+                Else
+                    isLocationCodeSegment = True
+                    strLocation = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                    If clsCommon.myLen(strLocation) <= 0 Then
+                        Throw New Exception("Please enter account wiht location segment")
+                    End If
+                End If
+
+                If clsCommon.myLen(strARNoForRecreateOnly) > 0 Then
                 obj.Document_No = strARNoForRecreateOnly
             Else
                 ''richa 4 Aug,2017 -- separate series will be generated in case of Supplementary invoice and credit note
                 Dim str_Invoice_No_For_Supplementary As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Invoice_No_For_Supplementary,'') from TSPL_SD_SALE_INVOICE_HEAD WHERE Trans_Type ='PS' AND Document_Code ='" & clsCommon.myCstr(obj.Against_Sale_No) & "'", trans))
                 If clsCommon.myLen(str_Invoice_No_For_Supplementary) > 0 Then
                     If (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SupplementaryARInvoice, "", strLocation, True)
-                    ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SupplementaryARCreditNote, "", strLocation, True)
-                    End If
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SupplementaryARInvoice, "", strLocation, isLocationCodeSegment)
+                        ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SupplementaryARCreditNote, "", strLocation, isLocationCodeSegment)
+                        End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal Then
                     If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceInvoice, "", strLocation, True)
-                    ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceCreditNote, "", strLocation, True)
-                    ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceDebitNote, "", strLocation, True)
-                    End If
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceInvoice, "", strLocation, isLocationCodeSegment)
+                        ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceCreditNote, "", strLocation, isLocationCodeSegment)
+                        ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARServiceDebitNote, "", strLocation, isLocationCodeSegment)
+                        End If
                 Else
                     If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) Then
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARInvoice, "", strLocation, True)
-                    ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARInvoice, "", strLocation, isLocationCodeSegment)
+                        ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
                         If clsCommon.myLen(RefDocNo) > 0 And IsDirectEntry = True And CreateSeperateSeriesforRefDocARinvforCreditdebit = 1 Then
-                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARDebitNote, clsDocTransactionType.DebitRefDoc, strLocation, True)
-                        Else
-                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARDebitNote, clsDocTransactionType.NA, strLocation, True)
-                        End If
+                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARDebitNote, clsDocTransactionType.DebitRefDoc, strLocation, isLocationCodeSegment)
+                            Else
+                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARDebitNote, clsDocTransactionType.NA, strLocation, isLocationCodeSegment)
+                            End If
                       
                     ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
                         If clsCommon.myLen(RefDocNo) > 0 And IsDirectEntry = True And CreateSeperateSeriesforRefDocARinvforCreditdebit = 1 Then
-                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARCreditNote, clsDocTransactionType.CreditRefDoc, strLocation, True)
-                        Else
-                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARCreditNote, clsDocTransactionType.NA, strLocation, True)
-                        End If
+                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARCreditNote, clsDocTransactionType.CreditRefDoc, strLocation, isLocationCodeSegment)
+                            Else
+                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ARCreditNote, clsDocTransactionType.NA, strLocation, isLocationCodeSegment)
+                            End If
                     End If
                 End If
                 ''-------
@@ -263,10 +273,11 @@ Public Class clsCustomerInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
         clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
         clsCommon.AddColumnsForChange(coll, "Customer_Name", obj.Customer_Name)
-        '--------added by usha----
-        clsCommon.AddColumnsForChange(coll, "Loc_code", obj.loc_code)
-        '--------------
-        clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
+            '--------added by usha----
+            clsCommon.AddColumnsForChange(coll, "Loc_code", obj.loc_code)
+            clsCommon.AddColumnsForChange(coll, "Location_Code_Prefix", obj.Location_Code_Prefix, True)
+            '--------------
+            clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
         clsCommon.AddColumnsForChange(coll, "Document_Type", obj.Document_Type)
         clsCommon.AddColumnsForChange(coll, "RefDocType", obj.RefDocType)
         clsCommon.AddColumnsForChange(coll, "RefDocNo", obj.RefDocNo)
@@ -526,6 +537,7 @@ Public Class clsCustomerInvoiceHead
             obj.Customer_Name = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
             '----------added by usha
             obj.loc_code = clsCommon.myCstr(dt.Rows(0)("Loc_code"))
+            obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
             '-----------
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
@@ -1224,9 +1236,9 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                 'If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                 '    Throw New Exception("Already Post on :" + obj.Posting_Date)
                 'End If
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
 
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_Customer_Invoice_Detail where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

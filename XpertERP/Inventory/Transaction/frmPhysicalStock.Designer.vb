@@ -22,12 +22,17 @@ Partial Class FrmPhysicalStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPhysicalStock))
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtInventoryAccount = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.txtSelfLifeDays = New common.MyNumBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -52,15 +57,12 @@ Partial Class FrmPhysicalStock
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnexport = New Telerik.WinControls.UI.RadButton()
         Me.btnimport = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
-        Me.txtInventoryAccount = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel8 = New common.Controls.MyLabel()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,6 +73,8 @@ Partial Class FrmPhysicalStock
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.txtSelfLifeDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,13 +96,12 @@ Partial Class FrmPhysicalStock
         Me.RadGroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnexport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnimport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,17 +119,20 @@ Partial Class FrmPhysicalStock
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(2, 18)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(668, 246)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnsave
         '
@@ -150,6 +156,7 @@ Partial Class FrmPhysicalStock
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnexport)
@@ -203,6 +210,52 @@ Partial Class FrmPhysicalStock
         Me.SplitContainer2.SplitterDistance = 170
         Me.SplitContainer2.TabIndex = 0
         '
+        'txtItemType
+        '
+        Me.txtItemType.arrDispalyMember = Nothing
+        Me.txtItemType.arrValueMember = Nothing
+        Me.txtItemType.Location = New System.Drawing.Point(106, 120)
+        Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemType.MyLinkLable1 = Me.MyLabel8
+        Me.txtItemType.MyLinkLable2 = Nothing
+        Me.txtItemType.MyNullText = "All"
+        Me.txtItemType.Name = "txtItemType"
+        Me.txtItemType.Size = New System.Drawing.Size(562, 19)
+        Me.txtItemType.TabIndex = 1383
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(12, 120)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel8.TabIndex = 1382
+        Me.MyLabel8.Text = "Item Type"
+        '
+        'txtInventoryAccount
+        '
+        Me.txtInventoryAccount.arrDispalyMember = Nothing
+        Me.txtInventoryAccount.arrValueMember = Nothing
+        Me.txtInventoryAccount.Location = New System.Drawing.Point(106, 99)
+        Me.txtInventoryAccount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtInventoryAccount.MyLinkLable1 = Me.MyLabel7
+        Me.txtInventoryAccount.MyLinkLable2 = Nothing
+        Me.txtInventoryAccount.MyNullText = "All"
+        Me.txtInventoryAccount.Name = "txtInventoryAccount"
+        Me.txtInventoryAccount.Size = New System.Drawing.Size(562, 19)
+        Me.txtInventoryAccount.TabIndex = 1381
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(12, 99)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(97, 18)
+        Me.MyLabel7.TabIndex = 1380
+        Me.MyLabel7.Text = "Inventory Account"
+        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.txtSelfLifeDays)
@@ -239,7 +292,7 @@ Partial Class FrmPhysicalStock
         Me.txtSelfLifeDays.TabIndex = 1379
         Me.txtSelfLifeDays.Text = "0"
         Me.txtSelfLifeDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSelfLifeDays.Value = 0.0R
+        Me.txtSelfLifeDays.Value = 0R
         '
         'MyLabel6
         '
@@ -355,7 +408,6 @@ Partial Class FrmPhysicalStock
         Me.txtsubLocName.Name = "txtsubLocName"
         Me.txtsubLocName.Size = New System.Drawing.Size(416, 19)
         Me.txtsubLocName.TabIndex = 1373
-        Me.txtsubLocName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
@@ -403,7 +455,6 @@ Partial Class FrmPhysicalStock
         Me.txtLocName.Name = "txtLocName"
         Me.txtLocName.Size = New System.Drawing.Size(416, 19)
         Me.txtLocName.TabIndex = 1370
-        Me.txtLocName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnReset
         '
@@ -550,6 +601,15 @@ Partial Class FrmPhysicalStock
         Me.MyLabel4.TabIndex = 1373
         Me.MyLabel4.Text = "Click F4 for serializing || F5 For Batch Item"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(382, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(72, 19)
+        Me.btnHistory.TabIndex = 139
+        Me.btnHistory.Text = "History"
+        '
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -597,52 +657,6 @@ Partial Class FrmPhysicalStock
         Me.btnpost.TabIndex = 1
         Me.btnpost.Text = "Post"
         '
-        'txtInventoryAccount
-        '
-        Me.txtInventoryAccount.arrDispalyMember = Nothing
-        Me.txtInventoryAccount.arrValueMember = Nothing
-        Me.txtInventoryAccount.Location = New System.Drawing.Point(106, 99)
-        Me.txtInventoryAccount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtInventoryAccount.MyLinkLable1 = Me.MyLabel7
-        Me.txtInventoryAccount.MyLinkLable2 = Nothing
-        Me.txtInventoryAccount.MyNullText = "All"
-        Me.txtInventoryAccount.Name = "txtInventoryAccount"
-        Me.txtInventoryAccount.Size = New System.Drawing.Size(562, 19)
-        Me.txtInventoryAccount.TabIndex = 1381
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(12, 99)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(97, 18)
-        Me.MyLabel7.TabIndex = 1380
-        Me.MyLabel7.Text = "Inventory Account"
-        '
-        'txtItemType
-        '
-        Me.txtItemType.arrDispalyMember = Nothing
-        Me.txtItemType.arrValueMember = Nothing
-        Me.txtItemType.Location = New System.Drawing.Point(106, 120)
-        Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItemType.MyLinkLable1 = Me.MyLabel8
-        Me.txtItemType.MyLinkLable2 = Nothing
-        Me.txtItemType.MyNullText = "All"
-        Me.txtItemType.Name = "txtItemType"
-        Me.txtItemType.Size = New System.Drawing.Size(562, 19)
-        Me.txtItemType.TabIndex = 1383
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(12, 120)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
-        Me.MyLabel8.TabIndex = 1382
-        Me.MyLabel8.Text = "Item Type"
-        '
         'FrmPhysicalStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -666,6 +680,8 @@ Partial Class FrmPhysicalStock
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.txtSelfLifeDays, System.ComponentModel.ISupportInitialize).EndInit()
@@ -689,13 +705,12 @@ Partial Class FrmPhysicalStock
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnexport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnimport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -738,5 +753,6 @@ Partial Class FrmPhysicalStock
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtInventoryAccount As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

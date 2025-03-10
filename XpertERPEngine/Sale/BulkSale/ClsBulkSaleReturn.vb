@@ -160,6 +160,7 @@ Public Class ClsBulkSaleReturn
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SALE_RETURN_MASTER_BULKSALE", OMInsertOrUpdate.Update, "TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No='" + obj.Document_No + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsSaleReturnDetailBulkSale.saveData(obj.arrSaleReturnDetailBulkSale, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -313,6 +314,8 @@ Public Class ClsBulkSaleReturn
 
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
             Dim qry As String = ""
             qry = "delete from TSPL_SALE_RETURN_DETAIL_BULKSALE where Document_No='" + strDocNo + "'"
@@ -347,6 +350,7 @@ Public Class ClsBulkSaleReturn
             End If
             Dim obj As ClsBulkSaleReturn = ClsBulkSaleReturn.GetData(strDocNo, "", NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmBulkSaleReturn, obj.Location_Code, obj.Document_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then

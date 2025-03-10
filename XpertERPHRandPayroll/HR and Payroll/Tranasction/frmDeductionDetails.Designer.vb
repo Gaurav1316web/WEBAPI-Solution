@@ -25,8 +25,9 @@ Partial Class frmDeductionDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDeductionDetails))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
         Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.txtGo = New Telerik.WinControls.UI.RadButton()
         Me.lblLocationDesc = New common.Controls.MyLabel()
@@ -56,10 +57,11 @@ Partial Class frmDeductionDetails
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,7 +84,7 @@ Partial Class frmDeductionDetails
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -119,6 +121,7 @@ Partial Class frmDeductionDetails
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.LblTotal)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -127,6 +130,15 @@ Partial Class frmDeductionDetails
         Me.SplitContainer1.Size = New System.Drawing.Size(789, 490)
         Me.SplitContainer1.SplitterDistance = 453
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btnCopy
+        '
+        Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCopy.Location = New System.Drawing.Point(378, 5)
+        Me.btnCopy.Name = "btnCopy"
+        Me.btnCopy.Size = New System.Drawing.Size(23, 22)
+        Me.btnCopy.TabIndex = 1516
+        Me.btnCopy.Text = "CC"
         '
         'btnUnSelect
         '
@@ -424,13 +436,14 @@ Partial Class frmDeductionDetails
         Me.gvDeduction.MasterTemplate.EnableGrouping = False
         Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(771, 257)
         Me.gvDeduction.TabIndex = 6
+        Me.gvDeduction.VarID = ""
         '
         'LblTotal
         '
@@ -509,14 +522,15 @@ Partial Class frmDeductionDetails
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
-        'btnCopy
+        'btnHistory
         '
-        Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCopy.Location = New System.Drawing.Point(378, 5)
-        Me.btnCopy.Name = "btnCopy"
-        Me.btnCopy.Size = New System.Drawing.Size(23, 22)
-        Me.btnCopy.TabIndex = 1516
-        Me.btnCopy.Text = "CC"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(221, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 206
+        Me.btnHistory.Text = "History"
         '
         'frmDeductionDetails
         '
@@ -535,6 +549,7 @@ Partial Class frmDeductionDetails
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -557,7 +572,7 @@ Partial Class frmDeductionDetails
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -594,4 +609,5 @@ Partial Class frmDeductionDetails
     Friend WithEvents txtGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnCopy As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

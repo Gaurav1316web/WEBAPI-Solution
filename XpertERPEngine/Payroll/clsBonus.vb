@@ -42,6 +42,8 @@ Public Class clsBonus
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", "TSPL_EMPBONUS_DETAIL", "EMP_BONUS_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", "TSPL_EMPBONUS_DETAIL", "EMP_BONUS_CODE", trans)
 
             Dim qry As String = ""
             qry = " delete from TSPL_EMPBONUS_DETAIL where EMP_BONUS_CODE ='" & strCode & "'"
@@ -150,6 +152,8 @@ Public Class clsBonus
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_BONUS", OMInsertOrUpdate.Update, "EMP_BONUS_CODE='" & obj.EMP_BONUS_CODE & "'", trans)
             End If
             isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_BONUS_CODE, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", "TSPL_EMPBONUS_DETAIL", "EMP_BONUS_CODE", trans)
+
             '' SAVE BONUS GENERATION DETAIL
             Dim Days As Integer = CalculateLeapYearDays(obj.ToDate)
             qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, Days)

@@ -24,7 +24,12 @@ Public Class clsTransferGateOut
 
     Public Shared Function deleteData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Transfer_Gate_Out", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Transfer_Gate_Out", "Document_No", trans)
+
             Dim qry As String = "delete from TSPL_Transfer_Gate_Out where Document_No='" & strDocNo & "'"
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Transfer_Gate_Out", "Document_No", trans)
+
             Dim isDeleted As Boolean = True
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Return isDeleted
@@ -165,6 +170,8 @@ Public Class clsTransferGateOut
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Transfer_Gate_Out", OMInsertOrUpdate.Update, "TSPL_Transfer_Gate_Out.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Transfer_Gate_Out", "Document_No", trans)
+
             'trans.Commit()
         Catch ex As Exception
             'trans.Rollback()

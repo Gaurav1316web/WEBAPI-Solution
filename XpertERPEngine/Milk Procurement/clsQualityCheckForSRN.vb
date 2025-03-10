@@ -142,6 +142,7 @@ Public Class clsQualityCheckForSRNHead
             clsQualityCheckForSRNDetail.SaveData(obj.Document_Code, obj.Arr_item, trans)
             clsQualityCheckForSRN_MRNDetail.SaveData(obj.Document_Code, obj.Arr_MRN, trans)
             clsQualityCheckDetail.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
             'If Not isNewEntry Then
             'End If
             '===Sanjeet(03/01/2017) for notifiaction====
@@ -530,6 +531,8 @@ Public Class clsQualityCheckForSRNHead
                 Return True
                 Exit Function
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
 
 
             Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
@@ -639,6 +642,7 @@ Public Class clsQualityCheckForSRNHead
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1 Then
                 Throw New Exception("Already Posted Document [" + strCode + "]")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
             qry = "update TSPL_QC_CHECK_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + strCode + "' and QC_Type='" + QC_Type + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -889,7 +893,7 @@ Public Class clsQualityCheckForSRNHead
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
             Dim Qry As String = "select Posted from TSPL_QC_CHECK_HEAD where Document_Code='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")

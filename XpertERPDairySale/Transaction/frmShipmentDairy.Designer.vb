@@ -383,6 +383,7 @@ Partial Class frmShipmentDairy
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintsvl = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
@@ -777,6 +778,7 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -874,6 +876,7 @@ Partial Class frmShipmentDairy
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintsvl)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitExp)
@@ -916,7 +919,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -6634,11 +6637,21 @@ Partial Class frmShipmentDairy
         Me.MyLabel27.TabIndex = 1472
         Me.MyLabel27.Text = "Invoice Date"
         '
+        'btnHistory1
+        '
+        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory1.Location = New System.Drawing.Point(240, 5)
+        Me.btnHistory1.Name = "btnHistory1"
+        Me.btnHistory1.Size = New System.Drawing.Size(53, 20)
+        Me.btnHistory1.TabIndex = 1567
+        Me.btnHistory1.Text = "History"
+        '
         'btnPrintInvoice
         '
         Me.btnPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInvoice.Location = New System.Drawing.Point(371, 4)
+        Me.btnPrintInvoice.Location = New System.Drawing.Point(379, 4)
         Me.btnPrintInvoice.Name = "btnPrintInvoice"
         Me.btnPrintInvoice.Size = New System.Drawing.Size(76, 20)
         Me.btnPrintInvoice.TabIndex = 1566
@@ -6680,9 +6693,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(872, 4)
+        Me.btnShowInventory.Location = New System.Drawing.Point(870, 4)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(96, 20)
+        Me.btnShowInventory.Size = New System.Drawing.Size(98, 20)
         Me.btnShowInventory.TabIndex = 45
         Me.btnShowInventory.Text = "Show Inventory"
         '
@@ -6701,7 +6714,7 @@ Partial Class frmShipmentDairy
         Me.btnUpdateCustomer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateCustomer.Enabled = False
         Me.btnUpdateCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateCustomer.Location = New System.Drawing.Point(281, 4)
+        Me.btnUpdateCustomer.Location = New System.Drawing.Point(295, 4)
         Me.btnUpdateCustomer.Name = "btnUpdateCustomer"
         Me.btnUpdateCustomer.Size = New System.Drawing.Size(84, 20)
         Me.btnUpdateCustomer.TabIndex = 42
@@ -6721,9 +6734,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(970, 4)
+        Me.btnHistory.Location = New System.Drawing.Point(980, 4)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(61, 20)
+        Me.btnHistory.Size = New System.Drawing.Size(56, 20)
         Me.btnHistory.TabIndex = 39
         Me.btnHistory.Text = "History"
         Me.btnHistory.Visible = False
@@ -6794,9 +6807,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(212, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(177, 5)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 20)
+        Me.btnPrint.Size = New System.Drawing.Size(61, 20)
         Me.btnPrint.TabIndex = 3
         Me.btnPrint.Text = "Print"
         '
@@ -6804,9 +6817,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(143, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(125, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 20)
+        Me.btnDelete.Size = New System.Drawing.Size(51, 20)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
@@ -6814,9 +6827,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(74, 4)
+        Me.btnPost.Location = New System.Drawing.Point(63, 5)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.Size = New System.Drawing.Size(62, 20)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
@@ -6824,9 +6837,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1032, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1037, 4)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 20)
+        Me.btnClose.Size = New System.Drawing.Size(64, 20)
         Me.btnClose.TabIndex = 11
         Me.btnClose.Text = "Close"
         '
@@ -6834,9 +6847,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, 4)
+        Me.btnSave.Location = New System.Drawing.Point(7, 4)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 20)
+        Me.btnSave.Size = New System.Drawing.Size(54, 20)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
@@ -7314,6 +7327,7 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7728,5 +7742,6 @@ Partial Class frmShipmentDairy
     Friend WithEvents lblVehicleType As common.Controls.MyLabel
     Friend WithEvents rpvpManualScheme As RadPageViewPage
     Friend WithEvents gvManualscheme As RadGridView
+    Friend WithEvents btnHistory1 As RadButton
 End Class
 

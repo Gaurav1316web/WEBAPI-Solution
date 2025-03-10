@@ -778,6 +778,9 @@ Public Class FrmCreateAutoInvoiceBS
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         updatetotalqtyAndAmount()
     End Sub
+
+
+
     Sub updatetotalqtyAndAmount()
         'For i As Integer = 0 To gv1.Rows.Count - 1
 

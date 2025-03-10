@@ -2018,8 +2018,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         End Try
     End Sub
 
-    Function TruncateToDecimalPlaces(value As Double, decimalPlaces As Integer) As Double
-        Dim factor As Double = Math.Pow(10, decimalPlaces)
+    Function TruncateToDecimalPlaces(value As Decimal, decimalPlaces As Integer) As Double
+        Dim factor As Decimal = Math.Pow(10, decimalPlaces)
         Return Math.Truncate(value * factor) / factor
     End Function
     Private Sub UpdateCurrentRow1(ByVal IntRowNo As Integer)
@@ -2240,7 +2240,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblNetPrice As Decimal = dblAmtAfterDis / dblQty
             End If
             Dim dblTotTaxAmt As Decimal = GetCurrentRowTotalTaxAmt(IntRowNo)
-            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
+            Dim dblTotTCSTaxAmt As Decimal = GetCurrentRowTotalTCSTaxAmt(IntRowNo)
+            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - (dblTotTaxAmt - dblTotTCSTaxAmt), 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblTotTaxAmt, 3), 2, 4)
             gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis, 3), 2, 4)
@@ -2256,6 +2257,21 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Function GetCurrentRowTotalTCSTaxAmt(ByVal IntRowNo As Integer) As Double
+        Dim dblTotTax As Double = 0
+        For ii As Integer = 1 To 10
+            Dim strii As String = clsCommon.myCstr(ii)
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+                Else
+                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+                End If
+            End If
+
+        Next
+        Return dblTotTax
+    End Function
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
@@ -2616,9 +2632,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-            lblAmtWithDiscount.Text = dblNetAmt - (dblTaxTotAmt)
+            lblAmtWithDiscount.Text = clsCommon.myRoundOFF(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt), 2, 4)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
-            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblTaxTotAmt), 2) - dblDisAmt)
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - (dblTaxTotAmt - dblTotalTcsAmt)), 2) - dblDisAmt)
         Else
             lblAmtWithDiscount.Text = dblNetAmt - (dblDisAmt)
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
@@ -2633,9 +2649,16 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
             lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
         Else
-            lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt + dblTotalTcsAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            Else
+                lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
+                lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+                lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            End If
             'lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
             'lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
 
@@ -3484,7 +3507,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                             End If
                         End If
                         'sanjay
-                        objTr.Item_Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        objTr.Item_Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
                         objTr.Disc_Scheme_Amount = clsCommon.myCdbl(grow.Cells(colDisc_Scheme_Amount).Value)
                         objTr.Disc_Scheme_Code = clsCommon.myCstr(grow.Cells(colDisc_Scheme_Code).Value)
                         objTr.Disc_Scheme_Pers = clsCommon.myCdbl(grow.Cells(colDisc_Scheme_Pers).Value)
@@ -4491,7 +4514,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSellingRate).Value = clsCommon.myCdbl(dt2.Rows(jj)("Item_Selling_Price"))
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = (clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty")) * clsCommon.myCdbl(dt2.Rows(jj)("Price_with_Tax"))) - (clsCommon.myCdbl(dt2.Rows(jj)("TAX1_Amt")) + clsCommon.myCdbl(dt2.Rows(jj)("TAX2_Amt")) + clsCommon.myCdbl(dt2.Rows(jj)("TAX3_Amt")) + clsCommon.myCdbl(dt2.Rows(jj)("TAX4_Amt")))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty")) * clsCommon.myCdbl(dt2.Rows(jj)("Item_Rate")), 2)
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty")) * clsCommon.myCdbl(dt2.Rows(jj)("Item_Rate")), 2)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCdbl(dt2.Rows(jj)("Amt_Less_Discount"))
 
                     Else
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty")) * clsCommon.myCdbl(dt2.Rows(jj)("Item_Rate")), 2)
@@ -4751,6 +4775,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                      "Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " &
                      "where Document_No='" + txtDocNo.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_BOOKING_MATSER", "Document_No", trans)
+
                     ''For ii As Integer = 8 To gv1.Columns.Count - 1
                     ''Dim objBooking As clsBookingTemp = TryCast(gv1.Columns(ii).Tag, clsBookingTemp)
                     'Dim dblTotalAmt As Double = clsCommon.myCdbl(lblTotRAmt1.Text)
@@ -5775,7 +5801,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                                         objTr.OrgUnit_code = clsCommon.myCdbl(grow.Cells(colQty).Value)
                                         'Dim objBookingItemRate As clsBookingTemp = TryCast(grow.Cells(ii).Tag, clsBookingTemp)
                                         'sanjay
-                                        Dim dblRate As Double = 0
+                                        Dim dblRate As Decimal = 0
                                         'dblRate = objBookingitem.ItemRate
                                         'Dim tax_on_amt As Decimal = 0
                                         Dim dt As New DataTable()
@@ -9724,6 +9750,18 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click_1(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_BOOKING_MATSER", "TSPL_BOOKING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

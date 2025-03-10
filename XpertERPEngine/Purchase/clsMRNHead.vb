@@ -8,6 +8,7 @@ Public Class clsMRNHead
     Public Amendment_No As Double = 0
     Public IsCancel As Integer = Nothing
     Public RGP_Type As String = Nothing
+    Public Inter_unit_Purchase As Integer = 0
     Public Against_RGP_No As String = Nothing
     Public Against_Schedule_Code As String = Nothing
     Public PurchaseOrder_Type As String = Nothing
@@ -239,6 +240,7 @@ Public Class clsMRNHead
             clsCommon.AddColumnsForChange(coll, "Ref_No", obj.Ref_No)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_Purchase", obj.Inter_unit_Purchase)
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location)
             clsCommon.AddColumnsForChange(coll, "Sublocation_Code", obj.Sublocation_Code)
@@ -518,6 +520,7 @@ Public Class clsMRNHead
             obj.Discount_Amt = clsCommon.myCdbl(dt.Rows(0)("Discount_Amt"))
             obj.Amount_Less_Discount = clsCommon.myCdbl(dt.Rows(0)("Amount_Less_Discount"))
             obj.Total_Taxable_Amount = clsCommon.myCdbl(dt.Rows(0)("Total_Taxable_Amount"))
+            obj.Inter_unit_Purchase = clsCommon.myCdbl(dt.Rows(0)("Inter_unit_Purchase"))
             obj.MRN_Total_Amt = clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
             obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
@@ -969,6 +972,8 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.MRN_No) > 0) Then
             Try

@@ -25,6 +25,8 @@ Partial Class frmMilkGateEntryIn
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblLatePenaltyAmt = New common.Controls.MyLabel()
         Me.numKmReading = New common.MyNumBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.LblManualFAT_Per = New common.Controls.MyLabel()
@@ -66,11 +68,12 @@ Partial Class frmMilkGateEntryIn
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.lblLatePenaltyAmt = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLatePenaltyAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numKmReading, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblManualFAT_Per, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,8 +113,7 @@ Partial Class frmMilkGateEntryIn
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLatePenaltyAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -165,6 +167,7 @@ Partial Class frmMilkGateEntryIn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -173,6 +176,27 @@ Partial Class frmMilkGateEntryIn
         Me.SplitContainer1.Size = New System.Drawing.Size(655, 398)
         Me.SplitContainer1.SplitterDistance = 359
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(272, 182)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel5.TabIndex = 1069
+        Me.MyLabel5.Text = "Late Penalty"
+        '
+        'lblLatePenaltyAmt
+        '
+        Me.lblLatePenaltyAmt.AutoSize = False
+        Me.lblLatePenaltyAmt.BorderVisible = True
+        Me.lblLatePenaltyAmt.FieldName = Nothing
+        Me.lblLatePenaltyAmt.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblLatePenaltyAmt.Location = New System.Drawing.Point(347, 181)
+        Me.lblLatePenaltyAmt.Name = "lblLatePenaltyAmt"
+        Me.lblLatePenaltyAmt.Size = New System.Drawing.Size(201, 21)
+        Me.lblLatePenaltyAmt.TabIndex = 1070
         '
         'numKmReading
         '
@@ -201,7 +225,7 @@ Partial Class frmMilkGateEntryIn
         Me.numKmReading.TabIndex = 1067
         Me.numKmReading.Text = "0"
         Me.numKmReading.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.numKmReading.Value = 0.0R
+        Me.numKmReading.Value = 0R
         '
         'MyLabel4
         '
@@ -249,7 +273,7 @@ Partial Class frmMilkGateEntryIn
         Me.TxtManualFat_Per.TabIndex = 1063
         Me.TxtManualFat_Per.Text = "0"
         Me.TxtManualFat_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualFat_Per.Value = 0.0R
+        Me.TxtManualFat_Per.Value = 0R
         '
         'LblManualSNF_Per
         '
@@ -287,7 +311,7 @@ Partial Class frmMilkGateEntryIn
         Me.TxtManualSNF_Per.TabIndex = 1065
         Me.TxtManualSNF_Per.Text = "0"
         Me.TxtManualSNF_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtManualSNF_Per.Value = 0.0R
+        Me.TxtManualSNF_Per.Value = 0R
         '
         'MyLabel3
         '
@@ -400,7 +424,7 @@ Partial Class frmMilkGateEntryIn
         Me.txtEmpryCans.TabIndex = 1049
         Me.txtEmpryCans.Text = "0"
         Me.txtEmpryCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEmpryCans.Value = 0.0R
+        Me.txtEmpryCans.Value = 0R
         '
         'MyLabel1
         '
@@ -439,7 +463,7 @@ Partial Class frmMilkGateEntryIn
         Me.txtFilledCans.TabIndex = 1047
         Me.txtFilledCans.Text = "0"
         Me.txtFilledCans.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFilledCans.Value = 0.0R
+        Me.txtFilledCans.Value = 0R
         '
         'lblNoOfCans
         '
@@ -460,7 +484,6 @@ Partial Class frmMilkGateEntryIn
         Me.lblTransporterName.Name = "lblTransporterName"
         Me.lblTransporterName.Size = New System.Drawing.Size(282, 21)
         Me.lblTransporterName.TabIndex = 1046
-        Me.lblTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Txtdds
         '
@@ -482,7 +505,6 @@ Partial Class frmMilkGateEntryIn
         Me.lblTransporterCode.Name = "lblTransporterCode"
         Me.lblTransporterCode.Size = New System.Drawing.Size(159, 21)
         Me.lblTransporterCode.TabIndex = 1045
-        Me.lblTransporterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkOther
         '
@@ -522,7 +544,6 @@ Partial Class frmMilkGateEntryIn
         Me.lblVehicleNo.Name = "lblVehicleNo"
         Me.lblVehicleNo.Size = New System.Drawing.Size(53, 22)
         Me.lblVehicleNo.TabIndex = 34
-        Me.lblVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtVehicleNo
         '
@@ -605,7 +626,6 @@ Partial Class frmMilkGateEntryIn
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(282, 21)
         Me.lblRoute.TabIndex = 1038
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblMcc
         '
@@ -616,7 +636,6 @@ Partial Class frmMilkGateEntryIn
         Me.lblMcc.Name = "lblMcc"
         Me.lblMcc.Size = New System.Drawing.Size(282, 21)
         Me.lblMcc.TabIndex = 1035
-        Me.lblMcc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblMCCCode
         '
@@ -705,6 +724,7 @@ Partial Class frmMilkGateEntryIn
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShift.FieldCode = Nothing
         Me.cboShift.FieldDesc = Nothing
@@ -823,27 +843,16 @@ Partial Class frmMilkGateEntryIn
         Me.btndelete.TabIndex = 3
         Me.btndelete.Text = "Delete"
         '
-        'MyLabel5
+        'btnHistory
         '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(272, 182)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(67, 18)
-        Me.MyLabel5.TabIndex = 1069
-        Me.MyLabel5.Text = "Late Penalty"
-        '
-        'lblLatePenaltyAmt
-        '
-        Me.lblLatePenaltyAmt.AutoSize = False
-        Me.lblLatePenaltyAmt.BorderVisible = True
-        Me.lblLatePenaltyAmt.FieldName = Nothing
-        Me.lblLatePenaltyAmt.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblLatePenaltyAmt.Location = New System.Drawing.Point(347, 181)
-        Me.lblLatePenaltyAmt.Name = "lblLatePenaltyAmt"
-        Me.lblLatePenaltyAmt.Size = New System.Drawing.Size(201, 21)
-        Me.lblLatePenaltyAmt.TabIndex = 1070
-        Me.lblLatePenaltyAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(281, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'frmMilkGateEntryIn
         '
@@ -861,6 +870,8 @@ Partial Class frmMilkGateEntryIn
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLatePenaltyAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numKmReading, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblManualFAT_Per, System.ComponentModel.ISupportInitialize).EndInit()
@@ -901,8 +912,7 @@ Partial Class frmMilkGateEntryIn
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLatePenaltyAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -951,4 +961,5 @@ Partial Class frmMilkGateEntryIn
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblLatePenaltyAmt As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class

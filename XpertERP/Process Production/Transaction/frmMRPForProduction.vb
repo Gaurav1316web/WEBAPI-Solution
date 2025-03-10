@@ -268,10 +268,10 @@ Public Class frmMRPForProduction
         coll.Add("Auto_Indent", "integer not null default 0")
         coll.Add("Auto_PO", "integer not null default 0")
         coll.Add("Department_Code", "Varchar(12) Null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_MRP_HEAD", coll, Nothing, False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_MRP_HEAD", coll, Nothing, True, False, "", "", "", True)
 
-        '==================== for Item Code =========================================================
-        coll = New Dictionary(Of String, String)()
+            '==================== for Item Code =========================================================
+            coll = New Dictionary(Of String, String)()
         coll.Add("MRP_CODE", "VARCHAR(30) NOT NULL  REFERENCES TSPL_PP_MRP_HEAD(MRP_CODE)")
         coll.Add("Line_No", "integer null")
         coll.Add("Plan_Code", "Varchar(30) NULL ")
@@ -2445,4 +2445,15 @@ Public Class frmMRPForProduction
         'End If
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "MRP_CODE", "TSPL_PP_MRP_HEAD")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

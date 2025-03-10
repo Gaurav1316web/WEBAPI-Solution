@@ -78,6 +78,8 @@ Public Class ClsMaterialQuotationHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCRAP_QUOTATION_HEAD", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsMaterialQuotationDeatil.SaveData(obj.Code, obj.ArrTr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SCRAP_QUOTATION_HEAD", "Code", "TSPL_SCRAP_QUOTATION_DETAIL", "Code", trans)
+
             isSaved = isSaved AndAlso clsMaterialCustomerDetail.SaveData(obj.Code, obj.arrCustList, trans)
             'isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Code, obj.arrCustomFields, trans)
             trans.Commit()
@@ -222,9 +224,13 @@ Public Class ClsMaterialQuotationHead
             If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Quotation No not found to Delete")
             End If
-            Dim obj As ClsMaterialQuotationHead = ClsMaterialQuotationHead.GetData(strCode, NavigatorType.Current)
-            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+        Dim obj As ClsMaterialQuotationHead = ClsMaterialQuotationHead.GetData(strCode, NavigatorType.Current)
+
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAP_QUOTATION_HEAD", "Code", "TSPL_SCRAP_QUOTATION_DETAIL", "Code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAP_QUOTATION_HEAD", "Code", "TSPL_SCRAP_QUOTATION_DETAIL", "Code", trans)
+
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
                 Try
                     If (obj.Status = ERPTransactionStatus.Approved) Then
                         Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -693,7 +699,15 @@ Public Class ClsMaterialQuotationComparisonHead
     Public Is_Taxable As Boolean = False
 #End Region
 
-    
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="obj"></param>
+    ''' <param name="isNewEntry"></param>
+    ''' <param name="import"></param>
+    ''' <param name="isMakeAbandomentNo"></param>
+    ''' <returns></returns>
     Public Function SaveData(ByVal obj As ClsMaterialQuotationComparisonHead, ByVal isNewEntry As Boolean, Optional ByVal import As Boolean = False, Optional ByVal isMakeAbandomentNo As Boolean = False) As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -742,6 +756,7 @@ Public Class ClsMaterialQuotationComparisonHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsMaterialQuotationComparisonDeatil.SaveData(obj.Code, obj.ArrTr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", "TSPL_SCRAP_QUOTATION_COMPARISON_DETAIL", "Code", trans)
 
             trans.Commit()
         Catch err As Exception
@@ -864,6 +879,9 @@ Public Class ClsMaterialQuotationComparisonHead
         End If
         Dim obj As ClsMaterialQuotationComparisonHead = ClsMaterialQuotationComparisonHead.GetData(strCode, NavigatorType.Current)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", "TSPL_SCRAP_QUOTATION_COMPARISON_DETAIL", "Code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", "TSPL_SCRAP_QUOTATION_COMPARISON_DETAIL", "Code", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
                 If (obj.Status = ERPTransactionStatus.Approved) Then

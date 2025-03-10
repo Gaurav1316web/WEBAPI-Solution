@@ -41,6 +41,8 @@ Public Class clsDCSFinancialEntry
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FINANCIAL_ENTRY", OMInsertOrUpdate.Update, "TSPL_DCS_FINANCIAL_ENTRY.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsDCSFinancialEntryDetail.saveData(obj.arr, obj.Document_Code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -106,6 +108,9 @@ where 2=2 "
             Throw New Exception("Document No not found to Delete")
         End If
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_DCS_FINANCIAL_ENTRY_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -138,6 +143,8 @@ where 2=2 "
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
+
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If

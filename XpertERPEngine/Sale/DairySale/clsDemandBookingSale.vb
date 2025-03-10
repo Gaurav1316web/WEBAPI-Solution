@@ -28,7 +28,7 @@ Public Class clsDemandBookingSale
     Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(obj, isNewEntry, False, trans)
+            SaveData(obj, isNewEntry, False, False, trans)
             '' Is Document posted then roll back the transcation by Vinod Kumar14/Aug/2024
             If clsCommon.myLen(obj.Document_No) > 0 Then
                 qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + obj.Document_No + "'"
@@ -44,7 +44,7 @@ Public Class clsDemandBookingSale
         End Try
         Return True
     End Function
-    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal IsDemandUploader As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal IsDemandUploader As Boolean, ByVal isDemandAdjustment As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
@@ -83,7 +83,100 @@ Public Class clsDemandBookingSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry, IsDemandUploader, obj.Route_No)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            If isDemandAdjustment Then
+                SaveDemandHistoryData(obj, obj.Arr, "Demand Adjustment", "ERP", objCommonVar.CurrentUserCode, trans)
+            Else
+                SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
+
+            End If
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function SaveDemandHistoryData(ByVal obj As clsDemandBookingSale, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal operation_type As String, ByVal operation_Source As String, ByVal Hist_By As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim strQry As String = "Select  isnull(max(Hist_Version),0) from TSPL_Demand_Booking_Detail_History where Document_no='" + obj.Document_No + "'"
+            Dim Hist_version As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry, trans))
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each objTr As clsDemandBookingSaleDetail In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "TR_CODE", objTr.TR_CODE)
+                    clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+                    clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+                    clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
+                    clsCommon.AddColumnsForChange(coll, "Line_No", objTr.Line_No)
+                    clsCommon.AddColumnsForChange(coll, "Trip_No", objTr.Trip_No)
+                    clsCommon.AddColumnsForChange(coll, "Cust_Code", objTr.Cust_Code)
+                    clsCommon.AddColumnsForChange(coll, "Created_By", objTr.Created_By)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", objTr.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Unit_code", objTr.Unit_code)
+                    clsCommon.AddColumnsForChange(coll, "Qty", objTr.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Item_Rate", objTr.Rate)
+                    clsCommon.AddColumnsForChange(coll, "Price_Code", objTr.Price_Code)
+                    clsCommon.AddColumnsForChange(coll, "Vehicle_Code", objTr.Vehicle_Code)
+                    clsCommon.AddColumnsForChange(coll, "ShiftType", objTr.ShiftType)
+                    clsCommon.AddColumnsForChange(coll, "IsItemUpdate", objTr.IsItemUpdate)
+                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", objTr.TotalCrates_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", objTr.TotalLtr_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "ItemNetAmount", objTr.ItemNetAmount)
+                    clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", objTr.IsGatePassGenerated)
+                    clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", objTr.IsTruckSheetGenerated)
+                    clsCommon.AddColumnsForChange(coll, "TAX_Group", objTr.TAX_Group)
+                    clsCommon.AddColumnsForChange(coll, "TAX1", objTr.TAX1)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", objTr.TAX1_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Rate", objTr.TAX1_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Amt", objTr.TAX1_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2", objTr.TAX2)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", objTr.TAX2_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Rate", objTr.TAX2_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Amt", objTr.TAX2_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3", objTr.TAX3)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", objTr.TAX3_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Rate", objTr.TAX3_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Amt", objTr.TAX3_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4", objTr.TAX4)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", objTr.TAX4_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Rate", objTr.TAX4_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Amt", objTr.TAX4_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5", objTr.TAX5)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", objTr.TAX5_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Rate", objTr.TAX5_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Amt", objTr.TAX5_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6", objTr.TAX6)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", objTr.TAX6_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Rate", objTr.TAX6_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Amt", objTr.TAX6_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7", objTr.TAX7)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", objTr.TAX7_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Rate", objTr.TAX7_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Amt", objTr.TAX7_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8", objTr.TAX8)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", objTr.TAX8_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Rate", objTr.TAX8_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Amt", objTr.TAX8_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9", objTr.TAX9)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", objTr.TAX9_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Rate", objTr.TAX9_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Amt", objTr.TAX9_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10", objTr.TAX10)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", objTr.TAX10_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Rate", objTr.TAX10_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Amt", objTr.TAX10_Amt)
+                    clsCommon.AddColumnsForChange(coll, "change_timestamp", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                    clsCommon.AddColumnsForChange(coll, "operation_type", operation_type)
+                    clsCommon.AddColumnsForChange(coll, "operation_Source", operation_Source)
+                    clsCommon.AddColumnsForChange(coll, "Hist_Version", Hist_version + 1)
+                    clsCommon.AddColumnsForChange(coll, "Hist_By", Hist_By)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL_History", OMInsertOrUpdate.Insert, "", trans)
+
+                Next
+            End If
+
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -538,8 +631,13 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where TR_Code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "')"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
+                    SaveDemandHistoryData(obj, obj1, "Reset Booth", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
                 End If
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
                 qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
                 Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
@@ -724,8 +822,11 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
                     isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
+                    SaveDemandHistoryData(obj, obj1, "Deleted ", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
                 End If
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                 qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
@@ -813,6 +914,9 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             End If
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             'Dim Mobj As clsDemandBookingSale = GetData(strDocNo, NavigatorType.Current, trans)
+            SaveDemandHistoryData(obj, obj.Arr, "Post", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
             If IsRepertOrder Then
                 Dim docno As String = ""
                 Dim isNewEntry As Boolean = False
@@ -911,7 +1015,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                                                 For ii As Integer = Mobj.Arr.Count - 1 To 0 Step -1
@@ -942,7 +1046,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     Next
                                                 End If
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             End If
                                         Else
@@ -962,7 +1066,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                                                 For ii As Integer = Mobj.Arr.Count - 1 To 0 Step -1
@@ -977,7 +1081,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             End If
                                         End If
@@ -1012,7 +1116,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                 End If
                             Next
                             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                                SaveData(obj, isNewEntry, False, trans)
+                                SaveData(obj, isNewEntry, False, False, trans)
                             End If
                         ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                             For ii As Integer = obj.Arr.Count - 1 To 0 Step -1
@@ -1027,7 +1131,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                 End If
                             Next
                             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                                SaveData(obj, isNewEntry, False, trans)
+                                SaveData(obj, isNewEntry, False, False, trans)
                             End If
                         End If
                     End If
@@ -1080,6 +1184,10 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
             'End If
             Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0,Posted_Morning=null,Posted_Evening=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current, trans)
+            SaveDemandHistoryData(obj, obj.Arr, "Reverse/Unpost", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1405,9 +1513,9 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc", trans))
     '        Return True
     '    End Function
     Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As Boolean
-        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False)
+        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False, False)
     End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean) As Boolean
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean, ByVal isDepartmentRoute As Boolean) As Boolean
         Try
             If clsCommon.myLen(strShift) <= 0 Then
                 Throw New Exception("Please select Shift")
@@ -1428,15 +1536,26 @@ max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, ma
 sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,sum(XXFinal.PrevCrate) as Crate_Collect,
 max(XXFinal.CompanyName) as CompanyName ,max(XXFinal.TranspoterName) as TranspoterName,max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No,
 max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,
-sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust,sum(XXFinal.TCSAmount) as TCSAmount
-from ( 
+sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust,sum(XXFinal.TCSAmount) as TCSAmount "
+            If isDepartmentRoute Then
+                BaseQry += " ,MAX(XXFinal.CFCrate) as CFCrate,MAX(XXFinal.CFPouch) as CFPouch "
+            End If
+            BaseQry += "from ( 
 select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
-            BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
+            BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + " TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
+            If isDepartmentRoute Then
+                BaseQry += " convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as Crate, 0 As PrevCrate, 
+			 TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS Pouch,
+			  0 As PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+            Else
+                BaseQry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
 0 As PrevCrate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
-0 As PrevPouch,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,"
+0 As PrevPouch, "
+            End If
+
+
+            BaseQry += "TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,"
             If isSplitPrint Then
                 BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
             Else
@@ -1456,8 +1575,13 @@ Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No =
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR'  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR'  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+            If isDepartmentRoute Then
+                BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+            End If
+
+            BaseQry += "Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
@@ -1479,13 +1603,23 @@ and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon
             End If
             BaseQry += Environment.NewLine + " Union all "
             BaseQry += " select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
-            BaseQry += "'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
-TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-0 As Crate,
+            BaseQry += "'" + strShift + "'  as ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + "TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
+TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, "
+            If isDepartmentRoute Then
+                BaseQry += "  0 As Crate, convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as PrevCrate,          
+          0 As Pouch, 
+		    TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+            Else
+                BaseQry += " 0 As Crate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
 0 As Pouch, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
-0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
+Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch, "
+            End If
+            '0 As Crate,
+            'Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
+            '0 As Pouch, 
+            'Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
+            BaseQry +="0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
             If isSplitPrint Then
                 BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
             Else
@@ -1504,8 +1638,13 @@ Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No =
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+            If isDepartmentRoute Then
+                BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+            End If
+
+            BaseQry += " Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
@@ -1529,13 +1668,20 @@ where 2=2 "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 BaseQry += Environment.NewLine + " Union all "
                 BaseQry += " select  TSPL_CUSTOMER_MASTER.Cust_Code,"
-                BaseQry += "'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
-TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
-0 As Crate,
+                BaseQry += "'" + strShift + "'  as ShiftType," + IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") + " TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
+TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, "
+                If isDepartmentRoute Then
+                    BaseQry += "  0 As Crate, convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as PrevCrate,          
+          0 As Pouch, 
+		    TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS PrevPouch,ITEMDETAIL.CFForLTR as InLTR,ITEMDETAILInCrate.CFForLTR as inCrate, ITEMDETAILInpouch.CFForLTR as inPouch, "
+                Else
+                    BaseQry += " 0 As Crate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
 0 As Pouch, 
-Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
-0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
+Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,"
+                End If
+
+                BaseQry += " 0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
                 If isSplitPrint Then
                     BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
                 Else
@@ -1564,27 +1710,31 @@ Left Outer Join TSPL_Demand_Booking_Detail On TSPL_Demand_Booking_Detail.Documen
 --Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_Demand_Booking_Detail.Document_No
 Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
 Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
-Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR') as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code "
+                If isDepartmentRoute Then
+                    BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
+                            Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
+                End If
+                BaseQry += "Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where 2=2 "
-                    If isSplitPrint Then
-                        BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
-                    End If
-                    BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
-                    If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                        BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
-                    End If
-                    'If IsFreshItem Then
-                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
-                    'ElseIf IsAmbientItem Then
-                    '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
-                    'End If
-                    'If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
-                    '    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
-                    'Else
-                    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                If isSplitPrint Then
+                    BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
+                End If
+                BaseQry += " And TSPL_CUSTOMER_MASTER.Status='N' "
+                If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
+                    BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
+                End If
+                'If IsFreshItem Then
+                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_FreshItem,0)=1 "
+                'ElseIf IsAmbientItem Then
+                '    BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
+                'End If
+                'If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
+                '    BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                'Else
+                BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
                 'End If
                 If objCommonVar.ApplyBoothRouteMapping Then
                     BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=(select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
@@ -1600,10 +1750,10 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
 --left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No   
 --where 2=2  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code is not null " + Environment.NewLine
                 If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
-                        BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
-                    End If
+                    BaseQry += " --and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + "))" + Environment.NewLine
                 End If
-                BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
+            End If
+            BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
 )xx) xfinal left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
             Dim qry As String = " select Short_Description from (" + BaseQry + " )xx Where Short_Description is Not Null group by Short_Description order by max(Sku_Seq)"
             Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -1612,10 +1762,22 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
             End If
             qry = "select Route_No ,max(Route_Desc) as Route_Desc,max(TranspoterName) as TranspoterName,max(DriverName) as DriverName,MAX(Vehicle_No) as Vehicle_No,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime ,max(ShiftType) as ShiftType,max(DocStatus) as DocStatus,Cust_Code,case when Credit_Customer='Y' then 'Department Booth' else 'Normal Booth' end as Credit_Customer "
             For Each drItem As DataRow In dtItem.Rows
-                qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+                If isDepartmentRoute Then
+                    qry += ",sum((QTYLtr) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+
+                Else
+                    qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
+
+                End If
             Next
-            qry += ",sum(case when Credit_Customer='Y' then QTYLtr else Crate end) as [TotalCrate]
-,sum(ItemNetAmount) as ItemNetAmount"
+            If isDepartmentRoute Then
+                qry += ",sum(Crate) as [TotalCrate]"
+            Else
+                qry += ",sum(case when Credit_Customer='Y' then QTYLtr else Crate end) as [TotalCrate]"
+            End If
+            qry += ",sum(ItemNetAmount) as ItemNetAmount"
+            'End If
+
             If strShift = "Evening" Then
                 qry += " ,0 as AmountBE"
             Else
@@ -1636,6 +1798,15 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 ,sum( Crate * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [CRATE#$#" + clsCommon.myCstr(drItem("Short_Description")) + "]  
 ,sum( Pouch * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [POUCH#$#" + clsCommon.myCstr(drItem("Short_Description")) + "]  "
             Next
+            If isDepartmentRoute Then
+                BaseQry = " select SUM(XXXFinal.Qty) as QTYLtr,XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,XXXFinal.CFCrate,XXXFinal.CFPouch
+ ,convert(int,Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFCrate) as Crate,
+ (Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFPouch -((convert(int,Sum(XXXFinal.Qty)*XXXFinal.Conversion_Factor/ XXXFinal.CFCrate) )* XXXFinal.CFCrate)) as Pouch,XXXFinal.Route_No
+ 
+ from(" + BaseQry + " )XXXFinal
+where XXXFinal.Short_Description is not null
+group by XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,XXXFinal.CFCrate,XXXFinal.CFPouch,XXXFinal.Route_No"
+            End If
             qry += " from ( " + BaseQry + " )  xx group by  Route_No order by Route_No "
             Dim dtTotal As DataTable = clsDBFuncationality.GetDataTable(qry)
             For Each drTotal As DataRow In dtTotal.Rows

@@ -68,6 +68,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
 
             Dim strQry As String = " update TSPL_cleaning set isPosted='1', Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & StrDocNo & "'"
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Cleaning", "Doc_no", trans)
 
             If isPosted Then
                 trans.Commit()
@@ -159,6 +160,9 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Start_Date_Time")), trans)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
 
             Dim qry As String = "delete from TSPL_cleaning where doc_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
@@ -272,6 +276,7 @@ where TSPL_Cleaning.Doc_No ='" + obj.Doc_No + "'", trans))
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Cleaning", OMInsertOrUpdate.Update, "TSPL_Cleaning.Doc_no='" + obj.Doc_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Cleaning", "Doc_no", trans)
 
             ''Notification on save
             Dim strNotifiContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmCleaning + "2" + "'", trans))
@@ -397,6 +402,7 @@ where TSPL_Cleaning.Doc_No ='" + strCode + "'", trans))
                 Throw New Exception("Can not reverse the document because Gateout  [" + clsCommon.myCstr(dt.Rows(0)("Doc_No")) + "] is created")
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Cleaning", "Doc_no", trans)
 
             Dim strIssueReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_IssueReturn_HEAD where Againt_Cleaning_No='" + strCode + "'", trans))
             If clsCommon.myLen(strIssueReturnNo) > 0 Then

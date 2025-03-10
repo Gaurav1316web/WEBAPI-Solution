@@ -26,12 +26,8 @@ Partial Class frmTankerProvision
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
-        Me.lblSalesman = New common.Controls.MyLabel()
-        Me.lblpaymentno = New common.Controls.MyLabel()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblTollAmount = New common.Controls.MyLabel()
         Me.txtTollAmount = New common.MyNumBox()
@@ -56,6 +52,7 @@ Partial Class frmTankerProvision
         Me.lblTotalCan = New common.Controls.MyLabel()
         Me.txtCrateQty = New common.Controls.MyTextBox()
         Me.txtRouteName = New common.Controls.MyTextBox()
+        Me.lblSalesman = New common.Controls.MyLabel()
         Me.txtCanQty = New common.Controls.MyTextBox()
         Me.lblRoute = New common.Controls.MyLabel()
         Me.fndRouteNo = New common.UserControls.txtFinder()
@@ -73,9 +70,11 @@ Partial Class frmTankerProvision
         Me.lblpaymentpostdate = New common.Controls.MyLabel()
         Me.cmbitemtype = New common.Controls.MyComboBox()
         Me.lblfullempty = New common.Controls.MyLabel()
+        Me.lblpaymentno = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -84,14 +83,14 @@ Partial Class frmTankerProvision
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,6 +112,7 @@ Partial Class frmTankerProvision
         CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCanQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -128,18 +128,47 @@ Partial Class frmTankerProvision
         CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Gv1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelect)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1031, 404)
+        Me.SplitContainer1.SplitterDistance = 369
+        Me.SplitContainer1.TabIndex = 3
         '
         'Gv1
         '
@@ -156,57 +185,7 @@ Partial Class frmTankerProvision
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 213)
         Me.Gv1.TabIndex = 1
-        '
-        'lblSalesman
-        '
-        Me.lblSalesman.FieldName = Nothing
-        Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesman.Location = New System.Drawing.Point(4, 52)
-        Me.lblSalesman.Name = "lblSalesman"
-        Me.lblSalesman.Size = New System.Drawing.Size(61, 16)
-        Me.lblSalesman.TabIndex = 26
-        Me.lblSalesman.Text = "Vehicle No"
-        '
-        'lblpaymentno
-        '
-        Me.lblpaymentno.FieldName = Nothing
-        Me.lblpaymentno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymentno.Location = New System.Drawing.Point(4, 9)
-        Me.lblpaymentno.Name = "lblpaymentno"
-        Me.lblpaymentno.Size = New System.Drawing.Size(77, 16)
-        Me.lblpaymentno.TabIndex = 28
-        Me.lblpaymentno.Text = "Gate Pass No"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(6, 4)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 24)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(961, 3)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(68, 24)
-        Me.btnClose.TabIndex = 5
-        Me.btnClose.Text = "Close"
-        '
-        'btnNew
-        '
-        Me.btnNew.BackgroundImage = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(317, 7)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(19, 21)
-        Me.btnNew.TabIndex = 13
+        Me.Gv1.VarID = ""
         '
         'Panel1
         '
@@ -603,6 +582,16 @@ Partial Class frmTankerProvision
         Me.txtRouteName.Size = New System.Drawing.Size(166, 18)
         Me.txtRouteName.TabIndex = 18
         '
+        'lblSalesman
+        '
+        Me.lblSalesman.FieldName = Nothing
+        Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesman.Location = New System.Drawing.Point(4, 52)
+        Me.lblSalesman.Name = "lblSalesman"
+        Me.lblSalesman.Size = New System.Drawing.Size(61, 16)
+        Me.lblSalesman.TabIndex = 26
+        Me.lblSalesman.Text = "Vehicle No"
+        '
         'txtCanQty
         '
         Me.txtCanQty.CalculationExpression = Nothing
@@ -933,6 +922,27 @@ Partial Class frmTankerProvision
         Me.lblfullempty.Text = "Item Type"
         Me.lblfullempty.Visible = False
         '
+        'lblpaymentno
+        '
+        Me.lblpaymentno.FieldName = Nothing
+        Me.lblpaymentno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblpaymentno.Location = New System.Drawing.Point(4, 9)
+        Me.lblpaymentno.Name = "lblpaymentno"
+        Me.lblpaymentno.Size = New System.Drawing.Size(77, 16)
+        Me.lblpaymentno.TabIndex = 28
+        Me.lblpaymentno.Text = "Gate Pass No"
+        '
+        'btnNew
+        '
+        Me.btnNew.BackgroundImage = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(317, 7)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew.TabIndex = 13
+        '
         'txtVehicle
         '
         Me.txtVehicle.CalculationExpression = Nothing
@@ -975,31 +985,15 @@ Partial Class frmTankerProvision
         Me.txtCode.TabIndex = 12
         Me.txtCode.Value = ""
         '
-        'SplitContainer1
+        'btnHistory
         '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Gv1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelect)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1031, 404)
-        Me.SplitContainer1.SplitterDistance = 369
-        Me.SplitContainer1.TabIndex = 3
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(506, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'btnReverse
         '
@@ -1076,6 +1070,26 @@ Partial Class frmTankerProvision
         Me.btnSelect.Text = "Select All"
         Me.btnSelect.Visible = False
         '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(6, 4)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(68, 24)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(961, 3)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(68, 24)
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        '
         'RadMenu1
         '
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
@@ -1096,13 +1110,11 @@ Partial Class frmTankerProvision
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Tanker Provision"
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1126,6 +1138,7 @@ Partial Class frmTankerProvision
         CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCanQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1141,15 +1154,17 @@ Partial Class frmTankerProvision
         CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1215,5 +1230,6 @@ Partial Class frmTankerProvision
     Friend WithEvents FndTransferNo As common.UserControls.txtFinder
     Friend WithEvents lblTollAmount As common.Controls.MyLabel
     Friend WithEvents txtTollAmount As common.MyNumBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

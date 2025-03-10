@@ -882,7 +882,7 @@ Public Class frmMCCMaterialSale
         repoHDisAmt.Name = colHeadDisPerAmt
         repoHDisAmt.Width = 80
         repoHDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoHDisAmt.VisibleInColumnChooser = False
+        repoHDisAmt.VisibleInColumnChooser = True
         repoHDisAmt.ReadOnly = True
         repoHDisAmt.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoHDisAmt)
@@ -3187,7 +3187,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             txtReceiptNo.Visible = False
             lblReceiptAmt.Visible = False
             lblReceiptNo.Visible = False
-            lblPaymentType.Visible = False
+            lblPaymentType.Visible = True
+            cmbPaymentType.Visible = True
         End If
 
         If MultiplySubsidyWithQuantity Then
@@ -3198,6 +3199,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             lblTotalDisSubsidy.Visible = False
 
         End If
+        lblTotalDisSubsidy.Text = 0
+        lblTotalSubsidy.Text = 0
         SETGSTControl()
         If AllowPlandDeptMCCLocation = True Then
             Dim obj As New clsMCCCodes()
@@ -7237,7 +7240,8 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             For Each gro As GridViewRowInfo In gv1.Rows
                 gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
                 If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
-                    dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                    'dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                    dblDiscountAmt = Math.Round(txtDiscAmt.Value * TotalItemQty, 2)
                     gro.Cells(colHeadDiscamt).Value = Math.Round((dblDiscountAmt), 2)
                 Else
                     gro.Cells(colHeadDiscamt).Value = 0
@@ -8584,8 +8588,8 @@ a:          End If
                     lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
                 End If
             Else
-                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
             End If
 
         Catch ex As Exception
@@ -8604,6 +8608,7 @@ a:          End If
                 lblPaymentType.Location = New System.Drawing.Point(794, 1)
                 cmbPaymentType.Location = New System.Drawing.Point(873, 1)
                 MyLabel14.Text = "Subsidy"
+                'lblPaymentType
             Else
                 lblReceiptNo.Visible = False
                 txtReceiptNo.Visible = False
@@ -8614,13 +8619,24 @@ a:          End If
                 MyLabel14.Text = "Rate Difference"
             End If
         Else
-            lblReceiptNo.Visible = False
-            txtReceiptNo.Visible = False
-            lblReceiptAmt.Visible = False
-            ' lblTotalSubsidy.Visible = False
-            lblPaymentType.Visible = False
-            cmbPaymentType.Visible = False
-            MyLabel14.Text = "Rate Difference"
+            If chkcashsale.Checked Then
+                lblReceiptNo.Visible = True
+                txtReceiptNo.Visible = True
+                lblReceiptAmt.Visible = True
+                'lblTotalSubsidy.Visible = True
+                lblPaymentType.Visible = True
+                cmbPaymentType.Visible = True
+                MyLabel14.Text = "Subsidy"
+            Else
+                lblReceiptNo.Visible = False
+                txtReceiptNo.Visible = False
+                lblReceiptAmt.Visible = False
+                ' lblTotalSubsidy.Visible = False
+                lblPaymentType.Visible = False
+                cmbPaymentType.Visible = False
+                MyLabel14.Text = "Rate Difference"
+            End If
+
         End If
     End Sub
     Private Sub txtReceiptNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReceiptNo._MYValidating
@@ -8706,5 +8722,21 @@ a:          End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnHistory1_Click(sender As Object, e As EventArgs) Handles btnHistory1.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_SD_SHIPMENT_HEAD", "TSPL_SD_SHIPMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtDiscPer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscPer.KeyPress
+        lblTotalDisSubsidy.Text = clsCommon.myRoundOFF(clsCommon.myCdbl(lblAmtWithDiscount.Text) * (clsCommon.myCdbl(txtDiscPer.Text) / 100), 2, 4)
     End Sub
 End Class

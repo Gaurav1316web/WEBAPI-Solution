@@ -544,6 +544,18 @@ Public Class frmGeneralWeighment
         chkJobWork_ToggleStateChanged() ''VIJ/23/01/20-001067 by baliwnder on 29/01/2020
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndWeighmentcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndWeighmentcode.Value, "Weighment_No", "TSPL_GENERAL_WEIGHMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub chkJobWork_ToggleStateChanged()
         If rbtnJobWork.IsChecked Then
             txtItemCode.Enabled = True
@@ -569,5 +581,5 @@ Public Class frmGeneralWeighment
         '================================================================
     End Sub
 
-    
+
 End Class

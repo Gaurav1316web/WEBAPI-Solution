@@ -245,6 +245,13 @@ Public Class FrmReceipttNew
             Me.Close()
         End Try
         ''------------------------
+        If objCommonVar.ApplyLocationWisePrefix Then
+            lblLocPrefix.Visible = True
+            txtLocationPrefix.Visible = True
+        Else
+            txtLocationPrefix.Visible = False
+            lblLocPrefix.Visible = False
+        End If
         isApplyBranchAccounting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, Nothing)) = 1, True, False)
         isCustomerFinderLocationWiseARReceipt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CustomerMasterFinderOnLocationwiseARReceipt, clsFixedParameterCode.CustomerMasterFinderOnLocationwiseARReceipt, Nothing)) = 1, True, False)
         isApplyCostCenter = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInARInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInARInvoiceEntry, Nothing)) = 1
@@ -821,6 +828,12 @@ Public Class FrmReceipttNew
             '    Return False
             'End If 
             '=================Added by Richa AGARWAL 8 nOV,2019
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                End If
+            End If
             If clsCommon.myLen(txtEntrDesc.Text) <= 0 AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "Description can't be blank.", Me.Text)
                 txtEntrDesc.Focus()
@@ -1454,6 +1467,9 @@ Public Class FrmReceipttNew
 
                 If clsCommon.myLen(clsCommon.myCstr(txtlocation.Value)) > 0 Then
                     obj.Location_GL_Code = clsCommon.myCstr(txtlocation.Value)
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                    obj.Location_Code_Prefix = clsCommon.myCstr(txtLocationPrefix.Value)
                 End If
                 obj.TO_BANK_CODE = Me.txtToBank.Value
 
@@ -2119,7 +2135,7 @@ Public Class FrmReceipttNew
 
     Private Sub fndRcptNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRcptNo._MYValidating
         'Dim Qry As String = " SELECT     TSPL_BANK_MASTER.DESCRIPTION AS Bank, TSPL_RECEIPT_HEADER.Receipt_No AS ReceiptNo, TSPL_RECEIPT_HEADER.Receipt_Date AS [Receipt Date], Receipt_Amount as [Amount] , (SELECT     CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type = 'R' THEN 'Receipt' WHEN TSPL_RECEIPT_HEADER.Receipt_Type = 'M' THEN 'Miscellaneous' WHEN TSPL_RECEIPT_HEADER.Receipt_Type = 'U' THEN 'UnApplied Cash' WHEN TSPL_RECEIPT_HEADER.Receipt_Type = 'A' THEN 'Apply Document' WHEN  TSPL_RECEIPT_HEADER.Receipt_Type = 'P' THEN 'PrePayemnt' WHEN TSPL_RECEIPT_HEADER.Receipt_Type = 'O' THEN 'OnAccount' WHEN TSPL_RECEIPT_HEADER.Receipt_Type='F' Then 'Refund' WHEN TSPL_RECEIPT_HEADER.Receipt_Type='S' Then 'Misc Refund' END AS Expr1) AS Type, TSPL_RECEIPT_HEADER.Cust_Code AS [Customer No], TSPL_RECEIPT_HEADER.Customer_Name AS [Customer Name], (SELECT     CASE WHEN Posted = 'Y' THEN 'Posted' ELSE 'Open' END AS Expr1) AS Status, TSPL_RECEIPT_HEADER.Payer AS [Remit To] FROM  TSPL_RECEIPT_HEADER INNER JOIN TSPL_BANK_MASTER ON TSPL_RECEIPT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE"
-        Dim Qry As String = "select TSPL_BANK_MASTER.DESCRIPTION AS BANK, TSPL_RECEIPT_HEADER.Receipt_No as [ReceiptNo] ,convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Date,103) as [Receipt Date] ,convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Post_Date,103) as [Receipt Post Date] ,TSPL_RECEIPT_HEADER.Entry_Desc as [Entry Desc] ,TSPL_RECEIPT_HEADER.Bank_Code as [Bank Code] ,TSPL_RECEIPT_HEADER.Receipt_Type as [Receipt Type] ,TSPL_RECEIPT_HEADER.Cust_Code as [Cust Code] ,TSPL_RECEIPT_HEADER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name] ,TSPL_RECEIPT_HEADER.Reference as [Reference] ,TSPL_RECEIPT_HEADER.Narration as [Narration] ,TSPL_RECEIPT_HEADER.Payment_Code as [Payment Code] ,TSPL_RECEIPT_HEADER.Cheque_No as [Cheque No] ,TSPL_RECEIPT_HEADER.Cheque_Date as [Cheque Date] ,TSPL_RECEIPT_HEADER.Receipt_Amount as [Receipt Amount] ,TSPL_RECEIPT_HEADER.Cust_Account as [Cust Account] ,TSPL_RECEIPT_HEADER.Apply_By as [Apply By] ,TSPL_RECEIPT_HEADER.Apply_To as [Apply To] ,TSPL_RECEIPT_HEADER.Posted as [Posted] ,TSPL_RECEIPT_HEADER.Document_No as [Document No] ,TSPL_RECEIPT_HEADER.Payer as [Payer] ,TSPL_RECEIPT_HEADER.QuickEntryNo as [Quickentryno] ,TSPL_RECEIPT_HEADER.SecurityDeposit as [Securitydeposit] ,TSPL_RECEIPT_HEADER.Salesman_Code as [Salesman Code] ,TSPL_RECEIPT_HEADER.Salesman_Name as [Salesman Name] ,TSPL_RECEIPT_HEADER.Loadout_No as [Loadout No] ,TSPL_RECEIPT_HEADER.Cheque_From as [Cheque From] ,TSPL_RECEIPT_HEADER.CURRENCY_CODE as [Currency Code] ,TSPL_RECEIPT_HEADER.ConvRate as [Convrate] ,TSPL_RECEIPT_HEADER.ApplicableFrom as [Applicablefrom] ,TSPL_RECEIPT_HEADER.CFormRecd as [Cformrecd] ,TSPL_RECEIPT_HEADER.CForm_InvoiceNo as [Cform Invoiceno] ,TSPL_RECEIPT_HEADER.BASE_CURRENCY_CODE as [Base Currency Code] ,TSPL_RECEIPT_HEADER.RECEIVED_AMOUNT_BASE_CURRENCY as [Received Amount Base Currency] ,TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT as [Exchange Loss Amt] ,TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as [Exchange Gain Amt] ,TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_ACCOUNT as [Exchange Loss Account] ,TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_ACCOUNT as [Exchange Gain Account] ,TSPL_RECEIPT_HEADER.ConvRateOld as [Convrateold] ,TSPL_RECEIPT_HEADER.PROJECT_ID as [Project Id] ,TSPL_RECEIPT_HEADER.IsParentCust as [Isparentcust] ,TSPL_RECEIPT_HEADER.CHECK_PRINT as [Check Print] ,TSPL_RECEIPT_HEADER.CHECK_CODE as [Check Code] ,TSPL_RECEIPT_HEADER.AUTO_GEN_BT_ENTRY as [Auto Gen Bt Entry] ,TSPL_RECEIPT_HEADER.TO_BANK_CODE as [To Bank Code] ,TSPL_RECEIPT_HEADER.Transfer_No as [Transfer No] ,TSPL_RECEIPT_HEADER.From_Branch as [From Branch] ,TSPL_RECEIPT_HEADER.memorandum_amt as [Memorandum Amt] ,TSPL_RECEIPT_HEADER.Applied_Receipt as [Applied Receipt],TSPL_RECEIPT_HEADER.SaleOrderNo,isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'') as [Delivery Order]  From TSPL_RECEIPT_HEADER LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=TSPL_RECEIPT_HEADER.Bank_Code "
+        Dim Qry As String = "select TSPL_BANK_MASTER.DESCRIPTION AS BANK, TSPL_RECEIPT_HEADER.Receipt_No as [ReceiptNo] ,convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Date,103) as [Receipt Date] ,convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Post_Date,103) as [Receipt Post Date] ,TSPL_RECEIPT_HEADER.Entry_Desc as [Entry Desc],TSPL_RECEIPT_HEADER.Location_Code_Prefix as [Location Code Prefix] ,TSPL_RECEIPT_HEADER.Bank_Code as [Bank Code] ,TSPL_RECEIPT_HEADER.Receipt_Type as [Receipt Type] ,TSPL_RECEIPT_HEADER.Cust_Code as [Cust Code] ,TSPL_RECEIPT_HEADER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name] ,TSPL_RECEIPT_HEADER.Reference as [Reference] ,TSPL_RECEIPT_HEADER.Narration as [Narration] ,TSPL_RECEIPT_HEADER.Payment_Code as [Payment Code] ,TSPL_RECEIPT_HEADER.Cheque_No as [Cheque No] ,TSPL_RECEIPT_HEADER.Cheque_Date as [Cheque Date] ,TSPL_RECEIPT_HEADER.Receipt_Amount as [Receipt Amount] ,TSPL_RECEIPT_HEADER.Cust_Account as [Cust Account] ,TSPL_RECEIPT_HEADER.Apply_By as [Apply By] ,TSPL_RECEIPT_HEADER.Apply_To as [Apply To] ,TSPL_RECEIPT_HEADER.Posted as [Posted] ,TSPL_RECEIPT_HEADER.Document_No as [Document No] ,TSPL_RECEIPT_HEADER.Payer as [Payer] ,TSPL_RECEIPT_HEADER.QuickEntryNo as [Quickentryno] ,TSPL_RECEIPT_HEADER.SecurityDeposit as [Securitydeposit] ,TSPL_RECEIPT_HEADER.Salesman_Code as [Salesman Code] ,TSPL_RECEIPT_HEADER.Salesman_Name as [Salesman Name] ,TSPL_RECEIPT_HEADER.Loadout_No as [Loadout No] ,TSPL_RECEIPT_HEADER.Cheque_From as [Cheque From] ,TSPL_RECEIPT_HEADER.CURRENCY_CODE as [Currency Code] ,TSPL_RECEIPT_HEADER.ConvRate as [Convrate] ,TSPL_RECEIPT_HEADER.ApplicableFrom as [Applicablefrom] ,TSPL_RECEIPT_HEADER.CFormRecd as [Cformrecd] ,TSPL_RECEIPT_HEADER.CForm_InvoiceNo as [Cform Invoiceno] ,TSPL_RECEIPT_HEADER.BASE_CURRENCY_CODE as [Base Currency Code] ,TSPL_RECEIPT_HEADER.RECEIVED_AMOUNT_BASE_CURRENCY as [Received Amount Base Currency] ,TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT as [Exchange Loss Amt] ,TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as [Exchange Gain Amt] ,TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_ACCOUNT as [Exchange Loss Account] ,TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_ACCOUNT as [Exchange Gain Account] ,TSPL_RECEIPT_HEADER.ConvRateOld as [Convrateold] ,TSPL_RECEIPT_HEADER.PROJECT_ID as [Project Id] ,TSPL_RECEIPT_HEADER.IsParentCust as [Isparentcust] ,TSPL_RECEIPT_HEADER.CHECK_PRINT as [Check Print] ,TSPL_RECEIPT_HEADER.CHECK_CODE as [Check Code] ,TSPL_RECEIPT_HEADER.AUTO_GEN_BT_ENTRY as [Auto Gen Bt Entry] ,TSPL_RECEIPT_HEADER.TO_BANK_CODE as [To Bank Code] ,TSPL_RECEIPT_HEADER.Transfer_No as [Transfer No] ,TSPL_RECEIPT_HEADER.From_Branch as [From Branch] ,TSPL_RECEIPT_HEADER.memorandum_amt as [Memorandum Amt] ,TSPL_RECEIPT_HEADER.Applied_Receipt as [Applied Receipt],TSPL_RECEIPT_HEADER.SaleOrderNo,isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'') as [Delivery Order]  From TSPL_RECEIPT_HEADER LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=TSPL_RECEIPT_HEADER.Bank_Code "
         '' Anubhooti 13-Mar-2015 (Fetch Alies Name On Vendor Finder)
         Qry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code "
 
@@ -2753,7 +2769,7 @@ Public Class FrmReceipttNew
                 If clsCommon.myCdbl(txtmemoamt.Text) > 0 Then
                     chkmemorndm.Checked = True
                 End If
-
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
                 dgvmiscpayment.Visible = False
                 dgvReceipt.Visible = False
                 ddlTransType.Enabled = False
@@ -3385,6 +3401,7 @@ Public Class FrmReceipttNew
 
     Public Sub funReset()
         txtDONo.Enabled = True
+        txtLocationPrefix.Value = ""
         txtTaxGroup.Enabled = True
         fndBankCode.Enabled = True
         fndPayType.Enabled = True
@@ -3932,7 +3949,7 @@ Public Class FrmReceipttNew
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                            "========Table Name=========" + Environment.NewLine +
                            "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine +
                            "TSPL_RECEIPT_DETAIL_GST , TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
@@ -4320,25 +4337,25 @@ Public Class FrmReceipttNew
             'chkSecurityDposit.Enabled = True
 
             If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Then
-                    Pnlmemorandum.Visible = True
-                    '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
-                    lblSalesOrder.Visible = True
-                    FndSalesOrder.Visible = True
-                    chkSecurityDposit.Enabled = True
-                    ''--------------------------
-                Else
-                    chkSecurityDposit.Enabled = False
-                End If
-
-                If objCommonVar.IsDemoERP = True Then
-                    pnlCform.Visible = True
-                Else
-                    pnlCform.Visible = False
-                End If
-
-
+                Pnlmemorandum.Visible = True
+                '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
+                lblSalesOrder.Visible = True
+                FndSalesOrder.Visible = True
+                chkSecurityDposit.Enabled = True
+                ''--------------------------
+            Else
+                chkSecurityDposit.Enabled = False
             End If
-            If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
+
+            If objCommonVar.IsDemoERP = True Then
+                pnlCform.Visible = True
+            Else
+                pnlCform.Visible = False
+            End If
+
+
+        End If
+        If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
             chkCheckPrint.Visible = True
         Else
             chkCheckPrint.Visible = False
@@ -8325,6 +8342,19 @@ Public Class FrmReceipttNew
             clsERPFuncationalityOLD.ShowTransHistoryData(fndRcptNo.Value, "Receipt_No", "TSPL_RECEIPT_HEADER", "TSPL_RECEIPT_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim WhrCls As String = ""
+            Dim qry As String = "Select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls = "  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

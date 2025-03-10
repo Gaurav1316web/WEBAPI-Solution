@@ -226,6 +226,7 @@ Public Class ClsAdjustments
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ADJUSTMENT_HEADER", OMInsertOrUpdate.Update, "Adjustment_No='" + obj.Adjustment_No + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsAdjustmentsDetails.SaveData(obj.Adjustment_No, obj.Loc_Code, Arr, trans, obj.Trans_Type, obj.Adjustment_Date, obj.Adjustment_Type)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "TSPL_ADJUSTMENT_DETAIL", "Adjustment_No", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -1569,6 +1570,7 @@ Public Class ClsAdjustments
                 clsSerializeInvenotry.DeleteData("IC-AD", strCode, trans)
                 clsBatchInventory.DeleteData("IC-AD", strCode, trans)
                 clsBatchInventoryNew.DeleteData("IC-AD", strCode, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "TSPL_ADJUSTMENT_DETAIL", "Adjustment_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ADJUSTMENT_HEADER", "adjustment_no", "TSPL_ADJUSTMENT_DETAIL", "Adjustment_No", trans)
                 Dim qry As String = "delete from TSPL_ADJUSTMENT_DETAIL where Adjustment_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1580,6 +1582,7 @@ Public Class ClsAdjustments
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "update TSPL_ADJUSTMENT_HEADER_Delete_Data set Delete_By = '" + objCommonVar.CurrentUserCode + "' where Adjustment_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 '======================================================================
             Catch ex As Exception
                 Throw New Exception(ex.Message)

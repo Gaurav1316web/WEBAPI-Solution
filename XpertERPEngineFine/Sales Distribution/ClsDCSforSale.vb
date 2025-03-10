@@ -61,7 +61,7 @@ Public Class ClsDCSforSale
                 '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FOR_SALE", "Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FOR_SALE", "Code", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -124,6 +124,8 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FOR_SALE", "Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FOR_SALE", "Code", trans)
 
                 Dim qry As String = "delete from TSPL_DCS_FOR_SALE where Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

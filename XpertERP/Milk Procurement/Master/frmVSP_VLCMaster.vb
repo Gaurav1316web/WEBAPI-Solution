@@ -63,13 +63,13 @@ Public Class frmVSP_VLCMaster
         ToolTipvendor.SetToolTip(btnnew, "New")
         '' Anubhooti 4-Aug-2014 BM00000003319
         LoadAccountType()
-        If EnableBankFromMaster Then
-            txtbankcodedes.Visible = True
+        ' If EnableBankFromMaster Then
+        txtbankcodedes.Visible = True
             txtbankcodedes2.Visible = True
-        Else
-            txtbankcodedes.Visible = False
-            txtbankcodedes2.Visible = False
-        End If
+        'Else
+        '    txtbankcodedes.Visible = False
+        '    txtbankcodedes2.Visible = False
+        'End If
 
         ''
         fndvendorNo_text_changed()
@@ -1349,7 +1349,7 @@ Public Class frmVSP_VLCMaster
             obj.ManualCustomer = "N"
             obj.Status = "N"
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
-
+            obj.OnHold = "N"
             Dim arrDBName As New List(Of String)
             arrDBName.Add(clsCommon.myCstr(objCommonVar.CurrDatabase))
 
@@ -3886,14 +3886,14 @@ Public Class frmVSP_VLCMaster
                 Dim ii As Integer = 0
                 dtError.Columns.Add("RowNo", GetType(Integer))
                 dtError.Columns.Add("Error", GetType(String))
-                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
                     If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
                         clsCommon.ProgressBarPercentShow()
                         For Each grow As GridViewRowInfo In gv.Rows
                             Try
                                 linno += 1
-                                clsCommon.ProgressBarPercentUpdate(ii, gv.Rows.Count, "Validating Data...")
+                                clsCommon.ProgressBarPercentUpdate(linno, gv.Rows.Count, "Validating Data...")
+                                obj = New clsfrmVLCMaster()
                                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Bank Code Desc").Value)) <= 0 Then
                                     Throw New Exception("Bank Code Desc can't be blank !")
                                 End If
@@ -3981,7 +3981,7 @@ Public Class frmVSP_VLCMaster
                                 obj.mainvillname = clsCommon.myCstr(grow.Cells("DCS Name").Value)
                                 obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
 
-                                Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'", trans))
+                                Dim Count As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" + clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER) + "'"))
                                 'If Count > 0 Then
                                 '    'clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader :" + obj.VLC_CODE_VLC_UPLOADER)
                                 '    If clsCommon.myLen(duplicateUploader) > 0 Then
@@ -4084,12 +4084,12 @@ Public Class frmVSP_VLCMaster
                                 If clsCommon.myLen(objVCode.villcode) > 0 Then
                                     obj.mainvillcode = objVCode.villcode
                                 Else
-                                    obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
+                                    obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'"))
                                 End If
                                 arr.Add(obj)
                             Catch ex As Exception
                                 Dim dr As DataRow = dtError.NewRow()
-                                dr("RowNo") = ii
+                                dr("RowNo") = linno
                                 dr("Error") = ex.Message
                                 dtError.Rows.Add(dr)
                             End Try
@@ -4112,8 +4112,9 @@ Public Class frmVSP_VLCMaster
                                 clsCommon.ProgressBarPercentShow()
                                 ii = 0
                                 'Dim trans1 As SqlTransaction = clsDBFuncationality.GetTransactin()
-                                Try
+                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
+                                Try
                                     For Each obj1 As clsfrmVLCMaster In arr
                                         ii += 1
                                         clsCommon.ProgressBarPercentUpdate(ii, arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
@@ -7180,6 +7181,21 @@ Public Class frmVSP_VLCMaster
         End If
         Me.Controls.Remove(gv1)
     End Sub
+
+    Private Sub fndbankcode_Click(sender As Object, e As EventArgs) Handles fndbankcode.Click
+        If clsCommon.myLen(fndbankcode.Text) > 0 Then
+            txtbankcodedes.Text = fndbankcode.Text
+        End If
+
+    End Sub
+
+    Private Sub fndbankcode2_Click(sender As Object, e As EventArgs) Handles fndbankcode2.Click
+        If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+            txtbankcodedes2.Text = fndbankcode2.Text
+        End If
+    End Sub
+
+
 
 
     'Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click

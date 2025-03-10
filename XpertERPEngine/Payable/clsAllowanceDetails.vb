@@ -45,6 +45,8 @@ Public Class clsAllowanceDetails
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ALLOWANCE", "ALLOWANCE_CODE", "TSPL_ALLOWANCE_DETAIL", "ALLOWANCE_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ALLOWANCE", "ALLOWANCE_CODE", "TSPL_ALLOWANCE_DETAIL", "ALLOWANCE_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_ALLOWANCE_DETAIL where ALLOWANCE_CODE ='" + strCode + "'"
@@ -176,6 +178,8 @@ Public Class clsAllowanceDetails
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ALLOWANCE", OMInsertOrUpdate.Update, "TSPL_ALLOWANCE.ALLOWANCE_CODE='" + obj.ALLOWANCE_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsAllowancePayHeadDetails.SaveData(obj.ALLOWANCE_CODE, obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ALLOWANCE_CODE, "TSPL_ALLOWANCE", "ALLOWANCE_CODE", "TSPL_ALLOWANCE_DETAIL", "ALLOWANCE_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
