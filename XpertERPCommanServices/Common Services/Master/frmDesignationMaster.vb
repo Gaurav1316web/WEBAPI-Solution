@@ -239,6 +239,7 @@ Public Class frmDesignationMaster
             myMessages.insert()
             sQuery = "update tspl_designation_Master set Level_Code='" & clsCommon.myCstr(CmbLevelCode.SelectedValue) & "' where designation_id='" & fnddesig.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(sQuery)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fnddesig.Value, "tspl_designation_Master", "description", Nothing)
             btnsave.Text = "Update"
             btndelete.Enabled = True
             'If userCode <> "ADMIN" Then
@@ -501,6 +502,18 @@ Public Class frmDesignationMaster
         textchangedsub()
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fnddesig.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fnddesig.Value, "Designation_id", "TSPL_DESIGNATION_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub fnddesig_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fnddesig.Leave
         Dim qry As String = "Select * from TSPL_DESIGNATION_MASTER Where Designation_id='" + fnddesig.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -512,6 +525,6 @@ Public Class frmDesignationMaster
         End If
     End Sub
 
-   
-  
+
+
 End Class
