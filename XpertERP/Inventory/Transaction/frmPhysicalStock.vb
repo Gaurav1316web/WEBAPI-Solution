@@ -1555,7 +1555,7 @@ Public Class FrmPhysicalStock
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Document_No", "tspl_physical_stock", "TSPL_TRANSFER_TO_SAVING_DETAIL")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Document_Code", "tspl_physical_stock")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

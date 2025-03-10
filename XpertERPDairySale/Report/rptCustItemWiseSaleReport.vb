@@ -477,8 +477,8 @@ Public Class rptCustItemWiseSaleReport
     SUM(Out_Qty) AS Out_Qty, 
     SUM(QtyPouch) AS QtyPouch, 
     SUM(Amount) AS Amount, 
-    '01-Sep-2024' AS Fromdate, 
-    '10-Sep-2024' AS ToDate, 
+    '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AS Fromdate, 
+    '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AS ToDate, 
     MAX(Add1) AS Add1, 
     MAX(Add2) AS Add2, 
     MAX(Add3) AS Add3, 
@@ -494,8 +494,8 @@ FROM (
             TSPL_TRANSFER_ORDER_DETAIL.Item_Code, 
             MAX(TSPL_TRANSFER_ORDER_HEAD.Price_Code) AS Price_Code, 
             TSPL_TRANSFER_ORDER_HEAD.Document_Date, 
-            '01-Sep-2024' AS Fromdate, 
-            '10-Sep-2024' AS ToDate, 
+            '' AS Fromdate, 
+            '' AS ToDate, 
             MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, 
             MAX(TSPL_COMPANY_MASTER.Add1) AS Add1, 
             MAX(TSPL_COMPANY_MASTER.Add2) AS Add2, 
@@ -654,7 +654,7 @@ GROUP BY Item_Code"
                     LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
+                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where TSPL_ITEM_MASTER.Is_Ambient = 1  and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
                 GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -1102,7 +1102,7 @@ group by XXFinal.Customer_Name"
                         TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                          TSPL_COMPANY_MASTER.Comp_Name,
 
-                        (TSPL_COMPANY_MASTER.Add1 +TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress,
+                        (TSPL_COMPANY_MASTER.Add1 ) as CompAddress,
                          case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
                          case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
 
@@ -1192,7 +1192,7 @@ group by XXFinal.Customer_Name"
                         left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                         and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
 						LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
-                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1 " & whrcls & " ) xx
+                        WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1  AND TSPL_ITEM_MASTER.Item_Desc LIKE '%Ghee%'  " & whrcls & " ) xx
 						group By Customer_Name,Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -1498,7 +1498,7 @@ group by XXFinal.Customer_Name"
                                     and ItemConvReportUOM.Report_UOM = 1
                                      left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                    and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                    LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' ) xx 
+                    LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 ) xx 
                 GROUP BY Item_Code"
             dt = clsDBFuncationality.GetDataTable(qry)
 
