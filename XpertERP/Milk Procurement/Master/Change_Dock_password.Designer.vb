@@ -156,9 +156,9 @@ Partial Class Enter_password
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(10, 25)
         Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(143, 16)
+        Me.MyLabel2.Size = New System.Drawing.Size(150, 16)
         Me.MyLabel2.TabIndex = 21
-        Me.MyLabel2.Text = "Dock Milk Recipt Password"
+        Me.MyLabel2.Text = "Dock Milk Receipt Password"
         '
         'btnCancel
         '
