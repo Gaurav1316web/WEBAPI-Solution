@@ -898,9 +898,11 @@ xxx:
     End Function
 
 
-    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As RadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing) As Integer
+    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As RadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
         Dim FileCount As Integer = 1
-
+        If AllCellsInString Then
+            MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
+        End If
         'sanjay
         If sname.Contains("/") Then
             sname = sname.Replace("/", " ")
@@ -1073,30 +1075,43 @@ xxx:
             For i As Integer = 0 To gv.Columns.Count - 1
                 jk += 1
                 ''richa agarwal 12jan BM00000008685
-                If FormatCellofExcel = False Then
+                If AllCellsInString Then
                     If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
                     ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
                     ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4108 ' Center Align
                     End If
                 Else
-                    ''richa agarwal 08-jan-2015 format for excel sheet cell format @ as text,General as for General, 0 as numnber,0.00 as decimal against ticket no BM00000008659,BM00000008854
-                    If clsCommon.CompairString(gv.Columns(i).Name, "ColAcNo") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "ColPAYEEACNO") = CompairStringResult.Equal Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
-                    ElseIf clsCommon.CompairString(gv.Columns(i).Name, "colSCACNO") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "colBeniACNO") = CompairStringResult.Equal Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
-                    ElseIf TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "General"
-                    ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
-                    ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
-                    ElseIf TypeOf gv.Columns(i) Is GridViewDateTimeColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "dd/mmm/yyyy"
+                    If FormatCellofExcel = False Then
+                        If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
+                        End If
+                    Else
+                        ''richa agarwal 08-jan-2015 format for excel sheet cell format @ as text,General as for General, 0 as numnber,0.00 as decimal against ticket no BM00000008659,BM00000008854
+                        If clsCommon.CompairString(gv.Columns(i).Name, "ColAcNo") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "ColPAYEEACNO") = CompairStringResult.Equal Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf clsCommon.CompairString(gv.Columns(i).Name, "colSCACNO") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "colBeniACNO") = CompairStringResult.Equal Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "General"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDateTimeColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "dd/mmm/yyyy"
+                        End If
+                        ''-------------------
                     End If
-                    ''-------------------
                 End If
             Next
 

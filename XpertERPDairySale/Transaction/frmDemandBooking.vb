@@ -6,6 +6,7 @@ Imports XpertERPEngine
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim GVTruckSheet As RadGridView
     Dim gvFullMode As Boolean = False
     Dim SetDefaultShiftTime As String = ""
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
@@ -3334,23 +3335,23 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Private Sub TruckSheetExcel(ByVal isExcelPDF As Boolean, ByVal TripNo As String)
         Dim BaseQry As String = Nothing
         Dim doc As New clsMyPrintDocument()
-        Dim GVTruckSheet As New RadGridView()
+        GVTruckSheet = New RadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_MASTER.Unit_code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'
                 and TSPL_ITEM_MASTER.Is_Milk_Pouch=1 order by sku_seq"
             Dim ItemInUseProduct As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+                Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_MASTER.Unit_code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'
                 and TSPL_ITEM_MASTER.Is_Milk_Pouch=0 order by sku_seq"
-            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size  from " + ItemInUse)
-            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size  from " + ItemInUseProduct)
+            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size   from " + ItemInUse)
+            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size   from " + ItemInUseProduct)
             If (dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0) AndAlso (dtDataExistProduct Is Nothing OrElse dtDataExistProduct.Rows.Count = 0) Then
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
@@ -3515,42 +3516,42 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             'Total Row
             Dim newTotalRow As DataRow = dt.NewRow
             newTotalRow("Agents") = "Net Total"
-            Dim newTotalLtrRow As DataRow = dt.NewRow
-            If rdbnFreshAmbientBoth.IsChecked = True OrElse rbtn_Fresh.IsChecked = True Then
-                newTotalLtrRow("Agents") = "Total Qty(Ltr)"
-            End If
-            Dim newTotalAmtRow As DataRow = dt.NewRow
-            newTotalAmtRow("Agents") = "Total Amt"
+            'Dim newTotalLtrRow As DataRow = dt.NewRow
+            'If rdbnFreshAmbientBoth.IsChecked = True OrElse rbtn_Fresh.IsChecked = True Then
+            '    newTotalLtrRow("Agents") = "Total Qty(Ltr)"
+            'End If
+            'Dim newTotalAmtRow As DataRow = dt.NewRow
+            'newTotalAmtRow("Agents") = "Total Amt"
             For i As Integer = 1 To dt.Columns.Count - 1
                 Dim ColName As String = dt.Columns(i).ColumnName
                 newTotalRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColName + "])", ""))
                 If ColName.Contains("#C") Then
                     Dim ColNameLtr As String = ColName.Substring(0, ColName.Length - 2) + "#L"
-                    newTotalLtrRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameLtr + "])", ""))
-                    Dim ColNameAmt As String = ColName.Substring(0, ColName.Length - 2) + "#A"
-                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                    'newTotalLtrRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameLtr + "])", ""))
+                    'Dim ColNameAmt As String = ColName.Substring(0, ColName.Length - 2) + "#A"
+                    'newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 ElseIf ColName.Contains("#ProdQ") Then
-                    Dim ColNameAmt As String = ColName.Substring(0, ColName.Length - 6) + "#A"
-                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                    'Dim ColNameAmt As String = ColName.Substring(0, ColName.Length - 6) + "#A"
+                    'newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 End If
                 If ColName.Contains("Milk Amount") Then
-                    Dim ColNameAmt As String = ColName
-                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                    'Dim ColNameAmt As String = ColName
+                    'newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 End If
                 If ColName.Contains("Product Amount") Then
-                    Dim ColNameAmt As String = ColName
-                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                    'Dim ColNameAmt As String = ColName
+                    'newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 End If
                 If ColName.Contains("Total Amount") Then
-                    Dim ColNameAmt As String = ColName
-                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                    'Dim ColNameAmt As String = ColName
+                    'newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 End If
             Next
             dt.Rows.Add(newTotalRow)
-            If rdbnFreshAmbientBoth.IsChecked = True OrElse rbtn_Fresh.IsChecked = True Then
-                dt.Rows.Add(newTotalLtrRow)
-            End If
-            dt.Rows.Add(newTotalAmtRow)
+            'If rdbnFreshAmbientBoth.IsChecked = True OrElse rbtn_Fresh.IsChecked = True Then
+            '    dt.Rows.Add(newTotalLtrRow)
+            'End If
+            'dt.Rows.Add(newTotalAmtRow)
 
 
             Dim dtUOM As DataTable = clsDBFuncationality.GetDataTable("Select Item_code, Max(Unit_Desc)Unit_Desc,Max(Is_FreshItem)Is_FreshItem,Max(Is_Ambient)Is_Ambient from (" + BaseQry + ")xyz group by Item_Code,Unit_Code")
@@ -3609,8 +3610,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             End If
             If rdbnFreshAmbientBoth.IsChecked = True Then
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n0}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n0}"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").TextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " क्रेट"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " थैली"
@@ -3621,15 +3624,18 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n0}"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) '+ " "
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
                 Next
             ElseIf rbtn_Fresh.IsChecked = True Then
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n2}"
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n2}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n0}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n0}"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").TextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " क्रेट"
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("Size")) '+ " थैली"
@@ -3641,7 +3647,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Next
             ElseIf rbtn_Ambient.IsChecked = True Then
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
-                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n2}"
+                    'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").FormatString = "{0:n0}"
+                    GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderText = clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Size")) '+  " "
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#ProdQ").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) + "#A").IsVisible = False
@@ -3649,12 +3656,18 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
                 GVTruckSheet.Columns("Milk In Ltr").FormatString = "{0:n2}"
-                GVTruckSheet.Columns("Crates").FormatString = "{0:n2}"
+                GVTruckSheet.Columns("Milk In Ltr").TextAlignment = ContentAlignment.MiddleCenter
+                GVTruckSheet.Columns("Crates").FormatString = "{0:n0}"
+                GVTruckSheet.Columns("Crates").TextAlignment = ContentAlignment.MiddleCenter
                 GVTruckSheet.Columns("Milk Amount").FormatString = "{0:n2}"
-                GVTruckSheet.Columns("Product Quantity").FormatString = "{0:n2}"
+                GVTruckSheet.Columns("Milk Amount").TextAlignment = ContentAlignment.MiddleRight
+                GVTruckSheet.Columns("Product Quantity").FormatString = "{0:n0}"
+                GVTruckSheet.Columns("Product Quantity").TextAlignment = ContentAlignment.MiddleCenter
                 GVTruckSheet.Columns("Product Amount").FormatString = "{0:n2}"
+                GVTruckSheet.Columns("Product Amount").TextAlignment = ContentAlignment.MiddleRight
             End If
             GVTruckSheet.Columns("Total Amount").FormatString = "{0:n2}"
+            GVTruckSheet.Columns("Total Amount").TextAlignment = ContentAlignment.MiddleRight
             Dim view As New ColumnGroupsViewDefinition()
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
@@ -3707,23 +3720,37 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Dim dtNew As New DataTable()
                 Dim strQry As String
                 Dim dtFresh As DataTable = Nothing
+                Dim dtFreshTotal As DataTable = Nothing
                 Dim dtAmbient As DataTable = Nothing
-                If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
+                Dim dtAmbientTotal As DataTable = Nothing
+                Dim GVFresh As New RadGridView()
+                Dim GVFreshTotal As New RadGridView()
+
+                If strFUOMPivot IsNot Nothing AndAlso (rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
                     strQry = "Select Alies_Name As [Product Name]," + strFUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
 from (" + BaseQry + ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strFUOMPivot + ") ) AS PivotTable "
-                    strQry += " Union All "
-                    strQry += "Select 'Total : ' As [Product Name]," + strFSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
-from (" + BaseQry + ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strFUOMPivot + ") ) AS PivotTable "
                     dtFresh = clsDBFuncationality.GetDataTable(strQry)
+                    If dtFresh IsNot Nothing AndAlso dtFresh.Rows.Count > 0 Then
+                        GVFresh.Refresh()
+                        GVFresh.DataSource = dtFresh
+
+
+                    End If
+                    'strQry += " Union All "
+                    strQry = "Select 'Total : ' As [Product Name]," + strFSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
+from (" + BaseQry + ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strFUOMPivot + ") ) AS PivotTable "
+                    dtFreshTotal = clsDBFuncationality.GetDataTable(strQry)
+
                 End If
 
-                If rbtn_Ambient.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
+                If strPUOMPivot IsNot Nothing AndAlso (rbtn_Ambient.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
                     strQry = "Select Alies_Name As [Product Name]," + strPUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
 from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strPUOMPivot + ") ) AS PivotTable "
-                    strQry += " Union All "
-                    strQry += "Select 'Total : ' As [Product Name]," + strPSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
-from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strPUOMPivot + ") ) AS PivotTable "
                     dtAmbient = clsDBFuncationality.GetDataTable(strQry)
+                    'strQry += " Union All "
+                    strQry = "Select 'Total : ' As [Product Name]," + strPSumItem + ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" + strPUOMPivot + ") ) AS PivotTable "
+                    dtAmbientTotal = clsDBFuncationality.GetDataTable(strQry)
                 End If
 
                 ' Access the existing DataTable from RadGridView
@@ -3745,6 +3772,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                     Next
                 End If
                 dtNew.Rows.Add(dtNew.NewRow)
+
 
                 Dim colk As Integer = -1
                 colk = GetNextvisibleColumn(GVTruckSheet, colk)
@@ -3771,7 +3799,6 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 dtNew.Rows.Add(headerRow)
                 dtNew.AcceptChanges()
-
 
                 Dim maxLoop As Integer = 0
                 If dtAmbient IsNot Nothing AndAlso dtAmbient.Rows.Count > 0 Then
@@ -3806,9 +3833,39 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                                 Next
                             End If
                         End If
+
                         dtNew.Rows.Add(dr)
                         dtNew.AcceptChanges()
                     Next
+
+
+
+                    Dim i As Integer = 0
+                    Dim tt As Integer = -1
+                    tt = GetNextvisibleColumn(GVTruckSheet, tt)
+                    Dim drt As DataRow = dtNew.NewRow
+                    If dtFreshTotal IsNot Nothing AndAlso dtFreshTotal.Rows.Count > 0 Then
+                        If i < dtFreshTotal.Rows.Count Then
+                            For cc As Integer = 0 To dtFreshTotal.Columns.Count - 1
+                                drt(tt) = clsCommon.myCstr(dtFreshTotal.Rows(i)(cc))
+                                tt = GetNextvisibleColumn(GVTruckSheet, tt)
+                            Next
+                        Else
+                            For cc As Integer = 1 To dtFreshTotal.Columns.Count
+                                tt = GetNextvisibleColumn(GVTruckSheet, tt)
+                            Next
+                        End If
+                    End If
+                    If dtAmbientTotal IsNot Nothing AndAlso dtAmbientTotal.Rows.Count > 0 Then
+                        If i < dtAmbient.Rows.Count Then
+                            For cc As Integer = 0 To dtAmbientTotal.Columns.Count - 1
+                                drt(tt) = clsCommon.myCstr(dtAmbientTotal.Rows(i)(cc))
+                                tt = GetNextvisibleColumn(GVTruckSheet, tt)
+                            Next
+                        End If
+                    End If
+                    dtNew.Rows.Add(drt)
+                    dtNew.AcceptChanges()
 
                     GVTruckSheet.Refresh()
                     GVTruckSheet.DataSource = dtNew
@@ -3825,7 +3882,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
                 'arrHeader.Add("Distributor : " & lblTransporterName.Text)
                 'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
-                transportSql.exportdata(GVTruckSheet, "", "Truck Sheet", , arrHeader, False, False, True)
+                transportSql.exportdata(Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True)
             Else
                 'doc.HeaderHeight = 60
                 'doc.Landscape = True
@@ -3873,6 +3930,35 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         Finally
             Me.Controls.Remove(GVTruckSheet)
         End Try
+    End Sub
+
+    Public Sub GVTruckSheet_CellFormatting(sender As Object, e As CellFormattingEventArgs)
+        Dim foundColumnIndex As Integer = -1 ' Store index of column containing "Cash Amount"
+
+        If GVTruckSheet IsNot Nothing AndAlso GVTruckSheet.Rows.Count > 0 Then
+            ' Iterate through rows to find the "Cash Amount" value
+            For j As Integer = 0 To GVTruckSheet.Rows.Count - 1
+                For ij As Integer = 0 To GVTruckSheet.Columns.Count - 1
+                    If clsCommon.CompairString(clsCommon.myCstr(GVTruckSheet.Rows(j).Cells(ij).Value), "Cash Amount") = CompairStringResult.Equal Then
+                        foundColumnIndex = ij
+                        'GVTruckSheet.Columns(ij).FormatString = "{0:N2}" ' Store the column index where "Cash Amount" was found
+                        Exit For
+                    End If
+                Next
+
+                If e.RowIndex >= j AndAlso e.ColumnIndex = foundColumnIndex Then
+                    e.CellElement.Text = String.Format("{0:N2}", Convert.ToDecimal(e.CellElement.Value)) ' Apply number format
+                End If
+                '' If "Cash Amount" was found, apply formatting to columns after it
+                'If foundColumnIndex <> -1 Then
+                '    'For k As Integer = foundColumnIndex To GVTruckSheet.Columns.Count - 1
+                '    GVTruckSheet.Columns(k).FormatString = "{0:N2}" ' Apply formatting to subsequent columns
+                '    'Next
+                '    'Exit For ' Stop processing after applying formatting
+                'End If
+            Next
+        End If
+
     End Sub
 
     Private Function GetNextvisibleColumn(gVTruckSheet As RadGridView, kk As Integer) As Integer
