@@ -2423,6 +2423,8 @@ Public Class clsAssetAccountChangeHead
             'End If
             qry = "Update TSPL_ASSET_ACCOUNT_CHANGE_HEAD set Status=1, Post_Date='" + clsCommon.GetPrintDate(dtPostDate, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

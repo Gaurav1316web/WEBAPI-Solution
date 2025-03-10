@@ -1236,9 +1236,9 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                 'If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                 '    Throw New Exception("Already Post on :" + obj.Posting_Date)
                 'End If
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
 
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_Customer_Invoice_Detail where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

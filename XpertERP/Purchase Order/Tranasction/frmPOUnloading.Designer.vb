@@ -54,8 +54,8 @@ Partial Class frmPOUnloading
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnhistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -89,8 +89,8 @@ Partial Class frmPOUnloading
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -502,6 +502,7 @@ Partial Class frmPOUnloading
         Me.gv1.Size = New System.Drawing.Size(902, 229)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'MyLabel1
         '
@@ -525,16 +526,6 @@ Partial Class frmPOUnloading
         Me.Panel1.Size = New System.Drawing.Size(922, 28)
         Me.Panel1.TabIndex = 1068
         '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(851, 4)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(66, 21)
-        Me.btnclose.TabIndex = 4
-        Me.btnclose.Text = "Close"
-        '
         'btnhistory
         '
         Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -544,6 +535,17 @@ Partial Class frmPOUnloading
         Me.btnhistory.Size = New System.Drawing.Size(66, 21)
         Me.btnhistory.TabIndex = 1053
         Me.btnhistory.Text = "History"
+        Me.btnhistory.Visible = False
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(851, 4)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(66, 21)
+        Me.btnclose.TabIndex = 4
+        Me.btnclose.Text = "Close"
         '
         'frmPOUnloading
         '
@@ -594,8 +596,8 @@ Partial Class frmPOUnloading
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
