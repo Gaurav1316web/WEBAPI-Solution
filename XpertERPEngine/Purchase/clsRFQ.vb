@@ -83,7 +83,8 @@ Public Class clsRFQ
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
 
             Dim obj As clsRFQ = clsRFQ.GetData(strDocNo, NavigatorType.Current, trans)
-
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.RFQ_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If

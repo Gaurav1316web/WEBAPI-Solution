@@ -406,6 +406,7 @@ Public Class frmDemandUploader
                     Dim updateDoc As String = "update TSPL_TEMP_DEMAND_BOOKING_MASTER set UploderDocNo='" + DU_No + "' where Document_No in(" + clsCommon.GetMulcallString(Docno) + ")"
                     clsDBFuncationality.ExecuteNonQuery(updateDoc, trans)
                 End If
+
                 Dim strTQery As String = ""
                 strTQery = " insert INTO  TSPL_DEMAND_BOOKING_MASTER SELECT * FROM TSPL_TEMP_DEMAND_BOOKING_MASTER"
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
@@ -428,7 +429,6 @@ Public Class frmDemandUploader
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
                 strTQery = " delete TSPL_TEMP_DEMAND_BOOKING_MASTER"
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-
             End If
             clsCommon.ProgressBarHide()
             trans.Commit()
@@ -983,5 +983,17 @@ Public Class frmDemandUploader
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", coll, "", True, False, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "")
 
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "Document_No", "TSPL_DEMAND_UPLOADER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

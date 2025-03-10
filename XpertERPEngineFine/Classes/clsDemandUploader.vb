@@ -86,6 +86,8 @@ Public Class clsDemandUploaderSave
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_UPLOADER", OMInsertOrUpdate.Update, "TSPL_DEMAND_UPLOADER.Document_No='" + clsCommon.myCstr(obj.Document_No) + "' ", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_UPLOADER", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

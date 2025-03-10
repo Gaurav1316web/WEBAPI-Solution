@@ -8215,7 +8215,7 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "VARCHAR(30) NOT NULL")
             coll.Add("Created_By", "varchar(20)  NULL ")
             coll.Add("Created_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "", True)
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -8357,7 +8357,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", coll, Nothing, False, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
             coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_DCS_DEMAND_BOOKING_MASTER(Document_No)")
@@ -8372,7 +8372,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Unit_code", "Varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
@@ -18954,7 +18954,7 @@ Public Class clsCreateAllTable
             coll.Add("ReceiptAdvance", "float not NULL default 0")
             coll.Add("ReceiptTotalTax", "float not NULL default 0")
             coll.Add("ReceiptTotalAdvanceAmt", "float not NULL default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_DETAIL_GST", coll, Nothing, True, False, "TSPL_RECEIPT_HEADER", "Receipt_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_DETAIL_GST", coll, Nothing, True, False, "TSPL_RECEIPT_HEADER", "Receipt_No", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -22702,7 +22702,7 @@ Public Class clsCreateAllTable
 
             coll = New Dictionary(Of String, String)
             coll.Add("Confirmatory_PO_SRN_No", "Varchar(30) null References TSPL_SRN_HEAD(SRN_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, False, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -47176,7 +47176,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modify_By", "varchar(40) not null")
             coll.Add("Modify_Date", "datetime not null")
             coll.Add("comp_code", "Varchar(8) Not NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Transfer_Gate_Out", coll, Nothing, False, False, "", "Document_No", "Gate_Out_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Transfer_Gate_Out", coll, Nothing, True, False, "", "Document_No", "Gate_Out_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")

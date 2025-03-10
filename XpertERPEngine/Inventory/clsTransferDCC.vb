@@ -858,10 +858,12 @@ Public Class clsTransferDCC
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSFER_ORDER_HEAD", OMInsertOrUpdate.Insert, "", trans)
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TRANSFER_ORDER_HEAD", "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_DETAIL", "DOCUMENT_NO", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSFER_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_TRANSFER_ORDER_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
+
             isSaved = isSaved AndAlso clsTransferDCCDetail.SaveData(obj.Document_No, Arr, trans, obj.Document_Date, obj.From_Location, obj.To_Location, trans_Type, obj.Transfer_Type, obj.IsJobWorkType, obj.InternalTransfer, obj.JobWorkTransfer)
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TRANSFER_ORDER_HEAD", "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_DETAIL", "DOCUMENT_NO", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_No, obj.arrCustomFields, trans)
             If clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal And clsCommon.myLen(obj.GLVoucher_No) > 0 Then
                 Dim strLoadInNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_TRANSFER_ORDER_HEAD where TransferOutNo='" & obj.Document_No & "'", trans)
