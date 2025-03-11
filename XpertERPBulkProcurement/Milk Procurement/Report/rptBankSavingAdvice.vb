@@ -505,13 +505,13 @@ left outer join tspl_company_master on 2 = 2
             Dim FromDate1 As String = clsCommon.myCstr(fromDate.Text)
             Dim TODate1 As String = clsCommon.myCstr(ToDate.Text)
 
-            Dim Qry As String = "  ( select ROW_NUMBER() OVER (ORDER BY [DCS Code]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],max(x.Code)Code,max(MCC_CODE)MCC_CODE--,max 
+            Dim Qry As String = "  ( select ROW_NUMBER() OVER (ORDER BY BankCode2) AS SerialNumber, max(x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],max(x.Code)Code,max(MCC_CODE)MCC_CODE--,max 
 							   ,convert(decimal(18,2),
 							   FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/DeductionAmount]  
 								 
 								 
 								 ,max(x.[Addition/Deduction Description])[Addition/DeductionDescription] 
-						         ,AccNo2,max(BankBranch2)BankBranch2,BankName2,max(AccountType2)AccountType2,BankCode2
+						         ,max(AccNo2)AccNo2,max(BankBranch2)BankBranch2,BankName2,max(AccountType2)AccountType2,BankCode2
 								 		 ,max(Add3)Add3,max(Add2)Add2,max(Add1)Add1,max(Comp_Name)Comp_Name,max(comp_code1)comp_code1 ,max(comp_code)comp_code
 								 ,max(FromDate)FromDate,max(ToDate)ToDate
 								 from 
@@ -565,7 +565,7 @@ left outer join tspl_company_master on 2 = 2
                                     CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(FromDate1, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(TODate1, "dd/MMM/yyyy") + "' 
                                     and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0  and TSPL_DCS_ADDITION_DEDUCTION.MarginDCS=1 	)x 
 									
-									group by  BankName2,AccNo2,BankCode2,[DCS Code])"
+									group by  BankName2,BankCode2)"
             Dim dt As DataTable = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

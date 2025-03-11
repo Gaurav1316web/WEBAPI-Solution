@@ -22,23 +22,26 @@ Partial Class FrmScheduling
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.chkTransaction = New Telerik.WinControls.UI.RadRadioButton
-        Me.chkMaster = New Telerik.WinControls.UI.RadRadioButton
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.lblModule = New common.Controls.MyLabel
-        Me.RadLabel6 = New common.Controls.MyLabel
-        Me.txtModule = New common.UserControls.txtFinder
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gv = New common.UserControls.MyRadGridView
-        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gvLogin = New common.UserControls.MyRadGridView
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkTransaction = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkMaster = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.lblModule = New common.Controls.MyLabel()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.txtModule = New common.UserControls.txtFinder()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvLogin = New common.UserControls.MyRadGridView()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +65,7 @@ Partial Class FrmScheduling
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,15 +130,16 @@ Partial Class FrmScheduling
         '
         Me.lblModule.AutoSize = False
         Me.lblModule.BorderVisible = True
+        Me.lblModule.FieldName = Nothing
         Me.lblModule.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblModule.Location = New System.Drawing.Point(224, 4)
         Me.lblModule.Name = "lblModule"
         Me.lblModule.Size = New System.Drawing.Size(400, 20)
         Me.lblModule.TabIndex = 1
-        Me.lblModule.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel6
         '
+        Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.RadLabel6.Location = New System.Drawing.Point(12, 6)
         Me.RadLabel6.Name = "RadLabel6"
@@ -144,13 +149,26 @@ Partial Class FrmScheduling
         '
         'txtModule
         '
+        Me.txtModule.CalculationExpression = Nothing
+        Me.txtModule.FieldCode = Nothing
+        Me.txtModule.FieldDesc = Nothing
+        Me.txtModule.FieldMaxLength = 0
+        Me.txtModule.FieldName = Nothing
+        Me.txtModule.isCalculatedField = False
+        Me.txtModule.IsSourceFromTable = False
+        Me.txtModule.IsSourceFromValueList = False
+        Me.txtModule.IsUnique = False
         Me.txtModule.Location = New System.Drawing.Point(77, 5)
         Me.txtModule.MendatroryField = True
         Me.txtModule.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtModule.MyLinkLable1 = Me.RadLabel6
         Me.txtModule.MyLinkLable2 = Me.lblModule
         Me.txtModule.MyReadOnly = False
+        Me.txtModule.MyShowMasterFormButton = False
         Me.txtModule.Name = "txtModule"
+        Me.txtModule.ReferenceFieldDesc = Nothing
+        Me.txtModule.ReferenceFieldName = Nothing
+        Me.txtModule.ReferenceTableName = Nothing
         Me.txtModule.Size = New System.Drawing.Size(143, 18)
         Me.txtModule.TabIndex = 0
         Me.txtModule.Value = ""
@@ -168,6 +186,7 @@ Partial Class FrmScheduling
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
@@ -185,12 +204,12 @@ Partial Class FrmScheduling
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView2.Size = New System.Drawing.Size(794, 359)
         Me.RadPageView2.TabIndex = 0
-        Me.RadPageView2.Text = "RadPageView2"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.gv)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(773, 311)
@@ -201,21 +220,27 @@ Partial Class FrmScheduling
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowEditRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(773, 311)
         Me.gv.TabIndex = 3
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvLogin)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(773, 311)
@@ -226,17 +251,22 @@ Partial Class FrmScheduling
         Me.gvLogin.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvLogin.Location = New System.Drawing.Point(0, 0)
         '
-        'gvLogin
+        '
         '
         Me.gvLogin.MasterTemplate.AllowAddNewRow = False
         Me.gvLogin.MasterTemplate.AllowEditRow = False
         Me.gvLogin.MasterTemplate.EnableFiltering = True
+        Me.gvLogin.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvLogin.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLogin.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvLogin.MyStopExport = False
         Me.gvLogin.Name = "gvLogin"
         Me.gvLogin.ShowGroupPanel = False
+        Me.gvLogin.ShowHeaderCellButtons = True
         Me.gvLogin.Size = New System.Drawing.Size(773, 311)
         Me.gvLogin.TabIndex = 0
         Me.gvLogin.TabStop = False
-        Me.gvLogin.Text = "RadGridView1"
+        Me.gvLogin.VarID = ""
         '
         'RadButton1
         '
@@ -269,6 +299,16 @@ Partial Class FrmScheduling
         Me.btnSave.Size = New System.Drawing.Size(74, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(157, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(74, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmScheduling
         '
@@ -307,6 +347,7 @@ Partial Class FrmScheduling
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -328,5 +369,6 @@ Partial Class FrmScheduling
     Friend WithEvents chkTransaction As Telerik.WinControls.UI.RadRadioButton
     Friend WithEvents chkMaster As Telerik.WinControls.UI.RadRadioButton
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

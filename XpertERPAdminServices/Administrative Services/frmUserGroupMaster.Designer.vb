@@ -22,23 +22,24 @@ Partial Class FrmUserGroupMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuClose = New Telerik.WinControls.UI.RadMenuItem
+        Me.components = New System.ComponentModel.Container()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.ToolTipnew = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.lblname = New common.Controls.MyLabel
-        Me.txtname = New common.Controls.MyTextBox
-        Me.lblcode = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.gbgroupmaster = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndgroup = New common.UserControls.txtNavigator
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.lblname = New common.Controls.MyLabel()
+        Me.txtname = New common.Controls.MyTextBox()
+        Me.lblcode = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.gbgroupmaster = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndgroup = New common.UserControls.txtNavigator()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,6 +53,7 @@ Partial Class FrmUserGroupMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -62,40 +64,27 @@ Partial Class FrmUserGroupMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(449, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport, Me.menuExport, Me.menuClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuImport
         '
-        Me.menuImport.AccessibleDescription = "Import"
-        Me.menuImport.AccessibleName = "Import"
         Me.menuImport.Name = "menuImport"
         Me.menuImport.Text = "Import"
-        Me.menuImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
-        Me.menuExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
-        Me.menuClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnclose
         '
@@ -129,6 +118,7 @@ Partial Class FrmUserGroupMaster
         '
         'lblname
         '
+        Me.lblname.FieldName = Nothing
         Me.lblname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblname.Location = New System.Drawing.Point(12, 48)
         Me.lblname.Name = "lblname"
@@ -138,13 +128,25 @@ Partial Class FrmUserGroupMaster
         '
         'txtname
         '
+        Me.txtname.CalculationExpression = Nothing
+        Me.txtname.FieldCode = Nothing
+        Me.txtname.FieldDesc = Nothing
+        Me.txtname.FieldMaxLength = 0
+        Me.txtname.FieldName = Nothing
         Me.txtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtname.isCalculatedField = False
+        Me.txtname.IsSourceFromTable = False
+        Me.txtname.IsSourceFromValueList = False
+        Me.txtname.IsUnique = False
         Me.txtname.Location = New System.Drawing.Point(88, 48)
         Me.txtname.MaxLength = 49
         Me.txtname.MendatroryField = True
         Me.txtname.MyLinkLable1 = Nothing
         Me.txtname.MyLinkLable2 = Nothing
         Me.txtname.Name = "txtname"
+        Me.txtname.ReferenceFieldDesc = Nothing
+        Me.txtname.ReferenceFieldName = Nothing
+        Me.txtname.ReferenceTableName = Nothing
         '
         '
         '
@@ -154,6 +156,7 @@ Partial Class FrmUserGroupMaster
         '
         'lblcode
         '
+        Me.lblcode.FieldName = Nothing
         Me.lblcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblcode.Location = New System.Drawing.Point(12, 14)
         Me.lblcode.Name = "lblcode"
@@ -186,6 +189,7 @@ Partial Class FrmUserGroupMaster
         '
         'fndgroup
         '
+        Me.fndgroup.FieldName = Nothing
         Me.fndgroup.Location = New System.Drawing.Point(89, 12)
         Me.fndgroup.MendatroryField = True
         Me.fndgroup.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -214,12 +218,23 @@ Partial Class FrmUserGroupMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(449, 147)
         Me.SplitContainer1.SplitterDistance = 110
         Me.SplitContainer1.TabIndex = 1
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(191, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'FrmUserGroupMaster
         '
@@ -248,6 +263,7 @@ Partial Class FrmUserGroupMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -269,5 +285,6 @@ Partial Class FrmUserGroupMaster
     Friend WithEvents lblcode As common.Controls.MyLabel
     Friend WithEvents fndgroup As common.UserControls.txtNavigator
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents btnHistory As RadButton
 End Class
 

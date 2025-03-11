@@ -371,6 +371,7 @@ Public Class rptmilkunion
                     Dim status14 As String
                     Dim status15 As String
                     Dim status16 As String
+                    Dim status17 As String
                     If rdbPosted.Checked Then
                         status1 = " and  sh.Status=1 "
                         status2 = " and pe.POSTED= 1 "
@@ -388,6 +389,7 @@ Public Class rptmilkunion
                         status14 = " and TSPL_DBT_NEFT.Status=1 "
                         status15 = " and TSPL_BOOKING_MATSER.Posted=1 "
                         status16 = " and TSPL_GRN_HEAD.Status=1"
+                        status17 = " and tspl_shift_mgmt.Status = 1 "
                     ElseIf rdbUnposted.Checked Then
                         status1 = " and  sh.Status= 0 "
                         status2 = " and pe.POSTED= 0 "
@@ -405,6 +407,7 @@ Public Class rptmilkunion
                         status14 = " and TSPL_DBT_NEFT.Status=0 "
                         status15 = " and TSPL_BOOKING_MATSER.Posted=0 "
                         status16 = " and TSPL_GRN_HEAD.Status= 0 "
+                        status17 = " and tspl_shift_mgmt.Status = 0 "
                     Else
                         status1 = " "
                         status2 = " "
@@ -422,6 +425,7 @@ Public Class rptmilkunion
                         status14 = " "
                         status15 = " "
                         status16 = " "
+                        status17 = "  "
                     End If
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
 
@@ -513,7 +517,21 @@ Public Class rptmilkunion
                     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code
                     LEFT JOIN   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.Item_Code =  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL.UOM_Code =  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_DETAIL.UOM
                       LEFT JOIN (  SELECT * FROM ( select item_code,uom_code,conversion_factor from   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL ) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [LTR],[KG] )) P ) I ON  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code = I.item_code where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status10 + "
-                    ) xx)xxx ))Prod_Uploder ) AS Dis_Production,
+                    ) xx)xxx 
+                      
+                      UNION ALL
+                      select isnull(sum(Prod_QTY),0)Prod_QTY,isnull(sum(Prod_FATkg),0)Prod_FATkg,isnull(sum(Prod_SNFkg),0)Prod_SNFkg 
+                    from (select (Prod_QTY) AS Prod_QTY,
+                          (Prod_QTY * STD_FatPer) / 100 AS Prod_FATkg,
+                          (Prod_QTY * STD_SNFPer) / 100 AS Prod_SNFkg
+                    from (
+                    select CASE when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Is_FreshItem =1 then convert(decimal(18,2),(isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Qty_KG,0))) end as Prod_QTY,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_item_master.STD_FatPer,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_item_master.STD_SNFPer
+                from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION 
+                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Document_No
+                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Item_Code
+                    where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status17 + "
+                       ) xx ) xxx 
+                      ))Prod_Uploder ) AS Dis_Production,
                         (SELECT 
                         SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
                         SUM(FATKGDemand) AS FATKGDemand,
@@ -681,6 +699,16 @@ Public Class rptmilkunion
                       LEFT JOIN (  SELECT * FROM ( select item_code,uom_code,conversion_factor from   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL ) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [LTR],[KG] )) P ) I ON  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code = I.item_code
                     where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status10 + "
                        ) xx
+                    	   union all
+					   select isnull(sum(Prod_QTY),0) as Prod_QTY	 from (
+                    select CASE when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Is_FreshItem =1 then convert(decimal(18,2),(isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Qty_KG,0))) end as Prod_QTY
+                from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION 
+
+                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Document_No
+                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Item_Code
+
+                    where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status17 + "
+                       ) xx
                   ))Prod_Uploder
                     ) AS Dis_Production,
                         (SELECT  SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand FROM (
@@ -770,8 +798,8 @@ Public Class rptmilkunion
                 Next
             End If
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
-                If print = False Then
-                    gv1.DataSource = Nothing
+
+                gv1.DataSource = Nothing
                     gv1.Rows.Clear()
                     gv1.Columns.Clear()
                     gv1.GroupDescriptors.Clear()
@@ -781,22 +809,22 @@ Public Class rptmilkunion
                     For ii As Integer = 0 To gv1.Columns.Count - 1
                         gv1.Columns(ii).ReadOnly = True
                     Next
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    gv1.EnableFiltering = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.EnableFiltering = True
                     gv1.MasterTemplate.SummaryRowsBottom.Clear()
                     SetGridFormat1()
                     gv1.BestFitColumns()
-                Else
-                    If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
-                    Else
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
-                    End If
+                    If print Then
+                        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
+                        Else
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
+                        End If
 
-                End If
-            Else
+                    End If
+                Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If

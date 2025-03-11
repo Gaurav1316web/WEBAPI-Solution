@@ -27,35 +27,126 @@ Public Class FrmPrintDistributerInvoiceStatement
         RadSplitButton1.Visible = MyBase.isExport
     End Sub
 
+    Function ReturnLoadReportQry() As String
+        Dim sQuery As String = Nothing
+        Dim WhrCls As String = " and 2=2 "
+        Dim Whr As String = ""
+
+        If rbtnEvening.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+        ElseIf rbtnMorning.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+        End If
+
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN ('S','') "
+            ElseIf rbtnProduct.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
+            End If
+        End If
+
+        Dim ItemType As String = ""
+        If EnableProductSaleForJPR Then
+            ItemType = " case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end as [Item Type] ,"
+        End If
+
+        'sQuery += "  select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
+        '                        TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
+        '                        Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,
+        '                     CASE 
+        '                        WHEN Shift_type = 'AM' THEN 'Morning'
+        '                        ELSE 'Evening'
+        '                        END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no
+        '                        from TSPL_SD_SALE_INVOICE_HEAD
+        '                        left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1
+        '                        left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+        '                        left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+        '                        left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+        '                        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+        '                        where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
+        '                        and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+
+        sQuery += " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & "convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name ,Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE WHEN Shift_type = 'AM' THEN 'Morning' ELSE 'Evening' END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no "
+        If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
+            sQuery += ",Isnull(TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,0)Is_Taxable"
+        End If
+
+        sQuery += " from TSPL_SD_SALE_INVOICE_HEAD
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
+        If rbtnDocumentDate.Checked Then
+            sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        End If
+        If rbtnSupplyDate.Checked Then
+            sQuery += " and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        End If
+
+        If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "T") = CompairStringResult.Equal Then
+            sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State"
+            'sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LWM") = CompairStringResult.Equal Then
+            sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State and 1 <= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "UT") = CompairStringResult.Equal Then
+            sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State and isnull(TSPL_STATE_MASTER.Is_GST_UT,0)=1"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IT") = CompairStringResult.Equal Then
+            sQuery += "and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State<>TSPL_CUSTOMER_MASTER.State and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IWM") = CompairStringResult.Equal Then
+            sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State<>TSPL_CUSTOMER_MASTER.State and 1 <= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "NT") = CompairStringResult.Equal Then
+            sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=0 "
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
+            sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  "
+            'sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
+        End If
+
+        'sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
+        '==============update by preeti gupta Against Ticket No [BM00000005410]
+
+        'If chkLocationSelect.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
+        '    sQuery += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+        'End If
+        If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+            WhrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) + ") "
+        End If
+
+        ''RICHA AGARWAL 19 jUNE,2019 SHOW ROUTE NO FROM TSPL_SD_SALE_INVOICE_HEAD INSTEAD OF CUSTOMER MASTER ERO/18/06/19-000646
+        If txtMultRoute.arrValueMember IsNot Nothing AndAlso txtMultRoute.arrValueMember.Count > 0 Then
+            WhrCls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtMultRoute.arrValueMember) + ") "
+        End If
+
+        If txtMultLocation.arrValueMember IsNot Nothing AndAlso txtMultLocation.arrValueMember.Count > 0 Then
+            WhrCls += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(txtMultLocation.arrValueMember) + ") "
+        End If
+
+        If TxtItem.arrValueMember IsNot Nothing AndAlso TxtItem.arrValueMember.Count > 0 Then
+            WhrCls += " and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  IN (" + clsCommon.GetMulcallString(TxtItem.arrValueMember) + ") "
+        End If
+
+        sQuery += WhrCls
+        If Not rbtnPartyWise.Checked Then
+            sQuery += " order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date "
+        End If
+
+        Return sQuery
+    End Function
+
     Public Sub loadReport()
         Try
-            Dim sQuery As String = Nothing
-            Dim WhrCls As String = " and 2=2 "
-            Dim Whr As String = ""
+
+            Dim FinalQry As String = Nothing
             If txtFromDate.Value > txtToDate.Value Then
                 common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
-            'If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
-            '    Exit Sub
-            'End If
-            If rbtnEvening.Checked Then
-                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
-            ElseIf rbtnMorning.Checked Then
-                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
-            End If
 
-            If EnableProductSaleForJPR Then
-                If rbtnMilk.Checked Then
-                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN ('S','') "
-                ElseIf rbtnProduct.Checked Then
-                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='P' "
-                ElseIf rbtnIceCream.Checked Then
-                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
-                End If
-            End If
             If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
                 If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
@@ -63,90 +154,20 @@ Public Class FrmPrintDistributerInvoiceStatement
                     Exit Sub
                 End If
             End If
-            Dim ItemType As String = ""
-            If EnableProductSaleForJPR Then
-                ItemType = " case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end as [Item Type] ,"
-            End If
-
-            'sQuery += "  select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
-            '                        TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
-            '                        Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,
-            '                     CASE 
-            '                        WHEN Shift_type = 'AM' THEN 'Morning'
-            '                        ELSE 'Evening'
-            '                        END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no
-            '                        from TSPL_SD_SALE_INVOICE_HEAD
-            '                        left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1
-            '                        left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-            '                        left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-            '                        left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
-            '                        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-            '                        where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
-            '                        and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
-
-            sQuery += " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & "convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name ,Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE WHEN Shift_type = 'AM' THEN 'Morning' ELSE 'Evening' END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no from TSPL_SD_SALE_INVOICE_HEAD
-left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
-left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
-            If rbtnDocumentDate.Checked Then
-                sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
-            End If
-            If rbtnSupplyDate.Checked Then
-                sQuery += " and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
-            End If
-
-            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "T") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State"
-                'sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LWM") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State and 1 <= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "UT") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State and isnull(TSPL_STATE_MASTER.Is_GST_UT,0)=1"
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IT") = CompairStringResult.Equal Then
-                sQuery += "and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State<>TSPL_CUSTOMER_MASTER.State and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IWM") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State<>TSPL_CUSTOMER_MASTER.State and 1 <= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "NT") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=0 "
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
-                sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  "
-                'sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
-            End If
-
-            'sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
-            '==============update by preeti gupta Against Ticket No [BM00000005410]
-
-            'If chkLocationSelect.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
-            '    sQuery += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            'If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
+            '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            '    Exit Sub
             'End If
-            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
-                WhrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) + ") "
-            End If
-
-            ''RICHA AGARWAL 19 jUNE,2019 SHOW ROUTE NO FROM TSPL_SD_SALE_INVOICE_HEAD INSTEAD OF CUSTOMER MASTER ERO/18/06/19-000646
-            If txtMultRoute.arrValueMember IsNot Nothing AndAlso txtMultRoute.arrValueMember.Count > 0 Then
-                WhrCls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtMultRoute.arrValueMember) + ") "
-            End If
-
-            If txtMultLocation.arrValueMember IsNot Nothing AndAlso txtMultLocation.arrValueMember.Count > 0 Then
-                WhrCls += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(txtMultLocation.arrValueMember) + ") "
-            End If
-
-            If TxtItem.arrValueMember IsNot Nothing AndAlso TxtItem.arrValueMember.Count > 0 Then
-                WhrCls += " and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  IN (" + clsCommon.GetMulcallString(TxtItem.arrValueMember) + ") "
-            End If
-
-            sQuery += WhrCls
-            If Not rbtnPartyWise.Checked Then
-                sQuery += " order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date "
-            End If
-
-            Dim FinalQry As String = Nothing
+            Dim sQuery As String = ReturnLoadReportQry()
             If rbtnPartyWise.Checked Then
-                FinalQry = "Select Cast(0 as BIT) as 'Check',Supply_Date,Shift_type,Customer_Code,MAX(Customer_Name)Customer_Name,STRING_AGG(Route_Code, ', ')Route_Code,MAX(Location_Desc)Location_Desc,SUM(Total_Amt)Total_Amt,MAX(Email)Email,MAX(Mobile_no)Mobile_no from (" + sQuery + ")xyz Group By Customer_Code,Supply_Date,Shift_type "
+                FinalQry = "Select Cast(0 as BIT) as 'Check',Supply_Date,Shift_type,Customer_Code,MAX(Customer_Name)Customer_Name,STRING_AGG(Route_Code, ', ')Route_Code,MAX(Location_Desc)Location_Desc,SUM(Total_Amt)Total_Amt,MAX(Email)Email,MAX(Mobile_no)Mobile_no "
+                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                    FinalQry += ",Case When Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As IsTaxable"
+                End If
+                FinalQry += " from (" + sQuery + ")xyz Group By Customer_Code,Supply_Date,Shift_type "
+                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                    FinalQry += ",Is_Taxable"
+                End If
             Else
                 FinalQry = sQuery
             End If
@@ -256,6 +277,12 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         gv.Columns("Mobile_no").IsVisible = True
         gv.Columns("Mobile_no").Width = 100
         gv.Columns("Mobile_no").HeaderText = "Mobile no"
+
+        If Not rbtnInvoiceWise.Checked AndAlso clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+            gv.Columns("IsTaxable").IsVisible = True
+            gv.Columns("IsTaxable").Width = 100
+            gv.Columns("IsTaxable").HeaderText = "Taxable/Non-Taxable"
+        End If
 
         'gv.Columns("DespatchDocumentNo").IsVisible = False
         'gv.Columns("DespatchDocumentNo").Width = 100
@@ -388,50 +415,51 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     End Sub
 
     Private Sub BtnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrint.Click
-        If ApplyMilkPouchPrint = True Then
-            Try
-                'If txtFromDate.ToString("yyyyMM") < txtToDate.ToString("yyyyMM") Then
-                '    clsCommon.MyMessageBoxShow("From Date and To Date should be same month of year.", Me.Text)
-                '    Return
-                'ElseIf txtFromDate.ToString("yyyyMM") > txtToDate.ToString("yyyyMM") Then
-                '    clsCommon.MyMessageBoxShow("From Date and To Date should be same month of year.", Me.Text)
-                '    Return
-                'End If
-                'clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
-                If clsCommon.CompairString(clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy"), clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy")) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "From Date and To Date should be same month of year.", Me.Text)
-                    Return
-                End If
+        Try
+            If ApplyMilkPouchPrint = True Then
+                Try
+                    'If txtFromDate.ToString("yyyyMM") < txtToDate.ToString("yyyyMM") Then
+                    '    clsCommon.MyMessageBoxShow("From Date and To Date should be same month of year.", Me.Text)
+                    '    Return
+                    'ElseIf txtFromDate.ToString("yyyyMM") > txtToDate.ToString("yyyyMM") Then
+                    '    clsCommon.MyMessageBoxShow("From Date and To Date should be same month of year.", Me.Text)
+                    '    Return
+                    'End If
+                    'clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
+                    If clsCommon.CompairString(clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy"), clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy")) <> CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "From Date and To Date should be same month of year.", Me.Text)
+                        Return
+                    End If
 
-                If clsCommon.myLen(fndCustom.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please Select Customer First", Me.Text)
-                    Return
-                End If
+                    If clsCommon.myLen(fndCustom.Value) <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Customer First", Me.Text)
+                        Return
+                    End If
 
-                Dim strMonth As String = clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy")
-                Dim strCurrentDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy")
-                Dim strFromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy")
-                Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy")
-                Dim strMonthlyQry As String = " select top 1 isnull (TSPL_SD_SALE_INVOICE_HEAD.MonthlySaleInvoiceNo,'')   FROM   TSPL_SD_SALE_INVOICE_DETAIL 
+                    Dim strMonth As String = clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy")
+                    Dim strCurrentDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy")
+                    Dim strFromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy")
+                    Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy")
+                    Dim strMonthlyQry As String = " select top 1 isnull (TSPL_SD_SALE_INVOICE_HEAD.MonthlySaleInvoiceNo,'')   FROM   TSPL_SD_SALE_INVOICE_DETAIL 
                                                 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code  
                                                 inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  
                                                 where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND Screen_Type='DS'  
                                                 and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code= '" + fndCustom.Value + "' and TSPL_ITEM_MASTER.Is_Milk_Pouch =1  and TSPL_SD_SALE_INVOICE_HEAD.Status =1 and len( isnull (TSPL_SD_SALE_INVOICE_HEAD.MonthlySaleInvoiceNo,'')) > 0 "
-                Dim ExistMonthlySaleInvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strMonthlyQry))
-                If clsCommon.myLen(ExistMonthlySaleInvoiceNo) > 0 Then
-                Else
-                    ExistMonthlySaleInvoiceNo = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GETSERVERDATE(), clsDocType.rptMonthlySalesInvoice, "", "")
+                    Dim ExistMonthlySaleInvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strMonthlyQry))
+                    If clsCommon.myLen(ExistMonthlySaleInvoiceNo) > 0 Then
+                    Else
+                        ExistMonthlySaleInvoiceNo = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GETSERVERDATE(), clsDocType.rptMonthlySalesInvoice, "", "")
 
-                End If
-                Dim qryUpdate As String = "  update  TSPL_SD_SALE_INVOICE_HEAD  set MonthlySaleInvoiceNo = '" + ExistMonthlySaleInvoiceNo + "'  where  Document_Code in (
+                    End If
+                    Dim qryUpdate As String = "  update  TSPL_SD_SALE_INVOICE_HEAD  set MonthlySaleInvoiceNo = '" + ExistMonthlySaleInvoiceNo + "'  where  Document_Code in (
                                              select distinct TSPL_SD_SALE_INVOICE_HEAD.Document_Code   FROM   TSPL_SD_SALE_INVOICE_DETAIL 
                                              left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code  
                                              inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  
                                              where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND Screen_Type='DS'  
                                              and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code= '" + fndCustom.Value + "' and TSPL_ITEM_MASTER.Is_Milk_Pouch =1  and TSPL_SD_SALE_INVOICE_HEAD.Status =1 and  len (isnull (MonthlySaleInvoiceNo,'')) <=0 ) "
-                clsDBFuncationality.ExecuteNonQuery(qryUpdate)
-                ' strMonth, strCurrentDate , strFromDate,strToDate 
-                Dim qry As String = "  select '" + strMonth + "' as Month , '" + strCurrentDate + "' as CurrentDate , '" + strFromDate + "' as FromDate , '" + strToDate + "' as ToDate, '" + ExistMonthlySaleInvoiceNo + "' as MonthlySaleInvoiceNo,  max(Comp_Code) as Comp_Code,  max(Comp_Name ) as Comp_Name ,  max(Comp_Add1) as Comp_Add1, max(Comp_Add2) as Comp_Add2,max( Comp_Add3) as Comp_Add3, max(Comp_City_Code ) as Comp_City_Code, max(Comp_PinCode) as Comp_PinCode ,max(Comp_Phone1) as Comp_Phone1 ,max(Comp_Phone2) as Comp_Phone2 ,max(Comp_GSTINNo) as Comp_GSTINNo, max(Comp_StateCode) as Comp_StateCode ,max( Comp_StateName) as Comp_StateName , max(Cust_Code) as Cust_Code ,max(Customer_Name) as Customer_Name , max(Cust_Add1) as Cust_Add1 ,max(Cust_Add2) as Cust_Add2,max(Cust_Add3) as Cust_Add3 ,max(Cust_GSTNO) as Cust_GSTNO, max(Cust_StateCode) as  Cust_StateCode,  max(Cust_State_Name) as Cust_State_Name , max(Route_No) as Route_No,  max(Route_Desc) as Route_Desc, max(HSN_Code) as HSN_Code,Doc_Date  ,
+                    clsDBFuncationality.ExecuteNonQuery(qryUpdate)
+                    ' strMonth, strCurrentDate , strFromDate,strToDate 
+                    Dim qry As String = "  select '" + strMonth + "' as Month , '" + strCurrentDate + "' as CurrentDate , '" + strFromDate + "' as FromDate , '" + strToDate + "' as ToDate, '" + ExistMonthlySaleInvoiceNo + "' as MonthlySaleInvoiceNo,  max(Comp_Code) as Comp_Code,  max(Comp_Name ) as Comp_Name ,  max(Comp_Add1) as Comp_Add1, max(Comp_Add2) as Comp_Add2,max( Comp_Add3) as Comp_Add3, max(Comp_City_Code ) as Comp_City_Code, max(Comp_PinCode) as Comp_PinCode ,max(Comp_Phone1) as Comp_Phone1 ,max(Comp_Phone2) as Comp_Phone2 ,max(Comp_GSTINNo) as Comp_GSTINNo, max(Comp_StateCode) as Comp_StateCode ,max( Comp_StateName) as Comp_StateName , max(Cust_Code) as Cust_Code ,max(Customer_Name) as Customer_Name , max(Cust_Add1) as Cust_Add1 ,max(Cust_Add2) as Cust_Add2,max(Cust_Add3) as Cust_Add3 ,max(Cust_GSTNO) as Cust_GSTNO, max(Cust_StateCode) as  Cust_StateCode,  max(Cust_State_Name) as Cust_State_Name , max(Route_No) as Route_No,  max(Route_Desc) as Route_Desc, max(HSN_Code) as HSN_Code,Doc_Date  ,
  
                                          sum (isnull([Item1_Qty],0)) as [Item1_Qty],
                                          sum(isnull([Item1_Amt],0)) as [Item1_Amt],
@@ -527,20 +555,22 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                                          ) Final ) xfinal ) as XXFinal) TTT on TTT.SNO = XFinal.SNO
                                           group by Doc_Date, Cust_Code "
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptMonthlyInvoicePrint", "Customer Monthly Sales")
-                Else
-                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                End If
-            Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
-            End Try
-        Else
-            Printing()
-        End If
-
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptMonthlyInvoicePrint", "Customer Monthly Sales")
+                    Else
+                        common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                    End If
+                Catch ex As Exception
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
+                End Try
+            Else
+                Printing()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Function Printing(Optional ByVal DocNo As String = "", Optional ByVal isPdf As Boolean = False, Optional ByVal isPrePrintFormat As Boolean = False, Optional ByVal isPdfForMail As Boolean = False) As String
@@ -566,23 +596,61 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                 End If
             Next
 
-            For Each grow As GridViewRowInfo In gv.Rows
-                'clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
-                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                    clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
-                    lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
-                    ii += 1
-                End If
-                'ii += 1
-            Next
-        End If
+            Dim strDate As New List(Of String)
+            Dim strCustCode As New List(Of String)
+            Dim strTaxableNonTaxable As String = Nothing
+            If rbtnPartyWise.Checked Then
+                For Each grow As GridViewRowInfo In gv.Rows
+                    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                        strDate.Add("Convert(Date,'" + clsCommon.myCstr(grow.Cells("Supply_Date").Value) + "',103)")
+                        strCustCode.Add(clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Non-Taxable") = CompairStringResult.Equal Then
+                            If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("0") Then
+                                strTaxableNonTaxable += ",'0'"
+                            ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                                strTaxableNonTaxable = "'0'"
+                            End If
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                            If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("1") Then
+                                strTaxableNonTaxable += ",'1'"
+                            ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                                strTaxableNonTaxable = "'1'"
+                            End If
+                        End If
+                    End If
+                Next
 
+                Dim strQry As String = ReturnLoadReportQry()
+                strQry += " and CONVERT(date,Supply_Date,103) in (" + clsCommon.GetMulcallStringWithComma(strDate) + ") and TSPL_CUSTOMER_MASTER.Cust_Code In (" + clsCommon.GetMulcallString(strCustCode) + ")
+and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
+                Dim dtt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                    For Each rows In dtt.Rows
+                        'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                        lstinvNo.Add(clsCommon.myCstr(rows("Document_Code")))
+                        ii += 1
+                        'ii += 1
+                    Next
+                End If
+            Else
+                For Each grow As GridViewRowInfo In gv.Rows
+                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
+                    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                        clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                        lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                        ii += 1
+                    End If
+                    'ii += 1
+                Next
+            End If
+        End If
 
 
 
         Try
             If lstinvNo.Count <= 0 Then
-                myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
@@ -605,37 +673,51 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                         ItemType = " 'I' "
                     End If
                 End If
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType)
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKRPrintDistribution", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    'pdfPath = frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
+                If rbtnPartyWise.Checked Then
+                    Dim BaseQry As String = "Select Max(Report_Status) As Report_Status,Max(Is_Distributor) As Is_Distributor,Max(Is_BPL) As Is_BPL,Max(Is_CashSale) As Is_CashSale,Max(Is_DCS) As Is_DCS,Max(Booking_Type) As Booking_Type,Max(xyz.CST_LST) As CST_LST,Max(Manual_VehicleNo) As Manual_VehicleNo,Max(Payment_Terms) As Payment_Terms,Max(ReceiverName) As ReceiverName,Sum(Security_TotalAmt) As Security_TotalAmt,Max(Supply_Date) As Supply_Date,Max(Shift_Type) As Shift_Type,Sum(QTY_LTRKG) As QTY_LTRKG,Max(ITAX1) As ITAX1,Max(ITAX1_RATE) As ITAX1_RATE,Sum(ITAX1_Amt) As ITAX1_Amt,Max(ITAX2) As ITAX2,Max(ITAX2_RATE) As ITAX2_RATE,Sum(ITAX2_Amt) As ITAX2_Amt,Max(ITAX3) As ITAX3,Max(ITAX3_Rate) As ITAX3_Rate,Sum(ITAX3_Amt) As ITAX3_Amt,Max(ITAX4) As ITAX4,Max(ITAX4_RATE) As ITAX4_RATE,Sum(ITAX4_Amt) As ITAX4_Amt,Max(ITAX5) As ITAX5,Max(ITAX5_RATE) As ITAX5_RATE,Sum(ITAX5_Amt) As ITAX5_Amt,Max(ITAX6) As ITAX6,Max(ITAX6_RATE) As ITAX6_RATE,Sum(ITAX6_Amt) As ITAX6_Amt,Max(ITAX7) As ITAX7,Max(ITAX7_Rate) As ITAX7_Rate,Sum(ITAX7_Amt) As ITAX7_Amt,Max(ITAX8) As ITAX8,Max(ITAX8_RATE) As ITAX8_RATE,Sum(ITAX8_Amt) As ITAX8_Amt,Max(ITAX9) As ITAX9,Max(ITAX9_Rate) As ITAX9_Rate,Sum(ITAX9_Amt) As ITAX9_Amt,Max(ITAX10) As ITAX10,Max(ITAX10_RATE) As ITAX10_RATE,Sum(ITAX10_Amt) As ITAX10_Amt,Max(Zone_Code) As Zone_Code,Max(CF) As CF,Max(ConversionFactor) As ConversionFactor,Max(EInvoice_Type) As EInvoice_Type,Max(LeakageDeduction_Freshsale) As LeakageDeduction_Freshsale,Max(LeakageDeduction) As LeakageDeduction,Max(Location_Desc) As Location_Desc,Max(Loc_Short_Name) As Loc_Short_Name,Max(Loc_Pin) As Loc_Pin,Max(Loc_Phone) As Loc_Phone,Max(Loc_Eamil) As Loc_Eamil,Max(Loc_Website) As Loc_Website,Max(xyz.ISO_No) As ISO_No,Max(Invoice_No) As Invoice_No,Max(Invoice_Date) As Invoice_Date,Max(Cust_City) As Cust_City,Max(Against_Shipment_No) As Against_Shipment_No,Max(Cust_Gst_StateCode) As Cust_Gst_StateCode,Max(Electronic_Ref_No) As Electronic_Ref_No,Max(CustGSTNo) As CustGSTNo,Max(gst_state_code) As gst_state_code,Max(LocGstNo) As LocGstNo,Max(EWayBillNo) As EWayBillNo,Max(EWayBillDate) As EWayBillDate,Max(HSN_Code) As HSN_Code,Max(InvRemarks) As InvRemarks,Max(Delivery_Code) As Delivery_Code,Max(Conversion_factor) As Conversion_factor,Sum(QTY_Box) As QTY_Box,Max(Sale_Invoice_No) As Sale_Invoice_No,Max(vehicleNo) As vehicleNo,Max(Sale_Invoice_Date) As Sale_Invoice_Date,Sum(RoundOffAmount) As RoundOffAmount,Max(Loc_ADd1) As Loc_ADd1,Max(LOC_ADD2) As LOC_ADD2,Max(LOC_ADD3) As LOC_ADD3,Max(LocationState) As LocationState,Max(LOCPhone) As LOCPhone,Max(Loc_TIN_NO) As Loc_TIN_NO,Max(Document_Code) As Document_Code,Max(Document_Date) As Document_Date,Max(Description) As Description,Max(Lorry_No) As Lorry_No,Max(Sku_Seq) As Sku_Seq,Max(Item_Code) As Item_Code,Max(Line_No) As Line_No,Max(Item_Desc) As Item_Desc,Sum(QtyCrates) As QtyCrates,Max(ConvFactInCrate) As ConvFactInCrate,Max(ConvQtyInCrate) As ConvQtyInCrate,Max(Unit_code) As Unit_code,Sum(Qty_Default) As Qty_Default,Max(Rate_Default) As Rate_Default,Sum(QtyPCS) As QtyPCS,Sum(free_qty) As free_qty,Max(FreeSchemeInLitres) As FreeSchemeInLitres,Max(RatePerPcs) As RatePerPcs,Sum(valueInRs) As valueInRs,Max(comp_add2) As comp_add2,Max(comp_add3) As comp_add3,Max(CompPhone) As CompPhone,Max(Cash_Scheme_Amount) As Cash_Scheme_Amount,Max(schemeInCrates) As schemeInCrates,Max(GrandTotalCrates) As GrandTotalCrates,Max(xyz.Comp_Code) As Comp_Code,Max(xyz.Comp_Name) As Comp_Name,Max(comp_add1) As comp_add1,Max(comp_Fax) As comp_Fax,Max(comp_Email) As comp_Email,Max(comp_tinNo) As comp_tinNo,Max(xyz.cust_Code) As cust_Code,Max(Customer_Name) As Customer_Name,Max(cust_add1) As cust_add1,Max(cust_add2) As cust_add2,Max(cust_add3) As cust_add3,Max(CustPhone) As CustPhone,Max(cust_fax) As cust_fax,Max(Cust_state) As Cust_state,Max(cust_Statename) As cust_Statename,Max(cust_Email) As cust_Email,Max(cust_website) As cust_website,Max(Customer_Pan) As Customer_Pan,Max(Ack_No) As Ack_No,Max(Ack_Date) As Ack_Date,Max(TaxableNonTaxable) As TaxableNonTaxable,Max(TAX1) As TAX1,Max(TaxType1) As TaxType1,Sum(TAX1_Amt) As TAX1_Amt,Max(TAX1_Rate) As TAX1_Rate,Sum(TAX1Amt) As TAX1Amt,Max(TaxType2) As TaxType2,Max(TAX2) As TAX2,Sum(TAX2_Amt) As TAX2_Amt,Max(TAX2_Rate) As TAX2_Rate,Sum(TAX2Amt) As TAX2Amt,Max(TaxType3) As TaxType3,Max(TAX3) As TAX3,Sum(TAX3_Amt) As TAX3_Amt,Max(TAX3_Rate) As TAX3_Rate,Sum(TAX3Amt) As TAX3Amt,Max(TaxType4) As TaxType4,Max(TAX4) As TAX4,Sum(TAX4_Amt) As TAX4_Amt,Max(TAX4_Rate) As TAX4_Rate,Sum(TAX4Amt) As TAX4Amt,Max(TaxType5) As TaxType5,Max(TAX5) As TAX5,Sum(TAX5_Amt) As TAX5_Amt,Max(TaxType6) As TaxType6,Max(TAX6) As TAX6,Sum(TAX6_Amt) As TAX6_Amt,STRING_AGG(Route_No, ', ') As Route_No,STRING_AGG(Route_Desc, ', ') As Route_Desc,Max(Distributor_Commission_TotalAmt) As Distributor_Commission_TotalAmt,Max(Transporter_Commission_TotalAmt) As Transporter_Commission_TotalAmt,Max(Against_Delivery_Code) As Against_Delivery_Code,Max(batchNO) As batchNO,Max(Credit_Customer) As Credit_Customer,Max(Ship_To_Code) As Ship_To_Code,Max(Ship_To_Desc) As Ship_To_Desc,Max(Ship_Address) As Ship_Address,Max(Ship_City) As Ship_City,Max(Ship_State) As Ship_State,Max(Ship_Pin_Code) As Ship_Pin_Code,Max(Ship_PAN) As Ship_PAN,Max(Ship_GSTNO) As Ship_GSTNO,Sum(Booth_Security_Amt) As Booth_Security_Amt,Max(Brand) As Brand,Max(BRANDDESC) As BRANDDESC,Max(Particulars) As Particulars,Max(Crate_No) As Crate_No,Max(CopyType) As CopyType,Max(SellerGST) As SellerGST,Max(xyz.Pan_No) As Pan_No,Max(RateLtr) As RateLtr from (" + objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType) + ")xyz Group By Convert(DAte,Supply_Date,103),Shift_Type,TaxableNonTaxable,cust_Code,Item_Code"
+                    Qry = "Select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,* from (" + BaseQry + ")xyzFinal left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=xyzFinal.comp_code"
                 Else
-                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType)
                 End If
-                'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                frmCRV = Nothing
-            End If
-            clsCommon.ProgressBarPercentHide()
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                    If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+                        Throw New Exception("Data not found !")
+                    End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        If rbtnPartyWise.Checked Then
+                            pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR _PartyWise", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        Else
+                            pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        End If
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKRPrintDistribution", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        'pdfPath = frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+                    Else
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    End If
+                    'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV = Nothing
+                End If
+                clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+            Throw New Exception(ex.Message)
         End Try
         'Else
         'For Each grow As GridViewRowInfo In gv.Rows
@@ -1128,32 +1210,51 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs)
-        Dim obj As New clsPSShipmentHead
-        obj.CreateEmailContent("ORDBOOK00008", Nothing)
-        'For Each grw As GridViewRowInfo In gv.Rows
-        '    ''Distributer_Dispatch_No
-        '    obj.CreateEmailContent("ORDBOOK00008", Nothing)
-        'Next
-
+        Try
+            Dim obj As New clsPSShipmentHead
+            obj.CreateEmailContent("ORDBOOK00008", Nothing)
+            'For Each grw As GridViewRowInfo In gv.Rows
+            '    ''Distributer_Dispatch_No
+            '    obj.CreateEmailContent("ORDBOOK00008", Nothing)
+            'Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub BtnPrintChallan_Click(sender As Object, e As EventArgs) Handles BtnPrintChallan.Click
-        loadData(2)
+        Try
+            loadData(2)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtMultCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultCustomer._My_Click
-        strQry = " select Cust_Code as [Code] , Customer_Name as [Name] from TSPL_CUSTOMER_MASTER "
-        txtMultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultCustomer", strQry, "Code", "Name", txtMultCustomer.arrValueMember, txtMultCustomer.arrDispalyMember)
+        Try
+            strQry = " select Cust_Code as [Code] , Customer_Name as [Name] from TSPL_CUSTOMER_MASTER "
+            txtMultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultCustomer", strQry, "Code", "Name", txtMultCustomer.arrValueMember, txtMultCustomer.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtMultLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultLocation._My_Click
-        strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER where Type='PLANT' "
-        txtMultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultLocation", strQry, "Code", "Name", txtMultLocation.arrValueMember, txtMultLocation.arrDispalyMember)
+        Try
+            strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER where Type='PLANT' "
+            txtMultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultLocation", strQry, "Code", "Name", txtMultLocation.arrValueMember, txtMultLocation.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtMultRoute__My_Click(sender As Object, e As EventArgs) Handles txtMultRoute._My_Click
-        strQry = "select TSPL_ROUTE_MASTER.Route_No as Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER "
-        txtMultRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultRoute", strQry, "Code", "Name", txtMultRoute.arrValueMember, txtMultRoute.arrDispalyMember)
+        Try
+            strQry = "select TSPL_ROUTE_MASTER.Route_No as Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER "
+            txtMultRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultRoute", strQry, "Code", "Name", txtMultRoute.arrValueMember, txtMultRoute.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     'Private Sub RadPageViewPage3_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage3.Paint
@@ -1177,35 +1278,47 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     'End Sub
 
     Private Sub PDF_Click(sender As Object, e As EventArgs) Handles PDF.Click
-        If gv.Rows.Count > 0 Then
-            ExportToExcel(EnumExportTo.PDF)
-        Else
-            RadMessageBox.Show("No Data Found to Display", Me.Text)
-        End If
+        Try
+            If gv.Rows.Count > 0 Then
+                ExportToExcel(EnumExportTo.PDF)
+            Else
+                RadMessageBox.Show("No Data Found to Display", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmiSaveLayout_Click(sender As Object, e As EventArgs) Handles rmiSaveLayout.Click
-        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-            gv.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = PageSetupReport_ID
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gv.SaveLayout(obj.GridLayout)
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            obj.GridColumns = gv.ColumnCount
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
-            End If
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                gv.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = PageSetupReport_ID
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gv.SaveLayout(obj.GridLayout)
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                obj.GridColumns = gv.ColumnCount
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
 
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-        End If
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmiDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmiDeleteLayout.Click
-        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Try
+            clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'Ticket No-ERO/03/09/19-001018,Send Email with Invoice PDF attachment
     Private Sub BtnEmailSms_Click(sender As Object, e As EventArgs) Handles BtnEmailSms.Click
@@ -1293,11 +1406,16 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                 End If
             End If
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrePrintFormat_Click(sender As Object, e As EventArgs) Handles btnPrePrintFormat.Click
-        Printing("", False, True)
+        Try
+            Printing("", False, True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnBatchWiseInvoice_Click(sender As Object, e As EventArgs) Handles btnBatchWiseInvoice.Click
@@ -1315,7 +1433,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
             End If
             clsPSShipmentPrint.PrintDataBatchWiseInvoice(InvoiceNo)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1382,18 +1500,26 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     End Sub
 
     Private Sub fndCustom__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustom._MYValidating
-        Dim strQuery As String = " select Cust_Code as Code , Customer_Name as Name from TSPL_CUSTOMER_MASTER "
-        fndCustom.Value = clsCommon.ShowSelectForm("PrintSaleInvoiceMonthly", strQuery, "Code", "", fndCustom.Value, "Code", isButtonClicked)
-        lblCustomer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + fndCustom.Value + "' "))
+        Try
+            Dim strQuery As String = " select Cust_Code as Code , Customer_Name as Name from TSPL_CUSTOMER_MASTER "
+            fndCustom.Value = clsCommon.ShowSelectForm("PrintSaleInvoiceMonthly", strQuery, "Code", "", fndCustom.Value, "Code", isButtonClicked)
+            lblCustomer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + fndCustom.Value + "' "))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rbtnSupplyDate_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSupplyDate.CheckedChanged
-        If rbtnSupplyDate.Checked Then
-            RadGroupBox4.Visible = True
-        End If
-        If rbtnDocumentDate.Checked Then
-            RadGroupBox4.Visible = False
-        End If
+        Try
+            If rbtnSupplyDate.Checked Then
+                RadGroupBox4.Visible = True
+            End If
+            If rbtnDocumentDate.Checked Then
+                RadGroupBox4.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub BtnSMS_Click(sender As Object, e As EventArgs) Handles BtnSMS.Click
@@ -1484,8 +1610,11 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     End Sub
 
     Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxtItem._My_Click
-        Dim qry As String = " Select Item_Code,Item_Desc,Short_Description,Structure_Code from tspl_item_master "
-        TxtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemDMulSel", qry, "Item_Code", "Short_Description", TxtItem.arrValueMember, TxtItem.arrDispalyMember)
-
+        Try
+            Dim qry As String = " Select Item_Code,Item_Desc,Short_Description,Structure_Code from tspl_item_master "
+            TxtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemDMulSel", qry, "Item_Code", "Short_Description", TxtItem.arrValueMember, TxtItem.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

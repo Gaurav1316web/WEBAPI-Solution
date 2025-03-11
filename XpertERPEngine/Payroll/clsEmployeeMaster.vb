@@ -771,7 +771,7 @@ Public Class clsEmployeeMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_MASTER", OMInsertOrUpdate.Update, "EMP_CODE='" + obj.EMP_CODE + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
 
             If obj.isPJCModule = False Then
                 'Dim qry_Count As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_STATUS where EMP_CODE= '" & obj.EMP_CODE & "'"
@@ -1392,6 +1392,8 @@ Public Class clsEmpFamilieDetails
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
 
             Dim qry As String
             qry = " delete from TSPL_EMPLOYEE_FAMILIES where EMP_CODE ='" + strCode + "'"

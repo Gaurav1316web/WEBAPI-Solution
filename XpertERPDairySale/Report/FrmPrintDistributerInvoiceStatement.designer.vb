@@ -22,10 +22,13 @@ Partial Class FrmPrintDistributerInvoiceStatement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnPartyWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnInvoiceWise = New System.Windows.Forms.RadioButton()
         Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
@@ -75,15 +78,14 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnPartyWise = New System.Windows.Forms.RadioButton()
-        Me.rbtnInvoiceWise = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
@@ -120,8 +122,6 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -202,6 +202,42 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1104, 319)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnPartyWise)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnInvoiceWise)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(485, 51)
+        Me.RadGroupBox3.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox3.TabIndex = 455
+        Me.RadGroupBox3.Visible = False
+        '
+        'rbtnPartyWise
+        '
+        Me.rbtnPartyWise.AutoSize = True
+        Me.rbtnPartyWise.Location = New System.Drawing.Point(129, 14)
+        Me.rbtnPartyWise.Name = "rbtnPartyWise"
+        Me.rbtnPartyWise.Size = New System.Drawing.Size(78, 17)
+        Me.rbtnPartyWise.TabIndex = 1
+        Me.rbtnPartyWise.Text = "Party Wise"
+        Me.rbtnPartyWise.UseVisualStyleBackColor = True
+        '
+        'rbtnInvoiceWise
+        '
+        Me.rbtnInvoiceWise.AutoSize = True
+        Me.rbtnInvoiceWise.Checked = True
+        Me.rbtnInvoiceWise.Location = New System.Drawing.Point(15, 14)
+        Me.rbtnInvoiceWise.Name = "rbtnInvoiceWise"
+        Me.rbtnInvoiceWise.Size = New System.Drawing.Size(89, 17)
+        Me.rbtnInvoiceWise.TabIndex = 0
+        Me.rbtnInvoiceWise.TabStop = True
+        Me.rbtnInvoiceWise.Text = "Invoice Wise"
+        Me.rbtnInvoiceWise.UseVisualStyleBackColor = True
         '
         'TxtItem
         '
@@ -630,7 +666,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -793,42 +829,6 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.btnGo.TabIndex = 17
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rbtnPartyWise)
-        Me.RadGroupBox3.Controls.Add(Me.rbtnInvoiceWise)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(485, 51)
-        Me.RadGroupBox3.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(327, 45)
-        Me.RadGroupBox3.TabIndex = 455
-        Me.RadGroupBox3.Visible = False
-        '
-        'rbtnPartyWise
-        '
-        Me.rbtnPartyWise.AutoSize = True
-        Me.rbtnPartyWise.Location = New System.Drawing.Point(129, 14)
-        Me.rbtnPartyWise.Name = "rbtnPartyWise"
-        Me.rbtnPartyWise.Size = New System.Drawing.Size(78, 17)
-        Me.rbtnPartyWise.TabIndex = 1
-        Me.rbtnPartyWise.Text = "Party Wise"
-        Me.rbtnPartyWise.UseVisualStyleBackColor = True
-        '
-        'rbtnInvoiceWise
-        '
-        Me.rbtnInvoiceWise.AutoSize = True
-        Me.rbtnInvoiceWise.Checked = True
-        Me.rbtnInvoiceWise.Location = New System.Drawing.Point(15, 14)
-        Me.rbtnInvoiceWise.Name = "rbtnInvoiceWise"
-        Me.rbtnInvoiceWise.Size = New System.Drawing.Size(89, 17)
-        Me.rbtnInvoiceWise.TabIndex = 0
-        Me.rbtnInvoiceWise.TabStop = True
-        Me.rbtnInvoiceWise.Text = "Invoice Wise"
-        Me.rbtnInvoiceWise.UseVisualStyleBackColor = True
-        '
         'FrmPrintDistributerInvoiceStatement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -849,6 +849,9 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
@@ -889,9 +892,6 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

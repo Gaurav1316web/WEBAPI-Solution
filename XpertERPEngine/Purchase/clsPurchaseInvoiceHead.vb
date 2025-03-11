@@ -444,6 +444,8 @@ Public Class clsPurchaseInvoiceHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PI_HEAD", OMInsertOrUpdate.Update, "TSPL_PI_HEAD.PI_No='" + obj.PI_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsPurchaseInvoiceDetail.SaveData(obj.PI_No, obj.Bill_To_Location, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PI_No, "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
             isSaved = isSaved AndAlso clsPIRemittance.SaveData(obj.objPIRemittance, obj.PI_No, obj.PI_Date, trans)
             Dim strPJVNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PJV_No from TSPL_PJV_HEAD where Invoice_No='" + obj.PI_No + "' ", trans))
             Dim objJVC As New clsPJVHead
@@ -3989,7 +3991,9 @@ select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') 
                 End If
 
                 clsPIAdditionChargeInsurance.DeleteData(strCode, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", trans)
                 Dim qry As String = "delete from TSPL_PI_DETAIL where PI_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

@@ -37,10 +37,11 @@ Partial Class frmDesignationMaster
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox()
-        Me.fnddesig = New common.UserControls.txtNavigator()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.CmbLevelCode = New common.Controls.MyComboBox()
+        Me.fnddesig = New common.UserControls.txtNavigator()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -51,40 +52,33 @@ Partial Class frmDesignationMaster
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbdesignation, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbdesignation.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CmbLevelCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CmbLevelCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.desimport, Me.desexport, Me.desclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'desimport
         '
-        Me.desimport.AccessibleDescription = "Import"
-        Me.desimport.AccessibleName = "Import"
         Me.desimport.Name = "desimport"
         Me.desimport.Text = "Import"
         '
         'desexport
         '
-        Me.desexport.AccessibleDescription = "Export"
-        Me.desexport.AccessibleName = "Export"
         Me.desexport.Name = "desexport"
         Me.desexport.Text = "Export"
         '
         'desclose
         '
-        Me.desclose.AccessibleDescription = "Close"
-        Me.desclose.AccessibleName = "Close"
         Me.desclose.Name = "desclose"
         Me.desclose.Text = "Close"
         '
@@ -120,6 +114,7 @@ Partial Class frmDesignationMaster
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(7, 37)
         Me.lbldes.Name = "lbldes"
@@ -129,13 +124,25 @@ Partial Class frmDesignationMaster
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(116, 37)
         Me.txtdes.MaxLength = 49
         Me.txtdes.MendatroryField = True
         Me.txtdes.MyLinkLable1 = Nothing
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -145,6 +152,7 @@ Partial Class frmDesignationMaster
         '
         'lbldesid
         '
+        Me.lbldesid.FieldName = Nothing
         Me.lbldesid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldesid.Location = New System.Drawing.Point(7, 13)
         Me.lbldesid.Name = "lbldesid"
@@ -159,7 +167,6 @@ Partial Class frmDesignationMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(455, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'btnnew
         '
@@ -188,8 +195,45 @@ Partial Class frmDesignationMaster
         Me.gbdesignation.Size = New System.Drawing.Size(449, 92)
         Me.gbdesignation.TabIndex = 0
         '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(7, 65)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel3.TabIndex = 42
+        Me.MyLabel3.Text = "Level Code"
+        '
+        'CmbLevelCode
+        '
+        Me.CmbLevelCode.AutoCompleteDisplayMember = Nothing
+        Me.CmbLevelCode.AutoCompleteValueMember = Nothing
+        Me.CmbLevelCode.CalculationExpression = Nothing
+        Me.CmbLevelCode.DropDownAnimationEnabled = True
+        Me.CmbLevelCode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CmbLevelCode.FieldCode = Nothing
+        Me.CmbLevelCode.FieldDesc = Nothing
+        Me.CmbLevelCode.FieldMaxLength = 0
+        Me.CmbLevelCode.FieldName = Nothing
+        Me.CmbLevelCode.isCalculatedField = False
+        Me.CmbLevelCode.IsSourceFromTable = False
+        Me.CmbLevelCode.IsSourceFromValueList = False
+        Me.CmbLevelCode.IsUnique = False
+        Me.CmbLevelCode.Location = New System.Drawing.Point(116, 63)
+        Me.CmbLevelCode.MendatroryField = True
+        Me.CmbLevelCode.MyLinkLable1 = Me.MyLabel3
+        Me.CmbLevelCode.MyLinkLable2 = Nothing
+        Me.CmbLevelCode.Name = "CmbLevelCode"
+        Me.CmbLevelCode.ReferenceFieldDesc = Nothing
+        Me.CmbLevelCode.ReferenceFieldName = Nothing
+        Me.CmbLevelCode.ReferenceTableName = Nothing
+        Me.CmbLevelCode.Size = New System.Drawing.Size(167, 20)
+        Me.CmbLevelCode.TabIndex = 41
+        '
         'fnddesig
         '
+        Me.fnddesig.FieldName = Nothing
         Me.fnddesig.Location = New System.Drawing.Point(116, 11)
         Me.fnddesig.MendatroryField = True
         Me.fnddesig.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -218,6 +262,7 @@ Partial Class frmDesignationMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -225,27 +270,15 @@ Partial Class frmDesignationMaster
         Me.SplitContainer1.SplitterDistance = 100
         Me.SplitContainer1.TabIndex = 0
         '
-        'MyLabel3
+        'btnHistory
         '
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(7, 65)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(63, 16)
-        Me.MyLabel3.TabIndex = 42
-        Me.MyLabel3.Text = "Level Code"
-        '
-        'CmbLevelCode
-        '
-        Me.CmbLevelCode.AutoCompleteDisplayMember = Nothing
-        Me.CmbLevelCode.AutoCompleteValueMember = Nothing
-        Me.CmbLevelCode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.CmbLevelCode.Location = New System.Drawing.Point(116, 63)
-        Me.CmbLevelCode.MendatroryField = True
-        Me.CmbLevelCode.MyLinkLable1 = Me.MyLabel3
-        Me.CmbLevelCode.MyLinkLable2 = Nothing
-        Me.CmbLevelCode.Name = "CmbLevelCode"
-        Me.CmbLevelCode.Size = New System.Drawing.Size(167, 20)
-        Me.CmbLevelCode.TabIndex = 41
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(185, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmDesignationMaster
         '
@@ -271,11 +304,12 @@ Partial Class frmDesignationMaster
         CType(Me.gbdesignation, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbdesignation.ResumeLayout(False)
         Me.gbdesignation.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CmbLevelCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CmbLevelCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -299,5 +333,6 @@ Partial Class frmDesignationMaster
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents CmbLevelCode As common.Controls.MyComboBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 
