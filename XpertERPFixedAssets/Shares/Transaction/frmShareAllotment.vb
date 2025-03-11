@@ -126,6 +126,10 @@ Public Class frmShareAllotment
             '                     Where Share_Code='" + fndShare.Value + "')xxx Group By Share_Code,Certificate_No
             '                     Having sum(RI)>0"
             If txtNoOfShare.Value > 0 Then
+                Dim isPostedShareMaster As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count(1) from TSPL_SHARE_MASTER where Status = 1 and code = '" + fndShare.Value + "'") = 1)
+                If Not isPostedShareMaster Then
+                    Throw New Exception("This Document [" + fndShare.Value + "] is not posted in Share Master.")
+                End If
                 Dim qry As String = clsShareAllotment.ReturnQry(fndShare.Value, clsCommon.myCstr(txtNoOfShare.Value))
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 fndCertificate.arrValueMember = clsCommon.ShowMultipleSelectForm("@Certification", qry, "Certificate No", "Certificate No", fndCertificate.arrValueMember, fndCertificate.arrDispalyMember)
@@ -200,8 +204,12 @@ Public Class frmShareAllotment
 
     Function AllowToSave() As Boolean
         Dim Check As Boolean = False
-        Dim Qry As String = "select Certificate_No,RI  From TSPL_SHARE_MOVEMENT Where Share_Code='" + fndShare.Value + "' And Certificate_No IN (" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember)) + ")
-                             Group By Certificate_No,RI Having Sum(RI)<=0"
+        Dim Qry As String = "select Certificate_No,RI  From TSPL_SHARE_MOVEMENT Where Share_Code='" + fndShare.Value + "' "
+
+        If fndCertificate.arrValueMember IsNot Nothing AndAlso fndCertificate.arrValueMember.Count > 0 Then
+            Qry += " And Certificate_No IN (" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember)) + ")"
+        End If
+        Qry += "    Group By Certificate_No,RI Having Sum(RI)<=0"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             For i As Integer = 0 To dt.Rows.Count - 1

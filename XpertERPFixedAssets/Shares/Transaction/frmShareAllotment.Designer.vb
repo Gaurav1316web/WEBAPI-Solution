@@ -357,7 +357,7 @@ Partial Class frmShareAllotment
         Me.fndCertificate.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCertificate.MyLinkLable1 = Nothing
         Me.fndCertificate.MyLinkLable2 = Nothing
-        Me.fndCertificate.MyNullText = "Please Select..."
+        Me.fndCertificate.MyNullText = "All"
         Me.fndCertificate.Name = "fndCertificate"
         Me.fndCertificate.Size = New System.Drawing.Size(258, 21)
         Me.fndCertificate.TabIndex = 1072
