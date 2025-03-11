@@ -34637,7 +34637,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Loc_Code", "Varchar(12) null References TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Capex_Category", "varchar(10)  NULL ")
             coll.Add("All_Level_Approval_Required", "integer not NULL default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_APPROVAL_LEVEL_SCREEN", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_APPROVAL_LEVEL_SCREEN", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("User_Code", "varchar(12) NOT NULL references TSPL_USER_MASTER(User_Code)")
@@ -46287,7 +46287,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Loc_Code", "Varchar(12) null")
             coll.Add("Capex_Category", "varchar(10)  NULL ")
             coll.Add("All_Level_Approval_Required", "integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_APPROVAL_LEVEL_SCREEN_HISTORY", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_APPROVAL_LEVEL_SCREEN_HISTORY", coll, "", True, False, "", "", "", True)
             '============================================end here=====================================================
             '========app Location Table====
             coll = New Dictionary(Of String, String)()
