@@ -27094,7 +27094,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Previous_TDS_Amt", "Decimal(18,2) NULL")
             coll.Add("Is_TDS_Override", "integer Not null default 0")
             coll.Add("Is_TDS_Provision", "char(1) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False, "", "", "", True)
 
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_REMITTANCE set Is_TDS_Provision='N' where Is_TDS_Provision is null;")
@@ -33095,7 +33095,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Asset_Code", "varchar(50) null References TSPL_ACQUISITION_DETAIL(Asset_Code)")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "", True)
 
             'By Vipin------------------
 

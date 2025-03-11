@@ -7195,6 +7195,12 @@ Public Class frmVSP_VLCMaster
         End If
     End Sub
 
+    Private Sub fndbankcode_Leave(sender As Object, e As EventArgs) Handles fndbankcode.Leave
+        If clsCommon.myLen(fndbankcode.Text) > 0 Then
+            txtbankcodedes.Text = fndbankcode.Text
+        End If
+    End Sub
+
 
 
 

@@ -13,6 +13,7 @@ Public Class frmDairyBookingCustomer
     Dim OneTimeCheck As Boolean = False
     Dim ApplyDefaultTCSIsChecked As Boolean = False
     Dim ApplyManualScheme As Boolean = False
+    Dim ApplyItemCapacityLimit As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
     Dim ApplyCommission As Boolean = True
@@ -309,6 +310,7 @@ Public Class frmDairyBookingCustomer
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
         ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 0, False, True)
         ApplyDefaultTCSIsChecked = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, Nothing)) = 0, False, True)
+        ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
 
         SetMailRight()
         SetUserMgmtNew()
@@ -1243,6 +1245,10 @@ Public Class frmDairyBookingCustomer
                         ElseIf e.Column Is gv1.Columns(colQty) Then
                             Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                            If ApplyItemCapacityLimit Then
+                                CheckItemCapacityLimit(strICode, strIUOM, clsCommon.myCstr(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
+
+                            End If
                             'gv1.CurrentRow.Cells(colOrgCost).Value = gv1.CurrentRow.Cells(colRate).Value
                             SetTax(strICode, gv1.CurrentRow.Index)
                             SetTaxDetails(strICode, gv1.CurrentRow.Index)
@@ -5005,6 +5011,43 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
             LoadData(strDocNo, NavigatorType.Current)
         End If
     End Sub
+    Private Function CheckItemCapacityLimit(ByVal strItemCode As String, ByVal strUOM As String, ByVal qty As String, ByVal dblrows As Integer, ByVal dblcolumns As Integer) As Boolean
+        Dim status As Boolean = False
+        Try
+            Dim strQry As String = "select TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code,TSPL_ITEM_CAPACITY_LIMIT_DETAIL.UOM,TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Qty  from TSPL_ITEM_CAPACITY_LIMIT_HEAD
+left join TSPL_ITEM_CAPACITY_LIMIT_DETAIL on TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No=TSPL_ITEM_CAPACITY_LIMIT_head.Document_No
+                where TSPL_ITEM_CAPACITY_LIMIT_HEAD.Posted=1 and TSPL_ITEM_CAPACITY_LIMIT_HEAD.Document_No in(
+select top 1 TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No from TSPL_ITEM_CAPACITY_LIMIT_HEAD
+left join TSPL_ITEM_CAPACITY_LIMIT_DETAIL on TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No=TSPL_ITEM_CAPACITY_LIMIT_head.Document_No
+where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code='" + strItemCode + "'  and 2=(Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date is null then 2 else (Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by From_Date desc)
+ and TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code='" + strItemCode + "' and 2=(Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date is null then 2 else (Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(dt.Rows(0)("UOM")) & "'"))
+                Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(strUOM) & "' "))
+                Dim ItemLimitCF As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(dt.Rows(0)("UOM")) & "' "))
+                Dim ItemLimitCFPouch As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
+                Dim cellValue As String = clsCommon.myCstr(qty)
+                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                    Dim DispatchQty As Decimal = (clsCommon.myCdbl(qty) * ItemConvFactor) / ItemLimitCF
+                    If DispatchQty > clsCommon.myCdbl(dt.Rows(0)("Qty")) Then
+                        gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
+                        Throw New Exception("The maximum allowed quantity for this item is [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("Qty")) / (ItemConvFactor / ItemLimitCF)) + " ] ." & Environment.NewLine & " Please reduce the quantity To [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("Qty")) / (ItemConvFactor / ItemLimitCF)) + "] Or less To proceed.")
+                    Else
+                        status = True
+                    End If
+                End If
+            Else
+                gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
+                Throw New Exception("Capacity Limit Not found For [ " + strItemCode + " ]")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return status
+    End Function
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
             isCellValueChangedOpen = True

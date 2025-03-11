@@ -703,6 +703,8 @@ Public Class frmMilkCollectionDCS
                         Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
                         If CalSettMaxFATPerLimit > 0 Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                gv1.CurrentRow.Cells(colMorningFATPer).Value = 0
+                                gv1.CurrentRow.Cells(colMorningFATPerNoDecimal).Value = 0
                                 clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
@@ -714,6 +716,8 @@ Public Class frmMilkCollectionDCS
                         Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
                         If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                gv1.CurrentRow.Cells(colMorningSNFPer).Value = 0
+                                gv1.CurrentRow.Cells(colMorningSNFPerNoDecimal).Value = 0
                                 clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If

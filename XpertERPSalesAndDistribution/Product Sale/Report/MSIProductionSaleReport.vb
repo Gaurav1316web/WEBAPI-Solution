@@ -14,13 +14,13 @@ Public Class MSIProductionSaleReport
     Dim Slot3TD As DateTime = Nothing
 #End Region
 
-    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         FromDate.Value = clsCommon.GETSERVERDATE()
         txtLocation.Value = Nothing
         lblLocation.Text = ""
     End Sub
 
-    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
 
@@ -294,14 +294,32 @@ Public Class MSIProductionSaleReport
 
             Dim dtshift As DataTable = clsDBFuncationality.GetDataTable(ShiftOperated)
 
-            Dim Productionrptdaily As String = "SELECT SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+            Dim Productionrptdaily As String = "SELECT "
+            If Productionchk.IsChecked = True Then
+                Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+            ElseIf RePrdntchk.IsChecked = True Then
+                Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+            ElseIf Prdncreallchk.IsChecked = True Then
+                Productionrptdaily += " SUM(Reprocess_Qty)/1000 AS QTY "
+            End If
+            Productionrptdaily += "  FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                          LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  AND FG_for_CF_RPT=1 "
 
             Dim dtproductiondaily As DataTable = clsDBFuncationality.GetDataTable(Productionrptdaily)
 
-            Dim Productionrptperiodically As String = "SELECT SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+            Dim Productionrptperiodically As String = "SELECT "
+
+            If Productionchk.IsChecked = True Then
+                Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+            ElseIf RePrdntchk.IsChecked = True Then
+                Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+            ElseIf Prdncreallchk.IsChecked = True Then
+                Productionrptperiodically += " SUM(Reprocess_Qty)/1000 AS QTY "
+            End If
+
+            Productionrptperiodically += " FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                             LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                             LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code
                                             WHERE   FG_for_CF_RPT=1  AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
