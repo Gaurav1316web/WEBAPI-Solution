@@ -1696,6 +1696,7 @@
     <None Include="Crystal Reports\Purchase Order\ScrapsaleInvoice4Excise.rpt" />
     <None Include="Crystal Reports\Purchase Order\ScrapsaleInvoice4ExcisePrint.rpt" />
     <None Include="Crystal Reports\Purchase Order\ScrapsaleInvoice4ExcisePrintfor VIZAG.rpt" />
+    <None Include="Crystal Reports\Purchase Order\ShareAlloment.rpt" />
     <None Include="Crystal Reports\Purchase Order\SrnReceipt.rpt" />
     <None Include="Crystal Reports\Purchase Order\SrnReceipt1.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReport-old 19th may.rpt" />
