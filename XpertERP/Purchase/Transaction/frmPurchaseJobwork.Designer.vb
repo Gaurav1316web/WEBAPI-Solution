@@ -22,16 +22,17 @@ Partial Class frmPurchaseJobwork
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv = New common.UserControls.MyRadGridView()
+        Me.txtTotalDOc = New Telerik.WinControls.UI.RadTextBox()
         Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
         Me.lblTotalDoc = New Telerik.WinControls.UI.RadLabel()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnload = New Telerik.WinControls.UI.RadButton()
-        Me.txtTotalDOc = New Telerik.WinControls.UI.RadTextBox()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -41,11 +42,11 @@ Partial Class frmPurchaseJobwork
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalDOc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalDoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnload, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTotalDOc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -119,11 +120,14 @@ Partial Class frmPurchaseJobwork
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(10, 20)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -131,7 +135,14 @@ Partial Class frmPurchaseJobwork
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(894, 392)
         Me.gv.TabIndex = 1
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
+        '
+        'txtTotalDOc
+        '
+        Me.txtTotalDOc.Location = New System.Drawing.Point(760, 7)
+        Me.txtTotalDOc.Name = "txtTotalDOc"
+        Me.txtTotalDOc.Size = New System.Drawing.Size(70, 20)
+        Me.txtTotalDOc.TabIndex = 8
         '
         'RadLabel2
         '
@@ -166,13 +177,6 @@ Partial Class frmPurchaseJobwork
         Me.btnload.TabIndex = 4
         Me.btnload.Text = "Load"
         '
-        'txtTotalDOc
-        '
-        Me.txtTotalDOc.Location = New System.Drawing.Point(760, 7)
-        Me.txtTotalDOc.Name = "txtTotalDOc"
-        Me.txtTotalDOc.Size = New System.Drawing.Size(70, 20)
-        Me.txtTotalDOc.TabIndex = 8
-        '
         'frmPurchaseJobwork
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -196,11 +200,11 @@ Partial Class frmPurchaseJobwork
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalDOc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalDoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnload, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTotalDOc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

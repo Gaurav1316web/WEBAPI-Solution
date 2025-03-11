@@ -25,6 +25,7 @@ Partial Class frmApprovalScreen
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -57,6 +58,7 @@ Partial Class frmApprovalScreen
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -89,6 +91,7 @@ Partial Class frmApprovalScreen
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,6 +124,7 @@ Partial Class frmApprovalScreen
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -212,6 +216,7 @@ Partial Class frmApprovalScreen
         Me.ddl_category.AutoCompleteDisplayMember = Nothing
         Me.ddl_category.AutoCompleteValueMember = Nothing
         Me.ddl_category.CalculationExpression = Nothing
+        Me.ddl_category.DropDownAnimationEnabled = True
         Me.ddl_category.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_category.FieldCode = Nothing
         Me.ddl_category.FieldDesc = Nothing
@@ -325,7 +330,7 @@ Partial Class frmApprovalScreen
         Me.txtLevelNo.TabIndex = 3
         Me.txtLevelNo.Text = "0"
         Me.txtLevelNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLevelNo.Value = 0.0R
+        Me.txtLevelNo.Value = 0R
         '
         'lblLevel
         '
@@ -342,6 +347,7 @@ Partial Class frmApprovalScreen
         Me.cboApprovalType.AutoCompleteDisplayMember = Nothing
         Me.cboApprovalType.AutoCompleteValueMember = Nothing
         Me.cboApprovalType.CalculationExpression = Nothing
+        Me.cboApprovalType.DropDownAnimationEnabled = True
         Me.cboApprovalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboApprovalType.Enabled = False
         Me.cboApprovalType.FieldCode = Nothing
@@ -394,6 +400,7 @@ Partial Class frmApprovalScreen
         Me.cboModule.AutoCompleteDisplayMember = Nothing
         Me.cboModule.AutoCompleteValueMember = Nothing
         Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
         Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModule.FieldCode = Nothing
         Me.cboModule.FieldDesc = Nothing
@@ -429,6 +436,7 @@ Partial Class frmApprovalScreen
         Me.cboTransaction.AutoCompleteDisplayMember = Nothing
         Me.cboTransaction.AutoCompleteValueMember = Nothing
         Me.cboTransaction.CalculationExpression = Nothing
+        Me.cboTransaction.DropDownAnimationEnabled = True
         Me.cboTransaction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTransaction.FieldCode = Nothing
         Me.cboTransaction.FieldDesc = Nothing
@@ -473,11 +481,14 @@ Partial Class frmApprovalScreen
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -485,7 +496,7 @@ Partial Class frmApprovalScreen
         Me.gv1.Size = New System.Drawing.Size(899, 178)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'btnReset
         '
@@ -528,7 +539,6 @@ Partial Class frmApprovalScreen
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(923, 20)
         Me.RadMenu1.TabIndex = 24
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
@@ -541,31 +551,34 @@ Partial Class frmApprovalScreen
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Import"
-        Me.RadMenuItem4.AccessibleName = "Import"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Import"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(218, 1)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'frmApprovalScreen
         '
@@ -616,6 +629,7 @@ Partial Class frmApprovalScreen
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -653,5 +667,6 @@ Partial Class frmApprovalScreen
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

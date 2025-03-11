@@ -685,6 +685,8 @@ Public Class FrmUserMaster
                     End If
                 End If
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndUserCode.Value, "TSPL_USER_MASTER", "User_Code", Nothing)
+
             updateExtraColumns()
 
             If ChkSuperUser = True AndAlso PanelCNF = True Then

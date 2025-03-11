@@ -55,7 +55,7 @@ Public Class clsRALNOC
             End If
             clsRALNOCSchedule.SaveData(obj.Document_No, obj.ArrSchedule, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_RAL_NOC", "Document_No", "TSPL_RAL_NOC_SCHEDULE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_RAL_NOC", "Document_No", trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()

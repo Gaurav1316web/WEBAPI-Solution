@@ -74,7 +74,7 @@ Public Class frmRALNOC
         coll.Add("Against_RAL_NOC_Schedule_PK_Id", "integer NOT NULL References TSPL_RAL_NOC_SCHEDULE(PK_Id)")
         coll.Add("Penalty_Date", "date NULL")
         coll.Add("Penalty", "Decimal(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_SCHEDULE_PENALTY", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_SCHEDULE_PENALTY", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
 
 
         coll = New Dictionary(Of String, String)()
@@ -91,7 +91,7 @@ Public Class frmRALNOC
         coll.Add("Late_Days", "integer NULL")
         coll.Add("Extension_Days", "integer NULL")
         coll.Add("Item_Type", "varchar(5) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_ORG_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_ORG_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
 
 
         coll = New Dictionary(Of String, String)()
@@ -99,7 +99,7 @@ Public Class frmRALNOC
         coll.Add("Against_Tender_Schedule_PK_Id", "integer NOT NULL References TSPL_RAL_NOC_ORG_SCHEDULE(PK_Id)")
         coll.Add("Penalty_Date", "date NULL")
         coll.Add("Penalty", "Decimal(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_ORG_SCHEDULE_PENALTY", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RAL_NOC_ORG_SCHEDULE_PENALTY", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
 
 
         SetUserMgmtNew()

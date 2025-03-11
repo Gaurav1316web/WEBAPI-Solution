@@ -28,7 +28,7 @@ Public Class clsDemandBookingSale
     Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(obj, isNewEntry, False, trans)
+            SaveData(obj, isNewEntry, False, False, trans)
             '' Is Document posted then roll back the transcation by Vinod Kumar14/Aug/2024
             If clsCommon.myLen(obj.Document_No) > 0 Then
                 qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + obj.Document_No + "'"
@@ -44,7 +44,7 @@ Public Class clsDemandBookingSale
         End Try
         Return True
     End Function
-    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal IsDemandUploader As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal IsDemandUploader As Boolean, ByVal isDemandAdjustment As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
@@ -84,7 +84,12 @@ Public Class clsDemandBookingSale
             End If
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry, IsDemandUploader, obj.Route_No)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
-            SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
+            If isDemandAdjustment Then
+                SaveDemandHistoryData(obj, obj.Arr, "Demand Adjustment", "ERP", objCommonVar.CurrentUserCode, trans)
+            Else
+                SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
+
+            End If
 
 
         Catch ex As Exception
@@ -1010,7 +1015,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                                                 For ii As Integer = Mobj.Arr.Count - 1 To 0 Step -1
@@ -1041,7 +1046,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     Next
                                                 End If
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             End If
                                         Else
@@ -1061,7 +1066,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                                                 For ii As Integer = Mobj.Arr.Count - 1 To 0 Step -1
@@ -1076,7 +1081,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
-                                                    SaveData(Mobj, isNewEntry, False, trans)
+                                                    SaveData(Mobj, isNewEntry, False, False, trans)
                                                 End If
                                             End If
                                         End If
@@ -1111,7 +1116,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                 End If
                             Next
                             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                                SaveData(obj, isNewEntry, False, trans)
+                                SaveData(obj, isNewEntry, False, False, trans)
                             End If
                         ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                             For ii As Integer = obj.Arr.Count - 1 To 0 Step -1
@@ -1126,7 +1131,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" + clsCommon.myCstr(dr("Cust_
                                 End If
                             Next
                             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                                SaveData(obj, isNewEntry, False, trans)
+                                SaveData(obj, isNewEntry, False, False, trans)
                             End If
                         End If
                     End If
@@ -1700,6 +1705,8 @@ from "
                 End If
 
                 BaseQry += " Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+Left Join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 LEFT Outer Join (Select Document_No,Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' Group By Document_No,Document_Date,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No 
 Left Outer Join TSPL_Demand_Booking_Detail On TSPL_Demand_Booking_Detail.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No And TSPL_Demand_Booking_Detail.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 --Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_Demand_Booking_Detail.Document_No
@@ -1710,9 +1717,7 @@ Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code 
                     BaseQry += " Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate'  ) as ITEMDETAILInCrate on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInCrate.Item_code 
                             Left Join (select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch'  ) as ITEMDETAILInpouch on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAILInpouch.Item_code "
                 End If
-                BaseQry += "Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
-Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
+                BaseQry += " Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where 2=2 "
                 If isSplitPrint Then
                     BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "

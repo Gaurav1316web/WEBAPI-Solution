@@ -5429,9 +5429,9 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             'gv1.Rows.AddNew()
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
             'SetitemWiseTaxSetting(False, False)
-            For ii As Integer = 0 To gv1.Rows.Count - 1
-                UpdateCurrentRow(ii)
-            Next
+            'For ii As Integer = 0 To gv1.Rows.Count - 1
+            '    UpdateCurrentRow(ii)
+            'Next
         End If
         txtTaxGroup.Enabled = False
         'gvAC.ReadOnly = True

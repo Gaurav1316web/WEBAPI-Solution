@@ -354,6 +354,8 @@ Public Class clsPurchasReturnHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PR_HEAD", OMInsertOrUpdate.Update, "TSPL_PR_HEAD.PR_No='" + obj.PR_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsPurchasReturnDetail.SaveData(obj.PR_No, obj.PR_Date, Arr, trans, obj.TrType)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PR_No, "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
             isSaved = isSaved AndAlso clsPIRemittance.SaveData(obj.objPIRemittance, obj.PR_No, obj.PR_Date, trans)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.PR_No, obj.arrCustomFields, trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PR_No", obj.PR_No, "TSPL_PR_HEAD", trans)
@@ -1363,6 +1365,8 @@ Public Class clsPurchasReturnHead
                 End If
                 clsPRAdditionChargeInsurance.DeleteData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("Purchase Return", strCode, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
+
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
                 Dim qry As String = "delete from TSPL_PR_DETAIL where PR_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
