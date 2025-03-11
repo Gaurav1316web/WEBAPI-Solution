@@ -59,6 +59,10 @@ Public Class FrmItemCapacityLimit
         txtEndDate.Value = txtDate.Value
         chkInactive.Checked = False
         chkInactive.Enabled = False
+        btnSave.Enabled = True
+        btnDelete.Enabled = True
+        btnPost.Enabled = False
+        btnShowHistory.Enabled = False
         LoadBlankGrid()
     End Sub
     Sub LoadBlankGrid()
@@ -360,6 +364,7 @@ Public Class FrmItemCapacityLimit
                     UsLock1.Status = ERPTransactionStatus.Pending
                     chkInactive.Enabled = False
                 End If
+                btnShowHistory.Enabled = True
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 txtStartDate.Value = obj.From_Date
