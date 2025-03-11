@@ -27,7 +27,7 @@ Public Class FrmBoothCountReport
                 '        GROUP BY FORMAT(TSPL_DEMAND_BOOKING_MASTER.Document_Date, 'dd/MM/yyyy')"
 
                 qry = " SELECT FORMAT(TSPL_DEMAND_BOOKING_MASTER.Document_Date, 'dd/MM/yyyy') AS [Document Date], 
-                               COUNT(*) AS [Count Of Booth] 
+                               COUNT(distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) AS [Count Of Booth] 
                         FROM TSPL_DEMAND_BOOKING_DETAIL 
                         LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER 
                         ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No  
@@ -40,7 +40,7 @@ Public Class FrmBoothCountReport
 
             ElseIf BtnDateGroupWise.IsChecked Then
                 qry = " SELECT FORMAT(TSPL_DEMAND_BOOKING_MASTER.Document_Date, 'dd/MM/yyyy') AS [Document Date],Max(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as [Cust Group Code],  
-                               COUNT(*) AS [Count Of Booth] 
+                               COUNT(distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) AS [Count Of Booth] 
                         FROM TSPL_DEMAND_BOOKING_DETAIL 
                         LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER 
                         ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
