@@ -31,6 +31,10 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Prdncreallchk = New common.Controls.MyRadioButton()
+        Me.RePrdntchk = New common.Controls.MyRadioButton()
+        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSaleTransfer = New common.Controls.MyRadioButton()
         Me.rdbStockTransfer = New common.Controls.MyRadioButton()
@@ -78,6 +82,11 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.rdbSaleTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,6 +214,7 @@ Partial Class FrmProductionAndSaleReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -216,6 +226,53 @@ Partial Class FrmProductionAndSaleReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 392)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.Prdncreallchk)
+        Me.RadGroupBox7.Controls.Add(Me.RePrdntchk)
+        Me.RadGroupBox7.Controls.Add(Me.Productionchk)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(16, 297)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox7.TabIndex = 59
+        '
+        'Prdncreallchk
+        '
+        Me.Prdncreallchk.Location = New System.Drawing.Point(202, 11)
+        Me.Prdncreallchk.MyLinkLable1 = Nothing
+        Me.Prdncreallchk.MyLinkLable2 = Nothing
+        Me.Prdncreallchk.Name = "Prdncreallchk"
+        Me.Prdncreallchk.Size = New System.Drawing.Size(33, 18)
+        Me.Prdncreallchk.TabIndex = 3
+        Me.Prdncreallchk.TabStop = False
+        Me.Prdncreallchk.Text = "All"
+        '
+        'RePrdntchk
+        '
+        Me.RePrdntchk.Location = New System.Drawing.Point(97, 11)
+        Me.RePrdntchk.MyLinkLable1 = Nothing
+        Me.RePrdntchk.MyLinkLable2 = Nothing
+        Me.RePrdntchk.Name = "RePrdntchk"
+        Me.RePrdntchk.Size = New System.Drawing.Size(92, 18)
+        Me.RePrdntchk.TabIndex = 2
+        Me.RePrdntchk.TabStop = False
+        Me.RePrdntchk.Text = "Re-Production"
+        '
+        'Productionchk
+        '
+        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
+        Me.Productionchk.MyLinkLable1 = Nothing
+        Me.Productionchk.MyLinkLable2 = Nothing
+        Me.Productionchk.Name = "Productionchk"
+        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
+        Me.Productionchk.TabIndex = 1
+        Me.Productionchk.Text = "Production"
+        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox6
         '
@@ -652,6 +709,12 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -750,5 +813,9 @@ Partial Class FrmProductionAndSaleReport
     Friend WithEvents rdbSale As common.Controls.MyRadioButton
     Friend WithEvents rdbSaleTransfer As common.Controls.MyRadioButton
     Friend WithEvents BtnPrint As RadButton
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents Prdncreallchk As common.Controls.MyRadioButton
+    Friend WithEvents RePrdntchk As common.Controls.MyRadioButton
+    Friend WithEvents Productionchk As common.Controls.MyRadioButton
 End Class
 
