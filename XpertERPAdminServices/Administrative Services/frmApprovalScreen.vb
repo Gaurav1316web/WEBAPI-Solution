@@ -1218,6 +1218,15 @@ Public Class frmApprovalScreen
         gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_Department).Value = Nothing
         gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_DepartmentName).Value = Nothing
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        If clsCommon.myLen(clsCommon.myCstr(cboModule.SelectedValue)) <= 0 Then
+            clsCommon.MyMessageBoxShow("Select Document No")
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(cboModule.SelectedValue), "Module_Code", "TSPL_APPROVAL_LEVEL_SCREEN")
+
+    End Sub
 End Class
 
 Public Class clsTempMTLC

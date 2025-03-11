@@ -9,6 +9,7 @@ Public Class frmDemandAdjustment
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Dim IncraseOrder As Boolean = False
     Dim DecreaseOrder As Boolean = False
+    Dim isChange As Boolean = False
     Private isInsideLoadData As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Const ColSNo As String = "ColSNo"
@@ -38,6 +39,7 @@ Public Class frmDemandAdjustment
         LimitIncreaseDecreseQty = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreaseQty, clsFixedParameterCode.DemandIncreaseDecreaseQty, Nothing))
         LimitIncreaseDecresePer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreasePer, clsFixedParameterCode.DemandIncreaseDecreasePer, Nothing))
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+
         SetUserMgmtNew()
         AddNew()
     End Sub
@@ -60,17 +62,28 @@ Public Class frmDemandAdjustment
         rbtnMorning.IsChecked = True
         chkChangeItem.Checked = False
         chkChangeItem.Enabled = True
-        chkChangeItem.Visible = False
+        If isChange Then
+            chkChangeItem.Visible = True
+            lblChangeitem.Visible = True
+            txtChangeItemCode.Visible = True
+            txtChangeItemCode.Enabled = True
+            lblChangeitemDesc.Visible = True
+        Else
+            chkChangeItem.Visible = False
+            lblChangeitem.Visible = False
+            txtChangeItemCode.Enabled = False
+            txtChangeItemCode.Visible = False
+            lblChangeitemDesc.Visible = False
+        End If
         rbtnAutomatic.IsChecked = True
         txtQty.Text = 0
         txtMinCrate.Text = ""
-        txtDeductQty.Text = 0
-        txtAddQty.Text = 0
+
         txtChangeItemCode.Value = ""
         lblChangeitemDesc.Text = ""
         txtPer.Text = 0
         txtFixedQty.Text = 0
-        ControlGroup(True)
+
         LoadBlankGrid()
         EnableGroup(False)
         btnProceed.Enabled = False
@@ -211,38 +224,42 @@ Public Class frmDemandAdjustment
         gv1.Rows.AddNew()
         gv1.BestFitColumns()
     End Sub
-    Private Sub txtQty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtAddQty.KeyPress, txtDeductQty.KeyPress, txtAddQty.KeyPress, txtMinCrate.KeyPress, txtPer.KeyPress, txtQty.KeyPress
+    Private Sub txtQty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtMinCrate.KeyPress, txtPer.KeyPress, txtQty.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
     End Sub
     Private Sub chkChangeItem_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkChangeItem.ToggleStateChanged
         If chkChangeItem.Checked Then
-            rgbChangeItem.Location = New System.Drawing.Point(2, 121)
-            ControlGroup(False)
+            lblChangeitem.Visible = True
+            txtChangeItemCode.Visible = True
+            lblChangeitemDesc.Visible = True
+            rbtnFix.IsChecked = True
         Else
-            ControlGroup(True)
+            lblChangeitem.Visible = False
+            txtChangeItemCode.Visible = False
+            lblChangeitemDesc.Visible = False
+            rbtnAutomatic.IsChecked = True
         End If
     End Sub
-    Public Sub ControlGroup(ByVal flag As Boolean)
-        rgbChangeItem.Visible = Not flag
-        rgbMode.Visible = flag
-        rgbIDOrder.Visible = flag
-        rgbDecreaseOrder.Visible = flag
-        rgbIncreaseOrder.Visible = flag
-        If flag Then
-            ControlIsnotChangeItem(flag)
-        End If
-    End Sub
+
     Public Sub EnableGroup(ByVal flag As Boolean)
-        rgbChangeItem.Enabled = flag
+
         rgbMode.Enabled = flag
         rgbIDOrder.Enabled = flag
         rgbDecreaseOrder.Enabled = flag
         rgbIncreaseOrder.Enabled = flag
-        btnSave.Enabled = flag
-        btnDelete.Enabled = flag
-        btnGo.Enabled = Not flag
+        If isChange Then
+            btnSave.Enabled = Not flag
+            btnDelete.Enabled = Not flag
+            btnGo.Enabled = Not flag
+
+        Else
+            btnSave.Enabled = flag
+            btnDelete.Enabled = flag
+            btnGo.Enabled = Not flag
+
+        End If
         rgbShiftType.Enabled = Not flag
         txtZoneCode.Enabled = Not flag
         txtRouteCode.Enabled = Not flag
@@ -338,31 +355,82 @@ Public Class frmDemandAdjustment
                 LoadBlankGrid()
                 isInsideLoadData = True
                 Dim whrcls As String = ""
-                Dim qry As String = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
+                Dim qry As String = ""
+
+                If isChange Then
+                    If clsCommon.myLen(txtChangeItemCode.Value) <= 0 OrElse txtRouteCode.arrValueMember Is Nothing OrElse txtRouteCode.arrValueMember.Count > 1 Then
+                        Throw New Exception("Change Item Code/Route no Not Found")
+                    End If
+                    qry = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,'" + txtItemCode.Value + "' as Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Document_No,'" + lblItemDesc.Text + "' as Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as AdjustQty
+from TSPL_DEMAND_BOOKING_MASTER 
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+where TSPL_DEMAND_BOOKING_MASTER.Posted=1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtChangeItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
+                    If txtZoneCode.arrValueMember IsNot Nothing Then
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        Else
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallString(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+                        End If
+                    Else
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        End If
+                    End If
+                    qry += "Union all 
+select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Document_No,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty,0 as AdJustQty
+from TSPL_DEMAND_BOOKING_MASTER 
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+where TSPL_DEMAND_BOOKING_MASTER.Posted=1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
+                    If txtZoneCode.arrValueMember IsNot Nothing Then
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        Else
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallString(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+                        End If
+                    Else
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        End If
+                    End If
+                    qry = "select MAX(XX.Zone_Code)as Zone_Code,MAX(XX.Route_No) as Route_No,MAX(XX.Location_Code) as Location_Code,
+                    XX.Cust_Code,MAX(XX.Customer_Name)as Customer_Name,
+                    '" + txtItemCode.Value + "' as Item_Code,max(XX.Document_No) as TR_Code ,'" + lblItemDesc.Text + "' as Short_Description ,
+                    max(XX.Unit_code) as Unit_Code,sum(XX.Qty) as Qty,SUM(XX.AdjustQty) as AdjustQty ,(sum(XX.Qty)+SUM(XX.AdjustQty)) as FinalQty  from (" + qry + ") XX  group by XX.Cust_Code"
+
+                Else
+                    qry = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
 from TSPL_DEMAND_BOOKING_MASTER 
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "' "
-                If txtZoneCode.arrValueMember IsNot Nothing Then
-                    If txtRouteCode.arrValueMember IsNot Nothing Then
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                    If txtZoneCode.arrValueMember IsNot Nothing Then
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        Else
+                            whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallString(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+                        End If
                     Else
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallString(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+                        If txtRouteCode.arrValueMember IsNot Nothing Then
+                            whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                        End If
                     End If
-                Else
-                    If txtRouteCode.arrValueMember IsNot Nothing Then
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
+                    If rbtnMorning.IsChecked Then
+                        whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Morning' "
+                    Else
+                        whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Evening' "
                     End If
+                    qry += whrcls
+                    qry += " order by TSPL_DEMAND_BOOKING_DETAIL.Qty desc "
                 End If
-                If rbtnMorning.IsChecked Then
-                    whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Morning' "
-                Else
-                    whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Evening' "
-                End If
-                qry += whrcls
-                qry += " order by TSPL_DEMAND_BOOKING_DETAIL.Qty desc "
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim introw As Integer = 0
@@ -378,8 +446,12 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                         gv1.Rows(introw).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Short_Description"))
                         gv1.Rows(introw).Cells(colUOM).Value = clsCommon.myCstr(dr("Unit_code"))
                         gv1.Rows(introw).Cells(colDemandQty).Value = clsCommon.myCdbl(dr("Qty"))
-                        gv1.Rows(introw).Cells(colAdjustedQty).Value = 0
-                        gv1.Rows(introw).Cells(colFinalQty).Value = clsCommon.myCdbl(gv1.Rows(introw).Cells(colDemandQty).Value) - clsCommon.myCdbl(gv1.Rows(introw).Cells(colAdjustedQty).Value)
+                        gv1.Rows(introw).Cells(colAdjustedQty).Value = clsCommon.myCdbl(dr("AdJustQty"))
+                        If isChange Then
+                            gv1.Rows(introw).Cells(colFinalQty).Value = clsCommon.myCdbl(dr("FinalQty"))
+                        Else
+                            gv1.Rows(introw).Cells(colFinalQty).Value = clsCommon.myCdbl(gv1.Rows(introw).Cells(colDemandQty).Value) - clsCommon.myCdbl(gv1.Rows(introw).Cells(colAdjustedQty).Value)
+                        End If
                         totalDQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colDemandQty).Value)
                         totalAQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colAdjustedQty).Value)
                         totalFQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colFinalQty).Value)
@@ -390,7 +462,11 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                     gv1.Rows(introw).Cells(colDemandQty).Value = totalDQty
                     gv1.Rows(introw).Cells(colAdjustedQty).Value = totalAQty
                     gv1.Rows(introw).Cells(colFinalQty).Value = totalFQty
-                    EnableGroup(True)
+                    If isChange Then
+                        EnableGroup(False)
+                    Else
+                        EnableGroup(True)
+                    End If
                     RadPageView1.SelectedPage = RadPageViewPage2
                 Else
                     Throw New Exception("Data Not Found!")
@@ -655,82 +731,82 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub btnChange_Click(sender As Object, e As EventArgs) Handles btnChange.Click
-        Dim totalDQty As Double = 0
-        Dim totalAQty As Double = 0
-        Dim totalFQty As Double = 0
-        Try
-            isInsideLoadData = True
-            Dim whrcls As String = " where 2=2 and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
-            Dim qry As String = ""
-            Dim mainQry As String = " select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
-from TSPL_DEMAND_BOOKING_MASTER 
-left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code"
-            whrcls += "  and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "' "
-            If txtZoneCode.arrValueMember IsNot Nothing Then
-                If txtRouteCode.arrValueMember IsNot Nothing Then
-                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
-                Else
-                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallStringWithComma(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
-                End If
-            Else
-                If txtRouteCode.arrValueMember IsNot Nothing Then
-                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
-                End If
-            End If
-            If rbtnMorning.IsChecked Then
-                whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Morning' "
-            Else
-                whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Evening' "
-            End If
-            whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in(select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
-left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No " + whrcls + " and TSPL_DEMAND_BOOKING_DETAIL.Item_Code ='" + txtItemCode.Value + "' ) and TSPL_DEMAND_BOOKING_DETAIL.Item_Code in('" + txtItemCode.Value + "','" + txtChangeItemCode.Value + "')"
-            mainQry += whrcls
-            qry = " select XX.Zone_Code,xx.Route_No,xx.Cust_Code,xx.Customer_Name,xx.Item_Code,xx.TR_Code,xx.Short_Description,xx.Unit_code,xx.Qty,
-case when xx.Item_Code='" + txtItemCode.Value + "' then CAST(" + clsCommon.myCstr(txtDeductQty.Text) + " AS int) else (case when xx.Item_Code='" + txtChangeItemCode.Value + "' then CAST(" + clsCommon.myCstr(txtAddQty.Text) + " AS int) else 0 end ) end as AdjustQty,
-case when xx.Item_Code='" + txtItemCode.Value + "' then (xx.Qty - CAST(" + clsCommon.myCstr(txtDeductQty.Text) + " AS int)) else (case when xx.Item_Code='" + txtChangeItemCode.Value + "' then (xx.Qty+ CAST(" + clsCommon.myCstr(txtAddQty.Text) + " AS int)) else 0 end ) end as FinalQty
-from(" + mainQry + " )XX  order by xx.Qty desc"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim introw As Integer = 0
-                For Each dr As DataRow In dt.Rows
-                    gv1.Rows(introw).Cells(ColSNo).Value = introw + 1
-                    gv1.Rows(introw).Cells(colZoneCode).Value = clsCommon.myCstr(dr("Zone_Code"))
-                    gv1.Rows(introw).Cells(colRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
-                    gv1.Rows(introw).Cells(colLocationCode).Value = clsCommon.myCstr(dr("Location_Code"))
-                    gv1.Rows(introw).Cells(colBoothCode).Value = clsCommon.myCstr(dr("Cust_Code"))
-                    gv1.Rows(introw).Cells(colBoothName).Value = clsCommon.myCstr(dr("Customer_Name"))
-                    gv1.Rows(introw).Cells(colItemcode).Value = clsCommon.myCstr(dr("Item_Code"))
-                    gv1.Rows(introw).Cells(colTRCode).Value = clsCommon.myCstr(dr("TR_Code"))
-                    gv1.Rows(introw).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Short_Description"))
-                    gv1.Rows(introw).Cells(colUOM).Value = clsCommon.myCstr(dr("Unit_code"))
-                    gv1.Rows(introw).Cells(colDemandQty).Value = clsCommon.myCdbl(dr("Qty"))
-                    gv1.Rows(introw).Cells(colAdjustedQty).Value = clsCommon.myCdbl(dr("AdjustQty"))
-                    gv1.Rows(introw).Cells(colFinalQty).Value = clsCommon.myCdbl(dr("FinalQty"))
-                    totalDQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colDemandQty).Value)
-                    totalAQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colAdjustedQty).Value)
-                    totalFQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colFinalQty).Value)
-                    gv1.Rows.AddNew()
-                    introw += 1
-                Next
-                gv1.Rows(introw).Cells(colUOM).Value = "Total"
-                gv1.Rows(introw).Cells(colDemandQty).Value = totalDQty
-                gv1.Rows(introw).Cells(colAdjustedQty).Value = totalAQty
-                gv1.Rows(introw).Cells(colFinalQty).Value = totalFQty
-                EnableGroup(True)
-                RadPageView1.SelectedPage = RadPageViewPage2
-            Else
-                Throw New Exception("Data Not Found!")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        Finally
-            isInsideLoadData = False
-        End Try
-    End Sub
+    '    Private Sub btnChange_Click(sender As Object, e As EventArgs)
+    '        Dim totalDQty As Double = 0
+    '        Dim totalAQty As Double = 0
+    '        Dim totalFQty As Double = 0
+    '        Try
+    '            isInsideLoadData = True
+    '            Dim whrcls As String = " where 2=2 and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
+    '            Dim qry As String = ""
+    '            Dim mainQry As String = " select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
+    'from TSPL_DEMAND_BOOKING_MASTER 
+    'left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+    'left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+    'left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+    'left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code"
+    '            whrcls += "  and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "' "
+    '            If txtZoneCode.arrValueMember IsNot Nothing Then
+    '                If txtRouteCode.arrValueMember IsNot Nothing Then
+    '                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
+    '                Else
+    '                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallStringWithComma(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+    '                End If
+    '            Else
+    '                If txtRouteCode.arrValueMember IsNot Nothing Then
+    '                    whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
+    '                End If
+    '            End If
+    '            If rbtnMorning.IsChecked Then
+    '                whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Morning' "
+    '            Else
+    '                whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Evening' "
+    '            End If
+    '            whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in(select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
+    'left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No " + whrcls + " and TSPL_DEMAND_BOOKING_DETAIL.Item_Code ='" + txtItemCode.Value + "' ) and TSPL_DEMAND_BOOKING_DETAIL.Item_Code in('" + txtItemCode.Value + "','" + txtChangeItemCode.Value + "')"
+    '            mainQry += whrcls
+    '            qry = " select XX.Zone_Code,xx.Route_No,xx.Cust_Code,xx.Customer_Name,xx.Item_Code,xx.TR_Code,xx.Short_Description,xx.Unit_code,xx.Qty,
+    'case when xx.Item_Code='" + txtItemCode.Value + "' then CAST(" + clsCommon.myCstr(txtDeductQty.Text) + " AS int) else (case when xx.Item_Code='" + txtChangeItemCode.Value + "' then CAST(" + clsCommon.myCstr(txtAddQty.Text) + " AS int) else 0 end ) end as AdjustQty,
+    'case when xx.Item_Code='" + txtItemCode.Value + "' then (xx.Qty - CAST(" + clsCommon.myCstr(txtDeductQty.Text) + " AS int)) else (case when xx.Item_Code='" + txtChangeItemCode.Value + "' then (xx.Qty+ CAST(" + clsCommon.myCstr(txtAddQty.Text) + " AS int)) else 0 end ) end as FinalQty
+    'from(" + mainQry + " )XX  order by xx.Qty desc"
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '                Dim introw As Integer = 0
+    '                For Each dr As DataRow In dt.Rows
+    '                    gv1.Rows(introw).Cells(ColSNo).Value = introw + 1
+    '                    gv1.Rows(introw).Cells(colZoneCode).Value = clsCommon.myCstr(dr("Zone_Code"))
+    '                    gv1.Rows(introw).Cells(colRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
+    '                    gv1.Rows(introw).Cells(colLocationCode).Value = clsCommon.myCstr(dr("Location_Code"))
+    '                    gv1.Rows(introw).Cells(colBoothCode).Value = clsCommon.myCstr(dr("Cust_Code"))
+    '                    gv1.Rows(introw).Cells(colBoothName).Value = clsCommon.myCstr(dr("Customer_Name"))
+    '                    gv1.Rows(introw).Cells(colItemcode).Value = clsCommon.myCstr(dr("Item_Code"))
+    '                    gv1.Rows(introw).Cells(colTRCode).Value = clsCommon.myCstr(dr("TR_Code"))
+    '                    gv1.Rows(introw).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Short_Description"))
+    '                    gv1.Rows(introw).Cells(colUOM).Value = clsCommon.myCstr(dr("Unit_code"))
+    '                    gv1.Rows(introw).Cells(colDemandQty).Value = clsCommon.myCdbl(dr("Qty"))
+    '                    gv1.Rows(introw).Cells(colAdjustedQty).Value = clsCommon.myCdbl(dr("AdjustQty"))
+    '                    gv1.Rows(introw).Cells(colFinalQty).Value = clsCommon.myCdbl(dr("FinalQty"))
+    '                    totalDQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colDemandQty).Value)
+    '                    totalAQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colAdjustedQty).Value)
+    '                    totalFQty += clsCommon.myCdbl(gv1.Rows(introw).Cells(colFinalQty).Value)
+    '                    gv1.Rows.AddNew()
+    '                    introw += 1
+    '                Next
+    '                gv1.Rows(introw).Cells(colUOM).Value = "Total"
+    '                gv1.Rows(introw).Cells(colDemandQty).Value = totalDQty
+    '                gv1.Rows(introw).Cells(colAdjustedQty).Value = totalAQty
+    '                gv1.Rows(introw).Cells(colFinalQty).Value = totalFQty
+    '                EnableGroup(True)
+    '                RadPageView1.SelectedPage = RadPageViewPage2
+    '            Else
+    '                Throw New Exception("Data Not Found!")
+    '            End If
+    '        Catch ex As Exception
+    '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        Finally
+    '            isInsideLoadData = False
+    '        End Try
+    '    End Sub
     Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
         clsCommon.MyMessageBoxShow(Me, "Import features will coming soon...", Me.Text)
     End Sub
@@ -879,8 +955,8 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                 ElseIf rbtnFix.IsChecked Then
                     obj.FixedQty = clsCommon.myCdbl(txtFixedQty.Text)
                 End If
-                obj.Deduct_Qty = clsCommon.myCdbl(txtDeductQty.Text)
-                obj.Add_Qty = clsCommon.myCdbl(txtAddQty.Text)
+                obj.Deduct_Qty = 0
+                obj.Add_Qty = 0
                 If clsCommon.myLen(txtChangeItemCode.Value) > 0 Then
                     obj.Change_Item_Code = txtChangeItemCode.Value
                 End If
@@ -1159,13 +1235,21 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
             obj = clsDemandAdjustment.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 AddNew()
-                EnableGroup(True)
+                If isChange Then
+                    EnableGroup(False)
+                    btnGo.Enabled = False
+                Else
+                    EnableGroup(True)
+
+                End If
                 txtDate.Enabled = False
                 txtDemandDate.Enabled = False
                 If obj.Status = 1 Then
                     btnSave.Enabled = False
                     btnDelete.Enabled = False
                     btnProceed.Enabled = False
+                    txtChangeItemCode.Enabled = False
+
                 Else
                     btnSave.Enabled = True
                     btnDelete.Enabled = True
@@ -1214,10 +1298,10 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                 ElseIf rbtnFix.IsChecked Then
                     txtFixedQty.Text = obj.FixedQty
                 End If
-                txtDeductQty.Text = obj.Deduct_Qty
+                'txtDeductQty.Text = 0
                 txtChangeItemCode.Value = obj.Change_Item_Code
                 lblChangeitemDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Short_Description  from TSPL_ITEM_MASTER where Item_Code='" + obj.Change_Item_Code + "'"))
-                txtAddQty.Text = obj.Add_Qty
+                'txtAddQty.Text = 0
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     Dim dblrows As Integer = 0
                     Dim dblDtotal As Integer = 0
@@ -1272,9 +1356,15 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
             Dim qry As String = "select TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code as DocumentCode,convert(varchar(12),TSPL_DEMAND_ADJUSTMENT_HEAD.Document_date,103) as DocumentDate,TSPL_DEMAND_ADJUSTMENT_HEAD.Shift_Type from TSPL_DEMAND_ADJUSTMENT_HEAD "
-            'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
+            Dim whrClas As String = ""
+            If isChange Then
+                whrClas = " TSPL_DEMAND_ADJUSTMENT_HEAD.Is_Change_Product=1"
+            Else
+                whrClas = " TSPL_DEMAND_ADJUSTMENT_HEAD.Is_Change_Product=0"
+
+            End If
             Reset()
-            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentCode", "", txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_DEMAND_ADJUSTMENT_HEAD.Document_date "), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentCode", whrClas, txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_DEMAND_ADJUSTMENT_HEAD.Document_date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1283,7 +1373,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         Try
             If common.clsCommon.MyMessageBoxShow("Do you want to Proceed this record?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                    If clsDemandAdjustment.ProceedDemand(txtDocNo.Value) Then
+                    If clsDemandAdjustment.ProceedDemand(txtDocNo.Value, isChange) Then
                         clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
@@ -1351,5 +1441,18 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub frmDemandAdjustment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.C Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                isChange = True
+                AddNew()
+            End If
+        End If
     End Sub
 End Class

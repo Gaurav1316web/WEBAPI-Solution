@@ -359,6 +359,18 @@ Public Class FrmUserGroupMaster
 
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndgroup.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_User_Group_Master")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub fndgroup__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndgroup._MYNavigator
         Dim qst As String = "select group_Code As [Group Code],group_desc  as [Group Name] from TSPL_User_Group_Master  where  2=2"
         Select Case NavigatorType

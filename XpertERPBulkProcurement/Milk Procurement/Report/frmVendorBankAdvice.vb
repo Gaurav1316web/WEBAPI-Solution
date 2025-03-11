@@ -566,18 +566,14 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
                     If rbtnBankAdvice.IsChecked Then
                         FinalQuery += " ,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] "
                     End If
-
                     FinalQuery += "from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
                 Else
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
-
                     If ConvertVlcCodeUploaderToInt = True Then
                         FinalQuery += " cast(VLC_Code_Uploader as Int) "
                     Else
                         FinalQuery += " VLC_Code_Uploader "
                     End If
-
-                    'FinalQuery += "cast(VLC_Code_Uploader as Int) "
                 End If
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
@@ -597,7 +593,11 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
 
             If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                 FinalQuery = GetSavingCurrent()
-                FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+                If ConvertVlcCodeUploaderToInt Then
+                    FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+                Else
+                    FinalQuery += " order by  VLC_CODE_Uploader  "
+                End If
             End If
             If isSendMail Then
                 returnBankAdviseQry = FinalQuery
@@ -614,7 +614,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             If isPrint AndAlso rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                 FinalQuery = ""
                 FinalQuery = "Select ROW_NUMBER() OVER(Partition by xxxfinal.bankcode ORDER BY xxxfinal.bankcode) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
-                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 order by cast(VLC_CODE_Uploader as int) "
+                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 "
+                If ConvertVlcCodeUploaderToInt Then
+                    FinalQuery += "order by cast(VLC_CODE_Uploader as int) "
+                Else
+                    FinalQuery += "order by VLC_CODE_Uploader "
+                End If
                 dt1 = clsDBFuncationality.GetDataTable(FinalQuery)
 
                 FinalQuery = ""
@@ -1101,11 +1106,14 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
             Gv1.Columns("TD").IsVisible = False
 
         ElseIf rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked Then
-            Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
-            Gv1.Columns("CycleRange").IsVisible = False
-
-            Gv1.Columns("GRPColumn").HeaderText = "Group Range"
-            Gv1.Columns("GRPColumn").IsVisible = False
+            If Gv1.Columns.Contains("CycleRange") Then
+                Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
+                Gv1.Columns("CycleRange").IsVisible = False
+            End If
+            If Gv1.Columns.Contains("GRPColumn") Then
+                Gv1.Columns("GRPColumn").HeaderText = "Group Range"
+                Gv1.Columns("GRPColumn").IsVisible = False
+            End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 Gv1.Columns("Payee_Joint_Branch_Name").HeaderText = "Payee_Joint_Branch_Name"
@@ -1120,78 +1128,116 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
             End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                If Gv1.Columns.Contains("GRPColumns") Then
                     Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
                     Gv1.Columns("GRPColumns").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Bank_Name") Then
                     Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
                     Gv1.Columns("Bank_Name").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankAccountNo") Then
                     Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
                     Gv1.Columns("BankAccountNo").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankIFSCCode") Then
                     Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
                     Gv1.Columns("BankIFSCCode").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankBranchAddress") Then
                     Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
                     Gv1.Columns("BankBranchAddress").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Company Bank") Then
                     Gv1.Columns("Company Bank").HeaderText = "Company Bank"
                     Gv1.Columns("Company Bank").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Company Bank Account No") Then
                     Gv1.Columns("Company Bank Account No").HeaderText = "Company Bank Account No"
                     Gv1.Columns("Company Bank Account No").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Bank_Code") Then
                     Gv1.Columns("Bank_Code").HeaderText = "Bank"
                     Gv1.Columns("Bank_Code").IsVisible = True
+                End If
 
+                If Gv1.Columns.Contains("Branch_Name") Then
                     Gv1.Columns("Branch_Name").HeaderText = "Branch"
                     Gv1.Columns("Branch_Name").IsVisible = True
                 End If
+            End If
 
-
+            If Gv1.Columns.Contains("Comp_Name") Then
                 Gv1.Columns("Comp_Name").HeaderText = "Company Name"
                 Gv1.Columns("Comp_Name").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Comp_address") Then
                 Gv1.Columns("Comp_address").HeaderText = "Company Address"
                 Gv1.Columns("Comp_address").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("From_Date") Then
                 Gv1.Columns("From_Date").HeaderText = "Date"
                 Gv1.Columns("From_Date").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("GSTReg_No") Then
                 Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
                 Gv1.Columns("GSTReg_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Doc_No") Then
                 Gv1.Columns("Doc_No").HeaderText = "Documant No"
                 Gv1.Columns("Doc_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("CompPhone") Then
                 Gv1.Columns("CompPhone").HeaderText = "Phone No"
                 Gv1.Columns("CompPhone").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Regn_No") Then
                 Gv1.Columns("Regn_No").HeaderText = "Regn No"
                 Gv1.Columns("Regn_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("MCC_NAME") Then
                 Gv1.Columns("MCC_NAME").HeaderText = "Area"
                 Gv1.Columns("MCC_NAME").IsVisible = False
+            End If
 
-                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            If Gv1.Columns.Contains("FD") Then
                 Gv1.Columns("FD").HeaderText = "FD"
                 Gv1.Columns("FD").IsVisible = False
+            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
 
+            If Gv1.Columns.Contains("TD") Then
                 Gv1.Columns("TD").HeaderText = "TD"
                 Gv1.Columns("TD").IsVisible = False
+            End If
 
 
-                'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
-                'Gv1.Columns("[Bank Advise No]").IsVisible = True
 
-                'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
-                'Gv1.Columns("[Bank Advise Date]").IsVisible = False
+            'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
+            'Gv1.Columns("[Bank Advise No]").IsVisible = True
 
-                'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
-                'Gv1.Columns("Bank Advice Status").IsVisible = False
-                'End If
+            'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
+            'Gv1.Columns("[Bank Advise Date]").IsVisible = False
 
-                If MultipleFinderFillAuto Then
+            'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
+            'Gv1.Columns("Bank Advice Status").IsVisible = False
+            'End If
+
+            If MultipleFinderFillAuto Then
                 Else
                     If clsCommon.myLen(Gv1.Columns("Location_Code")) Then
                         Gv1.Columns("Location_Code").HeaderText = "Location"
@@ -1203,39 +1249,54 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
                     End If
                 End If
 
-
+            If Gv1.Columns.Contains("Fiscal_Name") Then
                 Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
                 Gv1.Columns("Fiscal_Name").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("CycleNo") Then
                 Gv1.Columns("CycleNo").HeaderText = "Cycle No"
                 Gv1.Columns("CycleNo").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Date_Range") Then
                 Gv1.Columns("Date_Range").HeaderText = "Date Range"
                 Gv1.Columns("Date_Range").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("VLC_CODE_Uploader") Then
                 Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
                 Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_Name") Then
                 Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"
                 Gv1.Columns("Payee_Joint_Name").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Bank_Code_Desc") Then
                 Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
                 Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_IFSC_Code") Then
                 Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
                 Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_Account_No") Then
                 Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
                 Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Payable_Amount") Then
                 Gv1.Columns("Payable_Amount").HeaderText = "Amount"
                 Gv1.Columns("Payable_Amount").IsVisible = True
-                'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            End If
 
+        ElseIf rbtnBankWiseSummary.IsChecked Then
 
-            ElseIf rbtnBankWiseSummary.IsChecked Then
-
-                Gv1.Columns("SNO").HeaderText = "SNo"
+            Gv1.Columns("SNO").HeaderText = "SNo"
                 Gv1.Columns("SNO").IsVisible = True
 
                 Gv1.Columns("CycleRange").HeaderText = "Cycle Range"

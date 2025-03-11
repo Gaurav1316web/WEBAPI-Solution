@@ -39,6 +39,8 @@ Public Class clsBankOpeningReco
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_OPENING_RECO", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_OPENING_RECO", "Code", Nothing)
+
             Dim qry As String
             qry = "delete from TSPL_BANK_OPENING_RECO where Code ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -65,6 +67,8 @@ Public Class clsBankOpeningReco
                 Throw New Exception("Code not found to Delete")
             End If
             Dim qry As String = "Update TSPL_BANK_OPENING_RECO set Status=1,Post_By='" + objCommonVar.CurrentUserCode + "',Post_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Code ='" + strCode + "'"
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_OPENING_RECO", "Code", trans)
+
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())

@@ -140,6 +140,7 @@ where 2=2"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.TenderShortPenalty, clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TENDER_PENALTY", "Document_No", trans)
 
             trans.Commit()
         Catch ex As Exception
