@@ -254,6 +254,7 @@ Public Class clssaleReturnGateEntryHead
 
             Dim qry As String = "Update TSPL_Sale_Return_Gate_Entry_Head set posted=1 where Gate_Entry_No='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_GATE_ENTRY_HEAD", "Gate_Entry_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

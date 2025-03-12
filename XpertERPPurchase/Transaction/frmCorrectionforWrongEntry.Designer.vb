@@ -328,7 +328,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 647)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -394,7 +394,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 626)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 599)
         Me.RadPageViewPage1.Text = "Gate Received Note"
         '
         'txtGEDate
@@ -1672,7 +1672,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(47.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(999, 626)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(999, 599)
         Me.RadPageViewPage4.Text = "SALES"
         '
         'RadGroupBox1
@@ -2247,7 +2247,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(999, 626)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(999, 599)
         Me.RadPageViewPage5.Text = "LoadInSlip"
         '
         'RadGroupBox6

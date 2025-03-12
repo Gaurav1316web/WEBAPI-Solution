@@ -277,6 +277,7 @@ Public Class clsUserMgtCode
     Public Const rptSalesStock As String = "SAL_STK_RPT"
     Public Const rptSalesComparisonReport As String = "SAL_CMP_RPT"
     Public Const FrmBoothDemandReport As String = "BO_DE_RPT"
+    Public Const FrmBoothCountReport As String = "BO_CU_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"

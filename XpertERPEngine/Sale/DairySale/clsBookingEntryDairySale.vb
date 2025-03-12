@@ -1042,9 +1042,20 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     End Function
 
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal NavType As NavigatorType) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(Form_Id, Doc_No, NavType, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As Boolean
         '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
 
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim FlagDocumentIsTaxable As Integer = 0
             Dim EInvoiceType As String = ""
@@ -1080,9 +1091,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
 
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", trans)
             DeleteData(Doc_No, trans)
-            trans.Commit()
+            'trans.Commit()
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

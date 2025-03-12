@@ -36,21 +36,28 @@ Public Class RptDcsPaymentReport
             Dim dt As New DataTable
             Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
                                     xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
-                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,(xy.Deduction_Amount-xy.Reduce_Deduc_Amt) as AD,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
-                                    xy.CommisiionAmt as CommissionAmt,
+                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,(xy.Deduction_Amount-xy.Reduce_Deduc_Amt) as AD,xy.purchaseexp1,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount, "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                strQry += " case when Bank_Code_Saving is null or Bank_Code_Saving='' then (xy.TotalAmt+xy.PURCHASEEXPENSE) else xy.TotalAmt end as TotalAmt "
+            Else
+                strQry += " xy.TotalAmt "
+            End If
+
+            strQry += " ,xy.CRAmts,xy.CommisiionAmt as CommissionAmt,
                                     (xy.ShareCapAmt+xy.ShareCapitalAmt) As ShareCapitalAmt,
-                                    xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY from
-                                    (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,MAX(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
+                                    xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY,xy.CRAmts from
+                                    (select max(x.SNo)SNo,max(Bank_Code_Saving)Bank_Code_Saving ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,MAX(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
                                     ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
                                     ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
                                     ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
 									,Case When max(isOwnBMC)=1 then sum(x.PURCHASEEXPENSE) else max(isnull(x.Credit_Note_Amount,0)+ isnull(x.PURCHASEEXPENSE,0)) end as AMTS
 									,max(x.Payable_Amount)Payable_Amount ,isnull(max(x.Saving_Amount),0)Saving_Amount,max(isnull(x.Payable_Amount,0) + isnull(x.Saving_Amount,0)) as TotalAmt
-									,sum(isnull(x.CRAmt,0))CRAmts,max(isnull(x.DAYS_Total,0))DAYS_Total,
-									case when max(x.Milk_Qty) = 0 then 0 else max(x.Milk_Qty) /  " & Days & "  end as AVG_QTY
+									,max(isnull(x.CRAmt,0))CRAmts,max(isnull(x.DAYS_Total,0))DAYS_Total,
+									case when max(x.Milk_Qty) = 0 then 0 else max(x.Milk_Qty) /  " & Days & "  end as AVG_QTY,
+                                    case when max(isnull(x.CRAmt,0)) = 0 then max(isnull(x.Credit_Note_Amount,0)) else max(isnull(x.CRAmt,0)) end as Purchaseexp1
                                     ,max(ISNULL(x.CommisiionAmt,0))CommisiionAmt,max(ISNULL(x.ShareCapitalAmt,0))ShareCapitalAmt,max(ISNULL(x.ShareCapAmt,0))ShareCapAmt
                                     from  
-                                    (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
+                                    (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
                                     ,TabFATSNFDetail.FATKg,TabFATSNFDetail.SNFKg,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
@@ -81,16 +88,16 @@ Public Class RptDcsPaymentReport
 									 group by VSP_CODE,DOC_DATE
                                     ) XY GROUP BY VSP_CODE) as DaysCount on DaysCount.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 
-				                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,
-                                         case when DCSDescription='SHARE CAPITAL' THEN Amount ELSE 0 END AS ShareCapitalAmt,
+				                    left outer join (select case when DCSDescription LIKE 'PURCHASE%' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,
+                                         case when DCSDescription LIKE 'SHARE CAPITAL%' THEN Amount ELSE 0 END AS ShareCapitalAmt,
                                          x.InvoiceNo,x.DCSDescription from(
 				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
 				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction)x
 				                    ) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
 
-                                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN VendorAmt ELSE 0 END AS CRAmt,
-                                    case when DCSDescription='OWN BMC EXPANCES' THEN VendorAmt 
-                                    WHEN DCSDescription = 'CHILLING CHARGES' THEN VendorAmt ELSE 0 END AS OBEAmt
+                                    left outer join (select case when DCSDescription LIKE 'PURCHASE%' THEN VendorAmt ELSE 0 END AS CRAmt,
+                                    case when DCSDescription LIKE 'OWN BMC EXPANCES%' THEN VendorAmt 
+                                    WHEN DCSDescription LIKE 'CHILLING CHARGES%' THEN VendorAmt ELSE 0 END AS OBEAmt
 									,x.Doc_No,x.DCSDescription 
 									,x.InvoiceNo from(
 				                    select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,TSPL_DCS_ADDITION_DEDUCTION.Description as DCSDescription,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No as InvoiceNo from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
@@ -118,7 +125,7 @@ Public Class RptDcsPaymentReport
 				                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code
 				                    Where convert(date, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'   
                                     and convert(date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)<= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' 
-				                    )x group by x.AP_Invoice_No)xy "
+				                    )x group by x.AP_Invoice_No)xy order by xy.Dcs_Uploader "
 
             dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
@@ -334,10 +341,6 @@ Public Class RptDcsPaymentReport
             Gv1.Columns("Head_Load_Amount").Width = 200
             Gv1.Columns("Head_Load_Amount").IsVisible = True
 
-            Gv1.Columns("CRAmt").HeaderText = "CR Amount"
-            Gv1.Columns("CRAmt").Width = 200
-            Gv1.Columns("CRAmt").IsVisible = True
-
             Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
             Gv1.Columns("Reduce_Deduc_Amt").Width = 200
             Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
@@ -346,78 +349,93 @@ Public Class RptDcsPaymentReport
             Gv1.Columns("Deduction_Amount").Width = 200
             Gv1.Columns("Deduction_Amount").IsVisible = True
 
-            Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
-            Gv1.Columns("PEAmt").Width = 200
-            Gv1.Columns("PEAmt").IsVisible = True
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                Gv1.Columns("purchaseexp1").HeaderText = "Purchase Exp1%"
+                Gv1.Columns("purchaseexp1").Width = 200
+                Gv1.Columns("purchaseexp1").IsVisible = True
+
+                Gv1.Columns("PURCHASEEXPENSE").HeaderText = "Purchase Exp2%"
+                Gv1.Columns("PURCHASEEXPENSE").Width = 200
+                Gv1.Columns("PURCHASEEXPENSE").IsVisible = True
+            Else
+                Gv1.Columns("CRAmt").HeaderText = "CR Amount"
+                Gv1.Columns("CRAmt").Width = 200
+                Gv1.Columns("CRAmt").IsVisible = True
+
+                Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
+                Gv1.Columns("PEAmt").Width = 200
+                Gv1.Columns("PEAmt").IsVisible = True
+            End If
+
 
             Gv1.Columns("OBEAmt").HeaderText = "OBE.Amount"
-            Gv1.Columns("OBEAmt").Width = 200
-            Gv1.Columns("OBEAmt").IsVisible = True
+                Gv1.Columns("OBEAmt").Width = 200
+                Gv1.Columns("OBEAmt").IsVisible = True
 
-            Gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
-            Gv1.Columns("Payable_Amount").Width = 200
-            Gv1.Columns("Payable_Amount").IsVisible = True
+                Gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
+                Gv1.Columns("Payable_Amount").Width = 200
+                Gv1.Columns("Payable_Amount").IsVisible = True
 
-            Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
-            Gv1.Columns("Saving_Amount").Width = 200
-            Gv1.Columns("Saving_Amount").IsVisible = True
+                Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
+                Gv1.Columns("Saving_Amount").Width = 200
+                Gv1.Columns("Saving_Amount").IsVisible = True
 
-            Gv1.Columns("CommissionAmt").HeaderText = "Commission Amount"
-            Gv1.Columns("CommissionAmt").Width = 200
-            Gv1.Columns("CommissionAmt").IsVisible = True
+                Gv1.Columns("CommissionAmt").HeaderText = "Commission Amount"
+                Gv1.Columns("CommissionAmt").Width = 200
+                Gv1.Columns("CommissionAmt").IsVisible = True
 
-            Gv1.Columns("ShareCapitalAmt").HeaderText = "Share Capital Amount"
-            Gv1.Columns("ShareCapitalAmt").Width = 200
-            Gv1.Columns("ShareCapitalAmt").IsVisible = True
+                Gv1.Columns("ShareCapitalAmt").HeaderText = "Share Capital Amount"
+                Gv1.Columns("ShareCapitalAmt").Width = 200
+                Gv1.Columns("ShareCapitalAmt").IsVisible = True
 
-            Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
-            Gv1.Columns("TotalAmt").Width = 200
-            Gv1.Columns("TotalAmt").IsVisible = True
+                Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
+                Gv1.Columns("TotalAmt").Width = 200
+                Gv1.Columns("TotalAmt").IsVisible = True
 
-            Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
-            Gv1.Columns("DAYS_Total").Width = 200
-            Gv1.Columns("DAYS_Total").IsVisible = True
+                Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
+                Gv1.Columns("DAYS_Total").Width = 200
+                Gv1.Columns("DAYS_Total").IsVisible = True
 
-            Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
-            Gv1.Columns("AVG_QTY").Width = 200
-            Gv1.Columns("AVG_QTY").IsVisible = True
+                Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
+                Gv1.Columns("AVG_QTY").Width = 200
+                Gv1.Columns("AVG_QTY").IsVisible = True
 
 
-            Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item2)
-            Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item3)
-            Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item4)
-            Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item5)
-            Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item6)
-            Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item7)
-            Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item8)
-            Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item9)
-            Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item10)
-            Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item11)
-            Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item12)
-            Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item13)
-            Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item14)
+                Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item1)
+                Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item2)
+                Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item3)
+                Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item4)
+                Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item5)
+                Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item6)
+                Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item7)
+                Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item8)
+                Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item9)
+                Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item10)
+                Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item11)
+                Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item12)
+                Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item13)
+                Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item14)
 
-        End If
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").HeaderText = "Date"
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").Width = 200
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").IsVisible = True
+            End If
+            'Gv1.Columns("Milk_Purchase_Invoice_Date").HeaderText = "Date"
+            'Gv1.Columns("Milk_Purchase_Invoice_Date").Width = 200
+            'Gv1.Columns("Milk_Purchase_Invoice_Date").IsVisible = True
 
-        Gv1.ShowGroupPanel = True
+            Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

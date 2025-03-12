@@ -370,6 +370,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Report\FrmBoothCountReport.Designer.vb">
+      <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmBoothCountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmDayBook.Designer.vb">
       <DependentUpon>frmDayBook.vb</DependentUpon>
     </Compile>
@@ -1207,6 +1213,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmBoothCountReport.resx">
+      <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmBoothDemandReport.resx">
       <DependentUpon>FrmBoothDemandReport.vb</DependentUpon>
