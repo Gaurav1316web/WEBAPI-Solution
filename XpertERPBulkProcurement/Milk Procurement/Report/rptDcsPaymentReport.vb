@@ -36,11 +36,17 @@ Public Class RptDcsPaymentReport
             Dim dt As New DataTable
             Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
                                     xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
-                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,(xy.Deduction_Amount-xy.Reduce_Deduc_Amt) as AD,xy.purchaseexp1,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
-                                    xy.CommisiionAmt as CommissionAmt,
+                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,(xy.Deduction_Amount-xy.Reduce_Deduc_Amt) as AD,xy.purchaseexp1,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount, "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                strQry += " case when Bank_Code_Saving is null or Bank_Code_Saving='' then (xy.TotalAmt+xy.PURCHASEEXPENSE) else xy.TotalAmt end as TotalAmt "
+            Else
+                strQry += " xy.TotalAmt "
+            End If
+
+            strQry += " ,xy.CRAmts,xy.CommisiionAmt as CommissionAmt,
                                     (xy.ShareCapAmt+xy.ShareCapitalAmt) As ShareCapitalAmt,
                                     xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY,xy.CRAmts from
-                                    (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,MAX(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
+                                    (select max(x.SNo)SNo,max(Bank_Code_Saving)Bank_Code_Saving ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,MAX(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
                                     ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
                                     ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
                                     ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
@@ -51,7 +57,7 @@ Public Class RptDcsPaymentReport
                                     case when max(isnull(x.CRAmt,0)) = 0 then max(isnull(x.Credit_Note_Amount,0)) else max(isnull(x.CRAmt,0)) end as Purchaseexp1
                                     ,max(ISNULL(x.CommisiionAmt,0))CommisiionAmt,max(ISNULL(x.ShareCapitalAmt,0))ShareCapitalAmt,max(ISNULL(x.ShareCapAmt,0))ShareCapAmt
                                     from  
-                                    (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
+                                    (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
                                     ,TabFATSNFDetail.FATKg,TabFATSNFDetail.SNFKg,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
@@ -335,10 +341,6 @@ Public Class RptDcsPaymentReport
             Gv1.Columns("Head_Load_Amount").Width = 200
             Gv1.Columns("Head_Load_Amount").IsVisible = True
 
-            Gv1.Columns("CRAmt").HeaderText = "CR Amount"
-            Gv1.Columns("CRAmt").Width = 200
-            Gv1.Columns("CRAmt").IsVisible = True
-
             Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
             Gv1.Columns("Reduce_Deduc_Amt").Width = 200
             Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
@@ -356,6 +358,10 @@ Public Class RptDcsPaymentReport
                 Gv1.Columns("PURCHASEEXPENSE").Width = 200
                 Gv1.Columns("PURCHASEEXPENSE").IsVisible = True
             Else
+                Gv1.Columns("CRAmt").HeaderText = "CR Amount"
+                Gv1.Columns("CRAmt").Width = 200
+                Gv1.Columns("CRAmt").IsVisible = True
+
                 Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
                 Gv1.Columns("PEAmt").Width = 200
                 Gv1.Columns("PEAmt").IsVisible = True

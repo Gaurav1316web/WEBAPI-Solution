@@ -592,7 +592,10 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             End If
 
             If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
+
                 FinalQuery = GetSavingCurrent()
+
+
                 If ConvertVlcCodeUploaderToInt Then
                     FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
                 Else
@@ -913,17 +916,35 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     Private Function GetSavingCurrent() As String
         Dim Qry As String = " Select xxxfinal.[Bank Advise No],xxxfinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,isnull(xxxfinal.Bank_Code,xxxfinal.Bank_Code_Saving) as BankCode,xxxfinal.Branch_Name,isnull(xxxfinal.Bank_Code_Desc,xxxfinal.Bank_Desc_Saving) as BankName,(xxxfinal.VLC_CODE_Uploader +' '+ xxxfinal.Payee_Joint_Name) As DCS_Name,
 Round(Case When IsNull(xxxfinal.Payable_Amount,0)>0 Then (IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)) Else IsNull(xxxfinal.Saving_Amount,0) End,0) As Bill_Amt,
-xxxfinal.Bank_Account_No_Saving as SavingAccountNo,IsNull(xxxfinal.Saving_Amount,0) as SavingAmt,xxxfinal.Payee_Joint_Account_No as CurrentAccountNo,
-Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) as CurrentAmt,DCSCount
-from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount,sum(Head_Load_Rate)Head_Load_Rate,MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code_Saving,max(Bank_Desc_Saving)Bank_Desc_Saving,sum(Saving_Amount)Saving_Amount from
+xxxfinal.Bank_Account_No_Saving as SavingAccountNo,IsNull(xxxfinal.Saving_Amount,0) as SavingAmt,xxxfinal.Payee_Joint_Account_No as CurrentAccountNo, "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " case when AccNo2 is null or AccNo2='' then Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0)+isnull(xxxfinal.Amt1,0),0) else  
+                     Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) end as CurrentAmt "
+        Else
+            Qry += " Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) as CurrentAmt "
+        End If
+
+        Qry += " ,DCSCount
+from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(Head_Load_Rate)Head_Load_Rate,
+MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code_Saving,max(Bank_Desc_Saving)Bank_Desc_Saving, "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " Max(x.Payable_Amount)Payable_Amount, max(Saving_Amount)Saving_Amount,sum(Amount)Amt1,max(accno2)AccNo2 "
+        Else
+            Qry += " sum(x.Payable_Amount)Payable_Amount, sum(Saving_Amount)Saving_Amount "
+        End If
+
+        Qry += " from
                             (select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
-                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
+                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VENDOR_MASTER.accno2,
                             TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
                             case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
 							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount,
-							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving
-                            from TSPL_PAYMENT_PROCESS_DETAIL 
+							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " ,TabDCSdrcr.Amount "
+        End If
+        Qry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -933,8 +954,16 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
                            left outer join( select Vendor_Code,Sum(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
                            where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) 
                            and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + ToDate.Value + "'),103)
-                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
-                            left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
+                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " left outer join (Select InvoiceNo,DCSDescription,case when DCSDescription LIKE 'Purchase%' THEN Amount end as Amount from(
+				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
+				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction
+				                    )x) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No "
+        End If
+
+        Qry += "  left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                             and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
