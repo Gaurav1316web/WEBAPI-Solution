@@ -1317,7 +1317,7 @@ Partial Class frmDeletionForEntry
         '
         Me.btnUnpostgrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnpostgrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpostgrn.Location = New System.Drawing.Point(117, 226)
+        Me.btnUnpostgrn.Location = New System.Drawing.Point(120, 225)
         Me.btnUnpostgrn.Name = "btnUnpostgrn"
         Me.btnUnpostgrn.Size = New System.Drawing.Size(69, 22)
         Me.btnUnpostgrn.TabIndex = 104

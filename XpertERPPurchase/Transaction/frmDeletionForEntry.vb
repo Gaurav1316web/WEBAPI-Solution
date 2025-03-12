@@ -418,6 +418,8 @@ Public Class frmDeletionForEntry
             End If
             qry = "update TSPL_PO_WEIGHTMENT_HEAD set status=0 where weighment_code='" + TxtWeighment.Text + "' "
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", Nothing)
+
             clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
