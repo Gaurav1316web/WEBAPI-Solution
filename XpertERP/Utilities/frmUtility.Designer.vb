@@ -27,12 +27,6 @@ Partial Class FrmUtility
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -462,17 +456,17 @@ Partial Class FrmUtility
         Me.txtHyperTerminal = New common.Controls.MyTextBox()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel6 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.GroupBox44 = New System.Windows.Forms.GroupBox()
+        Me.RadButton113 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton111 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton112 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton114 = New Telerik.WinControls.UI.RadButton()
         Me.TxtMultiSelectFinder20 = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel68 = New common.Controls.MyLabel()
         Me.RadButton353 = New Telerik.WinControls.UI.RadButton()
         Me.TxtMultiSelectFinder19 = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel67 = New common.Controls.MyLabel()
         Me.RadButton352 = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox44 = New System.Windows.Forms.GroupBox()
-        Me.RadButton113 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton111 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton112 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton114 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox108 = New System.Windows.Forms.GroupBox()
         Me.RadButton341 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton342 = New Telerik.WinControls.UI.RadButton()
@@ -538,24 +532,13 @@ Partial Class FrmUtility
         Me.RadButton249 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton250 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox99 = New System.Windows.Forms.GroupBox()
-        Me.cmbDEpt = New common.Controls.MyComboBox()
-        Me.MyLabel63 = New common.Controls.MyLabel()
-        Me.RadButton314 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton315 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton316 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton317 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox79 = New System.Windows.Forms.GroupBox()
         Me.RadButton251 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton252 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton253 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox98 = New System.Windows.Forms.GroupBox()
-        Me.chkAgainstGatePass = New common.Controls.MyCheckBox()
-        Me.cmbDepartment = New common.Controls.MyComboBox()
-        Me.MyLabel62 = New common.Controls.MyLabel()
-        Me.RadButton310 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton311 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton312 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton313 = New Telerik.WinControls.UI.RadButton()
+        Me.btnCancelDemandDoc = New Telerik.WinControls.UI.RadButton()
+        Me.btnCancelBookingDoc = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox80 = New System.Windows.Forms.GroupBox()
         Me.RadButton247 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton254 = New Telerik.WinControls.UI.RadButton()
@@ -808,6 +791,8 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.isPosted = New common.Controls.MyCheckBox()
+        Me.chkExceptDoc = New common.Controls.MyCheckBox()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1242,15 +1227,15 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel6.PanelContainer.SuspendLayout
         Me.RadScrollablePanel6.SuspendLayout
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox44.SuspendLayout
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton112, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton114, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox108.SuspendLayout
         CType(Me.RadButton341, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton342, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1314,25 +1299,13 @@ Partial Class FrmUtility
         CType(Me.RadButton248, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox99.SuspendLayout
-        CType(Me.cmbDEpt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton317, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox79.SuspendLayout
         CType(Me.RadButton251, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton252, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton253, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox98.SuspendLayout
-        CType(Me.chkAgainstGatePass, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.cmbDepartment, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton313, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnCancelDemandDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnCancelBookingDoc, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox80.SuspendLayout
         CType(Me.RadButton247, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton254, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1569,6 +1542,8 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -6143,6 +6118,51 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 405)
         Me.RadScrollablePanel6.TabIndex = 388
         '
+        'GroupBox44
+        '
+        Me.GroupBox44.Controls.Add(Me.RadButton113)
+        Me.GroupBox44.Controls.Add(Me.RadButton111)
+        Me.GroupBox44.Controls.Add(Me.RadButton112)
+        Me.GroupBox44.Controls.Add(Me.RadButton114)
+        Me.GroupBox44.Location = New System.Drawing.Point(3, 3)
+        Me.GroupBox44.Name = "GroupBox44"
+        Me.GroupBox44.Size = New System.Drawing.Size(336, 77)
+        Me.GroupBox44.TabIndex = 49
+        Me.GroupBox44.TabStop = False
+        Me.GroupBox44.Text = "Receipt Entry"
+        '
+        'RadButton113
+        '
+        Me.RadButton113.Location = New System.Drawing.Point(80, 44)
+        Me.RadButton113.Name = "RadButton113"
+        Me.RadButton113.Size = New System.Drawing.Size(147, 23)
+        Me.RadButton113.TabIndex = 52
+        Me.RadButton113.Text = "Import Doc to Delete RE"
+        '
+        'RadButton111
+        '
+        Me.RadButton111.Location = New System.Drawing.Point(6, 14)
+        Me.RadButton111.Name = "RadButton111"
+        Me.RadButton111.Size = New System.Drawing.Size(59, 24)
+        Me.RadButton111.TabIndex = 43
+        Me.RadButton111.Text = "Reset All"
+        '
+        'RadButton112
+        '
+        Me.RadButton112.Location = New System.Drawing.Point(69, 14)
+        Me.RadButton112.Name = "RadButton112"
+        Me.RadButton112.Size = New System.Drawing.Size(92, 24)
+        Me.RadButton112.TabIndex = 41
+        Me.RadButton112.Text = "Pick Receipt No"
+        '
+        'RadButton114
+        '
+        Me.RadButton114.Location = New System.Drawing.Point(165, 14)
+        Me.RadButton114.Name = "RadButton114"
+        Me.RadButton114.Size = New System.Drawing.Size(163, 24)
+        Me.RadButton114.TabIndex = 13
+        Me.RadButton114.Text = "Delete Selected Receipt Entry"
+        '
         'TxtMultiSelectFinder20
         '
         Me.TxtMultiSelectFinder20.arrDispalyMember = Nothing
@@ -6207,51 +6227,6 @@ Partial Class FrmUtility
         Me.RadButton352.TabIndex = 382
         Me.RadButton352.Text = ">>"
         Me.RadButton352.Visible = False
-        '
-        'GroupBox44
-        '
-        Me.GroupBox44.Controls.Add(Me.RadButton113)
-        Me.GroupBox44.Controls.Add(Me.RadButton111)
-        Me.GroupBox44.Controls.Add(Me.RadButton112)
-        Me.GroupBox44.Controls.Add(Me.RadButton114)
-        Me.GroupBox44.Location = New System.Drawing.Point(3, 3)
-        Me.GroupBox44.Name = "GroupBox44"
-        Me.GroupBox44.Size = New System.Drawing.Size(336, 77)
-        Me.GroupBox44.TabIndex = 49
-        Me.GroupBox44.TabStop = False
-        Me.GroupBox44.Text = "Receipt Entry"
-        '
-        'RadButton113
-        '
-        Me.RadButton113.Location = New System.Drawing.Point(80, 44)
-        Me.RadButton113.Name = "RadButton113"
-        Me.RadButton113.Size = New System.Drawing.Size(147, 23)
-        Me.RadButton113.TabIndex = 52
-        Me.RadButton113.Text = "Import Doc to Delete RE"
-        '
-        'RadButton111
-        '
-        Me.RadButton111.Location = New System.Drawing.Point(6, 14)
-        Me.RadButton111.Name = "RadButton111"
-        Me.RadButton111.Size = New System.Drawing.Size(59, 24)
-        Me.RadButton111.TabIndex = 43
-        Me.RadButton111.Text = "Reset All"
-        '
-        'RadButton112
-        '
-        Me.RadButton112.Location = New System.Drawing.Point(69, 14)
-        Me.RadButton112.Name = "RadButton112"
-        Me.RadButton112.Size = New System.Drawing.Size(92, 24)
-        Me.RadButton112.TabIndex = 41
-        Me.RadButton112.Text = "Pick Receipt No"
-        '
-        'RadButton114
-        '
-        Me.RadButton114.Location = New System.Drawing.Point(165, 14)
-        Me.RadButton114.Name = "RadButton114"
-        Me.RadButton114.Size = New System.Drawing.Size(163, 24)
-        Me.RadButton114.TabIndex = 13
-        Me.RadButton114.Text = "Delete Selected Receipt Entry"
         '
         'GroupBox108
         '
@@ -6927,92 +6902,12 @@ Partial Class FrmUtility
         '
         'GroupBox99
         '
-        Me.GroupBox99.Controls.Add(Me.cmbDEpt)
-        Me.GroupBox99.Controls.Add(Me.MyLabel63)
-        Me.GroupBox99.Controls.Add(Me.RadButton314)
-        Me.GroupBox99.Controls.Add(Me.RadButton315)
-        Me.GroupBox99.Controls.Add(Me.RadButton316)
-        Me.GroupBox99.Controls.Add(Me.RadButton317)
         Me.GroupBox99.Location = New System.Drawing.Point(355, 317)
         Me.GroupBox99.Name = "GroupBox99"
         Me.GroupBox99.Size = New System.Drawing.Size(343, 77)
         Me.GroupBox99.TabIndex = 373
         Me.GroupBox99.TabStop = False
         Me.GroupBox99.Text = "Dairy Booking (Card Sale Along with Receipt)"
-        '
-        'cmbDEpt
-        '
-        Me.cmbDEpt.AutoCompleteDisplayMember = Nothing
-        Me.cmbDEpt.AutoCompleteValueMember = Nothing
-        Me.cmbDEpt.CalculationExpression = Nothing
-        Me.cmbDEpt.DropDownAnimationEnabled = True
-        Me.cmbDEpt.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbDEpt.FieldCode = Nothing
-        Me.cmbDEpt.FieldDesc = Nothing
-        Me.cmbDEpt.FieldMaxLength = 0
-        Me.cmbDEpt.FieldName = Nothing
-        Me.cmbDEpt.isCalculatedField = False
-        Me.cmbDEpt.IsSourceFromTable = False
-        Me.cmbDEpt.IsSourceFromValueList = False
-        Me.cmbDEpt.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDEpt.Items.Add(RadListDataItem4)
-        Me.cmbDEpt.Items.Add(RadListDataItem5)
-        Me.cmbDEpt.Items.Add(RadListDataItem6)
-        Me.cmbDEpt.Location = New System.Drawing.Point(70, 16)
-        Me.cmbDEpt.MendatroryField = False
-        Me.cmbDEpt.MyLinkLable1 = Nothing
-        Me.cmbDEpt.MyLinkLable2 = Nothing
-        Me.cmbDEpt.Name = "cmbDEpt"
-        Me.cmbDEpt.ReferenceFieldDesc = Nothing
-        Me.cmbDEpt.ReferenceFieldName = Nothing
-        Me.cmbDEpt.ReferenceTableName = Nothing
-        Me.cmbDEpt.Size = New System.Drawing.Size(107, 20)
-        Me.cmbDEpt.TabIndex = 1471
-        '
-        'MyLabel63
-        '
-        Me.MyLabel63.FieldName = Nothing
-        Me.MyLabel63.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel63.Location = New System.Drawing.Point(2, 19)
-        Me.MyLabel63.Name = "MyLabel63"
-        Me.MyLabel63.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel63.TabIndex = 1470
-        Me.MyLabel63.Text = "Department"
-        '
-        'RadButton314
-        '
-        Me.RadButton314.Location = New System.Drawing.Point(175, 44)
-        Me.RadButton314.Name = "RadButton314"
-        Me.RadButton314.Size = New System.Drawing.Size(162, 23)
-        Me.RadButton314.TabIndex = 52
-        Me.RadButton314.Text = "Import Doc to Delete Booking"
-        '
-        'RadButton315
-        '
-        Me.RadButton315.Location = New System.Drawing.Point(179, 14)
-        Me.RadButton315.Name = "RadButton315"
-        Me.RadButton315.Size = New System.Drawing.Size(59, 24)
-        Me.RadButton315.TabIndex = 43
-        Me.RadButton315.Text = "Reset All"
-        '
-        'RadButton316
-        '
-        Me.RadButton316.Location = New System.Drawing.Point(242, 14)
-        Me.RadButton316.Name = "RadButton316"
-        Me.RadButton316.Size = New System.Drawing.Size(92, 24)
-        Me.RadButton316.TabIndex = 41
-        Me.RadButton316.Text = "Pick Booking No"
-        '
-        'RadButton317
-        '
-        Me.RadButton317.Location = New System.Drawing.Point(7, 43)
-        Me.RadButton317.Name = "RadButton317"
-        Me.RadButton317.Size = New System.Drawing.Size(163, 24)
-        Me.RadButton317.TabIndex = 13
-        Me.RadButton317.Text = "Delete Selected Booking Entry"
         '
         'GroupBox79
         '
@@ -7052,104 +6947,32 @@ Partial Class FrmUtility
         '
         'GroupBox98
         '
-        Me.GroupBox98.Controls.Add(Me.chkAgainstGatePass)
-        Me.GroupBox98.Controls.Add(Me.cmbDepartment)
-        Me.GroupBox98.Controls.Add(Me.MyLabel62)
-        Me.GroupBox98.Controls.Add(Me.RadButton310)
-        Me.GroupBox98.Controls.Add(Me.RadButton311)
-        Me.GroupBox98.Controls.Add(Me.RadButton312)
-        Me.GroupBox98.Controls.Add(Me.RadButton313)
+        Me.GroupBox98.Controls.Add(Me.chkExceptDoc)
+        Me.GroupBox98.Controls.Add(Me.isPosted)
+        Me.GroupBox98.Controls.Add(Me.btnCancelDemandDoc)
+        Me.GroupBox98.Controls.Add(Me.btnCancelBookingDoc)
         Me.GroupBox98.Location = New System.Drawing.Point(355, 211)
         Me.GroupBox98.Name = "GroupBox98"
         Me.GroupBox98.Size = New System.Drawing.Size(343, 97)
         Me.GroupBox98.TabIndex = 372
         Me.GroupBox98.TabStop = False
-        Me.GroupBox98.Text = "Dairy Booking (Except Card Sale)"
+        Me.GroupBox98.Text = "Dairy Sale Cancel"
         '
-        'chkAgainstGatePass
+        'btnCancelDemandDoc
         '
-        Me.chkAgainstGatePass.Location = New System.Drawing.Point(2, 74)
-        Me.chkAgainstGatePass.MyLinkLable1 = Nothing
-        Me.chkAgainstGatePass.MyLinkLable2 = Nothing
-        Me.chkAgainstGatePass.Name = "chkAgainstGatePass"
-        Me.chkAgainstGatePass.Size = New System.Drawing.Size(109, 18)
-        Me.chkAgainstGatePass.TabIndex = 1470
-        Me.chkAgainstGatePass.Tag1 = Nothing
-        Me.chkAgainstGatePass.Text = "Against Gate Pass"
+        Me.btnCancelDemandDoc.Location = New System.Drawing.Point(170, 21)
+        Me.btnCancelDemandDoc.Name = "btnCancelDemandDoc"
+        Me.btnCancelDemandDoc.Size = New System.Drawing.Size(154, 24)
+        Me.btnCancelDemandDoc.TabIndex = 45
+        Me.btnCancelDemandDoc.Text = "Cancel Demand Document"
         '
-        'cmbDepartment
+        'btnCancelBookingDoc
         '
-        Me.cmbDepartment.AutoCompleteDisplayMember = Nothing
-        Me.cmbDepartment.AutoCompleteValueMember = Nothing
-        Me.cmbDepartment.CalculationExpression = Nothing
-        Me.cmbDepartment.DropDownAnimationEnabled = True
-        Me.cmbDepartment.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbDepartment.FieldCode = Nothing
-        Me.cmbDepartment.FieldDesc = Nothing
-        Me.cmbDepartment.FieldMaxLength = 0
-        Me.cmbDepartment.FieldName = Nothing
-        Me.cmbDepartment.isCalculatedField = False
-        Me.cmbDepartment.IsSourceFromTable = False
-        Me.cmbDepartment.IsSourceFromValueList = False
-        Me.cmbDepartment.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "LMS"
-        RadListDataItem9.Text = "Marketing"
-        Me.cmbDepartment.Items.Add(RadListDataItem7)
-        Me.cmbDepartment.Items.Add(RadListDataItem8)
-        Me.cmbDepartment.Items.Add(RadListDataItem9)
-        Me.cmbDepartment.Location = New System.Drawing.Point(70, 16)
-        Me.cmbDepartment.MendatroryField = False
-        Me.cmbDepartment.MyLinkLable1 = Nothing
-        Me.cmbDepartment.MyLinkLable2 = Nothing
-        Me.cmbDepartment.Name = "cmbDepartment"
-        Me.cmbDepartment.ReferenceFieldDesc = Nothing
-        Me.cmbDepartment.ReferenceFieldName = Nothing
-        Me.cmbDepartment.ReferenceTableName = Nothing
-        Me.cmbDepartment.Size = New System.Drawing.Size(107, 20)
-        Me.cmbDepartment.TabIndex = 1469
-        '
-        'MyLabel62
-        '
-        Me.MyLabel62.FieldName = Nothing
-        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel62.Location = New System.Drawing.Point(2, 19)
-        Me.MyLabel62.Name = "MyLabel62"
-        Me.MyLabel62.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel62.TabIndex = 1468
-        Me.MyLabel62.Text = "Department"
-        '
-        'RadButton310
-        '
-        Me.RadButton310.Location = New System.Drawing.Point(167, 44)
-        Me.RadButton310.Name = "RadButton310"
-        Me.RadButton310.Size = New System.Drawing.Size(162, 23)
-        Me.RadButton310.TabIndex = 52
-        Me.RadButton310.Text = "Import Doc to Delete Booking"
-        '
-        'RadButton311
-        '
-        Me.RadButton311.Location = New System.Drawing.Point(184, 14)
-        Me.RadButton311.Name = "RadButton311"
-        Me.RadButton311.Size = New System.Drawing.Size(59, 24)
-        Me.RadButton311.TabIndex = 43
-        Me.RadButton311.Text = "Reset All"
-        '
-        'RadButton312
-        '
-        Me.RadButton312.Location = New System.Drawing.Point(247, 14)
-        Me.RadButton312.Name = "RadButton312"
-        Me.RadButton312.Size = New System.Drawing.Size(92, 24)
-        Me.RadButton312.TabIndex = 41
-        Me.RadButton312.Text = "Pick Booking No"
-        '
-        'RadButton313
-        '
-        Me.RadButton313.Location = New System.Drawing.Point(2, 44)
-        Me.RadButton313.Name = "RadButton313"
-        Me.RadButton313.Size = New System.Drawing.Size(163, 24)
-        Me.RadButton313.TabIndex = 13
-        Me.RadButton313.Text = "Delete Selected Booking Entry"
+        Me.btnCancelBookingDoc.Location = New System.Drawing.Point(7, 21)
+        Me.btnCancelBookingDoc.Name = "btnCancelBookingDoc"
+        Me.btnCancelBookingDoc.Size = New System.Drawing.Size(154, 24)
+        Me.btnCancelBookingDoc.TabIndex = 44
+        Me.btnCancelBookingDoc.Text = "Cancel Booking Document"
         '
         'GroupBox80
         '
@@ -10055,6 +9878,28 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'isPosted
+        '
+        Me.isPosted.Location = New System.Drawing.Point(7, 73)
+        Me.isPosted.MyLinkLable1 = Nothing
+        Me.isPosted.MyLinkLable2 = Nothing
+        Me.isPosted.Name = "isPosted"
+        Me.isPosted.Size = New System.Drawing.Size(54, 18)
+        Me.isPosted.TabIndex = 69
+        Me.isPosted.Tag1 = Nothing
+        Me.isPosted.Text = "Posted"
+        '
+        'chkExceptDoc
+        '
+        Me.chkExceptDoc.Location = New System.Drawing.Point(69, 73)
+        Me.chkExceptDoc.MyLinkLable1 = Nothing
+        Me.chkExceptDoc.MyLinkLable2 = Nothing
+        Me.chkExceptDoc.Name = "chkExceptDoc"
+        Me.chkExceptDoc.Size = New System.Drawing.Size(156, 18)
+        Me.chkExceptDoc.TabIndex = 70
+        Me.chkExceptDoc.Tag1 = Nothing
+        Me.chkExceptDoc.Text = "Except Booking or Demand"
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10518,15 +10363,15 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel6.ResumeLayout(False)
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox44.ResumeLayout(False)
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton112, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton114, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox108.ResumeLayout(False)
         CType(Me.RadButton341, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton342, System.ComponentModel.ISupportInitialize).EndInit
@@ -10594,27 +10439,14 @@ Partial Class FrmUtility
         CType(Me.RadButton248, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox99.ResumeLayout(False)
-        Me.GroupBox99.PerformLayout
-        CType(Me.cmbDEpt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton317, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox79.ResumeLayout(False)
         CType(Me.RadButton251, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton252, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton253, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox98.ResumeLayout(False)
         Me.GroupBox98.PerformLayout
-        CType(Me.chkAgainstGatePass, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.cmbDepartment, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton313, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnCancelDemandDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnCancelBookingDoc, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox80.ResumeLayout(False)
         CType(Me.RadButton247, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton254, System.ComponentModel.ISupportInitialize).EndInit
@@ -10860,6 +10692,8 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11546,24 +11380,10 @@ Partial Class FrmUtility
     Friend WithEvents RadButton307 As RadButton
     Friend WithEvents RadButton308 As RadButton
     Friend WithEvents RadButton309 As RadButton
-    Friend WithEvents GroupBox98 As GroupBox
-    Friend WithEvents RadButton310 As RadButton
-    Friend WithEvents RadButton311 As RadButton
-    Friend WithEvents RadButton312 As RadButton
-    Friend WithEvents RadButton313 As RadButton
-    Friend WithEvents GroupBox99 As GroupBox
-    Friend WithEvents RadButton314 As RadButton
-    Friend WithEvents RadButton315 As RadButton
-    Friend WithEvents RadButton316 As RadButton
-    Friend WithEvents RadButton317 As RadButton
     Friend WithEvents GroupBox100 As GroupBox
     Friend WithEvents RadButton319 As RadButton
     Friend WithEvents RadButton320 As RadButton
     Friend WithEvents RadButton321 As RadButton
-    Friend WithEvents cmbDEpt As common.Controls.MyComboBox
-    Friend WithEvents MyLabel63 As common.Controls.MyLabel
-    Friend WithEvents cmbDepartment As common.Controls.MyComboBox
-    Friend WithEvents MyLabel62 As common.Controls.MyLabel
     Friend WithEvents RadButton318 As RadButton
     Friend WithEvents txtBlankTransDataDate As common.Controls.MyDateTimePicker
     Friend WithEvents GroupBox101 As GroupBox
@@ -11585,7 +11405,6 @@ Partial Class FrmUtility
     Friend WithEvents RadButton333 As RadButton
     Friend WithEvents RadButton334 As RadButton
     Friend WithEvents RadButton335 As RadButton
-    Friend WithEvents chkAgainstGatePass As common.Controls.MyCheckBox
     Friend WithEvents GroupBox106 As GroupBox
     Friend WithEvents chkAgainstGP As common.Controls.MyCheckBox
     Friend WithEvents cmbDepartmnt As common.Controls.MyComboBox
@@ -11639,5 +11458,11 @@ Partial Class FrmUtility
     Friend WithEvents txtRetestingDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents RadButton357 As RadButton
+    Friend WithEvents GroupBox99 As GroupBox
+    Friend WithEvents GroupBox98 As GroupBox
+    Friend WithEvents btnCancelBookingDoc As RadButton
+    Friend WithEvents btnCancelDemandDoc As RadButton
+    Friend WithEvents chkExceptDoc As common.Controls.MyCheckBox
+    Friend WithEvents isPosted As common.Controls.MyCheckBox
 End Class
 
