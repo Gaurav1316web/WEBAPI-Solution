@@ -519,7 +519,7 @@ Public Class frmMultipleShareAllotment
         Dim dbldblShareCertificate_To As Double = 0
 
         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colDCSUploaderNo).Value)) > 0 Then
-            dblDeducted_Amt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareDeductedAmount).Value)
+            dblDeducted_Amt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareDeductedAmount).Value) + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareCaptialOpeningAmount).Value)
             dblRatePerShare = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRatePerShare).Value)
             dblAllocatedShare = Math.Floor(dblDeducted_Amt / dblRatePerShare)
             If dblAllocatedShare > 0 Then
