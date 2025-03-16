@@ -1253,6 +1253,8 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF
 
 
 
+
+
     'Private Sub Unpostdiscode_Click(sender As Object, e As EventArgs) Handles Unpostdiscode.Click
     '    Try
     '        If clsCommon.myLen(TxtDispatch.Value) <= 0 Then

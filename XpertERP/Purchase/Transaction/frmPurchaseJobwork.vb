@@ -234,7 +234,8 @@ Public Class frmPurchaseJobwork
         gv.Columns.Clear()
         txtTotalDOc.Text = ""
     End Sub
-  
+
+
 End Class
 
 

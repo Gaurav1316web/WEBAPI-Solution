@@ -120,6 +120,7 @@ Public Class clsGateOutt
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Code, "tspl_purchase_gateout", "Code", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "tspl_purchase_gateout", "Code", trans)
             qry = "delete from tspl_purchase_gateout where Code='" + obj.Code + "'"

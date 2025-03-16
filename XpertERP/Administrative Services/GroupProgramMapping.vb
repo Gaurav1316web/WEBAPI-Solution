@@ -400,6 +400,8 @@ Public Class GroupProgramMapping
 
                 Dim result As Boolean = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, "")
                 'HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Transfer_No", Nothing)
+
             Next
             If txtDashBoardMult.arrValueMember IsNot Nothing AndAlso txtDashBoardMult.arrValueMember.Count > 0 Then
                 Dim i As Integer = 0
@@ -1138,18 +1140,25 @@ Public Class GroupProgramMapping
 
     Private Sub btnNewHistory_Click(sender As Object, e As EventArgs) Handles btnNewHistory.Click
         Try
+
             If clsCommon.myLen(fndgroup.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            For i As Integer = 0 To dgvprogram.Rows.Count - 1
-                If dgvprogram.Rows.Count > i Then
-                    clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", Nothing, Nothing, "Program Code", selectedValue)
-                    Exit For
+            clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING")
 
-                End If
+            'If clsCommon.myLen(fndgroup.Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+            '    Exit Sub
+            'End If
+            'For i As Integer = 0 To dgvprogram.Rows.Count - 1
+            '    If dgvprogram.Rows.Count > i Then
+            '        clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", Nothing, Nothing, "Program Code", selectedValue)
+            '        Exit For
 
-            Next
+            '    End If
+
+            'Next
 
             'clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", Nothing, Nothing, Nothing, selectedCellValue)
 

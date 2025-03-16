@@ -29,7 +29,8 @@ Public Class clsMultipleShareAllotment
         Try
             Dim qry As String = "delete from TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            qry = "delete from TSPL_MULTIPLE_SHARE_ALLOTMENT_AP_INVOICE_DETAIL where Document_No='" + obj.Document_No + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy hh:mm tt"))
@@ -227,6 +228,8 @@ Public Class clsMultipleShareAllotment
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
+            qry = "delete from TSPL_MULTIPLE_SHARE_ALLOTMENT_AP_INVOICE_DETAIL where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

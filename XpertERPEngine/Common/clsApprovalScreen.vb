@@ -147,6 +147,7 @@ Public Class clsApprovalScreen
 
     Public Shared Function DeleteData(ByVal Module_Name As String, ByVal Screen_Name As String, ByVal strLocCode As String, ByVal strCaptex As String, ByVal trans As SqlTransaction) As Boolean
         Try
+
             Dim qry As String = "delete from TSPL_APPROVAL_LEVEL_SCREEN where Module_Code='" + Module_Name + "' and Trans_Code='" + Screen_Name + "'"
             If clsCommon.myLen(strLocCode) > 0 Then
                 qry += " and Loc_Code='" + strLocCode + "'"

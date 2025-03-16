@@ -262,6 +262,7 @@ Public Class clsIssueReturnHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_IssueReturn_HEAD", OMInsertOrUpdate.Update, "TSPL_IssueReturn_HEAD.Doc_No='" + obj.Doc_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsIssueReturnDetail.SaveData(obj.Doc_No, obj.From_Location, obj.To_Location, obj.Doc_Date, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueReturn_HEAD", "Doc_No", "TSPL_IssueReturn_DETAIL", "Doc_No", trans)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Doc_No, obj.arrCustomFields, trans)
             If isNewEntry AndAlso clsCommon.CompairString(obj.Doc_Type, "Issue") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Req_IssueNo) > 0 AndAlso (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowOnlyOneIssueAgainstStoreRequisition, clsFixedParameterCode.AllowOnlyOneIssueAgainstStoreRequisition, trans)) = 1) Then
                 isSaved = isSaved AndAlso clsRequistionHead.CloseprData(obj.Req_IssueNo, "Y", trans)
@@ -1555,6 +1556,10 @@ Public Class clsIssueReturnHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_IssueReturn_HEAD", "Doc_No", "TSPL_IssueReturn_DETAIL", "Doc_No", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_IssueReturn_HEAD", "Doc_No", "TSPL_IssueReturn_DETAIL", "Doc_No", trans)
+
                 clsSerializeInvenotry.DeleteData("ISSTRAN", strCode, trans)
 
                 clsBatchInventory.DeleteData("ISSTRAN", obj.Doc_No, trans)

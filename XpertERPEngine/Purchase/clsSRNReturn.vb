@@ -42,9 +42,10 @@ Public Class clsSRNReturn
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_RETURN", OMInsertOrUpdate.Insert, "", trans)
                 Else
-                    HistoryUpdate(obj.Document_No, trans)
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_RETURN", OMInsertOrUpdate.Update, "TSPL_SRN_RETURN.Document_No='" + obj.Document_No + "'", trans)
                 End If
+                HistoryUpdate(obj.Document_No, trans)
+
                 isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_No, obj.arrCustomFields, trans)
 
                 ''Revese Inventory movement
@@ -248,6 +249,8 @@ Public Class clsSRNReturn
                 qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_RETURN", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_RETURN", "Document_No", trans)
 
             clsSerializeInvenotry.DeleteData("SRN-RET", obj.Document_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)

@@ -94,7 +94,7 @@ Public Class frmMultipleShareAllotment
         gv1.MasterTemplate.Columns.Add(repoDCSName)
 
         Dim repoShareCaptialOpeningAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoShareCaptialOpeningAmount.FormatString = ""
+        repoShareCaptialOpeningAmount.FormatString = "{0:n2}"
         repoShareCaptialOpeningAmount.HeaderText = "Share Captial Opening Amount"
         repoShareCaptialOpeningAmount.Name = colShareCaptialOpeningAmount
         repoShareCaptialOpeningAmount.Width = 140
@@ -102,7 +102,7 @@ Public Class frmMultipleShareAllotment
         gv1.MasterTemplate.Columns.Add(repoShareCaptialOpeningAmount)
 
         Dim repoShareDeductedAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoShareDeductedAmount.FormatString = ""
+        repoShareDeductedAmount.FormatString = "{0:n2}"
         repoShareDeductedAmount.HeaderText = "Total Share Captial Deducted Amount"
         repoShareDeductedAmount.Name = colShareDeductedAmount
         repoShareDeductedAmount.Width = 100
@@ -111,7 +111,7 @@ Public Class frmMultipleShareAllotment
         gv1.MasterTemplate.Columns.Add(repoShareDeductedAmount)
 
         Dim repoBalanceAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoBalanceAmt.FormatString = ""
+        repoBalanceAmt.FormatString = "{0:n2}"
         repoBalanceAmt.HeaderText = "Balance Amt"
         repoBalanceAmt.Name = colBalanceAmt
         repoBalanceAmt.Width = 130
@@ -246,6 +246,10 @@ Public Class frmMultipleShareAllotment
     Private Sub Addnew()
         isNewEntry = True
         txtDocumentNo.Value = ""
+        txtFromDate.Enabled = True
+        txtToDate.Enabled = True
+        txtBMC.Enabled = True
+        txtRateOfOneShare.Enabled = True
         txtBMC.arrValueMember = Nothing
         btnSave.Enabled = True
         btnPost.Enabled = True
@@ -424,7 +428,12 @@ Public Class frmMultipleShareAllotment
         End If
         LoadBlankGrid()
         j = 0
-        EnableDisableControls(False)
+        txtFromDate.Enabled = False
+        txtToDate.Enabled = False
+        txtBMC.Enabled = False
+        txtRateOfOneShare.Enabled = False
+        'EnableDisableControls(False)
+        btnGo.Enabled = True
         isLoadData = False
         LoadGridData(isLoadData)
     End Sub
@@ -510,7 +519,7 @@ Public Class frmMultipleShareAllotment
         Dim dbldblShareCertificate_To As Double = 0
 
         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colDCSUploaderNo).Value)) > 0 Then
-            dblDeducted_Amt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareDeductedAmount).Value)
+            dblDeducted_Amt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareDeductedAmount).Value) + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShareCaptialOpeningAmount).Value)
             dblRatePerShare = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRatePerShare).Value)
             dblAllocatedShare = Math.Floor(dblDeducted_Amt / dblRatePerShare)
             If dblAllocatedShare > 0 Then
@@ -536,67 +545,107 @@ Public Class frmMultipleShareAllotment
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gvImport As New RadGridView()
-
-        Me.Controls.Add(gvImport)
-        Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gvImport, "DCS Code", "DCS Name", "Share Captial Opening Amount", "Total Share Captial Deducted Amount", "Balance Amt", "Share Rate Per Share", "No of Share to be allocated", "Share Certificate No Start From", "Share Certificate No To") Then
-            Try
-                clsCommon.ProgressBarPercentShow()
-                For ii As Integer = 0 To gvImport.Rows.Count - 1
-                    If clsCommon.myLen(gvImport.Rows(ii).Cells("DCS Code").Value) > 0 Then
-
-                        clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
-                        Try
-
-                            gv1.Rows(ii).Cells("DCS Code").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)
-                            gv1.Rows(ii).Cells("DCS Name").Value = clsDBFuncationality.getSingleValue("Select VLC_NAME FROM TSPL_VLC_MASTER_HEAD VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
-                            gv1.Rows(ii).Cells("Vendor Code").Value = clsDBFuncationality.getSingleValue("Select VSP_CODE FROM TSPL_VLC_MASTER_HEAD VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
-                            If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Ltr") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Ltr") = CompairStringResult.Equal Then
-                                If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "K"
-                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Ltr") = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "L"
-                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Kg") = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "CK"
-                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Ltr") = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "CL"
+        Try
+            Dim gvImport As New RadGridView()
+            Me.Controls.Add(gvImport)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gvImport, "DCS Code", "DCS Name", "Share Captial Opening Amount", "Total Share Captial Deducted Amount", "Balance Amt", "Share Rate Per Share", "No of Share to be allocated", "Share Certificate No Start From", "Share Certificate No To") Then
+                Dim arr As New List(Of String)
+                Dim strDCSCode As String = ""
+                Dim dtError As New DataTable
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+                    If gvImport IsNot Nothing AndAlso gvImport.Rows.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        For ii As Integer = 0 To gvImport.Rows.Count - 1
+                            Try
+                                clsCommon.ProgressBarPercentUpdate(ii + 1, gvImport.Rows.Count, "Validating Data...")
+                                If clsCommon.myLen(clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)) <= 0 Then
+                                    Throw New Exception("DCS Code can't be blank !")
                                 End If
-                            Else
-                                clsCommon.MyMessageBoxShow(Me, " This Head load basis does not exist in Head Load Master", Me.Text)
-                                Exit Sub
-                            End If
-                            gv1.Rows(ii).Cells(colShareCaptialOpeningAmount).Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Share Captial Opening Amount").Value), 2)
-
-                            gv1.Rows(ii).Cells(colShareDeductedAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
-                            UpdateCurrentRow(ii)
-                            'gv1.Rows(ii).Cells(colBalanceAmt).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Balance Amt").Value)
-                            'gv1.Rows(ii).Cells(colRatePerShare).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Share Rate Per Share").Value)
-                            'gv1.Rows(ii).Cells(colNoOfShareToBeAllocated).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
-                            txtRateOfOneShare.Value = gv1.Rows(ii).Cells(colRatePerShare).Value
-                            If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
-                                If gv1.Rows.Count = gvImport.Rows.Count Then
-                                Else
-                                    gv1.Rows.AddNew()
+                                strDCSCode = clsDBFuncationality.getSingleValue("Select VLC_Code_VLC_Uploader FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) + "' ")
+                                If clsCommon.myLen(strDCSCode) <= 0 Then
+                                    Throw New Exception("DCS Uploader Code cannot exist in DCS Master")
                                 End If
-                            End If
+                                arr.Add(strDCSCode)
+                            Catch ex As Exception
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("RowNo") = ii
+                                dr("Error") = ex.Message
+                                dtError.Rows.Add(dr)
 
-                        Catch ex As Exception
-                            gv1.Rows.RemoveAt(ii)
-                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                        End Try
+                            End Try
+                        Next
+                        clsCommon.ProgressBarPercentHide()
                     End If
-                Next
+                    Try
 
-                clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            End Try
-        End If
-        Me.Controls.Remove(gvImport)
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = MyBase.Form_ID
+                            ff.Text = "Share Allotment DCS Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
+                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(arr.Count) + "] Do You want to Proceed"
+
+                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                clsCommon.ProgressBarPercentShow()
+                                For ii As Integer = 0 To gvImport.Rows.Count - 1
+
+                                    If clsCommon.myLen(gvImport.Rows(ii).Cells("DCS Code").Value) > 0 Then
+
+                                        clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
+                                        Try
+                                            gv1.Rows(ii).Cells(colSNo).Value = ii + 1
+                                            gv1.Rows(ii).Cells(colDCSUploaderNo).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)
+                                            gv1.Rows(ii).Cells(colDCSName).Value = clsDBFuncationality.getSingleValue("Select VLC_NAME FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
+                                            gv1.Rows(ii).Cells(colVendorCode).Value = clsDBFuncationality.getSingleValue("Select VSP_CODE FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
+
+                                            gv1.Rows(ii).Cells(colShareCaptialOpeningAmount).Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Share Captial Opening Amount").Value), 2)
+
+                                            gv1.Rows(ii).Cells(colShareDeductedAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
+                                            'gv1.Rows(ii).Cells(colBalanceAmt).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Balance Amt").Value)
+                                            gv1.Rows(ii).Cells(colRatePerShare).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Share Rate Per Share").Value)
+                                            UpdateCurrentRow(ii)
+                                            'gv1.Rows(ii).Cells(colNoOfShareToBeAllocated).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
+                                            txtRateOfOneShare.Value = gv1.Rows(ii).Cells(colRatePerShare).Value
+                                            If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
+                                                If gv1.Rows.Count = gvImport.Rows.Count Then
+                                                Else
+                                                    gv1.Rows.AddNew()
+                                                End If
+                                            End If
+
+                                        Catch ex As Exception
+                                            gv1.Rows.RemoveAt(ii)
+                                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                        End Try
+                                    End If
+
+                                Next
+                                clsCommon.ProgressBarPercentHide()
+                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                            End If
+                        Else
+                            Throw New Exception("No Valid Rows Found ")
+                        End If
+                    Catch ex As Exception
+                        clsCommon.ProgressBarPercentHide()
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    Throw New Exception(ex.Message)
+                End Try
+            End If
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
 
     Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
         Try

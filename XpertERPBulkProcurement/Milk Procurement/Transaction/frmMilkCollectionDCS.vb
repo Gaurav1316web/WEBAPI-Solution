@@ -677,7 +677,7 @@ Public Class frmMilkCollectionDCS
                     If e.Column Is gv1.Columns(colVLCUploaderCode) Then
                         OpenVLCFinder(False)
                     ElseIf e.Column Is gv1.Columns(colEveningFATPerNoDecimal) Then
-                        gv1.CurrentRow.Cells(colEveningFATPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colEveningFATPerNoDecimal).Value)
+                        gv1.CurrentRow.Cells(colEveningFATPer).Value = Xtra.MyNoDecimalToOneDecimal(gv1.CurrentRow.Cells(colEveningFATPerNoDecimal).Value)
                         Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
                         If CalSettMaxFATPerLimit > 0 Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningFATPer).Value) > CalSettMaxFATPerLimit Then
@@ -688,7 +688,7 @@ Public Class frmMilkCollectionDCS
                             UpdateCurrentRow("E", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colEveningSNFPerNoDecimal) Then
-                        gv1.CurrentRow.Cells(colEveningSNFPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colEveningSNFPerNoDecimal).Value)
+                        gv1.CurrentRow.Cells(colEveningSNFPer).Value = Xtra.MyNoDecimalToOneDecimal(gv1.CurrentRow.Cells(colEveningSNFPerNoDecimal).Value)
                         Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
                         If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > CalsettMaxSNFPerLimit Then
@@ -699,10 +699,12 @@ Public Class frmMilkCollectionDCS
                             UpdateCurrentRow("E", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningFATPerNoDecimal) Then
-                        gv1.CurrentRow.Cells(colMorningFATPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colMorningFATPerNoDecimal).Value)
+                        gv1.CurrentRow.Cells(colMorningFATPer).Value = Xtra.MyNoDecimalToOneDecimal(gv1.CurrentRow.Cells(colMorningFATPerNoDecimal).Value)
                         Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
                         If CalSettMaxFATPerLimit > 0 Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningFATPer).Value) > CalSettMaxFATPerLimit Then
+                                gv1.CurrentRow.Cells(colMorningFATPer).Value = 0
+                                gv1.CurrentRow.Cells(colMorningFATPerNoDecimal).Value = 0
                                 clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(CalSettMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
@@ -710,10 +712,12 @@ Public Class frmMilkCollectionDCS
                             UpdateCurrentRow("M", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningSNFPerNoDecimal) Then
-                        gv1.CurrentRow.Cells(colMorningSNFPer).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colMorningSNFPerNoDecimal).Value)
+                        gv1.CurrentRow.Cells(colMorningSNFPer).Value = Xtra.MyNoDecimalToOneDecimal(gv1.CurrentRow.Cells(colMorningSNFPerNoDecimal).Value)
                         Dim CalsettMaxSNFPerLimit As Decimal = GetCalSettMaxSNFPerLimit()
                         If CalsettMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > CalsettMaxSNFPerLimit Then
+                                gv1.CurrentRow.Cells(colMorningSNFPer).Value = 0
+                                gv1.CurrentRow.Cells(colMorningSNFPerNoDecimal).Value = 0
                                 clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(CalsettMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If
@@ -1375,7 +1379,7 @@ select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tank
 
     Private Sub RefreshMCCCollectionDetail(ByVal strMCCUploaderNo As String, ByVal strMilkType As String, ByVal arrMCC As List(Of clsMilkCollectionDCSMCCDetail))
         Try
-            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,case when TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type=0 then '%' else 'KG' end as FAT_SNF_Type_Name,TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type ,case when TSPL_MILK_COLLECTION_MCC.Late=0 then 'No' else 'Yes' end as Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
+            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,case when TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type=0 then '%' else 'KG' end as FAT_SNF_Type_Name,TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type ,case when TSPL_MILK_COLLECTION_MCC.Late=0 then 'No' else 'Yes' end as Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
@@ -1448,6 +1452,7 @@ where 2=2 "
                 gv2.BestFitColumns()
                 gv2.Columns("Document_No").HeaderText = "Document"
                 gv2.Columns("Trip_No").HeaderText = "Trip No"
+                gv2.Columns("Sample_No").HeaderText = "Sample No"
                 gv2.Columns("PK_Id").HeaderText = "PKID"
                 gv2.Columns("PK_Id").IsVisible = False
                 gv2.Columns("UploaderNo").HeaderText = "BMC"
@@ -1743,10 +1748,10 @@ where 2=2 "
 
                                     If SettMilkCollectionFATSNFType = 0 Then
                                         If SettFATSNFNoDecimalDCS = True Then
-                                            objTr.FAT = Xtra.MyNoDecimalToDecimal(dtItem.Rows(j)("FAT"))
-                                            objTr.SNF = Xtra.MyNoDecimalToDecimal(dtItem.Rows(j)(colSNForCLR))
-                                            objTr.FATKG = Math.Round(clsCommon.myCDecimal(objTr.Qty) * Xtra.MyNoDecimalToDecimal(dtItem.Rows(j)("FAT")) / 100, 3, MidpointRounding.ToEven)
-                                            objTr.SNFKG = Math.Round(clsCommon.myCDecimal(objTr.Qty) * Xtra.MyNoDecimalToDecimal(dtItem.Rows(j)(colSNForCLR)) / 100, 3, MidpointRounding.ToEven)
+                                            objTr.FAT = Xtra.MyNoDecimalToOneDecimal(dtItem.Rows(j)("FAT"))
+                                            objTr.SNF = Xtra.MyNoDecimalToOneDecimal(dtItem.Rows(j)(colSNForCLR))
+                                            objTr.FATKG = Math.Round(clsCommon.myCDecimal(objTr.Qty) * Xtra.MyNoDecimalToOneDecimal(dtItem.Rows(j)("FAT")) / 100, 3, MidpointRounding.ToEven)
+                                            objTr.SNFKG = Math.Round(clsCommon.myCDecimal(objTr.Qty) * Xtra.MyNoDecimalToOneDecimal(dtItem.Rows(j)(colSNForCLR)) / 100, 3, MidpointRounding.ToEven)
                                         Else
                                             objTr.FAT = clsCommon.myCDecimal(dtItem.Rows(j)("FAT"))
                                             objTr.SNF = clsCommon.myCDecimal(dtItem.Rows(j)(colSNForCLR))
@@ -1856,12 +1861,10 @@ where 2=2 "
                 clsCommon.MyMessageBoxShow(Me, "Please select document code first..", Me.Text)
             End If
 
-            Dim qry = " select  TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pincode ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email, XXXMain.Comp_Code, XXXMain.Document_No , XXXMain.Document_Date, XXXMain.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,XXXMain.Vehicle_No , XXXMain.Tanker_No, XXXMain.MCC_Code, XXXMain.MCC_NAME, XXXMain.Mcc_Code_VLC_Uploader, XXXMain.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name , XXXMain.Milk_Type as Milk_Type ,XXXMain.Dock_Collection_Milk_Type as Dock_Collection_Milk_Type , isnull ( XXXMorning.Qty,0) as Morning_Qty , isnull (XXXMorning.FAT,0) as Morning_FAT, isnull(XXXMorning.SNF,0) as Morning_SNF , isnull(XXXMorning.FATKG,0) as Morning_FATKG, isnull (XXXMorning.SNFKG,0) as Morning_SNFKG  
-
+            Dim qry = " select  (case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 and TSPL_VLC_MASTER_HEAD.MCCOwnBMC=XXXMain.MCC_Code then 1 else 0 end) as OwnBMC,TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pincode ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email, XXXMain.Comp_Code, XXXMain.Document_No , XXXMain.Document_Date, XXXMain.Route_Code,XXXMain.ROUTE_NAME ,XXXMain.Vehicle_No , XXXMain.Tanker_No, XXXMain.MCC_Code, XXXMain.MCC_NAME, XXXMain.Mcc_Code_VLC_Uploader, XXXMain.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,XXXMain.Milk_Type as Milk_Type ,XXXMain.Dock_Collection_Milk_Type as Dock_Collection_Milk_Type , isnull ( XXXMorning.Qty,0) as Morning_Qty , isnull (XXXMorning.FAT,0) as Morning_FAT, isnull(XXXMorning.SNF,0) as Morning_SNF , isnull(XXXMorning.FATKG,0) as Morning_FATKG, isnull (XXXMorning.SNFKG,0) as Morning_SNFKG  
                         ,XXXEvening.Milk_Type as Evening_Milk_Type ,XXXEvening.Dock_Collection_Milk_Type as Evening_Dock_Collection_Milk_Type , isnull (XXXEvening.Qty,0) as Evening_Qty , isnull (XXXEvening.FAT,0) as Evening_FAT, isnull(XXXEvening.SNF,0) as Evening_SNF , isnull(XXXEvening.FATKG,0) as Evening_FATKG, isnull (XXXEvening.SNFKG,0) as Evening_SNFKG                        from (
-                        select max(Comp_Code) as Comp_Code,  max(Document_No) as Document_No , max(Document_Date) as Document_Date, max(Route_Code) as Route_Code, max(Vehicle_No) as Vehicle_No, max(Tanker_No) as Tanker_No , max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader , VLC_Code as VLC_Code, Milk_Type,Dock_Collection_Milk_Type  from (
-                        select TSPL_USER_MASTER.Comp_Code, TSPL_MILK_COLLECTION_DCS.Document_No , convert (varchar, TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date , TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_MILK_COLLECTION_MCC.Vehicle_No , TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code ,TSPL_MCC_MASTER.MCC_NAME, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader , TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
-
+                        select max(Comp_Code) as Comp_Code,  max(Document_No) as Document_No , max(Document_Date) as Document_Date, STRING_AGG( Route_Code, ',') as Route_Code,STRING_AGG( ROUTE_NAME, ',') as ROUTE_NAME, STRING_AGG( Vehicle_No, ',') as Vehicle_No, STRING_AGG( Tanker_No, ',') as Tanker_No , max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader , VLC_Code as VLC_Code, Milk_Type,Dock_Collection_Milk_Type  from (
+                        select distinct TSPL_USER_MASTER.Comp_Code, TSPL_MILK_COLLECTION_DCS.Document_No , convert (varchar, TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date , TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Vehicle_No , TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code ,TSPL_MCC_MASTER.MCC_NAME, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader , TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
                         from TSPL_MILK_COLLECTION_DCS_DETAIL 
                         left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
                         left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
@@ -1869,6 +1872,7 @@ where 2=2 "
                         left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
                         left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code =TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code 
                         left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code = TSPL_MILK_COLLECTION_DCS.Created_By
+                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code
                         where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No = '" + txtDocNo.Value + "' 
                         ) XXX group by XXX.VLC_Code , XXX.Milk_Type, XXX.Dock_Collection_Milk_Type
                         ) XXXMain
@@ -1887,13 +1891,56 @@ where 2=2 "
 
                         and TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E'
                         ) as  XXXEvening on XXXEvening.VLC_Code = XXXMain.VLC_Code and  XXXEvening.Milk_Type = XXXMain.Milk_Type and  XXXEvening.Dock_Collection_Milk_Type = XXXMain.Dock_Collection_Milk_Type
-                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = XXXMain.Route_Code
+                        
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code = XXXMain.VLC_Code
-                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXXMain.Comp_Code
-                        "
+                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXXMain.Comp_Code order by TSPL_VLC_MASTER_HEAD.isOwnBMC"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Dim dv As New DataView(dt)
+                dv.RowFilter = " OwnBMC=0 "
+                Dim dtFinal As DataTable = dv.ToTable()
+                If dtFinal Is Nothing OrElse dtFinal.Rows.Count <= 0 Then
+                    Dim dr As DataRow = dtFinal.NewRow
+                    dtFinal.Rows.Add(dr)
+                End If
+                dtFinal.Columns.Add("OWN_VLC_Code_VLC_Uploader", GetType(String))
+                dtFinal.Columns.Add("OWN_Evening_Qty", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_FAT", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_SNF", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_FATKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_SNFKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_Qty", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_FAT", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_SNF", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_FATKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_SNFKG", GetType(Decimal))
+
+                Dim dvOwn As New DataView(dt)
+                dvOwn.RowFilter = " OwnBMC=1 "
+                Dim dtOwn As DataTable = dvOwn.ToTable()
+                If dtOwn IsNot Nothing AndAlso dtOwn.Rows.Count > 0 Then
+                    For ii As Integer = 0 To dtFinal.Rows.Count - 1
+                        dtFinal.Rows(ii)("OWN_VLC_Code_VLC_Uploader") = dtOwn.Rows(0)("VLC_Code_VLC_Uploader")
+                        dtFinal.Rows(ii)("OWN_Evening_Qty") = dtOwn.Rows(0)("Evening_Qty")
+                        dtFinal.Rows(ii)("OWN_Evening_FAT") = dtOwn.Rows(0)("Evening_FAT")
+                        dtFinal.Rows(ii)("OWN_Evening_SNF") = dtOwn.Rows(0)("Evening_SNF")
+                        dtFinal.Rows(ii)("OWN_Evening_FATKG") = dtOwn.Rows(0)("Evening_FATKG")
+                        dtFinal.Rows(ii)("OWN_Evening_SNFKG") = dtOwn.Rows(0)("Evening_SNFKG")
+                        dtFinal.Rows(ii)("OWN_Morning_Qty") = dtOwn.Rows(0)("Morning_Qty")
+                        dtFinal.Rows(ii)("OWN_Morning_FAT") = dtOwn.Rows(0)("Morning_FAT")
+                        dtFinal.Rows(ii)("OWN_Morning_FATKG") = dtOwn.Rows(0)("Morning_FATKG")
+                        dtFinal.Rows(ii)("OWN_Morning_SNF") = dtOwn.Rows(0)("Morning_SNF")
+                        dtFinal.Rows(ii)("OWN_Morning_SNFKG") = dtOwn.Rows(0)("Morning_SNFKG")
+                    Next
+                End If
+                dtFinal.AcceptChanges()
+
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtFinal, "rptDCSTrackSheet_JPR", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            Else
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            End If
+
             frmCRV = Nothing
 
         Catch ex As Exception
@@ -1961,7 +2008,7 @@ where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103)='" + clsCommon.G
             If clsCommon.myLen(txtMCC.Value) <= 0 OrElse clsCommon.myLen(txtMCC.Tag) <= 0 Then
                 Throw New Exception("Please First select BMC")
             End If
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as UploaderNo,TSPL_VLC_MASTER_HEAD.VLC_Code as Code,TSPL_VLC_MASTER_HEAD.VLC_Name as Name,TSPL_VLC_MASTER_HEAD.VSP_Code as DCSName,TSPL_VLC_MASTER_HEAD.MCC as BMC,TSPL_MCC_MASTER.MCC_NAME as BMCName
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as UploaderNo,TSPL_VLC_MASTER_HEAD.VLC_Code as Code,TSPL_VLC_MASTER_HEAD.VLC_Name as Name,TSPL_VLC_MASTER_HEAD.VSP_Code as DCSName,TSPL_VLC_MASTER_HEAD.MCC as BMC,TSPL_MCC_MASTER.MCC_NAME as BMCName,case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 then 'Y' else 'N' end as [Own BMC]
 from TSPL_VLC_MASTER_HEAD
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
@@ -2014,22 +2061,12 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
             If Arr.Count > 0 Then
                 For Each lst As clsBMCDCS_DCS_Head In Arr
                     Dim strQry = ""
-                    '                    Dim strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in(
-                    'select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL
-                    'left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-                    'where MCC_Code in(
-                    'select MCC_Code from TSPL_MILK_COLLECTION_MCC_DETAIL
-                    'where PK_Id in(
-                    'select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL 
-                    'left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP
-                    'where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + "
-                    ')
-                    ') and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'
-                    ')"
-                    strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
-                    inner join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No inner join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP 
-                    where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + " and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'"
-
+                    strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No 
+from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL 
+inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+inner join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
+inner join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP 
+where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + " and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                         lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
@@ -2044,12 +2081,9 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
             Else
                 Throw New Exception("No Data Found!")
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
     Sub DCSEntry(ByRef lst As clsBMCDCS_DCS_Head)
         Try
@@ -2065,7 +2099,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
             obj_Dcs.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
             For ii As Integer = 0 To lst.Arr_DCSMCCDetails.Count - 1
                 Dim objtrMCC As New clsMilkCollectionDCSMCCDetail
-                objtrMCC.Against_Milk_Collection_MCC_Detail = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id as PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where REF_PK_ID_BMCDCS_TRIP=" + clsCommon.myCstr(lst.Arr_DCSMCCDetails(ii).BMCDCS_Trip_PK_ID)))
+                objtrMCC.Against_Milk_Collection_MCC_Detail = lst.Arr_DCSMCCDetails(ii).Against_PK_ID  ''clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id as PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where REF_PK_ID_BMCDCS_TRIP=" + clsCommon.myCstr(lst.Arr_DCSMCCDetails(ii).BMCDCS_Trip_PK_ID)))
                 obj_Dcs.ArrMCC.Add(objtrMCC)
             Next
             If (obj_Dcs.ArrMCC Is Nothing OrElse obj_Dcs.ArrMCC.Count <= 0) Then
