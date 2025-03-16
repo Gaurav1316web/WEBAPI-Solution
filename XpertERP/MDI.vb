@@ -8268,6 +8268,10 @@ Public Class MDI
                         frm = New rptDairyTruckSheetReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptDayWiseBoothDemand
+                        frm = New rptDayWiseBoothDemand()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSalesComparisonReport
                         frm = New rptSalesComparisonReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
