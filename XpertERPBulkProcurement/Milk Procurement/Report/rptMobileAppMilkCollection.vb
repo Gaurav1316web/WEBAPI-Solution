@@ -62,7 +62,7 @@ Public Class rptMobileAppMilkCollection
     End Sub
     Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
         Try
-            Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ")"
+            Dim qry As String = "select MCC_Code,Mcc_Code_VLC_Uploader as [MCC Uploader Code],MCC_NAME,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ")"
             txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "MCC_Code", "MCC_NAME", txtBMC.arrValueMember, txtBMC.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -72,42 +72,7 @@ Public Class rptMobileAppMilkCollection
     Public Sub LoadData()
         Try
             Dim dt As New DataTable
-            Dim strQry As String = ""
-
-            If rbtnBMC.Checked Then
-                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
-                        TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
-                        (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp
-                        From TSPL_MILK_COLLECTION_BMCDCS
-                        left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-                        Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code   
-                        where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-"
-            End If
-            If rbtnDCS.Checked Then
-                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID,(TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Trip_No=1
-                        ,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
-                        (TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code)VLC_Code,(TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift)IShift,(TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG)FATKG,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG)SNFKG
-                        from TSPL_MILK_COLLECTION_BMCDCS
-                       left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-                        left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
-                        left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
-                where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-                    "
-            End If
-            If rbtnBMC.Checked Then
-                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                    strQry += " and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
-                End If
-            End If
-            If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
-            End If
-            If rbtnDCS.Checked Then
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    strQry += " and TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code in (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
-                End If
-            End If
+            Dim strQry As String = ReturnQry()
 
             'If rbtnBMC.Checked Then
             '    strQry += " Group by TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code"
@@ -233,7 +198,8 @@ Public Class rptMobileAppMilkCollection
                 Gv1.Columns("VLC_Name").HeaderText = "DCS Name"
                 Gv1.Columns("IShift").HeaderText = "Shift"
                 Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader"
-
+                Gv1.Columns("Route_code").IsVisible = False
+                Gv1.Columns("Vehicle_No").IsVisible = False
             End If
 
             Gv1.Columns("Qty").HeaderText = "Qty"
@@ -318,4 +284,106 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLEC
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") <> clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") Then
+                Throw New Exception("Only single Date allowed.")
+                Exit Sub
+            End If
+
+            Dim qry As String = ReturnQry()
+            Dim dt As DataTable
+            Dim dtSubBMCTankerEntryDetails As DataTable = Nothing
+            Dim dtSubOwnBMCMilk As DataTable = Nothing
+            Dim dtSubBMCLocalSale As DataTable = Nothing
+            If rbtnBMC.Checked Then
+                qry = " select  xx.*,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,IDate,103) as Date,'" + objCommonVar.CurrentUser + "' as UserName  from ( " + qry + "  )xx 	left join TSPL_COMPANY_MASTER on 1 = 1"
+                dt = clsDBFuncationality.GetDataTable(qry)
+            ElseIf rbtnDCS.Checked Then
+                qry = " select  xx.*,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,IDate,103) as Date,'" + objCommonVar.CurrentUser + "' as UserName from ( " + qry + "  )xx 	left join TSPL_COMPANY_MASTER on 1 = 1"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                qry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
+                        TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
+                        (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp, case when isnull(Milk_Not_Picked,0) = 1 then 'Yes' else 'No' end as Milk_Not_Picked
+                        From TSPL_MILK_COLLECTION_BMCDCS
+                        left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+                        Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code   
+                        where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
+
+                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                End If
+                If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+                End If
+                dtSubBMCTankerEntryDetails = clsDBFuncationality.GetDataTable(qry)
+                qry = "select isnull(Own_BMC_Qty,0) as Qty,Own_BMC_FAT AS FAT,Own_BMC_SNF as SNF,'Evening' as Shift,MCC_Code  from TSPL_MILK_COLLECTION_BMCDCS  where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+         union all
+        select isnull(Own_BMC_Qty,0) as Qty,Own_BMC_FAT_E as FAT,Own_BMC_SNF_E as SNF,'Morning' as Shift,MCC_Code from TSPL_MILK_COLLECTION_BMCDCS  where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
+
+                dtSubOwnBMCMilk = clsDBFuncationality.GetDataTable(qry)
+                qry = "select isnull(Own_BMC_Loose_Sale_Qty,0) as Qty,'Evening' as Shift,MCC_Code  from TSPL_MILK_COLLECTION_BMCDCS  where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+         union all
+        select isnull(Own_BMC_Loose_Sale_Qty_E,0) as Qty,'Morning' as Shift,MCC_Code from TSPL_MILK_COLLECTION_BMCDCS  where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
+                dtSubBMCLocalSale = clsDBFuncationality.GetDataTable(qry)
+            End If
+
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If rbtnBMC.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBMCTruckSheet", "")
+                ElseIf rbtnDCS.Checked Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtSubBMCTankerEntryDetails, "rptDCSTruckSheet", "", "rptSubBMCTankerEnterDetails", "rptSubOwnBMCMilkCollectionDetails", dtSubOwnBMCMilk, "rptSubBMCLocalSaleDetails", dtSubBMCLocalSale)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function ReturnQry() As String
+        Dim strQry As String = ""
+        If rbtnBMC.Checked Then
+            strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
+                        TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
+                        (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp, case when isnull(Milk_Not_Picked,0) = 1 then 'Yes' else 'No' end as Milk_Not_Picked
+                        From TSPL_MILK_COLLECTION_BMCDCS
+                        left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+                        Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code   
+                        where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
+        End If
+        If rbtnDCS.Checked Then
+            strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID,(TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Trip_No=1
+                        ,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+                        (TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code)VLC_Code,(TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift)IShift,(TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG)FATKG,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG)SNFKG
+                   , ( SELECT DISTINCT  STRING_AGG( Route_Code, '/') AS Route_Code from ( select distinct Route_Code,MCC_Code   from ( select TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TabInnerTrip.Vehicle_No,TabInnerTrip.Route_Code
+                        from TSPL_MILK_COLLECTION_BMCDCS as TabInnerBMCDCS left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP as TabInnerTrip on TabInnerTrip.REF_PK_ID=TabInnerBMCDCS.PK_ID
+                where TabInnerBMCDCS.IDate  >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TabInnerBMCDCS.IDate <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TabInnerBMCDCS.MCC_Code = TSPL_MILK_COLLECTION_BMCDCS.MCC_Code ) xx )xxx  ) as Route_code,
+					  	( SELECT DISTINCT  STRING_AGG( Vehicle_No, '/') AS Vehicle_No from ( select distinct Vehicle_No,MCC_Code   from ( select TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TabInnerTrip.Vehicle_No,TabInnerTrip.Route_Code
+                        from TSPL_MILK_COLLECTION_BMCDCS as TabInnerBMCDCS
+                       left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP as TabInnerTrip on TabInnerTrip.REF_PK_ID=TabInnerBMCDCS.PK_ID
+                where TabInnerBMCDCS.IDate  >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TabInnerBMCDCS.IDate <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TabInnerBMCDCS.MCC_Code = TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
+                      ) xx )xxx  ) as Vehicle_No
+                        from TSPL_MILK_COLLECTION_BMCDCS
+                       left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+                        left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
+                        left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
+                where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                    "
+        End If
+        If rbtnBMC.Checked Then
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                strQry += " and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+            End If
+        End If
+        If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
+            strQry += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+        End If
+        If rbtnDCS.Checked Then
+            If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                strQry += " and TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code in (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
+            End If
+        End If
+        Return strQry
+    End Function
 End Class

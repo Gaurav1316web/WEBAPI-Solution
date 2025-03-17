@@ -252,6 +252,7 @@ Public Class clsUserMgtCode
     Public Const RptDairyBookingDistributorReport As String = "RPT_DBDR"
     Public Const rptMatrixFreshSalesReportSaleDairy As String = "RPT_MAT_SAL"
     Public Const rptDairyTruckSheetReport As String = "RPT_TRK_SHT"
+    Public Const rptDayWiseBoothDemand As String = "DYA_WIS_RPT"
     Public Const rptSaleRegisterDetail As String = "RPT_SR_DT"
     Public Const rptSaleRegisterUOMReport As String = "RPT_UOM_SR"
     Public Const RptCommissionTPTReport As String = "RPT_Com_TPT"

@@ -2411,6 +2411,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBoothCountReport, "Booth Count Report", "1.36.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.36.03.36", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMonthlyBillSummaryReport, "Monthly Bill Summary Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
