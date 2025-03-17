@@ -217,14 +217,23 @@ Public Class FrmProductionAndSaleReport
                         FROM TSPL_LOCATION_MASTER 
 
                         Left outer join 
-						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
+						(select count (distinct TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
 						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
                         AND TSPL_SPP_PRODUCTION_ENTRY.Shift_Code in ('A-SHIFT','B-SHIFT','C-SHIFT') 
                            Group By LOCATION_CODE,CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                         LEFT OUTER JOIN"
+                If Productionchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty, "
+                ElseIf RePrdntchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) as Qty, "
+                ElseIf Prdncreallchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) as Qty, "
+                End If
+
+                query += "
+                        TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where  "
@@ -235,8 +244,18 @@ Public Class FrmProductionAndSaleReport
                 query += "  and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+
+                         LEFT OUTER JOIN "
+
+                If Productionchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) As Qty, "
+                ElseIf RePrdntchk.IsChecked = True Then
+                    query += " (Select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As Qty, "
+                ElseIf Prdncreallchk.IsChecked = True Then
+                    query += " (Select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As Qty, "
+                End If
+                query += "
+                        TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where "
@@ -844,6 +863,7 @@ Public Class FrmProductionAndSaleReport
         RadGroupBox6.Enabled = val
         RadGroupBox1.Enabled = val
         RadGroupBox2.Enabled = val
+        RadGroupBox7.Enabled = val
     End Sub
 
     Sub SetGridFormat(ByRef Gv1 As RadGridView)

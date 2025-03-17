@@ -566,18 +566,14 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
                     If rbtnBankAdvice.IsChecked Then
                         FinalQuery += " ,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] "
                     End If
-
                     FinalQuery += "from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
                 Else
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
-
                     If ConvertVlcCodeUploaderToInt = True Then
                         FinalQuery += " cast(VLC_Code_Uploader as Int) "
                     Else
                         FinalQuery += " VLC_Code_Uploader "
                     End If
-
-                    'FinalQuery += "cast(VLC_Code_Uploader as Int) "
                 End If
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
@@ -596,8 +592,15 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             End If
 
             If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
+
                 FinalQuery = GetSavingCurrent()
-                FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+
+
+                If ConvertVlcCodeUploaderToInt Then
+                    FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+                Else
+                    FinalQuery += " order by  VLC_CODE_Uploader  "
+                End If
             End If
             If isSendMail Then
                 returnBankAdviseQry = FinalQuery
@@ -614,7 +617,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             If isPrint AndAlso rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                 FinalQuery = ""
                 FinalQuery = "Select ROW_NUMBER() OVER(Partition by xxxfinal.bankcode ORDER BY xxxfinal.bankcode) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
-                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 order by cast(VLC_CODE_Uploader as int) "
+                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 "
+                If ConvertVlcCodeUploaderToInt Then
+                    FinalQuery += "order by cast(VLC_CODE_Uploader as int) "
+                Else
+                    FinalQuery += "order by VLC_CODE_Uploader "
+                End If
                 dt1 = clsDBFuncationality.GetDataTable(FinalQuery)
 
                 FinalQuery = ""
@@ -908,17 +916,35 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     Private Function GetSavingCurrent() As String
         Dim Qry As String = " Select xxxfinal.[Bank Advise No],xxxfinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,isnull(xxxfinal.Bank_Code,xxxfinal.Bank_Code_Saving) as BankCode,xxxfinal.Branch_Name,isnull(xxxfinal.Bank_Code_Desc,xxxfinal.Bank_Desc_Saving) as BankName,(xxxfinal.VLC_CODE_Uploader +' '+ xxxfinal.Payee_Joint_Name) As DCS_Name,
 Round(Case When IsNull(xxxfinal.Payable_Amount,0)>0 Then (IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)) Else IsNull(xxxfinal.Saving_Amount,0) End,0) As Bill_Amt,
-xxxfinal.Bank_Account_No_Saving as SavingAccountNo,IsNull(xxxfinal.Saving_Amount,0) as SavingAmt,xxxfinal.Payee_Joint_Account_No as CurrentAccountNo,
-Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) as CurrentAmt,DCSCount
-from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount,sum(Head_Load_Rate)Head_Load_Rate,MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code_Saving,max(Bank_Desc_Saving)Bank_Desc_Saving,sum(Saving_Amount)Saving_Amount from
+xxxfinal.Bank_Account_No_Saving as SavingAccountNo,IsNull(xxxfinal.Saving_Amount,0) as SavingAmt,xxxfinal.Payee_Joint_Account_No as CurrentAccountNo, "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " case when AccNo2 is null or AccNo2='' then Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0)+isnull(xxxfinal.Amt1,0),0) else  
+                     Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) end as CurrentAmt "
+        Else
+            Qry += " Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) as CurrentAmt "
+        End If
+
+        Qry += " ,DCSCount
+from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(Head_Load_Rate)Head_Load_Rate,
+MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code_Saving,max(Bank_Desc_Saving)Bank_Desc_Saving, "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " Max(x.Payable_Amount)Payable_Amount, max(Saving_Amount)Saving_Amount,sum(Amount)Amt1,max(accno2)AccNo2 "
+        Else
+            Qry += " sum(x.Payable_Amount)Payable_Amount, sum(Saving_Amount)Saving_Amount "
+        End If
+
+        Qry += " from
                             (select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
-                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
+                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VENDOR_MASTER.accno2,
                             TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
                             case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
 							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount,
-							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving
-                            from TSPL_PAYMENT_PROCESS_DETAIL 
+							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " ,TabDCSdrcr.Amount "
+        End If
+        Qry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -928,8 +954,16 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
                            left outer join( select Vendor_Code,Sum(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
                            where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) 
                            and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + ToDate.Value + "'),103)
-                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
-                            left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
+                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " left outer join (Select InvoiceNo,DCSDescription,case when DCSDescription LIKE 'Purchase%' THEN Amount end as Amount from(
+				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
+				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction
+				                    )x) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No "
+        End If
+
+        Qry += "  left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                             and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
@@ -1101,11 +1135,14 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
             Gv1.Columns("TD").IsVisible = False
 
         ElseIf rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked Then
-            Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
-            Gv1.Columns("CycleRange").IsVisible = False
-
-            Gv1.Columns("GRPColumn").HeaderText = "Group Range"
-            Gv1.Columns("GRPColumn").IsVisible = False
+            If Gv1.Columns.Contains("CycleRange") Then
+                Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
+                Gv1.Columns("CycleRange").IsVisible = False
+            End If
+            If Gv1.Columns.Contains("GRPColumn") Then
+                Gv1.Columns("GRPColumn").HeaderText = "Group Range"
+                Gv1.Columns("GRPColumn").IsVisible = False
+            End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 Gv1.Columns("Payee_Joint_Branch_Name").HeaderText = "Payee_Joint_Branch_Name"
@@ -1120,78 +1157,116 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
             End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                If Gv1.Columns.Contains("GRPColumns") Then
                     Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
                     Gv1.Columns("GRPColumns").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Bank_Name") Then
                     Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
                     Gv1.Columns("Bank_Name").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankAccountNo") Then
                     Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
                     Gv1.Columns("BankAccountNo").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankIFSCCode") Then
                     Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
                     Gv1.Columns("BankIFSCCode").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("BankBranchAddress") Then
                     Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
                     Gv1.Columns("BankBranchAddress").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Company Bank") Then
                     Gv1.Columns("Company Bank").HeaderText = "Company Bank"
                     Gv1.Columns("Company Bank").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Company Bank Account No") Then
                     Gv1.Columns("Company Bank Account No").HeaderText = "Company Bank Account No"
                     Gv1.Columns("Company Bank Account No").IsVisible = False
+                End If
 
+                If Gv1.Columns.Contains("Bank_Code") Then
                     Gv1.Columns("Bank_Code").HeaderText = "Bank"
                     Gv1.Columns("Bank_Code").IsVisible = True
+                End If
 
+                If Gv1.Columns.Contains("Branch_Name") Then
                     Gv1.Columns("Branch_Name").HeaderText = "Branch"
                     Gv1.Columns("Branch_Name").IsVisible = True
                 End If
+            End If
 
-
+            If Gv1.Columns.Contains("Comp_Name") Then
                 Gv1.Columns("Comp_Name").HeaderText = "Company Name"
                 Gv1.Columns("Comp_Name").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Comp_address") Then
                 Gv1.Columns("Comp_address").HeaderText = "Company Address"
                 Gv1.Columns("Comp_address").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("From_Date") Then
                 Gv1.Columns("From_Date").HeaderText = "Date"
                 Gv1.Columns("From_Date").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("GSTReg_No") Then
                 Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
                 Gv1.Columns("GSTReg_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Doc_No") Then
                 Gv1.Columns("Doc_No").HeaderText = "Documant No"
                 Gv1.Columns("Doc_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("CompPhone") Then
                 Gv1.Columns("CompPhone").HeaderText = "Phone No"
                 Gv1.Columns("CompPhone").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Regn_No") Then
                 Gv1.Columns("Regn_No").HeaderText = "Regn No"
                 Gv1.Columns("Regn_No").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("MCC_NAME") Then
                 Gv1.Columns("MCC_NAME").HeaderText = "Area"
                 Gv1.Columns("MCC_NAME").IsVisible = False
+            End If
 
-                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            If Gv1.Columns.Contains("FD") Then
                 Gv1.Columns("FD").HeaderText = "FD"
                 Gv1.Columns("FD").IsVisible = False
+            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
 
+            If Gv1.Columns.Contains("TD") Then
                 Gv1.Columns("TD").HeaderText = "TD"
                 Gv1.Columns("TD").IsVisible = False
+            End If
 
 
-                'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
-                'Gv1.Columns("[Bank Advise No]").IsVisible = True
 
-                'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
-                'Gv1.Columns("[Bank Advise Date]").IsVisible = False
+            'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
+            'Gv1.Columns("[Bank Advise No]").IsVisible = True
 
-                'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
-                'Gv1.Columns("Bank Advice Status").IsVisible = False
-                'End If
+            'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
+            'Gv1.Columns("[Bank Advise Date]").IsVisible = False
 
-                If MultipleFinderFillAuto Then
+            'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
+            'Gv1.Columns("Bank Advice Status").IsVisible = False
+            'End If
+
+            If MultipleFinderFillAuto Then
                 Else
                     If clsCommon.myLen(Gv1.Columns("Location_Code")) Then
                         Gv1.Columns("Location_Code").HeaderText = "Location"
@@ -1203,39 +1278,54 @@ from (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank 
                     End If
                 End If
 
-
+            If Gv1.Columns.Contains("Fiscal_Name") Then
                 Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
                 Gv1.Columns("Fiscal_Name").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("CycleNo") Then
                 Gv1.Columns("CycleNo").HeaderText = "Cycle No"
                 Gv1.Columns("CycleNo").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("Date_Range") Then
                 Gv1.Columns("Date_Range").HeaderText = "Date Range"
                 Gv1.Columns("Date_Range").IsVisible = False
+            End If
 
+            If Gv1.Columns.Contains("VLC_CODE_Uploader") Then
                 Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
                 Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_Name") Then
                 Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"
                 Gv1.Columns("Payee_Joint_Name").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Bank_Code_Desc") Then
                 Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
                 Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_IFSC_Code") Then
                 Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
                 Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
+            End If
 
+            If Gv1.Columns.Contains("Payee_Joint_Account_No") Then
                 Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
                 Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
+            End If
 
+            If Gv1.Columns.Contains("Payable_Amount") Then
                 Gv1.Columns("Payable_Amount").HeaderText = "Amount"
                 Gv1.Columns("Payable_Amount").IsVisible = True
-                'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            End If
 
+        ElseIf rbtnBankWiseSummary.IsChecked Then
 
-            ElseIf rbtnBankWiseSummary.IsChecked Then
-
-                Gv1.Columns("SNO").HeaderText = "SNo"
+            Gv1.Columns("SNO").HeaderText = "SNo"
                 Gv1.Columns("SNO").IsVisible = True
 
                 Gv1.Columns("CycleRange").HeaderText = "Cycle Range"

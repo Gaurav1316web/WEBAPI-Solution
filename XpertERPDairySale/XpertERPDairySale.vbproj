@@ -370,6 +370,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Report\FrmBoothCountReport.Designer.vb">
+      <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmBoothCountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmDayBook.Designer.vb">
       <DependentUpon>frmDayBook.vb</DependentUpon>
     </Compile>
@@ -482,6 +488,12 @@
       <DependentUpon>rptD1D2Report.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptD1D2Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptDayWiseBoothDemand.Designer.vb">
+      <DependentUpon>rptDayWiseBoothDemand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDayWiseBoothDemand.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptDemandReport.Designer.vb">
@@ -1208,6 +1220,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmBoothCountReport.resx">
+      <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmBoothDemandReport.resx">
       <DependentUpon>FrmBoothDemandReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1267,6 +1282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyStatementReport.resx">
       <DependentUpon>rptDailyStatementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDayWiseBoothDemand.resx">
+      <DependentUpon>rptDayWiseBoothDemand.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDemandReport.resx">
       <DependentUpon>rptDemandReport.vb</DependentUpon>

@@ -1918,7 +1918,6 @@ Public Class clsPSShipmentHead
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_EXCEPTION", OMInsertOrUpdate.Insert, "")
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SALE_INVOICE_EXCEPTION", "Document_Code", trans)
 
             Catch ex1 As Exception
             End Try

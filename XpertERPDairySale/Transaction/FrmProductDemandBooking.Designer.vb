@@ -22,7 +22,7 @@ Partial Class FrmProductDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -74,6 +74,7 @@ Partial Class FrmProductDemandBooking
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -119,6 +120,7 @@ Partial Class FrmProductDemandBooking
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -180,6 +182,7 @@ Partial Class FrmProductDemandBooking
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAssessment)
@@ -732,7 +735,7 @@ Partial Class FrmProductDemandBooking
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(1006, 292)
         Me.gv1.TabIndex = 0
@@ -808,6 +811,16 @@ Partial Class FrmProductDemandBooking
         Me.btnSave.TabIndex = 16
         Me.btnSave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(422, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnHistory.TabIndex = 24
+        Me.btnHistory.Text = "History"
+        '
         'FrmProductDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -869,6 +882,7 @@ Partial Class FrmProductDemandBooking
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -926,4 +940,5 @@ Partial Class FrmProductDemandBooking
     Friend WithEvents lblPTotAmt As common.Controls.MyLabel
     Friend WithEvents txtPAmt As common.Controls.MyLabel
     Friend WithEvents btnreverse As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class

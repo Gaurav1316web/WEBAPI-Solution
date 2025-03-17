@@ -1582,6 +1582,7 @@ Public Class ClsAdjustments
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "update TSPL_ADJUSTMENT_HEADER_Delete_Data set Delete_By = '" + objCommonVar.CurrentUserCode + "' where Adjustment_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 '======================================================================
             Catch ex As Exception
                 Throw New Exception(ex.Message)

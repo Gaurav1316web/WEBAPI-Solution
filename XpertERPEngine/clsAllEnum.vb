@@ -252,6 +252,22 @@ Public Class Xtra
         End Try
         Return retValue
     End Function
+
+    Public Shared Function MyNoDecimalToOneDecimal(ByVal Value As Object) As Decimal
+        Dim retValue As Decimal = 0
+        Try
+            Dim x As Integer = clsCommon.myCDecimal(Value)
+            Dim str As String = clsCommon.myCstr(x).Replace(".", "")
+            If clsCommon.myLen(str) > 2 Then
+                str = str.Insert(2, ".")
+            ElseIf clsCommon.myLen(str) > 1 Then
+                str = str.Insert(1, ".")
+            End If
+            retValue = clsCommon.myCDecimal(str)
+        Catch ex As Exception
+        End Try
+        Return retValue
+    End Function
     Public Shared Function GetDataFromAPI(ByVal API As EnumAPI, ByVal APIName As String, ByVal ArrFilter As Dictionary(Of String, String)) As DataTable
         Dim dt As DataTable = Nothing
         Dim responsebody As String = ""

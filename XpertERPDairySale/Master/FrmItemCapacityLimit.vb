@@ -59,6 +59,10 @@ Public Class FrmItemCapacityLimit
         txtEndDate.Value = txtDate.Value
         chkInactive.Checked = False
         chkInactive.Enabled = False
+        btnSave.Enabled = True
+        btnDelete.Enabled = True
+        btnPost.Enabled = False
+        btnShowHistory.Enabled = False
         LoadBlankGrid()
     End Sub
     Sub LoadBlankGrid()
@@ -360,6 +364,7 @@ Public Class FrmItemCapacityLimit
                     UsLock1.Status = ERPTransactionStatus.Pending
                     chkInactive.Enabled = False
                 End If
+                btnShowHistory.Enabled = True
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 txtStartDate.Value = obj.From_Date
@@ -524,8 +529,7 @@ Public Class FrmItemCapacityLimit
                     frm.ReportID = "ALLUOMLIMIT"
                     frm.Show()
                 End If
-            Else
-                Throw New Exception("Please Select Document")
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -578,6 +582,7 @@ Public Class FrmItemCapacityLimit
     End Sub
     Public Sub Import()
         Try
+            AddNew()
             Dim gv As New RadGridView()
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsItemCapacityLimitDetail)
@@ -648,7 +653,7 @@ Public Class FrmItemCapacityLimit
                 End Try
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
-                End If
+            End If
 
             Me.Controls.Remove(gv)
         Catch ex As Exception

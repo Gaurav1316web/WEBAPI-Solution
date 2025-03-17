@@ -251,6 +251,7 @@ Public Class FrmVendorComparison1
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                 Next
+
                 trans.Commit()
                 RadMessageBox.Show("Data Saved Successfully", Me.Text)
                 LoadData()

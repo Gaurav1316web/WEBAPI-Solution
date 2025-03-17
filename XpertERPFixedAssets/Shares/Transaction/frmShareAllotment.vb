@@ -22,7 +22,7 @@ Public Class frmShareAllotment
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
         Try
-            Dim qry As String = "select TSPL_Share_Allotment.Code,  TSPL_Share_Allotment.IDate As Date, TSPL_Share_Allotment.Share_Code As [Share Code],TSPL_Share_Allotment.Name As [Share Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader Code],TSPL_Share_Allotment.Dcs_Code As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],TSPL_Share_Allotment.Status,TSPL_Share_Allotment.Remarks from TSPL_Share_Allotment Inner Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_Share_Allotment.DCS_Code "
+            Dim qry As String = "select TSPL_Share_Allotment.Code,  TSPL_Share_Allotment.IDate As Date, TSPL_Share_Allotment.Share_Code As [Share Code],TSPL_Share_Allotment.Name As [Share Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader Code],TSPL_Share_Allotment.Dcs_Code As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],TSPL_Share_Allotment.Status,TSPL_Share_Allotment.Remarks from TSPL_Share_Allotment LEFT OUTER Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_Share_Allotment.DCS_Code "
             LoadData(clsCommon.ShowSelectForm("@ShareAllot", qry, "Code", Nothing, txtCode.Value, Nothing, isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -126,6 +126,10 @@ Public Class frmShareAllotment
             '                     Where Share_Code='" + fndShare.Value + "')xxx Group By Share_Code,Certificate_No
             '                     Having sum(RI)>0"
             If txtNoOfShare.Value > 0 Then
+                Dim isPostedShareMaster As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count(1) from TSPL_SHARE_MASTER where Status = 1 and code = '" + fndShare.Value + "'") = 1)
+                If Not isPostedShareMaster Then
+                    Throw New Exception("This Document [" + fndShare.Value + "] is not posted in Share Master.")
+                End If
                 Dim qry As String = clsShareAllotment.ReturnQry(fndShare.Value, clsCommon.myCstr(txtNoOfShare.Value))
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 fndCertificate.arrValueMember = clsCommon.ShowMultipleSelectForm("@Certification", qry, "Certificate No", "Certificate No", fndCertificate.arrValueMember, fndCertificate.arrDispalyMember)
@@ -200,8 +204,12 @@ Public Class frmShareAllotment
 
     Function AllowToSave() As Boolean
         Dim Check As Boolean = False
-        Dim Qry As String = "select Certificate_No,RI  From TSPL_SHARE_MOVEMENT Where Share_Code='" + fndShare.Value + "' And Certificate_No IN (" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember)) + ")
-                             Group By Certificate_No,RI Having Sum(RI)<=0"
+        Dim Qry As String = "select Certificate_No,RI  From TSPL_SHARE_MOVEMENT Where Share_Code='" + fndShare.Value + "' "
+
+        If fndCertificate.arrValueMember IsNot Nothing AndAlso fndCertificate.arrValueMember.Count > 0 Then
+            Qry += " And Certificate_No IN (" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember)) + ")"
+        End If
+        Qry += "    Group By Certificate_No,RI Having Sum(RI)<=0"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             For i As Integer = 0 To dt.Rows.Count - 1
@@ -341,7 +349,7 @@ TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'
             dt = clsDBFuncationality.GetDataTable(sqlqry)
             If dt.Rows.Count > 0 Then
                 Dim crysFrm As New frmCrystalReportViewer()
-                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "sharereport", "Share Report")
+                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
                 crysFrm = Nothing
             End If
         Catch ex As Exception

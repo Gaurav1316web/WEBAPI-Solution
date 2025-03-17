@@ -22,25 +22,27 @@ Partial Class FrmUserGroupMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Dim GridViewCheckBoxColumn2 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn
-        Me.dgv_Groupmapping = New common.UserControls.MyRadGridView
-        Me.rlblUserCode = New common.Controls.MyLabel
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenu_file = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem_Import = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem_Export = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem_Close = New Telerik.WinControls.UI.RadMenuItem
-        Me.rbtnClose = New Telerik.WinControls.UI.RadButton
-        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton
-        Me.rbtnSave = New Telerik.WinControls.UI.RadButton
-        Me.rbtnReset = New Telerik.WinControls.UI.RadButton
-        Me.TxtUserName = New common.Controls.MyTextBox
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.fndUser_Name = New common.UserControls.txtNavigator
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewCheckBoxColumn1 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.dgv_Groupmapping = New common.UserControls.MyRadGridView()
+        Me.rlblUserCode = New common.Controls.MyLabel()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenu_file = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem_Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem_Export = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem_Close = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rbtnClose = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnSave = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.TxtUserName = New common.Controls.MyTextBox()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.fndUser_Name = New common.UserControls.txtNavigator()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dgv_Groupmapping, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgv_Groupmapping.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,6 +58,7 @@ Partial Class FrmUserGroupMapping
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,34 +72,40 @@ Partial Class FrmUserGroupMapping
         Me.dgv_Groupmapping.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgv_Groupmapping.Location = New System.Drawing.Point(0, 0)
         '
-        'dgv_Groupmapping
+        '
         '
         Me.dgv_Groupmapping.MasterTemplate.AllowAddNewRow = False
-        GridViewTextBoxColumn3.HeaderText = "Group Code"
-        GridViewTextBoxColumn3.Name = "GroupCode"
-        GridViewTextBoxColumn3.ReadOnly = True
-        GridViewTextBoxColumn3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        GridViewTextBoxColumn3.Width = 180
-        GridViewTextBoxColumn4.HeaderText = "Description"
-        GridViewTextBoxColumn4.Name = "Description"
-        GridViewTextBoxColumn4.ReadOnly = True
-        GridViewTextBoxColumn4.Width = 197
-        GridViewCheckBoxColumn2.HeaderText = "Status"
-        GridViewCheckBoxColumn2.MinWidth = 20
-        GridViewCheckBoxColumn2.Name = "Status"
-        GridViewCheckBoxColumn2.Width = 169
-        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewCheckBoxColumn2})
+        GridViewTextBoxColumn1.HeaderText = "Group Code"
+        GridViewTextBoxColumn1.Name = "GroupCode"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        GridViewTextBoxColumn1.Width = 180
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.Name = "Description"
+        GridViewTextBoxColumn2.ReadOnly = True
+        GridViewTextBoxColumn2.Width = 197
+        GridViewCheckBoxColumn1.HeaderText = "Status"
+        GridViewCheckBoxColumn1.MinWidth = 20
+        GridViewCheckBoxColumn1.Name = "Status"
+        GridViewCheckBoxColumn1.Width = 169
+        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewCheckBoxColumn1})
         Me.dgv_Groupmapping.MasterTemplate.EnableFiltering = True
         Me.dgv_Groupmapping.MasterTemplate.EnableGrouping = False
+        Me.dgv_Groupmapping.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgv_Groupmapping.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv_Groupmapping.MyStopExport = False
         Me.dgv_Groupmapping.Name = "dgv_Groupmapping"
         Me.dgv_Groupmapping.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.dgv_Groupmapping.ShowHeaderCellButtons = True
         Me.dgv_Groupmapping.Size = New System.Drawing.Size(626, 365)
         Me.dgv_Groupmapping.TabIndex = 0
         Me.dgv_Groupmapping.TabStop = False
-        Me.dgv_Groupmapping.Text = "dgv Groupmapping"
+        Me.dgv_Groupmapping.VarID = ""
         '
         'rlblUserCode
         '
+        Me.rlblUserCode.FieldName = Nothing
         Me.rlblUserCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rlblUserCode.Location = New System.Drawing.Point(3, 3)
         Me.rlblUserCode.Name = "rlblUserCode"
@@ -111,41 +120,28 @@ Partial Class FrmUserGroupMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(629, 20)
         Me.RadMenu1.TabIndex = 6
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu_file
         '
-        Me.RadMenu_file.AccessibleDescription = "File"
-        Me.RadMenu_file.AccessibleName = "File"
         Me.RadMenu_file.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenu_file.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem_Import, Me.RadMenuItem_Export, Me.RadMenuItem_Close})
         Me.RadMenu_file.Name = "RadMenu_file"
         Me.RadMenu_file.Text = "File"
-        Me.RadMenu_file.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem_Import
         '
-        Me.RadMenuItem_Import.AccessibleDescription = "Import"
-        Me.RadMenuItem_Import.AccessibleName = "Import"
         Me.RadMenuItem_Import.Name = "RadMenuItem_Import"
         Me.RadMenuItem_Import.Text = "Import"
-        Me.RadMenuItem_Import.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem_Export
         '
-        Me.RadMenuItem_Export.AccessibleDescription = "Export"
-        Me.RadMenuItem_Export.AccessibleName = "Export"
         Me.RadMenuItem_Export.Name = "RadMenuItem_Export"
         Me.RadMenuItem_Export.Text = "Export"
-        Me.RadMenuItem_Export.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem_Close
         '
-        Me.RadMenuItem_Close.AccessibleDescription = "Close"
-        Me.RadMenuItem_Close.AccessibleName = "Close"
         Me.RadMenuItem_Close.Name = "RadMenuItem_Close"
         Me.RadMenuItem_Close.Text = "Close"
-        Me.RadMenuItem_Close.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rbtnClose
         '
@@ -188,7 +184,16 @@ Partial Class FrmUserGroupMapping
         '
         'TxtUserName
         '
+        Me.TxtUserName.CalculationExpression = Nothing
+        Me.TxtUserName.FieldCode = Nothing
+        Me.TxtUserName.FieldDesc = Nothing
+        Me.TxtUserName.FieldMaxLength = 0
+        Me.TxtUserName.FieldName = Nothing
         Me.TxtUserName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtUserName.isCalculatedField = False
+        Me.TxtUserName.IsSourceFromTable = False
+        Me.TxtUserName.IsSourceFromValueList = False
+        Me.TxtUserName.IsUnique = False
         Me.TxtUserName.Location = New System.Drawing.Point(315, 2)
         Me.TxtUserName.MaxLength = 25
         Me.TxtUserName.MendatroryField = False
@@ -196,6 +201,9 @@ Partial Class FrmUserGroupMapping
         Me.TxtUserName.MyLinkLable2 = Nothing
         Me.TxtUserName.Name = "TxtUserName"
         Me.TxtUserName.ReadOnly = True
+        Me.TxtUserName.ReferenceFieldDesc = Nothing
+        Me.TxtUserName.ReferenceFieldName = Nothing
+        Me.TxtUserName.ReferenceTableName = Nothing
         Me.TxtUserName.Size = New System.Drawing.Size(186, 18)
         Me.TxtUserName.TabIndex = 2
         '
@@ -218,6 +226,7 @@ Partial Class FrmUserGroupMapping
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnHistory)
         Me.Panel1.Controls.Add(Me.rbtnSave)
         Me.Panel1.Controls.Add(Me.rbtnDelete)
         Me.Panel1.Controls.Add(Me.rbtnClose)
@@ -230,7 +239,7 @@ Partial Class FrmUserGroupMapping
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer1.Location = New System.Drawing.Point(3, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
@@ -252,6 +261,7 @@ Partial Class FrmUserGroupMapping
         '
         'fndUser_Name
         '
+        Me.fndUser_Name.FieldName = Nothing
         Me.fndUser_Name.Location = New System.Drawing.Point(67, 0)
         Me.fndUser_Name.MendatroryField = True
         Me.fndUser_Name.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -264,6 +274,16 @@ Partial Class FrmUserGroupMapping
         Me.fndUser_Name.Size = New System.Drawing.Size(210, 21)
         Me.fndUser_Name.TabIndex = 0
         Me.fndUser_Name.Value = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(156, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmUserGroupMapping
         '
@@ -296,6 +316,7 @@ Partial Class FrmUserGroupMapping
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -318,5 +339,6 @@ Partial Class FrmUserGroupMapping
     Friend WithEvents fndUser_Name As common.UserControls.txtNavigator
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -36,7 +36,7 @@ Public Class clsEmployeeSalary
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", trans)
             Dim Qry As String = "select POSTED from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
@@ -50,6 +50,7 @@ Public Class clsEmployeeSalary
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", trans)
 
 
             trans.Commit()
@@ -419,6 +420,7 @@ Public Class clsEmployeeSalary
 
             Dim qry As String = "Update TSPL_EMPLOYEE_SALARY set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where EMP_SAL_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", trans)
             'trans.Commit()
         Catch ex As Exception
             'trans.Rollback()

@@ -1620,7 +1620,18 @@ Public Class frmEmployeeMaster
 
     End Sub
 
-    
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndempcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndempcode.Value, "EMP_CODE", "tspl_employee_master")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub dgstate_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles dgstate.CurrentColumnChanged
         If dgstate.RowCount > 0 Then
             Dim intCurrRow As Integer = dgstate.CurrentRow.Index
