@@ -27,7 +27,11 @@ Partial Class FrmBoothCountReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtMultiRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.LblRoute = New common.Controls.MyLabel()
         Me.gbDocStatus = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnRouteGroupWise = New common.Controls.MyRadioButton()
+        Me.BtnRouteWise = New common.Controls.MyRadioButton()
         Me.BtnBoothDetail = New common.Controls.MyRadioButton()
         Me.BtnDateGroupWise = New common.Controls.MyRadioButton()
         Me.BtnDateWise = New common.Controls.MyRadioButton()
@@ -37,21 +41,24 @@ Partial Class FrmBoothCountReport
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvData = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.gvData = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.LblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDocStatus.SuspendLayout()
+        CType(Me.BtnRouteGroupWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBoothDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnDateGroupWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,12 +69,12 @@ Partial Class FrmBoothCountReport
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,6 +113,8 @@ Partial Class FrmBoothCountReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.TxtMultiRoute)
+        Me.RadPageViewPage1.Controls.Add(Me.LblRoute)
         Me.RadPageViewPage1.Controls.Add(Me.gbDocStatus)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -114,54 +123,102 @@ Partial Class FrmBoothCountReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(672, 305)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'TxtMultiRoute
+        '
+        Me.TxtMultiRoute.arrDispalyMember = Nothing
+        Me.TxtMultiRoute.arrValueMember = Nothing
+        Me.TxtMultiRoute.Location = New System.Drawing.Point(60, 80)
+        Me.TxtMultiRoute.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtMultiRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiRoute.MyLinkLable1 = Nothing
+        Me.TxtMultiRoute.MyLinkLable2 = Nothing
+        Me.TxtMultiRoute.MyNullText = "All"
+        Me.TxtMultiRoute.Name = "TxtMultiRoute"
+        Me.TxtMultiRoute.Size = New System.Drawing.Size(266, 19)
+        Me.TxtMultiRoute.TabIndex = 447
+        '
+        'LblRoute
+        '
+        Me.LblRoute.FieldName = Nothing
+        Me.LblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblRoute.Location = New System.Drawing.Point(16, 80)
+        Me.LblRoute.Margin = New System.Windows.Forms.Padding(4)
+        Me.LblRoute.Name = "LblRoute"
+        Me.LblRoute.Size = New System.Drawing.Size(36, 18)
+        Me.LblRoute.TabIndex = 446
+        Me.LblRoute.Text = "Route"
+        '
         'gbDocStatus
         '
         Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbDocStatus.Controls.Add(Me.BtnRouteGroupWise)
+        Me.gbDocStatus.Controls.Add(Me.BtnRouteWise)
         Me.gbDocStatus.Controls.Add(Me.BtnBoothDetail)
         Me.gbDocStatus.Controls.Add(Me.BtnDateGroupWise)
         Me.gbDocStatus.Controls.Add(Me.BtnDateWise)
         Me.gbDocStatus.HeaderText = "Date"
-        Me.gbDocStatus.Location = New System.Drawing.Point(16, 81)
+        Me.gbDocStatus.Location = New System.Drawing.Point(16, 118)
         Me.gbDocStatus.Name = "gbDocStatus"
         Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbDocStatus.Size = New System.Drawing.Size(310, 52)
+        Me.gbDocStatus.Size = New System.Drawing.Size(310, 95)
         Me.gbDocStatus.TabIndex = 443
         Me.gbDocStatus.Text = "Date"
         '
+        'BtnRouteGroupWise
+        '
+        Me.BtnRouteGroupWise.Location = New System.Drawing.Point(107, 64)
+        Me.BtnRouteGroupWise.MyLinkLable1 = Nothing
+        Me.BtnRouteGroupWise.MyLinkLable2 = Nothing
+        Me.BtnRouteGroupWise.Name = "BtnRouteGroupWise"
+        Me.BtnRouteGroupWise.Size = New System.Drawing.Size(111, 18)
+        Me.BtnRouteGroupWise.TabIndex = 399
+        Me.BtnRouteGroupWise.TabStop = False
+        Me.BtnRouteGroupWise.Text = "Route Group Wise"
+        '
+        'BtnRouteWise
+        '
+        Me.BtnRouteWise.Location = New System.Drawing.Point(23, 64)
+        Me.BtnRouteWise.MyLinkLable1 = Nothing
+        Me.BtnRouteWise.MyLinkLable2 = Nothing
+        Me.BtnRouteWise.Name = "BtnRouteWise"
+        Me.BtnRouteWise.Size = New System.Drawing.Size(78, 18)
+        Me.BtnRouteWise.TabIndex = 398
+        Me.BtnRouteWise.TabStop = False
+        Me.BtnRouteWise.Text = "Route-Wise"
+        '
         'BtnBoothDetail
         '
-        Me.BtnBoothDetail.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BtnBoothDetail.Location = New System.Drawing.Point(218, 23)
         Me.BtnBoothDetail.MyLinkLable1 = Nothing
         Me.BtnBoothDetail.MyLinkLable2 = Nothing
         Me.BtnBoothDetail.Name = "BtnBoothDetail"
         Me.BtnBoothDetail.Size = New System.Drawing.Size(82, 18)
         Me.BtnBoothDetail.TabIndex = 397
+        Me.BtnBoothDetail.TabStop = False
         Me.BtnBoothDetail.Text = "Booth Detail"
-        Me.BtnBoothDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'BtnDateGroupWise
         '
-        Me.BtnDateGroupWise.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BtnDateGroupWise.Location = New System.Drawing.Point(103, 23)
         Me.BtnDateGroupWise.MyLinkLable1 = Nothing
         Me.BtnDateGroupWise.MyLinkLable2 = Nothing
         Me.BtnDateGroupWise.Name = "BtnDateGroupWise"
-        Me.BtnDateGroupWise.Size = New System.Drawing.Size(107, 18)
+        Me.BtnDateGroupWise.Size = New System.Drawing.Size(113, 18)
         Me.BtnDateGroupWise.TabIndex = 391
-        Me.BtnDateGroupWise.Text = "Date Group-Wise"
-        Me.BtnDateGroupWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.BtnDateGroupWise.TabStop = False
+        Me.BtnDateGroupWise.Text = "Booth Group-Wise"
         '
         'BtnDateWise
         '
+        Me.BtnDateWise.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BtnDateWise.Location = New System.Drawing.Point(23, 23)
         Me.BtnDateWise.MyLinkLable1 = Nothing
         Me.BtnDateWise.MyLinkLable2 = Nothing
         Me.BtnDateWise.Name = "BtnDateWise"
         Me.BtnDateWise.Size = New System.Drawing.Size(72, 18)
         Me.BtnDateWise.TabIndex = 396
-        Me.BtnDateWise.TabStop = False
         Me.BtnDateWise.Text = "Date-Wise"
+        Me.BtnDateWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox4
         '
@@ -230,25 +287,8 @@ Partial Class FrmBoothCountReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1023, 380)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(672, 305)
         Me.RadPageViewPage2.Text = "Report"
-        '
-        'gvData
-        '
-        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvData.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gvData.MyStopExport = False
-        Me.gvData.Name = "gvData"
-        Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(1023, 380)
-        Me.gvData.TabIndex = 0
-        Me.gvData.VarID = ""
         '
         'btnClose
         '
@@ -299,6 +339,23 @@ Partial Class FrmBoothCountReport
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
+        'gvData
+        '
+        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvData.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyStopExport = False
+        Me.gvData.Name = "gvData"
+        Me.gvData.ShowHeaderCellButtons = True
+        Me.gvData.Size = New System.Drawing.Size(672, 305)
+        Me.gvData.TabIndex = 1
+        Me.gvData.VarID = ""
+        '
         'FrmBoothCountReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -317,9 +374,13 @@ Partial Class FrmBoothCountReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.LblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDocStatus.ResumeLayout(False)
         Me.gbDocStatus.PerformLayout()
+        CType(Me.BtnRouteGroupWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBoothDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnDateGroupWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
@@ -331,12 +392,12 @@ Partial Class FrmBoothCountReport
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -360,7 +421,11 @@ Partial Class FrmBoothCountReport
     Friend WithEvents txtToDate As RadDateTimePicker
     Friend WithEvents txtfDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gvData As common.UserControls.MyRadGridView
     Friend WithEvents BtnBoothDetail As common.Controls.MyRadioButton
+    Friend WithEvents BtnRouteGroupWise As common.Controls.MyRadioButton
+    Friend WithEvents BtnRouteWise As common.Controls.MyRadioButton
+    Friend WithEvents LblRoute As common.Controls.MyLabel
+    Friend WithEvents TxtMultiRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents gvData As common.UserControls.MyRadGridView
 End Class
 
