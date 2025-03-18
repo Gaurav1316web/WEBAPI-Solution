@@ -55,6 +55,7 @@ Public Class clsLocation
     Public State As String = ""
     Public Pin_Code As String = ""
     Public Country As String = ""
+    Public IsEinvoice As Double = 0
     Public Telphone As String = ""
     Public Email As String = ""
     Public Location_Type As String = ""
@@ -364,6 +365,7 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "State", obj.State)
             clsCommon.AddColumnsForChange(coll, "Pin_Code", obj.Pin_Code)
             clsCommon.AddColumnsForChange(coll, "Country", obj.Country)
+            clsCommon.AddColumnsForChange(coll, "IsEinvoice", obj.IsEinvoice)
             clsCommon.AddColumnsForChange(coll, "Telphone", obj.Telphone)
             clsCommon.AddColumnsForChange(coll, "Email", obj.Email)
             clsCommon.AddColumnsForChange(coll, "Location_Type", obj.Location_Type)

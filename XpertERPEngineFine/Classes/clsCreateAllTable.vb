@@ -14234,6 +14234,7 @@ Public Class clsCreateAllTable
             coll.Add("Manager_Destination", "Varchar(50) null")
             coll.Add("Remarks", "Varchar(100) null")
             coll.Add("Target", "decimal (18,2) NULL")
+            coll.Add("IsEinvoice", "integer null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 

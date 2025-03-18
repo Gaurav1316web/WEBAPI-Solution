@@ -1390,6 +1390,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSupplyCrate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptTrustReceiptMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptVendorServiceInvoice_RCDFCF.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\TransportGainLossSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\Address.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
