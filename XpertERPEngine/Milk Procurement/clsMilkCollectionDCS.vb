@@ -626,6 +626,10 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
+                                Dim ROIncreaseAfter As Integer = 6
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                    ROIncreaseAfter = 5
+                                End If
                                 If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
                                     qry = "select PK_Id,Qty,FATKG,SNFKG from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'  and VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by Shift desc,FATKG,SNFKG"
                                     Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -649,8 +653,8 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                                             Else
                                                 SNFKG = 0
                                             End If
-                                            FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, 6)
-                                            SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, 6)
+                                            FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                            SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
                                             FATKG = ((Qty * FAT) / 100)
                                             SNFKG = ((Qty * SNF) / 100)
                                         Else
