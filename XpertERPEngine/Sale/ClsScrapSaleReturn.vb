@@ -331,6 +331,7 @@ Public Class ClsScrapSaleHeadReturn
             End If
 
             isSaved = isSaved AndAlso ClsScrapSaleDetailReturn.SaveData(obj.Document_No, Arr1, trans, obj.shipment_Date, obj.Loc_Code, obj.strInvoiceNo)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SCRAPSALE_HEAD_Return", "Document_No", "TSPL_SCRAPSALE_DETAIL_Return", "Document_No", trans)
 
             'If (obj.CreateInvoice = 1) Then
             '    isSaved = isSaved AndAlso scrapinvoicehead.SaveDatainvoiceReturn(obj.Document_No, strScrapSaleInvoiceNo, trans, obj.Invoice_Type, Arr1)
@@ -1307,6 +1308,8 @@ left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =tspl_scrapsale_head_re
                 If (obj.ispost = 1) Then
                     Throw New Exception("Already Posted on :" + obj.posting_Date)
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SCRAPSALE_HEAD_Return", "Document_No", "TSPL_SCRAPSALE_DETAIL_RETURN", "Document_No", trans)
+
                 HistoryUpdate(strCode, trans)
                 Dim qry As String = "delete from TSPL_SCRAPSALE_DETAIL_RETURN where Document_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
