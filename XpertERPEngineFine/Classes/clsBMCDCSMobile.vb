@@ -263,10 +263,14 @@ where TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + MCC_Code + "' and convert(da
                     Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(strQry)
                     If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
                         Obj_DCS.Qty = clsCommon.myCDecimal(dtTemp.Rows(0)("Qty"))
-                        Obj_DCS.FAT = clsCommon.myCDecimal(dtTemp.Rows(0)("FAT"))
-                        Obj_DCS.SNF = clsCommon.myCDecimal(dtTemp.Rows(0)("SNF"))
-                        Obj_DCS.FATKG = clsCommon.myCDecimal(dtTemp.Rows(0)("FATKG"))
-                        Obj_DCS.SNFKG = clsCommon.myCDecimal(dtTemp.Rows(0)("SNFKG"))
+                        'Obj_DCS.FAT = clsCommon.myCDecimal(dtTemp.Rows(0)("FAT"))
+                        'Obj_DCS.SNF = clsCommon.myCDecimal(dtTemp.Rows(0)("SNF"))
+                        'Obj_DCS.FATKG = clsCommon.myCDecimal(dtTemp.Rows(0)("FATKG"))
+                        'Obj_DCS.SNFKG = clsCommon.myCDecimal(dtTemp.Rows(0)("SNFKG"))
+                        Obj_DCS.FAT = Math.Floor(clsCommon.myCDecimal(dtTemp.Rows(0)("FAT")) * 10) / 10
+                        Obj_DCS.SNF = Math.Floor(clsCommon.myCDecimal(dtTemp.Rows(0)("SNF")) * 10) / 10
+                        Obj_DCS.FATKG = Obj_DCS.Qty * Obj_DCS.FAT / 100
+                        Obj_DCS.SNFKG = Obj_DCS.Qty * Obj_DCS.SNF / 100
                         flag = False
                     End If
                 End If

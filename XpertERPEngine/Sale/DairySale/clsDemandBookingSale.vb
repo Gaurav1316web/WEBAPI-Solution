@@ -781,6 +781,59 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
         End If
         Return obj
     End Function
+    Public Shared Function DeleteDataFromUtility(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = False
+
+        Try
+            Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current, trans)
+
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
+                Try
+                    Dim qry As String = "select * from  TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    Dim obj1 As List(Of clsDemandBookingSaleDetail) = New List(Of clsDemandBookingSaleDetail)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            Dim objtr As clsDemandBookingSaleDetail = New clsDemandBookingSaleDetail()
+                            objtr.Cust_Code = clsCommon.myCstr(dr("cust_code"))
+                            objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                            objtr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
+                            objtr.Price_Code = clsCommon.myCstr(dr("Price_Code"))
+                            objtr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
+                            objtr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                            objtr.Qty = 0
+                            objtr.ItemNetAmount = 0
+                            objtr.Line_No = clsCommon.myCdbl(dr("Line_No"))
+                            objtr.Is_Posted = clsCommon.myCstr(dr("Is_Posted"))
+                            objtr.TAX_Group = clsCommon.myCstr(dr("TAX_Group"))
+                            objtr.ShiftType = clsCommon.myCstr(dr("ShiftType"))
+                            obj1.Add(objtr)
+                        Next
+                        qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
+                        isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, obj.ShiftType, False, False, obj.Route_No)
+                        SaveDemandHistoryData(obj, obj1, "Deleted From Utility", "ERP", objCommonVar.CurrentUserCode, trans)
+
+
+                    End If
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                    qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"
+                    isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                    qry = "delete from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + strCode + "'"
+                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
+                Catch ex As Exception
+
+                    Throw New Exception(ex.Message)
+                End Try
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return isSaved
+    End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim isSaved As Boolean = False
         If (clsCommon.myLen(strCode) <= 0) Then
