@@ -55,6 +55,7 @@ Public Class clsLocation
     Public State As String = ""
     Public Pin_Code As String = ""
     Public Country As String = ""
+    Public IsEinvoice As Double = 0
     Public Telphone As String = ""
     Public Email As String = ""
     Public Location_Type As String = ""
@@ -364,6 +365,7 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "State", obj.State)
             clsCommon.AddColumnsForChange(coll, "Pin_Code", obj.Pin_Code)
             clsCommon.AddColumnsForChange(coll, "Country", obj.Country)
+            clsCommon.AddColumnsForChange(coll, "IsEinvoice", obj.IsEinvoice)
             clsCommon.AddColumnsForChange(coll, "Telphone", obj.Telphone)
             clsCommon.AddColumnsForChange(coll, "Email", obj.Email)
             clsCommon.AddColumnsForChange(coll, "Location_Type", obj.Location_Type)
@@ -496,6 +498,8 @@ Public Class clsLocation
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOCATION_MASTER ", OMInsertOrUpdate.Update, " Location_Code='" + obj.Location_Code + "'", trans)
             End If
+            Qry = "update TSPL_LOCATION_MASTER set IsEinvoice=0 where Location_Code not in('" + obj.Location_Code + "')"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             If Not isImport Then
                 isSaved = isSaved AndAlso clsLocationWiseTax.SaveData(obj.Location_Code, obj.Arr, trans)
                 isSaved = isSaved AndAlso clsLocationWiseItems.SaveData(obj.Location_Code, obj.ArrItem, trans)

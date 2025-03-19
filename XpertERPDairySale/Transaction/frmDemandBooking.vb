@@ -13,6 +13,7 @@ Public Class frmDemandBooking
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
+    Dim ApplyItemCapacityLimit As Boolean = False
     Dim isDepartmentRoute As Boolean = False
     Dim isDepartmentRouteSetting As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
@@ -121,6 +122,7 @@ Public Class frmDemandBooking
             AllowMultipleUOMForProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, Nothing)) = 1, True, False)
             SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
             ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+            ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
             CrateHisTable()
             AddNew()
             SetUserMgmtNew()
@@ -2683,6 +2685,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
             Dim colTotalQty As Double = 0
+            Dim status As Boolean = False
             For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
                 TotalCrate = 0
@@ -2720,6 +2723,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                 gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                                                 Throw New Exception("Should be in multiple of 0.5")
                                             End If
+                                        End If
+                                    End If
+                                    If ApplyItemCapacityLimit Then
+                                        status = CheckItemCapacityLimit(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(obj1.Unit_code), cellValue, dblrows, dblcolumns)
+                                        If Not status Then
+                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                                         End If
                                     End If
                                     TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
@@ -2765,6 +2774,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                             End If
 
 
+                                        End If
+                                        If ApplyItemCapacityLimit Then
+                                            status = CheckItemCapacityLimit(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(obj1.Unit_code), cellValue, dblrows, dblcolumns)
+                                            If Not status Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                            End If
                                         End If
                                         If isDepartmentRoute Then
                                             If ApplyDepartmentRoute Then
@@ -2843,6 +2858,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                     'End If
                                                 End If
                                             End If
+                                            If ApplyItemCapacityLimit Then
+                                                status = CheckItemCapacityLimit(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(obj1.Unit_code), clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value), dblrows, dblcolumns)
+                                                If Not status Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                End If
+                                            End If
                                             dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
                                             'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
                                         End If
@@ -2883,6 +2904,44 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Function CheckItemCapacityLimit(ByVal strItemCode As String, ByVal strUOM As String, ByVal qty As String, ByVal dblrows As Integer, ByVal dblcolumns As Integer) As Boolean
+        Dim status As Boolean = False
+        Try
+            Dim strQry As String = "select TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code,TSPL_ITEM_CAPACITY_LIMIT_DETAIL.UOM,TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Qty  from TSPL_ITEM_CAPACITY_LIMIT_HEAD
+left join TSPL_ITEM_CAPACITY_LIMIT_DETAIL on TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No=TSPL_ITEM_CAPACITY_LIMIT_head.Document_No
+                where TSPL_ITEM_CAPACITY_LIMIT_HEAD.Posted=1 and TSPL_ITEM_CAPACITY_LIMIT_HEAD.Document_No in(
+select top 1 TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No from TSPL_ITEM_CAPACITY_LIMIT_HEAD
+left join TSPL_ITEM_CAPACITY_LIMIT_DETAIL on TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Document_No=TSPL_ITEM_CAPACITY_LIMIT_head.Document_No
+where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code='" + strItemCode + "'  and 2=(Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date is null then 2 else (Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by From_Date desc)
+ and TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_ITEM_CAPACITY_LIMIT_DETAIL.Item_Code='" + strItemCode + "' and 2=(Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date is null then 2 else (Case when TSPL_ITEM_CAPACITY_LIMIT_head.To_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(dt.Rows(0)("UOM")) & "'"))
+                Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(strUOM) & "' "))
+                Dim ItemLimitCF As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(dt.Rows(0)("UOM")) & "' "))
+                Dim ItemLimitCFPouch As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
+                Dim cellValue As String = clsCommon.myCstr(qty)
+                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                    Dim DispatchQty As Decimal = (clsCommon.myCdbl(qty) * ItemConvFactor) / ItemLimitCF
+                    If DispatchQty > clsCommon.myCdbl(dt.Rows(0)("Qty")) Then
+                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                        Throw New Exception("The maximum allowed quantity for this item is [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("Qty")) / (ItemConvFactor / ItemLimitCF)) + " ] ." & Environment.NewLine & " Please reduce the quantity To [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("Qty")) / (ItemConvFactor / ItemLimitCF)) + "] Or less To proceed.")
+                    Else
+                        status = True
+                    End If
+                End If
+            Else
+                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                Throw New Exception("Capacity Limit Not found For [ " + strItemCode + " ]")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return status
+    End Function
     Private Sub UpdateColumnTotal()
         Try
             Dim TotalQty As Double = 0
@@ -2913,8 +2972,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     End Sub
     Private Sub txtVehicleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleNo._MYValidating
         Dim whrcls As String = ""
-        Dim qry As String = "Select vehicle_id,Description ,route_no as 'Route No',route_desc as 'Route Name'  from TSPL_VEHICLE_MASTER left join tspl_route_master on tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id "
-        If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
+        Dim qry As String = "Select vehicle_id, Description, route_no as 'Route No',route_desc as 'Route Name'  from TSPL_VEHICLE_MASTER left join tspl_route_master on tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id "
+                        If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
             whrcls = " tspl_route_master.route_no ='" & txtRouteNo.Value & "' "
         End If
         txtVehicleNo.Value = clsCommon.ShowSelectForm("DBookingVehicle", qry, "vehicle_id", whrcls, txtVehicleNo.Value, "vehicle_id", isButtonClicked)

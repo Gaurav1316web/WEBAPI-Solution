@@ -24812,245 +24812,9 @@ Recreate:
         End Try
     End Sub
 
-    Private Sub RadButton311_Click(sender As Object, e As EventArgs) Handles RadButton311.Click
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DocumentNo", "varchar(30) null")
-        clsCommonFunctionality.CreateOrAlterTable("TEMP_CREATED_Booking", coll)
 
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DocumentNo", "varchar(30) null")
-        clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETED_Booking", coll)
 
-        clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATED_Booking")
-        clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking")
-    End Sub
 
-    Private Sub RadButton312_Click(sender As Object, e As EventArgs) Handles RadButton312.Click
-        Try
-
-            Dim qry As String = "select distinct TSPL_BOOKING_DETAIL.Document_No,convert(varchar,tspl_booking_matser.document_date,103) as document_date ,TSPL_BOOKING_DETAIL.Delivery_No,TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code,isnull(TSPL_CUSTOMER_MASTER.customer_category,'') as CustomerCategory,tspl_booking_matser.againstgatepass    from tspl_booking_matser
-left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.document_no=tspl_booking_matser.document_no
-left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no=TSPL_BOOKING_DETAIL.Delivery_No 
-left outer join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.cust_code
-where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.Posted=1
-and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL_SD_SHIPMENT_DETAIL.Delivery_Code  from TSPL_SD_SHIPMENT_DETAIL where isnull(TSPL_SD_SHIPMENT_DETAIL.delivery_code,'')<>'' )"
-
-            If clsCommon.CompairString(cmbDepartment.Text, "LMS") = CompairStringResult.Equal Then
-                qry += " and isnull(TSPL_CUSTOMER_MASTER.customer_category,'') not in ('Others','') "
-            ElseIf clsCommon.CompairString(cmbDepartment.Text, "Marketing") = CompairStringResult.Equal Then
-                qry += " and isnull(TSPL_CUSTOMER_MASTER.customer_category,'') in ('Others','')  "
-            End If
-            If chkAgainstGatePass.Checked = True Then
-                qry += " and tspl_booking_matser.againstgatepass=1 "
-            Else
-                qry += " and tspl_booking_matser.againstgatepass=0 "
-            End If
-
-            Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BookingUtiDel", qry, "Document_No", "", Nothing, Nothing)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking")
-                qry = "insert into TEMP_DELETED_Booking "
-                qry += "select Document_No from tspl_booking_matser where Document_No in(" + clsCommon.GetMulcallString(arr) + ") and tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.Posted=1"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RadButton313_Click(sender As Object, e As EventArgs) Handles RadButton313.Click
-        Dim qry As String = ""
-        Dim dt As New DataTable()
-        Try
-            Dim flag As Boolean = False
-            qry = "select * from TEMP_DELETED_Booking where DocumentNo not in (select DocumentNo from TEMP_CREATED_Booking)"
-            dt = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(qry)
-            Dim strErro As String = ""
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Booking of " + clsCommon.myCstr(dt.Rows.Count) + " Booking.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    clsCommon.ProgressBarPercentShow()
-                    For ii As Integer = 0 To dt.Rows.Count - 1
-                        Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
-                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                        Try
-                            clsBookingEntryDairySale.ReverseAndUnpost(strDocNo, trans)
-                            clsBookingEntryDairySale.DeleteData(strDocNo, trans)
-                            trans.Commit()
-                        Catch ex As Exception
-                            trans.Rollback()
-                            strErro += "Booking No - " + strDocNo + " Exception -" + ex.Message + Environment.NewLine
-                        End Try
-                        clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, "Delete Booking " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
-                    Next
-
-                    clsCommon.ProgressBarPercentHide()
-                    If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
-                    Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
-                    End If
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RadButton310_Click(sender As Object, e As EventArgs) Handles RadButton310.Click
-        Dim gv As New RadGridView()
-        Me.Controls.Add(gv)
-        Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "DocumentNo") Then
-            Try
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking")
-            Catch ex As Exception
-            End Try
-            Try
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATED_Booking")
-            Catch ex As Exception
-            End Try
-            Dim trans As SqlTransaction = Nothing
-            Try
-                trans = clsDBFuncationality.GetTransactin()
-                clsCommon.ProgressBarShow()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim strDocNo As String = clsCommon.myCstr(grow.Cells(0).Value)
-                    If clsCommon.myLen(strDocNo) > 0 Then
-                        Dim Qry As String = "INSERT Into TEMP_DELETED_Booking (DocumentNo) values('" + strDocNo + "')"
-                        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                    End If
-                Next
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                trans.Rollback()
-                clsCommon.ProgressBarHide()
-                myMessages.myExceptions(ex)
-            Finally
-                Me.Controls.Remove(gv)
-            End Try
-        End If
-    End Sub
-
-    Private Sub RadButton315_Click(sender As Object, e As EventArgs) Handles RadButton315.Click
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DocumentNo", "varchar(30) null")
-        clsCommonFunctionality.CreateOrAlterTable("TEMP_CREATED_Booking_CD", coll)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DocumentNo", "varchar(30) null")
-        clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETED_Booking_CD", coll)
-
-        clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATED_Booking_CD")
-        clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking_CD")
-    End Sub
-
-    Private Sub RadButton316_Click(sender As Object, e As EventArgs) Handles RadButton316.Click
-        Try
-            Dim qry As String = "select distinct TSPL_BOOKING_DETAIL.Document_No,convert(varchar,tspl_booking_matser.document_date,103) as document_date ,TSPL_BOOKING_DETAIL.Delivery_No,TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code,isnull(TSPL_CUSTOMER_MASTER.customer_category,'') customerCategory    from tspl_booking_matser
-left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.document_no=tspl_booking_matser.document_no
-left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no=TSPL_BOOKING_DETAIL.Delivery_No 
-left outer join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.cust_code
-where tspl_booking_matser.From_Screen_Code='BOOK-DS_FSH' and tspl_booking_matser.Posted=1
-and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL_SD_SHIPMENT_DETAIL.Delivery_Code  from TSPL_SD_SHIPMENT_DETAIL where isnull(TSPL_SD_SHIPMENT_DETAIL.delivery_code,'')<>'' )"
-
-            If clsCommon.CompairString(cmbDEpt.Text, "LMS") = CompairStringResult.Equal Then
-                qry += " and isnull(TSPL_CUSTOMER_MASTER.customer_category,'') not in ('Others','') "
-            ElseIf clsCommon.CompairString(cmbDEpt.Text, "Marketing") = CompairStringResult.Equal Then
-                qry += " and isnull(TSPL_CUSTOMER_MASTER.customer_category,'') in ('Others','')  "
-            End If
-
-            Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BookingUtiDel", qry, "Document_No", "", Nothing, Nothing)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking_CD")
-                qry = "insert into TEMP_DELETED_Booking_CD "
-                qry += "select Document_No from tspl_booking_matser where Document_No in(" + clsCommon.GetMulcallString(arr) + ") and tspl_booking_matser.From_Screen_Code='BOOK-DS_FSH' and tspl_booking_matser.Posted=1"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RadButton317_Click(sender As Object, e As EventArgs) Handles RadButton317.Click
-        Dim qry As String = ""
-        Dim dt As New DataTable()
-        Try
-            Dim flag As Boolean = False
-            qry = "select * from TEMP_DELETED_Booking_CD where DocumentNo not in (select DocumentNo from TEMP_CREATED_Booking_CD)"
-            dt = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(qry)
-            Dim strErro As String = ""
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Card Sale Booking of " + clsCommon.myCstr(dt.Rows.Count) + " Booking.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    clsCommon.ProgressBarPercentShow()
-                    For ii As Integer = 0 To dt.Rows.Count - 1
-                        Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
-                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                        Try
-                            clsBookingEntryDairySale.ReverseAndUnpost(strDocNo, trans)
-                            clsBookingEntryDairySale.DeleteData(strDocNo, trans)
-                            trans.Commit()
-                        Catch ex As Exception
-                            trans.Rollback()
-                            strErro += "Booking No - " + strDocNo + " Exception -" + ex.Message + Environment.NewLine
-                        End Try
-                        clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, "Delete Card Sale Booking " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
-                    Next
-
-                    clsCommon.ProgressBarPercentHide()
-                    If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
-                    Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
-                    End If
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RadButton314_Click(sender As Object, e As EventArgs) Handles RadButton314.Click
-        Dim gv As New RadGridView()
-        Me.Controls.Add(gv)
-        Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "DocumentNo") Then
-            Try
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_Booking_CD")
-            Catch ex As Exception
-            End Try
-            Try
-                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATED_Booking_CD")
-            Catch ex As Exception
-            End Try
-            Dim trans As SqlTransaction = Nothing
-            Try
-                trans = clsDBFuncationality.GetTransactin()
-                clsCommon.ProgressBarShow()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim strDocNo As String = clsCommon.myCstr(grow.Cells(0).Value)
-                    If clsCommon.myLen(strDocNo) > 0 Then
-                        Dim Qry As String = "INSERT Into TEMP_DELETED_Booking_CD (DocumentNo) values('" + strDocNo + "')"
-                        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                    End If
-                Next
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                trans.Rollback()
-                clsCommon.ProgressBarHide()
-                myMessages.myExceptions(ex)
-            Finally
-                Me.Controls.Remove(gv)
-            End Try
-        End If
-    End Sub
 
     Private Sub RadButton319_Click(sender As Object, e As EventArgs) Handles RadButton319.Click
         Dim coll As Dictionary(Of String, String)
@@ -26731,5 +26495,158 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         'End If
 
 
+    End Sub
+
+
+
+    Private Sub btnCancelBookingDoc_Click(sender As Object, e As EventArgs) Handles btnCancelBookingDoc.Click
+        Try
+
+            Dim Qry As String = "select TSPL_BOOKING_MATSER.Document_No as Booking_no,TSPL_SD_SHIPMENT_HEAD.Document_Code as Shipment_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_no,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as Invoice_Date,TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Invoice_Type,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Distributor_Code,TSPL_CUSTOMER_MASTER.Customer_Name as Distributor_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code from TSPL_BOOKING_MATSER
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code= TSPL_SD_SHIPMENT_HEAD.Customer_Code
+where TSPL_SD_SHIPMENT_HEAD.Against_Booking_No is not null 
+and TSPL_SD_SALE_INVOICE_HEAD.IRN_No is null"
+            If isPosted.Checked Then
+                Qry += " and TSPL_SD_SHIPMENT_HEAD.Status=1 "
+            End If
+
+            Dim arr As ArrayList = Nothing
+            If chkExceptDoc.Checked Then
+                arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Shipment_No", "", Nothing, Nothing)
+            Else
+                arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Booking_no", "", Nothing, Nothing)
+
+            End If
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                If common.clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    Try
+                        For Each docno As String In arr
+                            Qry = "select GPCode as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code"
+                            If chkExceptDoc.Checked Then
+                                Qry += " ='" + docno + "')"
+                            Else
+                                Qry += "  in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'))"
+                            End If
+                            Dim GPCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
+                            Qry = "delete TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code"
+                            If chkExceptDoc.Checked Then
+                                Qry += " ='" + docno + "')"
+                            Else
+                                Qry += "  in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'))"
+                            End If
+                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
+
+                            'clsGatePassDairySale.DeleteData(GPCode, trans)
+                            If chkExceptDoc.Checked Then
+                                Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'", trans))
+                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans)
+
+                            Else
+                                clsBookingEntryDairySale.CancelData(Me.Form_ID, docno, NavigatorType.Current, trans)
+                            End If
+                        Next
+                        trans.Commit()
+                        clsCommon.ProgressBarHide()
+                        clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
+                    Catch ex As Exception
+                        trans.Rollback()
+                        clsCommon.ProgressBarHide()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+
+
+                'clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_DAIRYSALE_FULL")
+                'QryInsert = "insert into TEMP_DELETED_DAIRYSALE_FULL "
+                'QryInsert += "select ShipmentNo,InvoiceNo from (" & Qry & " and TSPL_SD_SHIPMENT_HEAD.Document_Code in(" + clsCommon.GetMulcallString(arr) & ")) Rev"
+                'clsDBFuncationality.ExecuteNonQuery(QryInsert)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnCancelDemandDoc_Click(sender As Object, e As EventArgs) Handles btnCancelDemandDoc.Click
+        Try
+            Dim Qry As String = "Select  distinct TSPL_DEMAND_BOOKING_MASTER.Document_No As Demand_Doc_no, TSPL_SD_SHIPMENT_HEAD.Document_Code As Shipment_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Code As Invoice_no,TSPL_SD_SALE_INVOICE_HEAD.Document_Date As Invoice_Date,TSPL_SD_SHIPMENT_HEAD.DO_Item_Type As Invoice_Type,TSPL_SD_SHIPMENT_HEAD.Customer_Code As Distributor_Code,TSPL_CUSTOMER_MASTER.Customer_Name As Distributor_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code from TSPL_DEMAND_BOOKING_MASTER
+Left Join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
+Left Join TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_DEMAND_BOOKING_DETAIL.TR_Code
+Left Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE
+Left Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code
+Left Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code= TSPL_SD_SHIPMENT_HEAD.Customer_Code
+where TSPL_SD_SHIPMENT_HEAD.Against_Booking_No Is null 
+And TSPL_SD_SALE_INVOICE_HEAD.IRN_No Is null"
+            If isPosted.Checked Then
+                Qry += " and TSPL_SD_SHIPMENT_HEAD.Status=1 "
+            End If
+            Dim arr As ArrayList = Nothing
+            If chkExceptDoc.Checked Then
+                arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Shipment_No", "", Nothing, Nothing)
+            Else
+                arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Demand_Doc_no", "", Nothing, Nothing)
+
+            End If
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                If common.clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    Try
+                        For Each docno As String In arr
+                            Qry = "select distinct GPCode as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code"
+                            If chkExceptDoc.Checked Then
+                                Qry += " ='" + docno + "')"
+                            Else
+                                Qry += "  in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "')))"
+                            End If
+                            Dim GPCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
+                            Qry = "delete TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where PK_ID in(select PK_ID from TSPL_SD_SHIPMENT_HEAD left join tspl_sd_shipment_detail on tspl_sd_shipment_detail.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.ParentDocNo "
+                            If chkExceptDoc.Checked Then
+                                Qry += " ='" + docno + "')"
+                            Else
+                                Qry += " in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "')))"
+                            End If
+                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
+
+                            'clsGatePassDairySale.DeleteData(GPCode, trans)
+                            If chkExceptDoc.Checked Then
+                                Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'", trans))
+                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans)
+                            Else
+                                Qry = " select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "'))"
+                                'Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "'))", trans))
+                                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+                                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                                    clsPSShipmentHead.CancelData(Me.Form_ID, clsCommon.myCstr(dt1.Rows(0)("ParentDocNo")), "", NavigatorType.Current, trans)
+
+                                End If
+
+                                clsDemandBookingSale.DeleteDataFromUtility(docno, trans)
+                            End If
+                        Next
+                        trans.Commit()
+                        clsCommon.ProgressBarHide()
+                        clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
+                    Catch ex As Exception
+                        trans.Rollback()
+                        clsCommon.ProgressBarHide()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+
+
+                'clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_DAIRYSALE_FULL")
+                'QryInsert = "insert into TEMP_DELETED_DAIRYSALE_FULL "
+                'QryInsert += "select ShipmentNo,InvoiceNo from (" & Qry & " and TSPL_SD_SHIPMENT_HEAD.Document_Code in(" + clsCommon.GetMulcallString(arr) & ")) Rev"
+                'clsDBFuncationality.ExecuteNonQuery(QryInsert)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

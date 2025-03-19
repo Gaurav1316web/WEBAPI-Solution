@@ -209,7 +209,9 @@ Public Class rptMccMasterDetail
                               left outer join TSPL_DISTRICT_MASTER on TSPL_DISTRICT_MASTER.Code = TSPL_VENDOR_MASTER.DISTRICT_Code
                               left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code
 							  left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No
-                              left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code"
+                              left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code
+                              and TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE=TSPL_HEAD_LOAD_DCS.VLC_CODE
+							  and TSPL_HEAD_LOAD_DCS.Document_No<>'Default'"
                     'left outer join TSPL_VLC_MASTER_HEAD on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCCOwnBMC"
                 End If
                 If clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then

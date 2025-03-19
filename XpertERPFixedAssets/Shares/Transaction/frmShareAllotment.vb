@@ -22,7 +22,7 @@ Public Class frmShareAllotment
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
         Try
-            Dim qry As String = "select TSPL_Share_Allotment.Code,  TSPL_Share_Allotment.IDate As Date, TSPL_Share_Allotment.Share_Code As [Share Code],TSPL_Share_Allotment.Name As [Share Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader Code],TSPL_Share_Allotment.Dcs_Code As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],TSPL_Share_Allotment.Status,TSPL_Share_Allotment.Remarks from TSPL_Share_Allotment Inner Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_Share_Allotment.DCS_Code "
+            Dim qry As String = "select TSPL_Share_Allotment.Code,  TSPL_Share_Allotment.IDate As Date, TSPL_Share_Allotment.Share_Code As [Share Code],TSPL_Share_Allotment.Name As [Share Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader Code],TSPL_Share_Allotment.Dcs_Code As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],TSPL_Share_Allotment.Status,TSPL_Share_Allotment.Remarks from TSPL_Share_Allotment LEFT OUTER Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_Share_Allotment.DCS_Code "
             LoadData(clsCommon.ShowSelectForm("@ShareAllot", qry, "Code", Nothing, txtCode.Value, Nothing, isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -349,7 +349,7 @@ TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'
             dt = clsDBFuncationality.GetDataTable(sqlqry)
             If dt.Rows.Count > 0 Then
                 Dim crysFrm As New frmCrystalReportViewer()
-                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "sharereport", "Share Report")
+                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
                 crysFrm = Nothing
             End If
         Catch ex As Exception

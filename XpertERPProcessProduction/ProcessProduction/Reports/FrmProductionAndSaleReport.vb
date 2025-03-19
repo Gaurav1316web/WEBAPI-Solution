@@ -217,14 +217,23 @@ Public Class FrmProductionAndSaleReport
                         FROM TSPL_LOCATION_MASTER 
 
                         Left outer join 
-						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
+						(select count (distinct TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
 						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
                         AND TSPL_SPP_PRODUCTION_ENTRY.Shift_Code in ('A-SHIFT','B-SHIFT','C-SHIFT') 
                            Group By LOCATION_CODE,CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                         LEFT OUTER JOIN"
+                If Productionchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty, "
+                ElseIf RePrdntchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) as Qty, "
+                ElseIf Prdncreallchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) as Qty, "
+                End If
+
+                query += "
+                        TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where  "
@@ -235,8 +244,18 @@ Public Class FrmProductionAndSaleReport
                 query += "  and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+
+                         LEFT OUTER JOIN "
+
+                If Productionchk.IsChecked = True Then
+                    query += " (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) As Qty, "
+                ElseIf RePrdntchk.IsChecked = True Then
+                    query += " (Select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As Qty, "
+                ElseIf Prdncreallchk.IsChecked = True Then
+                    query += " (Select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As Qty, "
+                End If
+                query += "
+                        TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where "
@@ -656,8 +675,12 @@ Public Class FrmProductionAndSaleReport
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
-
-                query = "select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
+                query = " SELECT * FROM (
+						SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  TSPL_LOCATION_MASTER.Silo_Capacity  Capacity
+                        FROM  TSPL_LOCATION_MASTER where Rejected_Type='N' ) AS XXXProduction
+                            PIVOT (    MAX(Capacity)     FOR Location_Code IN ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) ) AS zpivot "
+                query += " UNION ALL
+                        select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
                          from (select 'Production' as Production,TSPL_LOCATION_MASTER.Location_Code
                         ,isnull(CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
@@ -756,7 +779,7 @@ Public Class FrmProductionAndSaleReport
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
 
 
-                query = "select * from (" + query + ")final "
+                query = "select format(convert(date,'" + fromDate.Value + "',103), 'dd/MMM/yyyy') as Date,(format(convert(date,'" + ToDate.Value + "',103), 'dd/MMM/yyyy'))as Date1,* from (" + query + ")final "
 
                 'Dim queryBreakDownCode As String = "   select Production," + strMaxLocation + ",max('') as " + strMainLocation + "
                 '         from (select 'Breakdown Reason Code' as Production,TSPL_LOCATION_MASTER.Location_Code
@@ -783,7 +806,7 @@ Public Class FrmProductionAndSaleReport
 
 
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
-                If Print = True Then
+                If Print = True And rdbDaily.IsChecked = True Then
                     Gv1.Visible = True
                     Gv1.DataSource = dt2
                     Gv1.ReadOnly = True
@@ -796,6 +819,20 @@ Public Class FrmProductionAndSaleReport
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
+                    frmCRV = Nothing
+                ElseIf Print = True And rdbWeekly.IsChecked = True Then
+                    Gv1.Visible = True
+                    Gv1.DataSource = dt2
+                    Gv1.ReadOnly = True
+                    SetGridFormat(Gv1)
+                    ReStoreGridLayout()
+                    'If rdbWeekly.IsChecked = True Then
+                    '    View()
+                    'End If
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    EnableDisableCntrl(False)
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Weekly Production and Sale Report", "Weekly Production Sale Report")
                     frmCRV = Nothing
                 Else
                     Gv1.Visible = True
@@ -826,6 +863,7 @@ Public Class FrmProductionAndSaleReport
         RadGroupBox6.Enabled = val
         RadGroupBox1.Enabled = val
         RadGroupBox2.Enabled = val
+        RadGroupBox7.Enabled = val
     End Sub
 
     Sub SetGridFormat(ByRef Gv1 As RadGridView)
@@ -901,6 +939,21 @@ Public Class FrmProductionAndSaleReport
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
+            Gv1.Columns("Date").HeaderText = "From Date"
+            Gv1.Columns("Date").IsVisible = False
+            Gv1.Columns("Date1").HeaderText = "To Date"
+            Gv1.Columns("Date1").IsVisible = False
+            Gv1.Columns("Production").HeaderText = "Production"
+            Gv1.Columns("AJMR").HeaderText = "AJMR"
+            Gv1.Columns("BIKR").HeaderText = "BIKR"
+            Gv1.Columns("JODH").HeaderText = "JODH"
+            Gv1.Columns("KALR").HeaderText = "KALR"
+            Gv1.Columns("LAMB").HeaderText = "LAMB"
+            Gv1.Columns("NADB").HeaderText = "NADB"
+            Gv1.Columns("PALI").HeaderText = "PALI"
+            Gv1.Columns("RCDF").HeaderText = "RCDF"
+
+
             Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
             Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
 

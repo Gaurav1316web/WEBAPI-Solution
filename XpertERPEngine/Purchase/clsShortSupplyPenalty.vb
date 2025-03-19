@@ -328,6 +328,7 @@ where 2=2"
 
             Qry = "Update TSPL_SHORT_SUPPLY_PENALTY Set Status=0 Where Document_No='" + strDocCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocCode, "TSPL_SHORT_SUPPLY_PENALTY", "Document_No", trans)
 
             If clsCommon.myLen(PONumber) > 0 Then
                 Qry = "Select SUM(Item_Code)Item_Code,SUM(ItemStatus)ItemStatus from (

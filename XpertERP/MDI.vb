@@ -8264,8 +8264,16 @@ Public Class MDI
                         frm = New FrmBoothDemandReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.FrmBoothCountReport
+                        frm = New FrmBoothCountReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptDairyTruckSheetReport
                         frm = New rptDairyTruckSheetReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptDayWiseBoothDemand
+                        frm = New rptDayWiseBoothDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptSalesComparisonReport

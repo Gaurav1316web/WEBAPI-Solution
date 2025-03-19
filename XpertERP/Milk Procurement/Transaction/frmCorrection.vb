@@ -984,19 +984,42 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DO
 
     Private Sub txtDCSBMC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBMCBMC._MYValidating
         Try
-            If clsCommon.myLen(txtBMCRouteNo.Value) <= 0 Then
-                txtBMCRouteNo.Focus()
-                Throw New Exception("Please provide Route code ")
-            End If
-            Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
-            'If Not SettShowAllMCC Then
-            '    whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
+            'If clsCommon.myLen(txtBMCRouteNo.Value) <= 0 Then
+            '    txtBMCRouteNo.Focus()
+            '    Throw New Exception("Please provide Route code ")
             'End If
-            txtBMCBMC.Value = clsMccMaster.getFinderUploader(whr, txtBMCBMC.Value, isButtonClicked)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtBMCBMC.Value) + "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
+            ''If Not SettShowAllMCC Then
+            ''    whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
+            ''End If
+            'txtBMCBMC.Value = clsMccMaster.getFinderUploader(whr, txtBMCBMC.Value, isButtonClicked)
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtBMCBMC.Value) + "'")
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    txtBMCBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
+            '    lblBMCBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
+            'End If
+
+            Dim qry As String = "select * from (
+select max(MCC) as MCC,MCC_Code,max(MCC_NAME) as MCC_NAME,Route_Code from (
+select  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No,TSPL_MILK_COLLECTION_MCC.Trip_No
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+where  TSPL_MILK_COLLECTION_MCC.Status=1 and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtBMCDate.Value, "dd/MMM/yyyy") + "' 
+)xx group by MCC_Code,Route_Code 
+)xxx"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            txtBMCBMC.Value = clsCommon.ShowSelectFormFromDT("BMC@corf", dt, "MCC", txtBMCBMC.Value, isButtonClicked, "")
+            Dim dr As DataRow() = clsCommon.MyDTSelect(dt, "MCC='" + txtBMCBMC.Value + "'")
+            If dr IsNot Nothing AndAlso dr.Length > 0 Then
                 txtBMCBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
                 lblBMCBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
+                txtBMCRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+            Else
+                txtBMCBMC.Tag = ""
+                lblBMCBMC.Text = ""
+                txtBMCRouteNo.Value = ""
+                txtBMCBMC.Value = ""
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1035,9 +1058,15 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DO
                 Throw New Exception("Please enter BMC")
             End If
 
+            '            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+            ',TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_OR_Correction,
+            'TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR
+            'from TSPL_MILK_COLLECTION_MCC_DETAIL
+            'left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+            'left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
             Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
 ,TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_OR_Correction,
-TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR
+TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as [Gaze Qty],TSPL_MILK_COLLECTION_MCC.Trip_No as [TripNo],TSPL_MILK_COLLECTION_MCC.Route_Code as [Route],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MILK_COLLECTION_MCC.Vehicle_No as [Vehicle No],TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No]
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
@@ -1237,7 +1266,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 
-    
+
     Private Sub txtBMCTankerSNF_TextChanged(sender As Object, e As EventArgs) Handles txtBMCTankerSNF.TextChanged
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub

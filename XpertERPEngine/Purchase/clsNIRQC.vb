@@ -587,6 +587,8 @@ left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No whe
             End If
             qry = "update TSPL_NIR_QC set Status=0,Posted_Date=null,Posted_By=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

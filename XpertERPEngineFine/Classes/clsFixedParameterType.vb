@@ -1317,6 +1317,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDepartmentRoute = "Apply Department Route"
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
+    Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
 End Class
 Public Class clsFixedParameterCode
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
@@ -2780,7 +2781,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyDepartmentRoute = "Apply Department Route"
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
-
+    Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4409,6 +4410,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
 
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6246,5 +6248,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
         InsertDefaultValue("ASDS", clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, EnumControlType.NumericBox)
         InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, EnumControlType.CheckBox)
     End Sub
 End Class

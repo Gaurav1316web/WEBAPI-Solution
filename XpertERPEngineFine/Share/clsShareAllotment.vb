@@ -53,6 +53,7 @@ Public Class clsShareAllotment
                     Throw New Exception("Error in Code Generation")
                 End If
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
+
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHARE_ALLOTMENT", OMInsertOrUpdate.Insert, "", trans)
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHARE_ALLOTMENT", OMInsertOrUpdate.Update, "TSPL_SHARE_ALLOTMENT.Code='" + obj.Code + "'", trans)

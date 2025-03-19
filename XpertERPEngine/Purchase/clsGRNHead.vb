@@ -1850,6 +1850,7 @@ Public Class clsGRNHead
 
             qry = "update TSPL_GRN_HEAD set Status=0,Posting_Date=null where GRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GRN_HEAD", "GRN_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

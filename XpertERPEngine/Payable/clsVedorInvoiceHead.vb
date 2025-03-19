@@ -2216,7 +2216,7 @@ Public Class clsVedorInvoiceHead
             ''richa agarwal 31 Dec,2020 check eInvoice Implementation
             If clsCommon.myLen(clsCommon.myCstr(obj.Tax_Group)) > 0 Then
                 Dim isTaxTaxable As String = "N"
-                Dim LocationCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Loc_Segment_Code='" + obj.loc_code + "'", trans))
+                Dim LocationCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Loc_Segment_Code='" + obj.loc_code + "' and IsEinvoice=1", trans))
                 isTaxTaxable = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select 'Y' from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & obj.Tax_Group & "' and Is_Tax_Exempted =0 and Tax_Group_Type ='P'", trans))
                 ''If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Document_Type), "I") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
                 If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Invoice_Entry_Date, trans) = True Then
@@ -2247,7 +2247,7 @@ Public Class clsVedorInvoiceHead
                 from TSPL_VENDOR_Invoice_Head 
                 Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "' 
                 Left Outer Join TSPL_VENDOR_master on TSPL_VENDOR_master.Vendor_Code = TSPL_VENDOR_Invoice_Head.Vendor_Code
-                left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code = TSPL_VENDOR_Invoice_Head.Loc_code
+                left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code = TSPL_VENDOR_Invoice_Head.Loc_code and TSPL_LOCATION_MASTER.IsEinvoice=1
                 left outer join TSPL_VENDOR_Invoice_Detail on TSPL_VENDOR_Invoice_Detail.document_No = TSPL_VENDOR_Invoice_Head.document_No 
                 left outer join TSPL_ADDITIONAL_charges on TSPL_ADDITIONAL_charges.Code = TSPL_VENDOR_Invoice_Detail.AddChargeCode 
                 left outer join TSPL_STATE_MASTER as LOCATION_State_Master on LOCATION_State_Master.STATE_CODE = TSPL_LOCATION_MASTER.State 
