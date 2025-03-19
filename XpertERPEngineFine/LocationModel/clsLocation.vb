@@ -498,6 +498,8 @@ Public Class clsLocation
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOCATION_MASTER ", OMInsertOrUpdate.Update, " Location_Code='" + obj.Location_Code + "'", trans)
             End If
+            Qry = "update TSPL_LOCATION_MASTER set IsEinvoice=0 where Location_Code not in('" + obj.Location_Code + "')"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             If Not isImport Then
                 isSaved = isSaved AndAlso clsLocationWiseTax.SaveData(obj.Location_Code, obj.Arr, trans)
                 isSaved = isSaved AndAlso clsLocationWiseItems.SaveData(obj.Location_Code, obj.ArrItem, trans)
