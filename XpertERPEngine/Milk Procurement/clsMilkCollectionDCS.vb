@@ -523,6 +523,54 @@ where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.
 left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=xxx.FindCode"
         Return BaseQry
     End Function
+
+    Public Shared Function BookForSuspence(strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
+            Dim qry As String = ""
+            If obj.Status = ERPTransactionStatus.Approved Then
+                qry = "select TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE as PINo,TSPL_MILK_SRN_HEAD.DOC_CODE as SRNNo,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER
+from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail =TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_SRN_HEAD on (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No or TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)
+left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strCode + "' and ISNULL(TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence,0)=0 "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        If clsCommon.myLen(dr("PINo")) > 0 Then
+                            Throw New Exception("Milk Purchase invoice genereated [" + clsCommon.myCstr(dr("PINo")) + "]")
+                        End If
+                    Next
+                    Dim strSuspenceDCSCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 VLC_Code_VLC_Uploader from TSPL_VLC_MASTER_HEAD where IsSuspense=1", trans))
+                    If clsCommon.myLen(strSuspenceDCSCode) <= 0 Then
+                        Throw New Exception("Please Set Suspence DCS")
+                    End If
+
+                    For Each dr As DataRow In dt.Rows
+                        qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1,Suspence_VLC_Code=VLC_Code where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, trans, "")
+                    Next
+                Else
+                    Throw New Exception("No data found for Suspence DCS")
+                End If
+            Else
+                qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1 where Document_No='" + strCode + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            HistoryUpdate(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class clsMilkCollectionDCSDetail
