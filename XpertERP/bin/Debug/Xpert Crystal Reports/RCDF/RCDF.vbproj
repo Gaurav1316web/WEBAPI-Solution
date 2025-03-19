@@ -369,6 +369,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNGNEW.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR_PartyWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKRPrintDistribution.rpt" />
