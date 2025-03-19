@@ -446,12 +446,12 @@ and not exists (select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SH
     End Function
 
     Public Shared Function GetBaseQueryFATSNFGainLoss(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal arrMCC As ArrayList) As String
-        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
+        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,xxx.Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
 ,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
 ,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
 ,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt ,(FindCode) as FindCode
 from (
-select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
+select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
 from TSPL_OWN_BMC_GAIN_LOSS_RATE where max(Document_Date)>=TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date  and (2= case when TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date is null then 2 else case when max(Document_Date)<= TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc,TSPL_OWN_BMC_GAIN_LOSS_RATE.Code desc) as  FindCode
 from ( "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
@@ -491,7 +491,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL
             BaseQry += " )   xx group by MCC_Code,VDocument_Date  "
         Else
             BaseQry += "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
-,0 as DCSQty ,0 as DCSFATKG ,0 as DCSSNFKG
+,0 as DCSQty ,0 as DCSFATKG ,0 as DCSSNFKG,Mcc_Code_VLC_Uploader
 from   TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
@@ -501,7 +501,7 @@ where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.
             End If
             BaseQry += "  union all
 select Tab.PK_Id,null as MCC_Code,null as MCC_NAME,null as Document_Date,0 as MCCQty,0 as MCCFATKG,0 as MCCFAT,0 as MCCSNF,0 as MCCSNFKG
-,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty as DCSQty ,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as DCSFATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as DCSSNFKG
+,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty as DCSQty ,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as DCSFATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as DCSSNFKG,null as VLC_Code_VLC_Uploader
 from   TSPL_MILK_COLLECTION_DCS_DETAIL 
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
 inner join (
