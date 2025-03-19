@@ -449,8 +449,6 @@ Public Class frmCorrection
                     chkAddMissingSample.Checked = False
                 End If
             Else
-
-
                 Dim CorrTypeSRNQty As Boolean = True
                 Dim CorrTypeSRNFATSNF As Boolean = True
                 Dim CorrTypeSRNVLC As Boolean = True
