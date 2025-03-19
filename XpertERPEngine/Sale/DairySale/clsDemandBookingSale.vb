@@ -49,6 +49,47 @@ Public Class clsDemandBookingSale
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
             Dim qry As String = ""
+            If clsCommon.myLen(obj.Document_No) > 0 Then
+                Dim tempobj As New List(Of clsDemandBookingSaleDetail)
+                For Each items As clsDemandBookingSaleDetail In obj.Arr
+                    qry = "select Item_Code,tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='" + obj.ShiftType + "' and Cust_Code='" + items.Cust_Code + "'"
+                    Dim dtdetialold As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtdetialold IsNot Nothing AndAlso dtdetialold.Rows.Count > 0 Then
+                        For Each drDetail As DataRow In dtdetialold.Rows
+                            Dim targetItemCode As String = clsCommon.myCstr(drDetail("Item_Code"))
+                            'var Result = obj.Arr.Where(item >= item.Item_Code == targetItemCode).ToList();
+                            Dim Result = obj.Arr.Where(Function(item) item.Item_Code = targetItemCode).ToList()
+                            If Result Is Nothing OrElse Result.Count <= 0 Then
+                                qry = " select * from  TSPL_DEMAND_BOOKING_DETAIL where TR_Code= '" + clsCommon.myCstr(drDetail("tr_code")) + "'"
+                                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt1.Rows
+                                        Dim objtr As clsDemandBookingSaleDetail = New clsDemandBookingSaleDetail()
+                                        objtr.Cust_Code = clsCommon.myCstr(dr("cust_code"))
+                                        objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                                        objtr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
+                                        objtr.Price_Code = clsCommon.myCstr(dr("Price_Code"))
+                                        objtr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
+                                        objtr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                                        objtr.Qty = 0
+                                        objtr.ItemNetAmount = 0
+                                        objtr.Line_No = clsCommon.myCdbl(dr("Line_No"))
+                                        objtr.Is_Posted = clsCommon.myCstr(dr("Is_Posted"))
+                                        objtr.TAX_Group = clsCommon.myCstr(dr("TAX_Group"))
+                                        objtr.ShiftType = clsCommon.myCstr(dr("ShiftType"))
+                                        tempobj.Add(objtr)
+                                    Next
+                                End If
+                            End If
+
+                        Next
+                    End If
+                Next
+
+                For Each items As clsDemandBookingSaleDetail In tempobj
+                    obj.Arr.Add(items)
+                Next
+            End If
             qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "') "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDemandBooking, obj.Location_Code, obj.Document_Date, trans)
