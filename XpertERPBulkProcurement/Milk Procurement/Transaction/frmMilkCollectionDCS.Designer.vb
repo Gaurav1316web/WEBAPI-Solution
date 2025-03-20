@@ -22,10 +22,10 @@ Partial Class frmMilkCollectionDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -70,8 +70,6 @@ Partial Class frmMilkCollectionDCS
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.btnAddMissing = New Telerik.WinControls.UI.RadButton()
         Me.btnViewBalance = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateDCS = New Telerik.WinControls.UI.RadButton()
@@ -84,6 +82,7 @@ Partial Class frmMilkCollectionDCS
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.btnBookSuspence = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -130,8 +129,6 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
-        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -144,6 +141,7 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBookSuspence, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -163,7 +161,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -330,10 +328,10 @@ Partial Class frmMilkCollectionDCS
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem1)
-        Me.cboFATSNFType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem3)
+        Me.cboFATSNFType.Items.Add(RadListDataItem4)
         Me.cboFATSNFType.Location = New System.Drawing.Point(584, 5)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
@@ -781,7 +779,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -794,8 +792,7 @@ Partial Class frmMilkCollectionDCS
         '
         'Panel3
         '
-        Me.Panel3.Controls.Add(Me.RadButton4)
-        Me.Panel3.Controls.Add(Me.RadButton3)
+        Me.Panel3.Controls.Add(Me.btnBookSuspence)
         Me.Panel3.Controls.Add(Me.btnAddMissing)
         Me.Panel3.Controls.Add(Me.btnViewBalance)
         Me.Panel3.Controls.Add(Me.btnCreateDCS)
@@ -814,30 +811,10 @@ Partial Class frmMilkCollectionDCS
         Me.Panel3.Size = New System.Drawing.Size(1091, 28)
         Me.Panel3.TabIndex = 40
         '
-        'RadButton4
-        '
-        Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton4.Location = New System.Drawing.Point(839, 3)
-        Me.RadButton4.Name = "RadButton4"
-        Me.RadButton4.Size = New System.Drawing.Size(72, 22)
-        Me.RadButton4.TabIndex = 42
-        Me.RadButton4.Text = "Print2"
-        '
-        'RadButton3
-        '
-        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton3.Location = New System.Drawing.Point(764, 3)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(72, 22)
-        Me.RadButton3.TabIndex = 10
-        Me.RadButton3.Text = "Print1"
-        '
         'btnAddMissing
         '
         Me.btnAddMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddMissing.Location = New System.Drawing.Point(844, 3)
+        Me.btnAddMissing.Location = New System.Drawing.Point(824, 3)
         Me.btnAddMissing.Name = "btnAddMissing"
         Me.btnAddMissing.Size = New System.Drawing.Size(78, 22)
         Me.btnAddMissing.TabIndex = 43
@@ -848,7 +825,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnViewBalance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnViewBalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewBalance.Location = New System.Drawing.Point(764, 3)
+        Me.btnViewBalance.Location = New System.Drawing.Point(744, 3)
         Me.btnViewBalance.Name = "btnViewBalance"
         Me.btnViewBalance.Size = New System.Drawing.Size(80, 22)
         Me.btnViewBalance.TabIndex = 42
@@ -859,7 +836,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnCreateDCS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateDCS.Location = New System.Drawing.Point(684, 3)
+        Me.btnCreateDCS.Location = New System.Drawing.Point(664, 3)
         Me.btnCreateDCS.Name = "btnCreateDCS"
         Me.btnCreateDCS.Size = New System.Drawing.Size(78, 22)
         Me.btnCreateDCS.TabIndex = 41
@@ -871,7 +848,7 @@ Partial Class frmMilkCollectionDCS
         Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadButton2.Location = New System.Drawing.Point(521, 3)
         Me.RadButton2.Name = "RadButton2"
-        Me.RadButton2.Size = New System.Drawing.Size(161, 22)
+        Me.RadButton2.Size = New System.Drawing.Size(142, 22)
         Me.RadButton2.TabIndex = 40
         Me.RadButton2.Text = "Add DCS To Current BMC"
         '
@@ -954,6 +931,16 @@ Partial Class frmMilkCollectionDCS
         Me.btnExport.TabIndex = 7
         Me.btnExport.Text = "Export"
         '
+        'btnBookSuspence
+        '
+        Me.btnBookSuspence.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBookSuspence.Location = New System.Drawing.Point(903, 3)
+        Me.btnBookSuspence.Name = "btnBookSuspence"
+        Me.btnBookSuspence.Size = New System.Drawing.Size(86, 22)
+        Me.btnBookSuspence.TabIndex = 44
+        Me.btnBookSuspence.Text = "Book Suspence"
+        Me.btnBookSuspence.Visible = False
+        '
         'frmMilkCollectionDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1017,8 +1004,6 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
-        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1031,6 +1016,7 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBookSuspence, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1090,8 +1076,7 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents txtMDCSDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnMGo As RadButton
     Friend WithEvents RadGroupBox1 As RadGroupBox
-    Friend WithEvents RadButton4 As RadButton
-    Friend WithEvents RadButton3 As RadButton
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents btnBookSuspence As RadButton
 End Class
 

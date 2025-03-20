@@ -168,6 +168,7 @@ Public Class frmEMailAndSMSSetting
     Public Const QCParameterDetails As String = "$#QCParameterDetails#$"
     Public Const Amount As String = "$#Amount#$"
 
+    Public Const InvoiceType As String = "$#InvoiceType#$"
     Public Const SaleOrderNo As String = "$#SaleOrderNo#$"
     Public Const SaleOrderDate As String = "$#SaleOrderDate#$"
     Public Const InvoiceNo As String = "$#InvoiceNo#$"
@@ -180,6 +181,7 @@ Public Class frmEMailAndSMSSetting
     Public Const SupplyDate As String = "$#SupplyDate#$"
     Public Const Route As String = "$#Route#$"
     Public Const RouteName As String = "$#RouteName#$"
+    Public Const CustomerGroup As String = "$#CustomerGroup#$"
 
     Public Const DeliveryNo As String = "$#DeliveryNo#$"
     Public Const DeliveryDate As String = "$#DeliveryDate#$"
@@ -1095,7 +1097,7 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(CustomerName)
             ContextMenuStrip1.Items.Add(ContactPerson)
             ContextMenuStrip1.Items.Add(Form_Code)
-        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmPrintDistributerInvoiceStatement) = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(TotalAmount)
@@ -1107,6 +1109,17 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(SupplyDate)
             ContextMenuStrip1.Items.Add(Route)
             ContextMenuStrip1.Items.Add(RouteName)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(TotalAmount)
+            ContextMenuStrip1.Items.Add(CustomerNo)
+            ContextMenuStrip1.Items.Add(CustomerName)
+            ContextMenuStrip1.Items.Add(LocationName)
+            ContextMenuStrip1.Items.Add(Form_Code)
+            ContextMenuStrip1.Items.Add(SupplyShift)
+            ContextMenuStrip1.Items.Add(SupplyDate)
+            ContextMenuStrip1.Items.Add(Route)
+            ContextMenuStrip1.Items.Add(CustomerGroup)
+            ContextMenuStrip1.Items.Add(InvoiceType)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

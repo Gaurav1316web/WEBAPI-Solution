@@ -87,6 +87,16 @@ Public Class rptdailydispatch
             'End If
             Dim batch As String = "  select right(Booking_No,6) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr + "union all  select right(Document_Code,6) as gpcode from TSPL_SD_SHIPMENT_HEAD where Is_Create_Auto_Invoice = 1 and Status = 1 and Is_Taxable = 0 and Bill_To_Location = '" + txtlocation.Value + "'  and Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ")  and Customer_Code = '" + txtcustomer.Value + "' and convert (date,Document_Date,103)>= '" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "'  AND Against_Delivery_Code IS NULL "
             dt = clsDBFuncationality.GetDataTable(batch)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    For Each btch In dt.Rows
+            '        If clsCommon.myLen(GpCode) > 0 Then
+            '            GpCode += "," + (clsCommon.myCstr(btch("gpcode")))
+            '        Else
+            '            GpCode = (clsCommon.myCstr(btch("gpcode")))
+            '        End If
+            '    Next
+            'End If
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each btch In dt.Rows
                     If clsCommon.myLen(GpCode) > 0 Then

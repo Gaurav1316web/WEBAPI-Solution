@@ -2418,7 +2418,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptDeliveryOrderReport1, "Delivery Order Report", "1.06.03.31", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandForsingleBranch, "Demand for the single Branch", "1.06.03.32", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCrateJalliReportForTransfer, "Crate Jalli Report For Transfer", "1.06.03.33", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, "Print Distributer Invoice", "1.06.03.34", clsUserMgtCode.SubModuleSaleDairyReport, "", 37, 0, "", "", "", False, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, "Print Distributer Invoice", "1.06.03.34", clsUserMgtCode.SubModuleSaleDairyReport, "", 37, 0, "", "", "", True, True, False, "", Nothing, "Invoice Wise", "Party Wise", "", "", "", False, "")
         InsertDefaultValue(clsUserMgtCode.frmDistributerLedgerReport, "Distributer Ledger", "1.06.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmPendingBooking, "Pending Booking Report", "1.06.03.36", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmCustomerZone, "Customer Zone Wise Report", "1.06.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)

@@ -419,22 +419,23 @@ Public Class FrmMainTranScreen
                     Dim strFormID As String = Me.Form_ID
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim dr As DataRow = dt.NewRow()
-                        dr("Code") = Me.Form_ID
-                        dr("Name") = "Transaction"
-                        dt.Rows.InsertAt(dr, 0)
-
-                        Dim frmFC As New FrmFreeComboBox
-                        frmFC.ComboSource = dt
-                        frmFC.ComboValueMember = "Code"
-                        frmFC.ComboDisplayMember = "Name"
-                        frmFC.ShowDialog()
-                        If clsCommon.myLen(frmFC.strRetValue) > 0 Then
-                            strFormID = clsCommon.myCstr(frmFC.strRetValue)
-                        Else
-                            strFormID = ""
+                        If clsCommon.CompairString(Me.Form_ID, "DSTR_INV_SMT") <> CompairStringResult.Equal Then
+                            dr("Code") = Me.Form_ID
+                            dr("Name") = "Transaction"
+                            dt.Rows.InsertAt(dr, 0)
                         End If
-                    End If
-                    If clsCommon.myLen(strFormID) > 0 Then
+                        Dim frmFC As New FrmFreeComboBox
+                            frmFC.ComboSource = dt
+                            frmFC.ComboValueMember = "Code"
+                            frmFC.ComboDisplayMember = "Name"
+                            frmFC.ShowDialog()
+                            If clsCommon.myLen(frmFC.strRetValue) > 0 Then
+                                strFormID = clsCommon.myCstr(frmFC.strRetValue)
+                            Else
+                                strFormID = ""
+                            End If
+                        End If
+                        If clsCommon.myLen(strFormID) > 0 Then
                         Dim frm As New frmEMailAndSMSSetting
                         frm.isForSMS = Me.Is_SMS_Applied
                         frm.isForEMail = Me.Is_EMAIL_Applied

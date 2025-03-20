@@ -235,14 +235,14 @@ Public Class clsBMCDCS_DCS
 
         Dim dt As DataTable
         Dim obj As clsBMCDCS_DCS_Head = New clsBMCDCS_DCS_Head()
-
+        Dim strOwnBMCDCS As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code from TSPL_VLC_MASTER_HEAD where isnull(isOwnBMC,0)=1 and MCCOwnBMC='" + MCC_Code + "'"))
         Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,TSPL_MILK_COLLECTION_BMCDCS.No_Cluster_DCS
 from TSPL_MILK_COLLECTION_BMCDCS_DCS
 left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
-where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + MCC_Code + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'"
-
+where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + MCC_Code + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'
+and TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code not in ('" + strOwnBMCDCS + "')"
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(strQry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

@@ -22,7 +22,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -215,7 +215,6 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
         Me.RadGroupBox3.Size = New System.Drawing.Size(327, 45)
         Me.RadGroupBox3.TabIndex = 455
-        Me.RadGroupBox3.Visible = False
         '
         'rbtnPartyWise
         '
@@ -666,7 +665,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
