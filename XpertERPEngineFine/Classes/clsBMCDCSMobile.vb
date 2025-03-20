@@ -11,7 +11,7 @@
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
     Public REF_PK_ID As Integer
-    Public Milk_Not_Picked As Boolean = False
+    'Public Milk_Not_Picked As Boolean = False
     'Public Arr_BMCDCS_DCS As List(Of clsBMCDCS_DCS) = Nothing
     Public Arr_BMCDCS_Trip As List(Of clsBMCDCS_Trip) = Nothing
     Public Shared Function GetData(ByVal IDate As Date) As List(Of clsBMCDCSMobile)
@@ -52,8 +52,6 @@ where convert ( date, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103 ) = convert (date, 
                     obj.Entered_FATKg = clsCommon.myCDecimal(dr("FATKG"))
                     obj.Entered_SNFKg = clsCommon.myCDecimal(dr("SNFKG"))
                     obj.Trip_No = clsCommon.myCDecimal(dr("Trip_No"))
-
-                    obj.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
 
                     obj.Arr_BMCDCS_Trip = clsBMCDCS_Trip.GetBMCDCS_Trip(obj.Route_Code, obj.Document_Date, obj.Trip_No, obj.Vehicle_No)
                     ' obj.Arr_BMCDCS_DCS = clsBMCDCS_DCS.GetBMCDCS_DCS(obj.REF_PK_ID)
@@ -103,6 +101,8 @@ Public Class clsBMCDCS_Trip
 
     Public MCC_Code As String = ""
     Public Route_Code As String = ""
+
+    Public Milk_Not_Picked As Boolean = False
     Public Shared Function GetBMCDCS_Trip(ByVal Route_Code As String, ByVal Document_Date As DateTime, ByVal Trip_No As Integer, ByVal strVehicleNo As String) As List(Of clsBMCDCS_Trip)
         Dim obj As clsBMCDCSMobile = New clsBMCDCSMobile()
         Try
@@ -117,7 +117,8 @@ TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF,
 TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,
 TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity,
 TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,
-TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No from TSPL_MILK_COLLECTION_BMCDCS_TRIP
+TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No ,TSPL_MILK_COLLECTION_BMCDCS.Milk_Not_Picked
+from TSPL_MILK_COLLECTION_BMCDCS_TRIP
 left join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID= TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
 where TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code='" + clsCommon.myCstr(Route_Code) + "'  and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No='" + clsCommon.myCstr(strVehicleNo) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "' and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No=" + clsCommon.myCstr(Trip_No)
             dt = New DataTable()
@@ -142,6 +143,7 @@ where TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code='" + clsCommon.myCstr(Route_Co
                     Obj_Trip.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))
                     Obj_Trip.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                     Obj_Trip.Sample_No = clsCommon.myCDecimal(dr("Sample_No"))
+                    Obj_Trip.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
                     obj.Arr_BMCDCS_Trip.Add(Obj_Trip)
                 Next
             End If

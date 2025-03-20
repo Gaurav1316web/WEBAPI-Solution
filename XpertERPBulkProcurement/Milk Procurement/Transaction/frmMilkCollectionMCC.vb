@@ -57,6 +57,7 @@ Public Class frmMilkCollectionMCC
     Dim objExportTemplate As clsExportTemplate = Nothing
     Dim arrExistCols As New List(Of String)
     Dim dtDefault As DataTable = Nothing
+
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
     Public Sub SetUserMgmtNew()
@@ -640,6 +641,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = SettFATSNFNoDecimalMCC
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n0}"
         repoNumBox.HeaderText = "SNF"
@@ -653,6 +655,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = SettFATSNFNoDecimalMCC
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+
         gv1.MasterTemplate.Columns.Add(repoNumBox)
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n2}"
@@ -668,6 +671,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n2}"
         repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "CLR %", "SNF %")
@@ -682,6 +686,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
         repoNumBox.HeaderText = "FAT KG"
@@ -696,6 +701,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
         repoNumBox.HeaderText = "SNF KG" ''If(isPickCLRInsteadOfSNF, "CLR KG", "SNF KG")
@@ -710,6 +716,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n2}"
         repoNumBox.HeaderText = "Temperature"
@@ -743,6 +750,12 @@ Public Class frmMilkCollectionMCC
             gv1.MasterTemplate.Columns(colFATKG).IsVisible = False
             gv1.MasterTemplate.Columns(colSNFKG).ReadOnly = True
             gv1.MasterTemplate.Columns(colSNFKG).IsVisible = False
+        End If
+        If SettApplyGaze Then
+            gv1.MasterTemplate.Columns(colFATPerNoDecimal).ReadOnly = True
+            gv1.MasterTemplate.Columns(colSNFPerNoDecimal).ReadOnly = True
+            gv1.MasterTemplate.Columns(colFATPer).ReadOnly = True
+            gv1.MasterTemplate.Columns(colSNFPer).ReadOnly = True
         End If
     End Sub
     Sub UpdateCurrentRow(ByVal ii As Integer)
@@ -883,7 +896,7 @@ Public Class frmMilkCollectionMCC
                             Throw New Exception("No Gaze Reading found for Silo Capacity [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value) + "] and Gaze Reading Code [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colGazeReadingCode).Value) + "] Reading [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colGazeReading).Value) + "]")
                         Else
                             gv1.CurrentRow.Cells(colGazeQty).Value = clsCommon.myCDecimal(dt.Rows(0)("Value"))
-                            gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("Value"))
+                            gv1.CurrentRow.Cells(colQty).Value = GetQtyFromGaze(clsCommon.myCDecimal(dt.Rows(0)("Value")), clsCommon.myCDecimal(gv1.CurrentRow.Cells(colFATPer).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(colSNFPer).Value))
                         End If
                         UpdateCurrentRow(gv1.CurrentRow.Index)
                     ElseIf e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colFATPer) OrElse e.Column Is gv1.Columns(colFATKG) OrElse e.Column Is gv1.Columns(colSNFPer) OrElse e.Column Is gv1.Columns(colSNFKG) Then
@@ -903,6 +916,14 @@ Public Class frmMilkCollectionMCC
             isCellValueChangedOpen = False
         End Try
     End Sub
+    Function GetQtyFromGaze(GazeQty As Decimal, FAT As Decimal, SNF As Decimal) As Decimal
+        If FAT <= 0 Or SNF <= 0 Then
+            Return GazeQty
+        Else
+            Dim clr As Decimal = clsEkoPro.getClrOnCalculation(FAT, SNF, corrFactor)
+            Return (clsCommon.myCDecimal(GazeQty * (1.0 + ((clr)) / 1000)))
+        End If
+    End Function
     Sub OpenSiloFinder(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(gv1.CurrentRow.Cells(colMCCCode).Value) <= 0 Then
             Throw New Exception("Please select BMC/MCC")
@@ -910,11 +931,18 @@ Public Class frmMilkCollectionMCC
         Dim qry As String = " select tspl_Silo_Detail.Silo_Area as Capacity,tspl_Silo_Detail.Gaze_Reading_Code as [Gaze Reading Code],TSPL_GAZE_READING.Description as [Description] from tspl_Silo_Detail 
 Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaze_Reading_Code "
         Dim whr As String = "tspl_Silo_Detail.Prog_Code='MCC-MST' and tspl_Silo_Detail.Trans_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCCode).Value) + "'"
-        gv1.CurrentRow.Cells(colMCCSiloCapacity).Value = clsCommon.ShowSelectForm("MCCSiloF", qry, "Capacity", whr, clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value), "Capacity", isButtonClick)
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where " + whr + " and tspl_Silo_Detail.Silo_Area='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value) + "'")
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            gv1.CurrentRow.Cells(colGazeReadingCode).Value = clsCommon.myCstr(dt.Rows(0)("Gaze Reading Code"))
+      Dim dr As DataRow=  clsCommon.ShowSelectFormForRow("MCCSiloF", qry + " Where " + whr)
+        If dr IsNot Nothing Then
+            gv1.CurrentRow.Cells(colMCCSiloCapacity).Value = clsCommon.myCstr(dr("Capacity"))
+            gv1.CurrentRow.Cells(colGazeReadingCode).Value = clsCommon.myCstr(dr("Gaze Reading Code"))
         End If
+
+
+        'gv1.CurrentRow.Cells(colMCCSiloCapacity).Value = clsCommon.showselectfrom("MCCSiloF", qry, "Capacity", whr, clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value), "Capacity", isButtonClick)
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where " + whr + " and tspl_Silo_Detail.Silo_Area='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value) + "'")
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    gv1.CurrentRow.Cells(colGazeReadingCode).Value = clsCommon.myCstr(dt.Rows(0)("Gaze Reading Code"))
+        'End If
     End Sub
     Sub OpenMCCFinder(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtRoute.Value) <= 0 Then
@@ -2590,7 +2618,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Dim Arr As New List(Of clsMilkCollectionMCCDetail)
         For ii As Integer = 0 To lst.Arr_BMCDCS_Trip.Count - 1
             If clsCommon.myLen(lst.MCC_Code) > 0 Then
-                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 OrElse lst.Milk_Not_Picked Then
+                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 OrElse lst.Arr_BMCDCS_Trip(ii).Milk_Not_Picked Then
                     Dim flag As Boolean = True
                     If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID) > 0 AndAlso isMissingOnly Then
                         flag = False
@@ -2612,7 +2640,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
                         objTr.Sample_No = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Sample_No)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
-                        objTr.Milk_Not_Picked = lst.Milk_Not_Picked
+                        objTr.Milk_Not_Picked = lst.Arr_BMCDCS_Trip(ii).Milk_Not_Picked
                         If clsCommon.myLen(objTr.Gaze_Reading_Code) > 0 Then
                             objTr.Gaze_Qty = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty)
                         End If
