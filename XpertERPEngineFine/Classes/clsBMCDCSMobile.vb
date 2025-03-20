@@ -243,14 +243,15 @@ TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_M
 TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,TSPL_MILK_COLLECTION_BMCDCS.No_Cluster_DCS
 from TSPL_MILK_COLLECTION_BMCDCS_DCS
 left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
-where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + MCC_Code + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'
-and TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code not in ('" + strOwnBMCDCS + "')"
-        dt = New DataTable()
+where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + MCC_Code + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'"
         dt = clsDBFuncationality.GetDataTable(strQry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj.Arr_DCSDetails = New List(Of clsBMCDCS_DCS)
             Dim Obj_DCS As clsBMCDCS_DCS
             For Each dr As DataRow In dt.Rows
+                If clsCommon.myCDecimal(dr("No_Cluster_DCS")) = 0 AndAlso clsCommon.CompairString(strOwnBMCDCS, clsCommon.myCstr(dr("VLC_Code"))) = CompairStringResult.Equal Then
+                    Continue For
+                End If
                 Obj_DCS = New clsBMCDCS_DCS
                 Obj_DCS.REF_PK_ID = clsCommon.myCDecimal(dr("REF_PK_ID"))
                 Obj_DCS.PK_ID = clsCommon.myCDecimal(dr("PK_ID"))

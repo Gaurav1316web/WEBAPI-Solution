@@ -921,7 +921,7 @@ Public Class frmMilkCollectionMCC
             Return GazeQty
         Else
             Dim clr As Decimal = clsEkoPro.getClrOnCalculation(FAT, SNF, corrFactor)
-            Return (clsCommon.myCDecimal(GazeQty * (1.0 + ((clr)) / 1000)))
+            Return Math.Round((clsCommon.myCDecimal(GazeQty * (1.0 + ((clr)) / 1000))), 0, MidpointRounding.AwayFromZero)
         End If
     End Function
     Sub OpenSiloFinder(ByVal isButtonClick As Boolean)
