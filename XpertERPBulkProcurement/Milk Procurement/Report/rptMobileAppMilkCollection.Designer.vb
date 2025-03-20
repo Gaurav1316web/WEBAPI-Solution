@@ -21,10 +21,11 @@ Partial Class rptMobileAppMilkCollection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkDifference = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDCS = New common.UserControls.txtMultiSelectFinder()
         Me.lblDCS = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -48,13 +49,14 @@ Partial Class rptMobileAppMilkCollection
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkDifference = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkDifference, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -74,7 +76,7 @@ Partial Class rptMobileAppMilkCollection
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDifference, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,13 +95,14 @@ Partial Class rptMobileAppMilkCollection
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 400
+        Me.SplitContainer1.Size = New System.Drawing.Size(800, 459)
+        Me.SplitContainer1.SplitterDistance = 398
         Me.SplitContainer1.TabIndex = 4
         '
         'RadPageView1
@@ -110,7 +113,7 @@ Partial Class rptMobileAppMilkCollection
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 400)
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 398)
         Me.RadPageView1.TabIndex = 11
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -128,8 +131,16 @@ Partial Class rptMobileAppMilkCollection
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 352)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkDifference
+        '
+        Me.chkDifference.Location = New System.Drawing.Point(393, 69)
+        Me.chkDifference.Name = "chkDifference"
+        Me.chkDifference.Size = New System.Drawing.Size(93, 18)
+        Me.chkDifference.TabIndex = 444
+        Me.chkDifference.Text = "Mobile VS ERP"
         '
         'txtDCS
         '
@@ -300,7 +311,7 @@ Partial Class rptMobileAppMilkCollection
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 352)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 343)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -318,12 +329,12 @@ Partial Class rptMobileAppMilkCollection
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(779, 352)
+        Me.Gv1.Size = New System.Drawing.Size(779, 343)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
         '
@@ -331,7 +342,7 @@ Partial Class rptMobileAppMilkCollection
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(266, 15)
+        Me.btnPrint.Location = New System.Drawing.Point(266, 29)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 157
@@ -341,7 +352,7 @@ Partial Class rptMobileAppMilkCollection
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(165, 15)
+        Me.btnSplitExport.Location = New System.Drawing.Point(165, 29)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
         Me.btnSplitExport.TabIndex = 156
@@ -363,7 +374,7 @@ Partial Class rptMobileAppMilkCollection
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(710, 15)
+        Me.btnClose.Location = New System.Drawing.Point(710, 29)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 153
@@ -373,7 +384,7 @@ Partial Class rptMobileAppMilkCollection
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(14, 15)
+        Me.btnGo.Location = New System.Drawing.Point(14, 29)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 151
@@ -383,25 +394,29 @@ Partial Class rptMobileAppMilkCollection
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(88, 15)
+        Me.btnReset.Location = New System.Drawing.Point(88, 29)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'chkDifference
+        'MyLabel1
         '
-        Me.chkDifference.Location = New System.Drawing.Point(393, 69)
-        Me.chkDifference.Name = "chkDifference"
-        Me.chkDifference.Size = New System.Drawing.Size(71, 18)
-        Me.chkDifference.TabIndex = 444
-        Me.chkDifference.Text = "Mobile VS ERP"
+        Me.MyLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel1.Location = New System.Drawing.Point(523, 6)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(265, 17)
+        Me.MyLabel1.TabIndex = 158
+        Me.MyLabel1.Text = "Double click on any column to show history"
         '
         'rptMobileAppMilkCollection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(800, 459)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "rptMobileAppMilkCollection"
         '
@@ -411,11 +426,13 @@ Partial Class rptMobileAppMilkCollection
         Me.Text = "Mobile App Milk Collection Report"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkDifference, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -437,7 +454,7 @@ Partial Class rptMobileAppMilkCollection
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDifference, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -470,4 +487,5 @@ Partial Class rptMobileAppMilkCollection
     Friend WithEvents lblDCS As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkDifference As RadCheckBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
