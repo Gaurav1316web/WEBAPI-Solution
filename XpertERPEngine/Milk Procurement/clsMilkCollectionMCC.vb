@@ -66,7 +66,7 @@ Public Class clsMilkCollectionMCC
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
 
-                HistoryUpdate(obj.Document_No, trans)
+                ' HistoryUpdate(obj.Document_No, trans)
             End If
             'Dim objTr As New clsMilkCollectionMCCDetail()
 
@@ -102,6 +102,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days_Merge", obj.Against_DCS_Multiple_Days_Merge, True)
+            clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -212,7 +213,7 @@ where 2=2"
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
-
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Deleted' where Document_No='" + strCode + "'", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC where Document_No='" + strCode + "'", trans)
@@ -253,6 +254,8 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Post' where Document_No='" + obj.Document_No + "'", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             For Each objtr As clsMilkCollectionMCCDetail In obj.Arr
@@ -273,6 +276,7 @@ where 2=2"
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "operation_type", "Post")
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
@@ -527,7 +531,6 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
-
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else

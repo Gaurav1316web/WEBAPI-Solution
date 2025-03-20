@@ -22,7 +22,7 @@ Public Class rptMobileAppMilkCollection
         dtpToDate.Enabled = isEnable
         txtBMC.Enabled = isEnable
         txtRoute.Enabled = isEnable
-        txtDCS.Enabled = isEnable 
+        txtDCS.Enabled = isEnable
         RadGroupBox1.Enabled = isEnable
         chkDifference.Enabled = isEnable
     End Sub
@@ -75,12 +75,23 @@ Public Class rptMobileAppMilkCollection
         Try
             Dim dt As New DataTable
             Dim strQry As String = ""
+            Dim FromDateAvg As New DateTime(fromDate.Value.Year, fromDate.Value.Month, 1)
+            FromDateAvg = FromDateAvg.AddMonths(-1)
+            Dim ToDateAvg As DateTime = FromDateAvg.AddMonths(1).AddDays(-1)
+
             If chkDifference.Checked Then
                 strQry = LoadDiffData()
             Else
                 strQry = ReturnQry()
+                If rbtnBMC.Checked Then
+                    strQry = "select *,isnull(Average_Qty,0)Avg_Qty from ( " + strQry + " Left join ( select MCC_Code as MCC,isnull(convert(decimal(18,2),sum(qty)/count(Days)),0) as Average_Qty from ( select TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,sum(isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0)) as  Qty,1 as Days
+           from TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No where convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >='" + clsCommon.GetPrintDate(FromDateAvg, "dd/MMM/yyyy") + "' and convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDateAvg, "dd/MMM/yyyy") + "' group by MCC_Code,Document_Date ) xxxx group by MCC_Code ) xxx on xxx.MCC= xx.MCC_Code"
+                ElseIf rbtnDCS.Checked Then
+                    strQry = "select  *,isnull(Average_Qty,0)Avg_Qty from ( " + strQry + " left join (
+					 select VLC_CODE as VLC,isnull(convert(decimal(18,2),sum(qty)/count(Days)),0) as Average_Qty from ( select sum(isnull(TSPL_MILK_SRN_DETAIL.Qty,0)) as  Qty,1 as Days,VLC_CODE
+                from TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >='" + clsCommon.GetPrintDate(FromDateAvg, "dd/MMM/yyyy") + "'  and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(ToDateAvg, "dd/MMM/yyyy") + "' group by VLC_CODE,DOC_DATE ) xxxx group by VLC_CODE )xxx on xxx.VLC = xx.VLC_Code"
+                End If
             End If
-
 
             'If rbtnBMC.Checked Then
             '    strQry += " Group by TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code"
@@ -140,7 +151,7 @@ Public Class rptMobileAppMilkCollection
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("VLC_Code_VLC_Uploader").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("VLC_Code").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("VLC_Name").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("IShift").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Shift").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Own BMC").Name)
             End If
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Route_Code").Name)
@@ -212,14 +223,31 @@ Public Class rptMobileAppMilkCollection
     Function LoadDiffData() As String
         Dim qry As String = ReturnQry()
         If rbtnBMC.Checked Then
-            qry = " select convert(varchar,IDate,103)Date,MCC_Code,MCC_NAME, Mcc_Code_VLC_Uploader,Route_Code, Vehicle_No,Trip_No,Gaze_Reading,Qty, FAT,SNF,FATKG,SNFKG,Sample_No,Erp_Date,Erp_MCC_Code,Erp_MCC_NAME,Erp_Mcc_Code_VLC_Uploader,Erp_Route_Code,Erp_Vehicle_No,Erp_Trip_No,Gaze_Reading as Erp_Gaze_Reading,Erp_Gaze_Qty, (Erp_Qty)Erp_Qty, Erp_FAT, Erp_SNF,Erp_FATKG,Erp_SNFKG,Erp_Sample_No, (Gaze_Reading- Erp_Gaze_Reading) as Diff_Gaze_Reading,(Qty - Erp_Gaze_Qty) as Diff_Qty,(FAT - Erp_FAT) as Diff_FAT,(SNF-Erp_SNF) as Diff_SNF, (FATKG-Erp_FATKG)as Diff_FATKG, (SNFKG-Erp_SNFKG)as Diff_SNFKG ,
-             (Status)Status from ( select * from ( " + qry + " )xx outer apply ( select TSPL_MILK_COLLECTION_MCC.Document_No,convert(varchar,Document_Date,103)Erp_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as Erp_MCC_Code,TSPL_MCC_MASTER.MCC_NAME as Erp_MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as Erp_Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_MCC.Route_Code as Erp_Route_Code,TSPL_MILK_COLLECTION_MCC.Vehicle_No as Erp_Vehicle_No,TSPL_MILK_COLLECTION_MCC.Trip_No as Erp_Trip_No,Gaze_Reading as Erp_Gaze_Reading,isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty,0) as Erp_Gaze_Qty,isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0) as Erp_Qty,
-           TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as Erp_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as Erp_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as Erp_FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as Erp_Sample_No,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as Erp_SNFKG,case when TSPL_MILK_COLLECTION_MCC.Status = 1 then 'Approved' when TSPL_MILK_COLLECTION_MCC.Status = 0 then 'Pending' else '' end as Status from TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code where TSPL_MILK_COLLECTION_MCC.Document_Date =xx.IDate and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code = xx.MCC_Code ) Erp ) xxx "
+            qry = " select max(case when source = 'Mobile' then Date else '' end) as Date,max(case when source = 'Mobile' then Mcc_Code_VLC_Uploader else '' end) as Mcc_Code_VLC_Uploader,max(case when source = 'Mobile' then MCC_Code else '' end) as MCC_Code,max(case when source = 'Mobile' then MCC_NAME else '' end) as MCC_NAME,max(case when source = 'Mobile' then Gaze_Reading else 0 end) as Gaze_Reading,max(case when source = 'Mobile' then Sample_No else null end) as Sample_No, max(case when source = 'Mobile' then Route_Code else '' end) as Route_Code,max(case when source = 'Mobile' then Vehicle_No else '' end) as Vehicle_No,max(case when source = 'Mobile' then Trip_No else null end) as Trip_No,sum(case when source = 'Mobile' then Gaze_Qty else 0 end) as Gaze_Qty,sum(case when source = 'Mobile' then qty else 0 end) as Qty,Convert(decimal(18,2),sum(case when source = 'Mobile' then (FATKG/ qty)*100 else 0 end)) as FAT,
+		 Convert(decimal(18,2), sum(case when source = 'Mobile' then (SNFKG/qty)*100 else 0 end)) as SNF,sum(case when source = 'Mobile' then FATKG else 0 end) as FATKG,sum(case when source = 'Mobile' then SNFKG else 0 end) as SNFKG,max(case when source = 'Erp' then Date else '' end) as Erp_Date,max(case when source = 'Erp' then Mcc_Code_VLC_Uploader else '' end) as Erp_Mcc_Code_VLC_Uploader,max(case when source = 'Erp' then MCC_Code else '' end) as Erp_MCC_Code,max(case when source = 'Erp' then MCC_NAME else '' end) as Erp_MCC_NAME,max(case when source = 'Erp' then Gaze_Reading else 0 end) as Erp_Gaze_Reading,max(case when source = 'Erp' then Sample_No else null end) as Erp_Sample_No, max(case when source = 'Erp' then Route_Code else '' end) as Erp_Route_Code,max(case when source = 'Erp' then Vehicle_No else '' end) as Erp_Vehicle_No, max(case when source = 'Erp' then Trip_No else null end) as Erp_Trip_No,
+		 sum(case when source = 'Erp' then Gaze_Qty else 0 end) as Erp_Gaze_Qty,sum(case when source = 'Erp' then qty else 0 end) as Erp_Qty,Convert(decimal(18,2),sum(case when source = 'Erp' then (FATKG/ qty)*100 else 0 end)) as Erp_FAT,Convert(decimal(18,2), sum(case when source = 'Erp' then (SNFKG/qty)*100 else 0 end)) as Erp_SNF,sum(case when source = 'Erp' then FATKG else 0 end) as Erp_FATKG,sum(case when source = 'Erp' then SNFKG else 0 end) as Erp_SNFKG, max(case when source = 'Mobile' then Gaze_Reading else 0 end) - max(case when source = 'Erp' then Gaze_Reading else 0 end)  as Diff_Gaze_Reading,sum(case when source = 'Mobile' then Qty else 0 end) - sum(case when source = 'Erp' then Qty else 0 end)  as Diff_Qty,Convert(decimal(18,2),sum(case when source = 'Mobile' then (FATKG/QTY)*100 else 0 end) - sum(case when source = 'Erp' then (FATKG/QTY)*100 else 0 end))  as Diff_FAT,Convert(decimal(18,2),sum(case when source = 'Mobile' then (SNFKG/QTY)*100 else 0 end) - sum(case when source = 'Erp' then (SNFKG/QTY)*100 else 0 end))  as Diff_SNF,sum(case when source = 'Mobile' then FATKG else 0 end) - sum(case when source = 'Erp' then FATKG else 0 end)  as Diff_FATKG,
+	   	 sum(case when source = 'Mobile' then SNFKG else 0 end) - sum(case when source = 'Erp' then SNFKG else 0 end)  as Diff_SNFKG	,max(Status)Status from ( select convert(varchar,IDate,103)Date,Mcc_Code_VLC_Uploader,MCC_Code, (MCC_NAME)MCC_NAME, Gaze_Reading,Sample_No,Route_Code,Vehicle_No, Trip_No, 0 as Gaze_Qty,Qty, FAT, SNF,FATKG,SNFKG,'' as Status,'Mobile' as Source from  ( " + qry + "  " + Environment.NewLine + " union all " + Environment.NewLine + " select convert(varchar,Document_Date,103)Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,Gaze_Reading,Sample_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_MILK_COLLECTION_MCC.Vehicle_No ,TSPL_MILK_COLLECTION_MCC.Trip_No  ,isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty,0) as  Gaze_Qty,isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0) as  Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as  FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as  SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as  FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG ,case when TSPL_MILK_COLLECTION_MCC.Status = 1 then 'Approved' when TSPL_MILK_COLLECTION_MCC.Status = 0 then 'Pending' else '' end as Status,'Erp' as Source from TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code where convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date ,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "'  and convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date ,103) <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "'  "
+
+            If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+            End If
+            qry += " ) xxx group by MCC_Code,Date,Trip_No,Sample_No "
         ElseIf rbtnDCS.Checked Then
-            qry = "  select convert(varchar,IDate,103)Date,(Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,MCC_Code, (MCC_NAME)MCC_NAME, Trip_No,VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,IShift, (Qty)Qty, FAT, SNF, (FATKG)FATKG, (SNFKG)SNFKG,(Route_Code)Route_Code, (Vehicle_No)Vehicle_No,[Own BMC] ,Erp_Date,Erp_Mcc_Code_VLC_Uploader,Erp_MCC_Code, (Erp_MCC_NAME)Erp_MCC_NAME, Erp_Trip_No,Erp_VLC_Code_VLC_Uploader,Erp_VLC_Code,Erp_VLC_Name,Erp_Shift, (Erp_Qty)Erp_Qty, Erp_FAT, Erp_SNF, (Erp_FATKG)Erp_FATKG, (Erp_SNFKG)Erp_SNFKG,(Erp_Route_Code)Erp_Route_Code, (Erp_Vehicle_No)Erp_Vehicle_No,Erp_OwnBMC, (Qty - Erp_Qty) as Diff_Qty,(FAT - Erp_FAT) as Diff_FAT,(SNF-Erp_SNF) as Diff_SNF, (FATKG-Erp_FATKG)as Diff_FATKG, (SNFKG-Erp_SNFKG)as Diff_SNFKG 
-            ,(Status)Status from (  select * from (" + qry + " )xx outer apply ( select TSPL_MILK_COLLECTION_DCS.Document_No,convert(varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)Erp_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as Erp_Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as Erp_MCC_Code,TSPL_MCC_MASTER.MCC_NAME as Erp_MCC_NAME,TSPL_MILK_COLLECTION_MCC.Trip_No as Erp_Trip_No,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)Erp_VLC_Code_VLC_Uploader,(TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code)Erp_VLC_Code,(TSPL_VLC_MASTER_HEAD.VLC_Name)Erp_VLC_Name,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift as Erp_Shift,isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,0) as Erp_Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT as Erp_FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF as Erp_SNF,
-            TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as Erp_FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as Erp_SNFKG,TSPL_MILK_COLLECTION_MCC.Route_Code as Erp_Route_Code,TSPL_MILK_COLLECTION_MCC.Vehicle_No as Erp_Vehicle_No,case when Mcc_Code_VLC_Uploader = VLC_Code_VLC_Uploader then 'Yes' else 'No' end as Erp_OwnBMC,case when TSPL_MILK_COLLECTION_DCS.Status = 1 then 'Approved' when TSPL_MILK_COLLECTION_DCS.Status = 0 then 'Pending' else '' end as Status from TSPL_MILK_COLLECTION_DCS_DETAIL left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No left join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-            left join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code where TSPL_MILK_COLLECTION_DCS.Document_Date =xx.IDate and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code = xx.MCC_Code ) Erp   ) xxx "
+            qry = "select max(case when source = 'Mobile' then Date else '' end) as Date,max(case when source = 'Mobile' then Mcc_Code_VLC_Uploader else '' end) as Mcc_Code_VLC_Uploader,max(case when source = 'Mobile' then MCC_Code else '' end) as MCC_Code,max(case when source = 'Mobile' then MCC_NAME else '' end) as MCC_NAME,max(case when source = 'Mobile' then VLC_Code_VLC_Uploader else '' end) as VLC_Code_VLC_Uploader,max(case when source = 'Mobile' then VLC_Code else '' end) as VLC_Code,max(case when source = 'Mobile' then VLC_Name else '' end) as VLC_Name,max(case when source = 'Mobile' then Shift else '' end) as Shift, max(case when source = 'Mobile' then Route_Code else '' end) as Route_Code,max(case when source = 'Mobile' then Vehicle_No else '' end) as Vehicle_No,max(case when source = 'Mobile' then Trip_No else null end) as Trip_No,sum(case when source = 'Mobile' then qty else 0 end) as Qty,Convert(decimal(18,2),sum(case when source = 'Mobile' then (FATKG/ qty)*100 else 0 end)) as FAT,
+		Convert(decimal(18,2), sum(case when source = 'Mobile' then (SNFKG/qty)*100 else 0 end)) as SNF,sum(case when source = 'Mobile' then FATKG else 0 end) as FATKG,sum(case when source = 'Mobile' then SNFKG else 0 end) as SNFKG,max(case when source = 'Mobile' then [Own BMC] else '' end) as [Own BMC], max(case when source = 'Erp' then Date else '' end) as Erp_Date,max(case when source = 'Erp' then Mcc_Code_VLC_Uploader else '' end) as Erp_Mcc_Code_VLC_Uploader,max(case when source = 'Erp' then MCC_Code else '' end) as Erp_MCC_Code,max(case when source = 'Erp' then MCC_NAME else '' end) as Erp_MCC_NAME,max(case when source = 'Erp' then VLC_Code_VLC_Uploader else '' end) as Erp_VLC_Code_VLC_Uploader, max(case when source = 'Erp' then VLC_Code else '' end) as Erp_VLC_Code,max(case when source = 'Erp' then VLC_Name else '' end) as Erp_VLC_Name,max(case when source = 'Erp' then Shift else '' end) as Erp_Shift, max(case when source = 'Erp' then Route_Code else '' end) as Erp_Route_Code,max(case when source = 'Erp' then Vehicle_No else '' end) as Erp_Vehicle_No, max(case when source = 'Erp' then Trip_No else null end) as Erp_Trip_No,sum(case when source = 'Erp' then qty else 0 end) as Erp_Qty,
+        Convert(decimal(18,2),sum(case when source = 'Erp' then (FATKG/ qty)*100 else 0 end)) as Erp_FAT,Convert(decimal(18,2), sum(case when source = 'Erp' then (SNFKG/qty)*100 else 0 end)) as Erp_SNF,sum(case when source = 'Erp' then FATKG else 0 end) as Erp_FATKG,sum(case when source = 'Erp' then SNFKG else 0 end) as Erp_SNFKG,max(case when source = 'Erp' then [Own BMC] else '' end) as Erp_OwnBMC,sum(case when source = 'Mobile' then Qty else 0 end) - sum(case when source = 'Erp' then Qty else 0 end)  as Diff_Qty,Convert(decimal(18,2),sum(case when source = 'Mobile' then (FATKG/QTY)*100 else 0 end) - sum(case when source = 'Erp' then (FATKG/QTY)*100 else 0 end))  as Diff_FAT,Convert(decimal(18,2),sum(case when source = 'Mobile' then (SNFKG/QTY)*100 else 0 end) - sum(case when source = 'Erp' then (SNFKG/QTY)*100 else 0 end))  as Diff_SNF,sum(case when source = 'Mobile' then FATKG else 0 end) - sum(case when source = 'Erp' then FATKG else 0 end)  as Diff_FATKG,sum(case when source = 'Mobile' then SNFKG else 0 end) - sum(case when source = 'Erp' then SNFKG else 0 end)  as Diff_SNFKG, max(Status)Status from (   select convert(varchar,IDate,103)Date,Mcc_Code_VLC_Uploader,MCC_Code, (MCC_NAME)MCC_NAME, Trip_No,VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,IShift AS Shift, (Qty)Qty, FAT, SNF, (FATKG)FATKG, (SNFKG)SNFKG,(Route_Code)Route_Code, (Vehicle_No)Vehicle_No,[Own BMC],''AS Status,[Mobile User],'Mobile' as Source from ( " + qry + "  " + Environment.NewLine + " union all " + Environment.NewLine + "  select convert(varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code ,TSPL_MCC_MASTER.MCC_NAME ,TSPL_MILK_COLLECTION_MCC.Trip_No as  Trip_No,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift  ,isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,0) as  Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,
+            TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG ,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Vehicle_No ,case when Mcc_Code_VLC_Uploader = VLC_Code_VLC_Uploader then 'Yes' else 'No' end as  [Own BMC],case when TSPL_MILK_COLLECTION_DCS.Status = 1 then 'Approved' when TSPL_MILK_COLLECTION_DCS.Status = 0 then 'Pending' else '' end as Status,'' as [Mobile User],'Erp' as Source from TSPL_MILK_COLLECTION_DCS_DETAIL left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No left join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            left join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  where convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' "
+            If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+            End If
+            qry += " ) xxx group by VLC_Code,Date,VLC_Code,Shift ORDER BY SHIFT DESC"
         End If
         Return qry
     End Function
@@ -306,7 +334,8 @@ Public Class rptMobileAppMilkCollection
                 Gv1.Columns("Sample_No").HeaderText = "Sample No"
                 Gv1.Columns("Route_Code").HeaderText = "Route Code"
                 Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"
-                Gv1.Columns("Milk_Not_Picked").IsVisible = False
+                Gv1.Columns("Milk_Not_Picked").HeaderText = "Milk Not Picked"
+                Gv1.Columns("MCC").IsVisible = False
             End If
             If rbtnDCS.Checked Then
                 Gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "MCC Uploader"
@@ -316,8 +345,11 @@ Public Class rptMobileAppMilkCollection
                 Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader"
                 Gv1.Columns("Route_code").IsVisible = False
                 Gv1.Columns("Vehicle_No").IsVisible = False
+                Gv1.Columns("VLC").IsVisible = False
             End If
-
+            Gv1.Columns("Avg_Qty").HeaderText = "Average Qty"
+            Gv1.Columns("Average_Qty").IsVisible = False
+            Gv1.Columns("Avg_Qty").FormatString = "{0:n2}"
             Gv1.Columns("Qty").HeaderText = "Qty"
             Gv1.Columns("Qty").FormatString = "{0:n2}"
             Gv1.Columns("FAT").HeaderText = "FAT%"
@@ -358,7 +390,8 @@ Public Class rptMobileAppMilkCollection
         summaryRowItem.Add(SNFKG)
 
 
-
+        Dim Avg_Qty As New GridViewSummaryItem("Avg_Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(Avg_Qty)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
@@ -403,7 +436,6 @@ Public Class rptMobileAppMilkCollection
                 Gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "MCC Uploader"
                 Gv1.Columns("VLC_Code").HeaderText = "DCS Code"
                 Gv1.Columns("VLC_Name").HeaderText = "DCS Name"
-                Gv1.Columns("IShift").HeaderText = "Shift"
                 Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader"
                 Gv1.Columns("Erp_Mcc_Code_VLC_Uploader").HeaderText = "MCC Uploader"
                 Gv1.Columns("Erp_VLC_Code").HeaderText = "DCS Code"
@@ -512,39 +544,39 @@ Public Class rptMobileAppMilkCollection
         Me.Close()
     End Sub
 
-    Private Sub Gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellDoubleClick
-        Try
+    '    Private Sub Gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellDoubleClick
+    '        Try
 
 
-            Dim strQry As String = "select TSPL_MILK_COLLECTION_BMCDCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS.Arrive_Time,TSPL_MILK_COLLECTION_BMCDCS.Dispatch_Time,TSPL_MILK_COLLECTION_BMCDCS.Last_BMC_Seal_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp
-from TSPL_MILK_COLLECTION_BMCDCS
-left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code where TSPL_MILK_COLLECTION_BMCDCS.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(1).Value) + "'"
-            Dim strQryDCS As String = "select TSPL_MILK_COLLECTION_BMCDCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,
-TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG
-from TSPL_MILK_COLLECTION_BMCDCS
-left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
-left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code where TSPL_MILK_COLLECTION_BMCDCS.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(1).Value) + "'"
-            Dim dtdcs As DataTable = clsDBFuncationality.GetDataTable(strQry)
+    '            Dim strQry As String = "select TSPL_MILK_COLLECTION_BMCDCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS.Arrive_Time,TSPL_MILK_COLLECTION_BMCDCS.Dispatch_Time,TSPL_MILK_COLLECTION_BMCDCS.Last_BMC_Seal_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp
+    'from TSPL_MILK_COLLECTION_BMCDCS
+    'left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+    'left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code where TSPL_MILK_COLLECTION_BMCDCS.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(1).Value) + "'"
+    '            Dim strQryDCS As String = "select TSPL_MILK_COLLECTION_BMCDCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,
+    'TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG
+    'from TSPL_MILK_COLLECTION_BMCDCS
+    'left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+    'left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+    'left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
+    'left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code where TSPL_MILK_COLLECTION_BMCDCS.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(1).Value) + "'"
+    '            Dim dtdcs As DataTable = clsDBFuncationality.GetDataTable(strQry)
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
 
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtdcs, "crptMobileAppMilkCollectionReport", "", "crptDCSMilkcollectionReport.rpt")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No Record Found!", Me.Text)
+    '            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+    '                Dim frmCRV As New frmCrystalReportViewer()
+    '                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtdcs, "crptMobileAppMilkCollectionReport", "", "crptDCSMilkcollectionReport.rpt")
+    '                frmCRV = Nothing
+    '            Else
+    '                clsCommon.MyMessageBoxShow(Me, "No Record Found!", Me.Text)
 
-            End If
+    '            End If
 
 
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    '        Catch ex As Exception
+    '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        End Try
+    '    End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
@@ -605,16 +637,16 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLEC
     Function ReturnQry() As String
         Dim strQry As String = ""
         If rbtnBMC.Checked Then
-            strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
+            strQry = "  select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
                         TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
-                        (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp, case when isnull(Milk_Not_Picked,0) = 1 then 'Yes' else 'No' end as Milk_Not_Picked
+                        (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp, case when isnull(Milk_Not_Picked,0) = 1 then 'Yes' else 'No' end as Milk_Not_Picked,TSPL_MILK_COLLECTION_BMCDCS.Created_By as [Mobile User]
                         From TSPL_MILK_COLLECTION_BMCDCS
                         left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
                         Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code   
                         where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
         End If
         If rbtnDCS.Checked Then
-            strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID,(TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Trip_No=1
+            strQry = " select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID,(TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Trip_No=1
                         ,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
                         (TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code)VLC_Code,(TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift)IShift,(TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG)FATKG,(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG)SNFKG
                    , ( SELECT DISTINCT  STRING_AGG( Route_Code, '/') AS Route_Code from ( select distinct Route_Code,MCC_Code   from ( select TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TabInnerTrip.Vehicle_No,TabInnerTrip.Route_Code
@@ -624,7 +656,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLEC
                         from TSPL_MILK_COLLECTION_BMCDCS as TabInnerBMCDCS
                        left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP as TabInnerTrip on TabInnerTrip.REF_PK_ID=TabInnerBMCDCS.PK_ID
                 where TabInnerBMCDCS.IDate  >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TabInnerBMCDCS.IDate <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TabInnerBMCDCS.MCC_Code = TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
-                      ) xx )xxx  ) as Vehicle_No,case when Mcc_Code_VLC_Uploader = VLC_Code_VLC_Uploader then 'Yes' else 'No' end as [Own BMC]
+                      ) xx )xxx  ) as Vehicle_No,case when Mcc_Code_VLC_Uploader = VLC_Code_VLC_Uploader then 'Yes' else 'No' end as [Own BMC],TSPL_MILK_COLLECTION_BMCDCS.Created_By as [Mobile User]
                         from TSPL_MILK_COLLECTION_BMCDCS
                        left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
                         left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
@@ -645,6 +677,44 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLEC
                 strQry += " and TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code in (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
             End If
         End If
+        strQry += " )xx "
         Return strQry
+    End Function
+
+    Private Sub Gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellDoubleClick
+        Try
+            If e.Column Is Gv1.Columns("PK_ID") AndAlso clsCommon.myLen((Gv1.CurrentRow.Cells("PK_ID").Value) > 0) Then
+                Dim PK_ID As Integer = clsCommon.myCstr(Gv1.CurrentRow.Cells("PK_ID").Value)
+                Dim dt As DataTable = LoadHistoryData(PK_ID)
+                If dt.Rows.Count > 0 And dt IsNot Nothing Then
+                    Dim ff As New FrmFreeGrid
+                    ff.ReportID = MyBase.Form_ID
+                    ff.Text = Me.Text
+                    ff.dt = dt
+                    ff.ShowDialog()
+                Else
+                    Throw New Exception("No history found.")
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Function LoadHistoryData(ByVal PK_ID As Integer) As DataTable
+        Dim qry As String = ""
+
+        If rbtnBMC.Checked Then
+            qry = "WITH VersionsData AS ( SELECT TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_Version as [Hist Version],TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_By as [Hist By],TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_On as [Hist On],TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Document_No as [Document No],convert(varchar, TSPL_MILK_COLLECTION_MCC_Hist_Data.Document_date,103)[Document Date],TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.MCC_Code as [MCC Code],Mcc_Code_VLC_Uploader as [MCC Uploader code],MCC_NAME as [MCC Name],TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.SNFKG,CASE WHEN REF_PK_ID_BMCDCS_TRIP IS NULL THEN 'ERP' ELSE 'Mobile' END AS [Source Type],TSPL_MILK_COLLECTION_MCC_Hist_Data.operation_type AS Operation,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Document_No, TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.SNo ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_Version asc) AS rownum   FROM TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data
+           Left Join TSPL_MILK_COLLECTION_MCC_Hist_Data ON TSPL_MILK_COLLECTION_MCC_Hist_Data.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Document_No And TSPL_MILK_COLLECTION_MCC_Hist_Data.Hist_Version = TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_Version LEFT JOIN TSPL_MILK_COLLECTION_BMCDCS_TRIP ON TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID = TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.REF_PK_ID_BMCDCS_TRIP   WHERE TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID =" + clsCommon.myCstr(PK_ID) + " ),
+      ChangedData AS ( SELECT ChangedData.SNo,ChangedData.[Hist Version],ChangedData.[Hist By],ChangedData.[Hist On],ChangedData.[Document No],ChangedData.[Document Date],ChangedData.[MCC Uploader code],ChangedData.[MCC Code],ChangedData.[MCC Name],ChangedData.PK_Id,ChangedData.Qty,ChangedData.FAT,ChangedData.SNF,ChangedData.FATKG,ChangedData.SNFKG,ChangedData.[Source Type],ChangedData.Operation,ChangedData.rownum,CASE WHEN ChangedData.Qty != NextVersionDa.Qty OR ChangedData.FAT != NextVersionDa.FAT OR ChangedData.SNF != NextVersionDa.SNF THEN 1 ELSE 0 END AS DataChanged FROM VersionsData ChangedData LEFT JOIN VersionsData NextVersionDa ON ChangedData.SNo = NextVersionDa.SNo AND ChangedData.[Document No] =NextVersionDa.[Document No] AND ChangedData.[Hist Version] = NextVersionDa.[Hist Version] + 1 ), FinalResults AS ( SELECT SNo,[Hist Version],[Hist By],[Hist On],[Document No],[Document Date],[MCC Uploader code],[MCC Code],[MCC Name],Qty,FAT,SNF,FATKG,SNFKG,CASE WHEN rownum = 1 THEN 'Mobile' WHEN DataChanged = 1 THEN 'Erp' ELSE 'Mobile' END AS [Source Type],Operation,rownum,DataChanged  FROM ChangedData WHERE rownum = 1  OR DataChanged = 1 ) SELECT SNo,[Hist Version],[Hist By],[Hist On], [Document No],[Document Date],[MCC Uploader code],[MCC Code],[MCC Name],Qty,FAT,SNF,FATKG,SNFKG,CASE WHEN rownum = 1 THEN 'Mobile' WHEN DataChanged = 1 THEN 'Erp' ELSE 'Mobile' END AS [Source Type],Operation FROM FinalResults ORDER BY SNo, [Hist Version] asc "
+        ElseIf rbtnDCS.Checked Then
+            qry = " WITH VersionsData AS ( SELECT TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Hist_Version as [Hist Version],TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Hist_By as [Hist By],TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Hist_On as [Hist On],TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Document_No as [Document No],convert(varchar, TSPL_MILK_COLLECTION_DCS_Hist_Data.Document_date,103)[Document Date],TSPL_MILK_COLLECTION_DCS_detail_Hist_Data.Shift,TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.MCC_Code as [MCC Code],Mcc_Code_VLC_Uploader as [MCC Uploader code],MCC_NAME as [MCC Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [DCS Uploader Code],TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.VLC_Code as [DCS Code],VLC_Name as [DCS Name],TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.SNFKG,CASE WHEN REF_PK_ID_BMCDCS_TRIP IS NULL THEN 'ERP' ELSE 'Mobile' END AS [Source Type],TSPL_MILK_COLLECTION_DCS_Hist_Data.operation_type AS Operation,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Document_No, TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.SNo ORDER BY TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Hist_Version asc) AS rownum 
+            from TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data left outer join TSPL_MILK_COLLECTION_DCS_Hist_Data on TSPL_MILK_COLLECTION_DCS_Hist_Data.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Document_No and TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Hist_Version = TSPL_MILK_COLLECTION_DCS_Hist_Data.Hist_Version left join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.Document_No left join TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data on TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail left outer join TSPL_MILK_COLLECTION_MCC_Hist_Data on TSPL_MILK_COLLECTION_MCC_Hist_Data.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Document_No and TSPL_MILK_COLLECTION_MCC_Hist_Data.Hist_Version = TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.Hist_Version Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.MCC_Code left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL_Hist_Data.VLC_Code 
+			LEFT JOIN TSPL_MILK_COLLECTION_BMCDCS_TRIP ON TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID = TSPL_MILK_COLLECTION_MCC_DETAIL_Hist_Data.REF_PK_ID_BMCDCS_TRIP  WHERE TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID =" + clsCommon.myCstr(PK_ID) + " ),
+            ChangedData AS  ( SELECT ChangedData.SNo,ChangedData.[Hist Version],ChangedData.[Hist By],ChangedData.[Hist On],ChangedData.[Document No],ChangedData.[Document Date],ChangedData.Shift,ChangedData.[MCC Uploader code],ChangedData.[MCC Code],ChangedData.[MCC Name],ChangedData.[DCS Uploader Code],ChangedData.[DCS Code],ChangedData.[DCS Name],ChangedData.PK_Id,ChangedData.Qty,ChangedData.FAT,ChangedData.SNF,ChangedData.FATKG,ChangedData.SNFKG,ChangedData.[Source Type],ChangedData.Operation,ChangedData.rownum,CASE WHEN ChangedData.Qty != NextVersionDa.Qty OR ChangedData.FAT != NextVersionDa.FAT OR ChangedData.SNF != NextVersionDa.SNF THEN 1 ELSE 0 END AS DataChanged FROM VersionsData ChangedData LEFT JOIN VersionsData NextVersionDa ON ChangedData.SNo = NextVersionDa.SNo AND ChangedData.[Document No] =NextVersionDa.[Document No] AND ChangedData.[Hist Version] = NextVersionDa.[Hist Version] + 1 ), FinalResults AS ( SELECT SNo,[Hist Version],[Hist By],[Hist On],[Document No],[Document Date],Shift,[MCC Uploader code],[MCC Code],[MCC Name],[DCS Uploader Code],[DCS Code],[DCS Name],Qty,FAT,SNF,FATKG,SNFKG,CASE WHEN rownum = 1 THEN 'Mobile' WHEN DataChanged = 1 THEN 'Erp' ELSE 'Mobile' END AS [Source Type],Operation,rownum,DataChanged  FROM ChangedData WHERE rownum = 1  OR DataChanged = 1 ) SELECT SNo,[Hist Version],[Hist By],[Hist On], [Document No],[Document Date],Shift,[MCC Uploader code],[MCC Code],[MCC Name],[DCS Uploader Code],[DCS Code],[DCS Name],Qty,FAT,SNF,FATKG,SNFKG,CASE WHEN rownum = 1 THEN 'Mobile' WHEN DataChanged = 1 THEN 'Erp' ELSE 'Mobile' END AS [Source Type],Operation FROM FinalResults ORDER BY SNo, [Hist Version] asc "
+        End If
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Return dt
     End Function
 End Class
