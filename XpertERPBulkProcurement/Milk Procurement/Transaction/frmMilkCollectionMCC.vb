@@ -30,6 +30,7 @@ Public Class frmMilkCollectionMCC
     Const colSNFKG As String = "colSNFKG"
     Const colTemp As String = "colTemp"
     Const ColMilkNotPicked As String = "ColMilkNotPicked"
+    Const ColRequiredRetesting As String = "ColRequiredRetesting"
 
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -493,6 +494,15 @@ Public Class frmMilkCollectionMCC
         repoCheck.Name = ColMilkNotPicked
         repoCheck.IsVisible = False
         repoCheck.ReadOnly = False
+        repoCheck.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoCheck)
+
+        repoCheck = New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "Required Retesting"
+        repoCheck.Name = ColRequiredRetesting
+        repoCheck.IsVisible = False
+        repoCheck.ReadOnly = True
         repoCheck.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCheck)
 
@@ -1046,7 +1056,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             If clsCommon.myLen(gv1.Rows(ii).Cells(colMCCCode).Value) > 0 Then
                 If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 OrElse clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
                     Dim flag As Boolean = True
-                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly AndAlso Not clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
+                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly Then
                         flag = False
                     End If
                     If flag Then
@@ -1059,6 +1069,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
 
                         objTr.Sample_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSampleNo).Value)
                         objTr.Milk_Not_Picked = clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value)
+                        objTr.Required_Retesting = clsCommon.myCBool(gv1.Rows(ii).Cells(ColRequiredRetesting).Value)
                         objTr.MCC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colMCCCode).Value)
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
                         objTr.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
@@ -1118,19 +1129,17 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
                 txtDesc.Text = obj.Description
                 txtSlipNo.Text = obj.Slip_No
-                Dim PreviousSNo As Integer = -1
+
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMilkCollectionMCCDetail In obj.Arr
-                        If objTr.SNo <> PreviousSNo Then
-                            gv1.Rows.AddNew()
-                            PreviousSNo = objTr.SNo
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSampleNo).Value = objTr.Sample_No
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = objTr.Milk_Type
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCCode).Value = objTr.MCC_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCName).Value = objTr.MCC_Name
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCUploaderCode).Value = objTr.MCC_Uploader_Code
-                        End If
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSampleNo).Value = objTr.Sample_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = objTr.Milk_Type
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCCode).Value = objTr.MCC_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCName).Value = objTr.MCC_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCUploaderCode).Value = objTr.MCC_Uploader_Code
+
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColPKID).Value = objTr.PK_Id
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAgainst_Multiple_Days).Value = objTr.Against_Multiple_Days
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColREF_PK_ID_BMCDCS_TRIP).Value = objTr.REF_PK_ID_BMCDCS_TRIP
@@ -1148,6 +1157,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCSiloCapacity).Value = objTr.Silo_Capacity
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTemp).Value = objTr.Temp
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColMilkNotPicked).Value = objTr.Milk_Not_Picked
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColRequiredRetesting).Value = objTr.Required_Retesting
                     Next
                 End If
                 UpdateAllTotal()

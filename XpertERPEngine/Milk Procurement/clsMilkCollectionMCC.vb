@@ -262,11 +262,13 @@ where 2=2"
                     If objtr.Qty <= 0 Then
                         Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
                     End If
-                    If objtr.FAT <= 0 Then
-                        Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-                    End If
-                    If objtr.SNF <= 0 Then
-                        Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    If Not objtr.Required_Retesting Then
+                        If objtr.FAT <= 0 Then
+                            Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                        End If
+                        If objtr.SNF <= 0 Then
+                            Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                        End If
                     End If
                 End If
             Next
@@ -279,9 +281,8 @@ where 2=2"
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
-
+            HistoryUpdate(obj.Document_No, trans)
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -323,7 +324,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
 
-
+            HistoryUpdate(obj.Document_No, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -417,6 +418,7 @@ Public Class clsMilkCollectionMCCDetail
     Public SNo As Integer
     Public Sample_No As Integer
     Public Milk_Not_Picked As Boolean
+    Public Required_Retesting As Boolean
     Public MCC_Uploader_Code As String ''Not a Table Column
     Public MCC_Code As String
     Public MCC_Name As String
@@ -446,6 +448,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Against_Multiple_Days As Integer
     Public REF_PK_ID_BMCDCS_TRIP As Integer
     Public Against_Multiple_Days_Merge_Day_Detail As Integer
+
 
 
 
@@ -506,6 +509,7 @@ Public Class clsMilkCollectionMCCDetail
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Milk_Not_Picked", IIf(obj.Milk_Not_Picked, 1, 0), True)
+                clsCommon.AddColumnsForChange(coll, "Required_Retesting", IIf(obj.Required_Retesting, 1, 0), True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
@@ -597,6 +601,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
                 objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
                 objTr.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
+                objTr.Required_Retesting = (clsCommon.myCDecimal(dr("Required_Retesting")) = 1)
                 objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
 
                 arr.Add(objTr)

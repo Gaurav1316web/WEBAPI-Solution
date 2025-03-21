@@ -9,6 +9,11 @@ Public Class frmMilkCollectionMCCQC
     Const colCheck As String = "colCheck"
 
     Private Sub FrmPrefixImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Required_Retesting", "int Null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
+
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDateReport.Value = txtDate.Value
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -30,7 +35,7 @@ Public Class frmMilkCollectionMCCQC
             gv1.Columns.Clear()
             Dim FileName As String = ""
             Dim SafeFileName As String = ""
-            If transportSql.importExcel(FileName, SafeFileName, gv1, "DATE", "S NO", "NO.", " BMC Name", "R.NO.", "DCS", "FAT", "SNF", "CLR", "ACIDITY", "REMARKS") Then
+            If transportSql.importExcel(FileName, SafeFileName, gv1, "DATE", "S NO", "NO.", " BMC Name", "R.NO.", "DCS", "FAT", "SNF", "CLR", "ACIDITY", "REMARKS", "Retesting(Y/N)") Then
                 Dim repoError As GridViewTextBoxColumn = New GridViewTextBoxColumn()
                 repoError.FormatString = ""
                 repoError.HeaderText = "Error"
@@ -204,6 +209,14 @@ Public Class frmMilkCollectionMCCQC
                         Continue For
                     End If
 
+                    Dim strRetesting As String = clsCommon.myCstr(gv1.Rows(ii).Cells("Retesting(Y/N)").Value)
+                    If clsCommon.myLen(strRetesting) > 0 Then
+                        If Not (clsCommon.CompairString(strRetesting, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(strRetesting, "N") = CompairStringResult.Equal) Then
+                            gv1.Rows(ii).Cells("Error").Value += "Required Retesting should have value Y/N"
+                            gv1.Rows(ii).Cells("IsOK").Value = 2
+                        End If
+                    End If
+
                     ' Second filtering step with qry2 on dtTemp
                     Dim secondFilteredRows = dtTemp.Select(qry2)
 
@@ -224,6 +237,8 @@ Public Class frmMilkCollectionMCCQC
                         dtTemp = Nothing
                         Continue For
                     End If
+
+
                     gv1.Rows(ii).Cells("PKID").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("PK_Id"))
                     gv1.Rows(ii).Cells("Qty").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("Qty"))
                     gv1.Rows(ii).Cells("Gaze_Qty").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("Gaze_Qty"))
@@ -279,6 +294,7 @@ Public Class frmMilkCollectionMCCQC
                         If clsCommon.myCdbl(gv1.Rows(ii).Cells("IsOK").Value) = 1 Then
                             Dim obj As New clsMilkCollectionMCCDetail()
                             obj.PK_Id = clsCommon.myCDecimal(gv1.Rows(ii).Cells("PKID").Value)
+                            obj.Required_Retesting = (clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells("Retesting(Y/N)").Value), "Y") = CompairStringResult.Equal)
                             If clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) > 0 Then
                                 obj.Qty = (clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) * (1.0 + ((clsCommon.myCDecimal(gv1.Rows(ii).Cells("CLR").Value)) / 1000)))
                                 obj.Qty = Math.Round(obj.Qty, 0, MidpointRounding.AwayFromZero)
@@ -297,11 +313,13 @@ Public Class frmMilkCollectionMCCQC
                         clsCommon.ProgressBarPercentShow()
                         ''Saveing Data
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        Dim ArrPKID As New List(Of String)
                         Try
                             For ii As Integer = 0 To dictionary.Count - 1
                                 clsCommon.ProgressBarPercentUpdate(ii * 100 / dictionary.Count - 1, "Saving " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(dictionary.Count - 1))
 
                                 Dim coll As New Hashtable()
+                                clsCommon.AddColumnsForChange(coll, "Required_Retesting", IIf(dictionary(ii).Required_Retesting, 1, 0), True)
                                 clsCommon.AddColumnsForChange(coll, "Qty", dictionary(ii).Qty)
                                 clsCommon.AddColumnsForChange(coll, "FAT", dictionary(ii).FAT)
                                 clsCommon.AddColumnsForChange(coll, "SNF", dictionary(ii).SNF)
@@ -316,10 +334,20 @@ Public Class frmMilkCollectionMCCQC
                                 clsCommon.AddColumnsForChange(coll, "Original_FATKg", dictionary(ii).FATKG)
                                 clsCommon.AddColumnsForChange(coll, "Original_SNFKg", dictionary(ii).SNFKG)
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
+                                ArrPKID.Add(clsCommon.myCstr(dictionary(ii).PK_Id))
 
                                 'SendSMSandEmail(ii, trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)
+
+                            If ArrPKID IsNot Nothing AndAlso ArrPKID.Count > 0 Then
+                                Dim qry As String = "select distinct Document_No from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id in (" + clsCommon.GetMulcallString(ArrPKID) + ")"
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                For Each dr As DataRow In dt.Rows
+                                    clsMilkCollectionMCC.HistoryUpdate(clsCommon.myCstr(dr("Document_No")), trans)
+                                Next
+                            End If
+
                             trans.Commit()
                         Catch ex As Exception
                             trans.Rollback()
@@ -468,12 +496,12 @@ Public Class frmMilkCollectionMCCQC
         If frm1.RetValue IsNot Nothing Then
             'Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO.], 'gadota' as [BMC Name]," &
             '   " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
-            Dim qry As String = "  select convert(varchar, Document_Date,103) as [DATE], ROW_NUMBER() OVER (ORDER BY Document_Date) as [S NO],
- TSPL_MILK_COLLECTION_MCC_DETAIL.SNo  AS  [NO.],TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_MILK_COLLECTION_MCC.Route_Code as  [R.NO.],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader+'-'+cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as varchar) as [DCS],cast(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as varchar) as FAT,cast(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as varchar) as SNF,'' as  [CLR],'' as [ACIDITY],'' as [REMARKS]
+            Dim qry As String = "Select convert(varchar, Document_Date,103) as [DATE], ROW_NUMBER() OVER (ORDER BY Document_Date) as [S NO],
+ TSPL_MILK_COLLECTION_MCC_DETAIL.SNo  AS  [NO.],TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_MILK_COLLECTION_MCC.Route_Code as  [R.NO.],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader+'-'+cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as varchar) as [DCS],cast(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as varchar) as FAT,cast(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as varchar) as SNF,'' as  [CLR],'' as [ACIDITY],'' as [REMARKS],'' [Retesting(Y/N)]
  from  TSPL_MILK_COLLECTION_MCC_DETAIL
  left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
  left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
-where  convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(frm1.RetValue, "dd/MMM/yyyy") + "' and  isnull(TSPL_MILK_COLLECTION_MCC.Status,0)=0   and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Not_Picked,0)=0  "
+where  convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(frm1.RetValue, "dd/MMM/yyyy") + "' and  isnull(TSPL_MILK_COLLECTION_MCC.Status,0)=0   and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Not_Picked,0)=0"
             transportSql.OpenExporttoExcel(qry, Me)
         End If
 
