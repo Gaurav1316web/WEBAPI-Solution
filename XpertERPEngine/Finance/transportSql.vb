@@ -1314,6 +1314,10 @@ xxx:
                 wSheet.Columns.AutoFit()
             End If
 
+            If AllCellsInString Then
+                wSheet.Columns.AutoFit()
+            End If
+
             'Manadatory Field Coloring
             If manadatoryField IsNot Nothing AndAlso manadatoryField.Count > 0 Then
                 For c As Integer = 0 To wSheet.Columns.Count - 1
