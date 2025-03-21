@@ -2779,6 +2779,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblUploadingDate.Text = ""
         Is_Cancelled = 0
         FlagCreateDo = False
+        chkNoCrateIssue.Checked = False
         'btnCopy.Enabled = True
         DOStatus = 0
         BookingStatus = 0
@@ -3408,7 +3409,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     obj.Uploading_date = lblUploadingDate.Text
                 End If
                 obj.TotalCAN = txtCan.Text
-                obj.TotalCrate = txtCrate.Text
+                If chkNoCrateIssue.Checked Then
+                    obj.TotalCrate = 0
+                    obj.NoCrateIssue = 1
+                Else
+                    obj.TotalCrate = txtCrate.Text
+                    obj.NoCrateIssue = 0
+                End If
                 obj.TotalBox = txtBox.Text
                 obj.RoundOffAmount = clsCommon.myCdbl(TxtRoundoff.Text)
                 If txtEx_Factory_Date.Checked = True Then
@@ -4171,7 +4178,13 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 txtLocation.Value = obj.location_code
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
                 txtCan.Text = obj.TotalCAN
-                txtCrate.Text = obj.TotalCrate
+                If obj.NoCrateIssue = 1 Then
+                    txtCrate.Text = 0
+                Else
+                    txtCrate.Text = obj.TotalCrate
+                End If
+                chkNoCrateIssue.Checked = IIf(obj.NoCrateIssue = 1, True, False)
+
                 txtBox.Text = obj.TotalBox
                 txtShipToLocation.Value = obj.Ship_To_Location
                 lblShipToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SHIP_TO_LOCATION.Ship_To_Desc FROM  TSPL_SHIP_TO_LOCATION WHERE Ship_To_Code  ='" + txtShipToLocation.Value + "'"))

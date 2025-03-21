@@ -67,8 +67,8 @@ Public Class frmMilkCollectionDCS
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadButton3.Visible = MyBase.isPrintFlag
-        RadButton4.Visible = MyBase.isPrintFlag
+        'btnBookSuspence.Visible = MyBase.isPrintFlag
+        'RadButton4.Visible = MyBase.isPrintFlag
         'btnExport.Visible = MyBase.isExport
         'btnImport.Visible = MyBase.isExport
         If btnSave.Visible = True Then
@@ -88,13 +88,6 @@ Public Class frmMilkCollectionDCS
 
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll.Add("Suspence", "integer null")
-        coll.Add("Suspence_VLC_Code", "Varchar(30) null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-        coll.Add("Suspence_Remarks", "varchar(200) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "")
-
-
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -1066,14 +1059,16 @@ Public Class frmMilkCollectionDCS
             CancelPressed()
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
             If btnAddMissing.Visible Then
-                btnAddMissing.Visible = Not btnAddMissing.Visible
+                btnAddMissing.Visible = False
+                btnBookSuspence.Visible = False
             Else
                 Dim pwd As New FrmPWD(Nothing)
                 pwd.strCode = clsFixedParameterCode.MilkSetting
                 pwd.strType = clsFixedParameterType.MCCMilkSRNRepost
                 pwd.ShowDialog()
                 If pwd.isPasswordCorrect Then
-                    btnAddMissing.Visible = Not btnAddMissing.Visible
+                    btnAddMissing.Visible = True
+                    btnBookSuspence.Visible = True
                 End If
             End If
         End If
@@ -1086,7 +1081,9 @@ Public Class frmMilkCollectionDCS
         RefeshSNO()
     End Sub
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If Not MyBase.isDeleteFlag Then
+            e.Cancel = True
+        ElseIf common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1902,7 +1899,35 @@ where 2=2 "
                 Dim dtFinal As DataTable = dv.ToTable()
                 If dtFinal Is Nothing OrElse dtFinal.Rows.Count <= 0 Then
                     Dim dr As DataRow = dtFinal.NewRow
+                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
+                    dr("Comp_Name") = dt.Rows(0)("Comp_Name")
+                    dr("Add1") = dt.Rows(0)("Add1")
+                    dr("Add2") = dt.Rows(0)("Add2")
+                    dr("Add3") = dt.Rows(0)("Add3")
+                    dr("City_Code") = dt.Rows(0)("City_Code")
+                    dr("State") = dt.Rows(0)("State")
+                    dr("Pincode") = dt.Rows(0)("Pincode")
+                    dr("GSTReg_No") = dt.Rows(0)("GSTReg_No")
+                    dr("GSTINNo") = dt.Rows(0)("GSTINNo")
+                    dr("CINNo") = dt.Rows(0)("CINNo")
+                    dr("Phone1") = dt.Rows(0)("Phone1")
+                    dr("Phone2") = dt.Rows(0)("Phone2")
+                    dr("Logo_Img") = dt.Rows(0)("Logo_Img")
+                    dr("Logo_Img2") = dt.Rows(0)("Logo_Img2")
+                    dr("Pan_No") = dt.Rows(0)("Pan_No")
+                    dr("Email") = dt.Rows(0)("Email")
+                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
+                    dr("Document_No") = dt.Rows(0)("Document_No")
+                    dr("Document_Date") = dt.Rows(0)("Document_Date")
+                    dr("Route_Code") = dt.Rows(0)("Route_Code")
+                    dr("ROUTE_NAME") = dt.Rows(0)("ROUTE_NAME")
+                    dr("Vehicle_No") = dt.Rows(0)("Vehicle_No")
+                    dr("Tanker_No") = dt.Rows(0)("Tanker_No")
+                    dr("MCC_Code") = dt.Rows(0)("MCC_Code")
+                    dr("MCC_NAME") = dt.Rows(0)("MCC_NAME")
+                    dr("Mcc_Code_VLC_Uploader") = dt.Rows(0)("Mcc_Code_VLC_Uploader")
                     dtFinal.Rows.Add(dr)
+
                 End If
                 dtFinal.Columns.Add("OWN_VLC_Code_VLC_Uploader", GetType(String))
                 dtFinal.Columns.Add("OWN_Evening_Qty", GetType(Decimal))
@@ -1953,7 +1978,7 @@ where 2=2 "
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please Select Document No")
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2115,68 +2140,67 @@ where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_P
     End Sub
     Function GetDCSTRData(ByVal isMissingOnly As Boolean, ByRef lst As clsBMCDCS_DCS_Head) As List(Of clsMilkCollectionDCSDetail)
         Dim Arr As New List(Of clsMilkCollectionDCSDetail)
-        For ii As Integer = 0 To lst.Arr_DCSDetails.Count - 1
-            If clsCommon.myLen(lst.Arr_DCSDetails(ii).VLC_Code) > 0 Then
-                Dim flag As Boolean = True
-                If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "E") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
-                    'If clsCommon.myCDecimal(lst.Arr_BMCDCS_DCS(ii).REF_PK_ID) > 0 AndAlso isMissingOnly Then
-                    'flag = False
-                    'End If
-                    If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
-                        objTr.SNo = ii + 1
-                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
-                        objTr.Shift = "E"
-                        objTr.Milk_Type = clsCommon.myCstr("Good")
-                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
-                        objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
-                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
-                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
-                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
-                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
-                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
-                        If intRejectApplicableOn <> 1 Then
-                            If objTr.FAT <= 0 Then
-                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+        If lst.Arr_DCSDetails IsNot Nothing AndAlso lst.Arr_DCSDetails.Count > 0 Then
+            For ii As Integer = 0 To lst.Arr_DCSDetails.Count - 1
+                If clsCommon.myLen(lst.Arr_DCSDetails(ii).VLC_Code) > 0 Then
+                    Dim flag As Boolean = True
+                    If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "E") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
+                        If flag Then
+                            Dim objTr As New clsMilkCollectionDCSDetail()
+                            objTr.SNo = ii + 1
+                            objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
+                            objTr.Shift = "E"
+                            objTr.Milk_Type = clsCommon.myCstr("Good")
+                            'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                            objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
+                            objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
+                            objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
+                            objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
+                            objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
+                            Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                            If intRejectApplicableOn <> 1 Then
+                                If objTr.FAT <= 0 Then
+                                    Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                                End If
+                                If objTr.SNF <= 0 Then
+                                    Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                                End If
                             End If
-                            If objTr.SNF <= 0 Then
-                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
+                            Arr.Add(objTr)
                         End If
-                        Arr.Add(objTr)
+                    End If
+                    flag = True
+                    If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "M") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
+                        'If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningPKID).Value) > 0 AndAlso isMissingOnly Then
+                        '    flag = False
+                        'End If
+                        If flag Then
+                            Dim objTr As New clsMilkCollectionDCSDetail()
+                            objTr.SNo = ii + 1
+                            objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
+                            objTr.Shift = "M"
+                            objTr.Milk_Type = clsCommon.myCstr("Good")
+                            'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                            objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
+                            objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
+                            objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
+                            objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
+                            objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
+                            Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                            If intRejectApplicableOn <> 1 Then
+                                If objTr.FAT <= 0 Then
+                                    Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                                End If
+                                If objTr.SNF <= 0 Then
+                                    Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                                End If
+                            End If
+                            Arr.Add(objTr)
+                        End If
                     End If
                 End If
-                flag = True
-                If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "M") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
-                    'If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningPKID).Value) > 0 AndAlso isMissingOnly Then
-                    '    flag = False
-                    'End If
-                    If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
-                        objTr.SNo = ii + 1
-                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
-                        objTr.Shift = "M"
-                        objTr.Milk_Type = clsCommon.myCstr("Good")
-                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
-                        objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
-                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
-                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
-                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
-                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
-                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
-                        If intRejectApplicableOn <> 1 Then
-                            If objTr.FAT <= 0 Then
-                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                            If objTr.SNF <= 0 Then
-                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                        End If
-                        Arr.Add(objTr)
-                    End If
-                End If
-            End If
-        Next
+            Next
+        End If
         Return Arr
     End Function
     Private Sub btnCreateDCS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateDCS.Click
@@ -2184,13 +2208,22 @@ where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_P
         clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSP_VLCMaster, DocNo)
     End Sub
 
-    Private Sub txtTotPendingFATPer_Click(sender As Object, e As EventArgs) Handles txtTotPendingFATPer.Click
 
+
+    Private Sub btnBookSuspence_Click(sender As Object, e As EventArgs) Handles btnBookSuspence.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("No Document found")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Book for suspence Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                clsMilkCollectionDCS.BookForSuspence(txtDocNo.Value)
+                clsCommon.MyMessageBoxShow(Me, "Successfully booked for suspence", Me.Text)
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
-    'Private Sub btnViewBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewBalance.Click
-    '    Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
-    '    isViewBalance = True
-    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.VendorCustomerLedgerReport, DocNo)
-    'End Sub
+
 
 End Class
