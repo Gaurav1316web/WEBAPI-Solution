@@ -2414,6 +2414,7 @@ Public Class clsCreateAllTable
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             coll.Add("IsRepeat", "integer NOT Null DEFAULT 1")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
+            coll.Add("Print_Sequence", "integer Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
