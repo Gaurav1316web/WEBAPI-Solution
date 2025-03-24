@@ -2237,6 +2237,7 @@ Public Class clsUserMgtCode
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptUnionBookingReport As String = "RPT_UNI_BOO"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptBMCDCSAbsent As String = "BMC_DCS_RPT"
     Public Const rptTankerUtilization As String = "TANKER_ULT_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
