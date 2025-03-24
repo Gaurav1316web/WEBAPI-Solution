@@ -2510,6 +2510,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             sQueryDD += "  left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.deduction
                             where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate + "'),103) and
                             convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Todate + "'),103)  "
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            End If
+            If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryDD += " ) xx where xx.AMOUNT > 0 group by   xx.Doc_No,xx.VSP_Uploader_Code, xx.Vendor_CODE, Vendor_NAME, xx.Ded_Code,xx.ROUTE_NO ,xx.Mcc_Code_VLC_Uploader HAVING SUM (AMOUNT)>0 "
