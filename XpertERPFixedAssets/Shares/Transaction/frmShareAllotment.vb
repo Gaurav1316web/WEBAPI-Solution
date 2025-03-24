@@ -333,7 +333,7 @@ Public Class frmShareAllotment
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
 
-            Dim sqlqry As String = "  select max(TSPL_SHARE_ALLOTMENT.code)code,Max(TSPL_SHARE_MOVEMENT.Source_Date)Source_Date,max(TSPL_SHARE_MOVEMENT.Certificate_No)Certificate_No,Max(TSPL_SHARE_ALLOTMENT.Share_Code)Share_Code,max(TSPL_SHARE_ALLOTMENT.DCS_Code)DCS_Code,max(TSPL_SHARE_ALLOTMENT.Name)Name,max(TSPL_SHARE_MASTER.Qty)Qty,max(TSPL_SHARE_MASTER.Rate)Rate,max(TSPL_SHARE_MASTER.Amount)Amount,max(tspl_fiscal_year_master.Fiscal_Code)Fiscal_Code,
+            Dim sqlqry As String = "  select max(TSPL_SHARE_ALLOTMENT.code)code,  max(convert(date, TSPL_SHARE_MOVEMENT.Source_Date,106))Source_Date,max(TSPL_SHARE_MOVEMENT.Certificate_No)Certificate_No,Max(TSPL_SHARE_ALLOTMENT.Share_Code)Share_Code,max(TSPL_SHARE_ALLOTMENT.DCS_Code)DCS_Code,max(TSPL_SHARE_ALLOTMENT.Name)Name,max(TSPL_SHARE_MASTER.Qty)Qty,max(TSPL_SHARE_MASTER.Rate)Rate,max(TSPL_SHARE_MASTER.Amount)Amount,max(tspl_fiscal_year_master.Fiscal_Code)Fiscal_Code,
  max(SUBSTRING(tspl_fiscal_year_master.Fiscal_Name,15,23))Fiscal_Name, MAX(tspl_fiscal_year_master.Start_Date)Start_date,max(tspl_fiscal_year_master.end_Date)end_date,
  max(TSPL_SHARE_MASTER.Range_From)Range_From,max(TSPL_SHARE_MASTER.Range_To)Range_To,Max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_COMPANY_MASTER.City_Code)City_Code
  ,max(TSPL_VENDOR_MASTER.RegistrationNo)Registration_No,max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader
