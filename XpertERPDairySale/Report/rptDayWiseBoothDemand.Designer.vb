@@ -51,6 +51,9 @@ Partial Class rptDayWiseBoothDemand
         Me.btnGO = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbSummary = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbDetail = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -82,6 +85,10 @@ Partial Class rptDayWiseBoothDemand
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +129,7 @@ Partial Class rptDayWiseBoothDemand
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
@@ -142,7 +150,7 @@ Partial Class rptDayWiseBoothDemand
         Me.RadGroupBox4.Controls.Add(Me.rbnItemType)
         Me.RadGroupBox4.Controls.Add(Me.rbnItemWise)
         Me.RadGroupBox4.HeaderText = "Item Group"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(338, 60)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(338, 116)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(179, 43)
@@ -281,7 +289,7 @@ Partial Class rptDayWiseBoothDemand
         Me.RadGroupBox1.Controls.Add(Me.rdbBooth)
         Me.RadGroupBox1.Controls.Add(Me.rdbRoute)
         Me.RadGroupBox1.HeaderText = "Report Type"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(338, 4)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(338, 60)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(268, 50)
@@ -397,6 +405,37 @@ Partial Class rptDayWiseBoothDemand
         Me.btnReset.TabIndex = 408
         Me.btnReset.Text = "Reset"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rdbSummary)
+        Me.RadGroupBox2.Controls.Add(Me.rdbDetail)
+        Me.RadGroupBox2.HeaderText = "Data View Preference"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(338, 4)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(179, 50)
+        Me.RadGroupBox2.TabIndex = 368
+        Me.RadGroupBox2.Text = "Data View Preference"
+        '
+        'rdbSummary
+        '
+        Me.rdbSummary.Location = New System.Drawing.Point(90, 20)
+        Me.rdbSummary.Name = "rdbSummary"
+        Me.rdbSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rdbSummary.TabIndex = 306
+        Me.rdbSummary.TabStop = False
+        Me.rdbSummary.Text = "Summary"
+        '
+        'rdbDetail
+        '
+        Me.rdbDetail.Location = New System.Drawing.Point(10, 20)
+        Me.rdbDetail.Name = "rdbDetail"
+        Me.rdbDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rdbDetail.TabIndex = 307
+        Me.rdbDetail.TabStop = False
+        Me.rdbDetail.Text = "Detail"
+        '
         'rptDayWiseBoothDemand
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -444,6 +483,11 @@ Partial Class rptDayWiseBoothDemand
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -477,4 +521,7 @@ Partial Class rptDayWiseBoothDemand
     Friend WithEvents btnGO As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnReset As RadButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rdbSummary As RadRadioButton
+    Friend WithEvents rdbDetail As RadRadioButton
 End Class
