@@ -55446,14 +55446,14 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modify_Date", "DateTime not NULL")
             coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
             coll.Add("Post_Date", "DateTime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS", coll, "", False, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS", coll, "", True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("SNO", "integer NUll")
             coll.Add("Document_No", "VARCHAR(30)  NULL REFERENCES TSPL_NOTIFICATIONS(Document_No) ")
             coll.Add("Login_Type", "varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS_USER_TYPE", coll, "", False, True, "TSPL_Notifications", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS_USER_TYPE", coll, "", True, True, "TSPL_Notifications", "Document_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")

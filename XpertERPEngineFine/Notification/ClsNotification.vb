@@ -72,6 +72,8 @@ Public Class ClsNotification
             End If
 
             IsSaved = IsSaved AndAlso clsNotificationDetails.SaveData(obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_NOTIFICATIONS", "Document_No", "TSPL_NOTIFICATIONS_USER_TYPE", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -179,6 +181,10 @@ Public Class ClsNotification
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "TSPL_NOTIFICATIONS", "Document_No", "TSPL_NOTIFICATIONS_USER_TYPE", "Document_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_NOTIFICATIONS", "Document_No", "TSPL_NOTIFICATIONS_USER_TYPE", "Document_No", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_NOTIFICATIONS_USER_TYPE where Document_No='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
