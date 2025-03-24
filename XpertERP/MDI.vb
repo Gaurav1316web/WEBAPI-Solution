@@ -8491,6 +8491,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCDCSAbsent
+                        frm = New rptAbsentBMCDCS
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTankerUtilization
                         frm = New rptTankerapprovalutilization
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
