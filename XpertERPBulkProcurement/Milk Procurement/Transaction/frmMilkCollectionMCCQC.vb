@@ -9,11 +9,6 @@ Public Class frmMilkCollectionMCCQC
     Const colCheck As String = "colCheck"
 
     Private Sub FrmPrefixImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll.Add("Required_Retesting", "int Null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
-
-
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDateReport.Value = txtDate.Value
         RadPageView1.SelectedPage = RadPageViewPage1
