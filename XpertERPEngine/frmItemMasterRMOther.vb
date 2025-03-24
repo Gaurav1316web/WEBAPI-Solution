@@ -4640,7 +4640,7 @@ Public Class FrmItemMasterRMOther
     Sub LoadItemSubGroupType()
 
         Dim Qry As String = " SELECT '' AS Code,'Select' as Description union select Chapter_Head_Code as Code,Description from TSPL_CHAPTER_HEAD "
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         cboItemSubGroupType.DataSource = dt
         cboItemSubGroupType.ValueMember = "Code"
         cboItemSubGroupType.DisplayMember = "Description"

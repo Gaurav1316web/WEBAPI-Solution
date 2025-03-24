@@ -2414,6 +2414,7 @@ Public Class clsCreateAllTable
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             coll.Add("IsRepeat", "integer NOT Null DEFAULT 1")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
+            coll.Add("Print_Sequence", "integer Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -8515,6 +8516,7 @@ Public Class clsCreateAllTable
             coll.Add("Description", "VARCHAR(200) NULL")
             coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
             coll.Add("Manual_VehicleNo", "varchar(12) null")
+            coll.Add("NoCrateIssue", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -24293,6 +24295,7 @@ Public Class clsCreateAllTable
             coll.Add("Correction_Qty", "Decimal(18,3) null")
             coll.Add("Correction_FAT", "Decimal(18,2) null")
             coll.Add("Correction_SNF", "Decimal(18,2) null")
+            coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
@@ -24367,6 +24370,7 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             'coll.Add("Against_Milk_Collection_MCC_Detail", "integer NOT NULL unique references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
             coll.Add("Slip_No", "Varchar(30) null")
+            coll.Add("operation_type", "VARCHAR(50)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

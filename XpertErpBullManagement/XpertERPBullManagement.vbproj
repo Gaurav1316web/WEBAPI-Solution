@@ -189,9 +189,8 @@
     <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngineFine, Version=7.1.3.90, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +537,5 @@
   <ItemGroup>
     <None Include="Resources\search4.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

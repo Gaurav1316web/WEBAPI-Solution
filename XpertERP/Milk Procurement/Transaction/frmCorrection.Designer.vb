@@ -1456,7 +1456,7 @@ Partial Class frmCorrection
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(284, 5)
+        Me.btnExport.Location = New System.Drawing.Point(191, 4)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(91, 21)
         Me.btnExport.TabIndex = 12
@@ -1467,7 +1467,7 @@ Partial Class frmCorrection
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(191, 5)
+        Me.btnImport.Location = New System.Drawing.Point(288, 4)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(88, 21)
         Me.btnImport.TabIndex = 13
