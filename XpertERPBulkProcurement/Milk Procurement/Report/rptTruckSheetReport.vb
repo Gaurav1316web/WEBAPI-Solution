@@ -93,6 +93,8 @@ Public Class rptTruckSheetReport
 
             Dim dtReport As DataTable = New DataTable()
             dtReport.Columns.Add("DCS", GetType(String))
+            dtReport.Columns.Add("MCC Uploader Code", GetType(String))
+            dtReport.Columns.Add("DCS Uploader Code", GetType(String))
             dtReport.Columns.Add("Date", GetType(String))
             dtReport.Columns.Add("Shift", GetType(String))
             dtReport.Columns.Add("Type", GetType(String))
@@ -191,7 +193,7 @@ where 1=1 "
                             End If
                         Next
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date, FilteredDetails.Against_Milk_Collection_MCC_Detail,
-                        (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +' - '+TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
+                        (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +' - '+TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG
@@ -206,6 +208,7 @@ where 1=1 "
                         LEFT JOIN (SELECT PK_Id, Document_No,Against_Milk_Collection_MCC_Detail FROM (SELECT PK_Id,Document_No, Against_Milk_Collection_MCC_Detail,ROW_NUMBER() OVER (PARTITION BY Document_No ORDER BY PK_Id) AS RowNum FROM TSPL_MILK_COLLECTION_DCS_MCC_DETAIL) AS RankedRows WHERE RowNum = 1) AS FilteredDetails
                        ON TSPL_MILK_COLLECTION_DCS.Document_No = FilteredDetails.Document_No                
                         left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.vlc_code=TSPL_MILK_COLLECTION_DCS_DETAIL.vlc_code
+                        left Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         where FilteredDetails.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
 
@@ -313,7 +316,7 @@ where 1=1 "
                                     If drFilter IsNot Nothing AndAlso drFilter.Length > 0 Then
                                         dtDCSDetailFilter = drFilter.CopyToDataTable()
                                         For K As Integer = 0 To dtDCSDetailFilter.Rows.Count - 1
-                                            dtReport.Rows.Add(dtDCSDetailFilter.Rows(K).Item("VLC_Name"), clsCommon.GetPrintDate(dtDCSDetailFilter.Rows(K).Item("document_date"), "dd/MMM/yyyy"), dtDCSDetailFilter.Rows(K).Item("Shift"), dtDCSDetailFilter.Rows(K).Item("CMType"), dtDCSDetailFilter.Rows(K).Item("Qty"), dtDCSDetailFilter.Rows(K).Item("FAT"), dtDCSDetailFilter.Rows(K).Item("SNF"), dtDCSDetailFilter.Rows(K).Item("FATKG"), dtDCSDetailFilter.Rows(K).Item("SNFKG"), dtDCSDetailFilter.Rows(K).Item("Own_Qty"), dtDCSDetailFilter.Rows(K).Item("Own_FAT"), dtDCSDetailFilter.Rows(K).Item("Own_SNF"), dtDCSDetailFilter.Rows(K).Item("Own_FATKG"), dtDCSDetailFilter.Rows(K).Item("Own_SNFKG"))
+                                            dtReport.Rows.Add(dtDCSDetailFilter.Rows(K).Item("VLC_Name"), dtDCSDetailFilter.Rows(K).Item("Mcc_Code_VLC_Uploader"), dtDCSDetailFilter.Rows(K).Item("VLC_Code_VLC_Uploader"), clsCommon.GetPrintDate(dtDCSDetailFilter.Rows(K).Item("document_date"), "dd/MMM/yyyy"), dtDCSDetailFilter.Rows(K).Item("Shift"), dtDCSDetailFilter.Rows(K).Item("CMType"), dtDCSDetailFilter.Rows(K).Item("Qty"), dtDCSDetailFilter.Rows(K).Item("FAT"), dtDCSDetailFilter.Rows(K).Item("SNF"), dtDCSDetailFilter.Rows(K).Item("FATKG"), dtDCSDetailFilter.Rows(K).Item("SNFKG"), dtDCSDetailFilter.Rows(K).Item("Own_Qty"), dtDCSDetailFilter.Rows(K).Item("Own_FAT"), dtDCSDetailFilter.Rows(K).Item("Own_SNF"), dtDCSDetailFilter.Rows(K).Item("Own_FATKG"), dtDCSDetailFilter.Rows(K).Item("Own_SNFKG"))
                                         Next
 
                                         SumQty = Math.Round(clsCommon.myCdbl(dtDCSDetailFilter.Compute("SUM([Qty])", " [Qty] is not null")), 2)
@@ -665,6 +668,8 @@ where 1=1 "
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
 
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DCS").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MCC Uploader Code").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DCS Uploader Code").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Date").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Shift").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Type").Name)

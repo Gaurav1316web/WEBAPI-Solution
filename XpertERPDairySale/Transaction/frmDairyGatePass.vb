@@ -2719,7 +2719,15 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             MyRadGridView1.EnableFiltering = True
             MyRadGridView1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
+
                 MyRadGridView1.DataSource = dt
+                MyRadGridView1.Refresh()
+                MyRadGridView1.MasterTemplate.Refresh()
+                'ApplyFormattingManually()
+
+                '' Refresh the UI
+                'MyRadGridView1.TableElement.Update(False)
+                'MyRadGridView1.MasterTemplate.Refresh()
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     MyRadGridView1.Columns("SR.").FormatString = "{0:n0}"
@@ -2824,6 +2832,34 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
+
+    Public Sub ApplyFormattingManually()
+        For Each row As GridViewRowInfo In MyRadGridView1.Rows
+            For Each cell As GridViewCellInfo In row.Cells
+                If cell IsNot Nothing AndAlso IsNumeric(cell.Value) Then
+                    Dim value As Double = Convert.ToDouble(cell.Value)
+                    Dim cellElement As GridCellElement = MyRadGridView1.TableElement.GetCellElement(cell.RowInfo, cell.ColumnInfo)
+
+                    If cellElement IsNot Nothing Then
+                        ' Apply formatting directly
+                        If value = Math.Floor(value) Then
+                            cellElement.Text = value.ToString("0") ' No decimals
+                        ElseIf value * 10 = Math.Floor(value * 10) Then
+                            cellElement.Text = value.ToString("0.0") ' One decimal place
+                        Else
+                            cellElement.Text = value.ToString("0.00") ' Two decimal places
+                        End If
+                    End If
+                End If
+            Next
+        Next
+
+        ' Force UI refresh
+        MyRadGridView1.TableElement.Update(False)
+        MyRadGridView1.MasterTemplate.Refresh()
+    End Sub
+
+
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
