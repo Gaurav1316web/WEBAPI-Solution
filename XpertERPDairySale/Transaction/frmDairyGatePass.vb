@@ -2723,7 +2723,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                 MyRadGridView1.DataSource = dt
                 MyRadGridView1.Refresh()
                 MyRadGridView1.MasterTemplate.Refresh()
-                'ApplyFormattingManually()
+                ApplyFormattingManually()
 
                 '' Refresh the UI
                 'MyRadGridView1.TableElement.Update(False)
@@ -2732,7 +2732,9 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     MyRadGridView1.Columns("SR.").FormatString = "{0:n0}"
                     MyRadGridView1.Columns("SR.").HeaderText = "SR."
-
+                    MyRadGridView1.Columns("SR.").HeaderTextAlignment = ContentAlignment.MiddleRight
+                    MyRadGridView1.Columns("SR.").TextAlignment = ContentAlignment.MiddleRight
+                    MyRadGridView1.Columns("SR.").BestFit()
                     For i As Integer = 0 To dtitemName.Rows.Count - 1
                         MyRadGridView1.Columns("" + clsCommon.myCstr(dtitemName.Rows(i).Item("Short_Description")) + "").FormatString = "{0:n0}"
                         If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name2"))) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name3"))) > 0 Then
@@ -2837,17 +2839,16 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
         For Each row As GridViewRowInfo In MyRadGridView1.Rows
             For Each cell As GridViewCellInfo In row.Cells
                 If cell IsNot Nothing AndAlso IsNumeric(cell.Value) Then
-                    Dim value As Double = Convert.ToDouble(cell.Value)
-                    Dim cellElement As GridCellElement = MyRadGridView1.TableElement.GetCellElement(cell.RowInfo, cell.ColumnInfo)
-
-                    If cellElement IsNot Nothing Then
+                    Dim value As Double = clsCommon.myCdbl(cell.Value)
+                    'Dim cellElement As GridCellElement = MyRadGridView1.TableElement.GetCellElement(cell.RowInfo, cell.ColumnInfo)
+                    If value > 0 Then
                         ' Apply formatting directly
                         If value = Math.Floor(value) Then
-                            cellElement.Text = value.ToString("0") ' No decimals
+                            cell.Value = value.ToString("0") ' No decimals
                         ElseIf value * 10 = Math.Floor(value * 10) Then
-                            cellElement.Text = value.ToString("0.0") ' One decimal place
+                            cell.Value = value.ToString("0.0") ' One decimal place
                         Else
-                            cellElement.Text = value.ToString("0.00") ' Two decimal places
+                            cell.Value = value.ToString("0.00") ' Two decimal places
                         End If
                     End If
                 End If
