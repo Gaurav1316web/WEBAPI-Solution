@@ -464,4 +464,8 @@ and Trans_Name='" & clsCommon.myCstr(dr("TransactionCode")) & "'"
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+
+    End Sub
 End Class
