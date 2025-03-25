@@ -860,6 +860,10 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DO
 
     Private Sub CorrectOwnDCSDocuemnt(strDocNo As String)
         ''If Doc any change also do in CorrectOwnDCSDocuemntTrans
+        Dim settMaxFATPerLimit As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
+        Dim settMaxSNFPerLimit As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
+        Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+
         Dim settSNFDecimalPlace As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         Dim qry As String = "select xx.* from (
 select max(case when isOwnBMC=1 then x.PK_Id else '' end) as PK_Id, max(isOwnBMC) as isOwnBMC, 
@@ -918,22 +922,34 @@ order by  xx.Shift desc,xx.Qty "
                                 End If
                                 Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
                                 Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                If settMaxFATPerLimit > 0 Then
+                                    If FAT > settMaxFATPerLimit Then
+                                        FAT = settMaxFATPerLimit
+                                        FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
+                                    End If
+                                End If
+                                If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                                    If SNF > settMaxSNFPerLimit Then
+                                        SNF = settMaxSNFPerLimit
+                                        SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
+                                    End If
+                                End If
                                 Dim strRejectType As String = clsCommon.myCstr(dtDetail.Rows(indx)("Milk_Type"))
-
                                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                                 Try
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                                    clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
-                                    'Dim coll As New Hashtable()
-                                    'clsCommon.AddColumnsForChange(coll, "Qty", Qty)
-                                    'clsCommon.AddColumnsForChange(coll, "FAT", FAT)
-                                    'clsCommon.AddColumnsForChange(coll, "SNF", SNF)
-                                    'clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
-                                    'clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
-                                    'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
-
+                                    If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
+                                    Else
+                                        Dim coll As New Hashtable()
+                                        clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                        clsCommon.AddColumnsForChange(coll, "FAT", FAT)
+                                        clsCommon.AddColumnsForChange(coll, "SNF", SNF)
+                                        clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
+                                        clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
+                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
+                                    End If
                                     trans.Commit()
                                     Exit For
                                 Catch ex As Exception
@@ -952,6 +968,9 @@ order by  xx.Shift desc,xx.Qty "
         ''If Doc any change also do in CorrectOwnDCSDocuemnt
 
         Dim settSNFDecimalPlace As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, trans))
+        Dim settMaxFATPerLimit As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, trans))
+        Dim settMaxSNFPerLimit As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, trans))
+        Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
 
         Dim qry As String = "select xx.* from (
 select max(case when isOwnBMC=1 then x.PK_Id else '' end) as PK_Id, max(isOwnBMC) as isOwnBMC, 
@@ -1010,21 +1029,35 @@ order by  xx.Shift desc,xx.Qty "
                                 End If
                                 Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
                                 Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                If settMaxFATPerLimit > 0 Then
+                                    If FAT > settMaxFATPerLimit Then
+                                        FAT = settMaxFATPerLimit
+                                        FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
+                                    End If
+                                End If
+                                If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                                    If SNF > settMaxSNFPerLimit Then
+                                        SNF = settMaxSNFPerLimit
+                                        SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
+                                    End If
+                                End If
+
                                 Dim strRejectType As String = clsCommon.myCstr(dtDetail.Rows(indx)("Milk_Type"))
-
-
                                 Try
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                    If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
+                                    Else
+                                        Dim coll As New Hashtable()
+                                        clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                        clsCommon.AddColumnsForChange(coll, "FAT", FAT)
+                                        clsCommon.AddColumnsForChange(coll, "SNF", SNF)
+                                        clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
+                                        clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
+                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
+                                    End If
 
-                                    clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
-                                    'Dim coll As New Hashtable()
-                                    'clsCommon.AddColumnsForChange(coll, "Qty", Qty)
-                                    'clsCommon.AddColumnsForChange(coll, "FAT", FAT)
-                                    'clsCommon.AddColumnsForChange(coll, "SNF", SNF)
-                                    'clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
-                                    'clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
-                                    'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
                                     Exit For
                                 Catch ex As Exception
                                     Throw New Exception(ex.Message)
@@ -1674,18 +1707,16 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         End If
 
                         Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
-                                            from TSPL_MILK_COLLECTION_MCC_DETAIL
-                                            left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
-                                            left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No
-                                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
-                                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
-                                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
-                                            left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No or TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No 
-                                            left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
-                                            left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
-                                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
-                                            left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-                                            where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_SRN_HEAD on (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No or TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)
+left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"
+
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             Throw New Exception("Milk Purchase Invoice Generated.")

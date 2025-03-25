@@ -27,6 +27,7 @@ Partial Class FrmTaxRates
         Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -45,6 +46,7 @@ Partial Class FrmTaxRates
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnAdd = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -62,6 +64,7 @@ Partial Class FrmTaxRates
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -72,12 +75,9 @@ Partial Class FrmTaxRates
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(586, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuExport, Me.menuImport, Me.menuExit})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -85,22 +85,16 @@ Partial Class FrmTaxRates
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
         '
         'menuImport
         '
-        Me.menuImport.AccessibleDescription = "Import"
-        Me.menuImport.AccessibleName = "Import"
         Me.menuImport.Name = "menuImport"
         Me.menuImport.Text = "Import"
         '
         'menuExit
         '
-        Me.menuExit.AccessibleDescription = "Exit"
-        Me.menuExit.AccessibleName = "Exit"
         Me.menuExit.Name = "menuExit"
         Me.menuExit.Text = "Exit"
         '
@@ -190,7 +184,7 @@ Partial Class FrmTaxRates
         Me.gvTaxRates.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvTaxRates.Location = New System.Drawing.Point(10, 54)
         '
-        'gvTaxRates
+        '
         '
         Me.gvTaxRates.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvTaxRates.MasterTemplate.AutoGenerateColumns = False
@@ -224,18 +218,22 @@ Partial Class FrmTaxRates
         GridViewTextBoxColumn4.Width = 150
         Me.gvTaxRates.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewDecimalColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewTextBoxColumn4})
         Me.gvTaxRates.MasterTemplate.EnableGrouping = False
+        Me.gvTaxRates.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxRates.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTaxRates.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTaxRates.MyStopExport = False
         Me.gvTaxRates.Name = "gvTaxRates"
         Me.gvTaxRates.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxRates.ShowHeaderCellButtons = True
         Me.gvTaxRates.Size = New System.Drawing.Size(566, 329)
         Me.gvTaxRates.TabIndex = 3
         Me.gvTaxRates.TabStop = False
-        Me.gvTaxRates.Text = "RadGridView1"
+        Me.gvTaxRates.VarID = ""
         '
         'ddlTransType
         '
         Me.ddlTransType.CalculationExpression = Nothing
+        Me.ddlTransType.DropDownAnimationEnabled = True
         Me.ddlTransType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTransType.FieldCode = Nothing
         Me.ddlTransType.FieldDesc = Nothing
@@ -310,12 +308,23 @@ Partial Class FrmTaxRates
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAdd)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Size = New System.Drawing.Size(586, 433)
         Me.SplitContainer1.SplitterDistance = 396
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(144, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmTaxRates
         '
@@ -349,6 +358,7 @@ Partial Class FrmTaxRates
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -373,5 +383,6 @@ Partial Class FrmTaxRates
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents chkIsGLReadonly As common.Controls.MyCheckBox
     Friend WithEvents chkGSTActive As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

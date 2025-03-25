@@ -861,7 +861,7 @@ Partial Class frmCorrection
         Me.txtQty.TabIndex = 0
         Me.txtQty.Text = "0"
         Me.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQty.Value = 0R
+        Me.txtQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblManualFAT_Per
         '
@@ -899,7 +899,7 @@ Partial Class frmCorrection
         Me.txtSNF.TabIndex = 2
         Me.txtSNF.Text = "0"
         Me.txtSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNF.Value = 0R
+        Me.txtSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblManualSNF_Per
         '
@@ -937,7 +937,7 @@ Partial Class frmCorrection
         Me.txtFAT.TabIndex = 1
         Me.txtFAT.Text = "0"
         Me.txtFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFAT.Value = 0R
+        Me.txtFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage3
         '
@@ -1709,7 +1709,7 @@ Partial Class frmCorrection
         Me.txtRetestingCLR.TabIndex = 23
         Me.txtRetestingCLR.Text = "0"
         Me.txtRetestingCLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRetestingCLR.Value = 0R
+        Me.txtRetestingCLR.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtRetestingCLR.Visible = False
         '
         'MyLabel22
@@ -1939,7 +1939,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrQty.TabIndex = 0
         Me.txtBMCCorrQty.Text = "0"
         Me.txtBMCCorrQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrQty.Value = 0R
+        Me.txtBMCCorrQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel27
         '
@@ -1977,7 +1977,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrSNF.TabIndex = 2
         Me.txtBMCCorrSNF.Text = "0"
         Me.txtBMCCorrSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrSNF.Value = 0R
+        Me.txtBMCCorrSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel28
         '
@@ -2015,7 +2015,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrFAT.TabIndex = 1
         Me.txtBMCCorrFAT.Text = "0"
         Me.txtBMCCorrFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrFAT.Value = 0R
+        Me.txtBMCCorrFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage6
         '
@@ -2340,7 +2340,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerQty.TabIndex = 0
         Me.txtBMCTankerQty.Text = "0"
         Me.txtBMCTankerQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerQty.Value = 0R
+        Me.txtBMCTankerQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel44
         '
@@ -2378,7 +2378,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerSNF.TabIndex = 2
         Me.txtBMCTankerSNF.Text = "0"
         Me.txtBMCTankerSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerSNF.Value = 0R
+        Me.txtBMCTankerSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel45
         '
@@ -2416,7 +2416,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerFAT.TabIndex = 1
         Me.txtBMCTankerFAT.Text = "0"
         Me.txtBMCTankerFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerFAT.Value = 0R
+        Me.txtBMCTankerFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnclose
         '

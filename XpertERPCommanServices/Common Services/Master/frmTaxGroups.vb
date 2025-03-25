@@ -502,6 +502,8 @@ Public Class FrmTaxGroups
                         'sanjay
                         Dim col1 As New Hashtable()
                         clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
+
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
                         'sanjay
 
@@ -553,6 +555,7 @@ Public Class FrmTaxGroups
                         clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
                         'sanjay
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
 
                         isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_DELETE", New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue))
                         For Each grow As GridViewRowInfo In gvTaxGroups.Rows
@@ -1181,6 +1184,18 @@ Public Class FrmTaxGroups
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(findTaxGroup.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Tax Group")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(findTaxGroup.Value, "Tax_Group_Code", "TSPL_TAX_GROUP_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub txtCurrencyCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCurrencyCode._MYValidating
