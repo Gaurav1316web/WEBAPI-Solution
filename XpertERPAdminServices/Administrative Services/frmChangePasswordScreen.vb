@@ -113,4 +113,16 @@ Public Class frmChangePasswordScreen
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtNewPass.Text) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select New Password")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(txtNewPass.Text), "Description", "TSPL_FIXED_PARAMETER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
