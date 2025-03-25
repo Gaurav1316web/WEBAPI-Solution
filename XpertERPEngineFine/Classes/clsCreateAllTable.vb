@@ -7841,7 +7841,7 @@ Public Class clsCreateAllTable
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("GSTActive", "Integer null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_TAX_RATES", coll, "PRIMARY KEY (Tax_Code, Tax_Type, Tax_Rate_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TAX_RATES", coll, "PRIMARY KEY (Tax_Code, Tax_Type, Tax_Rate_Code)", True, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("FORM_NAME", "VARCHAR(100) NULL ")
@@ -27420,7 +27420,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Tax_Group_Code_InterState", "varchar(12) NULL")
             coll.Add("Tax_Group_Description_InterState", "varchar(50) NULL")
             coll.Add("Active", "integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_TAX_GROUP_MASTER", coll, "PRIMARY KEY (Tax_Group_Code, Tax_Group_Type)")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TAX_GROUP_MASTER", coll, "PRIMARY KEY (Tax_Group_Code, Tax_Group_Type)", True, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("CURRENCY_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
