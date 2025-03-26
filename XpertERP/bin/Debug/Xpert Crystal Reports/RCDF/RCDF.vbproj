@@ -641,6 +641,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisition.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendorAJM.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RequisitionPendingQty.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RMConsumptionBreakup.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptBalanceStockForJobWork.rpt" />
