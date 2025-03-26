@@ -85,6 +85,8 @@ Public Class clsDocPrefix
                         '=============================END==================================================
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCPREFIX_MASTER", OMInsertOrUpdate.Update, strWhrclas, trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocType, "TSPL_DOCPREFIX_MASTER", "Doc_Type", trans)
+
                 Next
             End If
         Catch ex As Exception

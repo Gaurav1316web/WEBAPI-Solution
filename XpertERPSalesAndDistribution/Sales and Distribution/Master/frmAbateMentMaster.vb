@@ -324,6 +324,18 @@ Public Class FrmAbateMentMaster
         str = "Select Abatement_Code As [Abatement Code],Abatement_Desc As [Abatement Desc],Start_Date As [Start Date],End_Date As [End Date],Abatement_Percent As [Abatement Percent] from TSPL_ABATEMENT_MASTER "
         transportSql.ExporttoExcel(str, Me)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndAbatement.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndAbatement.Value, "Abatement_Code", "TSPL_ABATEMENT_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     ''richa Ticket No BM00000002902 19/06/2014
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
         Dim gv As New RadGridView()

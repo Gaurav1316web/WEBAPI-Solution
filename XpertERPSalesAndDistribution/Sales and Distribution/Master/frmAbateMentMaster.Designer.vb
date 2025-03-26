@@ -22,28 +22,29 @@ Partial Class FrmAbateMentMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.dtpEnd = New common.Controls.MyDateTimePicker
-        Me.RadLabel5 = New common.Controls.MyLabel
-        Me.dtpStart = New common.Controls.MyDateTimePicker
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.RadLabel10 = New common.Controls.MyLabel
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.RadLabel6 = New common.Controls.MyLabel
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.fndAbatement = New common.UserControls.txtNavigator
-        Me.txtRate = New common.MyNumBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.dtpEnd = New common.Controls.MyDateTimePicker()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.dtpStart = New common.Controls.MyDateTimePicker()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.fndAbatement = New common.UserControls.txtNavigator()
+        Me.txtRate = New common.MyNumBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dtpEnd, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpStart, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,14 +65,24 @@ Partial Class FrmAbateMentMaster
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'dtpEnd
         '
+        Me.dtpEnd.CalculationExpression = Nothing
         Me.dtpEnd.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpEnd.FieldCode = Nothing
+        Me.dtpEnd.FieldDesc = Nothing
+        Me.dtpEnd.FieldMaxLength = 0
+        Me.dtpEnd.FieldName = Nothing
         Me.dtpEnd.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpEnd.isCalculatedField = False
+        Me.dtpEnd.IsSourceFromTable = False
+        Me.dtpEnd.IsSourceFromValueList = False
+        Me.dtpEnd.IsUnique = False
         Me.dtpEnd.Location = New System.Drawing.Point(374, 66)
         Me.dtpEnd.MendatroryField = False
         Me.dtpEnd.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -79,6 +90,9 @@ Partial Class FrmAbateMentMaster
         Me.dtpEnd.MyLinkLable2 = Nothing
         Me.dtpEnd.Name = "dtpEnd"
         Me.dtpEnd.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpEnd.ReferenceFieldDesc = Nothing
+        Me.dtpEnd.ReferenceFieldName = Nothing
+        Me.dtpEnd.ReferenceTableName = Nothing
         Me.dtpEnd.Size = New System.Drawing.Size(142, 18)
         Me.dtpEnd.TabIndex = 3
         Me.dtpEnd.TabStop = False
@@ -87,6 +101,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel5.Location = New System.Drawing.Point(306, 67)
         Me.RadLabel5.Name = "RadLabel5"
@@ -96,9 +111,18 @@ Partial Class FrmAbateMentMaster
         '
         'dtpStart
         '
+        Me.dtpStart.CalculationExpression = Nothing
         Me.dtpStart.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpStart.FieldCode = Nothing
+        Me.dtpStart.FieldDesc = Nothing
+        Me.dtpStart.FieldMaxLength = 0
+        Me.dtpStart.FieldName = Nothing
         Me.dtpStart.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpStart.isCalculatedField = False
+        Me.dtpStart.IsSourceFromTable = False
+        Me.dtpStart.IsSourceFromValueList = False
+        Me.dtpStart.IsUnique = False
         Me.dtpStart.Location = New System.Drawing.Point(116, 66)
         Me.dtpStart.MendatroryField = False
         Me.dtpStart.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -106,6 +130,9 @@ Partial Class FrmAbateMentMaster
         Me.dtpStart.MyLinkLable2 = Nothing
         Me.dtpStart.Name = "dtpStart"
         Me.dtpStart.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpStart.ReferenceFieldDesc = Nothing
+        Me.dtpStart.ReferenceFieldName = Nothing
+        Me.dtpStart.ReferenceTableName = Nothing
         Me.dtpStart.Size = New System.Drawing.Size(138, 18)
         Me.dtpStart.TabIndex = 2
         Me.dtpStart.TabStop = False
@@ -114,6 +141,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(6, 67)
         Me.RadLabel3.Name = "RadLabel3"
@@ -123,6 +151,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel10
         '
+        Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.Location = New System.Drawing.Point(6, 90)
         Me.RadLabel10.Name = "RadLabel10"
@@ -163,17 +192,30 @@ Partial Class FrmAbateMentMaster
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(116, 44)
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel6
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(467, 18)
         Me.txtDesc.TabIndex = 1
         '
         'RadLabel6
         '
+        Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel6.Location = New System.Drawing.Point(6, 45)
         Me.RadLabel6.Name = "RadLabel6"
@@ -183,6 +225,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(-164, 130)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(63, 18)
@@ -191,6 +234,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(-164, 93)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 18)
@@ -199,6 +243,7 @@ Partial Class FrmAbateMentMaster
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.RadLabel4.Location = New System.Drawing.Point(6, 21)
         Me.RadLabel4.Name = "RadLabel4"
@@ -218,6 +263,7 @@ Partial Class FrmAbateMentMaster
         '
         'fndAbatement
         '
+        Me.fndAbatement.FieldName = Nothing
         Me.fndAbatement.Location = New System.Drawing.Point(116, 20)
         Me.fndAbatement.MendatroryField = True
         Me.fndAbatement.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -234,17 +280,29 @@ Partial Class FrmAbateMentMaster
         'txtRate
         '
         Me.txtRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtRate.CalculationExpression = Nothing
         Me.txtRate.DecimalPlaces = 2
+        Me.txtRate.FieldCode = Nothing
+        Me.txtRate.FieldDesc = Nothing
+        Me.txtRate.FieldMaxLength = 0
+        Me.txtRate.FieldName = Nothing
+        Me.txtRate.isCalculatedField = False
+        Me.txtRate.IsSourceFromTable = False
+        Me.txtRate.IsSourceFromValueList = False
+        Me.txtRate.IsUnique = False
         Me.txtRate.Location = New System.Drawing.Point(116, 90)
         Me.txtRate.MendatroryField = True
         Me.txtRate.MyLinkLable1 = Nothing
         Me.txtRate.MyLinkLable2 = Nothing
         Me.txtRate.Name = "txtRate"
+        Me.txtRate.ReferenceFieldDesc = Nothing
+        Me.txtRate.ReferenceFieldName = Nothing
+        Me.txtRate.ReferenceTableName = Nothing
         Me.txtRate.Size = New System.Drawing.Size(138, 20)
         Me.txtRate.TabIndex = 4
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0
+        Me.txtRate.Value = 0R
         '
         'SplitContainer1
         '
@@ -261,6 +319,7 @@ Partial Class FrmAbateMentMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -276,7 +335,6 @@ Partial Class FrmAbateMentMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(609, 20)
         Me.RadMenu1.TabIndex = 320
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
@@ -285,23 +343,16 @@ Partial Class FrmAbateMentMaster
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
-        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'GroupBox1
         '
@@ -320,6 +371,16 @@ Partial Class FrmAbateMentMaster
         Me.GroupBox1.Size = New System.Drawing.Size(594, 139)
         Me.GroupBox1.TabIndex = 10
         Me.GroupBox1.TabStop = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(214, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(67, 20)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'FrmAbateMentMaster
         '
@@ -357,6 +418,7 @@ Partial Class FrmAbateMentMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -384,5 +446,6 @@ Partial Class FrmAbateMentMaster
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 
