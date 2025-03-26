@@ -60,11 +60,12 @@ Partial Class frmRequestMaster
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -102,6 +103,7 @@ Partial Class frmRequestMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,6 +123,7 @@ Partial Class frmRequestMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -231,10 +234,10 @@ Partial Class frmRequestMaster
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtScreen)
         Me.RadPageViewPage1.Controls.Add(Me.lblScreen)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(816, 368)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(816, 364)
         Me.RadPageViewPage1.Text = "Detail"
         '
         'MyLabel5
@@ -345,8 +348,8 @@ Partial Class frmRequestMaster
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.txtRemarks)
         Me.SplitContainer3.Panel2.Controls.Add(Me.MyLabel2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(804, 265)
-        Me.SplitContainer3.SplitterDistance = 172
+        Me.SplitContainer3.Size = New System.Drawing.Size(804, 261)
+        Me.SplitContainer3.SplitterDistance = 169
         Me.SplitContainer3.TabIndex = 1449
         '
         'MyLabel9
@@ -388,7 +391,7 @@ Partial Class frmRequestMaster
         '
         '
         Me.txtReason.RootElement.StretchVertically = True
-        Me.txtReason.Size = New System.Drawing.Size(744, 165)
+        Me.txtReason.Size = New System.Drawing.Size(744, 162)
         Me.txtReason.TabIndex = 103
         '
         'txtRemarks
@@ -420,7 +423,7 @@ Partial Class frmRequestMaster
         '
         '
         Me.txtRemarks.RootElement.StretchVertically = True
-        Me.txtRemarks.Size = New System.Drawing.Size(744, 81)
+        Me.txtRemarks.Size = New System.Drawing.Size(744, 80)
         Me.txtRemarks.TabIndex = 112
         '
         'MyLabel2
@@ -603,7 +606,7 @@ Partial Class frmRequestMaster
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(603, 338)
@@ -620,11 +623,19 @@ Partial Class frmRequestMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(603, 364)
         Me.pvpCustomFields.Text = "Custum Fields"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(603, 364)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'btnPost
         '
@@ -662,13 +673,14 @@ Partial Class frmRequestMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'UcCustomFields1
+        'btnHistory
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(603, 364)
-        Me.UcCustomFields1.TabIndex = 2
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(390, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 112
+        Me.btnHistory.Text = "History"
         '
         'frmRequestMaster
         '
@@ -723,6 +735,7 @@ Partial Class frmRequestMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -770,5 +783,6 @@ Partial Class frmRequestMaster
     Friend WithEvents UsLock2 As common.usLock
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnHistory As RadButton
 End Class
 

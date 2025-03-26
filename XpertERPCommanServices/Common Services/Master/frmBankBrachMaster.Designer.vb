@@ -22,26 +22,27 @@ Partial Class FrmBankBrachMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.lblIFSCCode = New common.Controls.MyLabel
-        Me.txtIFSCCode = New common.Controls.MyTextBox
-        Me.lblBankName = New common.Controls.MyLabel
-        Me.fndBankCode = New common.UserControls.txtFinder
-        Me.lblBankCode = New common.Controls.MyLabel
-        Me.fndBranchCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.lblBranchName = New common.Controls.MyLabel
-        Me.rbtnReset = New Telerik.WinControls.UI.RadButton
-        Me.txtBranchName = New common.Controls.MyTextBox
-        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.rbtnSave = New Telerik.WinControls.UI.RadButton
-        Me.rbtnClose = New Telerik.WinControls.UI.RadButton
-        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblIFSCCode = New common.Controls.MyLabel()
+        Me.txtIFSCCode = New common.Controls.MyTextBox()
+        Me.lblBankName = New common.Controls.MyLabel()
+        Me.fndBankCode = New common.UserControls.txtFinder()
+        Me.lblBankCode = New common.Controls.MyLabel()
+        Me.fndBranchCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.lblBranchName = New common.Controls.MyLabel()
+        Me.rbtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtBranchName = New common.Controls.MyTextBox()
+        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rbtnSave = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnClose = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.lblIFSCCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,6 +60,7 @@ Partial Class FrmBankBrachMaster
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,6 +86,7 @@ Partial Class FrmBankBrachMaster
         '
         'lblIFSCCode
         '
+        Me.lblIFSCCode.FieldName = Nothing
         Me.lblIFSCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIFSCCode.Location = New System.Drawing.Point(12, 85)
         Me.lblIFSCCode.Name = "lblIFSCCode"
@@ -93,13 +96,25 @@ Partial Class FrmBankBrachMaster
         '
         'txtIFSCCode
         '
+        Me.txtIFSCCode.CalculationExpression = Nothing
+        Me.txtIFSCCode.FieldCode = Nothing
+        Me.txtIFSCCode.FieldDesc = Nothing
+        Me.txtIFSCCode.FieldMaxLength = 0
+        Me.txtIFSCCode.FieldName = Nothing
         Me.txtIFSCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIFSCCode.isCalculatedField = False
+        Me.txtIFSCCode.IsSourceFromTable = False
+        Me.txtIFSCCode.IsSourceFromValueList = False
+        Me.txtIFSCCode.IsUnique = False
         Me.txtIFSCCode.Location = New System.Drawing.Point(112, 81)
         Me.txtIFSCCode.MaxLength = 50
         Me.txtIFSCCode.MendatroryField = False
         Me.txtIFSCCode.MyLinkLable1 = Me.lblIFSCCode
         Me.txtIFSCCode.MyLinkLable2 = Nothing
         Me.txtIFSCCode.Name = "txtIFSCCode"
+        Me.txtIFSCCode.ReferenceFieldDesc = Nothing
+        Me.txtIFSCCode.ReferenceFieldName = Nothing
+        Me.txtIFSCCode.ReferenceTableName = Nothing
         Me.txtIFSCCode.Size = New System.Drawing.Size(220, 18)
         Me.txtIFSCCode.TabIndex = 2
         '
@@ -107,29 +122,43 @@ Partial Class FrmBankBrachMaster
         '
         Me.lblBankName.AutoSize = False
         Me.lblBankName.BorderVisible = True
+        Me.lblBankName.FieldName = Nothing
         Me.lblBankName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBankName.Location = New System.Drawing.Point(265, 112)
         Me.lblBankName.Name = "lblBankName"
         Me.lblBankName.Size = New System.Drawing.Size(287, 18)
         Me.lblBankName.TabIndex = 7
-        Me.lblBankName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBankName.TextWrap = False
         '
         'fndBankCode
         '
+        Me.fndBankCode.CalculationExpression = Nothing
+        Me.fndBankCode.FieldCode = Nothing
+        Me.fndBankCode.FieldDesc = Nothing
+        Me.fndBankCode.FieldMaxLength = 0
+        Me.fndBankCode.FieldName = Nothing
+        Me.fndBankCode.isCalculatedField = False
+        Me.fndBankCode.IsSourceFromTable = False
+        Me.fndBankCode.IsSourceFromValueList = False
+        Me.fndBankCode.IsUnique = False
         Me.fndBankCode.Location = New System.Drawing.Point(110, 112)
         Me.fndBankCode.MendatroryField = True
         Me.fndBankCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBankCode.MyLinkLable1 = Me.lblBankCode
         Me.fndBankCode.MyLinkLable2 = Me.lblBankName
         Me.fndBankCode.MyReadOnly = False
+        Me.fndBankCode.MyShowMasterFormButton = False
         Me.fndBankCode.Name = "fndBankCode"
+        Me.fndBankCode.ReferenceFieldDesc = Nothing
+        Me.fndBankCode.ReferenceFieldName = Nothing
+        Me.fndBankCode.ReferenceTableName = Nothing
         Me.fndBankCode.Size = New System.Drawing.Size(154, 19)
         Me.fndBankCode.TabIndex = 3
         Me.fndBankCode.Value = ""
         '
         'lblBankCode
         '
+        Me.lblBankCode.FieldName = Nothing
         Me.lblBankCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBankCode.Location = New System.Drawing.Point(12, 115)
         Me.lblBankCode.Name = "lblBankCode"
@@ -139,6 +168,7 @@ Partial Class FrmBankBrachMaster
         '
         'fndBranchCode
         '
+        Me.fndBranchCode.FieldName = Nothing
         Me.fndBranchCode.Location = New System.Drawing.Point(115, 15)
         Me.fndBranchCode.MendatroryField = True
         Me.fndBranchCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -154,6 +184,7 @@ Partial Class FrmBankBrachMaster
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblCode.Location = New System.Drawing.Point(13, 21)
         Me.lblCode.Name = "lblCode"
@@ -163,6 +194,7 @@ Partial Class FrmBankBrachMaster
         '
         'lblBranchName
         '
+        Me.lblBranchName.FieldName = Nothing
         Me.lblBranchName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBranchName.Location = New System.Drawing.Point(13, 53)
         Me.lblBranchName.Name = "lblBranchName"
@@ -181,13 +213,25 @@ Partial Class FrmBankBrachMaster
         '
         'txtBranchName
         '
+        Me.txtBranchName.CalculationExpression = Nothing
+        Me.txtBranchName.FieldCode = Nothing
+        Me.txtBranchName.FieldDesc = Nothing
+        Me.txtBranchName.FieldMaxLength = 0
+        Me.txtBranchName.FieldName = Nothing
         Me.txtBranchName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBranchName.isCalculatedField = False
+        Me.txtBranchName.IsSourceFromTable = False
+        Me.txtBranchName.IsSourceFromValueList = False
+        Me.txtBranchName.IsUnique = False
         Me.txtBranchName.Location = New System.Drawing.Point(113, 49)
         Me.txtBranchName.MaxLength = 50
         Me.txtBranchName.MendatroryField = False
         Me.txtBranchName.MyLinkLable1 = Me.lblBranchName
         Me.txtBranchName.MyLinkLable2 = Nothing
         Me.txtBranchName.Name = "txtBranchName"
+        Me.txtBranchName.ReferenceFieldDesc = Nothing
+        Me.txtBranchName.ReferenceFieldName = Nothing
+        Me.txtBranchName.ReferenceTableName = Nothing
         Me.txtBranchName.Size = New System.Drawing.Size(220, 18)
         Me.txtBranchName.TabIndex = 1
         '
@@ -197,32 +241,22 @@ Partial Class FrmBankBrachMaster
         Me.rdmenuimport.AccessibleName = "import"
         Me.rdmenuimport.Name = "rdmenuimport"
         Me.rdmenuimport.Text = "Import"
-        Me.rdmenuimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
-        Me.RadMenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
-        Me.rdmenuexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
-        Me.rdmenuexit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenufile
         '
@@ -231,7 +265,6 @@ Partial Class FrmBankBrachMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(757, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'SplitContainer1
         '
@@ -249,6 +282,7 @@ Partial Class FrmBankBrachMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnDelete)
@@ -286,6 +320,16 @@ Partial Class FrmBankBrachMaster
         Me.rbtnDelete.TabIndex = 1
         Me.rbtnDelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(165, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmBankBrachMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -317,6 +361,7 @@ Partial Class FrmBankBrachMaster
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -341,5 +386,6 @@ Partial Class FrmBankBrachMaster
     Friend WithEvents rbtnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents rbtnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents rbtnDelete As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

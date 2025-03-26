@@ -450,7 +450,7 @@ and not exists (select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SH
     End Function
 
     Public Shared Function GetBaseQueryFATSNFGainLoss(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal arrMCC As ArrayList) As String
-        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,xxx.Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
+        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,cast(xxx.Document_Date as varchar) as Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
 ,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
 ,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
 ,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt ,(FindCode) as FindCode

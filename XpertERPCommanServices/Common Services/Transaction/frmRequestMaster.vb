@@ -288,4 +288,16 @@ inner join TSPL_USER_GROUP_MAPPING on TSPL_USER_GROUP_MAPPING.Group_Code = TSPL_
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(textRequestCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(textRequestCode.Value, "REQUEST_CODE", "TSPL_USER_REQUEST_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

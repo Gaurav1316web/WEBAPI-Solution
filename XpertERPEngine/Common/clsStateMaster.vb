@@ -43,6 +43,9 @@ Public Class clsStateMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_STATE_MASTER where STATE_CODE ='" + strCode + "'"
@@ -180,6 +183,8 @@ Public Class clsStateMaster
                     clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_STATE_MASTER_DETAIL", OMInsertOrUpdate.Insert, "")
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
+
             '--------------------------------------------------------------------------------------------------------
 
         Catch ex As Exception
@@ -259,6 +264,8 @@ Public Class ClsRegionMaster
                 clsCommon.AddColumnsForChange(coll, "REGION_CODE", obj.code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REGION_MASTER", OMInsertOrUpdate.Insert, "")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_REGION_MASTER", "REGION_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

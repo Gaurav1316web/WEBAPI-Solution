@@ -419,4 +419,16 @@ Public Class frmRackBinMaster
         str = "select  Description,Rack_Code as [Rack Code],Location from TSPL_Bin_MASTER"
         transportSql.ExporttoExcel(str, Me)
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) 
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "select * from", "TSPL_Rack_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
