@@ -29,29 +29,36 @@ Public Class frmCorrection
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim id As String = Form_ID
         Try
+            SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
+            SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
+            SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
+            MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+            MilkWeight_Setting = clsFixedParameter.GetData(clsFixedParameterType.Milk_Can_Weight_Ratio, clsFixedParameterCode.MilkSetting, Nothing)
+            dclCorrectionFactor = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
+            settMaxReceiveSNFPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxReceiveSNFPer, clsFixedParameterCode.MaxReceiveSNFPer, Nothing))
+            settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
+            settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
+            IsRoundOffPaiseAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1
+            corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
+            isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 chkAddMissingSample.Visible = False
-                    chkAdjustOwnBMCFATSNF.Visible = True
-                    chkDeleteBMCCollection.Visible = True
-                    txtFromShift.Enabled = True
-                    chkAvgFATSNF.Visible = False
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        chkAvgFATSNF.Visible = True
-                        chkAdjustOwnBMCFATSNF.Visible = False
-                    End If
-                    'Else
-                    '    chkAddMissingSample.Visible = True
-                    '    chkAdjustOwnBMCFATSNF.Visible = False
-                    '    chkDeleteBMCCollection.Visible = False
-                    '    txtFromShift.Enabled = True
-                    '    chkAvgFATSNF.Visible = False
-                    'End If
-                    SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
-                SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
-                SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
-
-                MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+                chkAdjustOwnBMCFATSNF.Visible = True
+                chkDeleteBMCCollection.Visible = True
+                txtFromShift.Enabled = True
+                chkAvgFATSNF.Visible = False
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    chkAvgFATSNF.Visible = True
+                    chkAdjustOwnBMCFATSNF.Visible = False
+                End If
+                'Else
+                '    chkAddMissingSample.Visible = True
+                '    chkAdjustOwnBMCFATSNF.Visible = False
+                '    chkDeleteBMCCollection.Visible = False
+                '    txtFromShift.Enabled = True
+                '    chkAvgFATSNF.Visible = False
+                'End If
 
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 SetUserMgmtNew()
@@ -59,12 +66,7 @@ Public Class frmCorrection
                 LoadMilkTypeBMC()
                 LoadShiftWithBoth()
                 LoadShift()
-                MilkWeight_Setting = clsFixedParameter.GetData(clsFixedParameterType.Milk_Can_Weight_Ratio, clsFixedParameterCode.MilkSetting, Nothing)
-                dclCorrectionFactor = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
-                settMaxReceiveSNFPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxReceiveSNFPer, clsFixedParameterCode.MaxReceiveSNFPer, Nothing))
-                settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
-                settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
-                IsRoundOffPaiseAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1
+
                 StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
                 ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -100,8 +102,7 @@ Public Class frmCorrection
                 txtBMCTankerQty.ReadOnly = False
                 txtBMCCorrQty.ReadOnly = False
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
-                corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
-                isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+
                 If isPickCLRInsteadOfSNF Then
                     txtRetestingCLR.Visible = True
                     MyLabel22.Visible = True
@@ -909,7 +910,7 @@ order by  xx.Shift desc,xx.Qty "
                         If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
                             For indx As Integer = 0 To dtDetail.Rows.Count - 1
                                 Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
-                                If (clsCommon.myCdbl(drDCS("DiffQty"))) > 0 Then
+                                If (clsCommon.myCdbl(drDCS("DiffQty"))) <> 0 Then
                                     Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty")) - clsCommon.myCDecimal(drDCS("DiffQty"))
                                     If Qty < 0 Then
                                         Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
@@ -1016,7 +1017,7 @@ order by  xx.Shift desc,xx.Qty "
                         If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
                             For indx As Integer = 0 To dtDetail.Rows.Count - 1
                                 Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
-                                If (clsCommon.myCdbl(drDCS("DiffQty"))) > 0 Then
+                                If (clsCommon.myCdbl(drDCS("DiffQty"))) <> 0 Then
                                     Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty")) - clsCommon.myCDecimal(drDCS("DiffQty"))
                                     If Qty < 0 Then
                                         Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
@@ -1724,19 +1725,19 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         Dim obj As New clsMilkCollectionMCC
 
                         obj.Document_No = clsCommon.myCstr(grow.Cells("Document_No").Value)
-                        Dim Qty As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Entered_Qty from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCstr(grow.Cells("Document_Date").Value), "dd/MMM/yyyy") + "' And Status=1 and TSPL_MILK_COLLECTION_MCC.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"))
+                        'Dim Qty As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Entered_Qty from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCstr(grow.Cells("Document_Date").Value), "dd/MMM/yyyy") + "' And Status=1 and TSPL_MILK_COLLECTION_MCC.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"))
                         If isCorrection = 1 Then
                             obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
-                            obj.Entered_FATKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
-                            obj.Entered_SNFKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_FATKg = Math.Round((obj.Entered_Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_SNFKg = Math.Round((obj.Entered_Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
                             obj.Correction_Qty = clsCommon.myCDecimal(grow.Cells("Correction_Qty").Value)
                             obj.Correction_FAT = clsCommon.myCDecimal(grow.Cells("FATPer").Value)
                             obj.Correction_SNF = clsCommon.myCDecimal(grow.Cells("SNFPer").Value)
 
                         ElseIf isCorrection = 2 Then
                             obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
-                            obj.Entered_FATKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
-                            obj.Entered_SNFKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_FATKg = Math.Round((obj.Entered_Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_SNFKg = Math.Round((obj.Entered_Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
                             obj.Retesting_FAT = clsCommon.myCDecimal(grow.Cells("FATPer").Value)
                             obj.Retesting_SNF = clsCommon.myCDecimal(grow.Cells("SNFPer").Value)
                         End If
@@ -1764,7 +1765,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         DtError.Rows.Add(dr)
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
