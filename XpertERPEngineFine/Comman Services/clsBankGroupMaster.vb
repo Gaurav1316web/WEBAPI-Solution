@@ -47,6 +47,7 @@ Public Class ClsbankGroupMaster
                 '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FOR_SALE", "Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_GROUP_MASTER", OMInsertOrUpdate.Update, "BANK_GROUP_CODE='" + obj.BANK_GROUP_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.BANK_GROUP_CODE, "TSPL_BANK_GROUP_MASTER", "BANK_GROUP_CODE", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -95,6 +96,8 @@ Public Class ClsbankGroupMaster
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.BANK_GROUP_CODE) > 0) Then
             Try
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_GROUP_MASTER", "BANK_GROUP_CODE", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_GROUP_MASTER", "BANK_GROUP_CODE", trans)
 
                 Dim qry As String = "delete from TSPL_BANK_GROUP_MASTER where BANK_GROUP_CODE='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
