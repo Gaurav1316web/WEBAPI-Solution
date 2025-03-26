@@ -28,6 +28,7 @@ Public Class clsLocationDistanceMapping
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOCATION_DISTANCE_MAPPING", OMInsertOrUpdate.Insert, "", trans)
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, LocationCode, "TSPL_LOCATION_DISTANCE_MAPPING", "Location_Code", trans)
 
             If isSaved Then
                 trans.Commit()
@@ -63,6 +64,9 @@ Public Class clsLocationDistanceMapping
     Public Shared Function DeleteData(ByVal strLocationCode As String) As Boolean
         Try
             If clsCommon.myLen(strLocationCode) > 0 Then
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strLocationCode, "TSPL_LOCATION_DISTANCE_MAPPING", "Location_Code", Nothing)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strLocationCode, "TSPL_LOCATION_DISTANCE_MAPPING", "Location_Code", Nothing)
+
                 Dim qry As String = ""
                 qry = "delete from TSPL_LOCATION_DISTANCE_MAPPING  Where Location_Code='" + strLocationCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)

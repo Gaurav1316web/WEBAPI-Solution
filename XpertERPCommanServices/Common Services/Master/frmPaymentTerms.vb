@@ -306,6 +306,8 @@ Public Class frmPaymentTerms
                 ' clsCommon.AddColumnsForChange(coll, "Due_Date_By", cboDueDate.SelectedValue)
                 clsCommonFunctionality.UpdateDataTable(coll, "tspl_terms_master", OMInsertOrUpdate.Update, "Terms_Code='" + fnd_termscode.Value + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fnd_termscode.Value, "tspl_terms_master", "Terms_Code", Nothing)
+
             '=============================================================================
             myMessages.insert()
 
