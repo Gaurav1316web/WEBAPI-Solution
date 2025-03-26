@@ -29,6 +29,8 @@ Public Class clsRequistionHead
     Public Is_Internal As String = "N"
     Public Dept As String = Nothing
     Public Dept_Desc As String = Nothing
+    Public Requested As String = Nothing
+    Public Reqst_Desc As String = Nothing
     Public unit As String = Nothing
     Public unit_Desc As String = Nothing
     Public Cost As String = Nothing
@@ -183,6 +185,8 @@ Public Class clsRequistionHead
             clsCommon.AddColumnsForChange(coll, "Requisition_Type", obj.Requisition_Type)
             clsCommon.AddColumnsForChange(coll, "Dept", obj.Dept, True)
             clsCommon.AddColumnsForChange(coll, "Dept_Desc", obj.Dept_Desc)
+            clsCommon.AddColumnsForChange(coll, "Requested", obj.Requested, True)
+            clsCommon.AddColumnsForChange(coll, "Reqst_Desc", obj.Reqst_Desc)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
             clsCommon.AddColumnsForChange(coll, "Request_By", obj.Request_By)
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
@@ -253,7 +257,7 @@ Public Class clsRequistionHead
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As common.NavigatorType, ByVal trans As SqlTransaction, ByVal IsInternal As String, ByVal FORMTYPE As String) As clsRequistionHead
         Dim obj As clsRequistionHead = Nothing
         Dim whrclas As String = ""
-        Dim qry As String = "select TSPL_REQUISITION_HEAD.close_yn,TSPL_REQUISITION_HEAD.Requisition_Id,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date,TSPL_REQUISITION_HEAD.Cust_OrderNo,TSPL_REQUISITION_HEAD.Expire_Date,TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Status,TSPL_REQUISITION_HEAD.On_Hold,TSPL_REQUISITION_HEAD.Manual_Complete,TSPL_REQUISITION_HEAD.Ref_No,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_REQUISITION_HEAD.RQ_Detail_Total_Amt,TSPL_REQUISITION_HEAD.Total_RQ_Amt,TSPL_REQUISITION_HEAD.Mode_Of_Transport,TSPL_REQUISITION_HEAD.Comments,TSPL_REQUISITION_HEAD.Created_By,TSPL_REQUISITION_HEAD.Created_Date,TSPL_REQUISITION_HEAD.Modify_By,TSPL_REQUISITION_HEAD.Modify_Date,TSPL_REQUISITION_HEAD.Comp_Code,TSPL_REQUISITION_HEAD.Posting_Date,TSPL_REQUISITION_HEAD.Dept,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Item_Type,TSPL_REQUISITION_HEAD.Request_By,Is_internal, Is_Tender,EMailID,TSPL_REQUISITION_HEAD.Approvel_Level_Required,TSPL_REQUISITION_HEAD.Level1_Approval_Status ,TSPL_REQUISITION_HEAD.Level2_Approval_Status,TSPL_REQUISITION_HEAD.SubRequest,TSPL_REQUISITION_HEAD.CatalogueType,TSPL_REQUISITION_HEAD.Vendor_Code ,TSPL_REQUISITION_HEAD.Level3_Approval_Status,TSPL_REQUISITION_HEAD.Level4_Approval_Status,TSPL_REQUISITION_HEAD.Level5_Approval_Status ,TSPL_REQUISITION_HEAD.Requisition_Type,TSPL_REQUISITION_HEAD.Request_Type,TSPL_REQUISITION_HEAD.PROJECT_ID,TSPL_REQUISITION_HEAD.Category,TSPL_REQUISITION_HEAD.Capex_Code,TSPL_REQUISITION_HEAD.Capex_SubCode,TSPL_REQUISITION_HEAD.Emergency,TSPL_REQUISITION_HEAD.Cost_Center_Unit,TSPL_REQUISITION_HEAD.Cost_Center_Type " &
+        Dim qry As String = "select TSPL_REQUISITION_HEAD.close_yn,TSPL_REQUISITION_HEAD.Requisition_Id,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date,TSPL_REQUISITION_HEAD.Cust_OrderNo,TSPL_REQUISITION_HEAD.Expire_Date,TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Status,TSPL_REQUISITION_HEAD.On_Hold,TSPL_REQUISITION_HEAD.Manual_Complete,TSPL_REQUISITION_HEAD.Ref_No,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_REQUISITION_HEAD.RQ_Detail_Total_Amt,TSPL_REQUISITION_HEAD.Total_RQ_Amt,TSPL_REQUISITION_HEAD.Mode_Of_Transport,TSPL_REQUISITION_HEAD.Comments,TSPL_REQUISITION_HEAD.Created_By,TSPL_REQUISITION_HEAD.Created_Date,TSPL_REQUISITION_HEAD.Modify_By,TSPL_REQUISITION_HEAD.Modify_Date,TSPL_REQUISITION_HEAD.Comp_Code,TSPL_REQUISITION_HEAD.Posting_Date,TSPL_REQUISITION_HEAD.Dept,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Requested,TSPL_REQUISITION_HEAD.Reqst_Desc,TSPL_REQUISITION_HEAD.Item_Type,TSPL_REQUISITION_HEAD.Request_By,Is_internal, Is_Tender,EMailID,TSPL_REQUISITION_HEAD.Approvel_Level_Required,TSPL_REQUISITION_HEAD.Level1_Approval_Status ,TSPL_REQUISITION_HEAD.Level2_Approval_Status,TSPL_REQUISITION_HEAD.SubRequest,TSPL_REQUISITION_HEAD.CatalogueType,TSPL_REQUISITION_HEAD.Vendor_Code ,TSPL_REQUISITION_HEAD.Level3_Approval_Status,TSPL_REQUISITION_HEAD.Level4_Approval_Status,TSPL_REQUISITION_HEAD.Level5_Approval_Status ,TSPL_REQUISITION_HEAD.Requisition_Type,TSPL_REQUISITION_HEAD.Request_Type,TSPL_REQUISITION_HEAD.PROJECT_ID,TSPL_REQUISITION_HEAD.Category,TSPL_REQUISITION_HEAD.Capex_Code,TSPL_REQUISITION_HEAD.Capex_SubCode,TSPL_REQUISITION_HEAD.Emergency,TSPL_REQUISITION_HEAD.Cost_Center_Unit,TSPL_REQUISITION_HEAD.Cost_Center_Type " &
         ",isnull(SubCapex_Amount,0) as SubCapex_Amount,isnull(SubCapex_AmountWithTol,0) as SubCapex_AmountWithTol,isnull(SubCapex_BalAmount,0) as SubCapex_BalAmount,isnull(SubCapex_BalAmountWithTol,0) as SubCapex_BalAmountWithTol"
         qry += ",From_Screen_Code,WO_To,WO_Subject,WO_Content,WO_CopySubmittedTo,TSPL_REQUISITION_HEAD.All_Transfer_Issue FROM TSPL_REQUISITION_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_REQUISITION_HEAD.Location where  2=2"
         If clsCommon.myLen(IsInternal) > 0 Then
@@ -328,6 +332,8 @@ Public Class clsRequistionHead
             End If
             obj.Dept = clsCommon.myCstr(dt.Rows(0)("Dept"))
             obj.Dept_Desc = clsCommon.myCstr(dt.Rows(0)("Dept_Desc"))
+            obj.Requested = clsCommon.myCstr(dt.Rows(0)("Requested"))
+            obj.Reqst_Desc = clsCommon.myCstr(dt.Rows(0)("Reqst_Desc"))
             obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
             obj.Request_By = clsCommon.myCstr(dt.Rows(0)("Request_By"))
             obj.Is_Internal = clsCommon.myCstr(dt.Rows(0)("Is_Internal"))
