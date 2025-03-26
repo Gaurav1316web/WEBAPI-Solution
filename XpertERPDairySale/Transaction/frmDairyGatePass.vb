@@ -2703,7 +2703,17 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Dim dr As DataRow = dt.NewRow
                 For ii As Integer = 0 To dtitemName.Rows.Count - 1
-                    dr(clsCommon.myCstr(dtitemName.Rows(ii)("Short_Description"))) = clsCommon.myCstr(dtitemName.Rows(ii)("Print_Sequence"))
+                    'dr(clsCommon.myCstr(dtitemName.Rows(ii)("Short_Description"))) = clsCommon.myCstr(dtitemName.Rows(ii)("Print_Sequence"))
+                    'Dim dr As DataRow = dt.NewRow
+                    Dim colName As String = clsCommon.myCstr(dtitemName.Rows(ii)("Short_Description"))
+                    Dim value As Decimal = clsCommon.myCDecimal(dtitemName.Rows(ii)("Print_Sequence"))
+
+                    ' Check if value is numeric before assigning
+                    If IsNumeric(value) AndAlso value > 0 Then
+                        dr(colName) = clsCommon.myCDecimal(value)
+                    Else
+                        dr(colName) = DBNull.Value ' Or handle accordingly
+                    End If
                 Next
                 dt.Rows.InsertAt(dr, 0)
                 dt.AcceptChanges()

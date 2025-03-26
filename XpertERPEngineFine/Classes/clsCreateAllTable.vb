@@ -20002,6 +20002,8 @@ Public Class clsCreateAllTable
 
             coll.Add("Dept", "Varchar(12) null")
             coll.Add("Dept_Desc", "Varchar(50) NULL")
+            coll.Add("Requested", "Varchar(12) null")
+            coll.Add("Reqst_Desc", "Varchar(50) NULL")
             coll.Add("Item_Type", "char(1) NULL")
             coll.Add("Request_By", "Varchar(100) NULL")
             coll.Add("Is_Internal", "char(1) NULL")
