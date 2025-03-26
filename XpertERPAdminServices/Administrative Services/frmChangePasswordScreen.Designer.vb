@@ -24,6 +24,7 @@ Partial Class frmChangePasswordScreen
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmChangePasswordScreen))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblHeader = New System.Windows.Forms.Label()
         Me.chkShowPass = New System.Windows.Forms.CheckBox()
         Me.lblLength = New common.Controls.MyLabel()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -32,14 +33,15 @@ Partial Class frmChangePasswordScreen
         Me.txtNewPass = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtCNFPass = New System.Windows.Forms.TextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.rbtnSave = New Telerik.WinControls.UI.RadButton()
-        Me.lblHeader = New System.Windows.Forms.Label()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.lblLength, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,12 +69,24 @@ Partial Class frmChangePasswordScreen
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnSave)
         Me.SplitContainer1.Size = New System.Drawing.Size(691, 452)
         Me.SplitContainer1.SplitterDistance = 417
         Me.SplitContainer1.TabIndex = 0
+        '
+        'lblHeader
+        '
+        Me.lblHeader.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.lblHeader.AutoSize = True
+        Me.lblHeader.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeader.Location = New System.Drawing.Point(202, 94)
+        Me.lblHeader.Name = "lblHeader"
+        Me.lblHeader.Size = New System.Drawing.Size(43, 15)
+        Me.lblHeader.TabIndex = 17
+        Me.lblHeader.Text = "Label4"
         '
         'chkShowPass
         '
@@ -154,6 +168,17 @@ Partial Class frmChangePasswordScreen
         Me.txtCNFPass.Size = New System.Drawing.Size(275, 20)
         Me.txtCNFPass.TabIndex = 5
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(150, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 21)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
+        '
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -184,17 +209,6 @@ Partial Class frmChangePasswordScreen
         Me.rbtnSave.TabIndex = 3
         Me.rbtnSave.Text = "Save"
         '
-        'lblHeader
-        '
-        Me.lblHeader.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.lblHeader.AutoSize = True
-        Me.lblHeader.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHeader.Location = New System.Drawing.Point(202, 94)
-        Me.lblHeader.Name = "lblHeader"
-        Me.lblHeader.Size = New System.Drawing.Size(43, 15)
-        Me.lblHeader.TabIndex = 17
-        Me.lblHeader.Text = "Label4"
-        '
         'frmChangePasswordScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -212,6 +226,7 @@ Partial Class frmChangePasswordScreen
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.lblLength, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -233,4 +248,5 @@ Partial Class frmChangePasswordScreen
     Friend WithEvents btnReset As RadButton
     Friend WithEvents chkShowPass As CheckBox
     Friend WithEvents lblHeader As Label
+    Friend WithEvents btnHistory As RadButton
 End Class

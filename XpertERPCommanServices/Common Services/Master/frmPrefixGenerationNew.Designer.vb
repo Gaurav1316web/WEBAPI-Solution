@@ -22,6 +22,7 @@ Partial Class FrmPrefixGenerationNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtDocument = New common.UserControls.txtFinder()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -38,6 +39,7 @@ Partial Class FrmPrefixGenerationNew
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +55,7 @@ Partial Class FrmPrefixGenerationNew
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -96,6 +99,7 @@ Partial Class FrmPrefixGenerationNew
         Me.txtDocument.Location = New System.Drawing.Point(287, 10)
         Me.txtDocument.MendatroryField = True
         Me.txtDocument.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDocument.MyLinkLable1 = Nothing
         Me.txtDocument.MyLinkLable2 = Nothing
         Me.txtDocument.MyReadOnly = False
         Me.txtDocument.MyShowMasterFormButton = False
@@ -139,6 +143,7 @@ Partial Class FrmPrefixGenerationNew
         Me.cboFiscalYear.AutoCompleteDisplayMember = Nothing
         Me.cboFiscalYear.AutoCompleteValueMember = Nothing
         Me.cboFiscalYear.CalculationExpression = Nothing
+        Me.cboFiscalYear.DropDownAnimationEnabled = True
         Me.cboFiscalYear.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFiscalYear.FieldCode = Nothing
         Me.cboFiscalYear.FieldDesc = Nothing
@@ -150,6 +155,7 @@ Partial Class FrmPrefixGenerationNew
         Me.cboFiscalYear.IsUnique = False
         Me.cboFiscalYear.Location = New System.Drawing.Point(111, 10)
         Me.cboFiscalYear.MendatroryField = False
+        Me.cboFiscalYear.MyLinkLable1 = Nothing
         Me.cboFiscalYear.MyLinkLable2 = Nothing
         Me.cboFiscalYear.Name = "cboFiscalYear"
         Me.cboFiscalYear.ReferenceFieldDesc = Nothing
@@ -173,18 +179,22 @@ Partial Class FrmPrefixGenerationNew
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(837, 268)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnHistory)
         Me.Panel1.Controls.Add(Me.chkFinancialYearStyle)
         Me.Panel1.Controls.Add(Me.btnClose)
         Me.Panel1.Controls.Add(Me.btnSave)
@@ -228,29 +238,31 @@ Partial Class FrmPrefixGenerationNew
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(837, 20)
         Me.RadMenu1.TabIndex = 5
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Export"
-        Me.RadMenuItem1.AccessibleName = "Export"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Export"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(378, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(81, 24)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmPrefixGenerationNew
         '
@@ -282,6 +294,7 @@ Partial Class FrmPrefixGenerationNew
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -303,5 +316,6 @@ Partial Class FrmPrefixGenerationNew
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDocument As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

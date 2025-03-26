@@ -514,6 +514,18 @@ Public Class FrmPaymentCode
 
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fnd_paymentcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Payment Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fnd_paymentcode.Value, "Payment_Code", "tspl_payment_code")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub gvDB_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvDB.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True

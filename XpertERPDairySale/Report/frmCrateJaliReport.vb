@@ -1953,7 +1953,7 @@ Public Class FrmCrateJaliReport
             MAX(Location_Code) AS Location_Code,
             MAX(Vehicle_Id) AS Vehicle_Id,
             MAX(Vehicle_Number) AS Vehicle_Number,
-            MAX(Route_No) AS Route_No,
+            (Route_No) AS Route_No,
             MAX(Route_Desc) AS Route_Desc,
             MAX(Customer_Code) AS Customer_Code,
             Sale_Invoice_Date,
@@ -2003,7 +2003,7 @@ Public Class FrmCrateJaliReport
             LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
             WHERE 2 = 2 AND TSPL_DAIRYSALE_GATEPASS_MASTER.Status IS NULL
         ) xx  where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
-                      group by Sale_Invoice_Date
+                      group by Sale_Invoice_Date,Route_No
                       )xxx )
                       select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' AS ToDate,
     Comp_Name, Location_Code, Location_Desc, Vehicle_Id, Vehicle_Number, Route_No, Route_Desc, Customer_Code, Customer_Name, Sale_Invoice_Date, OP, Morning_Supply, Morning_Return, Evening_Supply, Evening_Return,

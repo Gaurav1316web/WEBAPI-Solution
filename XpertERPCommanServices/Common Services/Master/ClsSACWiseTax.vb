@@ -43,6 +43,8 @@ Public Class ClsSACWiseTax
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SAC_WISE_TAX", OMInsertOrUpdate.Update, "HCODE='" & obj.HCODE & "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HCODE, "TSPL_SAC_WISE_TAX", "HCODE", trans)
+
             Dim objtr As New clsSACWiseTaxGroup
             objtr.SaveData(obj.HCODE, obj.ArrGroup, obj.ArrAuth, trans)
             trans.Commit()
@@ -70,6 +72,8 @@ Public Class ClsSACWiseTax
 
             Dim qry As String = "Update TSPL_sac_WISE_TAX set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where HCODE='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_sac_WISE_TAX", "HCODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -96,6 +100,8 @@ Public Class ClsSACWiseTax
 
             Dim qry As String = "Update TSPL_SAC_WISE_TAX set Status=0, Modify_Date='" + strReverceDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where HCODE='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SAC_WISE_TAX", "HCODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -164,6 +170,9 @@ Public Class ClsSACWiseTax
         End If
         Dim obj As ClsSACWiseTax = ClsSACWiseTax.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SAC_WISE_TAX", "HCODE", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SAC_WISE_TAX", "HCODE", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.HCODE) > 0) Then
             Try
                 Dim qry As String = "delete from TSPL_SAC_WISE_TAX_AUTHORITY where HCODE='" + strCode + "'"

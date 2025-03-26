@@ -55,9 +55,14 @@ Public Class rptDayWiseBoothDemand
             Dim itemDetail As String = ""
             Dim Groupby As String = ""
             Dim Booth As String = ""
+            Dim Dates As String = ""
+            Dim order As String = ""
             Dim dt As DataTable = Nothing
             Dim dt1 As DataTable = Nothing
             Dim Route As String = ""
+            Dim startDate As Date = fromDate.Value
+            Dim endDate As Date = ToDate.Value
+            Dim daysCount As Integer = DateDiff(DateInterval.Day, startDate, endDate) + 1
             If rbnItemWise.IsChecked Then
                 itemDetail = " SELECT distinct Short_Description + ' ' + '(' +'LTR'+ ')'  AS Short_Description, Sku_Seq
                          FROM TSPL_DEMAND_BOOKING_DETAIL 
@@ -81,18 +86,45 @@ Public Class rptDayWiseBoothDemand
                     Throw New Exception("No data found to display")
                 End If
             End If
-            If rdbBooth.IsChecked And (rbnItemWise.IsChecked) Then
+            If rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbDetail.IsChecked Then
                 Groupby = " GROUP BY [Booth Code] ,Route,Document_Date "
                 Booth = " [Booth Code],"
-            ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked Then
+                Dates = "Document_Date as Date,"
+            ElseIf rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbSummary.IsChecked Then
+                Groupby = " GROUP BY [Booth Code] ,Route "
+                Booth = " [Booth Code],"
+                order = "Order By [Booth Code] "
+            ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
                 Groupby = " Group by Document_Date ,Route "
-            ElseIf rdbRoute.IsChecked And rbnItemType.IsChecked Then
+                Dates = " Cast(document_date as Date) as [Date],"
+            ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+                Groupby = " Group by Route "
+            ElseIf rdbRoute.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
                 Groupby = " Group by Document_Date ,Route "
                 Route = "Route"
-            ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked Then
+                Dates = "Document_Date as Date,"
+            ElseIf rdbRoute.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+                Groupby = " Group by Route "
+                Route = "Route"
+            ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
                 Groupby = " Group by Document_Date , [Booth Code] "
                 Booth = " [Booth Code],"
                 Route = "max(Route) as Route"
+                Dates = "Document_Date as Date,"
+            ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+                Groupby = " Group by  [Booth Code] "
+                Booth = " [Booth Code],"
+                Route = "max(Route) as Route"
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+                Groupby = "GROUP BY Document_Date,Route, Cust_Group_Code order by Date,Route"
+                Dates = "Cast(document_date as Date) as [Date], "
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+                Groupby = "GROUP BY Route, Cust_Group_Code order by Route"
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+                Groupby = "Group by Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+                Dates = "Document_Date as Date,"
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+                Groupby = "Group by Route, Cust_Group_Code  order by Route"
             End If
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 Whr += "  and Route In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
@@ -101,7 +133,7 @@ Public Class rptDayWiseBoothDemand
                 Whr += " and [Booth Code] In (" + clsCommon.GetMulcallString(TxtCustomer.arrValueMember) + ")"
             End If
             If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemWise.IsChecked Then
-                Qry += "SELECT Cast(document_date as Date) as [Date],'LTR' as [QTY IN]," + Booth + "([Route]) AS [Route], max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
+                Qry += "SELECT " + Dates + "'LTR' as [QTY IN]," + Booth + "([Route]) AS [Route], max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
                      " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((select xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
                     (SELECT 
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
@@ -133,12 +165,15 @@ Public Class rptDayWiseBoothDemand
                  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
                     where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + " " + Groupby + " order by Date
+                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + " " + Groupby + " " + order + "
                      "
+                If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+                    Qry += " order by Date "
+                End If
             ElseIf (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked Then
-                Qry = "Select Document_Date as Date," + Booth + " " + Route + ",max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
+                Qry = "Select " + Dates + " " + Booth + " " + Route + ",max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount],Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
                     (SELECT 
-					 Case when tspl_item_master.Is_FreshItem=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.Is_FreshAmbient=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+					 Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],tspl_item_master.Is_FreshItem,Is_FreshAmbient,
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
@@ -154,7 +189,7 @@ Public Class rptDayWiseBoothDemand
                     ))xx )
 					union all
                     (SELECT 
-					 case when tspl_item_master.Is_FreshItem=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.Is_FreshAmbient=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+					 case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date , TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,Is_FreshItem,Is_FreshAmbient  FROM TSPL_DEMAND_BOOKING_MASTER
@@ -167,11 +202,14 @@ Public Class rptDayWiseBoothDemand
                  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
                     where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    )))YYY  where  2=2 " + Whr + " " + Groupby + " order by Document_Date "
+                    )))YYY  where  2=2 " + Whr + " " + Groupby + " "
+                If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+                    Qry += " order by Document_Date "
+                End If
             ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked Then
-                Qry = "Select Document_Date as Date, (Route) as Route,max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
+                Qry = "Select " + Dates + " (Route) as Route,max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount] ,Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
                     (SELECT 
-					 Case when tspl_item_master.Is_FreshItem=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.Is_FreshAmbient=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+					 Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],tspl_item_master.Is_FreshItem,Is_FreshAmbient,
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
@@ -187,7 +225,7 @@ Public Class rptDayWiseBoothDemand
                     ))xx )
 					union all
                     (SELECT 
-					 case when tspl_item_master.Is_FreshItem=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.Is_FreshAmbient=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+					 case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date , TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,Is_FreshItem,Is_FreshAmbient  FROM TSPL_DEMAND_BOOKING_MASTER
@@ -200,9 +238,9 @@ Public Class rptDayWiseBoothDemand
                  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
                     where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    )))YYY  where  2=2 " + Whr + "  Group by Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route "
+                    )))YYY  where  2=2 " + Whr + "  " + Groupby + " "
             ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked Then
-                Qry = "SELECT Cast(document_date as Date) as [Date], ([Route]) AS [Route], max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
+                Qry = "SELECT " + Dates + " ([Route]) AS [Route], max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
                       " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((select xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
                     (SELECT 
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
@@ -234,7 +272,7 @@ Public Class rptDayWiseBoothDemand
                  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
                     where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + "  GROUP BY Document_Date,Route, Cust_Group_Code order by Date,Route
+                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + "  " + Groupby + "
                      "
             End If
             dt = clsDBFuncationality.GetDataTable(Qry)
@@ -331,8 +369,10 @@ Public Class rptDayWiseBoothDemand
             GV1.Columns(ii).ReadOnly = True
             GV1.Columns(ii).BestFit()
         Next
-        GV1.Columns("Date").Name = "Date"
-        GV1.Columns("Date").FormatString = "{0:dd/MM/yyyy}"
+        If rdbDetail.IsChecked Then
+            GV1.Columns("Date").Name = "Date"
+            GV1.Columns("Date").FormatString = "{0:dd/MM/yyyy}"
+        End If
         If rdbRoute.IsChecked And rbnItemType.IsChecked = False Then
             GV1.Columns("Booth Code").HeaderText = "Booth Code"
             GV1.Columns("Booth Code").Width = 100
@@ -375,17 +415,36 @@ Public Class rptDayWiseBoothDemand
         GV1.Columns("Total Amount").Width = 100
         GV1.Columns("Total Amount").FormatString = "{0:n2}"
 
+        GV1.Columns("AVG Milk").HeaderText = "AVG Milk"
+        GV1.Columns("AVG Milk").IsVisible = True
+        GV1.Columns("AVG Milk").FormatString = "{0:n2}"
+        If objCommonVar.CurrComp_Code1 = "JPR" Then
+            GV1.Columns("AVG Product").HeaderText = "AVG CHHACH"
+        Else
+            GV1.Columns("AVG Product").HeaderText = "AVG Product"
+        End If
+        GV1.Columns("AVG Product").Width = 100
+        GV1.Columns("AVG Product").FormatString = "{0:n2}"
+
         GV1.ShowGroupPanel = True
         GV1.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        If rdbRoute.IsChecked And rbnItemType.IsChecked Then
+        If rdbRoute.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
 
             For ii As Integer = 5 To GV1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
             Next
-        Else
+        ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
 
             For ii As Integer = 6 To GV1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            Next
+        ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            For ii As Integer = 5 To GV1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            Next
+        ElseIf rdbRoute.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            For ii As Integer = 4 To GV1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
             Next
         End If
@@ -411,8 +470,10 @@ Public Class rptDayWiseBoothDemand
             GV1.Columns(ii).ReadOnly = True
             GV1.Columns(ii).BestFit()
         Next
-        GV1.Columns("Date").Name = "Date"
-        GV1.Columns("Date").FormatString = "{0:dd/MM/yyyy}"
+        If rdbDetail.IsChecked Then
+            GV1.Columns("Date").Name = "Date"
+            GV1.Columns("Date").FormatString = "{0:dd/MM/yyyy}"
+        End If
 
         GV1.Columns("Route").HeaderText = "Route Code"
         GV1.Columns("Route").Width = 100
@@ -450,12 +511,31 @@ Public Class rptDayWiseBoothDemand
         GV1.Columns("Total Amount").Width = 100
         GV1.Columns("Total Amount").FormatString = "{0:n2}"
 
+        GV1.Columns("AVG Milk").HeaderText = "AVG Milk"
+        GV1.Columns("AVG Milk").IsVisible = True
+        GV1.Columns("AVG Milk").FormatString = "{0:n2}"
+
+        If objCommonVar.CurrComp_Code1 = "JPR" Then
+            GV1.Columns("AVG Product").HeaderText = "AVG CHHACH"
+        Else
+            GV1.Columns("AVG Product").HeaderText = "AVG Product"
+        End If
+        GV1.Columns("AVG Product").Width = 100
+        GV1.Columns("AVG Product").FormatString = "{0:n2}"
+
+
         GV1.ShowGroupPanel = True
         GV1.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = 5 To GV1.Columns.Count - 1
-            summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
-        Next
+        If rdbDetail.IsChecked Then
+            For ii As Integer = 5 To GV1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            Next
+        ElseIf rdbSummary.IsChecked Then
+            For ii As Integer = 4 To GV1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(GV1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            Next
+        End If
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 

@@ -63,7 +63,7 @@ Public Class frmFATSNFDiffReport
             Dim BaseQry As String = clsMilkCollectionDCS.GetBaseQueryFATSNFGainLoss(txtFromDate.Value, txtToDate.Value, txtMCC.arrValueMember)
             Dim Qry As String = ""
             If rbtnDetails.IsChecked Then
-                Qry = " select MCC_Code,(MCC_NAME) as MCC_NAME,Document_Date as Document_Date,Mcc_Code_VLC_Uploader as [MCC Uploader Code],(MCCQty) as MCCQty,convert(decimal(18,2),(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),(MCCSNFKG)) as MCCSNFKG ,(DCSQty) as DCSQty, CONVERT(decimal(18,2),(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18,2),(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), (DiffSNFKG)) as DiffSNFKG,(FatAmt) as FatAmt,(SNFAmt) as SNFAmt,(Amt) as Amt,(FindCode) as FindCode from ( " + BaseQry + ")XX   order by Document_Date, MCC_NAME   "
+                Qry = " select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],Document_Date,sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,sum(MCCQty)-sum(DCSQty) as [Diff Qty],CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX   group by MCC_Code ,Document_Date order by MCC_NAME,Document_Date  "
             ElseIf rbtnMCCWise.IsChecked Then
                 Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
                 If SettCalculateFATSNFLossByCycleWise Then
@@ -142,6 +142,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
             Gv1.Columns("DCSQty").HeaderText = "DCS Qty"
             Gv1.Columns("DCSFATKG").HeaderText = "DCS FAT KG"
             Gv1.Columns("DCSSNFKG").HeaderText = "DCS SNF KG"
+            Gv1.Columns("Diff Qty").HeaderText = "Diff Qty"
             Gv1.Columns("DiffFATKG").HeaderText = "Diff FAT KG"
             Gv1.Columns("DiffSNFKG").HeaderText = "Diff SNF KG"
             Gv1.Columns("FatAmt").HeaderText = "FAT Amt"
@@ -165,7 +166,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
             Gv1.Columns("Amt").HeaderText = "Amount"
         End If
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = 3 To Gv1.Columns.Count - 2
+        For ii As Integer = 4 To Gv1.Columns.Count - 2
             summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
         Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)

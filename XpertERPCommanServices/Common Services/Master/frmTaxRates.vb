@@ -161,6 +161,8 @@ Public Class FrmTaxRates
                             Dim coll As New Hashtable()
                             clsCommon.AddColumnsForChange(coll, "GSTActive", clsCommon.myCdbl(GSTActive))
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TAX_RATES", OMInsertOrUpdate.Update, "TSPL_TAX_RATES.Tax_Code='" + findTaxAuthority.Value + "' and Tax_Type='" + ddlTransType.SelectedValue + "'", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxAuthority.Value, "TSPL_TAX_RATES", "Tax_Code", trans)
+
                         Next
                         trans.Commit()
                         myMessages.insert()
@@ -193,6 +195,8 @@ Public Class FrmTaxRates
                             Dim coll As New Hashtable()
                             clsCommon.AddColumnsForChange(coll, "GSTActive", clsCommon.myCdbl(GSTActive))
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TAX_RATES", OMInsertOrUpdate.Update, "TSPL_TAX_RATES.Tax_Code='" + findTaxAuthority.Value + "' and Tax_Type='" + ddlTransType.SelectedValue + "'", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxAuthority.Value, "TSPL_TAX_RATES", "Tax_Code", trans)
+
                         Next
                         trans.Commit()
                         myMessages.update()
@@ -669,6 +673,18 @@ Public Class FrmTaxRates
         ''gvTaxRates.CurrentColumn = gvTaxRates.Columns(colAmt)
         gvTaxRates.CurrentRow.Cells(colGLCode).Value = clsCommon.ShowSelectForm("TaxRateChangFND", qry, "Account_Code", whrcls, clsCommon.myCstr(gvTaxRates.CurrentRow.Cells(colGLCode).Value), "Account_Code", isButtonClick)
         gvTaxRates.CurrentRow.Cells(colGLAccountName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(gvTaxRates.CurrentRow.Cells(colGLCode).Value) + "'"))
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(findTaxAuthority.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Tax Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(findTaxAuthority.Value, "Tax_Code", "TSPL_TAX_RATES")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub gvTaxRates_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gvTaxRates.CellFormatting

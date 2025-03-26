@@ -62,6 +62,7 @@ Public Class clsfrmNotificationScreen
                 'Else
                 'isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCREEN_REMAINDER_SETTING", OMInsertOrUpdate.Update, " module_code='" + obj.modulecode + "' and screen_type='" + obj.doctype + "'", trans)
                 'End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.modulecode, "TSPL_SCREEN_REMAINDER_SETTING", "module_code", trans)
 
                 '--------update in display table ---------------------
                 coll = New Hashtable()
@@ -152,6 +153,9 @@ Public Class clsfrmNotificationScreen
 
     Public Shared Function DeleteData(ByVal ModuleCode As String, ByVal Doctype As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, ModuleCode, "TSPL_SCREEN_REMAINDER_SETTING", "module_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, ModuleCode, "TSPL_SCREEN_REMAINDER_SETTING", "module_code", trans)
+
             Dim qry As String = "delete from TSPL_SCREEN_REMAINDER_SETTING where module_code='" + ModuleCode + "' and screen_type='" + Doctype + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

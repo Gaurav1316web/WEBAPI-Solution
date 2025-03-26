@@ -1216,6 +1216,17 @@ Public Class FrmCompanyMaster
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCompanyCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Company Code")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCompanyCode.Value, "comp_code", "TSPL_COMPANY_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 
     Private Sub txtcust_code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtcust_code._MYValidating
         Try

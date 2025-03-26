@@ -73,7 +73,10 @@ Public Class clsApprovalScreen
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                     clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode, True)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_APPROVAL_LEVEL_SCREEN", OMInsertOrUpdate.Insert, "", trans)
+
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_APPROVAL_LEVEL_SCREEN_HISTORY", OMInsertOrUpdate.Insert, "", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj1.Module_Code, "TSPL_APPROVAL_LEVEL_SCREEN", "Module_Code", trans)
+
                 Next
             End If
 

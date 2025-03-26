@@ -3187,8 +3187,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             txtReceiptNo.Visible = False
             lblReceiptAmt.Visible = False
             lblReceiptNo.Visible = False
-            lblPaymentType.Visible = True
-            cmbPaymentType.Visible = True
+            'lblPaymentType.Visible = True
+            'cmbPaymentType.Visible = True
+            lblPaymentType.Visible = False
+            cmbPaymentType.Visible = False
         End If
 
         If MultiplySubsidyWithQuantity Then
@@ -6954,7 +6956,11 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         Return dt
     End Function
     Sub LoadDeductionType()
-        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Code, Description as Name from TSPL_DEDUCTION_MASTER"
+        ' Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Code, Description as Name from TSPL_DEDUCTION_MASTER"
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all 
+                             Select  Distinct Deduction,max(Description) as Name  from TSPL_ITEM_MASTER 
+                             left outer join TSPL_DEDUCTION_MASTER On TSPL_DEDUCTION_MASTER.Code=TSPL_ITEM_MASTER.Deduction
+                             where 2=2 and Deduction is not null group by Deduction "
         cboDeductionType.DataSource = clsDBFuncationality.GetDataTable(qry)
         cboDeductionType.ValueMember = "Code"
         cboDeductionType.DisplayMember = "Name"
