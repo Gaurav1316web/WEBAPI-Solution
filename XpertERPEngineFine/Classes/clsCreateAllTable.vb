@@ -34162,6 +34162,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("EWayBillValidDate", "Datetime NULL")
             coll.Add("Freight_Distance", "Integer Not Null Default 0")
             coll.Add("ProdRequestTransfer", "Integer not null default 0")
+            coll.Add("EWayBill_QR_Code", "image null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date")
 
 
