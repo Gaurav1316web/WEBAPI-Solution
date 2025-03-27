@@ -327,7 +327,7 @@ Public Class rptCustItemWiseSaleReport
             '              AND ItemConvinUOMKG.UOM_Code = 'KG'
             '              LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
             '                               GROUP BY Item_Code"
-            Qry = "Select To_LocationCode,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,  Max(xxx.Item_Desc)Item_Desc,
+            Qry = "Select max(To_LocationCode) as To_LocationCode,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,  Max(xxx.Item_Desc)Item_Desc,
                         SUM(xxx.item_Net_Amt) AS Total_Item_Net_Amt,
                         SUM(xxx.Quantity) AS Total_Quantity,
                         SUM(xxx.Report_UOM_Qty)Report_UOM_Qty
@@ -407,7 +407,7 @@ Public Class rptCustItemWiseSaleReport
                   ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
                   ) as price  where
                   convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                  group by price.Price_Code, Item_Code,To_LocationCode"
+                  group by Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

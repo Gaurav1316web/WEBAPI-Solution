@@ -24,49 +24,54 @@ Partial Class FrmDiscountMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmDiscountMaster))
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.txtGlAccDesc = New common.Controls.MyLabel
-        Me.chkIsOpening = New Telerik.WinControls.UI.RadCheckBox
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gvDB = New common.UserControls.MyRadGridView
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox
-        Me.rbtnSampling = New Telerik.WinControls.UI.RadRadioButton
-        Me.chksku = New Telerik.WinControls.UI.RadCheckBox
-        Me.rbtnVSNDType = New Telerik.WinControls.UI.RadRadioButton
-        Me.rbtnOther = New Telerik.WinControls.UI.RadRadioButton
-        Me.rbtnDiscount = New Telerik.WinControls.UI.RadRadioButton
-        Me.RadLabel7 = New common.Controls.MyLabel
-        Me.txtCategoryDesc = New common.Controls.MyTextBox
-        Me.RadLabel6 = New common.Controls.MyLabel
-        Me.txtdiscountcategory = New common.UserControls.txtFinder
-        Me.txtGLAccount = New common.UserControls.txtFinder
-        Me.RadLabel5 = New common.Controls.MyLabel
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.txtdiscountcategory = New common.UserControls.txtFinder()
+        Me.chkIsOpening = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtCategoryDesc = New common.Controls.MyTextBox()
+        Me.RadLabel7 = New common.Controls.MyLabel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvDB = New common.UserControls.MyRadGridView()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSampling = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chksku = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbtnVSNDType = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnOther = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDiscount = New Telerik.WinControls.UI.RadRadioButton()
+        Me.txtGlAccDesc = New common.Controls.MyLabel()
+        Me.txtGLAccount = New common.UserControls.txtFinder()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.txtGlAccDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsOpening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCategoryDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,9 +83,7 @@ Partial Class FrmDiscountMaster
         CType(Me.rbtnVSNDType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCategoryDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGlAccDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,7 +99,7 @@ Partial Class FrmDiscountMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.Panel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,14 +127,55 @@ Partial Class FrmDiscountMaster
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
         '
-        'txtGlAccDesc
+        'Panel1
         '
-        Me.txtGlAccDesc.AutoSize = False
-        Me.txtGlAccDesc.BorderVisible = True
-        Me.txtGlAccDesc.Location = New System.Drawing.Point(143, 84)
-        Me.txtGlAccDesc.Name = "txtGlAccDesc"
-        Me.txtGlAccDesc.Size = New System.Drawing.Size(499, 18)
-        Me.txtGlAccDesc.TabIndex = 52
+        Me.Panel1.Controls.Add(Me.RadLabel6)
+        Me.Panel1.Controls.Add(Me.txtdiscountcategory)
+        Me.Panel1.Controls.Add(Me.chkIsOpening)
+        Me.Panel1.Controls.Add(Me.txtCategoryDesc)
+        Me.Panel1.Controls.Add(Me.RadGroupBox4)
+        Me.Panel1.Controls.Add(Me.RadLabel7)
+        Me.Panel1.Controls.Add(Me.RadGroupBox2)
+        Me.Panel1.Location = New System.Drawing.Point(3, 109)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(645, 326)
+        Me.Panel1.TabIndex = 53
+        Me.Panel1.Visible = False
+        '
+        'RadLabel6
+        '
+        Me.RadLabel6.FieldName = Nothing
+        Me.RadLabel6.Location = New System.Drawing.Point(5, 3)
+        Me.RadLabel6.Name = "RadLabel6"
+        Me.RadLabel6.Size = New System.Drawing.Size(128, 18)
+        Me.RadLabel6.TabIndex = 24
+        Me.RadLabel6.Text = "Discount Category Code"
+        '
+        'txtdiscountcategory
+        '
+        Me.txtdiscountcategory.CalculationExpression = Nothing
+        Me.txtdiscountcategory.FieldCode = Nothing
+        Me.txtdiscountcategory.FieldDesc = Nothing
+        Me.txtdiscountcategory.FieldMaxLength = 0
+        Me.txtdiscountcategory.FieldName = Nothing
+        Me.txtdiscountcategory.isCalculatedField = False
+        Me.txtdiscountcategory.IsSourceFromTable = False
+        Me.txtdiscountcategory.IsSourceFromValueList = False
+        Me.txtdiscountcategory.IsUnique = False
+        Me.txtdiscountcategory.Location = New System.Drawing.Point(139, 3)
+        Me.txtdiscountcategory.MendatroryField = True
+        Me.txtdiscountcategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdiscountcategory.MyLinkLable1 = Me.RadLabel6
+        Me.txtdiscountcategory.MyLinkLable2 = Nothing
+        Me.txtdiscountcategory.MyReadOnly = False
+        Me.txtdiscountcategory.MyShowMasterFormButton = False
+        Me.txtdiscountcategory.Name = "txtdiscountcategory"
+        Me.txtdiscountcategory.ReferenceFieldDesc = Nothing
+        Me.txtdiscountcategory.ReferenceFieldName = Nothing
+        Me.txtdiscountcategory.ReferenceTableName = Nothing
+        Me.txtdiscountcategory.Size = New System.Drawing.Size(222, 18)
+        Me.txtdiscountcategory.TabIndex = 5
+        Me.txtdiscountcategory.Value = ""
         '
         'chkIsOpening
         '
@@ -140,6 +184,39 @@ Partial Class FrmDiscountMaster
         Me.chkIsOpening.Size = New System.Drawing.Size(74, 18)
         Me.chkIsOpening.TabIndex = 25
         Me.chkIsOpening.Text = "Is Opening"
+        '
+        'txtCategoryDesc
+        '
+        Me.txtCategoryDesc.CalculationExpression = Nothing
+        Me.txtCategoryDesc.FieldCode = Nothing
+        Me.txtCategoryDesc.FieldDesc = Nothing
+        Me.txtCategoryDesc.FieldMaxLength = 0
+        Me.txtCategoryDesc.FieldName = Nothing
+        Me.txtCategoryDesc.isCalculatedField = False
+        Me.txtCategoryDesc.IsSourceFromTable = False
+        Me.txtCategoryDesc.IsSourceFromValueList = False
+        Me.txtCategoryDesc.IsUnique = False
+        Me.txtCategoryDesc.Location = New System.Drawing.Point(139, 27)
+        Me.txtCategoryDesc.MaxLength = 50
+        Me.txtCategoryDesc.MendatroryField = False
+        Me.txtCategoryDesc.MyLinkLable1 = Me.RadLabel7
+        Me.txtCategoryDesc.MyLinkLable2 = Nothing
+        Me.txtCategoryDesc.Name = "txtCategoryDesc"
+        Me.txtCategoryDesc.ReadOnly = True
+        Me.txtCategoryDesc.ReferenceFieldDesc = Nothing
+        Me.txtCategoryDesc.ReferenceFieldName = Nothing
+        Me.txtCategoryDesc.ReferenceTableName = Nothing
+        Me.txtCategoryDesc.Size = New System.Drawing.Size(359, 20)
+        Me.txtCategoryDesc.TabIndex = 6
+        '
+        'RadLabel7
+        '
+        Me.RadLabel7.FieldName = Nothing
+        Me.RadLabel7.Location = New System.Drawing.Point(5, 28)
+        Me.RadLabel7.Name = "RadLabel7"
+        Me.RadLabel7.Size = New System.Drawing.Size(63, 18)
+        Me.RadLabel7.TabIndex = 21
+        Me.RadLabel7.Text = "Description"
         '
         'RadGroupBox4
         '
@@ -158,14 +235,19 @@ Partial Class FrmDiscountMaster
         Me.gvDB.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvDB.Location = New System.Drawing.Point(10, 20)
         '
-        'gvDB
+        '
         '
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
+        Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
+        Me.gvDB.ShowHeaderCellButtons = True
         Me.gvDB.Size = New System.Drawing.Size(476, 187)
         Me.gvDB.TabIndex = 0
-        Me.gvDB.Text = "RadGridView1"
+        Me.gvDB.VarID = ""
         '
         'RadGroupBox2
         '
@@ -187,7 +269,7 @@ Partial Class FrmDiscountMaster
         '
         Me.rbtnSampling.Location = New System.Drawing.Point(251, 2)
         Me.rbtnSampling.Name = "rbtnSampling"
-        Me.rbtnSampling.Size = New System.Drawing.Size(85, 18)
+        Me.rbtnSampling.Size = New System.Drawing.Size(67, 18)
         Me.rbtnSampling.TabIndex = 3
         Me.rbtnSampling.Text = "Sampling"
         '
@@ -203,7 +285,7 @@ Partial Class FrmDiscountMaster
         '
         Me.rbtnVSNDType.Location = New System.Drawing.Point(90, 2)
         Me.rbtnVSNDType.Name = "rbtnVSNDType"
-        Me.rbtnVSNDType.Size = New System.Drawing.Size(81, 18)
+        Me.rbtnVSNDType.Size = New System.Drawing.Size(77, 18)
         Me.rbtnVSNDType.TabIndex = 1
         Me.rbtnVSNDType.Text = "VSND Type"
         '
@@ -211,7 +293,7 @@ Partial Class FrmDiscountMaster
         '
         Me.rbtnOther.Location = New System.Drawing.Point(178, 2)
         Me.rbtnOther.Name = "rbtnOther"
-        Me.rbtnOther.Size = New System.Drawing.Size(56, 18)
+        Me.rbtnOther.Size = New System.Drawing.Size(49, 18)
         Me.rbtnOther.TabIndex = 2
         Me.rbtnOther.Text = "Other"
         '
@@ -219,66 +301,49 @@ Partial Class FrmDiscountMaster
         '
         Me.rbtnDiscount.Location = New System.Drawing.Point(13, 2)
         Me.rbtnDiscount.Name = "rbtnDiscount"
-        Me.rbtnDiscount.Size = New System.Drawing.Size(71, 18)
+        Me.rbtnDiscount.Size = New System.Drawing.Size(64, 18)
         Me.rbtnDiscount.TabIndex = 0
         Me.rbtnDiscount.Text = "Discount"
         '
-        'RadLabel7
+        'txtGlAccDesc
         '
-        Me.RadLabel7.Location = New System.Drawing.Point(5, 28)
-        Me.RadLabel7.Name = "RadLabel7"
-        Me.RadLabel7.Size = New System.Drawing.Size(63, 18)
-        Me.RadLabel7.TabIndex = 21
-        Me.RadLabel7.Text = "Description"
-        '
-        'txtCategoryDesc
-        '
-        Me.txtCategoryDesc.Location = New System.Drawing.Point(139, 27)
-        Me.txtCategoryDesc.MaxLength = 50
-        Me.txtCategoryDesc.MendatroryField = False
-        Me.txtCategoryDesc.MyLinkLable1 = Me.RadLabel7
-        Me.txtCategoryDesc.MyLinkLable2 = Nothing
-        Me.txtCategoryDesc.Name = "txtCategoryDesc"
-        Me.txtCategoryDesc.ReadOnly = True
-        Me.txtCategoryDesc.Size = New System.Drawing.Size(359, 20)
-        Me.txtCategoryDesc.TabIndex = 6
-        '
-        'RadLabel6
-        '
-        Me.RadLabel6.Location = New System.Drawing.Point(5, 3)
-        Me.RadLabel6.Name = "RadLabel6"
-        Me.RadLabel6.Size = New System.Drawing.Size(128, 18)
-        Me.RadLabel6.TabIndex = 24
-        Me.RadLabel6.Text = "Discount Category Code"
-        '
-        'txtdiscountcategory
-        '
-        Me.txtdiscountcategory.Location = New System.Drawing.Point(139, 3)
-        Me.txtdiscountcategory.MendatroryField = True
-        Me.txtdiscountcategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtdiscountcategory.MyLinkLable1 = Me.RadLabel6
-        Me.txtdiscountcategory.MyLinkLable2 = Nothing
-        Me.txtdiscountcategory.MyReadOnly = False
-        Me.txtdiscountcategory.Name = "txtdiscountcategory"
-        Me.txtdiscountcategory.Size = New System.Drawing.Size(222, 18)
-        Me.txtdiscountcategory.TabIndex = 5
-        Me.txtdiscountcategory.Value = ""
+        Me.txtGlAccDesc.AutoSize = False
+        Me.txtGlAccDesc.BorderVisible = True
+        Me.txtGlAccDesc.FieldName = Nothing
+        Me.txtGlAccDesc.Location = New System.Drawing.Point(143, 84)
+        Me.txtGlAccDesc.Name = "txtGlAccDesc"
+        Me.txtGlAccDesc.Size = New System.Drawing.Size(499, 18)
+        Me.txtGlAccDesc.TabIndex = 52
         '
         'txtGLAccount
         '
+        Me.txtGLAccount.CalculationExpression = Nothing
+        Me.txtGLAccount.FieldCode = Nothing
+        Me.txtGLAccount.FieldDesc = Nothing
+        Me.txtGLAccount.FieldMaxLength = 0
+        Me.txtGLAccount.FieldName = Nothing
+        Me.txtGLAccount.isCalculatedField = False
+        Me.txtGLAccount.IsSourceFromTable = False
+        Me.txtGLAccount.IsSourceFromValueList = False
+        Me.txtGLAccount.IsUnique = False
         Me.txtGLAccount.Location = New System.Drawing.Point(143, 61)
         Me.txtGLAccount.MendatroryField = True
         Me.txtGLAccount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtGLAccount.MyLinkLable1 = Me.RadLabel5
         Me.txtGLAccount.MyLinkLable2 = Nothing
         Me.txtGLAccount.MyReadOnly = False
+        Me.txtGLAccount.MyShowMasterFormButton = False
         Me.txtGLAccount.Name = "txtGLAccount"
+        Me.txtGLAccount.ReferenceFieldDesc = Nothing
+        Me.txtGLAccount.ReferenceFieldName = Nothing
+        Me.txtGLAccount.ReferenceTableName = Nothing
         Me.txtGLAccount.Size = New System.Drawing.Size(222, 18)
         Me.txtGLAccount.TabIndex = 3
         Me.txtGLAccount.Value = ""
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Location = New System.Drawing.Point(9, 61)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(65, 18)
@@ -287,6 +352,7 @@ Partial Class FrmDiscountMaster
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(9, 84)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
@@ -295,6 +361,7 @@ Partial Class FrmDiscountMaster
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Location = New System.Drawing.Point(12, 89)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(2, 2)
@@ -320,17 +387,30 @@ Partial Class FrmDiscountMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(143, 36)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.RadLabel2
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(499, 20)
         Me.txtDescription.TabIndex = 2
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(9, 37)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(63, 18)
@@ -339,6 +419,7 @@ Partial Class FrmDiscountMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(143, 13)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -354,6 +435,7 @@ Partial Class FrmDiscountMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.RadLabel1.Location = New System.Drawing.Point(9, 14)
         Me.RadLabel1.Name = "RadLabel1"
@@ -396,27 +478,18 @@ Partial Class FrmDiscountMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenu1
         '
@@ -425,40 +498,27 @@ Partial Class FrmDiscountMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(648, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport, Me.menuExport, Me.RadMenuItem6})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuImport
         '
-        Me.menuImport.AccessibleDescription = "Import"
-        Me.menuImport.AccessibleName = "Import"
         Me.menuImport.Name = "menuImport"
         Me.menuImport.Text = "Import"
-        Me.menuImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
-        Me.menuExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Exit"
-        Me.RadMenuItem6.AccessibleName = "Exit"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Exit"
-        Me.RadMenuItem6.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -475,6 +535,7 @@ Partial Class FrmDiscountMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -482,20 +543,16 @@ Partial Class FrmDiscountMaster
         Me.SplitContainer1.SplitterDistance = 448
         Me.SplitContainer1.TabIndex = 0
         '
-        'Panel1
+        'btnHistory
         '
-        Me.Panel1.Controls.Add(Me.RadLabel6)
-        Me.Panel1.Controls.Add(Me.txtdiscountcategory)
-        Me.Panel1.Controls.Add(Me.chkIsOpening)
-        Me.Panel1.Controls.Add(Me.txtCategoryDesc)
-        Me.Panel1.Controls.Add(Me.RadGroupBox4)
-        Me.Panel1.Controls.Add(Me.RadLabel7)
-        Me.Panel1.Controls.Add(Me.RadGroupBox2)
-        Me.Panel1.Location = New System.Drawing.Point(3, 109)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(645, 326)
-        Me.Panel1.TabIndex = 53
-        Me.Panel1.Visible = False
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(143, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmDiscountMaster
         '
@@ -513,8 +570,12 @@ Partial Class FrmDiscountMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.txtGlAccDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsOpening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCategoryDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         CType(Me.gvDB.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -527,9 +588,7 @@ Partial Class FrmDiscountMaster
         CType(Me.rbtnVSNDType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDiscount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCategoryDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGlAccDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -545,8 +604,7 @@ Partial Class FrmDiscountMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -590,5 +648,6 @@ Partial Class FrmDiscountMaster
     Friend WithEvents chkIsOpening As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents txtGlAccDesc As common.Controls.MyLabel
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

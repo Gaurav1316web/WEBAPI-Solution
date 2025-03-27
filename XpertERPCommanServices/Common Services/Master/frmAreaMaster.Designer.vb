@@ -27,6 +27,8 @@ Partial Class frmAreaMaster
         Me.lblZone = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
@@ -42,12 +44,13 @@ Partial Class frmAreaMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,8 +61,7 @@ Partial Class frmAreaMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,7 +94,6 @@ Partial Class frmAreaMaster
         Me.lblZone.Name = "lblZone"
         Me.lblZone.Size = New System.Drawing.Size(225, 18)
         Me.lblZone.TabIndex = 4
-        Me.lblZone.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtZone
         '
@@ -128,6 +129,25 @@ Partial Class frmAreaMaster
         Me.MyLabel1.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel1.TabIndex = 21
         Me.MyLabel1.Text = "Zone"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Image = CType(resources.GetObject("RadButton1.Image"), System.Drawing.Image)
+        Me.RadButton1.Location = New System.Drawing.Point(352, -422)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(14, 20)
+        Me.RadButton1.TabIndex = 17
+        Me.RadButton1.Text = " "
+        '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(287, 12)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew.TabIndex = 1
+        Me.btnNew.Text = " "
         '
         'txtName
         '
@@ -221,22 +241,16 @@ Partial Class frmAreaMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -256,6 +270,7 @@ Partial Class frmAreaMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -270,48 +285,33 @@ Partial Class frmAreaMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
-        'RadButton1
+        'btnHistory
         '
-        Me.RadButton1.Image = CType(resources.GetObject("RadButton1.Image"), System.Drawing.Image)
-        Me.RadButton1.Location = New System.Drawing.Point(352, -422)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(14, 20)
-        Me.RadButton1.TabIndex = 17
-        Me.RadButton1.Text = " "
-        '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(287, 12)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(19, 21)
-        Me.btnNew.TabIndex = 1
-        Me.btnNew.Text = " "
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(230, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmAreaMaster
         '
@@ -330,6 +330,8 @@ Partial Class frmAreaMaster
         Me.RadGroupBox1.PerformLayout()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -341,8 +343,7 @@ Partial Class frmAreaMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -368,5 +369,6 @@ Partial Class frmAreaMaster
     Friend WithEvents MenuItemImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu2 As Telerik.WinControls.UI.RadMenu
+    Friend WithEvents btnHistory As RadButton
 End Class
 

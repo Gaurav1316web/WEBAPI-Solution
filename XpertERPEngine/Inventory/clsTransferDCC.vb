@@ -883,6 +883,58 @@ Public Class clsTransferDCC
         End Try
         Return isSaved
     End Function
+    Public Shared Function eWayBill_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+            Dim strQry As String = "select 
+TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as supplyType,'1' as subSupplyType,TSPL_TRANSFER_ORDER_HEAD.Remarks as subSupplyDesc,'INV' as docType,  TSPL_TRANSFER_ORDER_HEAD.Document_No as docNo,  convert(date, TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as docDate,  FromLocation.GSTNO as fromGstin,TSPL_COMPANY_MASTER.Comp_Name as fromTrdName,FromLocation.Add1 as fromAddr1,FromLocation.Add2 as fromAddr2,FromLocation.city_code as fromPlace,Seller_State_Master.GST_STATE_Code as actFromStateCode,FromLocation.Pin_Code as fromPincode,Seller_State_Master.GST_STATE_Code as fromStateCode,ToLocation.GSTNo as toGstin,ToLocation.location_desc as toTrdName,  Tolocation.Add1 as toAddr1,Tolocation.Add2 as toAddr2,Tolocation.City_Code as toPlace,Tolocation.Pin_Code as toPincode,  Buyer_State_Master.GST_STATE_Code as actToStateCode,Buyer_State_Master.GST_STATE_Code as toStateCode,'4' AS transactionType,  FromLocation.GSTNO as dispatchFromGSTIN,TSPL_COMPANY_MASTER.Comp_Name as dispatchFromTradeName,ToLocation.GSTNo AS shipToGSTIN,  ToLocation.location_desc AS shipToTradeName,TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt AS totalValue,
+'0' as cgstValue,'0' as sgstValue,'0' as igstValue,'0' as cessValue,'0' as cessNonAdvolValue,TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt as totInvValue,'1' as transMode,
+TSPL_TRANSFER_ORDER_HEAD.Km_Reading as transDistance,
+'' AS transporterName,tspl_vendor_master.GSTFinalNo AS transporterId,
+  '' as transDocNo,'' as transDocDate,
+  TSPL_VEHICLE_MASTER.Number as vehicleNo,
+  'R' as vehicleType,
+  
+  TSPL_ITEM_MASTER.Item_Desc AS productName, 
+  TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as quantity, TSPL_TRANSFER_ORDER_DETAIL.Unit_code as qtyUnit,TSPL_TRANSFER_ORDER_DETAIL.Item_cost as ItemUnitPrice,  TSPL_TRANSFER_ORDER_DETAIL.Amount as ItemTotAmt,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt as ItemDiscount,TSPL_TRANSFER_ORDER_DETAIL.Amount as taxableAmount,'0' as sgstRate,'0' as cgstRate,'0' as igstRate,'0' as cessRate
+from 
+  TSPL_TRANSFER_ORDER_HEAD 
+  Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' 
+  left Outer Join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code = TSPL_TRANSFER_ORDER_HEAD.To_Location 
+  left Outer Join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code = TSPL_TRANSFER_ORDER_HEAD.From_Location 
+  left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_DETAIL.Document_No = TSPL_TRANSFER_ORDER_HEAD.Document_No 
+  left outer join tspl_item_master on tspl_item_master.Item_code = TSPL_TRANSFER_ORDER_DETAIL.Item_code 
+  left outer join TSPL_STATE_MASTER as Seller_State_Master on Seller_State_Master.STATE_CODE = FromLocation.State 
+  left outer join TSPL_STATE_MASTER as Buyer_State_Master on Buyer_State_Master.STATE_CODE = ToLocation.State 
+  left outer join tspl_city_master on tspl_city_master.city_code = ToLocation.City_Code 
+  left outer join tspl_city_master as BuyerCity on BuyerCity.city_code = FromLocation.City_Code 
+  left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_TRANSFER_ORDER_HEAD.Tax2 
+  left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_TRANSFER_ORDER_HEAD.Tax3 
+  Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_TRANSFER_ORDER_HEAD.Transport_Id 
+  Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code 
+where 
+  TSPL_TRANSFER_ORDER_HEAD.Document_No = '" & strDocNo & "' AND TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'O' AND TSPL_TRANSFER_ORDER_HEAD.IsJobWorkType = 0 "
+            Dim objResult As Object = ClsEInvoiceOFAPIs.PostEWayBill(objCommonVar.CurrentCompanyCode, strQry, strLocation, trans)
+            If objResult IsNot Nothing Then
+                Dim EWayBillNo As String = objResult.SelectToken("data.ewayBillNo").ToString
+                Dim EWayBillDate As String = objResult.SelectToken("data.ewayBillDate").ToString
+                Dim EWayBillValidDate As String = objResult.SelectToken("data.validUpto").ToString
+                Dim EWayBillRemarks As String = objResult.SelectToken("data.alert").ToString
+                Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EWayBillNo + "/" + CompGSTNo + "/" + clsCommon.GetPrintDate(EWayBillValidDate, "dd/MMM/yyyy hh:mm tt"))
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSFER_ORDER_HEAD set  EWayBillNo ='" & EWayBillNo & "',EWayBillDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillValidDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillRemarks='" & EWayBillRemarks & "' where TSPL_TRANSFER_ORDER_HEAD.Document_No ='" & strDocNo & "'", trans)
+                clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_TRANSFER_ORDER_HEAD", "TSPL_TRANSFER_ORDER_HEAD.Document_No='" & strDocNo & "'", trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+
+        End Try
+        Return True
+    End Function
+
+
     Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim isSaved As Boolean = True
@@ -1462,8 +1514,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             Next
 
             ''richa agarwal 23 Dec,2020 check eInvoice Implementation
-            If (clsCommon.CompairString(clsCommon.myCstr(obj.Transfer_Type), "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(obj.Transfer_Type), "T") = CompairStringResult.Equal) AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.IsJobWorkType), "0") = CompairStringResult.Equal Then
-                If clsTransferDCC.EInvoice_Implementation(obj.Document_No, obj.From_Location, trans) = True Then
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Transfer_Type), "O") = CompairStringResult.Equal Then
+                If clsTransferDCC.eWayBill_Implementation(obj.Document_No, obj.From_Location, trans) = True Then
                 Else
                     Throw New Exception("Invalid JSON Value")
                 End If
