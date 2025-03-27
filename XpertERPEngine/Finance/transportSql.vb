@@ -1077,8 +1077,13 @@ xxx:
                 ''richa agarwal 12jan BM00000008685
                 If AllCellsInString Then
                     If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
+                        If gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
+                        Else
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
+                        End If
                     ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
