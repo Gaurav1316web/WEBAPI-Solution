@@ -7474,6 +7474,17 @@ Public Class clsCreateAllTable
             coll.Add("File_Info", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ATTACHMENTS", coll, "", False, False)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("CODE", "varchar(20) NOT NULL PRIMARY KEY ")
+            coll.Add("FileName", "Varchar(50) not null")
+            coll.Add("FileData", "VarBinary(Max) null ")
+            coll.Add("COMMENTS", "VARCHAR(500) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GSTR_BLANK_SHEET", coll, "", False, False)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Screen_Code", "VARCHAR(12) NOT NULL References TSPL_PROGRAM_MASTER(Program_Code)")
