@@ -27,6 +27,8 @@ Public Class clsCountryMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_COUNTRY_MASTER where COUNTRY_CODE ='" + strCode + "'"
@@ -103,6 +105,7 @@ Public Class clsCountryMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COUNTRY_MASTER", OMInsertOrUpdate.Update, "COUNTRY_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

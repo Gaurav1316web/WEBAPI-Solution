@@ -34,6 +34,7 @@ Public Class ClsSACMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SAC_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_SAC_MASTER", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -74,6 +75,10 @@ Public Class ClsSACMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SAC_MASTER", "Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SAC_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_SAC_MASTER where TSPL_SAC_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
@@ -246,6 +251,8 @@ Public Class clsRackMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Rack_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Rack_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Rack_Code, "TSPL_Rack_MASTER", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -293,6 +300,9 @@ Public Class clsRackMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Rack_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Rack_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_Rack_MASTER where TSPL_Rack_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
@@ -337,6 +347,8 @@ Public Class clsBinMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "tspl_Bin_master", OMInsertOrUpdate.Update, "Bin_Code='" + obj.Bin_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Bin_Code, "tspl_Bin_master", "Bin_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -384,6 +396,8 @@ Public Class clsBinMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Bin_MASTER", "Bin_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Bin_MASTER", "Bin_Code", Nothing)
             qry = "Delete from TSPL_Bin_MASTER where TSPL_Bin_MASTER.Bin_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

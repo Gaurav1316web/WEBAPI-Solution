@@ -28,6 +28,9 @@ Public Class ClsAccountMainGroup
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACCOUNT_MAIN_GROUPS", "Account_Main_Group_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACCOUNT_MAIN_GROUPS", "Account_Main_Group_Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_ACCOUNT_MAIN_GROUPS where Account_Main_Group_Code ='" + strCode + "'"
@@ -104,6 +107,8 @@ Public Class ClsAccountMainGroup
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ACCOUNT_MAIN_GROUPS", OMInsertOrUpdate.Update, "Account_Main_Group_Code='" + obj.Account_Main_Group_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Account_Main_Group_Code, "TSPL_ACCOUNT_MAIN_GROUPS", "Account_Main_Group_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

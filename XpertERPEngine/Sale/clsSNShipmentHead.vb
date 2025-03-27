@@ -1167,7 +1167,7 @@ Public Class clsSNShipmentHead
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
             clsCommon.AddColumnsForChange(coll, "is_taxable", obj.is_taxable)
-            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", obj.Inter_unit_sale)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", IIf(obj.Inter_unit_sale, 1, 0))
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
             Else

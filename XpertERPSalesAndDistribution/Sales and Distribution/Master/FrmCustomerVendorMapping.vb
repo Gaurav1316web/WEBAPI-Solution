@@ -76,6 +76,8 @@ Public Class FrmCustomerVendorMapping
 
             Dim qry As String = "insert into TSPL_CUSTOMER_VENDOR_MAPPING values('" + fndcustomer.Value + "','" + fndvendor.Value + "') "
             connectSql.RunSql(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
+
             myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
@@ -103,8 +105,13 @@ Public Class FrmCustomerVendorMapping
     'Function for deletion of data
     Public Sub fundelete()
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
+
             Dim qry As String = "delete from TSPL_CUSTOMER_VENDOR_MAPPING where cust_code='" + fndcustomer.Value + "'"
             connectSql.RunSql(qry)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
+
+
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -450,5 +457,17 @@ Public Class FrmCustomerVendorMapping
         Dim str As String
         str = " SELECT Cust_Code AS [Customer Code],Vendor_Code  As [Vendor Code] FROM TSPL_CUSTOMER_VENDOR_MAPPING "
         transportSql.ExporttoExcel(str, Me)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcustomer.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcustomer.Value, "Cust_Code", "TSPL_CUSTOMER_VENDOR_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

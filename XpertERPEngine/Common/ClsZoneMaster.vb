@@ -139,6 +139,7 @@ Public Class clsDistrictMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DISTRICT_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DISTRICT_MASTER", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -182,6 +183,9 @@ Public Class clsDistrictMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DISTRICT_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DISTRICT_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_DISTRICT_MASTER where TSPL_DISTRICT_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
@@ -246,6 +250,8 @@ Public Class clsAreaMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_AREA_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_AREA_MASTER", "Code", trans)
+
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -287,6 +293,8 @@ Public Class clsAreaMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_AREA_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_AREA_MASTER", "Code", Nothing)
             qry = "Delete from TSPL_AREA_MASTER where TSPL_AREA_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

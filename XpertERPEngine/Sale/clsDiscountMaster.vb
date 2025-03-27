@@ -29,6 +29,9 @@ Public Class clsDiscountMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Discount_Master", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Discount_Master", "Code", Nothing)
+
             Dim obj As clsDiscountMaster = clsDiscountMaster.GetData(strCode, NavigatorType.Current)
 
             Dim qry As String
@@ -123,6 +126,7 @@ Public Class clsDiscountMaster
                 'isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DISCOUNT_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'")
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, DBArrList, "TSPL_DISCOUNT_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'")
             End If
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DISCOUNT_MASTER", "Code", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
