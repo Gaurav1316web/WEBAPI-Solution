@@ -53,6 +53,8 @@ Public Class ClsTransactionApproval
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSACTION_APPROVAL", OMInsertOrUpdate.Update, "TSPL_TRANSACTION_APPROVAL.Program_Code='" & obj.Program_Code & "' AND Document_No='" & obj.Document_No & "'", trans)
             End If
+            IsSaved = clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Program_Code, "TSPL_TRANSACTION_APPROVAL", "Program_Code", trans)
+
             CreateSMSContent(obj, trans)
             CreateEmailContent(obj, trans)
             If isTranInitLocal Then

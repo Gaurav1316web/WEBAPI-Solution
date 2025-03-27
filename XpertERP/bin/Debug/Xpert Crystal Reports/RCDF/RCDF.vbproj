@@ -625,6 +625,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PersonWiseGoodsReturnableBalance.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-G-AJM.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G-JAL.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G-JPR.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G-SKR.rpt" />
@@ -641,6 +642,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisition.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendorAJM.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RequisitionPendingQty.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RMConsumptionBreakup.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptBalanceStockForJobWork.rpt" />

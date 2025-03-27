@@ -229,6 +229,20 @@ Public Class clsPurchaseOrderHead
     Public State_Code As String = ""
     Public PO_Amount As Double
     Public isBlanket As Integer = 0
+    Public Cmnt1chk As Integer = 0
+    Public Cmnt2chk As Integer = 0
+    Public Cmnt3chk As Integer = 0
+    Public Cmnt4chk As Integer = 0
+    Public Cmnt5chk As Integer = 0
+    Public Cmnt6chk As Integer = 0
+    Public Cmnt7chk As Integer = 0
+    Public Cmnt8chk As Integer = 0
+    Public Cmnt9chk As Integer = 0
+    Public Cmnt10chk As Integer = 0
+    Public Cmnt11chk As Integer = 0
+    Public Cmnt12chk As Integer = 0
+    Public Cmnt13chk As Integer = 0
+    Public Cmnt14chk As Integer = 0
     '===shivani
     Public IsPO As Integer = 0
     Public IsContent As Integer = 0
@@ -636,6 +650,20 @@ Public Class clsPurchaseOrderHead
             clsCommon.AddColumnsForChange(coll, "Comment11", obj.Comment11)
             clsCommon.AddColumnsForChange(coll, "Comment12", obj.Comment12)
             clsCommon.AddColumnsForChange(coll, "Comment13", obj.Comment13)
+            clsCommon.AddColumnsForChange(coll, "Cmnt1chk", obj.Cmnt1chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt2chk", obj.Cmnt2chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt3chk", obj.Cmnt3chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt4chk", obj.Cmnt4chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt5chk", obj.Cmnt5chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt6chk", obj.Cmnt6chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt7chk", obj.Cmnt7chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt8chk", obj.Cmnt8chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt9chk", obj.Cmnt9chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt10chk", obj.Cmnt10chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt11chk", obj.Cmnt11chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt12chk", obj.Cmnt12chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt13chk", obj.Cmnt13chk)
+            clsCommon.AddColumnsForChange(coll, "Cmnt14chk", obj.Cmnt14chk)
             'clsCommon.AddColumnsForChange(coll, "Comment14", obj.Comment14)
             clsCommon.AddColumnsForChange(coll, "Against_RGP_NO", obj.Against_RGP_NO, True)
 
@@ -1120,6 +1148,20 @@ left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_TENDE
             obj.Comment11 = clsCommon.myCstr(dt.Rows(0)("Comment11"))
             obj.Comment12 = clsCommon.myCstr(dt.Rows(0)("Comment12"))
             obj.Comment13 = clsCommon.myCstr(dt.Rows(0)("Comment13"))
+            obj.Cmnt1chk = clsCommon.myCstr(dt.Rows(0)("Cmnt1chk"))
+            obj.Cmnt2chk = clsCommon.myCstr(dt.Rows(0)("Cmnt2chk"))
+            obj.Cmnt3chk = clsCommon.myCstr(dt.Rows(0)("Cmnt3chk"))
+            obj.Cmnt4chk = clsCommon.myCstr(dt.Rows(0)("Cmnt4chk"))
+            obj.Cmnt5chk = clsCommon.myCstr(dt.Rows(0)("Cmnt5chk"))
+            obj.Cmnt6chk = clsCommon.myCstr(dt.Rows(0)("Cmnt6chk"))
+            obj.Cmnt7chk = clsCommon.myCstr(dt.Rows(0)("Cmnt7chk"))
+            obj.Cmnt8chk = clsCommon.myCstr(dt.Rows(0)("Cmnt8chk"))
+            obj.Cmnt9chk = clsCommon.myCstr(dt.Rows(0)("Cmnt9chk"))
+            obj.Cmnt10chk = clsCommon.myCstr(dt.Rows(0)("Cmnt10chk"))
+            obj.Cmnt11chk = clsCommon.myCstr(dt.Rows(0)("Cmnt11chk"))
+            obj.Cmnt12chk = clsCommon.myCstr(dt.Rows(0)("Cmnt12chk"))
+            obj.Cmnt13chk = clsCommon.myCstr(dt.Rows(0)("Cmnt13chk"))
+            obj.Cmnt14chk = clsCommon.myCstr(dt.Rows(0)("Cmnt14chk"))
             ' obj.Comment14 = clsCommon.myCstr(dt.Rows(0)("Comment14"))
             obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
             obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
@@ -5597,7 +5639,22 @@ a:
             strQuery = "select  Footer_Text  from TSPL_Crystal_Report_Footer_Setting where Frm_ID ='" + StrFormID + "' "
             FooterText = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Footer_Text  from TSPL_Crystal_Report_Footer_Setting where Frm_ID ='" + StrFormID + "'", tran))
             strQuery = "select "
-            strQuery += " Convert(Varchar,TSPL_TENDER_HEADER.DocumentDate,103) as TendorDocumentDate,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per_Unit,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt_Per_Unit,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TendorNo , "
+            strQuery += " case when TSPL_PURCHASE_ORDER_HEAD.Cmnt1chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment1 else '' end as Vendor_cmn1,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt2chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment2 else '' end as Vendor_cmn2,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt3chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment3 else '' end as Vendor_cmn3,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt4chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment4 else '' end as Vendor_cmn4,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt5chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment5 else '' end as Vendor_cmn5,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt6chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment6 else '' end as Vendor_cmn6,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt7chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment7 else '' end as Vendor_cmn7,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt8chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment8 else '' end as Vendor_cmn8,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt9chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment9 else '' end as Vendor_cmn9,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt10chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment10 else '' end as Vendor_cmn10,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt11chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment11 else '' end as Vendor_cmn11,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt12chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment12 else '' end as Vendor_cmn12,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt13chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment13 else '' end as Vendor_cmn13,
+                            case when TSPL_PURCHASE_ORDER_HEAD.Cmnt14chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment14 else '' end as Vendor_cmn14,
+                            TSPL_PURCHASE_ORDER_HEAD.Comment2,TSPL_VENDOR_MASTER.Add1 AS Vendor_Add1,TSPL_VENDOR_MASTER.Add2 as Vendor_Add2,TSPL_VENDOR_MASTER.Add3 as Vendor_Add3,TSPL_VENDOR_MASTER.Contact_Person_Name as Vendor_CP,TSPL_VENDOR_MASTER.Email AS Vendor_Email,TSPL_VENDOR_MASTER.Phone1 as Vendor_phone,TSPL_VENDOR_MASTER.GSTFinalNo as Vendor_GST"
+            strQuery += " ,Convert(Varchar,TSPL_TENDER_HEADER.DocumentDate,103) as TendorDocumentDate,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per_Unit,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt_Per_Unit,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TendorNo , "
             strQuery += " comp_code1, TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.Telphone as Location_Telphone ,TSPL_VENDOR_MASTER.Email,TSPL_COMPANY_MASTER.CST_LST, TSPL_COMPANY_MASTER.Regn_No as [Regn No], TSPL_COMPANY_MASTER.Access_Officer as [FSSAI Lic No],TSPL_COMPANY_MASTER.GSTReg_No as [GST No], TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,TSPL_COMPANY_MASTER.Ecc_No,TSPL_COMPANY_MASTER.Circle_No,TSPL_COMPANY_MASTER.ISO_No, '" + clsCommon.myCstr(dtComp.Rows(0)("Company_Address")) + "' as Company_Address,'" + clsCommon.myCstr(dtComp.Rows(0)("Comp_Address")) + "' as Comp_Address,'" + clsCommon.myCstr(dtComp.Rows(0)("Add01")) + "' as Add01 ,'" + clsCommon.myCstr(dtComp.Rows(0)("add02")) + "' as add02 ,'" + clsCommon.myCstr(dtComp.Rows(0)("add03")) + "' as add03 ,'" + clsCommon.myCstr(dtComp.Rows(0)("PC")) + "' as PC ,'" + clsCommon.myCstr(dtComp.Rows(0)("CNo")) + "' as CNo ,'" + clsCommon.myCstr(dtComp.Rows(0)("Mail")) + "' as Mail ,'" + clsCommon.myCstr(dtComp.Rows(0)("CityName")) + "' as CityName ,'" + clsCommon.myCstr(dtComp.Rows(0)("MNo1")) + "' as MNo1 ,'" + clsCommon.myCstr(dtComp.Rows(0)("MNo2")) + "' as MNo2, isnull(TSPL_PURCHASE_ORDER_DETAIL.Detail_Discount_Amount,0) as Detail_Discount_Amount, isnull(tspl_purchase_order_head.Description,'') as Description,isnull(TSPL_PURCHASE_ORDER_HEAD.Header_Discount_Amount,0) as Header_Discount_Amount, Ship_Location.Add1 as ShipAdd1,Ship_Location.Add2 as ShipAdd2,Ship_Location.Add3 as ShipAdd3,Ship_Location.location_code as Ship_Loc_code,Ship_Location.location_desc as Ship_Loc_Des, isNull (TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation, '') as Against_Vendor_Quotation  ,case when len ( isNull (TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation, '')) > 0 then convert(varchar, TSPL_VENDOR_QUOTATION_HEAD.VQDate ,103) else  '' end as Vendor_Quotation_Date, '" + strAuthrozedBy + "' as AuthrozedBy,TSPL_STATE_MASTER_FOR_VENDOR.state_Name as Vend_State_Name,'" + Ho_Address + "' as HO_Address,TSPL_VENDOR_MASTER.State_Code AS Vendor_StateCode,tspl_state_master_for_location_state.state_code as Loc_StateCode, case when TSPL_PURCHASE_ORDER_DETAIL.Row_type='Misc' then isnull (TSPL_Additional_Charges.SAC_Code,'') else ISNULL(TSPL_ITEM_MASTER.HSN_Code,'')  end AS HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo , TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER_FOR_VENDOR.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_PURCHASE_ORDER_HEAD.Created_By as Created_By_Name,TSPL_PURCHASE_ORDER_HEAD.Posted_By as Modify_By_Name, TSPL_PURCHASE_ORDER_HEAD.created_by,TSPL_PURCHASE_ORDER_HEAD.Posted_By as Modify_By , CurrencyMaster.CURRENCY_SIGN ,TSPL_PURCHASE_ORDER_HEAD.CURRENCY_CODE as CURRENCY_CODE_For_Symbol,createdUser.User_Name as createdUserName ,ModifyUser.User_Name as ModifyUserName ,PostedUser.User_Name as PostedUserName,TSPL_EX_PI_HEAD.Payment_Terms as PI_Payment_terms ,TSPL_EX_PI_HEAD.Terms_Code as Payment_Terms_Code,convert(varchar,TSPL_EX_PI_HEAD.Due_Date,103) as PI_Due_Date ,TSPL_PURCHASE_ORDER_HEAD.MT_PI_No ,convert(varchar,TSPL_EX_PI_HEAD.Document_Date,103) as PI_Date, tspl_state_master_for_location_state.state_name as Location_state_name,tspl_location_master.city_code  as Loca_city_name, case when ISNULL(TSPL_PURCHASE_ORDER_DETAIL.Qty_Desc,'')='' then CAST(CAST(TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty As decimal(18,2)) AS varchar) else TSPL_PURCHASE_ORDER_DETAIL.Qty_Desc end as frm_Qty_Desc, case when isnull(TSPL_PURCHASE_ORDER_DETAIL.Rate_Desc,'')='' then TSPL_PURCHASE_ORDER_DETAIL.Item_Cost else TSPL_PURCHASE_ORDER_DETAIL.Rate_Desc end as  frm_Rate_Desc,tspl_purchase_order_head.IsContent,tspl_purchase_order_head.IsPO," + clsCommon.myCstr(customecount) + " as CustomCount,tspl_purchase_order_detail.remarks as detail_remark,tspl_purchase_order_head.auto_calculate,TSPL_PURCHASE_ORDER_DETAIL.item_cost+case when PurchaseOrder_Qty=0 then 1 else ( Amt_Less_Discount /PurchaseOrder_Qty )end as NetAmount,case when PurchaseOrder_Qty=0 then Item_Cost else ( Amt_Less_Discount /PurchaseOrder_Qty )end NetRate,tspl_company_master.cinno as Comp_CIN,tspl_purchase_order_head.item_type,TSPL_PURCHASE_ORDER_HEAD.payment_Terms,TSPL_PURCHASE_ORDER_HEAD.termscondition,tspl_purchase_order_head.subject,tspl_purchase_order_head.content_Subject,tspl_purchase_order_head.Kind_Attentation,tspl_purchase_order_head.Comments,TSPL_PURCHASE_ORDER_DETAIL.Qty_Desc ,TSPL_PURCHASE_ORDER_DETAIL.Rate_Desc ,cast(TSPL_PURCHASE_ORDER_DETAIL.Amount_Desc as Float) as Amount_Desc,TSPL_PURCHASE_ORDER_HEAD.insurance_Terms,TSPL_PURCHASE_ORDER_HEAD.Delivery_Terms_Code,tspl_delivery_terms_master.description as Delivery_Terms_Desc,TSPL_VENDOR_MASTER.Add1 as VenAdd1,TSPL_VENDOR_MASTER.add2 as VenAdd2,TSPL_VENDOR_MASTER.Add3 as VenAdd3,TSPL_VENDOR_MASTER.City_Code_Desc as Vendor_City,TSPL_VENDOR_MASTER.State as Vendor_State,TSPL_VENDOR_MASTER.Pin_Code as Vendor_Pin,case when len(isnull(TSPL_VENDOR_MASTER.Add3,'')) > 0 then  TSPL_VENDOR_MASTER.Add3 else '' end + case when len( isnull(TSPL_VENDOR_MASTER.City_Code_Desc,'')) >0 then  case when len(isnull(TSPL_VENDOR_MASTER.Add3,'')) > 0 then ', '+ TSPL_VENDOR_MASTER.City_Code_Desc else TSPL_VENDOR_MASTER.City_Code_Desc  end else ' ' end + case when len(isnull( TSPL_VENDOR_MASTER.State,'')) >0 then  case when len( isnull(TSPL_VENDOR_MASTER.City_Code_Desc,'')) >0 then ', ' +TSPL_VENDOR_MASTER.State  else TSPL_VENDOR_MASTER.State end        else ' ' end  + Case when len(isnull(TSPL_VENDOR_MASTER.Pin_Code,'') ) > 0 then ' - '+TSPL_VENDOR_MASTER.Pin_Code else ' ' end as Vend_Add3_City_State_Pin,'' as FromDate,'" + FooterText + "' as FooterText,'' as Todate,'' as DocFilter,'' as VendorCodeFilter,'' as LocCodeFilter,PurchaseOrder_Type,case when PurchaseOrder_Type='J' then 'WORK ORDER' else case when PurchaseOrder_Type='L' or PurchaseOrder_Type='I' then 'PURCHASE ORDER'+(case when TSPL_PURCHASE_ORDER_HEAD.Confirmatory_PO_SRN_No is not null then ' [ Confirmatory ]' else '' end ) else '' end end as OrderWise,case when PurchaseOrder_Type='J' then 'THE ABOVE RATES ARE INCLUSIVE OF TAX' else case when PurchaseOrder_Type='L' then '6 MONTHS FROM THE DATE OF SUPPLY FOR ANY TYPE OF MANUFACTURING DEFECT ONLY.' else '' end end as Note,  TSPL_VENDOR_MASTER.add1 +case when len(TSPL_VENDOR_MASTER.add2)>0 then ', '+TSPL_VENDOR_MASTER.add2 else '' end +case when LEN(isnull(TSPL_VENDOR_MASTER.Add3,''))>0 then ', '+isnull(TSPL_VENDOR_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_VENDOR_MASTER.City_Code_Desc)>0 then ', '+TSPL_VENDOR_MASTER.City_Code_Desc else ' ' end + case when len(TSPL_VENDOR_MASTER.State )>0 then TSPL_VENDOR_MASTER.State else '' end  as address, TSPL_PURCHASE_ORDER_HEAD.Dept_Desc, Case WHen '" + objCommonVar.CurrentCompanyCode + "'='GUNTUR' Then TSPL_PURCHASE_ORDER_HEAD.Delivery_Duration Else TSPL_PURCHASE_ORDER_HEAD.Delivery_date End as [Delivery_date],TSPL_PURCHASE_ORDER_HEAD.Remarks ,TSPL_PURCHASE_ORDER_HEAD.Terms_Code,TSPL_PURCHASE_ORDER_HEAD.Terms_Remark,TSPL_PURCHASE_ORDER_HEAD.Mode_Of_Transport as  ModeofTransport,TSPL_PURCHASE_ORDER_DETAIL .Specification as  specification,TSPL_PURCHASE_ORDER_DETAIL.Remarks,TSPL_PURCHASE_ORDER_DETAIL.Capacity,TSPL_PURCHASE_ORDER_DETAIL.Make,TSPL_PURCHASE_ORDER_DETAIL.Model,TSPL_PURCHASE_ORDER_HEAD.Abandonment_No"
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                 strQuery += ",getdate() as Abandonment_Date"
@@ -5928,6 +5985,8 @@ a:
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JAL", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JPR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-AJM", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 Else
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 End If

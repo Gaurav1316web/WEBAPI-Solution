@@ -266,6 +266,18 @@ Public Class FrmBankBrachMaster
         Me.Controls.Remove(gv)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndBranchCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndBranchCode.Value, "Branch_Code", "TSPL_Bank_Branch_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub fndBranchCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndBranchCode._MYNavigator
         Try
             obj = New clsBankBranchMaster()

@@ -242,7 +242,7 @@ Public Class clsSNInvoiceHead
                 clsCommon.AddColumnsForChange(coll, "cust_po_date", clsCommon.GetPrintDate(obj.podate, "dd/MMM/yyyy hh:mm tt"))
             End If
             clsCommon.AddColumnsForChange(coll, "is_taxable", obj.is_taxable)
-            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", obj.Inter_unit_sale)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", IIf(obj.Inter_unit_sale, 1, 0))
             clsCommon.AddColumnsForChange(coll, "EWayBillNo", obj.EWayBillNo)
             clsCommon.AddColumnsForChange(coll, "Electronic_Ref_No", obj.Electronic_Ref_No)
             clsCommon.AddColumnsForChange(coll, "EWayBillREmarks", obj.EwayBillRemarks)

@@ -73,6 +73,7 @@ Partial Class frmCustomerGroup
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCustomerGroupDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,6 +111,7 @@ Partial Class frmCustomerGroup
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -512,7 +514,7 @@ Partial Class frmCustomerGroup
         '
         Me.chkDefaultVSP.Location = New System.Drawing.Point(574, 107)
         Me.chkDefaultVSP.Name = "chkDefaultVSP"
-        Me.chkDefaultVSP.Size = New System.Drawing.Size(79, 18)
+        Me.chkDefaultVSP.Size = New System.Drawing.Size(106, 18)
         Me.chkDefaultVSP.TabIndex = 308
         Me.chkDefaultVSP.Text = "Default Secretary"
         '
@@ -816,12 +818,23 @@ Partial Class frmCustomerGroup
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Size = New System.Drawing.Size(700, 410)
         Me.SplitContainer1.SplitterDistance = 367
         Me.SplitContainer1.TabIndex = 33
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(152, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 12
+        Me.btnHistory.Text = "History"
         '
         'frmCustomerGroup
         '
@@ -876,6 +889,7 @@ Partial Class frmCustomerGroup
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -930,5 +944,6 @@ Partial Class frmCustomerGroup
     Friend WithEvents lblVSPPriceCodeCredit As common.Controls.MyTextBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtVSPPriceCodeCredit As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

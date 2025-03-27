@@ -63,6 +63,7 @@ Public Class clsRequestMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_REQUEST_MASTER", OMInsertOrUpdate.Update, "TSPL_USER_REQUEST_MASTER.REQUEST_CODE ='" + obj.REQUEST_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.REQUEST_CODE, "TSPL_USER_REQUEST_MASTER", "REQUEST_CODE", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -138,6 +139,7 @@ Public Class clsRequestMaster
 
             Dim qry As String = "Update TSPL_USER_REQUEST_MASTER set POSTED=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where REQUEST_CODE='" + obj.REQUEST_CODE + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_USER_REQUEST_MASTER", "REQUEST_CODE", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -148,6 +150,9 @@ Public Class clsRequestMaster
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_USER_REQUEST_MASTER", "REQUEST_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_USER_REQUEST_MASTER", "REQUEST_CODE", Nothing)
+
             qry = "Delete from TSPL_USER_REQUEST_MASTER where REQUEST_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
             tran.Commit()

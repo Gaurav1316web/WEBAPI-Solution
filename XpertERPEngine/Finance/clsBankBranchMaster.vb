@@ -46,6 +46,10 @@ Public Class clsBankBranchMaster
     End Function
     '' For Delete of Data 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Bank_Branch_MASTER", "Branch_Code", Nothing)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Bank_Branch_MASTER", "Branch_Code", Nothing)
+
         Dim qry As String = "Delete from TSPL_Bank_Branch_Master where Branch_Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function
@@ -70,6 +74,8 @@ Public Class clsBankBranchMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Bank_Branch_MASTER ", OMInsertOrUpdate.Update, " Branch_Code='" + obj.Branch_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Branch_Code, "TSPL_Bank_Branch_MASTER", "Branch_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -334,8 +334,6 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
     Public Shared Function CorrectionData(ByVal obj As clsMilkCollectionMCC, ByVal isCorrection As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            HistoryUpdate(obj.Document_No, trans)
-
             Dim coll As New Hashtable()
             If isCorrection = 0 Then
                 clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
@@ -371,6 +369,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
+            HistoryUpdate(obj.Document_No, trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()

@@ -23,6 +23,7 @@ Partial Class frmPaymentTerms
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.txt_desc = New common.Controls.MyTextBox()
@@ -47,6 +48,7 @@ Partial Class frmPaymentTerms
         Me.btn_reset = New Telerik.WinControls.UI.RadButton()
         Me.ToolTipTerms = New System.Windows.Forms.ToolTip(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_desc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,6 +70,7 @@ Partial Class frmPaymentTerms
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -146,8 +149,6 @@ Partial Class frmPaymentTerms
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem2, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -163,16 +164,12 @@ Partial Class frmPaymentTerms
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export.."
-        Me.RadMenuItem2.AccessibleName = "Export.."
         Me.RadMenuItem2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export.."
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Close"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
@@ -184,7 +181,6 @@ Partial Class frmPaymentTerms
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(636, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'txt_no_of_days
         '
@@ -264,8 +260,9 @@ Partial Class frmPaymentTerms
         Me.txtAdvancePer.ReferenceTableName = Nothing
         Me.txtAdvancePer.Size = New System.Drawing.Size(59, 20)
         Me.txtAdvancePer.TabIndex = 22
+        Me.txtAdvancePer.Text = "0"
         Me.txtAdvancePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvancePer.Value = 0.0R
+        Me.txtAdvancePer.Value = 0R
         '
         'chkAdvance
         '
@@ -321,17 +318,20 @@ Partial Class frmPaymentTerms
         Me.gvDB.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvDB.Location = New System.Drawing.Point(10, 20)
         '
-        'gvDB
+        '
         '
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
+        Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
         Me.gvDB.Size = New System.Drawing.Size(508, 278)
         Me.gvDB.TabIndex = 0
         Me.gvDB.TabStop = False
-        Me.gvDB.Text = "RadGridView1"
+        Me.gvDB.VarID = ""
         '
         'btn_reset
         '
@@ -355,12 +355,23 @@ Partial Class frmPaymentTerms
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_save)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_delete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_close)
         Me.SplitContainer1.Size = New System.Drawing.Size(636, 453)
         Me.SplitContainer1.SplitterDistance = 419
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(137, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(64, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmPaymentTerms
         '
@@ -397,6 +408,7 @@ Partial Class frmPaymentTerms
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -426,5 +438,6 @@ Partial Class frmPaymentTerms
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtAdvancePer As common.MyNumBox
     Friend WithEvents chkAdvance As System.Windows.Forms.CheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 
