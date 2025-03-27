@@ -38930,7 +38930,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("comp_code", "Varchar(8) NOT NULL")
             coll.Add("IsAgainstJobWork", "Integer  null ")
             coll.Add("Joblocation_Code", "varchar(12)  NULL ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_UNLOADING", coll, Nothing, true, False, "", "Unloading_No", "Unloading_Date_Time",true)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_UNLOADING", coll, Nothing, True, False, "", "Unloading_No", "Unloading_Date_Time", True)
 
             '-----------------------TSPL_MILK_UNLOADING_History
             coll = New Dictionary(Of String, String)()
