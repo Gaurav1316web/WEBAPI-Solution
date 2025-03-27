@@ -41,7 +41,9 @@ Public Class frmRequestMaster
         coll.Add("APPROVED_STATUS_BY", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
         coll.Add("APPROVED_STATUS_DATE", "datetime NULL")
 
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_REQUEST_MASTER", coll, Nothing, False)
+        'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_REQUEST_MASTER", coll, Nothing, False)
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_USER_REQUEST_MASTER", coll, "", True, False, "", "", "", True)
+
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete")

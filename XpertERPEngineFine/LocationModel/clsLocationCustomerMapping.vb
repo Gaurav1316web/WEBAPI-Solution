@@ -44,7 +44,10 @@ Public Class clsLocationCustomerMapping
                     clsCommon.AddColumnsForChange(coll, "SequenceNo", obj1.SequenceNo)
                     isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_LOCATION_MAPPING", OMInsertOrUpdate.Insert, "", trans)
                 Next
+
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_CUSTOMER_LOCATION_MAPPING", "Location_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -3250,7 +3250,8 @@ Public Class clsCreateAllTable
             coll.Add("Region_Type", "varchar(1) null")
             coll.Add("GST_Registered", "int null default 0")
             coll.Add("GST_COMPOSITION", "int null ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIP_TO_LOCATION", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIP_TO_LOCATION", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SHIP_TO_LOCATION", coll, "", True, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -3858,7 +3859,8 @@ Public Class clsCreateAllTable
             coll.Add("GSTBlank", "varchar(1) null")
             coll.Add("GSTDigit", "varchar(1) null")
             coll.Add("BusinessType", "varchar(1) null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SECONDARY_CUSTOMER_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_SECONDARY_CUSTOMER_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SECONDARY_CUSTOMER_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Cust_Code", "varchar(12) NOT NULL Primary key")
@@ -4627,7 +4629,8 @@ Public Class clsCreateAllTable
             coll.Add("price_CodeNon", "varchar(12) NULL")
             coll.Add("Price_Code_DescNon", "varchar(100) NULL")
             coll.Add("Shelf_Life", "varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_CATEGORY_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_CATEGORY_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CUSTOMER_CATEGORY_MASTER", coll, "", True, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Shelf_Life", "decimal(18, 2) NOT NULL DEFAULT 0")
@@ -12437,7 +12440,8 @@ Public Class clsCreateAllTable
             coll.Add("Modify_By", "varchar(12)  NOT NULL")
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_TYPE_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_TYPE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "tspl_customer_type_master", coll, "", True, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Channel_Id", "varchar(12)  NOT NULL PRIMARY KEY")
@@ -46479,7 +46483,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Location_Code", "varchar(12) NULL References tspl_location_master(location_code)")
             coll.Add("Location_Name", "varchar(50)  null ")
             coll.Add("SequenceNo", "integer not null default 0 ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_LOCATION_MAPPING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_LOCATION_MAPPING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CUSTOMER_LOCATION_MAPPING", coll, "", True, False, "", "", "")
+
             '----------------------------stage detail---------------------------------------------
             '=================Added by preeti Gupta==================================================
             coll = New Dictionary(Of String, String)()
