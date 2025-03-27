@@ -51,6 +51,7 @@ Public Class ClsHirerachyLevelMaster
             Else
                 issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HIRERACHY_LEVEL_MASTER", OMInsertOrUpdate.Update, "HIRERACHY_CODE='" + obj.HIRERACHY_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HIRERACHY_CODE, "TSPL_HIRERACHY_LEVEL_MASTER", "HIRERACHY_CODE", Nothing)
 
             Return True
         Catch ex As Exception
@@ -95,6 +96,9 @@ Public Class ClsHirerachyLevelMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_HIRERACHY_LEVEL_MASTER", "HIRERACHY_CODE", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_HIRERACHY_LEVEL_MASTER", "HIRERACHY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_HIRERACHY_LEVEL_MASTER where HIRERACHY_CODE ='" + strCode + "'"

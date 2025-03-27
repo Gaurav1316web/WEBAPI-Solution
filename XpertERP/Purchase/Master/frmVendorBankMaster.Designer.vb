@@ -22,11 +22,13 @@ Partial Class FrmVendorBankMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmVendorBankMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtBankNameHindi = New common.Controls.MyTextBox()
+        Me.lblBankName = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.txtIFSCCode = New common.Controls.MyTextBox()
@@ -49,7 +51,6 @@ Partial Class FrmVendorBankMaster
         Me.txtAdd1 = New common.Controls.MyTextBox()
         Me.txtAdd3 = New common.Controls.MyTextBox()
         Me.txtBankName = New common.Controls.MyTextBox()
-        Me.lblBankName = New common.Controls.MyLabel()
         Me.lblBankCode = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.fndBankCode = New common.UserControls.txtNavigator()
@@ -66,13 +67,15 @@ Partial Class FrmVendorBankMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.txtBankNameHindi = New common.Controls.MyTextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,7 +97,6 @@ Partial Class FrmVendorBankMaster
         CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBankName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
@@ -102,7 +104,7 @@ Partial Class FrmVendorBankMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,7 @@ Partial Class FrmVendorBankMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -175,6 +178,39 @@ Partial Class FrmVendorBankMaster
         Me.RadPageViewPage1.Size = New System.Drawing.Size(682, 385)
         Me.RadPageViewPage1.Text = "Detail"
         '
+        'txtBankNameHindi
+        '
+        Me.txtBankNameHindi.CalculationExpression = Nothing
+        Me.txtBankNameHindi.FieldCode = Nothing
+        Me.txtBankNameHindi.FieldDesc = Nothing
+        Me.txtBankNameHindi.FieldMaxLength = 0
+        Me.txtBankNameHindi.FieldName = Nothing
+        Me.txtBankNameHindi.isCalculatedField = False
+        Me.txtBankNameHindi.IsSourceFromTable = False
+        Me.txtBankNameHindi.IsSourceFromValueList = False
+        Me.txtBankNameHindi.IsUnique = False
+        Me.txtBankNameHindi.Location = New System.Drawing.Point(394, 41)
+        Me.txtBankNameHindi.MaxLength = 200
+        Me.txtBankNameHindi.MendatroryField = True
+        Me.txtBankNameHindi.MyLinkLable1 = Me.lblBankName
+        Me.txtBankNameHindi.MyLinkLable2 = Nothing
+        Me.txtBankNameHindi.Name = "txtBankNameHindi"
+        Me.txtBankNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtBankNameHindi.ReferenceFieldName = Nothing
+        Me.txtBankNameHindi.ReferenceTableName = Nothing
+        Me.txtBankNameHindi.Size = New System.Drawing.Size(281, 20)
+        Me.txtBankNameHindi.TabIndex = 1374
+        '
+        'lblBankName
+        '
+        Me.lblBankName.FieldName = Nothing
+        Me.lblBankName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBankName.Location = New System.Drawing.Point(3, 42)
+        Me.lblBankName.Name = "lblBankName"
+        Me.lblBankName.Size = New System.Drawing.Size(65, 16)
+        Me.lblBankName.TabIndex = 43
+        Me.lblBankName.Text = "Bank Name"
+        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -206,7 +242,7 @@ Partial Class FrmVendorBankMaster
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -215,6 +251,7 @@ Partial Class FrmVendorBankMaster
         Me.gv1.Size = New System.Drawing.Size(658, 100)
         Me.gv1.TabIndex = 13
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'txtIFSCCode
         '
@@ -561,16 +598,6 @@ Partial Class FrmVendorBankMaster
         Me.txtBankName.Size = New System.Drawing.Size(273, 20)
         Me.txtBankName.TabIndex = 2
         '
-        'lblBankName
-        '
-        Me.lblBankName.FieldName = Nothing
-        Me.lblBankName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBankName.Location = New System.Drawing.Point(3, 42)
-        Me.lblBankName.Name = "lblBankName"
-        Me.lblBankName.Size = New System.Drawing.Size(65, 16)
-        Me.lblBankName.TabIndex = 43
-        Me.lblBankName.Text = "Bank Name"
-        '
         'lblBankCode
         '
         Me.lblBankCode.FieldName = Nothing
@@ -707,28 +734,14 @@ Partial Class FrmVendorBankMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'txtBankNameHindi
+        'btnHistory
         '
-        Me.txtBankNameHindi.CalculationExpression = Nothing
-        Me.txtBankNameHindi.FieldCode = Nothing
-        Me.txtBankNameHindi.FieldDesc = Nothing
-        Me.txtBankNameHindi.FieldMaxLength = 0
-        Me.txtBankNameHindi.FieldName = Nothing
-        Me.txtBankNameHindi.isCalculatedField = False
-        Me.txtBankNameHindi.IsSourceFromTable = False
-        Me.txtBankNameHindi.IsSourceFromValueList = False
-        Me.txtBankNameHindi.IsUnique = False
-        Me.txtBankNameHindi.Location = New System.Drawing.Point(394, 41)
-        Me.txtBankNameHindi.MaxLength = 200
-        Me.txtBankNameHindi.MendatroryField = True
-        Me.txtBankNameHindi.MyLinkLable1 = Me.lblBankName
-        Me.txtBankNameHindi.MyLinkLable2 = Nothing
-        Me.txtBankNameHindi.Name = "txtBankNameHindi"
-        Me.txtBankNameHindi.ReferenceFieldDesc = Nothing
-        Me.txtBankNameHindi.ReferenceFieldName = Nothing
-        Me.txtBankNameHindi.ReferenceTableName = Nothing
-        Me.txtBankNameHindi.Size = New System.Drawing.Size(281, 20)
-        Me.txtBankNameHindi.TabIndex = 1374
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(164, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmVendorBankMaster
         '
@@ -750,6 +763,8 @@ Partial Class FrmVendorBankMaster
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -771,7 +786,6 @@ Partial Class FrmVendorBankMaster
         CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBankName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
@@ -779,7 +793,7 @@ Partial Class FrmVendorBankMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -827,5 +841,6 @@ Partial Class FrmVendorBankMaster
     Friend WithEvents RDExportBranchDetails As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents txtBankNameHindi As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 
