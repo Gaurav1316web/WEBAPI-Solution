@@ -1320,6 +1320,7 @@ Public Class clsFixedParameterType
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
 End Class
 Public Class clsFixedParameterCode
+    Public Const TuneTime As String = "Tune Time"
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -2860,6 +2861,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TuneTime, "NA", "NA [27-Mar-2025 12:00:00AM to 27-Mar-2025 11:59:59PM]; 06:00:00AM [27-Mar-2025 06:00:00AM to 28-Mar-2025 05:59:59AM]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, "0", "0:OFF,1:ON;Show DCS Filter")

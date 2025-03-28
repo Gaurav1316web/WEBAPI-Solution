@@ -455,6 +455,18 @@ Public Class frmCustomerType
         End If
                             End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCustomerId.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCustomerId.Value, "Cust_Type_Code", "tspl_customer_type_master")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub fndCustomerId__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndCustomerId._MYNavigator
         Dim qst As String = "select Cust_Type_Code as [Customer Type] ,Cust_Type_Desc as Description from tspl_customer_type_master where 2=2 "
         Select Case NavType

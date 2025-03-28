@@ -1134,19 +1134,31 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
 where  TSPL_MILK_COLLECTION_MCC.Status=1 and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtBMCDate.Value, "dd/MMM/yyyy") + "' 
 )xx group by MCC_Code,Route_Code 
 )xxx"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            txtBMCBMC.Value = clsCommon.ShowSelectFormFromDT("BMC@corf", dt, "MCC", txtBMCBMC.Value, isButtonClicked, "")
-            Dim dr As DataRow() = clsCommon.MyDTSelect(dt, "MCC='" + txtBMCBMC.Value + "'")
-            If dr IsNot Nothing AndAlso dr.Length > 0 Then
-                txtBMCBMC.Tag = clsCommon.myCstr(dr(0)("MCC_Code"))
-                lblBMCBMC.Text = clsCommon.myCstr(dr(0)("MCC_NAME"))
-                txtBMCRouteNo.Value = clsCommon.myCstr(dr(0)("Route_Code"))
+            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("corrbmmfd", qry)
+            If dr IsNot Nothing Then
+                txtBMCBMC.Value = clsCommon.myCstr(dr("MCC"))
+                txtBMCBMC.Tag = clsCommon.myCstr(dr("MCC_Code"))
+                lblBMCBMC.Text = clsCommon.myCstr(dr("MCC_NAME"))
+                txtBMCRouteNo.Value = clsCommon.myCstr(dr("Route_Code"))
             Else
                 txtBMCBMC.Tag = ""
                 lblBMCBMC.Text = ""
                 txtBMCRouteNo.Value = ""
                 txtBMCBMC.Value = ""
             End If
+
+            'txtBMCBMC.Value = clsCommon.ShowSelectFormFromDT("BMC@corf", dt, "MCC", txtBMCBMC.Value, isButtonClicked, "")
+            'Dim dr As DataRow() = clsCommon.MyDTSelect(dt, "MCC='" + txtBMCBMC.Value + "'")
+            'If dr IsNot Nothing AndAlso dr.Length > 0 Then
+            '    txtBMCBMC.Tag = clsCommon.myCstr(dr(0)("MCC_Code"))
+            '    lblBMCBMC.Text = clsCommon.myCstr(dr(0)("MCC_NAME"))
+            '    txtBMCRouteNo.Value = clsCommon.myCstr(dr(0)("Route_Code"))
+            'Else
+            '    txtBMCBMC.Tag = ""
+            '    lblBMCBMC.Text = ""
+            '    txtBMCRouteNo.Value = ""
+            '    txtBMCBMC.Value = ""
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

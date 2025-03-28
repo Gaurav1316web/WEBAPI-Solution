@@ -22,6 +22,7 @@ Partial Class frmCustomerRouteShiftMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblRouteCode = New common.Controls.MyLabel()
@@ -48,6 +49,7 @@ Partial Class frmCustomerRouteShiftMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,6 +77,7 @@ Partial Class frmCustomerRouteShiftMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,6 +97,7 @@ Partial Class frmCustomerRouteShiftMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -176,28 +180,21 @@ Partial Class frmCustomerRouteShiftMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(856, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -325,6 +322,7 @@ Partial Class frmCustomerRouteShiftMaster
         Me.cmbstatus.AutoCompleteDisplayMember = Nothing
         Me.cmbstatus.AutoCompleteValueMember = Nothing
         Me.cmbstatus.CalculationExpression = Nothing
+        Me.cmbstatus.DropDownAnimationEnabled = True
         Me.cmbstatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbstatus.FieldCode = Nothing
         Me.cmbstatus.FieldDesc = Nothing
@@ -357,7 +355,6 @@ Partial Class frmCustomerRouteShiftMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(850, 320)
         Me.RadPageView1.TabIndex = 52
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -386,15 +383,18 @@ Partial Class frmCustomerRouteShiftMaster
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(7, 7)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(815, 258)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -440,6 +440,15 @@ Partial Class frmCustomerRouteShiftMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "&Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(175, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(76, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmCustomerRouteShiftMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -480,6 +489,7 @@ Partial Class frmCustomerRouteShiftMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -510,5 +520,6 @@ Partial Class frmCustomerRouteShiftMaster
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents lblRouteCode As common.Controls.MyLabel
     Friend WithEvents fndRouteCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

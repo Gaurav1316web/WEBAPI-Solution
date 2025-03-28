@@ -3787,6 +3787,18 @@ Public Class FrmSecondaryCustomerMaster
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCustomer.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_SECONDARY_CUSTOMER_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub gvCompetitor_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvCompetitor.CurrentColumnChanged
         Try
             If gvCompetitor.RowCount > 0 Then

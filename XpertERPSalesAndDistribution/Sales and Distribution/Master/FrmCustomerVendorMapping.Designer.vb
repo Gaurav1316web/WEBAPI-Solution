@@ -24,24 +24,25 @@ Partial Class FrmCustomerVendorMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.fndvendor = New common.UserControls.txtFinder
-        Me.lblven = New common.Controls.MyLabel
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndcustomer = New common.UserControls.txtNavigator
-        Me.lblcust = New common.Controls.MyLabel
-        Me.txtvendesc = New common.Controls.MyTextBox
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.txtcustdes = New common.Controls.MyTextBox
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
+        Me.components = New System.ComponentModel.Container()
+        Me.fndvendor = New common.UserControls.txtFinder()
+        Me.lblven = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndcustomer = New common.UserControls.txtNavigator()
+        Me.lblcust = New common.Controls.MyLabel()
+        Me.txtvendesc = New common.Controls.MyTextBox()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.txtcustdes = New common.Controls.MyTextBox()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblven, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -56,24 +57,39 @@ Partial Class FrmCustomerVendorMapping
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'fndvendor
         '
+        Me.fndvendor.CalculationExpression = Nothing
+        Me.fndvendor.FieldCode = Nothing
+        Me.fndvendor.FieldDesc = Nothing
+        Me.fndvendor.FieldMaxLength = 0
+        Me.fndvendor.FieldName = Nothing
+        Me.fndvendor.isCalculatedField = False
+        Me.fndvendor.IsSourceFromTable = False
+        Me.fndvendor.IsSourceFromValueList = False
+        Me.fndvendor.IsUnique = False
         Me.fndvendor.Location = New System.Drawing.Point(94, 38)
         Me.fndvendor.MendatroryField = False
         Me.fndvendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndvendor.MyLinkLable1 = Me.lblven
         Me.fndvendor.MyLinkLable2 = Nothing
         Me.fndvendor.MyReadOnly = False
+        Me.fndvendor.MyShowMasterFormButton = False
         Me.fndvendor.Name = "fndvendor"
+        Me.fndvendor.ReferenceFieldDesc = Nothing
+        Me.fndvendor.ReferenceFieldName = Nothing
+        Me.fndvendor.ReferenceTableName = Nothing
         Me.fndvendor.Size = New System.Drawing.Size(202, 21)
         Me.fndvendor.TabIndex = 3
         Me.fndvendor.Value = ""
         '
         'lblven
         '
+        Me.lblven.FieldName = Nothing
         Me.lblven.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblven.Location = New System.Drawing.Point(4, 40)
         Me.lblven.Name = "lblven"
@@ -100,6 +116,7 @@ Partial Class FrmCustomerVendorMapping
         '
         'fndcustomer
         '
+        Me.fndcustomer.FieldName = Nothing
         Me.fndcustomer.Location = New System.Drawing.Point(94, 11)
         Me.fndcustomer.MendatroryField = True
         Me.fndcustomer.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -115,6 +132,7 @@ Partial Class FrmCustomerVendorMapping
         '
         'lblcust
         '
+        Me.lblcust.FieldName = Nothing
         Me.lblcust.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblcust.Location = New System.Drawing.Point(4, 13)
         Me.lblcust.Name = "lblcust"
@@ -124,7 +142,16 @@ Partial Class FrmCustomerVendorMapping
         '
         'txtvendesc
         '
+        Me.txtvendesc.CalculationExpression = Nothing
+        Me.txtvendesc.FieldCode = Nothing
+        Me.txtvendesc.FieldDesc = Nothing
+        Me.txtvendesc.FieldMaxLength = 0
+        Me.txtvendesc.FieldName = Nothing
         Me.txtvendesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtvendesc.isCalculatedField = False
+        Me.txtvendesc.IsSourceFromTable = False
+        Me.txtvendesc.IsSourceFromValueList = False
+        Me.txtvendesc.IsUnique = False
         Me.txtvendesc.Location = New System.Drawing.Point(312, 38)
         Me.txtvendesc.MaxLength = 49
         Me.txtvendesc.MendatroryField = False
@@ -132,6 +159,9 @@ Partial Class FrmCustomerVendorMapping
         Me.txtvendesc.MyLinkLable2 = Nothing
         Me.txtvendesc.Name = "txtvendesc"
         Me.txtvendesc.ReadOnly = True
+        Me.txtvendesc.ReferenceFieldDesc = Nothing
+        Me.txtvendesc.ReferenceFieldName = Nothing
+        Me.txtvendesc.ReferenceTableName = Nothing
         '
         '
         '
@@ -149,7 +179,16 @@ Partial Class FrmCustomerVendorMapping
         '
         'txtcustdes
         '
+        Me.txtcustdes.CalculationExpression = Nothing
+        Me.txtcustdes.FieldCode = Nothing
+        Me.txtcustdes.FieldDesc = Nothing
+        Me.txtcustdes.FieldMaxLength = 0
+        Me.txtcustdes.FieldName = Nothing
         Me.txtcustdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtcustdes.isCalculatedField = False
+        Me.txtcustdes.IsSourceFromTable = False
+        Me.txtcustdes.IsSourceFromValueList = False
+        Me.txtcustdes.IsUnique = False
         Me.txtcustdes.Location = New System.Drawing.Point(312, 11)
         Me.txtcustdes.MaxLength = 49
         Me.txtcustdes.MendatroryField = False
@@ -157,6 +196,9 @@ Partial Class FrmCustomerVendorMapping
         Me.txtcustdes.MyLinkLable2 = Nothing
         Me.txtcustdes.Name = "txtcustdes"
         Me.txtcustdes.ReadOnly = True
+        Me.txtcustdes.ReferenceFieldDesc = Nothing
+        Me.txtcustdes.ReferenceFieldName = Nothing
+        Me.txtcustdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -210,6 +252,7 @@ Partial Class FrmCustomerVendorMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -224,32 +267,32 @@ Partial Class FrmCustomerVendorMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(630, 20)
         Me.RadMenu1.TabIndex = 323
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
-        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(154, 12)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'FrmCustomerVendorMapping
         '
@@ -279,6 +322,7 @@ Partial Class FrmCustomerVendorMapping
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -300,5 +344,6 @@ Partial Class FrmCustomerVendorMapping
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 
