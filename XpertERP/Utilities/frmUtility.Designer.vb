@@ -456,6 +456,7 @@ Partial Class FrmUtility
         Me.txtHyperTerminal = New common.Controls.MyTextBox()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel6 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.RadButton310 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox44 = New System.Windows.Forms.GroupBox()
         Me.RadButton113 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton111 = New Telerik.WinControls.UI.RadButton()
@@ -537,6 +538,8 @@ Partial Class FrmUtility
         Me.RadButton252 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton253 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox98 = New System.Windows.Forms.GroupBox()
+        Me.chkExceptDoc = New common.Controls.MyCheckBox()
+        Me.isPosted = New common.Controls.MyCheckBox()
         Me.btnCancelDemandDoc = New Telerik.WinControls.UI.RadButton()
         Me.btnCancelBookingDoc = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox80 = New System.Windows.Forms.GroupBox()
@@ -791,8 +794,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.isPosted = New common.Controls.MyCheckBox()
-        Me.chkExceptDoc = New common.Controls.MyCheckBox()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1227,6 +1228,7 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel6.PanelContainer.SuspendLayout
         Me.RadScrollablePanel6.SuspendLayout
+        CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox44.SuspendLayout
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1304,6 +1306,8 @@ Partial Class FrmUtility
         CType(Me.RadButton252, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton253, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox98.SuspendLayout
+        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCancelDemandDoc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCancelBookingDoc, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox80.SuspendLayout
@@ -1542,8 +1546,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -6078,6 +6080,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel6.PanelContainer
         '
+        Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.RadButton310)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.GroupBox44)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.TxtMultiSelectFinder20)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.MyLabel68)
@@ -6117,6 +6120,14 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1074, 386)
         Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 405)
         Me.RadScrollablePanel6.TabIndex = 388
+        '
+        'RadButton310
+        '
+        Me.RadButton310.Location = New System.Drawing.Point(543, 565)
+        Me.RadButton310.Name = "RadButton310"
+        Me.RadButton310.Size = New System.Drawing.Size(212, 24)
+        Me.RadButton310.TabIndex = 386
+        Me.RadButton310.Text = "Update Security Amt in Dispatch"
         '
         'GroupBox44
         '
@@ -6957,6 +6968,28 @@ Partial Class FrmUtility
         Me.GroupBox98.TabIndex = 372
         Me.GroupBox98.TabStop = False
         Me.GroupBox98.Text = "Dairy Sale Cancel"
+        '
+        'chkExceptDoc
+        '
+        Me.chkExceptDoc.Location = New System.Drawing.Point(69, 73)
+        Me.chkExceptDoc.MyLinkLable1 = Nothing
+        Me.chkExceptDoc.MyLinkLable2 = Nothing
+        Me.chkExceptDoc.Name = "chkExceptDoc"
+        Me.chkExceptDoc.Size = New System.Drawing.Size(156, 18)
+        Me.chkExceptDoc.TabIndex = 70
+        Me.chkExceptDoc.Tag1 = Nothing
+        Me.chkExceptDoc.Text = "Except Booking or Demand"
+        '
+        'isPosted
+        '
+        Me.isPosted.Location = New System.Drawing.Point(7, 73)
+        Me.isPosted.MyLinkLable1 = Nothing
+        Me.isPosted.MyLinkLable2 = Nothing
+        Me.isPosted.Name = "isPosted"
+        Me.isPosted.Size = New System.Drawing.Size(54, 18)
+        Me.isPosted.TabIndex = 69
+        Me.isPosted.Tag1 = Nothing
+        Me.isPosted.Text = "Posted"
         '
         'btnCancelDemandDoc
         '
@@ -9878,28 +9911,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'isPosted
-        '
-        Me.isPosted.Location = New System.Drawing.Point(7, 73)
-        Me.isPosted.MyLinkLable1 = Nothing
-        Me.isPosted.MyLinkLable2 = Nothing
-        Me.isPosted.Name = "isPosted"
-        Me.isPosted.Size = New System.Drawing.Size(54, 18)
-        Me.isPosted.TabIndex = 69
-        Me.isPosted.Tag1 = Nothing
-        Me.isPosted.Text = "Posted"
-        '
-        'chkExceptDoc
-        '
-        Me.chkExceptDoc.Location = New System.Drawing.Point(69, 73)
-        Me.chkExceptDoc.MyLinkLable1 = Nothing
-        Me.chkExceptDoc.MyLinkLable2 = Nothing
-        Me.chkExceptDoc.Name = "chkExceptDoc"
-        Me.chkExceptDoc.Size = New System.Drawing.Size(156, 18)
-        Me.chkExceptDoc.TabIndex = 70
-        Me.chkExceptDoc.Tag1 = Nothing
-        Me.chkExceptDoc.Text = "Except Booking or Demand"
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10363,6 +10374,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel6.ResumeLayout(False)
+        CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox44.ResumeLayout(False)
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).EndInit
@@ -10445,6 +10457,8 @@ Partial Class FrmUtility
         CType(Me.RadButton253, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox98.ResumeLayout(False)
         Me.GroupBox98.PerformLayout
+        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCancelDemandDoc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCancelBookingDoc, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox80.ResumeLayout(False)
@@ -10692,8 +10706,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.isPosted, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkExceptDoc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11464,5 +11476,6 @@ Partial Class FrmUtility
     Friend WithEvents btnCancelDemandDoc As RadButton
     Friend WithEvents chkExceptDoc As common.Controls.MyCheckBox
     Friend WithEvents isPosted As common.Controls.MyCheckBox
+    Friend WithEvents RadButton310 As RadButton
 End Class
 

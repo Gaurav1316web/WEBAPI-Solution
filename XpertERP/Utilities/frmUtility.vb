@@ -26649,4 +26649,128 @@ And TSPL_SD_SALE_INVOICE_HEAD.IRN_No Is null"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub RadButton310_Click(sender As Object, e As EventArgs) Handles RadButton310.Click
+        Try
+            Dim TotalSCAmt As Decimal = 0
+            Dim TotalDCAmt As Decimal = 0
+            Dim TotalTCAmt As Decimal = 0
+            Dim Qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Shipment_No,(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') )as InvoiceNo, 
+TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as ShiftType, CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS SupplyDate, TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
+CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, 
+TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], 
+Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, 
+case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch],TSPL_SD_SHIPMENT_HEAD.Document_Date as DocDate,isnull(DO_Item_Type,'') as [Taxable-NonTaxable],TSPL_SD_SHIPMENT_HEAD.Document_Date as FilterDate 
+from TSPL_SD_SHIPMENT_HEAD 
+Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','') "
+            Dim arr As ArrayList = Nothing
+            arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Shipment_No", "", Nothing, Nothing)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                If common.clsCommon.MyMessageBoxShow("Are you sure to Update no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Try
+                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        clsCommon.ProgressBarShow()
+                        Try
+                            For Each docno As String In arr
+                                'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, docno)
+                                Dim obj As New clsPSShipmentHead()
+                                obj = clsPSShipmentHead.GetData(docno, NavigatorType.Current, trans, True)
+                                TotalSCAmt = 0
+                                TotalDCAmt = 0
+                                TotalTCAmt = 0
+                                If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
+                                    For Each objTr As clsPSShipmentHeadDetail In obj.Arr
+                                        Dim ObjDC As clsDCDetail = GetDCDetails(obj.Document_Code, obj.Customer_Code, obj.Document_Date, obj.Route_No, objTr.Item_Code, objTr.Unit_code, trans)
+                                        If ObjDC IsNot Nothing Then
+                                            Dim ColDCRateWithTax As String = ObjDC.ColDCRate
+                                            Dim ColDCQtyinSU As String = clsCommon.myCstr(clsCommon.myCDecimal(objTr.Qty) * clsCommon.myCDecimal(ObjDC.ColDCUnitCF) / clsCommon.myCDecimal(ObjDC.ColDCCFUOM))
+                                            Dim ColDCAmt As String = clsCommon.myCstr(clsCommon.myCDecimal(ColDCQtyinSU) * clsCommon.myCDecimal(ColDCRateWithTax))
+                                            Dim ColTCAmt As String = clsCommon.myCstr(clsCommon.myCDecimal(ColDCQtyinSU) * clsCommon.myCDecimal(ObjDC.ColTCRate))
+                                            Dim ColSCAmt As String = clsCommon.myCstr(clsCommon.myCDecimal(ColDCQtyinSU) * clsCommon.myCDecimal(ObjDC.ColSCRate))
+                                            Dim ColBoothSCAmt As String = clsCommon.myCstr(clsCommon.myCDecimal(ColDCQtyinSU) * clsCommon.myCDecimal(ObjDC.ColBoothSCRate))
+                                            TotalSCAmt += clsCommon.myCDecimal(ColSCAmt)
+                                            TotalDCAmt += clsCommon.myCDecimal(ColDCAmt)
+                                            TotalTCAmt += clsCommon.myCDecimal(ColTCAmt)
+                                            Qry = "update TSPL_SD_SHIPMENT_DETAIL set Distributor_Commission_PKID='" + clsCommon.myCstr(ObjDC.ColDCPKId) + "',Distributor_Commission_Rate='" + clsCommon.myCstr(ObjDC.ColDCRate) + "',Distributor_Commission_Amt='" + clsCommon.myCstr(ColDCAmt) + "',Security_Rate='" + clsCommon.myCstr(ObjDC.ColSCRate) + "',Security_Amt='" + clsCommon.myCstr(ColSCAmt) + "',Transporter_Commission_Rate='" + clsCommon.myCstr(ObjDC.ColTCRate) + "',Transporter_Commission_Amt='" + clsCommon.myCstr(ColTCAmt) + "' where PK_ID='" + clsCommon.myCstr(objTr.PK_ID) + "'"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                        End If
+                                    Next
+                                    Qry = "update tspl_sd_shipment_head set Distributor_Commission_TotalAmt='" + clsCommon.myCstr(TotalDCAmt) + "',Transporter_Commission_TotalAmt='" + clsCommon.myCstr(TotalTCAmt) + "',Security_TotalAmt='" + clsCommon.myCstr(TotalSCAmt) + "' where Document_Code='" + obj.Document_Code + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                End If
+                            Next
+
+                            trans.Commit()
+                            clsCommon.ProgressBarHide()
+
+
+                            clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
+                        Catch ex As Exception
+                            trans.Rollback()
+                            clsCommon.ProgressBarHide()
+
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Catch ex As Exception
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+            Else
+                Throw New Exception("Data Not Found!")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Function GetDCDetails(ByVal StrDoc As String, ByVal Cust_Code As String, ByVal DocDate As DateTime, ByVal strRoute As String, ByVal strItemCode As String, ByVal UnitCode As String, ByVal trans As SqlTransaction) As clsDCDetail
+        Dim obj As clsDCDetail
+        Try
+
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + Cust_Code + "'", trans)), "N") = CompairStringResult.Equal Then
+                Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Booth_Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(DocDate) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(Cust_Code) + "'"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    DCQry += " And TSPL_DISTRIBUTOR_COMMISSION_HEAD.Item_type ='M' "
+                End If
+
+                DCQry += " and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(strItemCode) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(strRoute) + "' 
+ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry, trans)
+                If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+                    obj = New clsDCDetail
+                    obj.ColDCPKId = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
+                    obj.ColDCApplicableDate = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
+                    obj.ColDCUOM = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
+                    obj.ColDCRate = clsCommon.myCstr(dt1.Rows(0)("Rate"))
+                    obj.ColTCRate = clsCommon.myCstr(dt1.Rows(0)("Transporter_Rate"))
+                    obj.ColSCRate = clsCommon.myCstr(dt1.Rows(0)("Security_Rate"))
+                    obj.ColBoothSCRate = clsCommon.myCstr(dt1.Rows(0)("Booth_Security_Rate"))
+                    obj.ColDCUnitCF = clsDBFuncationality.getSingleValue("Select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(UnitCode) + "' and Item_Code='" + clsCommon.myCstr(strItemCode) + "'", trans)
+                    obj.ColDCCFUOM = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(obj.ColDCUOM) + "' and Item_Code='" + clsCommon.myCstr(strItemCode) + "'", trans)
+                    Return obj
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return obj
+    End Function
+End Class
+Public Class clsDCDetail
+#Region "Varibales"
+    Public ColDCPKId As String = ""
+    Public ColDCApplicableDate As String = ""
+    Public ColDCUOM As String = ""
+    Public ColDCRate As String = ""
+    Public ColTCRate As String = ""
+    Public ColSCRate As String = ""
+    Public ColBoothSCRate As String = ""
+    Public ColDCUnitCF As String = ""
+    Public ColDCCFUOM As String = ""
+
+#End Region
 End Class
