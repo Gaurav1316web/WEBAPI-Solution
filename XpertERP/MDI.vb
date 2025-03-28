@@ -8491,9 +8491,6 @@ Public Class MDI
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-                    Case clsUserMgtCode.rptBMCDCSAbsent
-                        frm = New rptAbsentBMCDCS
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTankerUtilization
                         frm = New rptTankerapprovalutilization
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8592,6 +8589,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMobileAppMilkCollection
                         frm = New rptMobileAppMilkCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCMobileHistory
+                        frm = New rptBMCMobileHistory
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport
