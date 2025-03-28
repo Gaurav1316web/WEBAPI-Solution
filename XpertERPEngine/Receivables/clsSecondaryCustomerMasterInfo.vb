@@ -358,7 +358,7 @@ Public Class clsSecondaryCustomerMasterInfo
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SECONDARY_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "Cust_Code='" + obj.Cust_Code + "' ", trans)
             End If
             isSaved = isSaved AndAlso clsCustomerCompetitorDetail.SaveData(obj.Cust_Code, obj.Arr_CompetitorDetail, trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Cust_Code, "TSPL_SECONDARY_CUSTOMER_MASTER", "Cust_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Cust_Code, "TSPL_SECONDARY_CUSTOMER_MASTER", "Cust_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -627,6 +627,8 @@ Public Class clsSecondaryCustomerMasterInfo
                 Throw New Exception("Code not found to Delete")
             End If
             Dim obj As clsSecondaryCustomerMasterInfo = clsSecondaryCustomerMasterInfo.GetData(strCode, NavigatorType.Current)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECONDARY_CUSTOMER_MASTER", "Cust_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECONDARY_CUSTOMER_MASTER", "Cust_Code", Nothing)
 
             Dim qry As String
 

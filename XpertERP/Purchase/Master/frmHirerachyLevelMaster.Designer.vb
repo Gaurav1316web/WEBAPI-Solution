@@ -22,10 +22,10 @@ Partial Class FrmHirerachyLevelMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmHirerachyLevelMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
@@ -44,6 +44,7 @@ Partial Class FrmHirerachyLevelMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -60,6 +61,7 @@ Partial Class FrmHirerachyLevelMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,6 +79,7 @@ Partial Class FrmHirerachyLevelMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -91,27 +94,20 @@ Partial Class FrmHirerachyLevelMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(475, 20)
         Me.RadMenu2.TabIndex = 14
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '
@@ -139,6 +135,7 @@ Partial Class FrmHirerachyLevelMaster
         Me.cmblevel.AutoCompleteDisplayMember = Nothing
         Me.cmblevel.AutoCompleteValueMember = Nothing
         Me.cmblevel.CalculationExpression = Nothing
+        Me.cmblevel.DropDownAnimationEnabled = True
         Me.cmblevel.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmblevel.FieldCode = Nothing
         Me.cmblevel.FieldDesc = Nothing
@@ -149,14 +146,14 @@ Partial Class FrmHirerachyLevelMaster
         Me.cmblevel.IsSourceFromTable = False
         Me.cmblevel.IsSourceFromValueList = False
         Me.cmblevel.IsUnique = False
-        RadListDataItem1.Text = "1"
-        RadListDataItem2.Text = "2"
-        RadListDataItem3.Text = "3"
-        RadListDataItem4.Text = "4"
-        Me.cmblevel.Items.Add(RadListDataItem1)
-        Me.cmblevel.Items.Add(RadListDataItem2)
-        Me.cmblevel.Items.Add(RadListDataItem3)
-        Me.cmblevel.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "1"
+        RadListDataItem6.Text = "2"
+        RadListDataItem7.Text = "3"
+        RadListDataItem8.Text = "4"
+        Me.cmblevel.Items.Add(RadListDataItem5)
+        Me.cmblevel.Items.Add(RadListDataItem6)
+        Me.cmblevel.Items.Add(RadListDataItem7)
+        Me.cmblevel.Items.Add(RadListDataItem8)
         Me.cmblevel.Location = New System.Drawing.Point(101, 66)
         Me.cmblevel.MendatroryField = False
         Me.cmblevel.MyLinkLable1 = Nothing
@@ -287,6 +284,17 @@ Partial Class FrmHirerachyLevelMaster
         Me.btnClose.TabIndex = 7
         Me.btnClose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(146, 11)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(65, 22)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
+        '
         'FrmHirerachyLevelMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -317,6 +325,7 @@ Partial Class FrmHirerachyLevelMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -338,5 +347,6 @@ Partial Class FrmHirerachyLevelMaster
     Friend WithEvents lblpaymenttype As common.Controls.MyLabel
     Friend WithEvents rmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

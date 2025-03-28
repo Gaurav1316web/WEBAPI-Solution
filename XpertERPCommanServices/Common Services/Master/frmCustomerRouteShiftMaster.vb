@@ -1060,4 +1060,16 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
             gv.Columns(colroutecode).ReadOnly = True
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "doc_no", "TSPL_CUSTOMER_ROUTE_SHIFT_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

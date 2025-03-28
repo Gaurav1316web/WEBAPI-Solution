@@ -22,9 +22,9 @@ Partial Class rptGSTR
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
@@ -67,6 +67,8 @@ Partial Class rptGSTR
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnExportGSTR1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpldBlnkGSTRExl = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -112,6 +114,8 @@ Partial Class rptGSTR
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +134,8 @@ Partial Class rptGSTR
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpldBlnkGSTRExl)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportGSTR1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplit)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
@@ -220,9 +226,10 @@ Partial Class rptGSTR
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(886, 463)
         Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
@@ -531,7 +538,7 @@ Partial Class rptGSTR
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -558,7 +565,7 @@ Partial Class rptGSTR
         Me.gv2.MasterTemplate.EnableFiltering = True
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -594,7 +601,7 @@ Partial Class rptGSTR
         Me.gv3.MasterTemplate.EnableFiltering = True
         Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -608,7 +615,7 @@ Partial Class rptGSTR
         '
         Me.btnSplit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplit.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplit.Location = New System.Drawing.Point(165, 14)
+        Me.btnSplit.Location = New System.Drawing.Point(157, 13)
         Me.btnSplit.Name = "btnSplit"
         Me.btnSplit.Size = New System.Drawing.Size(95, 22)
         Me.btnSplit.TabIndex = 316
@@ -628,7 +635,7 @@ Partial Class rptGSTR
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(266, 15)
+        Me.btnPrint.Location = New System.Drawing.Point(253, 14)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 21)
         Me.btnPrint.TabIndex = 157
@@ -638,7 +645,7 @@ Partial Class rptGSTR
         '
         Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(88, 14)
+        Me.BtnReset.Location = New System.Drawing.Point(84, 13)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(71, 22)
         Me.BtnReset.TabIndex = 38
@@ -648,7 +655,7 @@ Partial Class rptGSTR
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(781, 14)
+        Me.btnclose.Location = New System.Drawing.Point(781, 13)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(84, 22)
         Me.btnclose.TabIndex = 39
@@ -663,6 +670,26 @@ Partial Class rptGSTR
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 37
         Me.btnGo.Text = ">>>"
+        '
+        'btnExportGSTR1
+        '
+        Me.btnExportGSTR1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportGSTR1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportGSTR1.Location = New System.Drawing.Point(325, 14)
+        Me.btnExportGSTR1.Name = "btnExportGSTR1"
+        Me.btnExportGSTR1.Size = New System.Drawing.Size(117, 21)
+        Me.btnExportGSTR1.TabIndex = 317
+        Me.btnExportGSTR1.Text = "Export GSTR Excel"
+        '
+        'btnUpldBlnkGSTRExl
+        '
+        Me.btnUpldBlnkGSTRExl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpldBlnkGSTRExl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpldBlnkGSTRExl.Location = New System.Drawing.Point(443, 14)
+        Me.btnUpldBlnkGSTRExl.Name = "btnUpldBlnkGSTRExl"
+        Me.btnUpldBlnkGSTRExl.Size = New System.Drawing.Size(153, 21)
+        Me.btnUpldBlnkGSTRExl.TabIndex = 318
+        Me.btnUpldBlnkGSTRExl.Text = "Upload Blank GSTR Excel"
         '
         'rptGSTR
         '
@@ -725,6 +752,8 @@ Partial Class rptGSTR
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -771,5 +800,7 @@ Partial Class rptGSTR
     Friend WithEvents btnSplit As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExportGSTR1 As RadButton
+    Friend WithEvents btnUpldBlnkGSTRExl As RadButton
 End Class
 

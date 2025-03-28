@@ -2517,12 +2517,31 @@ LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_
 WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
 And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1
  group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
-            itemqry = "Select max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3,Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence from TSPL_SD_SHIPMENT_DETAIL
+
+
+
+            Dim BaseItemQry As String = "Select TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3,Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence,Sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty from TSPL_SD_SHIPMENT_DETAIL
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
 LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
 WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
 And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "'
- group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+ group by TSPL_ITEM_MASTER.Item_Code " ' ORDER BY Sku_Seq"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                BaseItemQry += " union
+ Select TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3,
+Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence,0 As Qty from TSPL_ITEM_MASTER
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+WHERE TSPL_ITEM_MASTER.Print_Sequence is not null 
+ group by TSPL_ITEM_MASTER.Item_Code "
+            End If
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                itemqry = "Select Max(Short_Description)Short_Description,Max(Item_Description)Item_Description,Max(Sku_Seq)Sku_Seq,Max(Alies_Name2)Alies_Name2,Max(Alies_Name3)Alies_Name3,Max(Print_Sequence)Print_Sequence,Sum(Qty)Qty from (" + BaseItemQry + ") xyz Group By Item_Code Order By Sku_Seq"
+            Else
+                itemqry = "Select * from (" + BaseItemQry + ") xyz Order By Sku_Seq"
+            End If
+
 
             Dim itemName2 As String = Nothing
             Dim itemName1 As String = Nothing
@@ -2560,13 +2579,21 @@ And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "'
                         itemNamesAmt += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
                         itemNames1 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
                         itemNames2 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
-                        itemName1 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        If clsCommon.myCDecimal(dtitemName.Rows(i)("Qty")) > 0 Then
+                            itemName1 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        Else
+                            itemName1 += "0 As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        End If
                     Else
                         itemNamesQty += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
                         itemNamesAmt += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
                         itemNames1 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
                         itemNames2 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
-                        itemName1 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        If clsCommon.myCDecimal(dtitemName.Rows(i)("Qty")) > 0 Then
+                            itemName1 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        Else
+                            itemName1 += ", 0 As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        End If
                     End If
                 Next
             End If
@@ -2700,8 +2727,14 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
+            If rbtnMorning.IsChecked Then
+                ShiftType = "Morning"
+            Else
+                ShiftType = "Evening"
+            End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Dim dr As DataRow = dt.NewRow
+                dr("OUTLET") = clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + ", " + ShiftType
                 For ii As Integer = 0 To dtitemName.Rows.Count - 1
                     'dr(clsCommon.myCstr(dtitemName.Rows(ii)("Short_Description"))) = clsCommon.myCstr(dtitemName.Rows(ii)("Print_Sequence"))
                     'Dim dr As DataRow = dt.NewRow
@@ -2730,23 +2763,45 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             MyRadGridView1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
 
-                MyRadGridView1.DataSource = dt
-                MyRadGridView1.Refresh()
-                MyRadGridView1.MasterTemplate.Refresh()
-                ApplyFormattingManually()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    ' Create a new DataTable to store converted data
+                    Dim dtConverted As New DataTable()
+                    ' Convert all columns to String type
+                    For Each col As DataColumn In dt.Columns
+                        dtConverted.Columns.Add(col.ColumnName, GetType(String))
+                    Next
+                    ' Copy data with replacements
+                    For Each row As DataRow In dt.Rows
+                        Dim newRow As DataRow = dtConverted.NewRow()
 
-                '' Refresh the UI
-                'MyRadGridView1.TableElement.Update(False)
-                'MyRadGridView1.MasterTemplate.Refresh()
+                        For Each col As DataColumn In dt.Columns
+                            Dim cellValue As Object = row(col)
+                            ' If numeric, check for 0 and replace
+                            If IsNumeric(cellValue) Then
+                                If Convert.ToDouble(cellValue) = 0 Then
+                                    newRow(col.ColumnName) = "-" ' Replace 0 with "-"
+                                Else
+                                    newRow(col.ColumnName) = cellValue.ToString() ' Convert to string
+                                End If
+                            Else
+                                newRow(col.ColumnName) = cellValue.ToString() ' Convert non-numeric to string
+                            End If
+                        Next
+                        dtConverted.Rows.Add(newRow)
+                    Next
+                    ' Bind the converted DataTable to RadGridView
+                    MyRadGridView1.DataSource = dtConverted
+                Else
+                    MyRadGridView1.DataSource = dt
+                End If
+                MyRadGridView1.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.None
+                MyRadGridView1.MasterTemplate.Refresh()
+
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    MyRadGridView1.Columns("SR.").FormatString = "{0:n0}"
-                    MyRadGridView1.Columns("SR.").HeaderText = "SR."
-                    MyRadGridView1.Columns("SR.").HeaderTextAlignment = ContentAlignment.MiddleRight
-                    MyRadGridView1.Columns("SR.").TextAlignment = ContentAlignment.MiddleRight
-                    MyRadGridView1.Columns("SR.").BestFit()
+                    ApplyFormattingManually()
                     For i As Integer = 0 To dtitemName.Rows.Count - 1
-                        MyRadGridView1.Columns("" + clsCommon.myCstr(dtitemName.Rows(i).Item("Short_Description")) + "").FormatString = "{0:n0}"
+                        MyRadGridView1.Columns("" + clsCommon.myCstr(dtitemName.Rows(i).Item("Short_Description")) + "").FormatString = "{0:n2}"
                         If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name2"))) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name3"))) > 0 Then
                             MyRadGridView1.Columns("" + clsCommon.myCstr(dtitemName.Rows(i).Item("Short_Description")) + "").HeaderText = clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name2")) + Environment.NewLine + clsCommon.myCstr(dtitemName.Rows(i).Item("Alies_Name3"))
                         Else
@@ -2754,25 +2809,8 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                         End If
                         MyRadGridView1.Columns("" + clsCommon.myCstr(dtitemName.Rows(i).Item("Short_Description")) + "").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     Next
+                    MyRadGridView1.Columns("Amount").FormatString = "{0:n2}"
                 End If
-
-                If rbtnMorning.IsChecked Then
-                    ShiftType = "Morning"
-                Else
-                    ShiftType = "Evening"
-                End If
-                Dim view As New ColumnGroupsViewDefinition()
-                view.ColumnGroups.Add(New GridViewColumnGroup(""))
-                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-                Dim TempColGroupCount As Integer = 1
-                For Each dr1 As DataRow In dtitemName.Rows
-                    view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.myCstr(dr1("Short_Description"))))
-                    view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(MyRadGridView1.Columns(dr1("Short_Description") + "").Name)
-                    TempColGroupCount += 1
-                Next
-                MyRadGridView1.ViewDefinition = view
-                MyRadGridView1.BestFitColumns()
                 'View()
                 ' SetGridFormation()
                 'ReStoreGridLayout()
@@ -2786,11 +2824,9 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             Dim arrHeader As List(Of String) = New List(Of String)()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 arrHeader.Add("Dairy GatePass Booth Slip")
-                arrHeader.Add("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text))
-                arrHeader.Add("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType)
-                arrHeader.Add("Route Name: " + clsCommon.myCstr(txtRouteName.Text))
-                arrHeader.Add("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text))
-                arrHeader.Add("Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text))
+                arrHeader.Add("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "" + "     Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType)
+                arrHeader.Add("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "" + "     Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "" + "     Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text))
+
 
                 'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
                 'arrHeader.Add(("Shift Type: " + ShiftType + "  "))
@@ -2864,13 +2900,12 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                 End If
             Next
         Next
-
-        ' Force UI refresh
-        MyRadGridView1.TableElement.Update(False)
-        MyRadGridView1.MasterTemplate.Refresh()
+        ' Add CellFormatting event to make the first row bold
+        'AddHandler MyRadGridView1.CellFormatting, AddressOf MyRadGridView1_CellFormatting
+        '' Force UI refresh
+        'MyRadGridView1.TableElement.Update(False)
+        'MyRadGridView1.MasterTemplate.Refresh()
     End Sub
-
-
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try

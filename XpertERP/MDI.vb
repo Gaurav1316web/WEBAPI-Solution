@@ -7948,6 +7948,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTNEFTUnionReport
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DBTPDAccountReport
+                        frm = New frmDBTPDAccountReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmDCSSavingLedger
                         frm = New frmDCSSavingLedger
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
