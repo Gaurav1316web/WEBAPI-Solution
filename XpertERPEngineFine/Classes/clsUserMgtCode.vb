@@ -17,6 +17,7 @@ Public Class clsUserMgtCode
     Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
+    Public Const DBTPDAccountReport As String = "DBT-PDA-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
     Public Const rptExeVersionReport As String = "EXE-VER"
     Public Const rptProductionReport As String = "PRO-RPT"
