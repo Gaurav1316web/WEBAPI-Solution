@@ -227,6 +227,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExportCompetitor = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -402,6 +403,7 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -879,6 +881,7 @@ Partial Class FrmSecondaryCustomerMaster
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDelete)
@@ -2517,6 +2520,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.grdTax.Size = New System.Drawing.Size(670, 115)
         Me.grdTax.TabIndex = 2
         Me.grdTax.TabStop = False
+        Me.grdTax.VarID = ""
         '
         'txtTxGrp
         '
@@ -3371,6 +3375,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvDB.Size = New System.Drawing.Size(479, 179)
         Me.gvDB.TabIndex = 0
         Me.gvDB.TabStop = False
+        Me.gvDB.VarID = ""
         '
         'RadLabel40
         '
@@ -3605,6 +3610,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvCrate.Size = New System.Drawing.Size(935, 388)
         Me.gvCrate.TabIndex = 2
         Me.gvCrate.TabStop = False
+        Me.gvCrate.VarID = ""
         '
         'Competitor
         '
@@ -3638,6 +3644,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvCompetitor.Size = New System.Drawing.Size(935, 388)
         Me.gvCompetitor.TabIndex = 1451
         Me.gvCompetitor.TabStop = False
+        Me.gvCompetitor.VarID = ""
         '
         'btnSave
         '
@@ -3705,6 +3712,15 @@ Partial Class FrmSecondaryCustomerMaster
         '
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Exit"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(167, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 18)
+        Me.btnHistory.TabIndex = 19
+        Me.btnHistory.Text = "History"
         '
         'FrmSecondaryCustomerMaster
         '
@@ -3905,6 +3921,7 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4099,5 +4116,6 @@ Partial Class FrmSecondaryCustomerMaster
     Friend WithEvents txtPhone2 As common.Controls.MyTextBox
     Friend WithEvents txtPhone1 As common.Controls.MyTextBox
     Friend WithEvents txtContPhone As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

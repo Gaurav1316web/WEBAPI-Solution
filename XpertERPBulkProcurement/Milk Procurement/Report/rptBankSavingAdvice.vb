@@ -372,7 +372,7 @@ left outer join tspl_company_master on 2 = 2
         Dim FromDates As String = clsCommon.myCstr(fromDate.Text)
         Dim TODates As String = clsCommon.myCstr(ToDate.Text)
         Try
-            Dim Qry As String = " ( select ROW_NUMBER() OVER (ORDER BY [DCS Code]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],(x.Code)Code,max(MCC_CODE)MCC_CODE,max(Area_location_code)Area_location_code,max(Mcc_Name)Mcc_Name,
+            Dim Qry As String = " ( select ROW_NUMBER() OVER (ORDER BY [BankName2]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],(x.Code)Code,max(MCC_CODE)MCC_CODE,max(Area_location_code)Area_location_code,max(Mcc_Name)Mcc_Name,
                                  max(x.[DCS Type])[DCSType],max(x.[Is Own BMC])[IsOwnBMC],([Apply On])[ApplyOn],([Apply Type])[ApplyType],
                                  (x.[Formula])Formula  ,convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/DeductionAmount]  ,max(x.[Addition/Deduction Description])[Addition/DeductionDescription] 
 						         ,AccNo2,BankBranch2,BankName2,AccountType2,BankCode2
@@ -442,7 +442,7 @@ left outer join tspl_company_master on 2 = 2
             If chkIfscno.Checked Then
                 Qry += " x.IFSCCode2,"
             End If
-            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code)"
+            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code) order by  cast([DCS Code] as int)"
             Dim dt As DataTable = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

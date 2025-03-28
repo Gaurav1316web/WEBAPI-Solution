@@ -465,6 +465,8 @@ Public Class Frmsegmentcode
 
                     clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_GL_SEGMENT_CODE SET Email_Department = '" & EmailDepartment & "' WHERE  Segment_name ='" & rddrplstsegmentcode.Text.ToString() & "' and Segment_code ='" & segCodeState & "'", trans)
                     '---------Added By--Pankaj kumar---For Change in Master Table-----------------
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, rddrplstsegmentcode.Text, "TSPL_GL_SEGMENT_CODE", "Segment_name", trans)
+
                     If clsCommon.CompairString(rddrplstsegmentcode.Text, "Employees") = CompairStringResult.Equal Then
                         ChangeEmpDesc(trans, SegCode, SegDesc)
                     ElseIf clsCommon.CompairString(rddrplstsegmentcode.Text, "Vehicles") = CompairStringResult.Equal Then
@@ -474,6 +476,7 @@ Public Class Frmsegmentcode
                     End If
                     '-----------------------------------------------------------------------------
                 Next
+
                 myMessages.insert()
                 trans.Commit()
                 FillData()

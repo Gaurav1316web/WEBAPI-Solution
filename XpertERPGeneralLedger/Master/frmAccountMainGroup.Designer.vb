@@ -22,24 +22,25 @@ Partial Class FrmAccountMainGroup
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.ddlaccounttype = New common.Controls.MyComboBox
-        Me.fndaccgp = New common.UserControls.txtNavigator
-        Me.lblaccgp = New common.Controls.MyLabel
-        Me.txtdes = New common.Controls.MyTextBox
-        Me.lbldes = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.ddlaccounttype = New common.Controls.MyComboBox()
+        Me.fndaccgp = New common.UserControls.txtNavigator()
+        Me.lblaccgp = New common.Controls.MyLabel()
+        Me.txtdes = New common.Controls.MyTextBox()
+        Me.lbldes = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +54,7 @@ Partial Class FrmAccountMainGroup
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +80,7 @@ Partial Class FrmAccountMainGroup
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -92,16 +95,12 @@ Partial Class FrmAccountMainGroup
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(489, 20)
         Me.RadMenu1.TabIndex = 47
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmImport
         '
@@ -109,7 +108,6 @@ Partial Class FrmAccountMainGroup
         Me.rmImport.AccessibleName = "RadMenuItem2"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
-        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmExport
         '
@@ -117,10 +115,10 @@ Partial Class FrmAccountMainGroup
         Me.rmExport.AccessibleName = "RadMenuItem3"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(10, 81)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(30, 18)
@@ -129,17 +127,23 @@ Partial Class FrmAccountMainGroup
         '
         'ddlaccounttype
         '
-        Me.ddlaccounttype.AllowShowFocusCues = False
         Me.ddlaccounttype.AutoCompleteDisplayMember = Nothing
         Me.ddlaccounttype.AutoCompleteValueMember = Nothing
+        Me.ddlaccounttype.CalculationExpression = Nothing
+        Me.ddlaccounttype.DropDownAnimationEnabled = True
         Me.ddlaccounttype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlaccounttype.FieldCode = Nothing
+        Me.ddlaccounttype.FieldDesc = Nothing
+        Me.ddlaccounttype.FieldMaxLength = 0
+        Me.ddlaccounttype.FieldName = Nothing
         Me.ddlaccounttype.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlaccounttype.isCalculatedField = False
+        Me.ddlaccounttype.IsSourceFromTable = False
+        Me.ddlaccounttype.IsSourceFromValueList = False
+        Me.ddlaccounttype.IsUnique = False
         RadListDataItem1.Text = "Income Statement"
-        RadListDataItem1.TextWrap = True
         RadListDataItem2.Text = "Balance Sheet"
-        RadListDataItem2.TextWrap = True
         RadListDataItem3.Text = "Retained Earnings"
-        RadListDataItem3.TextWrap = True
         Me.ddlaccounttype.Items.Add(RadListDataItem1)
         Me.ddlaccounttype.Items.Add(RadListDataItem2)
         Me.ddlaccounttype.Items.Add(RadListDataItem3)
@@ -148,12 +152,16 @@ Partial Class FrmAccountMainGroup
         Me.ddlaccounttype.MyLinkLable1 = Me.RadLabel3
         Me.ddlaccounttype.MyLinkLable2 = Nothing
         Me.ddlaccounttype.Name = "ddlaccounttype"
+        Me.ddlaccounttype.ReferenceFieldDesc = Nothing
+        Me.ddlaccounttype.ReferenceFieldName = Nothing
+        Me.ddlaccounttype.ReferenceTableName = Nothing
         Me.ddlaccounttype.Size = New System.Drawing.Size(138, 18)
         Me.ddlaccounttype.TabIndex = 2
         Me.ddlaccounttype.Text = "Balance Sheet"
         '
         'fndaccgp
         '
+        Me.fndaccgp.FieldName = Nothing
         Me.fndaccgp.Location = New System.Drawing.Point(103, 32)
         Me.fndaccgp.MendatroryField = True
         Me.fndaccgp.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -170,6 +178,7 @@ Partial Class FrmAccountMainGroup
         '
         'lblaccgp
         '
+        Me.lblaccgp.FieldName = Nothing
         Me.lblaccgp.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblaccgp.Location = New System.Drawing.Point(10, 34)
         Me.lblaccgp.Name = "lblaccgp"
@@ -179,13 +188,25 @@ Partial Class FrmAccountMainGroup
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(103, 57)
         Me.txtdes.MaxLength = 50
         Me.txtdes.MendatroryField = True
         Me.txtdes.MyLinkLable1 = Me.lbldes
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -195,6 +216,7 @@ Partial Class FrmAccountMainGroup
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(10, 59)
         Me.lbldes.Name = "lbldes"
@@ -204,7 +226,7 @@ Partial Class FrmAccountMainGroup
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources._new
+        Me.btnnew.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(305, 32)
         Me.btnnew.Name = "btnnew"
@@ -241,6 +263,16 @@ Partial Class FrmAccountMainGroup
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(143, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmAccountMainGroup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -267,6 +299,7 @@ Partial Class FrmAccountMainGroup
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -286,5 +319,6 @@ Partial Class FrmAccountMainGroup
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

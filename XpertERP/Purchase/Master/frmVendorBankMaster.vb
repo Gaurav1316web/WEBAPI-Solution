@@ -788,5 +788,15 @@ Public Class FrmVendorBankMaster
 
     End Sub
 
-    
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndBankCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndBankCode.Value, "Bank_Code", "TSPL_Vendor_Bank_Master", "TSPL_Vendor_Bank_Branch_Details")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

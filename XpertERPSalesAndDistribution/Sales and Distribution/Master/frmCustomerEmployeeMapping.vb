@@ -185,6 +185,8 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
 
             Dim qry As String = "insert into TSPL_CUSTOMER_EMPLOYEE_MAPPING values('" + fndcustomer.Value + "','" + fndEmployee.Value + "') "
             connectSql.RunSql(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
+
             myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
@@ -210,6 +212,10 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
     End Sub
     Public Sub fundelete()
         Try
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
+
             Dim qry As String = "delete from TSPL_CUSTOMER_EMPLOYEE_MAPPING where cust_code='" + fndcustomer.Value + "'"
             connectSql.RunSql(qry)
         Catch ex As Exception
@@ -323,5 +329,17 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
         Dim str As String
         str = " SELECT Cust_Code AS [Customer Code],Employee_Code  As [Employee Code] FROM TSPL_CUSTOMER_EMPLOYEE_MAPPING "
         transportSql.ExporttoExcel(str, Me)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcustomer.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcustomer.Value, "Cust_code", "TSPL_CUSTOMER_EMPLOYEE_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

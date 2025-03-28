@@ -27,6 +27,7 @@ Partial Class frmStateMaster
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStateMaster))
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkIsDefault = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.ChkGSTUT = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtGSTStateCode = New common.MyNumBox()
@@ -57,9 +58,10 @@ Partial Class frmStateMaster
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkIsDefault = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.ChkGSTUT, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,7 +86,7 @@ Partial Class frmStateMaster
         CType(Me.GV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +112,15 @@ Partial Class frmStateMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(519, 178)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'chkIsDefault
+        '
+        Me.chkIsDefault.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsDefault.Location = New System.Drawing.Point(435, 104)
+        Me.chkIsDefault.Name = "chkIsDefault"
+        Me.chkIsDefault.Size = New System.Drawing.Size(68, 16)
+        Me.chkIsDefault.TabIndex = 306
+        Me.chkIsDefault.Text = "Is Default"
         '
         'RadGroupBox5
         '
@@ -370,6 +381,7 @@ Partial Class frmStateMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -400,10 +412,12 @@ Partial Class frmStateMaster
         Me.GV.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GV.MasterTemplate.ShowHeaderCellButtons = True
         Me.GV.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GV.MyStopExport = False
         Me.GV.Name = "GV"
         Me.GV.ShowHeaderCellButtons = True
         Me.GV.Size = New System.Drawing.Size(502, 196)
         Me.GV.TabIndex = 0
+        Me.GV.VarID = ""
         '
         'RadMenu2
         '
@@ -444,14 +458,16 @@ Partial Class frmStateMaster
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'chkIsDefault
+        'btnHistory
         '
-        Me.chkIsDefault.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsDefault.Location = New System.Drawing.Point(435, 104)
-        Me.chkIsDefault.Name = "chkIsDefault"
-        Me.chkIsDefault.Size = New System.Drawing.Size(68, 16)
-        Me.chkIsDefault.TabIndex = 306
-        Me.chkIsDefault.Text = "Is Default"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(230, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmStateMaster
         '
@@ -468,6 +484,7 @@ Partial Class frmStateMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -494,7 +511,7 @@ Partial Class frmStateMaster
         CType(Me.GV.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -531,5 +548,6 @@ Partial Class frmStateMaster
     Friend WithEvents ChkGSTUT As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents txtGSTStateCode As common.MyNumBox
     Friend WithEvents chkIsDefault As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

@@ -22,12 +22,14 @@ Partial Class FrmTransactionApproval
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -56,6 +58,7 @@ Partial Class FrmTransactionApproval
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblQCNo = New common.Controls.MyLabel()
         Me.GridQC = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -92,6 +95,7 @@ Partial Class FrmTransactionApproval
         CType(Me.lblQCNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridQC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +114,7 @@ Partial Class FrmTransactionApproval
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnapprove)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnApprove)
@@ -195,6 +200,7 @@ Partial Class FrmTransactionApproval
         Me.ddApprovalType.AutoCompleteDisplayMember = Nothing
         Me.ddApprovalType.AutoCompleteValueMember = Nothing
         Me.ddApprovalType.CalculationExpression = Nothing
+        Me.ddApprovalType.DropDownAnimationEnabled = True
         Me.ddApprovalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddApprovalType.FieldCode = Nothing
         Me.ddApprovalType.FieldDesc = Nothing
@@ -204,18 +210,18 @@ Partial Class FrmTransactionApproval
         Me.ddApprovalType.IsSourceFromTable = False
         Me.ddApprovalType.IsSourceFromValueList = False
         Me.ddApprovalType.IsUnique = False
-        RadListDataItem7.Text = "Rate"
-        RadListDataItem8.Text = "Credit Limit"
-        RadListDataItem9.Text = "Credit Days"
-        RadListDataItem10.Text = "Advance Receipt"
-        RadListDataItem11.Text = "Cancellation"
-        RadListDataItem12.Text = "Other"
-        Me.ddApprovalType.Items.Add(RadListDataItem7)
-        Me.ddApprovalType.Items.Add(RadListDataItem8)
-        Me.ddApprovalType.Items.Add(RadListDataItem9)
-        Me.ddApprovalType.Items.Add(RadListDataItem10)
-        Me.ddApprovalType.Items.Add(RadListDataItem11)
-        Me.ddApprovalType.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Rate"
+        RadListDataItem2.Text = "Credit Limit"
+        RadListDataItem3.Text = "Credit Days"
+        RadListDataItem4.Text = "Advance Receipt"
+        RadListDataItem5.Text = "Cancellation"
+        RadListDataItem6.Text = "Other"
+        Me.ddApprovalType.Items.Add(RadListDataItem1)
+        Me.ddApprovalType.Items.Add(RadListDataItem2)
+        Me.ddApprovalType.Items.Add(RadListDataItem3)
+        Me.ddApprovalType.Items.Add(RadListDataItem4)
+        Me.ddApprovalType.Items.Add(RadListDataItem5)
+        Me.ddApprovalType.Items.Add(RadListDataItem6)
         Me.ddApprovalType.Location = New System.Drawing.Point(96, 83)
         Me.ddApprovalType.MendatroryField = True
         Me.ddApprovalType.MyLinkLable1 = Me.lblScreenName
@@ -267,7 +273,6 @@ Partial Class FrmTransactionApproval
         Me.LblDocDate.Name = "LblDocDate"
         Me.LblDocDate.Size = New System.Drawing.Size(180, 18)
         Me.LblDocDate.TabIndex = 133
-        Me.LblDocDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblDocDate.TextWrap = False
         '
         'cmbScreenName
@@ -275,6 +280,7 @@ Partial Class FrmTransactionApproval
         Me.cmbScreenName.AutoCompleteDisplayMember = Nothing
         Me.cmbScreenName.AutoCompleteValueMember = Nothing
         Me.cmbScreenName.CalculationExpression = Nothing
+        Me.cmbScreenName.DropDownAnimationEnabled = True
         Me.cmbScreenName.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbScreenName.FieldCode = Nothing
         Me.cmbScreenName.FieldDesc = Nothing
@@ -326,14 +332,17 @@ Partial Class FrmTransactionApproval
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1136, 236)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         Me.Gv1.Visible = False
         '
         'btnUnapprove
@@ -388,7 +397,6 @@ Partial Class FrmTransactionApproval
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1157, 437)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "Level 1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -458,7 +466,6 @@ Partial Class FrmTransactionApproval
         Me.lblQCDate.Name = "lblQCDate"
         Me.lblQCDate.Size = New System.Drawing.Size(180, 18)
         Me.lblQCDate.TabIndex = 137
-        Me.lblQCDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblQCDate.TextWrap = False
         '
         'MyLabel1
@@ -481,7 +488,6 @@ Partial Class FrmTransactionApproval
         Me.lblQCNo.Name = "lblQCNo"
         Me.lblQCNo.Size = New System.Drawing.Size(180, 18)
         Me.lblQCNo.TabIndex = 135
-        Me.lblQCNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblQCNo.TextWrap = False
         '
         'GridQC
@@ -489,15 +495,28 @@ Partial Class FrmTransactionApproval
         Me.GridQC.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GridQC.Location = New System.Drawing.Point(0, 0)
         '
-        'GridQC
         '
+        '
+        Me.GridQC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GridQC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GridQC.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GridQC.MyStopExport = False
         Me.GridQC.Name = "GridQC"
         Me.GridQC.ShowHeaderCellButtons = True
         Me.GridQC.Size = New System.Drawing.Size(1136, 316)
         Me.GridQC.TabIndex = 3
-        Me.GridQC.Text = "RadGridView1"
+        Me.GridQC.VarID = ""
         Me.GridQC.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(219, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 139
+        Me.btnHistory.Text = "History"
         '
         'FrmTransactionApproval
         '
@@ -549,6 +568,7 @@ Partial Class FrmTransactionApproval
         CType(Me.lblQCNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridQC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridQC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -581,5 +601,6 @@ Partial Class FrmTransactionApproval
     Friend WithEvents lblQCDate As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents lblQCNo As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

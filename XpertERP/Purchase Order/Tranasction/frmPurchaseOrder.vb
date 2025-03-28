@@ -591,6 +591,36 @@ Public Class frmPurchaseOrder
         '    txtInsuranceTerms.Text = "" txtPackingForward.Text = ""  txtInsurance.Text = ""
         '   End If
         btn_Cancels.Enabled = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            Cmnt1chk.Visible = True
+            Cmnt1chk.Checked = True
+            Cmnt2chk.Visible = True
+            Cmnt2chk.Checked = True
+            Cmnt3chk.Visible = True
+            Cmnt3chk.Checked = True
+            Cmnt4chk.Visible = True
+            Cmnt4chk.Checked = True
+            Cmnt5chk.Visible = True
+            Cmnt5chk.Checked = True
+            Cmnt6chk.Visible = True
+            Cmnt6chk.Checked = True
+            Cmnt7chk.Visible = True
+            Cmnt7chk.Checked = True
+            Cmnt8chk.Visible = True
+            Cmnt8chk.Checked = True
+            Cmnt9chk.Visible = True
+            Cmnt9chk.Checked = True
+            Cmnt10chk.Visible = True
+            Cmnt10chk.Checked = True
+            Cmnt11chk.Visible = True
+            Cmnt11chk.Checked = True
+            Cmnt12chk.Visible = True
+            Cmnt12chk.Checked = True
+            Cmnt13chk.Visible = True
+            Cmnt13chk.Checked = True
+            Cmnt14chk.Visible = True
+            Cmnt14chk.Checked = True
+        End If
     End Sub
 
     Public Sub SetUserMgmtNew()
@@ -5477,6 +5507,20 @@ Public Class frmPurchaseOrder
                 obj.Comment11 = txtCmt11.Rtf
                 obj.Comment12 = txtCmt12.Rtf
                 obj.Comment13 = txtCmt13.Rtf
+                obj.Cmnt1chk = IIf(Cmnt1chk.Checked, 1, 0)
+                obj.Cmnt2chk = IIf(Cmnt2chk.Checked, 1, 0)
+                obj.Cmnt3chk = IIf(Cmnt3chk.Checked, 1, 0)
+                obj.Cmnt4chk = IIf(Cmnt4chk.Checked, 1, 0)
+                obj.Cmnt5chk = IIf(Cmnt5chk.Checked, 1, 0)
+                obj.Cmnt6chk = IIf(Cmnt6chk.Checked, 1, 0)
+                obj.Cmnt7chk = IIf(Cmnt7chk.Checked, 1, 0)
+                obj.Cmnt8chk = IIf(Cmnt8chk.Checked, 1, 0)
+                obj.Cmnt9chk = IIf(Cmnt9chk.Checked, 1, 0)
+                obj.Cmnt10chk = IIf(Cmnt10chk.Checked, 1, 0)
+                obj.Cmnt11chk = IIf(Cmnt11chk.Checked, 1, 0)
+                obj.Cmnt12chk = IIf(Cmnt12chk.Checked, 1, 0)
+                obj.Cmnt13chk = IIf(Cmnt13chk.Checked, 1, 0)
+                obj.Cmnt14chk = IIf(Cmnt14chk.Checked, 1, 0)
                 'obj.Comment14 = txtCmt14.Text
                 'obj.Comments = RTComment.Rtf
                 obj.On_Hold = chkOnHold.Checked
@@ -6328,6 +6372,20 @@ Public Class frmPurchaseOrder
                 txtCmt11.Rtf = obj.Comment11
                 txtCmt12.Rtf = obj.Comment12
                 txtCmt13.Rtf = obj.Comment13
+                Cmnt1chk.Checked = obj.Cmnt1chk
+                Cmnt2chk.Checked = obj.Cmnt2chk
+                Cmnt3chk.Checked = obj.Cmnt3chk
+                Cmnt4chk.Checked = obj.Cmnt4chk
+                Cmnt5chk.Checked = obj.Cmnt5chk
+                Cmnt6chk.Checked = obj.Cmnt6chk
+                Cmnt7chk.Checked = obj.Cmnt7chk
+                Cmnt8chk.Checked = obj.Cmnt8chk
+                Cmnt9chk.Checked = obj.Cmnt9chk
+                Cmnt10chk.Checked = obj.Cmnt10chk
+                Cmnt11chk.Checked = obj.Cmnt11chk
+                Cmnt12chk.Checked = obj.Cmnt12chk
+                Cmnt13chk.Checked = obj.Cmnt13chk
+                Cmnt14chk.Checked = obj.Cmnt14chk
                 'txtComment.Text = obj.Comment14
                 'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location

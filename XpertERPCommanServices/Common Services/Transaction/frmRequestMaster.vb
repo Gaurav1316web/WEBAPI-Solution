@@ -41,7 +41,9 @@ Public Class frmRequestMaster
         coll.Add("APPROVED_STATUS_BY", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
         coll.Add("APPROVED_STATUS_DATE", "datetime NULL")
 
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_REQUEST_MASTER", coll, Nothing, False)
+        'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_REQUEST_MASTER", coll, Nothing, False)
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_USER_REQUEST_MASTER", coll, "", True, False, "", "", "", True)
+
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete")
@@ -286,6 +288,18 @@ inner join TSPL_USER_GROUP_MAPPING on TSPL_USER_GROUP_MAPPING.Group_Code = TSPL_
             lblScreen.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select case when len( isnull (Re_Name,'') ) > 0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code =  '" + txtScreen.Value + "' "))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(textRequestCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(textRequestCode.Value, "REQUEST_CODE", "TSPL_USER_REQUEST_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
