@@ -22,30 +22,31 @@ Partial Class FrmSourceCode
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSourceCode))
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.lblSourceCode = New common.Controls.MyLabel
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.txtSourceCodeDesc = New common.Controls.MyTextBox
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.lblSourceCode = New common.Controls.MyLabel()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.txtSourceCodeDesc = New common.Controls.MyTextBox()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.mskSourceCode = New System.Windows.Forms.MaskedTextBox
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndSourceCode = New common.UserControls.txtNavigator
-        Me.CboTallyName = New common.Controls.MyComboBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.mskSourceCode = New System.Windows.Forms.MaskedTextBox()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndSourceCode = New common.UserControls.txtNavigator()
+        Me.CboTallyName = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblSourceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSourceCodeDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,11 +62,13 @@ Partial Class FrmSourceCode
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblSourceCode
         '
+        Me.lblSourceCode.FieldName = Nothing
         Me.lblSourceCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSourceCode.Location = New System.Drawing.Point(13, 23)
         Me.lblSourceCode.Name = "lblSourceCode"
@@ -75,6 +78,7 @@ Partial Class FrmSourceCode
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(13, 48)
         Me.lblDescription.Name = "lblDescription"
@@ -84,49 +88,49 @@ Partial Class FrmSourceCode
         '
         'txtSourceCodeDesc
         '
+        Me.txtSourceCodeDesc.CalculationExpression = Nothing
+        Me.txtSourceCodeDesc.FieldCode = Nothing
+        Me.txtSourceCodeDesc.FieldDesc = Nothing
+        Me.txtSourceCodeDesc.FieldMaxLength = 0
+        Me.txtSourceCodeDesc.FieldName = Nothing
         Me.txtSourceCodeDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSourceCodeDesc.isCalculatedField = False
+        Me.txtSourceCodeDesc.IsSourceFromTable = False
+        Me.txtSourceCodeDesc.IsSourceFromValueList = False
+        Me.txtSourceCodeDesc.IsUnique = False
         Me.txtSourceCodeDesc.Location = New System.Drawing.Point(116, 47)
         Me.txtSourceCodeDesc.MaxLength = 50
         Me.txtSourceCodeDesc.MendatroryField = False
         Me.txtSourceCodeDesc.MyLinkLable1 = Me.lblDescription
         Me.txtSourceCodeDesc.MyLinkLable2 = Nothing
         Me.txtSourceCodeDesc.Name = "txtSourceCodeDesc"
+        Me.txtSourceCodeDesc.ReferenceFieldDesc = Nothing
+        Me.txtSourceCodeDesc.ReferenceFieldName = Nothing
+        Me.txtSourceCodeDesc.ReferenceTableName = Nothing
         Me.txtSourceCodeDesc.Size = New System.Drawing.Size(272, 18)
         Me.txtSourceCodeDesc.TabIndex = 1
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.AutoSize = True
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem6})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuImport
         '
-        Me.MenuImport.AccessibleDescription = "Import"
-        Me.MenuImport.AccessibleName = "Import"
         Me.MenuImport.Name = "MenuImport"
         Me.MenuImport.Text = "Import"
-        Me.MenuImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuExport
         '
-        Me.MenuExport.AccessibleDescription = "Export"
-        Me.MenuExport.AccessibleName = "Export"
         Me.MenuExport.Name = "MenuExport"
         Me.MenuExport.Text = "Export"
-        Me.MenuExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Close"
-        Me.RadMenuItem6.AccessibleName = "Close"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Close"
-        Me.RadMenuItem6.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnSave
         '
@@ -199,6 +203,7 @@ Partial Class FrmSourceCode
         '
         'fndSourceCode
         '
+        Me.fndSourceCode.FieldName = Nothing
         Me.fndSourceCode.Location = New System.Drawing.Point(116, 18)
         Me.fndSourceCode.MendatroryField = False
         Me.fndSourceCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -214,15 +219,22 @@ Partial Class FrmSourceCode
         '
         'CboTallyName
         '
+        Me.CboTallyName.CalculationExpression = Nothing
+        Me.CboTallyName.DropDownAnimationEnabled = True
         Me.CboTallyName.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboTallyName.FieldCode = Nothing
+        Me.CboTallyName.FieldDesc = Nothing
+        Me.CboTallyName.FieldMaxLength = 0
+        Me.CboTallyName.FieldName = Nothing
         Me.CboTallyName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboTallyName.isCalculatedField = False
+        Me.CboTallyName.IsSourceFromTable = False
+        Me.CboTallyName.IsSourceFromValueList = False
+        Me.CboTallyName.IsUnique = False
         RadListDataItem1.Text = "Normal"
-        RadListDataItem1.TextWrap = True
         RadListDataItem2.Text = "Adjustment"
-        RadListDataItem2.TextWrap = True
         RadListDataItem3.Enabled = False
         RadListDataItem3.Text = "Closing"
-        RadListDataItem3.TextWrap = True
         Me.CboTallyName.Items.Add(RadListDataItem1)
         Me.CboTallyName.Items.Add(RadListDataItem2)
         Me.CboTallyName.Items.Add(RadListDataItem3)
@@ -231,11 +243,15 @@ Partial Class FrmSourceCode
         Me.CboTallyName.MyLinkLable1 = Nothing
         Me.CboTallyName.MyLinkLable2 = Nothing
         Me.CboTallyName.Name = "CboTallyName"
+        Me.CboTallyName.ReferenceFieldDesc = Nothing
+        Me.CboTallyName.ReferenceFieldName = Nothing
+        Me.CboTallyName.ReferenceTableName = Nothing
         Me.CboTallyName.Size = New System.Drawing.Size(272, 18)
         Me.CboTallyName.TabIndex = 2
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(13, 73)
         Me.MyLabel1.Name = "MyLabel1"
@@ -258,6 +274,7 @@ Partial Class FrmSourceCode
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -272,7 +289,16 @@ Partial Class FrmSourceCode
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(437, 20)
         Me.RadMenu1.TabIndex = 13
-        Me.RadMenu1.Text = "RadMenu1"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(158, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmSourceCode
         '
@@ -304,6 +330,7 @@ Partial Class FrmSourceCode
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -328,5 +355,6 @@ Partial Class FrmSourceCode
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents fndSourceCode As common.UserControls.txtNavigator
     Friend WithEvents mskSourceCode As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -329,9 +329,9 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsSerializeInvenotry.DeleteData("SRN", obj.SRN_No, trans)
             clsBatchInventory.DeleteData("SRN", obj.SRN_No, trans)
 
-            If Not isNewEntry Then
-                HistoryUpdate(obj.SRN_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.SRN_No, trans)
+            'End If
             Dim qry As String = "delete from TSPL_SRN_DETAIL where SRN_No='" + obj.SRN_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -1451,7 +1451,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             End If
             qry += " where SRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDocNo), "TSPL_SRN_HEAD", "SRN_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDocNo), "TSPL_SRN_HEAD", "SRN_No", trans)
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS(obj, trans)
             End If
@@ -2770,7 +2770,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
             Qry = "Update TSPL_SRN_HEAD set Status = 0 where SRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SRN_HEAD", "SRN_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_detail", "SRN_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

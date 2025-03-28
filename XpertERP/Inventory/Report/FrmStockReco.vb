@@ -165,7 +165,9 @@ Public Class FrmStockReco
 
             LoadData(False)
 
+
         End If
+        btnPrintForBKN.Visible = False
         If clsCommon.CompairString(FORMTYPE, "MIS-STLE-RPT") = CompairStringResult.Equal Then
             btnPrint.Visible = True
             cboType.Visible = False
@@ -413,6 +415,10 @@ Public Class FrmStockReco
 
             dr = dt.NewRow()
             dr("Code") = "Transaction Wise"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = "Item-Wise Stock Statement Summary"
             dt.Rows.Add(dr)
         End If
 
@@ -1454,6 +1460,163 @@ goAlreadyAdded:
                     End If
                 End If
                 strFinalQry += " )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x Order by  convert(date,  Punching_Date,103),Location_Code"
+                ''''Added by Suhail ItemWise Statement report 
+                '''
+                Dim PunchingDate As String = " and Punching_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' "
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item-Wise Stock Statement Summary") = CompairStringResult.Equal Then
+                strFinalQry = "select '" + txtFromDate.Value + "' as FromDate,'" + txtToDate.Value + "' as ToDate,(Location_Code) as Location_Code,([Loc Desp]) as [Loc Desp],(Structure_Descq) Structure_Descq,(Item_Type_Name)Item_Type_Name,(RACK_NO)RACK_NO,Item_Code,(Item_Desc)Item_Desc,(Stock_UOM)Stock_UOM,(OPQty)OPQty,(RecPurQty)RecPurQty,(RecProQty)RecProQty,(RecAdjQty)RecAdjQty,(RecSaleReturnQty)RecSaleReturnQty,(RecTransferQty)RecTransferQty,(RecOthQty)RecOthQty,(RecQty)RecQty, (IssTransferQty)IssTransferQty,(IssPurchaseReturnQty)IssPurchaseReturnQty,(IssSaleQty)IssSaleQty,(IssIssAdjQty)IssIssAdjQty,(IssOthQty)IssOthQty,(IssQty)IssQty,(CLQty)CLQty,(Comp_Name)Comp_Name,ProdcutionbackToproduction,I1  from (select max(Location_Code) as Location_Code,max([Loc Desp]) as [Loc Desp],max(Structure_Descq) Structure_Descq,max(Item_Type_Name)Item_Type_Name,max(RACK_NO)RACK_NO,Item_Code,max(Item_Desc)Item_Desc,max(Stock_UOM)Stock_UOM,sum(OPQty)OPQty,sum(RecPurQty)RecPurQty,sum(RecProQty)RecProQty,sum(RecAdjQty)RecAdjQty,sum(RecSaleReturnQty)RecSaleReturnQty,sum(RecTransferQty)RecTransferQty,sum(RecOthQty)RecOthQty,sum(RecQty)RecQty, sum(IssTransferQty)IssTransferQty,sum(IssPurchaseReturnQty)IssPurchaseReturnQty,sum(IssSaleQty)IssSaleQty,sum(IssIssAdjQty)IssIssAdjQty,sum(IssOthQty)IssOthQty,sum(IssQty)IssQty,sum(CLQty)CLQty
+                            from(select *,(case when (CLRate=0 or IssRate=0) then 0 else (IssRate-CLRate) end) as DiffRate,(case when (CLRate=0 or IssRate=0) then 0 else (IssFATPER-CLFATPER) end) as DiffFATPer,(case when (CLRate=0 or IssRate=0) then 0 else (IssSNFPER-CLSNFPER) end) as DiffSNFPer from (select xxxxxxx.Location_Code,[Loc Desp],convert(varchar, Punching_Date,103) as Punching_Date,Structure_Descq,Item_Type_Name,RACK_NO    ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty," + Environment.NewLine +
+                  " case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<" + RateTunning + ") then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate," + Environment.NewLine +
+                  " case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0))) end as OPFAT" + Environment.NewLine +
+                  ",Convert(decimal(18,2),(case when Convert(decimal(18,2),(ISNULL(CLBalance_QTYKG,0) - isnull(Balance_QTYKG,0)))<=0.11 or abs(Convert(decimal(18,2),(isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0))))<" + RateTunning + " then 0 else (Convert(decimal(18,2),(isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0))*100)/Convert(decimal(18,2),(ISNULL(CLBalance_QTYKG,0) - isnull(Balance_QTYKG,0)))) end)) as OPFATPER," + Environment.NewLine +
+                  " case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0))) end as OPSNF " + Environment.NewLine +
+                  ",Convert(decimal(18,2),(case when Convert(decimal(18,2),(ISNULL(CLBalance_QTYKG,0) - isnull(Balance_QTYKG,0)))<=0.11 or abs(Convert(decimal(18,2),(isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0))) )<" + RateTunning + "  then 0 else (Convert(decimal(18,2),(isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0))*100)/Convert(decimal(18,2),(ISNULL(CLBalance_QTYKG,0) - isnull(Balance_QTYKG,0)))) end)) as OPSNFPER ," + Environment.NewLine +
+                  "case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLCost,0)-isnull(RecCost,0)+ isnull(IssCost,0))) end as OPCost" + Environment.NewLine +
+                ",(case when ( abs(cast((ISNULL(CLBalance_FAT,0) - isnull(RecFAT,0)+isnull(IssFAT,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLFATAmount,0) - isnull(RecFATAmount,0)+isnull(IssFATAmount,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),(  Convert(decimal(18,2),(isnull(CLFATAmount,0)-isnull(RecFATAmount,0)+isnull(IssFATAmount,0)))/Convert(decimal(18,2),((ISNULL(CLBalance_FAT,0) - isnull(RecFAT,0)+isnull(IssFAT,0)))))) end ) as OPFATRate" + Environment.NewLine +
+",Convert(decimal(18,2),(isnull(CLFATAmount,0)-isnull(RecFATAmount,0)+ isnull(IssFATAmount,0))) as OPFATAmt" + Environment.NewLine +
+",(case when ( abs(cast((ISNULL(CLBalance_SNF,0) - isnull(RecSNF,0)+isnull(IssSNF,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLSNFAmount,0) - isnull(RecSNFAmount,0)+isnull(IssSNFAmount,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),(  Convert(decimal(18,2),(isnull(CLSNFAmount,0)-isnull(RecSNFAmount,0)+isnull(IssSNFAmount,0)))/Convert(decimal(18,2),((ISNULL(CLBalance_SNF,0) - isnull(RecSNF,0)+isnull(IssSNF,0)))))) end ) as OPSNFRate" + Environment.NewLine +
+",Convert(decimal(18,2),(isnull(CLSNFAmount,0)-isnull(RecSNFAmount,0)+ isnull(IssSNFAmount,0))) as OPSNFAmt" + Environment.NewLine +
+                ", RecPurQty,RecPurRate,cast(RecPurFAT as decimal(18,2)) as RecPurFAT,cast(RecPurFATPER as decimal(18,2)) as RecPurFATPER,cast(RecPurSNF as decimal(18,2)) as RecPurSNF,cast(RecPurSNFPER as decimal(18,2)) as RecPurSNFPER,RecPurCost ,RecProQty, RecProRate ,cast( RecProFAT as decimal(18,2)) as  RecProFAT,cast( RecProFATPER as decimal(18,2)) as  RecProFATPER,cast( RecProSNF as decimal(18,2)) as  RecProSNF,cast( RecProSNFPER  as decimal(18,2)) as  RecProSNFPER, RecProCost,RecAdjQty,RecSaleReturnQty,RecTransferQty,RecAdjRate ,cast(RecAdjFAT as decimal(18,2)) as RecAdjFAT,cast(RecAdjFATPER as decimal(18,2)) as RecAdjFATPER,cast(RecAdjSNF as decimal(18,2)) as RecAdjSNF,cast(RecAdjSNFPER  as decimal(18,2)) as RecAdjSNFPER,RecAdjCost ,RecOthQty,RecOthRate ,cast(RecOthFAT as decimal(18,2)) as RecOthFAT,cast(RecOthFATPER as decimal(18,2)) as RecOthFATPER,cast(RecOthSNF as decimal(18,2)) as RecOthSNF,cast(RecOthSNFPER as decimal(18,2)) as RecOthSNFPER,RecOthCost,RecQty,RecRate,cast(RecFAT as decimal(18,2)) as RecFAT,cast(RecFATPER as decimal(18,2)) as RecFATPER,cast(RecSNF as decimal(18,2)) as RecSNF,cast(RecSNFPER as decimal(18,2)) as RecSNFPER,RecCost  ,IssTransferQty,IssPurchaseReturnQty ,IssTransferRate ,cast(IssTransferFAT as decimal(18,2)) as IssTransferFAT,cast(IssTransferFATPER as decimal(18,2)) as IssTransferFATPER,cast(IssTransferSNF as decimal(18,2)) as IssTransferSNF,cast(IssTransferSNFPER as decimal(18,2)) as IssTransferSNFPER ,IssTransferCost ,IssSaleQty ,IssSaleRate ,cast(IssSaleFAT as decimal(18,2)) as IssSaleFAT,cast(IssSaleFATPER as decimal(18,2)) as IssSaleFATPER,cast(IssSaleSNF as decimal(18,2)) as IssSaleSNF,cast(IssSaleSNFPER as decimal(18,2)) as IssSaleSNFPER ,IssSaleCost , IssIssAdjQty , IssIssAdjRate , cast(IssIssAdjFAT as decimal(18,2)) as IssIssAdjFAT, cast(IssIssAdjFATPER as decimal(18,2)) as IssIssAdjFATPER,cast(IssIssAdjSNF as decimal(18,2)) as IssIssAdjSNF, cast(IssIssAdjSNFPER as decimal(18,2)) as IssIssAdjSNFPER,IssIssAdjCost , IssOthQty , IssOthRate , cast(IssOthFAT as decimal(18,2)) as IssOthFAT,cast(IssOthFATPER as decimal(18,2)) as IssOthFATPER, cast(IssOthSNF as decimal(18,2)) as IssOthSNF,cast(IssOthSNFPER as decimal(18,2)) as IssOthSNFPER,IssOthCost ,IssQty,IssRate,cast(IssFAT as decimal(18,2)) as IssFAT,cast(IssFATPER as decimal(18,2)) as IssFATPER,cast(IssSNF as decimal(18,2)) as IssSNF,cast(IssSNFPER as decimal(18,2)) as IssSNFPER,IssCost ,case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else CLQty end as CLQty," + Environment.NewLine +
+                  "case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLCost as decimal(18,2)),0))<" + RateTunning + " ) then 0 else CLCost/CLQty end as CLRate," + Environment.NewLine +
+                  " cast(CLBalance_FAT as decimal(18,2)) as CLFAT, isnull((CASE when CLBalance_QTYKG<=0.11 or CLBalance_FAT<" + RateTunning + " then 0 else cast((CLBalance_FAT*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLFATPER, cast(CLBalance_SNF as decimal(18,2)) as CLSNF, isnull((CASE when CLBalance_QTYKG<=0.11 or CLBalance_SNF<" + RateTunning + " then 0 else cast((CLBalance_SNF*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLSNFPER, CLCost" + Environment.NewLine +
+                ",case when (ABS(isnull(cast(CLBalance_FAT as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLFATAmount as decimal(18,2)),0))<0.11 ) then 0 else convert(decimal(18,2),convert(decimal(18,2),CLFATAmount)/cast(CLBalance_FAT as decimal(18,2))) end as CLFATRate" + Environment.NewLine +
+",case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else convert(decimal(18,2),CLFATAmount) end as CLFATAmount " + Environment.NewLine +
+",case when (ABS(isnull(cast(CLBalance_SNF as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLSNFAmount as decimal(18,2)),0))<0.11 ) then 0 else convert(decimal(18,2),convert(decimal(18,2), CLSNFAmount)/cast(CLBalance_SNF as decimal(18,2))) end as CLSNFRate" + Environment.NewLine +
+",case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else convert(decimal(18,2), CLSNFAmount) end as CLSNFAmount " + Environment.NewLine +
+                " from ( "
+                strFinalQry += "select  Location_Code,max([Loc Desp]) as [Loc Desp],Punching_Date as Punching_Date,Max(Structure_Descq)Structure_Descq,Max(Item_Type_Name)Item_Type_Name,Max(RACK_NO)RACK_NO, Item_Code ,max(Item_Desc) as Item_Desc, " + strStockUOM + ", sum(Balance_FAT) as Balance_FAT,sum(Balance_SNF) as Balance_SNF  ,sum(isnull(Balance_QTYKG,0)) as Balance_QTYKG ,sum(case when InOut='I' and In_Category in ('PU') then Stock_Qty else 0 end) as RecPurQty ,case when sum(case when InOut='I' and In_Category in ('PU') then Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='I' and In_Category in ('PU') then Cost else 0 end)/sum(case when InOut='I' and In_Category in ('PU') then Stock_Qty else 0 end)) end as RecPurRate  ,sum(case when InOut='I' and In_Category in ('PU') then Balance_FAT else 0 end) as RecPurFAT  ,(case when sum(case when InOut='I' and In_Category in ('PU') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and In_Category in ('PU') then  Balance_FAT else 0 end)*100/sum(case when InOut='I' and In_Category in ('PU') then  Balance_QTYKG else 0 end) end)  as RecPurFATPER  ,sum(case when InOut='I' and In_Category in ('PU') then Balance_SNF else 0 end) as RecPurSNF  ,(case when sum(case when InOut='I' and In_Category in ('PU') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and In_Category in ('PU') then  Balance_SNF else 0 end)*100/sum(case when InOut='I' and In_Category in ('PU') then  Balance_QTYKG else 0 end) end)  as RecPurSNFPER  ,sum(case when InOut='I' and In_Category in ('PU') then Cost else 0 end) as RecPurCost  ,sum(case when InOut='I' and Trans_Type='IC-AD' then Stock_Qty else 0 end) as RecAdjQty ,sum(case when InOut='I' and Trans_Type='FS-SR' then Stock_Qty else 0 end) as RecSaleReturnQty ,sum(case when InOut='I' and Trans_Type='ITransfer' then Stock_Qty else 0 end) as RecTransferQty  ,case when sum(case when InOut='I' and Trans_Type='IC-AD' then Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='I' and Trans_Type='IC-AD' then Cost else 0 end)/sum(case when InOut='I' and Trans_Type='IC-AD' then Stock_Qty else 0 end)) end as RecAdjRate  ,sum(case when InOut='I' and Trans_Type='IC-AD' then Balance_FAT else 0 end) as RecAdjFAT  ,(case when sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_FAT else 0 end)*100/sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_QTYKG else 0 end) end)  as RecAdjFATPER  ,sum(case when InOut='I' and Trans_Type='IC-AD' then Balance_SNF else 0 end) as RecAdjSNF  ,(case when sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_SNF else 0 end)*100/sum(case when InOut='I' and Trans_Type='IC-AD' then  Balance_QTYKG else 0 end) end)  as RecAdjSNFPER  ,sum(case when InOut='I' and Trans_Type='IC-AD' then Cost else 0 end) as RecAdjCost , sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Stock_Qty else 0 end) as RecProQty   ,case when sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Cost else 0 end)/sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Stock_Qty else 0 end)) end as RecProRate  ,sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Balance_FAT else 0 end) as RecProFAT  ,(case when sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_FAT else 0 end)*100/sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_QTYKG else 0 end) end)  as RecProFATPER  ,sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Balance_SNF else 0 end) as RecProSNF  ,(case when sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_SNF else 0 end)*100/sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then  Balance_QTYKG else 0 end) end)  as RecProSNFPER  , sum(case when InOut='I' and Trans_Type='PROD_ENTRY' then Cost else 0 end) as RecProCost ,sum(case when InOut='I' and In_Category not in ('AD','PU') then Stock_Qty else 0 end) as RecOthQty  ,case when sum(case when InOut='I' and In_Category not in ('AD','PU') then Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='I' and In_Category not in ('AD','PU') then Cost else 0 end)/sum(case when InOut='I' and In_Category not in ('AD','PU') then Stock_Qty else 0 end)) end as RecOthRate  ,sum(case when InOut='I' and In_Category not in ('AD','PU') then Balance_FAT else 0 end) as RecOthFAT  ,(case when sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_FAT else 0 end)*100/sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_QTYKG else 0 end) end)  as RecOthFATPER  ,sum(case when InOut='I' and In_Category not in ('AD','PU') then Balance_SNF else 0 end) as RecOthSNF ,(case when sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_SNF else 0 end)*100/sum(case when InOut='I' and In_Category not in ('AD','PU') then  Balance_QTYKG else 0 end) end)  as RecOthSNFPER  ,sum(case when InOut='I' and In_Category not in ('AD','PU') then Cost else 0 end) as RecOthCost ,sum(case when InOut='I' then Stock_Qty else 0 end) as RecQty  ,case when cast(sum(case when InOut='I' then Stock_Qty else 0 end)as  decimal(18,2))=0 then 0 else (sum(case when InOut='I' then Cost else 0 end)/sum(case when InOut='I' then Stock_Qty else 0 end)) end as RecRate  ,sum(case when InOut='I' then Balance_FAT else 0 end) as RecFAT,(case when sum(case when InOut='I' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' then  Balance_FAT else 0 end)*100/sum(case when InOut='I' then  Balance_QTYKG else 0 end) end)  as RecFATPER  ,sum(case when InOut='I' then Balance_SNF else 0 end) as RecSNF  ,(case when sum(case when InOut='I' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='I' then  Balance_SNF else 0 end)*100/sum(case when InOut='I' then  Balance_QTYKG else 0 end) end)  as RecSNFPER  ,sum(case when InOut='I' then Cost else 0 end) as RecCost" + Environment.NewLine +
+                ",sum(case when InOut='I' then FATAmount else 0 end) as RecFATAmount " + Environment.NewLine +
+                ",sum(case when InOut='I' then SNFAmount else 0 end) as RecSNFAmount " + Environment.NewLine +
+                "  ,sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Stock_Qty else 0 end) as IssSaleQty  ,case when sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Cost else 0 end)/sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Stock_Qty else 0 end)) end as IssSaleRate  ,sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Balance_FAT else 0 end) as IssSaleFAT  ,(case when sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_FAT else 0 end)*100/sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_QTYKG else 0 end) end)  as IssSaleFATPER  ,sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Balance_SNF else 0 end) as IssSaleSNF  ,(case when sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_SNF else 0 end)*100/sum(case when InOut='O' and Trans_Type='FS-SH' then  Balance_QTYKG else 0 end) end)  as IssSaleSNFPER  ,sum(case when InOut='O' and Trans_Type='FS-SH' then -1.00*Cost else 0 end) as IssSaleCost  ,sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Stock_Qty else 0 end) as IssTransferQty,sum(case when InOut='O' and Trans_Type='Purchase Return' then -1.00*Stock_Qty else 0 end) as IssPurchaseReturnQty  ,case when sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Cost else 0 end)/sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Stock_Qty else 0 end)) end as IssTransferRate  ,sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Balance_FAT else 0 end) as IssTransferFAT  ,(case when sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_FAT else 0 end)*100/sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_QTYKG else 0 end) end)  as IssTransferFATPER  ,sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Balance_SNF else 0 end) as IssTransferSNF  ,(case when sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_SNF else 0 end)*100/sum(case when InOut='O' and Trans_Type='Transfer' then  Balance_QTYKG else 0 end) end)  as IssTransferSNFPER  ,sum(case when InOut='O' and Trans_Type='Transfer' then -1.00*Cost else 0 end) as IssTransferCost,sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Stock_Qty else 0 end) as IssIssAdjQty  ,case when sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Cost else 0 end)/sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Stock_Qty else 0 end)) end as IssIssAdjRate  ,sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Balance_FAT else 0 end) as IssIssAdjFAT  ,(case when sum(case when InOut='O' and Out_Category in ('IS') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Out_Category in ('IS') then  Balance_FAT else 0 end)*100/sum(case when InOut='O' and Out_Category in ('IS') then  Balance_QTYKG else 0 end) end)  as IssIssAdjFATPER  ,sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Balance_SNF else 0 end) as IssIssAdjSNF  ,(case when sum(case when InOut='O' and Out_Category in ('IS') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Out_Category in ('IS') then  Balance_SNF else 0 end)*100/sum(case when InOut='O' and Out_Category in ('IS') then  Balance_QTYKG else 0 end) end)  as IssIssAdjSNFPER  ,sum(case when InOut='O' and Out_Category in ('IS') then -1.00*Cost else 0 end) as IssIssAdjCost ,sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Stock_Qty else 0 end) as IssOthQty  ,case when sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Stock_Qty else 0 end)=0 then 0 else (sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Cost else 0 end)/sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Stock_Qty else 0 end)) end as IssOthRate  ,sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Balance_FAT else 0 end) as IssOthFAT  ,(case when sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_FAT else 0 end)*100/sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_QTYKG else 0 end) end)  as IssOthFATPER  ,sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Balance_SNF else 0 end) as IssOthSNF  ,(case when sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_SNF else 0 end)*100/sum(case when InOut='O' and Out_Category not in ('SA','IS') then  Balance_QTYKG else 0 end) end)  as IssOthSNFPER  ,sum(case when InOut='O' and Out_Category not in ('SA','IS') then -1.00*Cost else 0 end) as IssOthCost ,sum(case when InOut='O' then -1.00*Stock_Qty else 0 end) as IssQty  ,case when cast(sum(case when InOut='O' then -1.00*Stock_Qty else 0 end)as  decimal(18,2))=0 then 0 else (sum(case when InOut='O' then -1.00*Cost else 0 end)/sum(case when InOut='O' then -1.00*Stock_Qty else 0 end)) end as IssRate  ,sum(case when InOut='O' then -1.00*Balance_FAT else 0 end) as IssFAT  ,(case when sum(case when InOut='O' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' then  Balance_FAT else 0 end)*100/sum(case when InOut='O' then  Balance_QTYKG else 0 end) end)  as IssFATPER ,sum(case when InOut='O' then -1.00*Balance_SNF else 0 end) as IssSNF  ,(case when sum(case when InOut='O' then  Balance_QTYKG else 0 end)=0 then 0  else  sum(case when InOut='O' then  Balance_SNF else 0 end)*100/sum(case when InOut='O' then  Balance_QTYKG else 0 end) end)  as IssSNFPER  ,sum(case when InOut='O' then -1.00*Cost else 0 end) as IssCost " + Environment.NewLine +
+ ",sum(case when InOut='O' then -1.00*FATAmount else 0 end) as IssFATAmount" + Environment.NewLine +
+",sum(case when InOut='O' then -1.00*SNFAmount else 0 end) as IssSNFAmount" + Environment.NewLine +
+                " ,SUM(sum(Stock_Qty)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code,Punching_Date) as CLQty   ,SUM(sum(Cost)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code, Item_Code,Punching_Date) as CLCost ,SUM(sum(isnull(Balance_QTYKG,0))) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code, Punching_Date) as CLBalance_QTYKG  ,SUM(sum(Balance_FAT)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code, Punching_Date) as CLBalance_FAT ,SUM(sum(Balance_SNF)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code,Punching_Date) as CLBalance_SNF " + Environment.NewLine +
+                ",SUM(sum(FATAmount)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code, Item_Code,Punching_Date) as CLFATAmount " + Environment.NewLine +
+",SUM(sum(SNFAmount)) OVER (Partition BY Item_Code,Location_Code ORDER BY Item_Code,Location_Code, Item_Code,Punching_Date) as CLSNFAmount " + Environment.NewLine +
+                "  from ("
+                strFinalQry += "select 0 as Trans_Id,'' as Trans_Type,'' as Trans_Type_Name,'Opening Balance' as Source_Doc_No,null as Punching_Date,'' as InOutView, '' as InOut,xxx.Location_Code ,'' as [Loc Desp],'' as [LocAddress],'' as SourceCode,'' as SourceName,'' as SourceType ,'' as Item_Type,'' as Item_Type_Name,'' as Item_Group,'' as Group_Description," + strCodeColumnMax + "," + strCodeDescColumnMax + ",xxx.Item_Code as Item_Code ,max(xxx.Item_Desc) as Item_Desc,'' as Item_Category_Struct_Code,max(xxx.Stock_UOM) as Stock_UOM,'' as itf_code ,sum( Stock_Qty * case when InOut='I' then 1.00 else -1.00 end) as Stock_Qty,sum( QtyKG * case when InOut='I' then 1.00 else -1 end) as Balance_QTYKG, case when sum(convert(decimal(28,3),Stock_Qty* case when InOut='I' then 1 else -1 end))=0 then 0 else sum(convert(decimal(28,3),Cost* case when InOut='I' then 1 else -1 end))/sum(convert(decimal(28,3),Stock_Qty* case when InOut='I' then 1 else -1 end)) end as Rate,sum(Cost * case when InOut='I' then 1 else -1 end) as Cost,sum( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT,sum(( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end)) as Balance_SNF " + Environment.NewLine
+                strFinalQry += ",( sum((case when IsFromMilk=1 then Fat_Amt  else (Stock_Qty*FatPer*Fat_Rate) end) * case when InOut='I' then 1 else -1 end)) AS FATAmount" + Environment.NewLine +
+",(sum((case when IsFromMilk=1 then SNF_Amt else (Stock_Qty*SNFPer*SNF_Rate) end ) * case when InOut='I' then 1 else -1 end)) AS SNFAmount " + Environment.NewLine +
+                " ,   '' as In_Category,'' as Out_Category,Max(Structure_Descq)Structure_Descq,Max(RACK_NO)RACK_NO "
+                If ChkMRPWise.Checked Then
+                    strFinalQry += ",Max(MRP) as MRP "
+                End If
+                strFinalQry += " from (" + qry + ") xxx " + Environment.NewLine
+                strFinalQry += " where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code " + Environment.NewLine
+                strFinalQry += " union all "
+                strFinalQry += " select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,cast(Punching_Date as date) as Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type," &
+                    " Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code ," &
+                    " ( Stock_Qty * case when InOut='I' then 1 else -1 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1 else -1 end) as Balance_QTYKG, " &
+                    " convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1 else -1 end) as Cost," &
+                    " ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT, " &
+                    " ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end) as Balance_SNF" + Environment.NewLine +
+",(Fat_Amt * case when InOut='I' then 1 else -1 end) as FATAmount" + Environment.NewLine +
+",(SNF_Amt * case when InOut='I' then 1 else -1 end) as SNFAmount" + Environment.NewLine +
+                " ,In_Category,Out_Category,Structure_Descq,RACK_NO  "
+                If ChkMRPWise.Checked Then
+                    strFinalQry += ",MRP "
+                End If
+                strFinalQry += " from (" + qry + ") xxx " + Environment.NewLine
+                strFinalQry += " where Punching_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + Environment.NewLine
+
+                strFinalQry += " union  all "
+                strFinalQry += "select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,Punching_Date,InOutView,InOut,Location_Code,[Loc Desp],[LocAddress],SourceCode,SourceName,SourceType ,Item_Type," &
+               " Item_Type_Name,Item_Group,Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",Items.Item_Code,Item_Desc, Item_Category_Struct_Code, " &
+               " Items.Stock_UOM ,itf_code ,Stock_Qty,Balance_QTYKG,Rate,Cost,Balance_FAT, Balance_SNF " + Environment.NewLine +
+",0 as FATAmount" + Environment.NewLine +
+",0 as SNFAmount" + Environment.NewLine +
+                " ,In_Category,Out_Category,Structure_Descq,RACK_NO "
+                If ChkMRPWise.Checked Then
+                    strFinalQry += ",MRP "
+                End If
+                strFinalQry += " from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type,null As Structure_Descq,TSPL_ITEM_MASTER.RACK_NO  "
+                If ChkMRPWise.Checked Then
+                    strFinalQry += ",0 as MRP "
+                End If
+                strFinalQry += " FROM ExplodeDates( " + IIf(chkNoTransaction.Checked, "'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'", "'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'") + ",'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2 "
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    strFinalQry += " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ") "
+                End If
+                ''richa  ERO/14/06/21-001409 
+                If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
+                    strFinalQry += " and TSPL_ITEM_MASTER.Item_Type in (" + clsCommon.GetMulcallString(txtItemType.arrValueMember) + ") " + Environment.NewLine
+                End If
+                Dim LocationForStockStatement As String = ""
+                If rbtnLocationSelect.IsChecked Then
+                    Dim IsApplicable As Boolean = False
+                    For ii As Integer = 0 To gvLocation.RowCount - 1
+                        If clsCommon.myCBool(gvLocation.Rows(ii).Cells("SEL").Value) Then
+                            LocationFirstTime += 1
+                            If LocationFirstTime = 1 Then
+                                LocationAddress = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then ''  else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.Pin_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.Pin_Code) End End End  as [LocAddress] from TSPL_LOCATION_MASTER where Location_Code= '" & clsCommon.myCstr(gvLocation.Rows(ii).Cells("CODE").Value) & "'")
+                            End If
+                            If IsApplicable Then
+                                strWhrCatg += " Or "
+                            End If
+                            LocationForStockStatement = " and ((case when Is_Section='N' and Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(gvLocation.Rows(ii).Cells("CODE").Value) + "')"
+                            strWhrCatg += " ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(gvLocation.Rows(ii).Cells("CODE").Value) + "') "
+                            IsApplicable = True
+                            Dim arr As Dictionary(Of String, Object) = gvLocation.Rows(ii).Tag
+                            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                                strWhrCatg += " and Location_Code in ("
+                                LocationForStockStatement += " and From_Location in ("
+                                Dim isFirstTime As Boolean = True
+                                For Each strInn As String In arr.Keys
+                                    If Not isFirstTime Then
+                                        strWhrCatg += ","
+                                        LocationForStockStatement += ","
+                                    End If
+                                    strWhrCatg += "'" + strInn + "'"
+                                    LocationForStockStatement += "'" + strInn + "'"
+                                    isFirstTime = False
+                                Next
+                                strWhrCatg += ")"
+                                LocationForStockStatement += ")"
+                            End If
+                        End If
+                    Next
+                    If Not IsApplicable Then
+                        Throw New Exception("Please select at least one location")
+                    End If
+                    strFinalQry += " and (" + strWhrCatg + ")"
+                Else
+                    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                        strFinalQry += "  and Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+                    End If
+                End If
+                If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "ReportUOM") = CompairStringResult.Equal Then
+                    strFinalQry += " and isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)=1 "
+                Else
+                    strFinalQry += " and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' "
+                End If
+
+                strFinalQry += " And TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items" &
+                " left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER " &
+                " left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code " &
+                " left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER " &
+                " left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2 "
+                If chkShowTransactionData.Checked = True Then
+                    strFinalQry += " and Stock_Qty<>0 "
+                End If
+                If isDataLoad AndAlso SkipCheckFatAndSNF Then
+                    ''never want to check fat% and snf% cond. when open from double click in production(26/05/2014)
+                Else
+                    If clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal Then
+                        strFinalQry += " and (coalesce(Fat.Fat_Per,0)<>0  or  coalesce(SNF.SNF_Per,0)<>0 or Items.Product_Type='MI') "
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "NFS") = CompairStringResult.Equal Then
+                        strFinalQry += " and (coalesce(Fat.Fat_Per,0)=0  and  coalesce(SNF.SNF_Per,0)=0 and Items.Product_Type<>'MI') "
+                    End If
+                End If
+                strFinalQry += " )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )Final group by Item_Code ) YY left join TSPL_COMPANY_MASTER on 2=2 left join (select TSPL_INVENTORY_MOVEMENT.Qty as ProdcutionbackToproduction,TSPL_INVENTORY_MOVEMENT.Item_Code as I1
+                                from TSPL_INVENTORY_MOVEMENT 
+                                left join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No
+                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.location_code=TSPL_INVENTORY_MOVEMENT.location_code 
+                                where Trans_Type='ITransfer'   and TSPL_LOCATION_MASTER.IsProduction=1  " + LocationForStockStatement + "  and  Punching_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                                ) as xyz on xyz.I1=yy.Item_Code  Order by  Location_Code "
+
+                '''-----------------------------------------------
+
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Transaction Wise") = CompairStringResult.Equal Then
                 Dim strTransCatg As String = ""
                 Dim strTransName As String = ""
@@ -1538,10 +1701,12 @@ goAlreadyAdded:
             clsCommon.ProgressBarUpdate("Loading Data.Please Wait...")
 
             ''richa agarwal 26 feb,2016 BM00000008708
+            Dim dt As DataTable = Nothing
             Dim dtr As System.Data.SqlClient.SqlDataReader = Nothing
             Try
 
                 dtr = clsDBFuncationality.GetDataReader(strFinalQry, Nothing)
+
                 If Not dtr.HasRows Then
                     Throw New Exception("No Data Found to Display")
                 End If
@@ -1554,7 +1719,23 @@ goAlreadyAdded:
                 dtr.Close()
             End Try
             EnableDisableCtrl(False)
-            SetGridFormationOFGV1()
+
+            If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item-Wise Stock Statement Summary") = CompairStringResult.Equal Then
+                If isPrintCrystalReport = 55 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item-Wise Stock Statement Summary") = CompairStringResult.Equal And isPrintCrystalReport = 55 Then
+                        dt = clsDBFuncationality.GetDataTable(strFinalQry)
+                    End If
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptItemWiseStockStatement", "")
+                Else
+                    GridFromatStockStatement()
+
+                End If
+
+            Else
+                SetGridFormationOFGV1()
+            End If
+
             RadPageView1.SelectedPage = RadPageViewPage2
             ''-----------------------------------
 
@@ -2038,6 +2219,209 @@ goAlreadyAdded:
         End If
         Return arrVisibleColumAndCaption
     End Function
+    Sub GridFromatStockStatement()
+        gv1.GroupDescriptors.Clear()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = False
+        Next
+        If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item-Wise Stock Statement Summary") = CompairStringResult.Equal Then
+
+            gv1.Columns("FromDate").IsVisible = False
+            gv1.Columns("FromDate").HeaderText = "From Date"
+            gv1.Columns("FromDate").Width = 150
+
+            gv1.Columns("ToDate").IsVisible = False
+            gv1.Columns("ToDate").HeaderText = "To Date"
+            gv1.Columns("ToDate").Width = 150
+
+            gv1.Columns("Location_Code").IsVisible = True
+            gv1.Columns("Location_Code").HeaderText = "Location Code"
+            gv1.Columns("Location_Code").Width = 150
+
+            gv1.Columns("Loc Desp").IsVisible = True
+            gv1.Columns("Loc Desp").Width = 150
+            gv1.Columns("Loc Desp").HeaderText = "Loc Description"
+
+            gv1.Columns("Structure_Descq").IsVisible = True
+            gv1.Columns("Structure_Descq").Width = 150
+            gv1.Columns("Structure_Descq").HeaderText = "Structure Desc"
+
+            gv1.Columns("Item_Type_Name").IsVisible = True
+            gv1.Columns("Item_Type_Name").Width = 150
+            gv1.Columns("Item_Type_Name").HeaderText = "Item Type Name"
+
+            gv1.Columns("RACK_NO").IsVisible = True
+            gv1.Columns("RACK_NO").Width = 150
+            gv1.Columns("RACK_NO").HeaderText = "RACK NO"
+
+
+            gv1.Columns("Item_Code").IsVisible = True
+            gv1.Columns("Item_Code").Width = 150
+            gv1.Columns("Item_Code").HeaderText = "Item Code"
+            ' gv1.Columns("OPBalrate").FormatString = "{0:n3}"
+
+            gv1.Columns("Item_Desc").IsVisible = True
+            gv1.Columns("Item_Desc").Width = 150
+            gv1.Columns("Item_Desc").HeaderText = "Item Name"
+            'gv1.Columns("Item_Desc").FormatString = "{0:n2}"
+
+            ' gv1.Columns("OPFATPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("Stock_UOM").Width = 150
+            gv1.Columns("Stock_UOM").HeaderText = "Stock UOM"
+            gv1.Columns("Stock_UOM").IsVisible = True
+            ' gv1.Columns("Stock_UOM").FormatString = "{0:n2}"
+
+            'gv1.Columns("OPFAT").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("OPQty").Width = 150
+            gv1.Columns("OPQty").HeaderText = "Opening Qty"
+            gv1.Columns("OPQty").FormatString = "{0:n2}"
+            gv1.Columns("OPQty").IsVisible = True
+
+            ' gv1.Columns("OPSNFPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecPurQty").Width = 150
+            gv1.Columns("RecPurQty").HeaderText = "Received Purchase Qty"
+            gv1.Columns("RecPurQty").FormatString = "{0:n2}"
+            gv1.Columns("RecPurQty").IsVisible = True
+
+            'gv1.Columns("OPSNF").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecProQty").Width = 150
+            gv1.Columns("RecProQty").HeaderText = "Received Production Qty"
+            gv1.Columns("RecProQty").FormatString = "{0:n2}"
+            gv1.Columns("RecProQty").IsVisible = True
+
+            'gv1.Columns("Received_FATPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecAdjQty").Width = 150
+            gv1.Columns("RecAdjQty").HeaderText = "Received Adjustment Qty"
+            gv1.Columns("RecAdjQty").FormatString = "{0:n2}"
+            gv1.Columns("RecAdjQty").IsVisible = True
+
+            ' gv1.Columns("Received_FAT").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecSaleReturnQty").Width = 150
+            gv1.Columns("RecSaleReturnQty").HeaderText = "Recieved Sale Return Qty"
+            gv1.Columns("RecSaleReturnQty").FormatString = "{0:n2}"
+            gv1.Columns("RecSaleReturnQty").IsVisible = True
+
+            'gv1.Columns("Received_SNFPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecTransferQty").Width = 150
+            gv1.Columns("RecTransferQty").HeaderText = "Received Transfer Qty"
+            gv1.Columns("RecTransferQty").FormatString = "{0:n2}"
+            gv1.Columns("RecTransferQty").IsVisible = True
+
+            ' gv1.Columns("Received_SNF").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecOthQty").Width = 150
+            gv1.Columns("RecOthQty").HeaderText = "Received Other Qty"
+            gv1.Columns("RecOthQty").FormatString = "{0:n2}"
+            gv1.Columns("RecOthQty").IsVisible = False
+
+            'gv1.Columns("Issued_FATPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("RecQty").Width = 150
+            gv1.Columns("RecQty").HeaderText = "Received Qty"
+            gv1.Columns("RecQty").FormatString = "{0:n2}"
+            gv1.Columns("RecQty").IsVisible = False
+
+            'gv1.Columns("Issued_FAT").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssTransferQty").Width = 150
+            gv1.Columns("IssTransferQty").HeaderText = "Issued Transfer Qty"
+            gv1.Columns("IssTransferQty").FormatString = "{0:n2}"
+            gv1.Columns("IssTransferQty").IsVisible = True
+
+            ' gv1.Columns("Issued_SNFPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssPurchaseReturnQty").Width = 150
+            gv1.Columns("IssPurchaseReturnQty").HeaderText = "Issued Purchase Return Qty"
+            gv1.Columns("IssPurchaseReturnQty").FormatString = "{0:n2}"
+            gv1.Columns("IssPurchaseReturnQty").IsVisible = True
+
+            'gv1.Columns("Issued_SNF").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssSaleQty").Width = 150
+            gv1.Columns("IssSaleQty").HeaderText = "Issued Sale Qty"
+            gv1.Columns("IssSaleQty").FormatString = "{0:n2}"
+            gv1.Columns("IssSaleQty").IsVisible = True
+
+            'gv1.Columns("Balance_FATPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssIssAdjQty").Width = 150
+            gv1.Columns("IssIssAdjQty").HeaderText = "Issued Adjustment Qty"
+            gv1.Columns("IssIssAdjQty").FormatString = "{0:n2}"
+            gv1.Columns("IssIssAdjQty").IsVisible = True
+
+            'gv1.Columns("Balance_FAT").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssOthQty").Width = 150
+            gv1.Columns("IssOthQty").HeaderText = "Issued Other Qty"
+            gv1.Columns("IssOthQty").FormatString = "{0:n2}"
+            gv1.Columns("IssOthQty").IsVisible = True
+
+            'gv1.Columns("Balance_SNFPER").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("IssQty").Width = 150
+            gv1.Columns("IssQty").HeaderText = "Issued Qty"
+            gv1.Columns("IssQty").FormatString = "{0:n2}"
+            gv1.Columns("IssQty").IsVisible = False
+
+            ' gv1.Columns("Balance_SNF").IsVisible = (clsCommon.CompairString(clsCommon.myCstr(cboFATSNF.SelectedValue), "FS") = CompairStringResult.Equal)
+            gv1.Columns("CLQty").Width = 150
+            gv1.Columns("CLQty").HeaderText = "Closing Qty"
+            gv1.Columns("CLQty").FormatString = "{0:n2}"
+            gv1.Columns("CLQty").IsVisible = True
+
+            gv1.Columns("ProdcutionbackToproduction").IsVisible = True
+            gv1.Columns("ProdcutionbackToproduction").Width = 150
+            gv1.Columns("ProdcutionbackToproduction").HeaderText = "Prodcution Back To Production"
+            gv1.Columns("ProdcutionbackToproduction").FormatString = "{0:n2}"
+
+            gv1.Columns("I1").IsVisible = False
+            gv1.Columns("I1").Width = 150
+            gv1.Columns("I1").HeaderText = "Item Code2"
+
+            gv1.Columns("Comp_Name").IsVisible = False
+            gv1.Columns("Comp_Name").Width = 150
+            gv1.Columns("Comp_Name").HeaderText = "Comp Name"
+
+
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim Smitem As New GridViewSummaryItem("OPQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+
+            Smitem = New GridViewSummaryItem("RecPurQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+
+            Smitem = New GridViewSummaryItem("RecProQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("RecAdjQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+
+            Smitem = New GridViewSummaryItem("RecSaleReturnQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("RecTransferQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+
+            Smitem = New GridViewSummaryItem("RecOthQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("RecQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+
+
+            Smitem = New GridViewSummaryItem("IssTransferQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("IssPurchaseReturnQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("IssSaleQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("IssIssAdjQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("IssOthQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("IssQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("CLQty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            Smitem = New GridViewSummaryItem("ProdcutionbackToproduction", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Smitem)
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        End If
+    End Sub
     Sub SetGridFormationOFGV1()
         gv1.GroupDescriptors.Clear()
         gv1.TableElement.TableHeaderHeight = 40
@@ -6309,45 +6693,16 @@ goAlreadyAdded:
     Private Sub chkExcludeConsumptionLoc_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkExcludeConsumptionLoc.ToggleStateChanged
         LoadLocation()
     End Sub
-    Private Sub txtItemType__My_Click(sender As Object, e As EventArgs) Handles txtItemType._My_Click
+    Private Sub txtItemType__My_Click(sender As Object, e As EventArgs) Handles txtItemType._My_Click, btnPrint.Click
         txtItemType.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemTypestoreco", FrmItemMasterRMOther.LoadItemTypeQuery(), "Code", "Name", txtItemType.arrValueMember, txtItemType.arrDispalyMember)
     End Sub
 
     Private Sub btnQuickExport_Click(sender As Object, e As EventArgs)
-        Try
 
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.MISStockReco & "'"))
-            If txtItem.arrDispalyMember IsNot Nothing AndAlso txtItem.arrDispalyMember.Count > 0 Then
-                arrHeader.Add("Item : " + clsCommon.GetMulcallStringWithComma(txtItem.arrDispalyMember))
-            End If
-            If clsCommon.myLen(cmbUnit.SelectedValue) > 0 Then
-                arrHeader.Add("Unit : " + cmbUnit.SelectedValue)
-            End If
-            If rbtnLocationSelect.IsChecked Then
-                Dim strLoca As String = ""
-                For Each grow As GridViewRowInfo In gvLocation.Rows
-                    If clsCommon.myCBool(grow.Cells("SEL").Value) = True Then
-                        strLoca += "," + clsCommon.myCstr(grow.Cells("NAME").Value)
-                    End If
-                Next
-                arrHeader.Add("Location : " + strLoca)
-            End If
-            transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        '=====================Added by Preeti Gupta====
-        Try
-            LoadData(1)
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+
     End Sub
 
     Private Sub RadButton8_Click(sender As Object, e As EventArgs)
@@ -6554,13 +6909,20 @@ goAlreadyAdded:
                     cboDisplayMethod.SelectedValue = "None"
                 End If
                 chkPartiallyLoad.Enabled = False
+
             Else
                 ''richa BHA/10/09/18-000529 11 Sep,2018
                 If cboDisplayMethod.Enabled = True Then
                     cboDisplayMethod.SelectedValue = "None"
                 End If
+                btnPrintForBKN.Visible = False
                 chkPartiallyLoad.Enabled = False
             End If
+        End If
+        If clsCommon.CompairString(cboType.SelectedValue, "Item-Wise Stock Statement Summary") = CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            btnPrintForBKN.Visible = True
+        Else
+            btnPrintForBKN.Visible = False
         End If
     End Sub
 
@@ -6779,5 +7141,9 @@ goAlreadyAdded:
         Else
             cmbUnit.Visible = False
         End If
+    End Sub
+
+    Private Sub btnPrintForBKN_Click(sender As Object, e As EventArgs) Handles btnPrintForBKN.Click
+        LoadData(55)
     End Sub
 End Class
