@@ -1896,6 +1896,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CompareVoucherReport, "Compare Voucher Report", "1.17.03.143", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBankSavingAdvice, "Bank Saving Advice", "1.17.03.144", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDCSWiseHoldPayments, "DCS Wise Hold Payment & TDS", "1.17.03.145", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCMobileHistory, "BMC Mobile History Report", "1.17.03.146", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2971,7 +2972,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedProduction, "Cattle Feed Production", "1.49.03.17", clsUserMgtCode.SubModuleMilkUnion, 8)
         'InsertDefaultValue(clsUserMgtCode.frmUpdateAppLocation, "Update App Location", "1.49.03.19", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Milk Marketing Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
-
+        InsertDefaultValue(clsUserMgtCode.DBTPDAccountReport, "DBT PD Account Report", "1.49.03.21", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
 

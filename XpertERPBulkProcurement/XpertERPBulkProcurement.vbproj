@@ -259,6 +259,12 @@
     <Compile Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTPDAccountReport.Designer.vb">
+      <DependentUpon>frmDBTPDAccountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTPDAccountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmDCSWiseHoldPayments.Designer.vb">
       <DependentUpon>frmDCSWiseHoldPayments.vb</DependentUpon>
     </Compile>
@@ -275,6 +281,12 @@
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBankSavingAdvice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCMobileHistory.Designer.vb">
+      <DependentUpon>rptBMCMobileHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCMobileHistory.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptUnionMilkRegister.Designer.vb">
@@ -1134,6 +1146,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.resx">
       <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDBTPDAccountReport.resx">
+      <DependentUpon>frmDBTPDAccountReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDCSWiseHoldPayments.resx">
       <DependentUpon>frmDCSWiseHoldPayments.vb</DependentUpon>
     </EmbeddedResource>
@@ -1142,6 +1157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBankSavingAdvice.resx">
       <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBMCMobileHistory.resx">
+      <DependentUpon>rptBMCMobileHistory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
       <DependentUpon>rptUnionBookingReport.vb</DependentUpon>

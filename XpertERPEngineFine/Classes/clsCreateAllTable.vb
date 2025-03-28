@@ -54213,6 +54213,9 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Bank_Letter_Date", "Datetime NULL")
             coll.Add("DBT_Revise_Payment", "integer null ")
             coll.Add("UKID", "INT IDENTITY(1,1) not null")
+            coll.Add("Sanction_Number", "Varchar(20) null")
+            coll.Add("Sanction_Date", "date NULL")
+            coll.Add("Sanction_Amount", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, "UNIQUE(UKID)", True, False, "", "Document_Code", "Document_Date", True)
 
             qry = "update TSPL_DBT_NEFT set Bank_Letter_Date=Document_Date where Bank_Letter_Date is null"
