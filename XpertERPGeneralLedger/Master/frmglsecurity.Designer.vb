@@ -158,6 +158,7 @@ Partial Class Frmglsecurity
         Me.dgvsegment.Size = New System.Drawing.Size(796, 303)
         Me.dgvsegment.TabIndex = 0
         Me.dgvsegment.TabStop = False
+        Me.dgvsegment.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -192,6 +193,7 @@ Partial Class Frmglsecurity
         Me.dgvaccount.ShowHeaderCellButtons = True
         Me.dgvaccount.Size = New System.Drawing.Size(796, 331)
         Me.dgvaccount.TabIndex = 0
+        Me.dgvaccount.VarID = ""
         '
         'btnclose
         '

@@ -493,9 +493,9 @@ Public Class clsPurchaseOrderHead
 
             '--varsha end
 
-            If Not isNewEntry Then
-                HistoryUpdate(obj.PurchaseOrder_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.PurchaseOrder_No, trans)
+            'End If
             'If Not isNewEntry Then
             '    CancleUpdate(obj.PurchaseOrder_No, trans)
             'End If

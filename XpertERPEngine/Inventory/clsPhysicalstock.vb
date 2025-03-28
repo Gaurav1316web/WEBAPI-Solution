@@ -301,9 +301,10 @@ Public Class clsPhysicalstock
 
                 qry = "Update TSPL_PHYSICAL_STOCK Set Is_Posted=1, Posted_Date ='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Physical_No ='" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", trans)
                 Exit For
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", trans)
+
             'Batch Inventory
             Dim strInvColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_BATCH_ITEM", trans)
             strInvColumns = "[" + strInvColumns.Replace(",", "],[") + "]"
@@ -965,10 +966,10 @@ Public Class clsPhysicalstock
                 Throw New Exception("Code not found to Post")
             End If
             Dim arr As New List(Of clsPhysicalstock)
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", tran)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", tran)
 
             'arr = clsPhysicalstock.GetData("Physical_no", t.Value, txtsubLoc.Value, chkMilk.Checked, NavType, dtpdate.Value.ToString())
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", tran)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 

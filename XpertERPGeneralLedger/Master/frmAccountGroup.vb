@@ -174,6 +174,8 @@ Public Class frmAccountGroup
             If clsCommon.myLen(txtAccMainGrp.Value) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_ACCOUNT_GROUPS SET Account_Main_Group_Code='" & clsCommon.myCstr(txtAccMainGrp.Value) & "' WHERE Account_Group_Code='" & clsCommon.myCstr(fndaccgp.Value) & "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccgp.Value, "TSPL_ACCOUNT_GROUPS", "Account_Group_Code", Nothing)
+
             myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
@@ -203,6 +205,10 @@ Public Class frmAccountGroup
 
     Public Sub fundelete()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndaccgp.Value, "TSPL_ACCOUNT_GROUPS", "Account_Main_Group_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccgp.Value, "TSPL_ACCOUNT_GROUPS", "Account_Main_Group_Code", Nothing)
+
             Dim currentdate As Date = Date.Today
             connectSql.RunSp("sp_AccountGroups_delete", New SqlParameter("@accgpcode", fndaccgp.Value()))
         Catch ex As Exception
@@ -434,6 +440,18 @@ Public Class frmAccountGroup
 
         'txtdes.Text = clsDBFuncationality.getSingleValue("select account_group_desc  from tspl_account_groups where  account_group_code='" + fndaccgp.Value + "'")
         'key()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccgp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "account_group_code", "tspl_account_groups")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub txtAccMainGrp__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtAccMainGrp._MYValidating
