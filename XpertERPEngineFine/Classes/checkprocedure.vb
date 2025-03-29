@@ -1684,7 +1684,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, "MCC Tanker Gate Out", "1.17.02.22", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOutSecurity, "Security MCC Tanker Gate Out", "1.17.02.23", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, "Tanker Dispatch", "1.17.02.34", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, "Tanker Dispatch Return", "1.17.02.25", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, "Tanker Dispatch Return", "1.17.02.25", clsUseCrMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmDispatchTransfer, "Tanker Location Change", "1.17.02.26", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmVSPAssetIssue, "VSP Asset Issue", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, "MCC Material Sale Return", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)

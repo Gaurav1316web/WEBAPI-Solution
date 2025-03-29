@@ -353,6 +353,6 @@ Public Class frmBreakDownEntry
             clsCommon.MyMessageBoxShow(Me, "Select Doc_No", Me.Text)
             Exit Sub
         End If
-        clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_No", "TSPL_BREAK_DOWN_ENTRY", "TSPL_BREAK_DOWN_ENTRY")
+        clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Doc_No", "TSPL_BREAK_DOWN_ENTRY")
     End Sub
 End Class

@@ -168,7 +168,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + obj.Weighment_Code + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
 
             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                 obj.Arr(0).SaveData(obj.Weighment_Code, obj.Arr, trans)
@@ -516,7 +516,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             qry = "Update TSPL_PO_WEIGHTMENT_HEAD set Status=1, Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Weighment_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_detail", "Weighment_Code", trans)
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS(obj, trans)
             End If

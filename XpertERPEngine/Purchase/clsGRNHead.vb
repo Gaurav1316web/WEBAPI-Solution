@@ -1067,6 +1067,7 @@ Public Class clsGRNHead
             End If
 
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GRN_HEAD", "GRN_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -176,6 +176,8 @@ Public Class FrmSourceCode
                 connectSql.RunSp("sp_tspl_gl_sourcecode_insert", New SqlParameter("@SourceCode", objStr13), New SqlParameter("@SourceLedger", objStr11), New SqlParameter("@SourceType", objStr12), New SqlParameter("@SourceDescription", txtSourceCodeDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
                 clsDBFuncationality.ExecuteNonQuery(" update TSPL_GL_SOURCECODE set TallyName = '" + CboTallyName.SelectedValue + "' where SourceCode ='" + objStr13 + "'")
                 myMessages.insert()
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objStr13, "TSPL_GL_SOURCECODE", "SourceCode", Nothing)
+
                 btnSave.Text = "Update"
                 btnSave.Enabled = True
                 btnDelete.Enabled = True
@@ -207,6 +209,7 @@ Public Class FrmSourceCode
                 connectSql.RunSp("sp_tspl_gl_sourcecode_update", New SqlParameter("@SourceCode", objStr13), New SqlParameter("@SourceLedger", objStr11), New SqlParameter("@SourceType", objStr12), New SqlParameter("@SourceDescription", txtSourceCodeDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
                 clsDBFuncationality.ExecuteNonQuery(" update TSPL_GL_SOURCECODE set TallyName = '" + CboTallyName.SelectedValue + "' where SourceCode ='" + objStr13 + "'")
                 myMessages.update()
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objStr13, "TSPL_GL_SOURCECODE", "SourceCode", Nothing)
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message.ToString())
@@ -279,6 +282,8 @@ Public Class FrmSourceCode
 
     'delete Source Code Details
     Private Sub funDelete()
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndSourceCode.Value, "TSPL_GL_SOURCECODE", "SourceCode", Nothing)
+
         connectSql.RunSp("sp_tspl_gl_sourcecode_delete", New SqlParameter("@SourceCode", mskSourceCode.Text))
         myMessages.delete()
         btnSave.Text = "Save"
@@ -484,6 +489,18 @@ Public Class FrmSourceCode
             funFill()
         End If
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndSourceCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndSourceCode.Value, "SourceCode", "TSPL_GL_SOURCECODE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub fndSourceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndSourceCode._MYValidating

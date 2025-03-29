@@ -202,7 +202,7 @@ left outer join tspl_company_master on 2 = 2
             If chkIfscno.Checked Then
                 Qry += " x.IFSCCode2,"
             End If
-            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code)"
+            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code) order by cast([DCS Code] as int)"
 
 
             Dim dt As DataTable = Nothing

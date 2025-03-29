@@ -43,6 +43,7 @@ Partial Class frmAccountGroup
         Me.fndaccgp = New common.UserControls.txtNavigator()
         Me.btnChangeOrder = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,6 +60,7 @@ Partial Class frmAccountGroup
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -286,6 +288,7 @@ Partial Class frmAccountGroup
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnChangeOrder)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -293,6 +296,16 @@ Partial Class frmAccountGroup
         Me.SplitContainer1.Size = New System.Drawing.Size(522, 142)
         Me.SplitContainer1.SplitterDistance = 109
         Me.SplitContainer1.TabIndex = 1
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(288, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
         '
         'frmAccountGroup
         '
@@ -324,6 +337,7 @@ Partial Class frmAccountGroup
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -349,5 +363,6 @@ Partial Class frmAccountGroup
     Friend WithEvents txtAccMainGrp As common.UserControls.txtFinder
     Friend WithEvents RadLabel23 As common.Controls.MyLabel
     Friend WithEvents lblAccMain As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 
