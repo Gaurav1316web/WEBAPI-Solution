@@ -4570,8 +4570,12 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         Else
             Qry += " Main_Final.Crate_Qty,"
         End If
-        Qry += " Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount,Main_Final.Production_Remarks" + mainTrip + "
-                  from (select " + Trip + " max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,max(TSPL_VENDOR_MASTER.Vendor_Code) as Distributor_Code,max(TSPL_customer_master.FSSAI_NO)FSSAI_NO ,
+        Qry += " Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount,Main_Final.Production_Remarks" + mainTrip + ""
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            Qry += " ,Main_Final.HSN_Code ,Main_Final.item_rate  ,Main_Final.TAX1,Main_Final.TAX2,Main_Final.TAX3,Main_Final.TAX4,Main_Final.TAX5,Main_Final.TAX6
+				  ,Main_Final.TAX1_Amt,Main_Final.TAX2_Amt,Main_Final.TAX3_Amt,Main_Final.TAX4_Amt,Main_Final.TAX5_Amt,Main_Final.TAX6_Amt ,Main_Final.TAX7_Amt,Main_Final.TAX8_Amt,Main_Final.TAX7,Main_Final.TAX8  "
+        End If
+        Qry += "       from (select " + Trip + " max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,max(TSPL_VENDOR_MASTER.Vendor_Code) as Distributor_Code,max(TSPL_customer_master.FSSAI_NO)FSSAI_NO ,
                   max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,max(TSPL_city_MASTER.City_Name) as City_Name,max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,max(TSPL_Route_Master.Employee_Name)Employee_Name
                   ,max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name,
                   max(TSPL_ITEM_MASTER.Unit_Code) as UOM,CASE WHEN max(TSPL_ITEM_MASTER.Unit_Code) = 'crate' OR max(TSPL_ITEM_MASTER.Unit_Code) = 'pouch' THEN 'Crate/Pouch' ELSE max(TSPL_ITEM_MASTER.Unit_Code) END AS unit_code_result,"
@@ -4585,8 +4589,14 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             ,sum(case when (TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Pouch') then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Loose_Qty
             ,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS TotalLtr_ItemWise
                    ,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) AS ItemNetAmount
-                  ,max(TSPL_DEMAND_BOOKING_DETAIL.Production_Remarks) as Production_Remarks, max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
-                  from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL
+                  ,max(TSPL_DEMAND_BOOKING_DETAIL.Production_Remarks) as Production_Remarks, max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq"
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+
+            Qry += "	  ,max(TSPL_ITEM_MASTER.HSN_Code)HSN_Code,  max(TSPL_DEMAND_BOOKING_detail.item_rate)item_rate 	, '' AS TAX1,'' AS TAX2, '' AS TAX3,'' AS TAX4,'' AS TAX5,'' AS TAX6
+				 ,'' AS TAX1_Amt,'' AS TAX2_Amt,'' AS TAX3_Amt,'' AS TAX4_Amt,'' AS TAX5_Amt,'' AS TAX6_Amt ,'' AS TAX7,'' AS TAX8, '' AS TAX7_Amt,'' AS TAX8_Amt"
+        End If
+        Qry += "     from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL
                   on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                    left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
                   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
@@ -4614,6 +4624,9 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseCHITTORGARH", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseAJM", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+
             Else
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             End If

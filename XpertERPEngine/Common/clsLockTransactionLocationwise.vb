@@ -28,8 +28,9 @@ Public Class clsLockTransactionLocationwise
                 clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Trans), "dd/MM/yyyy"))
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOCK_LOCATION", OMInsertOrUpdate.Insert, "", Trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_LOCK_LOCATION", "Location_Code", Trans)
-
             Next
+
+
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -102,6 +103,7 @@ Public Class clsLockTransactionLocationUserwise
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_LOCK_LOCATION_USER", "Location_Code", Trans)
 
             Next
+
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

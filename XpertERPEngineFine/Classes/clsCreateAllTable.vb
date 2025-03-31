@@ -6423,7 +6423,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(12) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(12) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name)")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name)")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name", True, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Comp_Code", "varchar(8) NOT NULL")
@@ -50965,7 +50966,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("IsForAP", "INT NOT NULL DEFAULT 0")
             coll.Add("IsForAR", "INT NOT NULL DEFAULT 0")
             coll.Add("IsForJE", "INT NOT NULL DEFAULT 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTROL_ACC_MAPPING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTROL_ACC_MAPPING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CONTROL_ACC_MAPPING", coll, "", True, False, "", "", "")
 
             '''' Table for TCS Opening Amt
             coll = New Dictionary(Of String, String)()
