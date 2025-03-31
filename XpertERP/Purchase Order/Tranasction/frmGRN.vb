@@ -4258,7 +4258,7 @@ Public Class frmGRN
             Next
 
             If (obj.SaveData(obj, isNewEntry, isamendment)) Then
-                UcAttachment1.SaveData(obj.GRNo)
+                UcAttachment1.SaveData(obj.GRN_No)
                 If Not ChekPostBtn Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
