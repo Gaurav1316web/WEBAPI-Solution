@@ -7949,8 +7949,12 @@ Public Class MDI
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTPDAccountReport
-                        frm = New frmDBTPDAccountReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        If objCommonVar.RCDFCFP Then
+                            frm = New frmDBTPDAccountReport
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
 
                     Case clsUserMgtCode.frmDCSSavingLedger
                         frm = New frmDCSSavingLedger

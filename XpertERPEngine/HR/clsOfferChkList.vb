@@ -267,20 +267,20 @@ Public Class clsOfferAttachment
                     obj.SNo = 1 'clsCommon.myCstr(obj1.ColSNo)
                     obj.FileName = clsCommon.myCstr(obj1.ColFileName)
                     obj.COMMENTS = clsCommon.myCstr(obj1.ColCOMMENTS)
-                    obj.SaveData(obj)
+                    obj.SaveData(obj, Nothing, obj1.ColPath, False)
                     Dim str As String
-                    If clsCommon.myLen(obj1.ColPath) > 0 Then
-                        Dim bData As Byte()
-                        Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(obj1.ColPath)))
-                        bData = br.ReadBytes(br.BaseStream.Length)
+                    'If clsCommon.myLen(obj1.ColPath) > 0 Then
+                    '    Dim bData As Byte()
+                    '    Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(obj1.ColPath)))
+                    '    bData = br.ReadBytes(br.BaseStream.Length)
 
-                        str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData where CODE='" + obj.CODE + "'"
-                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
-                        Dim prm As New SqlParameter("@BLOBData", bData)
-                        cmd.Parameters.Add(prm)
-                        cmd.ExecuteNonQuery()
-                        br.Close() ' done by stuti reagrding memory leakage
-                    End If
+                    '    str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData where CODE='" + obj.CODE + "'"
+                    '    Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
+                    '    Dim prm As New SqlParameter("@BLOBData", bData)
+                    '    cmd.Parameters.Add(prm)
+                    '    cmd.ExecuteNonQuery()
+                    '    br.Close() ' done by stuti reagrding memory leakage
+                    'End If
                     str = "update TSPL_HR_OFFER_CHECK_LIST_DETAIL set Attachment='" & obj.CODE & "' where Applicant_Code ='" & strDocNo & "' and Chk_Code='" & obj.TransactionId & "'"
                     clsDBFuncationality.ExecuteNonQuery(str, trans)
                 Next
