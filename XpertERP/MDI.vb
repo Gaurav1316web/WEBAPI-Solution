@@ -383,7 +383,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.82") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.83") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -7949,8 +7949,12 @@ Public Class MDI
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTPDAccountReport
-                        frm = New frmDBTPDAccountReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        If objCommonVar.RCDFCFP Then
+                            frm = New frmDBTPDAccountReport
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
 
                     Case clsUserMgtCode.frmDCSSavingLedger
                         frm = New frmDCSSavingLedger
@@ -8495,9 +8499,6 @@ Public Class MDI
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-                    Case clsUserMgtCode.rptBMCDCSAbsent
-                        frm = New rptAbsentBMCDCS
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTankerUtilization
                         frm = New rptTankerapprovalutilization
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8596,6 +8597,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMobileAppMilkCollection
                         frm = New rptMobileAppMilkCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCMobileHistory
+                        frm = New rptBMCMobileHistory
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport

@@ -600,7 +600,8 @@ Public Class clsCreateAllTable
             coll.Add("Modify_By", "varchar(12)  NOT NULL")
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_GROUPS", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_GROUPS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ACCOUNT_GROUPS", coll, "", True, False, "", "", "", True)
 
             '' Anubhooti 01-Oct-2014 
             coll = New Dictionary(Of String, String)()
@@ -612,7 +613,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_SUB_GROUPS", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_SUB_GROUPS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ACCOUNT_SUB_GROUPS", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Main_GL_Account", "varchar(30) NOT NULL Primary Key")
@@ -624,7 +626,8 @@ Public Class clsCreateAllTable
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("IsControlAcct", "Integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_MAIN_GL_ACCOUNT", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_ACCOUNT_MAIN_GL_ACCOUNT", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ACCOUNT_MAIN_GL_ACCOUNT", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Rollup_Seq", "Integer")
@@ -672,7 +675,8 @@ Public Class clsCreateAllTable
             coll.Add("Modify_By", "varchar(12)  NOT NULL")
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GL_ACCOUNTS", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_GL_ACCOUNTS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GL_ACCOUNTS", coll, "", True, False, "", "", "", True)
 
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_GL_ACCOUNTS alter column Description varchar(250) null ")
@@ -6419,7 +6423,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(12) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(12) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name)")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name)")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name", True, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Comp_Code", "varchar(8) NOT NULL")
@@ -14444,7 +14449,8 @@ Public Class clsCreateAllTable
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Do_Not_Merge", "BIT NOT NULL DEFAULT 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GL_SOURCECODE", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_GL_SOURCECODE", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GL_SOURCECODE", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("ACCOUNT_SET_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
@@ -42769,7 +42775,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("RGP_No", "varchar(30) NULL REFERENCES TSPL_RGP_HEAD (RGP_No)")
             coll.Add("Against_Schedule_Code", "varchar(50) NULL REFERENCES TSPL_PO_SCH_HEAD (Document_Code)")
             coll.Add("PO_Id", "varchar(30) NULL REFERENCES TSPL_PURCHASE_ORDER_HEAD (PurchaseOrder_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_RGP_CONVERSION_DETAIL", coll, Nothing, True, True, "TSPL_GRN_HEAD", "GRN_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_RGP_CONVERSION_DETAIL", coll, Nothing, True, True, "TSPL_GRN_HEAD", "GRN_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "varchar(30)  NOT NULL PRIMARY KEY")
@@ -50960,7 +50966,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("IsForAP", "INT NOT NULL DEFAULT 0")
             coll.Add("IsForAR", "INT NOT NULL DEFAULT 0")
             coll.Add("IsForJE", "INT NOT NULL DEFAULT 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTROL_ACC_MAPPING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTROL_ACC_MAPPING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CONTROL_ACC_MAPPING", coll, "", True, False, "", "", "")
 
             '''' Table for TCS Opening Amt
             coll = New Dictionary(Of String, String)()
@@ -54249,6 +54256,9 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Status", "int Null")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
+            coll.Add("Sanction_Number", "Varchar(20) null")
+            coll.Add("Sanction_Date", "date NULL")
+            coll.Add("Sanction_Amount", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", True, False, "", "Document_Code", "Document_Date")
 
 

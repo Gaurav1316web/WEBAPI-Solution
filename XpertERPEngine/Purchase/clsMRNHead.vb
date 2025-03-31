@@ -1187,7 +1187,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
 
             qry = "update TSPL_MRN_HEAD set Status=0,Posting_Date=null where MRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

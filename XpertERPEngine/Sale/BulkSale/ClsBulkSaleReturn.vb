@@ -350,7 +350,6 @@ Public Class ClsBulkSaleReturn
             End If
             Dim obj As ClsBulkSaleReturn = ClsBulkSaleReturn.GetData(strDocNo, "", NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmBulkSaleReturn, obj.Location_Code, obj.Document_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -590,6 +589,7 @@ Public Class ClsBulkSaleReturn
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'isSaved = ClsBulkSaleReturn.SaveAndPostDispatchBulkSaleToTankerDispatch(obj.Document_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", trans)
+
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)

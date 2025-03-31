@@ -268,7 +268,7 @@ Public Class FrmAccountMainGroup
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Account_Main_Group_Code", "TSPL_ACCOUNT_MAIN_GROUPS")
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Account_Main_Group_Code", "TSPL_ACCOUNT_MAIN_GROUPS", Nothing)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

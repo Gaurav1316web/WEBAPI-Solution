@@ -4258,7 +4258,7 @@ Public Class frmGRN
             Next
 
             If (obj.SaveData(obj, isNewEntry, isamendment)) Then
-                UcAttachment1.SaveData(obj.GRNo)
+                UcAttachment1.SaveData(obj.GRN_No)
                 If Not ChekPostBtn Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
@@ -8003,7 +8003,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "GRN_No", "TSPL_GRN_HEAD", "TSPL_GRN_DETAIL", Nothing)
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "GRN_No", "TSPL_GRN_HEAD", "TSPL_GRN_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -1,6 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.IO
+Imports common.UserControls
 Imports Microsoft.Office.Interop
 Imports Telerik.WinControls.UI.Export
 
@@ -898,7 +899,7 @@ xxx:
     End Function
 
 
-    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As RadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
+    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
         Dim FileCount As Integer = 1
         If AllCellsInString Then
             MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
@@ -1382,10 +1383,15 @@ xxx:
                     common.clsCommon.MyMessageBoxShow(gv, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(flname) & "\" & System.IO.Path.GetFileName(flname) & " in " & FileCount & " files.")
                 Else
                     common.clsCommon.MyMessageBoxShow(gv, "Exported Successfully.")
-                    Process.Start(flname)
+                    If clsCommon.myLen(gv.MyExportFilePath) <= 0 Then
+                        Process.Start(flname)
+                    Else
+                        gv.MyExportFilePath = flname
+                    End If
                 End If
             End If
             'sanjay
+
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)

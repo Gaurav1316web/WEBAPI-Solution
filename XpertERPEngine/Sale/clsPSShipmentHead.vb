@@ -1591,7 +1591,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
             ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
             qry += " ,TSPL_SD_SHIPMENT_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_DETAIL.RATE_UOM,TSPL_BOOKING_MATSER.Document_No," &
-                   " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
+                   " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Rate,TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code " &
@@ -1785,6 +1785,7 @@ Public Class clsPSShipmentHead
                     objTr.Distributor_Commission_Amt = clsCommon.myCdbl(dr("Distributor_Commission_Amt"))
                     objTr.Transporter_Commission_Rate = clsCommon.myCdbl(dr("Transporter_Commission_Rate"))
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
+                    objTr.PK_ID = clsCommon.myCdbl(dr("PK_ID"))
                     objTr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
                     objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
                     objTr.Booth_Security_Rate = clsCommon.myCdbl(dr("Booth_Security_Rate"))
@@ -4025,6 +4026,7 @@ Public Class clsPSShipmentHeadDetail
     Public Distributor_Commission_Amt As Decimal = 0
     Public Transporter_Commission_Rate As Decimal = 0
     Public Transporter_Commission_Amt As Decimal = 0
+    Public PK_ID As Decimal = 0
     Public Security_Rate As Decimal = 0
     Public Security_Amt As Decimal = 0
     Public Booth_Security_Rate As Decimal = 0

@@ -34,8 +34,10 @@ Public Class ClsGLControlAccountMapping
 
 
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CONTROL_ACC_MAPPING", OMInsertOrUpdate.Insert, "", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.AccountCode, "TSPL_CONTROL_ACC_MAPPING", "Account_code", trans)
 
                 Next
+
                 If isSaved Then
                     trans.Commit()
 

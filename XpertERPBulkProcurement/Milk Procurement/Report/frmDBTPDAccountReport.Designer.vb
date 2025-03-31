@@ -23,7 +23,7 @@ Partial Class frmDBTPDAccountReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -38,11 +38,12 @@ Partial Class frmDBTPDAccountReport
         Me.fndUnion = New common.UserControls.txtFinder()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvData = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -55,9 +56,11 @@ Partial Class frmDBTPDAccountReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,6 +100,8 @@ Partial Class frmDBTPDAccountReport
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -107,8 +112,8 @@ Partial Class frmDBTPDAccountReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReport)
         Me.SplitContainer1.Size = New System.Drawing.Size(851, 430)
         Me.SplitContainer1.SplitterDistance = 389
@@ -118,6 +123,7 @@ Partial Class frmDBTPDAccountReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -128,6 +134,7 @@ Partial Class frmDBTPDAccountReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.txtDocNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDBTNEFTNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
@@ -141,7 +148,7 @@ Partial Class frmDBTPDAccountReport
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(10, 35)
+        Me.txtDocNo.Location = New System.Drawing.Point(10, 34)
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(74, 18)
         Me.txtDocNo.TabIndex = 1080
@@ -158,7 +165,7 @@ Partial Class frmDBTPDAccountReport
         Me.txtDBTNEFTNo.IsSourceFromTable = False
         Me.txtDBTNEFTNo.IsSourceFromValueList = False
         Me.txtDBTNEFTNo.IsUnique = False
-        Me.txtDBTNEFTNo.Location = New System.Drawing.Point(88, 34)
+        Me.txtDBTNEFTNo.Location = New System.Drawing.Point(90, 34)
         Me.txtDBTNEFTNo.MendatroryField = True
         Me.txtDBTNEFTNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDBTNEFTNo.MyLinkLable1 = Nothing
@@ -176,7 +183,7 @@ Partial Class frmDBTPDAccountReport
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(10, 11)
+        Me.MyLabel2.Location = New System.Drawing.Point(10, 10)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel2.TabIndex = 1078
@@ -193,7 +200,7 @@ Partial Class frmDBTPDAccountReport
         Me.fndUnion.IsSourceFromTable = False
         Me.fndUnion.IsSourceFromValueList = False
         Me.fndUnion.IsUnique = False
-        Me.fndUnion.Location = New System.Drawing.Point(88, 10)
+        Me.fndUnion.Location = New System.Drawing.Point(90, 10)
         Me.fndUnion.MendatroryField = True
         Me.fndUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndUnion.MyLinkLable1 = Nothing
@@ -212,9 +219,9 @@ Partial Class frmDBTPDAccountReport
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvData)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(830, 341)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(830, 345)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gvData
@@ -226,13 +233,32 @@ Partial Class frmDBTPDAccountReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gvData.MyStopExport = False
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvData.MyExportFilePath = ""
+        Me.gvData.MyStopExport = True
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(830, 341)
+        Me.gvData.Size = New System.Drawing.Size(830, 345)
         Me.gvData.TabIndex = 0
         Me.gvData.VarID = ""
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(830, 341)
+        Me.RadPageViewPage3.Text = "Exported Files"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(830, 341)
+        Me.UcAttachment1.TabIndex = 2
+        Me.UcAttachment1.TabStop = False
         '
         'btnReset
         '
@@ -243,28 +269,6 @@ Partial Class frmDBTPDAccountReport
         Me.btnReset.TabIndex = 1080
         Me.btnReset.Text = "Reset"
         '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnExport.Location = New System.Drawing.Point(164, 9)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(79, 19)
-        Me.btnExport.TabIndex = 1079
-        Me.btnExport.Text = "Export"
-        '
-        'rmiExcel
-        '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        Me.rmiExcel.UseCompatibleTextRendering = False
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        Me.rmiPDF.UseCompatibleTextRendering = False
-        '
         'btnReport
         '
         Me.btnReport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -273,6 +277,27 @@ Partial Class frmDBTPDAccountReport
         Me.btnReport.Size = New System.Drawing.Size(70, 19)
         Me.btnReport.TabIndex = 5
         Me.btnReport.Text = ">>>"
+        '
+        'RadLabel10
+        '
+        Me.RadLabel10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel10.FieldName = Nothing
+        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel10.Location = New System.Drawing.Point(460, 324)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(370, 16)
+        Me.RadLabel10.TabIndex = 1081
+        Me.RadLabel10.Text = "Ctrl+Alt+Shift+F11 to View exported excel of selected DBT NEFT No"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton1.Location = New System.Drawing.Point(165, 9)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(99, 19)
+        Me.RadButton1.TabIndex = 1081
+        Me.RadButton1.Text = "Export To Excel"
         '
         'frmDBTPDAccountReport
         '
@@ -300,9 +325,11 @@ Partial Class frmDBTPDAccountReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -321,10 +348,11 @@ Partial Class frmDBTPDAccountReport
     Friend WithEvents fndUnion As common.UserControls.txtFinder
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents btnReport As RadButton
-    Friend WithEvents btnExport As RadSplitButton
-    Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnReset As RadButton
     Friend WithEvents txtDocNo As common.Controls.MyLabel
     Friend WithEvents txtDBTNEFTNo As common.UserControls.txtFinder
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents RadLabel10 As common.Controls.MyLabel
+    Friend WithEvents RadButton1 As RadButton
 End Class
