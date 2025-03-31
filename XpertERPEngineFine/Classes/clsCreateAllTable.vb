@@ -54254,6 +54254,9 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Status", "int Null")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
+            coll.Add("Sanction_Number", "Varchar(20) null")
+            coll.Add("Sanction_Date", "date NULL")
+            coll.Add("Sanction_Amount", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", True, False, "", "Document_Code", "Document_Date")
 
 
