@@ -22,16 +22,16 @@ Partial Class FrmStockReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.cboUOMType = New common.Controls.MyComboBox()
@@ -88,6 +88,7 @@ Partial Class FrmStockReco
         Me.RadMenuItemSett1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnPrintForBKN = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnQuickExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.QExpExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -102,7 +103,6 @@ Partial Class FrmStockReco
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrintForBKN = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -162,6 +162,7 @@ Partial Class FrmStockReco
         CType(Me.gvDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnPrintForBKN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnQuickExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPartiallyLoad, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,7 +170,6 @@ Partial Class FrmStockReco
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrintForBKN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -443,7 +443,8 @@ Partial Class FrmStockReco
         '
         Me.gvLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLocation.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLocation.MyExportFilePath = ""
         Me.gvLocation.MyStopExport = False
         Me.gvLocation.Name = "gvLocation"
         Me.gvLocation.ShowHeaderCellButtons = True
@@ -543,7 +544,8 @@ Partial Class FrmStockReco
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategory.MyExportFilePath = ""
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
@@ -644,12 +646,12 @@ Partial Class FrmStockReco
         Me.cboInOutType.IsSourceFromTable = False
         Me.cboInOutType.IsSourceFromValueList = False
         Me.cboInOutType.IsUnique = False
-        RadListDataItem7.Text = "By Road"
-        RadListDataItem8.Text = "By Air"
-        RadListDataItem9.Text = "By Sea"
-        Me.cboInOutType.Items.Add(RadListDataItem7)
-        Me.cboInOutType.Items.Add(RadListDataItem8)
-        Me.cboInOutType.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "By Road"
+        RadListDataItem2.Text = "By Air"
+        RadListDataItem3.Text = "By Sea"
+        Me.cboInOutType.Items.Add(RadListDataItem1)
+        Me.cboInOutType.Items.Add(RadListDataItem2)
+        Me.cboInOutType.Items.Add(RadListDataItem3)
         Me.cboInOutType.Location = New System.Drawing.Point(333, 4)
         Me.cboInOutType.MendatroryField = False
         Me.cboInOutType.MyLinkLable1 = Me.MyLabel7
@@ -783,12 +785,12 @@ Partial Class FrmStockReco
         Me.cboType.IsSourceFromTable = False
         Me.cboType.IsSourceFromValueList = False
         Me.cboType.IsUnique = False
-        RadListDataItem1.Text = "By Road"
-        RadListDataItem2.Text = "By Air"
-        RadListDataItem3.Text = "By Sea"
-        Me.cboType.Items.Add(RadListDataItem1)
-        Me.cboType.Items.Add(RadListDataItem2)
-        Me.cboType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "By Road"
+        RadListDataItem5.Text = "By Air"
+        RadListDataItem6.Text = "By Sea"
+        Me.cboType.Items.Add(RadListDataItem4)
+        Me.cboType.Items.Add(RadListDataItem5)
+        Me.cboType.Items.Add(RadListDataItem6)
         Me.cboType.Location = New System.Drawing.Point(495, 4)
         Me.cboType.MendatroryField = False
         Me.cboType.MyLinkLable1 = Me.lblModeofTransport
@@ -897,7 +899,8 @@ Partial Class FrmStockReco
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -931,7 +934,8 @@ Partial Class FrmStockReco
         '
         Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvDetail.MyExportFilePath = ""
         Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True
@@ -978,6 +982,16 @@ Partial Class FrmStockReco
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(888, 30)
         Me.Panel1.TabIndex = 21
+        '
+        'btnPrintForBKN
+        '
+        Me.btnPrintForBKN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintForBKN.Location = New System.Drawing.Point(366, 3)
+        Me.btnPrintForBKN.Name = "btnPrintForBKN"
+        Me.btnPrintForBKN.Size = New System.Drawing.Size(81, 24)
+        Me.btnPrintForBKN.TabIndex = 143
+        Me.btnPrintForBKN.Text = "Print"
+        Me.btnPrintForBKN.Visible = False
         '
         'btnPrint
         '
@@ -1081,15 +1095,6 @@ Partial Class FrmStockReco
         Me.RadButton1.TabIndex = 0
         Me.RadButton1.Text = ">>>"
         '
-        'btnPrintForBKN
-        '
-        Me.btnPrintForBKN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrintForBKN.Location = New System.Drawing.Point(366, 3)
-        Me.btnPrintForBKN.Name = "btnPrintForBKN"
-        Me.btnPrintForBKN.Size = New System.Drawing.Size(81, 24)
-        Me.btnPrintForBKN.TabIndex = 143
-        Me.btnPrintForBKN.Text = "Print"
-        '
         'FrmStockReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1167,6 +1172,7 @@ Partial Class FrmStockReco
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.btnPrintForBKN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnQuickExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPartiallyLoad, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1174,7 +1180,6 @@ Partial Class FrmStockReco
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrintForBKN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
