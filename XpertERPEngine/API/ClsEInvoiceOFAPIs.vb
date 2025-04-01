@@ -427,6 +427,12 @@ Public Class ClsEInvoiceOFAPIs
         End Try
         Return objResult
     End Function
+    Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, 0, trans, False)
+    End Function
+    Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal stopEWayBill As Boolean) As Object
+        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, 0, trans, stopEWayBill)
+    End Function
     Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal isEwayBill As Integer, ByVal trans As SqlTransaction) As Object
         Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, isEwayBill, trans, False)
     End Function

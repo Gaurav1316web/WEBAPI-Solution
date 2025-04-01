@@ -2769,6 +2769,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
+        chkIsEwayBill.Checked = True
         chkBPL.Checked = False
         chkGhee.Checked = False
         chkGhee.Enabled = True
@@ -3369,6 +3370,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 obj.Document_Date = txtDate.Value
                 obj.location_code = txtLocation.Value
                 obj.Is_CashSale = IIf(chkcashsale.Checked, "Y", "N")
+                obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
                 If chkcashsale.Checked Then
                     obj.Payment_Terms = cmbPaymentType.Text
                     obj.ChequeNo = txtChequeNo.Text
@@ -4079,6 +4081,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 BlankAllControls()
                 LoadBlankGrid()
                 chkSampling.Checked = IIf(obj.IsSampling = 1, True, False)
+                chkIsEwayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 chkGatePass.Checked = IIf(obj.AgainstGatePass = 1, True, False)
                 chkisTCS.Checked = IIf(obj.IS_TCS = 1, True, False)
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
@@ -8475,6 +8478,7 @@ from
                         obj.Transport_Id = fndTransporter.Value
                         obj.Transporter_Name = lblTransporter.Text
                         obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
+                        obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
                         'obj.ShippedCAN = txtCan.Value
                         obj.TotalCAN = txtCan.Text
                         obj.CrateQty = txtCrate.Text
