@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class objCommonVar
 #Region "Variables"
+    Private Shared _CurrentUserEmailID As String = ""
     Private Shared _TreatCLR50As52 As Boolean = False
     Private Shared _currComp_Code1 As String = ""
     Private Shared _currUserCode As String = ""
@@ -1119,6 +1120,15 @@ Public Class objCommonVar
         Set(ByVal Value As String)
             _currUserCode = Value
             clsCommon.UserName = Value
+        End Set
+    End Property
+
+    Public Shared Property CurrentUserEmailID() As String
+        Get
+            Return _CurrentUserEmailID
+        End Get
+        Set(ByVal Value As String)
+            _CurrentUserEmailID = Value
         End Set
     End Property
 

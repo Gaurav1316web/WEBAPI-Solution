@@ -101,6 +101,7 @@ Partial Class frmDairyGatePass
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnBoothSlip = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -118,7 +119,7 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -192,6 +193,7 @@ Partial Class frmDairyGatePass
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,7 +207,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -253,6 +254,7 @@ Partial Class frmDairyGatePass
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -269,6 +271,7 @@ Partial Class frmDairyGatePass
         Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
         Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView1.MyExportFilePath = ""
         Me.MyRadGridView1.MyStopExport = False
         Me.MyRadGridView1.Name = "MyRadGridView1"
         Me.MyRadGridView1.ShowHeaderCellButtons = True
@@ -775,7 +778,7 @@ Partial Class frmDairyGatePass
         Me.txtTollAmount.TabIndex = 88
         Me.txtTollAmount.Text = "0"
         Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTollAmount.Value = 0R
+        Me.txtTollAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -937,7 +940,7 @@ Partial Class frmDairyGatePass
         Me.txtOpKM.TabIndex = 76
         Me.txtOpKM.Text = "0"
         Me.txtOpKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOpKM.Value = 0R
+        Me.txtOpKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtClKM
         '
@@ -964,7 +967,7 @@ Partial Class frmDairyGatePass
         Me.txtClKM.TabIndex = 78
         Me.txtClKM.Text = "0"
         Me.txtClKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtClKM.Value = 0R
+        Me.txtClKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblClKM
         '
@@ -1462,6 +1465,16 @@ Partial Class frmDairyGatePass
         Me.txtCode.TabIndex = 12
         Me.txtCode.Value = ""
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(746, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 1036
+        Me.btnHistory.Text = "History"
+        '
         'btnBoothSlip
         '
         Me.btnBoothSlip.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1549,7 +1562,7 @@ Partial Class frmDairyGatePass
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.RadMenuItem4})
         Me.RadSplitButton1.Location = New System.Drawing.Point(356, 5)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(80, 23)
@@ -1615,15 +1628,10 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1116, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'btnHistory
+        'RadMenuItem4
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(746, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
-        Me.btnHistory.TabIndex = 1036
-        Me.btnHistory.Text = "History"
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Send Email"
         '
         'frmDairyGatePass
         '
@@ -1717,6 +1725,7 @@ Partial Class frmDairyGatePass
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1730,7 +1739,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1828,5 +1836,6 @@ Partial Class frmDairyGatePass
     Friend WithEvents rbtn_Milk As RadRadioButton
     Friend WithEvents chkGhee As RadCheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadMenuItem4 As RadMenuItem
 End Class
 
