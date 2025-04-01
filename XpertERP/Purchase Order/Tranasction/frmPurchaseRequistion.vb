@@ -150,9 +150,11 @@ Public Class frmPurchaseRequistion
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             txtReqstAjm.Visible = True
             txtReqstByAjm.Visible = True
+            btnPrint2.Visible = True
         Else
             txtReqstAjm.Visible = False
             txtRequestBy.Visible = True
+            btnPrint2.Visible = False
         End If
         If clsCommon.myLen(strDocumentNo) > 0 Then
             LoadData(strDocumentNo, NavigatorType.Current)
@@ -1397,7 +1399,7 @@ Public Class frmPurchaseRequistion
                     End If
                     '====================================================
                     If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
-                        funPrint(txtReqNo.Value)
+                        funPrint(txtReqNo.Value, False)
                     End If
 
                 End If
@@ -1631,12 +1633,21 @@ Public Class frmPurchaseRequistion
         If txtReqNo.Value = "" Then
             myMessages.blankValue(Me, "Requisition Number", Me.Text)
         Else
-            funPrint(txtReqNo.Value)
+            funPrint(txtReqNo.Value, False)
         End If
 
     End Sub
+
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+
+        If txtReqNo.Value = "" Then
+            myMessages.blankValue(Me, "Requisition Number", Me.Text)
+        Else
+            funPrint(txtReqNo.Value, True)
+        End If
+    End Sub
     ' Ticket No : ERO/22/08/19-001000 By Prabhakar
-    Public Sub funPrint(ByVal strdocno As String, Optional ByVal IsPDF As Boolean = False)
+    Public Sub funPrint(ByVal strdocno As String, ByVal Print2 As Boolean, Optional ByVal IsPDF As Boolean = False)
         '       Dim qry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id ,TSPL_REQUISITION_HEAD.Requisition_Date ,TSPL_REQUISITION_HEAD.Expire_Date ,TSPL_REQUISITION_HEAD.Require_Date ,TSPL_REQUISITION_HEAD.Ref_No ,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks ,TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_REQUISITION_HEAD.Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2  from TSPL_REQUISITION_HEAD join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id " & _
         '" left outer join TSPL_COMPANY_MASTER on  TSPL_REQUISITION_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on TSPL_REQUISITION_DETAIL.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code  where  2=2 "
         'Sanjay Ticket NO- UDL/25/10/18-000235 Show Subcapex and capex code and name
@@ -1731,6 +1742,8 @@ Public Class frmPurchaseRequistion
                 If no = 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
                         StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor-G", "Purchase Requisition")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal And Print2 Then
+                        StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM2", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                         StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     Else
@@ -2265,7 +2278,7 @@ Public Class frmPurchaseRequistion
                     'objEmailH.Attachment_1_Path = strRptPath
                     ''End If
 
-                    funPrint(txtReqNo.Value, True)
+                    funPrint(txtReqNo.Value, False)
                     objEmailH.Attachment_1_Path = StrPDFPath
 
                     '------------------------code for attchament-------------------------------------
@@ -2560,6 +2573,8 @@ Public Class frmPurchaseRequistion
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 
     'Private Sub txtDeptAjm__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeptAjm._MYValidating
     '    Try
