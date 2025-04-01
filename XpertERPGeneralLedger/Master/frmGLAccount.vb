@@ -509,7 +509,7 @@ Public Class frmGLAccount
             '-----for payment screen------- 
             Dim qry As String = "select count(*) from TSPL_PAYMENT_DETAIL where Account_Code='" + fndaccount.Value + "'"
             Dim count As Integer = clsDBFuncationality.getSingleValue(qry)
-            '  clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
             If count = 0 Then
                 connectSql.RunSp("SP_TSPL_GL_ACCOUNTS_DELETE", New SqlParameter("accountcode", fndaccount.Value))
@@ -698,6 +698,7 @@ Public Class frmGLAccount
                     Next
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
             btnsave.Text = "Update"
             btndelete.Enabled = True

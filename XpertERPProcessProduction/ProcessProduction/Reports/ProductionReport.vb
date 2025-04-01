@@ -68,12 +68,27 @@ Public Class ProductionReport
             ElseIf rdbAll.IsChecked = True Then
 
             End If
+            Dim Itemqry As String = ""
+            Dim itemNames1 As String = Nothing
             If rdbFG.IsChecked = True Then
                 FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF_RPT=1 "
             ElseIf rdbSFG.IsChecked = True Then
                 SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE SFG_for_CF=1 "
             ElseIf rdbfgsfg.IsChecked = True Then
                 FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF=1 "
+            End If
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    If i = 0 Then
+                        itemNames1 += "'" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' "
+                    Else
+                        itemNames1 += ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' "
+                    End If
+                Next
             End If
             qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
@@ -100,7 +115,7 @@ Public Class ProductionReport
             qry += " where " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
             qry += " )Tab1
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
-									where [Item Code] IN ('FG0001','FG0002','FG0003')  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
+									where [Item Code] IN (" & itemNames1 & ")  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If
@@ -334,12 +349,27 @@ Public Class ProductionReport
             ElseIf rdbAll.IsChecked = True Then
 
             End If
+            Dim Itemqry As String = ""
+            Dim itemNames1 As String = Nothing
             If rdbFG.IsChecked = True Then
                 FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF_RPT=1 "
             ElseIf rdbSFG.IsChecked = True Then
                 SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE SFG_for_CF=1 "
             ElseIf rdbfgsfg.IsChecked = True Then
                 FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
+                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF=1 "
+            End If
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    If i = 0 Then
+                        itemNames1 += "'" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' "
+                    Else
+                        itemNames1 += ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' "
+                    End If
+                Next
             End If
             Dim qry As String = ""
             qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
@@ -356,7 +386,7 @@ Public Class ProductionReport
             qry += " where " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
             qry += " )Tab1
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
-									where [Item Code] IN ('FG0001','FG0002','FG0003')  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
+									where [Item Code] IN (" & itemNames1 & ")  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then

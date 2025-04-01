@@ -3387,6 +3387,10 @@ Public Class rptGSTR
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
+            Dim IsExists As Boolean = System.IO.Directory.Exists("C:\ERPTempFolder")
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory("C:\ERPTempFolder")
+            End If
             Dim outputFilePath As String = "C:\ERPTempFolder\"
             Dim strQry As String = "SELECT TOP 1 * FROM TSPL_GSTR_BLANK_SHEET ORDER BY Created_Date DESC"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
@@ -3408,15 +3412,15 @@ Public Class rptGSTR
                                 ' Notify user
                                 clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
                             Catch ex As Exception
-                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                Throw New Exception(ex.Message)
                             End Try
                         Else
-                            clsCommon.MyMessageBoxShow(Me, "File data is empty.", Me.Text)
+                            Throw New Exception("File data is empty.")
                         End If
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "GSTR blank sheet not found!", Me.Text)
+                Throw New Exception("GSTR blank sheet not found!")
             End If
 
 
@@ -3435,7 +3439,7 @@ Public Class rptGSTR
                 If clsCommon.myLen(finalQry) > 0 Then
                     Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
                     If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
-                        exportExcel(dtGSTR, outputFilePath, i)
+                        'exportExcel(dtGSTR, outputFilePath, i)
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
                     End If
@@ -3518,10 +3522,11 @@ Public Class rptGSTR
             Next
 
 
-            '' Check if file is writable
-            'If workbook.ReadOnly Then
-            '    workbook.ReadOnly = False
-            'End If
+            '' Check if file is read only
+            Dim fileInfo As New IO.FileInfo(filePath)
+            If fileInfo.IsReadOnly Then
+                fileInfo.IsReadOnly = False
+            End If
 
             ' Save and close workbook
             workbook.Save()

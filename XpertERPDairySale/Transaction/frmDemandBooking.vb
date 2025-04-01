@@ -2,12 +2,13 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports common
+Imports common.UserControls
 Imports XpertERPEngine
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isIndent As Boolean = False
-    Dim GVTruckSheet As RadGridView
+    Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
     Dim SetDefaultShiftTime As String = ""
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
@@ -3482,8 +3483,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
     Private Sub TruckSheetExcel(ByVal isExcelPDF As Boolean, ByVal TripNo As String)
         Dim BaseQry As String = Nothing
-        Dim doc As New clsMyPrintDocument()
-        GVTruckSheet = New RadGridView()
+        Dim doc As New XpertERPEngine.clsMyPrintDocument()
+        GVTruckSheet = New MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
@@ -4202,7 +4203,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
     End Sub
 
-    Private Function GetNextvisibleColumn(gVTruckSheet As RadGridView, kk As Integer) As Integer
+    Private Function GetNextvisibleColumn(gVTruckSheet As MyRadGridView, kk As Integer) As Integer
         Dim retValu As Integer = -1
         For ii As Integer = kk + 1 To gVTruckSheet.Columns.Count
             If gVTruckSheet.Columns(ii).IsVisible Then
@@ -4214,9 +4215,9 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     End Function
 
     Private Sub TruckSheetPDF()
-        Dim GVTruckSheet As New RadGridView()
+        Dim GVTruckSheet As New MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
-        Dim doc As New clsMyPrintDocument()
+        Dim doc As New XpertERPEngine.clsMyPrintDocument()
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -4951,8 +4952,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     End Sub
     Private Sub rmi_TS_Excel_Click(sender As Object, e As EventArgs) Handles rmi_TS_Excel.Click
         Try
+            isIndent = True
             exportExcel()
+            isIndent = False
         Catch ex As Exception
+            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -4992,8 +4996,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
     Private Sub rmi_TS_PDF_Click(sender As Object, e As EventArgs) Handles rmi_TS_PDF.Click
         Try
+            isIndent = True
             ExportPDF()
+            isIndent = False
         Catch ex As Exception
+            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -6326,22 +6333,16 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
 
     Private Sub rmi_Indent_PDF_Click(sender As Object, e As EventArgs) Handles rmi_Indent_PDF.Click
         Try
-            isIndent = True
             ExportPDF()
-            isIndent = False
         Catch ex As Exception
-            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub rmi_Indent_Excel_Click(sender As Object, e As EventArgs) Handles rmi_Indent_Excel.Click
         Try
-            isIndent = True
             exportExcel()
-            isIndent = False
         Catch ex As Exception
-            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
