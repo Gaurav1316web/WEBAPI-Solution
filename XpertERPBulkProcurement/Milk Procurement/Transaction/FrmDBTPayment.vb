@@ -47,7 +47,7 @@ Public Class FrmDBTPayment
 
     Private Sub LoadData()
         Try
-            Dim qry As String = "select CAST(0 as Bit) as Sel,TSPL_DBT_NEFT_RCDF.PK_Id,TSPL_DBT_NEFT_RCDF.DB_Name,TSPL_MASTER.dbo.TSPL_APP_LOCATION.Code as PortNo,TSPL_DBT_NEFT_RCDF.Document_Code,TSPL_DBT_NEFT_RCDF.Document_Date,TSPL_DBT_NEFT_RCDF.From_Date,TSPL_DBT_NEFT_RCDF.To_Date 
+            Dim qry As String = "select CAST(0 as Bit) as Sel,TSPL_DBT_NEFT_RCDF.PK_Id,TSPL_DBT_NEFT_RCDF.DB_Name,TSPL_MASTER.dbo.TSPL_APP_LOCATION.Code as PortNo,TSPL_DBT_NEFT_RCDF.Document_Code,TSPL_DBT_NEFT_RCDF.Document_Date,TSPL_DBT_NEFT_RCDF.From_Date,TSPL_DBT_NEFT_RCDF.To_Date,TSPL_APP_LOCATION.Apply_PD_Account,TSPL_APP_LOCATION.Apply_PD_Account_Date,TSPL_DBT_NEFT_RCDF.Sanction_Number,TSPL_DBT_NEFT_RCDF.Sanction_Date,TSPL_DBT_NEFT_RCDF.Sanction_Amount 
 from TSPL_DBT_NEFT_RCDF
 left outer join TSPL_MASTER.dbo.TSPL_APP_LOCATION on TSPL_MASTER.dbo.TSPL_APP_LOCATION.DataBase_Name=TSPL_DBT_NEFT_RCDF.DB_Name
 where isnull([Status],0)=0 "
@@ -92,7 +92,7 @@ where isnull([Status],0)=0 "
         gvDetail.Columns("DB_Name").HeaderText = "Union"
 
         gvDetail.Columns("PortNo").IsVisible = True
-        gvDetail.Columns("PortNo").IsVisible=False
+        gvDetail.Columns("PortNo").IsVisible = False
         gvDetail.Columns("PortNo").HeaderText = "Port No"
 
         gvDetail.Columns("Document_Code").IsVisible = True
@@ -113,19 +113,59 @@ where isnull([Status],0)=0 "
         gvDetail.Columns("To_Date").Width = 100
         gvDetail.Columns("To_Date").HeaderText = "To Date"
         gvDetail.Columns("To_Date").FormatString = "{0:dd/MM/yyyy}"
+
+        gvDetail.Columns("Apply_PD_Account").IsVisible = True
+        gvDetail.Columns("Apply_PD_Account").HeaderText = "Apply PD"
+
+        gvDetail.Columns("Apply_PD_Account_Date").IsVisible = False
+        gvDetail.Columns("Apply_PD_Account_Date").HeaderText = "Apply PD Date"
+        gvDetail.Columns("Apply_PD_Account_Date").FormatString = "{0:dd/MM/yyyy}"
+
+        gvDetail.Columns("Sanction_Number").IsVisible = True
+        gvDetail.Columns("Sanction_Number").Width = 100
+        gvDetail.Columns("Sanction_Number").HeaderText = "Sanction Number"
+        gvDetail.Columns("Sanction_Number").ReadOnly = False
+
+        gvDetail.Columns("Sanction_Date").IsVisible = True
+        gvDetail.Columns("Sanction_Date").Width = 100
+        gvDetail.Columns("Sanction_Date").HeaderText = "Sanction Date"
+        gvDetail.Columns("Sanction_Date").FormatString = "{0:dd/MM/yyyy}"
+        gvDetail.Columns("Sanction_Date").ReadOnly = False
+
+        gvDetail.Columns("Sanction_Amount").IsVisible = True
+        gvDetail.Columns("Sanction_Amount").Width = 100
+        gvDetail.Columns("Sanction_Amount").HeaderText = "Sanction Amount"
+        gvDetail.Columns("Sanction_Amount").ReadOnly = False
+
     End Sub
 
     Private Sub btnGenerateBill_Click(sender As Object, e As EventArgs) Handles btnGenerateBill.Click
         Try
-            Dim arr As New List(Of Integer)
+            Dim Arr As New List(Of clsDBTNEFTRCDF)
             For ii As Integer = 0 To gvDetail.Rows.Count - 1
                 If clsCommon.myCBool(gvDetail.Rows(ii).Cells("Sel").Value) Then
-                    arr.Add(clsCommon.myCDecimal(gvDetail.Rows(ii).Cells("PK_Id").Value))
+                    Dim obj As New clsDBTNEFTRCDF
+                    obj.PK_Id = clsCommon.myCDecimal(gvDetail.Rows(ii).Cells("PK_Id").Value)
+                    If clsCommon.myCDecimal(gvDetail.Rows(ii).Cells("Apply_PD_Account").Value) = 1 Then
+                        If clsCommon.myCDate(gvDetail.Rows(ii).Cells("To_Date").Value) > clsCommon.myCDate(gvDetail.Rows(ii).Cells("Apply_PD_Account_Date").Value) Then
+                            If clsCommon.myLen(gvDetail.Rows(ii).Cells("Sanction_Number").Value) <= 0 Then
+                                Throw New Exception("Please enter Sanction Number")
+                            End If
+                            If clsCommon.myLen(gvDetail.Rows(ii).Cells("Sanction_Date").Value) <= 0 Then
+                                Throw New Exception("Please enter Sanction Date")
+                            End If
+                            obj.Sanction_Number = clsCommon.myCstr(gvDetail.Rows(ii).Cells("Sanction_Number").Value)
+                            obj.Sanction_Date = clsCommon.myCDate(gvDetail.Rows(ii).Cells("Sanction_Date").Value)
+                            obj.Sanction_Amount = clsCommon.myCDecimal(gvDetail.Rows(ii).Cells("Sanction_Amount").Value)
+                        End If
+                    End If
+                    Arr.Add(obj)
                 End If
             Next
+
             If arr.Count > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "Approve " + clsCommon.myCstr(arr.Count) + " Documents" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                    clsDBTNEFT.PostDataRCDF(arr)
+                    clsDBTNEFTRCDF.PostDataRCDF(arr)
                     clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                     LoadData()
                 End If

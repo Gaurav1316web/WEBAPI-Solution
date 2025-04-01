@@ -22,10 +22,8 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
@@ -124,7 +122,8 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.rmi_Indent_PDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmi_Indent_Excel = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1207,7 +1206,7 @@ Partial Class frmDemandBooking
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1236,7 +1235,7 @@ Partial Class frmDemandBooking
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1351,7 +1350,7 @@ Partial Class frmDemandBooking
         'SplitButtonTruckSheet
         '
         Me.SplitButtonTruckSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.SplitButtonTruckSheet.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_TS_PDF, Me.rmi_TS_Excel})
+        Me.SplitButtonTruckSheet.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_TS_PDF, Me.rmi_TS_Excel, Me.rmi_Indent_PDF, Me.rmi_Indent_Excel})
         Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(549, 11)
         Me.SplitButtonTruckSheet.Name = "SplitButtonTruckSheet"
         Me.SplitButtonTruckSheet.Size = New System.Drawing.Size(86, 20)
@@ -1511,6 +1510,16 @@ Partial Class frmDemandBooking
         '
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
+        '
+        'rmi_Indent_PDF
+        '
+        Me.rmi_Indent_PDF.Name = "rmi_Indent_PDF"
+        Me.rmi_Indent_PDF.Text = "Indent PDF"
+        '
+        'rmi_Indent_Excel
+        '
+        Me.rmi_Indent_Excel.Name = "rmi_Indent_Excel"
+        Me.rmi_Indent_Excel.Text = "Indent Excel"
         '
         'frmDemandBooking
         '
@@ -1727,12 +1736,7 @@ Partial Class frmDemandBooking
     Friend WithEvents txtTotalPCrate As common.Controls.MyLabel
     Friend WithEvents btnSplitPrint As RadButton
     Friend WithEvents btnHistory As RadButton
-    Friend WithEvents gbShuffleDemand As GroupBox
-    Friend WithEvents btnShuffle As RadButton
-    Friend WithEvents lblShift As common.Controls.MyLabel
-    Friend WithEvents txtShuffleDate As common.Controls.MyDateTimePicker
-    Friend WithEvents lblShuffleDate As common.Controls.MyLabel
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents cmbShift As common.Controls.MyComboBox
+    Friend WithEvents rmi_Indent_PDF As RadMenuItem
+    Friend WithEvents rmi_Indent_Excel As RadMenuItem
 End Class
 

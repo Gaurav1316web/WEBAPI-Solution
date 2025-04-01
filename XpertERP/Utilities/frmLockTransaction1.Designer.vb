@@ -22,11 +22,12 @@ Partial Class FrmLockTransaction1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.dgvDetails = New common.UserControls.MyRadGridView()
         Me.btnLock = New Telerik.WinControls.UI.RadButton()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnLockUser = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.chkLocationCode = New Telerik.WinControls.UI.RadRadioButton()
@@ -40,7 +41,6 @@ Partial Class FrmLockTransaction1
         Me.chkread = New common.Controls.MyCheckBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.dgvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -48,6 +48,7 @@ Partial Class FrmLockTransaction1
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,7 +63,6 @@ Partial Class FrmLockTransaction1
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,7 +89,7 @@ Partial Class FrmLockTransaction1
         '
         Me.dgvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvDetails.MyStopExport = False
         Me.dgvDetails.Name = "dgvDetails"
         Me.dgvDetails.ShowHeaderCellButtons = True
@@ -118,6 +118,17 @@ Partial Class FrmLockTransaction1
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(951, 29)
         Me.RadPanel1.TabIndex = 58
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(188, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(85, 20)
+        Me.btnHistory.TabIndex = 60
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'btnLockUser
         '
@@ -305,17 +316,6 @@ Partial Class FrmLockTransaction1
         Me.RadLabel1.TabIndex = 66
         Me.RadLabel1.Text = "Transaction having"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(188, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(85, 20)
-        Me.btnHistory.TabIndex = 60
-        Me.btnHistory.Text = "History"
-        Me.btnHistory.Visible = False
-        '
         'FrmLockTransaction1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -336,6 +336,7 @@ Partial Class FrmLockTransaction1
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -351,7 +352,6 @@ Partial Class FrmLockTransaction1
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

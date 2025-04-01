@@ -6909,8 +6909,10 @@ goAlreadyAdded:
                     cboDisplayMethod.SelectedValue = "None"
                 End If
                 chkPartiallyLoad.Enabled = False
-
+            ElseIf clsCommon.CompairString(cboType.SelectedValue, "Item-Wise Stock Statement Summary") = CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                btnPrintForBKN.Visible = True
             Else
+                btnPrintForBKN.Visible = False
                 ''richa BHA/10/09/18-000529 11 Sep,2018
                 If cboDisplayMethod.Enabled = True Then
                     cboDisplayMethod.SelectedValue = "None"
@@ -6919,11 +6921,7 @@ goAlreadyAdded:
                 chkPartiallyLoad.Enabled = False
             End If
         End If
-        If clsCommon.CompairString(cboType.SelectedValue, "Item-Wise Stock Statement Summary") = CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-            btnPrintForBKN.Visible = True
-        Else
-            btnPrintForBKN.Visible = False
-        End If
+
     End Sub
 
     Private Sub LoadDataInGridViaDataReader(ByVal qry As String)
