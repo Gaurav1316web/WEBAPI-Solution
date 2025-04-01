@@ -37,6 +37,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkNoCrateIssue = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkisTCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTPT = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblShipToLocation = New common.Controls.MyLabel()
@@ -315,13 +316,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkNoCrateIssue = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -587,7 +589,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -653,6 +655,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsEwayBill)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoCrateIssue)
         Me.RadPageViewPage1.Controls.Add(Me.chkisTCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkTPT)
@@ -742,6 +745,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkNoCrateIssue
+        '
+        Me.chkNoCrateIssue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoCrateIssue.Location = New System.Drawing.Point(531, 180)
+        Me.chkNoCrateIssue.Name = "chkNoCrateIssue"
+        Me.chkNoCrateIssue.Size = New System.Drawing.Size(96, 16)
+        Me.chkNoCrateIssue.TabIndex = 1582
+        Me.chkNoCrateIssue.Text = "No Crate Issue"
         '
         'chkisTCS
         '
@@ -2056,6 +2068,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2331,6 +2344,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2626,7 +2640,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtTCSTaxRate.TabIndex = 1405
         Me.txtTCSTaxRate.Text = "0"
         Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtTCSTaxRate.Visible = False
         '
         'MyLabel57
@@ -2687,7 +2701,7 @@ Partial Class frmDairyBookingCustomer
         Me.txttcstaxbaseamount.TabIndex = 1401
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblInvoiceDiscAmt
         '
@@ -2778,7 +2792,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtDiscAmt.TabIndex = 6
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0R
+        Me.txtDiscAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDiscPer
         '
@@ -2805,7 +2819,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtDiscPer.TabIndex = 5
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0R
+        Me.txtDiscPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -2855,7 +2869,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -4471,14 +4485,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'chkNoCrateIssue
+        'chkIsEwayBill
         '
-        Me.chkNoCrateIssue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNoCrateIssue.Location = New System.Drawing.Point(531, 180)
-        Me.chkNoCrateIssue.Name = "chkNoCrateIssue"
-        Me.chkNoCrateIssue.Size = New System.Drawing.Size(96, 16)
-        Me.chkNoCrateIssue.TabIndex = 1582
-        Me.chkNoCrateIssue.Text = "No Crate Issue"
+        Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwayBill.Location = New System.Drawing.Point(438, 134)
+        Me.chkIsEwayBill.Name = "chkIsEwayBill"
+        Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
+        Me.chkIsEwayBill.TabIndex = 1583
+        Me.chkIsEwayBill.Text = "Create E-Way Bill"
         '
         'frmDairyBookingCustomer
         '
@@ -4502,6 +4516,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4786,7 +4801,7 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5073,5 +5088,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents btnprinte_wayBill As RadButton
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkNoCrateIssue As RadCheckBox
+    Friend WithEvents chkIsEwayBill As RadCheckBox
 End Class
 

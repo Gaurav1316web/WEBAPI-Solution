@@ -8543,6 +8543,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
             coll.Add("Manual_VehicleNo", "varchar(12) null")
             coll.Add("NoCrateIssue", "integer null")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -30391,6 +30392,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Inter_unit_sale", "Integer default 0")
+            coll.Add("IsEwaybill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -32143,6 +32145,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("Send_Email", "Integer Null")
             coll.Add("Send_SMS", "Integer Null")
+            coll.Add("IsEwaybill", "Integer Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
