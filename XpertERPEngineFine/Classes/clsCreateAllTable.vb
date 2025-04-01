@@ -16227,19 +16227,19 @@ Public Class clsCreateAllTable
             coll.Add("ALLOWANCE_BY", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE) ")
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
-            coll.Add("Created_By", "varchar(12) NOT NULL")
+            'coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("LOCATION_CODE", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ALLOWANCE", coll, "", False, False, "", "ALLOWANCE_CODE", "ALLOWANCE_DATE", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ALLOWANCE", coll, "", True, False, "", "ALLOWANCE_CODE", "ALLOWANCE_DATE", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("ALLOWANCE_CODE", "VARCHAR(30) NOT NULL ")
             coll.Add("PAY_HEAD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYHEAD_MASTER(PAY_HEAD_CODE) ")
             coll.Add("ALLOWANCE_AMOUNT", "NUMERIC(12,2) NOT NULL ")
             coll.Add("EMP_CODE", "VARCHAR(12)  NULL ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ALLOWANCE_DETAIL", coll, "", False, False, "TSPL_ALLOWANCE", "ALLOWANCE_CODE", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ALLOWANCE_DETAIL", coll, "", True, False, "TSPL_ALLOWANCE", "ALLOWANCE_CODE", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -52559,7 +52559,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("POSTING_DATE", "DATETIME NULL")
             coll.Add("Post_By", "varchar(12) null")
             coll.Add("comp_code", "varchar(8) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHT_UOM_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHT_UOM_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_WEIGHT_UOM_MASTER", coll, "", True, False, "", "", "")
 
             '=============ADDED BY PREETI GUPTA[08/01/2019]========
 
@@ -55020,7 +55021,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Comp_code", "varchar(8)  NOT NULL")
             coll.Add("GL_Acc", "VARCHAR(50) NULL")
             coll.Add("RatePerHour", "decimal(18,2) NULL ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_OVERHEAD_COST", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_OVERHEAD_COST", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_OVERHEAD_COST", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("GROUP_CODE", "Varchar(30) not null Primary key")
@@ -55074,7 +55076,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12)   NULL")
             coll.Add("Posted_Date", "datetime   NULL")
             coll.Add("Comp_code", "varchar(8)  NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_HEADS", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_HEADS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_COST_MAPPING_HEADS", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DCODE", "Varchar(30) not null Primary key")
@@ -55087,7 +55090,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("RatePerHour", "decimal(18,2) NULL ")
             coll.Add("Hours", "decimal(18,2) NULL ")
             coll.Add("NO", "decimal(18,2) NULL ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_DETAIL", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_COST_MAPPING_DETAIL", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -55098,7 +55102,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("SNO", "integer null")
             coll.Add("COST_CODE", "Varchar(30) not NULL References TSPL_OVERHEAD_COST(COST_CODE)")
             coll.Add("COST", "decimal(18, 2) not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_DETAILS_ALL", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_COST_MAPPING_DETAILS_ALL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_COST_MAPPING_DETAILS_ALL", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
