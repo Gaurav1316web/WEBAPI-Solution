@@ -22,13 +22,14 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
+        Me.cmbShift = New common.Controls.MyComboBox()
         Me.btnShuffle = New Telerik.WinControls.UI.RadButton()
         Me.lblShift = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -125,12 +126,12 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.cmbShift = New common.Controls.MyComboBox()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
         Me.gbShuffleDemand.SuspendLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -220,7 +221,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -274,6 +274,36 @@ Partial Class frmDemandBooking
         Me.gbShuffleDemand.TabStop = False
         Me.gbShuffleDemand.Text = "Shuffle Demand"
         '
+        'cmbShift
+        '
+        Me.cmbShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbShift.AutoCompleteValueMember = Nothing
+        Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
+        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbShift.FieldCode = Nothing
+        Me.cmbShift.FieldDesc = Nothing
+        Me.cmbShift.FieldMaxLength = 0
+        Me.cmbShift.FieldName = Nothing
+        Me.cmbShift.isCalculatedField = False
+        Me.cmbShift.IsSourceFromTable = False
+        Me.cmbShift.IsSourceFromValueList = False
+        Me.cmbShift.IsUnique = False
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem1)
+        Me.cmbShift.Items.Add(RadListDataItem2)
+        Me.cmbShift.Location = New System.Drawing.Point(55, 40)
+        Me.cmbShift.MendatroryField = True
+        Me.cmbShift.MyLinkLable1 = Nothing
+        Me.cmbShift.MyLinkLable2 = Nothing
+        Me.cmbShift.Name = "cmbShift"
+        Me.cmbShift.ReferenceFieldDesc = Nothing
+        Me.cmbShift.ReferenceFieldName = Nothing
+        Me.cmbShift.ReferenceTableName = Nothing
+        Me.cmbShift.Size = New System.Drawing.Size(117, 20)
+        Me.cmbShift.TabIndex = 1474
+        '
         'btnShuffle
         '
         Me.btnShuffle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -282,7 +312,6 @@ Partial Class frmDemandBooking
         Me.btnShuffle.Size = New System.Drawing.Size(154, 26)
         Me.btnShuffle.TabIndex = 152
         Me.btnShuffle.Text = "Go >>>"
-        Me.btnShuffle.Visible = False
         '
         'lblShift
         '
@@ -1496,36 +1525,6 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'cmbShift
-        '
-        Me.cmbShift.AutoCompleteDisplayMember = Nothing
-        Me.cmbShift.AutoCompleteValueMember = Nothing
-        Me.cmbShift.CalculationExpression = Nothing
-        Me.cmbShift.DropDownAnimationEnabled = True
-        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbShift.FieldCode = Nothing
-        Me.cmbShift.FieldDesc = Nothing
-        Me.cmbShift.FieldMaxLength = 0
-        Me.cmbShift.FieldName = Nothing
-        Me.cmbShift.isCalculatedField = False
-        Me.cmbShift.IsSourceFromTable = False
-        Me.cmbShift.IsSourceFromValueList = False
-        Me.cmbShift.IsUnique = False
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.cmbShift.Items.Add(RadListDataItem1)
-        Me.cmbShift.Items.Add(RadListDataItem2)
-        Me.cmbShift.Location = New System.Drawing.Point(55, 40)
-        Me.cmbShift.MendatroryField = True
-        Me.cmbShift.MyLinkLable1 = Nothing
-        Me.cmbShift.MyLinkLable2 = Nothing
-        Me.cmbShift.Name = "cmbShift"
-        Me.cmbShift.ReferenceFieldDesc = Nothing
-        Me.cmbShift.ReferenceFieldName = Nothing
-        Me.cmbShift.ReferenceTableName = Nothing
-        Me.cmbShift.Size = New System.Drawing.Size(117, 20)
-        Me.cmbShift.TabIndex = 1474
-        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1548,6 +1547,7 @@ Partial Class frmDemandBooking
         Me.SplitPanel1.PerformLayout()
         Me.gbShuffleDemand.ResumeLayout(False)
         Me.gbShuffleDemand.PerformLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1643,7 +1643,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
