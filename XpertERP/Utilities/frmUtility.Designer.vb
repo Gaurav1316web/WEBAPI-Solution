@@ -1657,6 +1657,7 @@ Partial Class FrmUtility
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
         Me.gvShipment.ShowHeaderCellButtons = True
@@ -1942,7 +1943,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2448,7 +2449,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(127.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1091, 392)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage2.Text = "Recreate Journal Entry"
         '
         'RadScrollablePanel2
@@ -2518,8 +2519,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox7)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.btnrecreatebulksaletrade)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox24)
-        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1066, 383)
-        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1085, 385)
+        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1066, 398)
+        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1085, 400)
         Me.RadScrollablePanel2.TabIndex = 626
         '
         'GroupBox112
@@ -8879,7 +8880,7 @@ Partial Class FrmUtility
         Me.txtFPSNFRate.TabIndex = 386
         Me.txtFPSNFRate.Text = "0"
         Me.txtFPSNFRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFPSNFRate.Value = 0R
+        Me.txtFPSNFRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel49
         '
@@ -8916,7 +8917,7 @@ Partial Class FrmUtility
         Me.txtFPFATRate.TabIndex = 384
         Me.txtFPFATRate.Text = "0"
         Me.txtFPFATRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFPFATRate.Value = 0R
+        Me.txtFPFATRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel53
         '
@@ -9428,7 +9429,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(127.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage8.Text = "Recreate Journal Entry"
         '
         'RadScrollablePanel5
@@ -9454,8 +9455,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox73)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox93)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox89)
-        Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1065, 390)
-        Me.RadScrollablePanel5.Size = New System.Drawing.Size(1084, 392)
+        Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1074, 405)
+        Me.RadScrollablePanel5.Size = New System.Drawing.Size(1093, 407)
         Me.RadScrollablePanel5.TabIndex = 387
         '
         'GroupBox66
