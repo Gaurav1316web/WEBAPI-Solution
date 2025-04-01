@@ -365,6 +365,9 @@ Public Class FrmProductionAndSaleReport
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + ""
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -381,6 +384,9 @@ Public Class FrmProductionAndSaleReport
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
                     query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + "  "
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -398,6 +404,9 @@ Public Class FrmProductionAndSaleReport
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + "  "
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -510,7 +519,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + "  "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -527,7 +539,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -544,7 +559,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
