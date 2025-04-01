@@ -2,12 +2,21 @@
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
+Imports Microsoft.Office.Interop
+Imports Excel = Microsoft.Office.Interop.Excel
+Imports System.Runtime.InteropServices
+Imports System.Threading
 '' RICHA AGARWAL BHA/25/09/18-000567
 Public Class rptGSTR
+    Dim excelApp As Excel.Application = Nothing
+    Dim workbook As Excel.Workbook = Nothing
+    Dim sheet As Excel.Worksheet = Nothing
     Dim arrBack As New List(Of String)
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Public arrBatchNo As ArrayList
     Dim variable1 As String = Nothing
+    Dim exportGSTR As Boolean = False
+    Dim strQryGSTR As String = Nothing
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -1887,18 +1896,22 @@ Public Class rptGSTR
 
     Private Sub gv2_DoubleClick(sender As Object, e As EventArgs) Handles gv2.DoubleClick
         Try
-            If btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
-                DrillDownDetailForGSTR1_ItemWise()
-            ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = False Then
-                DrillDownDetailForGSTR1()
-            ElseIf btnGSTR2.IsChecked = True Then
-                drilldownDetailforgv2()
-
-            End If
+            GSTRDetails(0)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub GSTRDetails(ByVal i As Integer)
+        If btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
+            DrillDownDetailForGSTR1_ItemWise()
+        ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = False Then
+            DrillDownDetailForGSTR1(i)
+        ElseIf btnGSTR2.IsChecked = True Then
+            drilldownDetailforgv2()
+        End If
+    End Sub
+
     ''richa agarwal 29 Nov,2018 ALF/26/11/18-000089
     Function getBaseQueryForItemWise_GSTR1(ByVal strWhrCls As String, ByVal trantype As String) As String
         Dim BaseQry As String = String.Empty
@@ -2276,7 +2289,7 @@ Public Class rptGSTR
         End Try
     End Sub
     ''richa 30 Nov,2018 ALF/26/11/18-000089,GKD/29/01/19-000173
-    Sub DrillDownDetailForGSTR1()
+    Sub DrillDownDetailForGSTR1(ByVal i As Integer)
         Try
             If clsCommon.myLen(gv2.CurrentRow.Cells("Name").Value) > 0 Then
                 Dim qry As String = String.Empty
@@ -2294,7 +2307,7 @@ Public Class rptGSTR
                     Wrcls += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code in (" + clsCommon.GetMulcallString(txtCustomerGroup.arrValueMember) + ")"
                 End If
 
-                If clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
+                If IIf(exportGSTR, i = 1, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal) Then
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                     " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')<>''  or ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')<>'' )  and ((isnull(TSPL_Customer_Invoice_Head.TAX1,'')='IGST'OR isnull(TSPL_Customer_Invoice_Head.tax2,'')='IGST' 
@@ -2305,7 +2318,7 @@ Public Class rptGSTR
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Sales") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 2, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Sales") = CompairStringResult.Equal) Then
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                     " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')<>''  or ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')<>'' ) and ((isnull(TSPL_Customer_Invoice_Head.TAX1,'')='IGST'OR isnull(TSPL_Customer_Invoice_Head.tax2,'')='IGST' 
@@ -2316,7 +2329,7 @@ Public Class rptGSTR
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 4, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal) Then
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0" & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                     " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')<>''  or ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')<>'' ) " &
@@ -2333,7 +2346,7 @@ Public Class rptGSTR
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Small) Invoices - 7") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 5, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Small) Invoices - 7") = CompairStringResult.Equal) Then
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0" & Environment.NewLine &
                    " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                    " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')<>''  or ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')<>'' ) " &
@@ -2351,14 +2364,14 @@ Public Class rptGSTR
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Registered) - 9B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 6, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Registered) - 9B") = CompairStringResult.Equal) Then
 
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                      " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')='' and  ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')='' and ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')='')  "
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 7, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal) Then
 
                     Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
@@ -2366,12 +2379,12 @@ Public Class rptGSTR
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Exports Invoices - 6A") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 8, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Exports Invoices - 6A") = CompairStringResult.Equal) Then
                     Wrcls += " AND TSPL_Customer_Invoice_Head.Against_Sale_No  IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
 
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 11, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal) Then
                     Wrcls += "   AND TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) And (ISNULL(TSPL_Customer_INVOICE_HEAD.TAX1,'')='EXEMPTED' 
              OR ISNULL(TSPL_Customer_INVOICE_HEAD.TAX2,'')='EXEMPTED'
               OR ISNULL(TSPL_Customer_INVOICE_HEAD.TAX3,'')='EXEMPTED'
@@ -2386,7 +2399,7 @@ Public Class rptGSTR
              ) "
 
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Invoice (Direct)") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i = 12, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Invoice (Direct)") = CompairStringResult.Equal) Then
 
                     Wrcls += " and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type='I' " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
@@ -2395,27 +2408,30 @@ Public Class rptGSTR
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))
                 End If
 
-                dt = clsDBFuncationality.GetDataTable(qry)
+                If Not exportGSTR Then
+                    dt = clsDBFuncationality.GetDataTable(qry)
+                    gv3.DataSource = Nothing
+                    gv3.Rows.Clear()
+                    gv3.Columns.Clear()
+                    gv3.GroupDescriptors.Clear()
+                    gv3.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv3.MasterView.Refresh()
 
-                gv3.DataSource = Nothing
-                gv3.Rows.Clear()
-                gv3.Columns.Clear()
-                gv3.GroupDescriptors.Clear()
-                gv3.MasterTemplate.SummaryRowsBottom.Clear()
-                gv3.MasterView.Refresh()
-
-                If dt Is Nothing OrElse dt.Rows.Count > 0 Then
-                    gv3.DataSource = dt
-                    RadPageView1.SelectedPage = RadPageViewPage3
-                    gv3.BestFitColumns()
-                    gv3.EnableFiltering = True
-                    FormatGridFooterDetail()
-                    RadPageViewPage3.Text = clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value)
+                    If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                        gv3.DataSource = dt
+                        RadPageView1.SelectedPage = RadPageViewPage3
+                        gv3.BestFitColumns()
+                        gv3.EnableFiltering = True
+                        FormatGridFooterDetail()
+                        RadPageViewPage3.Text = clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value)
+                    Else
+                        RadPageViewPage3.Text = "Detail data"
+                        Throw New Exception("No Data Found to Display")
+                    End If
                 Else
-                    RadPageViewPage3.Text = "Detail data"
-                    Throw New Exception("No Data Found to Display")
+                    strQryGSTR = Nothing
+                    strQryGSTR = qry
                 End If
-
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3364,8 +3380,230 @@ Public Class rptGSTR
             End If
 
         Catch ex As Exception
-
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+    Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
+        Try
+            Dim outputFilePath As String = "C:\ERPTempFolder\"
+            Dim strQry As String = "SELECT TOP 1 * FROM TSPL_GSTR_BLANK_SHEET ORDER BY Created_Date DESC"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                outputFilePath += clsCommon.myCstr(dt.Rows(0)("FileName"))
+
+                If Not File.Exists(outputFilePath) Then
+                    If clsCommon.MyMessageBoxShow(Me, "File does not exist at " & outputFilePath & Environment.NewLine & "Are you sure you want to download the GSTR blank sheet?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        Dim fileData As Byte() = TryCast(dt.Rows(0)("FileData"), Byte())
+                        If fileData IsNot Nothing AndAlso fileData.Length > 0 Then
+                            Try
+                                ' Write file
+                                File.WriteAllBytes(outputFilePath, fileData)
+
+                                ' Ensure file is writable
+                                File.SetAttributes(outputFilePath, FileAttributes.Normal)
+
+                                ' Notify user
+                                clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
+                            Catch ex As Exception
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                            End Try
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "File data is empty.", Me.Text)
+                        End If
+                    End If
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "GSTR blank sheet not found!", Me.Text)
+            End If
+
+
+            exportGSTR = True
+            For i As Integer = 1 To gv2.Rows.Count
+                GSTRDetails(i)
+                Dim finalQry As String = Nothing
+                If i = 1 Then
+                    finalQry = " Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],
+                                 '' As [Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                ElseIf i = 4 Then
+                    finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
+                ElseIf i = 5 Then
+                    finalQry = "Select '' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
+                End If
+                If clsCommon.myLen(finalQry) > 0 Then
+                    Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
+                    If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
+                        exportExcel(dtGSTR, outputFilePath, i)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
+                    End If
+                End If
+            Next
+            exportGSTR = False
+        Catch ex As Exception
+            exportGSTR = False
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    'Function IsFileOpen(filePath As String) As Boolean
+    '    Try
+    '        If Not File.Exists(filePath) Then Return False ' File doesn't exist
+
+    '        Using fs As FileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.None)
+    '            fs.Close()
+    '        End Using
+    '        Return False ' File is NOT open
+
+    '    Catch ex As IOException
+    '        Return True ' File is OPEN (locked by another process)
+    '    End Try
+    'End Function
+
+    Sub exportExcel(ByVal dt As DataTable, ByVal filePath As String, ByVal i As Integer)
+        Try
+
+            ' Remove Read-Only Attribute
+            'If File.Exists(filePath) Then
+            '    Dim fileInfo As New FileInfo(filePath)
+            '    If (fileInfo.Attributes And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
+            '        fileInfo.Attributes = fileInfo.Attributes And FileAttributes.Normal
+            '    End If
+            'End If
+
+
+
+            If i = 1 Then
+                excelApp = New Excel.Application()
+                workbook = excelApp.Workbooks.Open(filePath)
+            End If
+
+            ' Get all sheet names dynamically
+            Dim sheetNames As New List(Of String)()
+            For Each tempSheet As Excel.Worksheet In workbook.Sheets
+                sheetNames.Add(tempSheet.Name)
+                Marshal.ReleaseComObject(tempSheet) ' Release tempSheet object
+            Next
+
+            ' Loop through each existing sheet and write data
+            For Each sheetName As String In sheetNames
+                If Not clsCommon.CompairString(sheetName, "Help Instruction") = CompairStringResult.Equal Then
+                    sheet = CType(workbook.Sheets(sheetName), Excel.Worksheet)
+                    If clsCommon.CompairString(sheetName, "b2b,sez,de") = CompairStringResult.Equal AndAlso i = 1 Then
+                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                    ElseIf clsCommon.CompairString(sheetName, "b2cl") = CompairStringResult.Equal AndAlso i = 4 Then
+                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                    ElseIf clsCommon.CompairString(sheetName, "b2cs") = CompairStringResult.Equal AndAlso i = 5 Then
+                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
+                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                    End If
+                    Marshal.ReleaseComObject(sheet) ' Release sheet object
+                    sheet = Nothing
+                End If
+            Next
+
+
+            '' Check if file is writable
+            'If workbook.ReadOnly Then
+            '    workbook.ReadOnly = False
+            'End If
+
+            ' Save and close workbook
+            workbook.Save()
+            If i = gv2.Rows.Count Then
+                workbook.Close(False)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            If i = gv2.Rows.Count Then
+                ' Release COM objects
+                If workbook IsNot Nothing Then Marshal.ReleaseComObject(workbook)
+                If excelApp IsNot Nothing Then
+                    excelApp.Quit()
+                    Marshal.ReleaseComObject(excelApp)
+                End If
+
+                ' Force Garbage Collection
+                workbook = Nothing
+                excelApp = Nothing
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+            End If
+        End Try
+    End Sub
+
+
+    Sub WriteDataTableToSheet(sheet As Excel.Worksheet, dt As DataTable, startRow As Integer)
+        Try
+            Dim rowCount As Integer = dt.Rows.Count
+            Dim colCount As Integer = dt.Columns.Count
+            Dim dataArray(rowCount, colCount - 1) As Object
+
+            '' Fill header row
+            'For colIndex As Integer = 0 To colCount - 1
+            '    sheet.Cells(startRow + 1, colIndex + 1).Value2 = dt.Columns(colIndex).ColumnName
+            'Next
+
+            ' Fill data into array
+            For rowIndex As Integer = 0 To rowCount - 1
+                For colIndex As Integer = 0 To colCount - 1
+                    dataArray(rowIndex, colIndex) = dt.Rows(rowIndex)(colIndex)
+                Next
+            Next
+
+            ' Set range in Excel to update all cells at once
+            Dim startCell As Excel.Range = sheet.Cells(startRow + 2, 1)
+            Dim endCell As Excel.Range = sheet.Cells(startRow + 1 + rowCount, colCount)
+            Dim writeRange As Excel.Range = sheet.Range(startCell, endCell)
+
+            writeRange.Value2 = dataArray ' Write all data in one go
+            ' Force Excel to update
+            sheet.Application.ScreenUpdating = True
+            sheet.Application.Calculate()
+        Catch ex As Exception
+            Throw New Exception("Error writing data to Excel: " & ex.Message)
+        End Try
+    End Sub
+
+    'Sub WriteDataTableToSheet(sheet As Excel.Worksheet, dt As DataTable, startRow As Integer)
+    '    Try
+    '        Dim rowIndex As Integer = startRow + 1 ' Excel rows start from 1
+
+    '        ' Write column headers
+    '        For colIndex As Integer = 0 To dt.Columns.Count - 1
+    '            sheet.Cells(rowIndex, colIndex + 1).Value = dt.Columns(colIndex).ColumnName
+    '        Next
+    '        rowIndex += 1 ' Move to next row for data
+
+    '        ' Write data
+    '        For Each row As DataRow In dt.Rows
+    '            For colIndex As Integer = 0 To dt.Columns.Count - 1
+    '                sheet.Cells(rowIndex, colIndex + 1).Value = row(colIndex)
+    '            Next
+    '            rowIndex += 1
+    '        Next
+
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Sub
+
+
+
 End Class

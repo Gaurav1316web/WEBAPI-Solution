@@ -583,6 +583,18 @@ Public Class FrmCostCentreFinancial
         gv1.TableElement.TableHeaderHeight = 40
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCode.Value, "Cost_Center_Fin_Code", "TSPL_COST_CENTRE_FINANCIAL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Sub RefreshHeaderText()
         If clsCommon.myLen(LblLevel.Text) > 0 Then
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Description from TSPL_HIRERACHY_LEVEL_MASTER where Level<'" + clsCommon.myCstr(clsCommon.myCdbl(LblLevel.Text)) + "' order by level desc")

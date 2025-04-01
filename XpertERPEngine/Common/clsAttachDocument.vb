@@ -64,10 +64,10 @@ where 1=1 "
         Return dt
     End Function
 
-    Public Function SaveData(ByVal obj As clsAttachDocument) As String
-        Return SaveData(obj, Nothing)
-    End Function
-    Public Function SaveData(ByVal obj As clsAttachDocument, ByVal trans As SqlTransaction) As String
+    'Public Function SaveData(ByVal obj As clsAttachDocument) As String
+    '    Return SaveData(obj, Nothing)
+    'End Function
+    Public Function SaveData(ByVal obj As clsAttachDocument, ByVal trans As SqlTransaction, ByVal FilePath As String, ByVal RunServiceForUploadFolder As Boolean) As String
         Dim isSaved As Boolean = True
         Dim isNewEntry As Boolean = True
         Dim qry As String = ""
@@ -104,6 +104,29 @@ where 1=1 "
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ATTACHMENTS", OMInsertOrUpdate.Insert, "", trans)
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ATTACHMENTS", OMInsertOrUpdate.Update, " CODE = '" + obj.CODE + "'  ", trans)
+            End If
+            Dim FileNo As Integer = -1
+            If clsCommon.myLen(FilePath) > 0 Then
+                Dim str As String
+                If RunServiceForUploadFolder Then
+                    FileNo = clsAttachDocument.UploadWithHttpRequest(FilePath, obj.FileName, obj.FormId, obj.TransactionId)
+                End If
+                Dim bData As Byte()
+                Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(FilePath))
+                bData = br.ReadBytes(br.BaseStream.Length)
+
+                str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
+                If FileNo > 0 Then
+                    str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
+                End If
+                str += " where CODE='" + obj.CODE + "'"
+
+                Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
+                Dim prm As New SqlParameter("@BLOBData", bData)
+                cmd.Transaction = trans
+                cmd.Parameters.Add(prm)
+                cmd.ExecuteNonQuery()
+                br.Close() 'done by stuti reagrding memory leakage
             End If
 
             If Not isSaved Then

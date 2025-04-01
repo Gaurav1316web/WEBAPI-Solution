@@ -140,7 +140,7 @@ Public Class MSIProductionSaleReport
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale = 0 "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + Stocktransferdispatch + ""
@@ -155,7 +155,7 @@ Public Class MSIProductionSaleReport
                                           AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale = 0 "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + stocktransferinvoice + ""
@@ -245,7 +245,7 @@ Public Class MSIProductionSaleReport
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
 				                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale = 0   "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')    "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + Stocktransferdispatch + ""
@@ -261,7 +261,7 @@ Public Class MSIProductionSaleReport
                                           left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
 				                          and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
-                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale = 0 "
+                                          AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + stocktransferinvoice + ""
@@ -428,5 +428,14 @@ Public Class MSIProductionSaleReport
 
     Private Sub MSIProductionSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FromDate.Value = clsCommon.GETSERVERDATE()
+    End Sub
+
+    Private Sub rdbSaleReturn_CheckStateChanged(sender As Object, e As EventArgs) Handles rdbSaleReturn.CheckStateChanged
+        If rdbSaleReturn.IsChecked = True Then
+            rdbDispatch.IsChecked = False
+            rdbInvoice.IsChecked = False
+        Else
+            rdbDispatch.IsChecked = True
+        End If
     End Sub
 End Class
