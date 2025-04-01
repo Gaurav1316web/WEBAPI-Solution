@@ -22,10 +22,18 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
+        Me.cmbShift = New common.Controls.MyComboBox()
+        Me.btnShuffle = New Telerik.WinControls.UI.RadButton()
+        Me.lblShift = New common.Controls.MyLabel()
+        Me.txtShuffleDate = New common.Controls.MyDateTimePicker()
+        Me.lblShuffleDate = New common.Controls.MyLabel()
         Me.rgbDemandHead = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnQuickDemand = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -116,10 +124,17 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
+        Me.gbShuffleDemand.SuspendLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShuffleDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShuffleDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbDemandHead.SuspendLayout()
         CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -220,12 +235,13 @@ Partial Class frmDemandBooking
         '
         '
         Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadSplitContainer1.Size = New System.Drawing.Size(1255, 475)
+        Me.RadSplitContainer1.Size = New System.Drawing.Size(1302, 475)
         Me.RadSplitContainer1.TabIndex = 0
         Me.RadSplitContainer1.TabStop = False
         '
         'SplitPanel1
         '
+        Me.SplitPanel1.Controls.Add(Me.gbShuffleDemand)
         Me.SplitPanel1.Controls.Add(Me.rgbDemandHead)
         Me.SplitPanel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitPanel1.Controls.Add(Me.chkEveningPosted)
@@ -236,12 +252,115 @@ Partial Class frmDemandBooking
         '
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel1.Size = New System.Drawing.Size(1255, 434)
+        Me.SplitPanel1.Size = New System.Drawing.Size(1302, 434)
         Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.4220183!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 154)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'gbShuffleDemand
+        '
+        Me.gbShuffleDemand.Controls.Add(Me.cmbShift)
+        Me.gbShuffleDemand.Controls.Add(Me.btnShuffle)
+        Me.gbShuffleDemand.Controls.Add(Me.lblShift)
+        Me.gbShuffleDemand.Controls.Add(Me.txtShuffleDate)
+        Me.gbShuffleDemand.Controls.Add(Me.lblShuffleDate)
+        Me.gbShuffleDemand.Location = New System.Drawing.Point(1141, 51)
+        Me.gbShuffleDemand.Name = "gbShuffleDemand"
+        Me.gbShuffleDemand.Size = New System.Drawing.Size(147, 100)
+        Me.gbShuffleDemand.TabIndex = 1472
+        Me.gbShuffleDemand.TabStop = False
+        Me.gbShuffleDemand.Text = "Shuffle Demand"
+        '
+        'cmbShift
+        '
+        Me.cmbShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbShift.AutoCompleteValueMember = Nothing
+        Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
+        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbShift.FieldCode = Nothing
+        Me.cmbShift.FieldDesc = Nothing
+        Me.cmbShift.FieldMaxLength = 0
+        Me.cmbShift.FieldName = Nothing
+        Me.cmbShift.isCalculatedField = False
+        Me.cmbShift.IsSourceFromTable = False
+        Me.cmbShift.IsSourceFromValueList = False
+        Me.cmbShift.IsUnique = False
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem1)
+        Me.cmbShift.Items.Add(RadListDataItem2)
+        Me.cmbShift.Location = New System.Drawing.Point(48, 42)
+        Me.cmbShift.MendatroryField = True
+        Me.cmbShift.MyLinkLable1 = Nothing
+        Me.cmbShift.MyLinkLable2 = Nothing
+        Me.cmbShift.Name = "cmbShift"
+        Me.cmbShift.ReferenceFieldDesc = Nothing
+        Me.cmbShift.ReferenceFieldName = Nothing
+        Me.cmbShift.ReferenceTableName = Nothing
+        Me.cmbShift.Size = New System.Drawing.Size(94, 20)
+        Me.cmbShift.TabIndex = 1474
+        '
+        'btnShuffle
+        '
+        Me.btnShuffle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShuffle.Location = New System.Drawing.Point(10, 68)
+        Me.btnShuffle.Name = "btnShuffle"
+        Me.btnShuffle.Size = New System.Drawing.Size(131, 22)
+        Me.btnShuffle.TabIndex = 152
+        Me.btnShuffle.Text = "Go >>>"
+        '
+        'lblShift
+        '
+        Me.lblShift.FieldName = Nothing
+        Me.lblShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShift.Location = New System.Drawing.Point(3, 43)
+        Me.lblShift.Name = "lblShift"
+        Me.lblShift.Size = New System.Drawing.Size(29, 16)
+        Me.lblShift.TabIndex = 51
+        Me.lblShift.Text = "Shift"
+        '
+        'txtShuffleDate
+        '
+        Me.txtShuffleDate.CalculationExpression = Nothing
+        Me.txtShuffleDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtShuffleDate.FieldCode = Nothing
+        Me.txtShuffleDate.FieldDesc = Nothing
+        Me.txtShuffleDate.FieldMaxLength = 0
+        Me.txtShuffleDate.FieldName = Nothing
+        Me.txtShuffleDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShuffleDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtShuffleDate.isCalculatedField = False
+        Me.txtShuffleDate.IsSourceFromTable = False
+        Me.txtShuffleDate.IsSourceFromValueList = False
+        Me.txtShuffleDate.IsUnique = False
+        Me.txtShuffleDate.Location = New System.Drawing.Point(50, 22)
+        Me.txtShuffleDate.MendatroryField = False
+        Me.txtShuffleDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShuffleDate.MyLinkLable1 = Me.lblShuffleDate
+        Me.txtShuffleDate.MyLinkLable2 = Nothing
+        Me.txtShuffleDate.Name = "txtShuffleDate"
+        Me.txtShuffleDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShuffleDate.ReferenceFieldDesc = Nothing
+        Me.txtShuffleDate.ReferenceFieldName = Nothing
+        Me.txtShuffleDate.ReferenceTableName = Nothing
+        Me.txtShuffleDate.Size = New System.Drawing.Size(91, 18)
+        Me.txtShuffleDate.TabIndex = 50
+        Me.txtShuffleDate.TabStop = False
+        Me.txtShuffleDate.Text = "13/06/2011"
+        Me.txtShuffleDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblShuffleDate
+        '
+        Me.lblShuffleDate.FieldName = Nothing
+        Me.lblShuffleDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShuffleDate.Location = New System.Drawing.Point(2, 22)
+        Me.lblShuffleDate.Name = "lblShuffleDate"
+        Me.lblShuffleDate.Size = New System.Drawing.Size(30, 16)
+        Me.lblShuffleDate.TabIndex = 49
+        Me.lblShuffleDate.Text = "Date"
         '
         'rgbDemandHead
         '
@@ -1065,7 +1184,7 @@ Partial Class frmDemandBooking
         Me.RadGroupBox2.Location = New System.Drawing.Point(6, 190)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1245, 241)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1292, 241)
         Me.RadGroupBox2.TabIndex = 50
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1094,7 +1213,7 @@ Partial Class frmDemandBooking
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1225, 211)
+        Me.gv2.Size = New System.Drawing.Size(1272, 211)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -1123,7 +1242,7 @@ Partial Class frmDemandBooking
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1225, 211)
+        Me.gv1.Size = New System.Drawing.Size(1272, 211)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1172,7 +1291,7 @@ Partial Class frmDemandBooking
         '
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel2.Size = New System.Drawing.Size(1255, 37)
+        Me.SplitPanel2.Size = New System.Drawing.Size(1302, 37)
         Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.4220183!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -154)
         Me.SplitPanel2.TabIndex = 1
@@ -1193,7 +1312,7 @@ Partial Class frmDemandBooking
         '
         Me.btnSplitPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSplitPrint.Location = New System.Drawing.Point(969, 11)
+        Me.btnSplitPrint.Location = New System.Drawing.Point(1016, 11)
         Me.btnSplitPrint.Name = "btnSplitPrint"
         Me.btnSplitPrint.Size = New System.Drawing.Size(62, 20)
         Me.btnSplitPrint.TabIndex = 52
@@ -1223,7 +1342,7 @@ Partial Class frmDemandBooking
         '
         Me.btnFullMode.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnFullMode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnFullMode.Location = New System.Drawing.Point(1104, 11)
+        Me.btnFullMode.Location = New System.Drawing.Point(1151, 11)
         Me.btnFullMode.Name = "btnFullMode"
         Me.btnFullMode.Size = New System.Drawing.Size(76, 20)
         Me.btnFullMode.TabIndex = 50
@@ -1327,7 +1446,7 @@ Partial Class frmDemandBooking
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1183, 11)
+        Me.btnClose.Location = New System.Drawing.Point(1230, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
         Me.btnClose.TabIndex = 15
@@ -1359,7 +1478,7 @@ Partial Class frmDemandBooking
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1255, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1302, 20)
         Me.RadMenu1.TabIndex = 7
         '
         'RadMenuItem3
@@ -1397,7 +1516,7 @@ Partial Class frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1255, 495)
+        Me.ClientSize = New System.Drawing.Size(1302, 495)
         Me.Controls.Add(Me.RadSplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -1413,6 +1532,13 @@ Partial Class frmDemandBooking
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
+        Me.gbShuffleDemand.ResumeLayout(False)
+        Me.gbShuffleDemand.PerformLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShuffleDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShuffleDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbDemandHead.ResumeLayout(False)
         Me.rgbDemandHead.PerformLayout()
@@ -1601,5 +1727,12 @@ Partial Class frmDemandBooking
     Friend WithEvents txtTotalPCrate As common.Controls.MyLabel
     Friend WithEvents btnSplitPrint As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents gbShuffleDemand As GroupBox
+    Friend WithEvents btnShuffle As RadButton
+    Friend WithEvents lblShift As common.Controls.MyLabel
+    Friend WithEvents txtShuffleDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblShuffleDate As common.Controls.MyLabel
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents cmbShift As common.Controls.MyComboBox
 End Class
 
