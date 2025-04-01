@@ -420,6 +420,7 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkIsEWayBill = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -802,6 +803,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu1.SuspendLayout()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -930,6 +932,7 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsEWayBill)
         Me.RadPageViewPage1.Controls.Add(Me.chkRoundoff)
         Me.RadPageViewPage1.Controls.Add(Me.cmbVehicleType)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicleType)
@@ -6949,6 +6952,15 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'chkIsEWayBill
+        '
+        Me.chkIsEWayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEWayBill.Location = New System.Drawing.Point(777, 29)
+        Me.chkIsEWayBill.Name = "chkIsEWayBill"
+        Me.chkIsEWayBill.Size = New System.Drawing.Size(107, 16)
+        Me.chkIsEWayBill.TabIndex = 1569
+        Me.chkIsEWayBill.Text = "Create E-way Bill"
+        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7369,6 +7381,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7763,5 +7776,6 @@ Partial Class frmShipmentDairy
     Friend WithEvents gvManualscheme As RadGridView
     Friend WithEvents btnHistory1 As RadButton
     Friend WithEvents chkRoundoff As RadCheckBox
+    Friend WithEvents chkIsEWayBill As RadCheckBox
 End Class
 
