@@ -4905,7 +4905,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         cell.Style.BorderLeftColor = color
         cell.Style.BorderRightColor = color
         cell.Style.BorderBottomColor = color
-        If cell.Style.BorderTopColor <> color.Transparent Then
+        If cell.Style.BorderTopColor <> Color.Transparent Then
             cell.Style.BorderTopColor = color
         End If
     End Sub
