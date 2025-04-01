@@ -22,10 +22,13 @@ Partial Class frmPurchaseRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtReqstByAjm = New common.Controls.MyTextBox()
+        Me.RadLabel12 = New common.Controls.MyLabel()
+        Me.txtReqstAjm = New common.UserControls.txtFinder()
         Me.chkTender = New common.Controls.MyCheckBox()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.pnl_capex = New System.Windows.Forms.Panel()
@@ -62,7 +65,6 @@ Partial Class frmPurchaseRequistion
         Me.fndProject = New common.UserControls.txtFinder()
         Me.lblProject = New common.Controls.MyLabel()
         Me.cboPOType = New common.Controls.MyComboBox()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.txtRequestBy = New common.Controls.MyTextBox()
         Me.lblDept = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
@@ -124,14 +126,15 @@ Partial Class frmPurchaseRequistion
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdEmailAndSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtReqstAjm = New common.UserControls.txtFinder()
-        Me.txtReqstByAjm = New common.Controls.MyTextBox()
+        Me.btnPrint2 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtReqstByAjm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTender, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
@@ -168,7 +171,6 @@ Partial Class frmPurchaseRequistion
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboPOType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRequestBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -217,7 +219,7 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtReqstByAjm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -237,6 +239,7 @@ Partial Class frmPurchaseRequistion
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEmailsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkprclose)
@@ -319,6 +322,68 @@ Partial Class frmPurchaseRequistion
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 419)
         Me.RadPageViewPage1.Text = "Purchase Indent"
+        '
+        'txtReqstByAjm
+        '
+        Me.txtReqstByAjm.CalculationExpression = Nothing
+        Me.txtReqstByAjm.FieldCode = Nothing
+        Me.txtReqstByAjm.FieldDesc = Nothing
+        Me.txtReqstByAjm.FieldMaxLength = 0
+        Me.txtReqstByAjm.FieldName = Nothing
+        Me.txtReqstByAjm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReqstByAjm.isCalculatedField = False
+        Me.txtReqstByAjm.IsSourceFromTable = False
+        Me.txtReqstByAjm.IsSourceFromValueList = False
+        Me.txtReqstByAjm.IsUnique = False
+        Me.txtReqstByAjm.Location = New System.Drawing.Point(310, 108)
+        Me.txtReqstByAjm.MaxLength = 100
+        Me.txtReqstByAjm.MendatroryField = False
+        Me.txtReqstByAjm.MyLinkLable1 = Me.RadLabel12
+        Me.txtReqstByAjm.MyLinkLable2 = Nothing
+        Me.txtReqstByAjm.Name = "txtReqstByAjm"
+        Me.txtReqstByAjm.ReferenceFieldDesc = Nothing
+        Me.txtReqstByAjm.ReferenceFieldName = Nothing
+        Me.txtReqstByAjm.ReferenceTableName = Nothing
+        Me.txtReqstByAjm.Size = New System.Drawing.Size(148, 18)
+        Me.txtReqstByAjm.TabIndex = 74
+        Me.txtReqstByAjm.Visible = False
+        '
+        'RadLabel12
+        '
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.Location = New System.Drawing.Point(227, 86)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(77, 16)
+        Me.RadLabel12.TabIndex = 30
+        Me.RadLabel12.Text = "Requested By"
+        '
+        'txtReqstAjm
+        '
+        Me.txtReqstAjm.CalculationExpression = Nothing
+        Me.txtReqstAjm.FieldCode = Nothing
+        Me.txtReqstAjm.FieldDesc = Nothing
+        Me.txtReqstAjm.FieldMaxLength = 0
+        Me.txtReqstAjm.FieldName = Nothing
+        Me.txtReqstAjm.isCalculatedField = False
+        Me.txtReqstAjm.IsSourceFromTable = False
+        Me.txtReqstAjm.IsSourceFromValueList = False
+        Me.txtReqstAjm.IsUnique = False
+        Me.txtReqstAjm.Location = New System.Drawing.Point(310, 85)
+        Me.txtReqstAjm.MendatroryField = True
+        Me.txtReqstAjm.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReqstAjm.MyLinkLable1 = Nothing
+        Me.txtReqstAjm.MyLinkLable2 = Nothing
+        Me.txtReqstAjm.MyReadOnly = False
+        Me.txtReqstAjm.MyShowMasterFormButton = False
+        Me.txtReqstAjm.Name = "txtReqstAjm"
+        Me.txtReqstAjm.ReferenceFieldDesc = Nothing
+        Me.txtReqstAjm.ReferenceFieldName = Nothing
+        Me.txtReqstAjm.ReferenceTableName = Nothing
+        Me.txtReqstAjm.Size = New System.Drawing.Size(149, 22)
+        Me.txtReqstAjm.TabIndex = 15
+        Me.txtReqstAjm.Value = ""
+        Me.txtReqstAjm.Visible = False
         '
         'chkTender
         '
@@ -708,7 +773,7 @@ Partial Class frmPurchaseRequistion
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -873,16 +938,6 @@ Partial Class frmPurchaseRequistion
         Me.cboPOType.ReferenceTableName = Nothing
         Me.cboPOType.Size = New System.Drawing.Size(136, 20)
         Me.cboPOType.TabIndex = 16
-        '
-        'RadLabel12
-        '
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.Location = New System.Drawing.Point(227, 86)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(77, 16)
-        Me.RadLabel12.TabIndex = 30
-        Me.RadLabel12.Text = "Requested By"
         '
         'txtRequestBy
         '
@@ -1738,57 +1793,16 @@ Partial Class frmPurchaseRequistion
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
         '
-        'txtReqstAjm
+        'btnPrint2
         '
-        Me.txtReqstAjm.CalculationExpression = Nothing
-        Me.txtReqstAjm.FieldCode = Nothing
-        Me.txtReqstAjm.FieldDesc = Nothing
-        Me.txtReqstAjm.FieldMaxLength = 0
-        Me.txtReqstAjm.FieldName = Nothing
-        Me.txtReqstAjm.isCalculatedField = False
-        Me.txtReqstAjm.IsSourceFromTable = False
-        Me.txtReqstAjm.IsSourceFromValueList = False
-        Me.txtReqstAjm.IsUnique = False
-        Me.txtReqstAjm.Location = New System.Drawing.Point(310, 85)
-        Me.txtReqstAjm.MendatroryField = True
-        Me.txtReqstAjm.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtReqstAjm.MyLinkLable1 = Nothing
-        Me.txtReqstAjm.MyLinkLable2 = Nothing
-        Me.txtReqstAjm.MyReadOnly = False
-        Me.txtReqstAjm.MyShowMasterFormButton = False
-        Me.txtReqstAjm.Name = "txtReqstAjm"
-        Me.txtReqstAjm.ReferenceFieldDesc = Nothing
-        Me.txtReqstAjm.ReferenceFieldName = Nothing
-        Me.txtReqstAjm.ReferenceTableName = Nothing
-        Me.txtReqstAjm.Size = New System.Drawing.Size(149, 22)
-        Me.txtReqstAjm.TabIndex = 15
-        Me.txtReqstAjm.Value = ""
-        Me.txtReqstAjm.Visible = False
-        '
-        'txtReqstByAjm
-        '
-        Me.txtReqstByAjm.CalculationExpression = Nothing
-        Me.txtReqstByAjm.FieldCode = Nothing
-        Me.txtReqstByAjm.FieldDesc = Nothing
-        Me.txtReqstByAjm.FieldMaxLength = 0
-        Me.txtReqstByAjm.FieldName = Nothing
-        Me.txtReqstByAjm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtReqstByAjm.isCalculatedField = False
-        Me.txtReqstByAjm.IsSourceFromTable = False
-        Me.txtReqstByAjm.IsSourceFromValueList = False
-        Me.txtReqstByAjm.IsUnique = False
-        Me.txtReqstByAjm.Location = New System.Drawing.Point(310, 108)
-        Me.txtReqstByAjm.MaxLength = 100
-        Me.txtReqstByAjm.MendatroryField = False
-        Me.txtReqstByAjm.MyLinkLable1 = Me.RadLabel12
-        Me.txtReqstByAjm.MyLinkLable2 = Nothing
-        Me.txtReqstByAjm.Name = "txtReqstByAjm"
-        Me.txtReqstByAjm.ReferenceFieldDesc = Nothing
-        Me.txtReqstByAjm.ReferenceFieldName = Nothing
-        Me.txtReqstByAjm.ReferenceTableName = Nothing
-        Me.txtReqstByAjm.Size = New System.Drawing.Size(148, 18)
-        Me.txtReqstByAjm.TabIndex = 74
-        Me.txtReqstByAjm.Visible = False
+        Me.btnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint2.Location = New System.Drawing.Point(545, 6)
+        Me.btnPrint2.Name = "btnPrint2"
+        Me.btnPrint2.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrint2.TabIndex = 11
+        Me.btnPrint2.Text = "Print2"
+        Me.btnPrint2.Visible = False
         '
         'frmPurchaseRequistion
         '
@@ -1812,6 +1826,8 @@ Partial Class frmPurchaseRequistion
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtReqstByAjm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTender, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
@@ -1850,7 +1866,6 @@ Partial Class frmPurchaseRequistion
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboPOType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRequestBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1900,7 +1915,7 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtReqstByAjm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2009,5 +2024,6 @@ Partial Class frmPurchaseRequistion
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents txtReqstAjm As common.UserControls.txtFinder
     Friend WithEvents txtReqstByAjm As common.Controls.MyTextBox
+    Friend WithEvents btnPrint2 As RadButton
 End Class
 

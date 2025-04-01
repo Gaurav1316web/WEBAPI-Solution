@@ -184,7 +184,10 @@ Public Class clsBoothRouteMappingHead
             If (obj.Posted = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
-
+            For Each items As clsBoothRouteMappingDetail In obj.Arr
+                Dim RouteDesc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + obj.Route_No + "'", trans))
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Route_No='" + obj.Route_No + "',Route_Desc='" + RouteDesc + "' where Cust_Code='" + items.Booth_Code + "'", trans)
+            Next
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Posted", 1)

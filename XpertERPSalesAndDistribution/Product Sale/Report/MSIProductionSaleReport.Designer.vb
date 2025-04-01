@@ -26,6 +26,10 @@ Partial Class MSIProductionSaleReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Prdncreallchk = New common.Controls.MyRadioButton()
+        Me.RePrdntchk = New common.Controls.MyRadioButton()
+        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSaleTransfer = New common.Controls.MyRadioButton()
         Me.rdbStockTransfer = New common.Controls.MyRadioButton()
@@ -51,16 +55,17 @@ Partial Class MSIProductionSaleReport
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Prdncreallchk = New common.Controls.MyRadioButton()
-        Me.RePrdntchk = New common.Controls.MyRadioButton()
-        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.rdbSaleTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,11 +93,6 @@ Partial Class MSIProductionSaleReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +143,53 @@ Partial Class MSIProductionSaleReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.Prdncreallchk)
+        Me.RadGroupBox7.Controls.Add(Me.RePrdntchk)
+        Me.RadGroupBox7.Controls.Add(Me.Productionchk)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(16, 292)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox7.TabIndex = 60
+        '
+        'Prdncreallchk
+        '
+        Me.Prdncreallchk.Location = New System.Drawing.Point(202, 11)
+        Me.Prdncreallchk.MyLinkLable1 = Nothing
+        Me.Prdncreallchk.MyLinkLable2 = Nothing
+        Me.Prdncreallchk.Name = "Prdncreallchk"
+        Me.Prdncreallchk.Size = New System.Drawing.Size(33, 18)
+        Me.Prdncreallchk.TabIndex = 3
+        Me.Prdncreallchk.TabStop = False
+        Me.Prdncreallchk.Text = "All"
+        '
+        'RePrdntchk
+        '
+        Me.RePrdntchk.Location = New System.Drawing.Point(97, 11)
+        Me.RePrdntchk.MyLinkLable1 = Nothing
+        Me.RePrdntchk.MyLinkLable2 = Nothing
+        Me.RePrdntchk.Name = "RePrdntchk"
+        Me.RePrdntchk.Size = New System.Drawing.Size(92, 18)
+        Me.RePrdntchk.TabIndex = 2
+        Me.RePrdntchk.TabStop = False
+        Me.RePrdntchk.Text = "Re-Production"
+        '
+        'Productionchk
+        '
+        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
+        Me.Productionchk.MyLinkLable1 = Nothing
+        Me.Productionchk.MyLinkLable2 = Nothing
+        Me.Productionchk.Name = "Productionchk"
+        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
+        Me.Productionchk.TabIndex = 1
+        Me.Productionchk.Text = "Production"
+        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox6
         '
@@ -458,53 +505,6 @@ Partial Class MSIProductionSaleReport
         Me.btnclose.TabIndex = 59
         Me.btnclose.Text = "Close"
         '
-        'RadGroupBox7
-        '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.Prdncreallchk)
-        Me.RadGroupBox7.Controls.Add(Me.RePrdntchk)
-        Me.RadGroupBox7.Controls.Add(Me.Productionchk)
-        Me.RadGroupBox7.HeaderText = ""
-        Me.RadGroupBox7.Location = New System.Drawing.Point(16, 292)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(246, 42)
-        Me.RadGroupBox7.TabIndex = 60
-        '
-        'Prdncreallchk
-        '
-        Me.Prdncreallchk.Location = New System.Drawing.Point(202, 11)
-        Me.Prdncreallchk.MyLinkLable1 = Nothing
-        Me.Prdncreallchk.MyLinkLable2 = Nothing
-        Me.Prdncreallchk.Name = "Prdncreallchk"
-        Me.Prdncreallchk.Size = New System.Drawing.Size(33, 18)
-        Me.Prdncreallchk.TabIndex = 3
-        Me.Prdncreallchk.TabStop = False
-        Me.Prdncreallchk.Text = "All"
-        '
-        'RePrdntchk
-        '
-        Me.RePrdntchk.Location = New System.Drawing.Point(97, 11)
-        Me.RePrdntchk.MyLinkLable1 = Nothing
-        Me.RePrdntchk.MyLinkLable2 = Nothing
-        Me.RePrdntchk.Name = "RePrdntchk"
-        Me.RePrdntchk.Size = New System.Drawing.Size(92, 18)
-        Me.RePrdntchk.TabIndex = 2
-        Me.RePrdntchk.TabStop = False
-        Me.RePrdntchk.Text = "Re-Production"
-        '
-        'Productionchk
-        '
-        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
-        Me.Productionchk.MyLinkLable1 = Nothing
-        Me.Productionchk.MyLinkLable2 = Nothing
-        Me.Productionchk.Name = "Productionchk"
-        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
-        Me.Productionchk.TabIndex = 1
-        Me.Productionchk.Text = "Production"
-        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'MSIProductionSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -524,6 +524,12 @@ Partial Class MSIProductionSaleReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -556,12 +562,6 @@ Partial Class MSIProductionSaleReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
