@@ -194,6 +194,8 @@ Public Class clsRMProcessLoss
             CreateJournalEntry(obj.document_code, trans)
             Dim qry As String = "Update TSPL_RM_PROCESS_LOSS set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_RM_PROCESS_LOSS", "Document_Code", trans)
+
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
             trans.Commit()
         Catch ex As Exception
@@ -315,6 +317,8 @@ Public Class clsRMProcessLoss
                 qry = "update TSPL_RM_PROCESS_LOSS set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_PROCESS_LOSS", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

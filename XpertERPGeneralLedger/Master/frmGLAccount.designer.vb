@@ -97,6 +97,7 @@ Partial Class frmGLAccount
         Me.txtdesc = New common.Controls.MyTextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblaccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldescription, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,6 +152,7 @@ Partial Class frmGLAccount
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -734,6 +736,7 @@ Partial Class frmGLAccount
         Me.dgvsubledger.ShowHeaderCellButtons = True
         Me.dgvsubledger.Size = New System.Drawing.Size(199, 283)
         Me.dgvsubledger.TabIndex = 0
+        Me.dgvsubledger.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -824,6 +827,7 @@ Partial Class frmGLAccount
         Me.dgvallocation.ShowHeaderCellButtons = True
         Me.dgvallocation.Size = New System.Drawing.Size(858, 267)
         Me.dgvallocation.TabIndex = 2
+        Me.dgvallocation.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -868,6 +872,7 @@ Partial Class frmGLAccount
         Me.dgvsegment.ShowHeaderCellButtons = True
         Me.dgvsegment.Size = New System.Drawing.Size(856, 292)
         Me.dgvsegment.TabIndex = 0
+        Me.dgvsegment.VarID = ""
         '
         'btnsave
         '
@@ -975,6 +980,7 @@ Partial Class frmGLAccount
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -990,6 +996,15 @@ Partial Class frmGLAccount
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(957, 468)
         Me.Panel1.TabIndex = 0
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(146, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmGLAccount
         '
@@ -1067,6 +1082,7 @@ Partial Class frmGLAccount
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1134,5 +1150,6 @@ Partial Class frmGLAccount
     Friend WithEvents txtAccountSubGroup As common.UserControls.txtFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents lblSubGroup As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 
