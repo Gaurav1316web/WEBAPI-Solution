@@ -781,6 +781,8 @@ Public Class frmCreateAccountNew
                                 accdesc1.ToString()
                             End If
                             Dim accupdate As String = "update tspl_gl_accounts set  account_seg_code1='" + arr(0).ToString().TrimStart("-") + "',account_seg_desc1= '" + Replace(accdesc1.ToString.TrimStart(","), "'", "''") + "', controlaccount='" & clsCommon.myCstr(dr(3)) & "' where account_code='" + Replace(acccode, "~", "") + "'"
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, acccode, "tspl_gl_accounts", "account_code", Nothing)
+
                             connectSql.RunSql(accupdate)
                             Dim i As Integer = arr.Length() - 1
                             Dim i1 As Integer = arr1.Length() - 1
@@ -800,6 +802,8 @@ Public Class frmCreateAccountNew
                                 connectSql.RunSql(query3)
 
                             Next
+                            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, acccode, "tspl_gl_accounts", "account_code", Nothing)
+
                         Next
                     End If
                 Next

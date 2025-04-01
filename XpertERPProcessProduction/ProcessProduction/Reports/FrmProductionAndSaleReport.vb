@@ -101,6 +101,9 @@ Public Class FrmProductionAndSaleReport
             If rdbStockTransfer.IsChecked = True Then
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=1 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
+            Else
+                Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
             End If
             If rdbSaleTransfer.IsChecked = True OrElse rdbSale.IsChecked = True Then
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
@@ -269,7 +272,7 @@ Public Class FrmProductionAndSaleReport
                 If rdbSaleTransfer.IsChecked = True AndAlso rdbDispatch.IsChecked = True Then
                     query += "  LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from(
+                        (Select Sum(xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from(
                         SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty,
                          TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SHIPMENT_DETAIL left join 
@@ -279,7 +282,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                     query += " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
                         Union all
@@ -293,13 +296,13 @@ Public Class FrmProductionAndSaleReport
                         WHERE "
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                     query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX)SaleDailyQty
+                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX group by XX.Bill_To_Location)SaleDailyQty
 						) SaleDailyQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
 
                         LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
+                        (Select Sum(xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
                         (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty, 
                         TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SHIPMENT_DETAIL left join 
@@ -309,7 +312,7 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                     query += " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
@@ -325,13 +328,12 @@ Public Class FrmProductionAndSaleReport
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                     query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX )SaleCumQty) SaleCumQty
+                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX group by XX.Bill_To_Location)SaleCumQty) SaleCumQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleCumQty.Bill_To_Location 
 
                          LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
-                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SHIPMENT_DETAIL left join 
                         TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
@@ -339,21 +341,9 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " "
                     query += "and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
-                        union all
-                        SELECT 0 as SaleQty,SUM((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS ReturnQty,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SALE_RETURN_DETAIL left join 
-                        TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.document_code=TSPL_SD_SALE_RETURN_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.ITEM_CODE
-                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + "  "
-                    query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX ) PSO)PSO
+                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) XX )PSO
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
                          LEFT OUTER JOIN
                        (select TSPL_BREAK_DOWN_ENTRY.Location_Code
@@ -374,7 +364,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + ""
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + ""
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -390,7 +383,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + Status + "  "
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -407,7 +403,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + " " + Stocktransferdispatch + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + Status + "  "
+                    If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + Stocktransferdispatch + ""
                     End If
@@ -427,7 +426,7 @@ Public Class FrmProductionAndSaleReport
 
                     query += "  LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from(
+                        (Select Sum(xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from(
                         SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty,
                          TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SALE_INVOICE_DETAIL left join 
@@ -451,13 +450,13 @@ Public Class FrmProductionAndSaleReport
                         WHERE "
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                     query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX)SaleDailyQty
+                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX group by xx.Bill_To_Location )SaleDailyQty
 						) SaleDailyQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
 
                         LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
+                        (Select Sum(xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
                         (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty, 
                         TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SALE_INVOICE_DETAIL left join 
@@ -483,13 +482,12 @@ Public Class FrmProductionAndSaleReport
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                     query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX )SaleCumQty) SaleCumQty
+                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX group by xx.Bill_To_Location )SaleCumQty) SaleCumQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleCumQty.Bill_To_Location 
 
                          LEFT OUTER JOIN(
                         Select Qty,Bill_To_Location from
-                        (Select (xx.SaleQty-xx.ReturnQty)Qty,xx.Bill_To_Location as Bill_To_Location from
-                        (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS SaleQty,0 as ReturnQty,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
+                        (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SALE_INVOICE_DETAIL left join 
                         TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
@@ -499,19 +497,7 @@ Public Class FrmProductionAndSaleReport
                         WHERE  "
                     query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
                     query += "and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-                        union all
-                        SELECT 0 as SaleQty,SUM((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS ReturnQty,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SALE_RETURN_DETAIL left join 
-                        TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.document_code=TSPL_SD_SALE_RETURN_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.ITEM_CODE
-                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_RETURN_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + "  "
-                    query += " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location)XX ) PSO)PSO
+                        GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location )XX)PSO
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
                          LEFT OUTER JOIN
                        (select TSPL_BREAK_DOWN_ENTRY.Location_Code
@@ -533,7 +519,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + "  "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -550,7 +539,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If
@@ -567,7 +559,10 @@ Public Class FrmProductionAndSaleReport
 						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
                         WHERE  "
-                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " " + stocktransferinvoice + " "
+                    query += "" + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                    If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                        query += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         query += "" + stocktransferinvoice + ""
                     End If

@@ -1014,6 +1014,19 @@ Public Class FrmItemCostMapping
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndCode.Value, "HCODE", "TSPL_ITEM_COST_MAPPING_HEADS", "TSPL_ITEM_COST_MAPPING_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Public Function UOMConveter(ByVal strItem As String, ByVal strUOM As String, ByVal strCost As Double, ByVal trans As SqlTransaction) As Double
         Dim defaltUOM As String = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code = '" + strItem + "' and Stocking_Unit ='Y'", trans)
         'Dim qry = "select UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code = '" + strItem + "'"

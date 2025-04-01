@@ -67,6 +67,8 @@ Public Class clsItemCostMapping
             End If
             Dim objtr As New clsItemCostMappingDetails
             objtr.SaveData(obj.HCODE, obj.ArrDetails, obj.ArrDetailsAll, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HCODE, "TSPL_ITEM_COST_MAPPING_HEADS", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAIL", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAILS_ALL", "HCODE", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception
@@ -211,6 +213,9 @@ Public Class clsItemCostMapping
         End If
         Dim obj As clsItemCostMapping = clsItemCostMapping.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_COST_MAPPING_HEADS", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAIL", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAILS_ALL", "HCODE", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_COST_MAPPING_HEADS", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAIL", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAILS_ALL", "HCODE", Nothing)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.HCODE) > 0) Then
             Try
                 Dim qry As String = "delete from TSPL_ITEM_COST_MAPPING_DETAILS_ALL where HCODE='" + strCode + "'"

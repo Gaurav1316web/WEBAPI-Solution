@@ -645,6 +645,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendor.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendorAJM.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PurchaseRequisitionWithoutVendorAJM2.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RequisitionPendingQty.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\RMConsumptionBreakup.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptBalanceStockForJobWork.rpt" />
@@ -716,6 +717,7 @@
     <None Include="Crystal Reports GST\Purchase Order\WO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\WO-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\WTDPrice.rpt" />
+    <None Include="Crystal Reports GST\PurchaseRequisitionWithoutVendorAJM2.rpt" />
     <None Include="Crystal Reports GST\Purchase\AgingPaybles.rpt" />
     <None Include="Crystal Reports GST\Purchase\AgingPaybles1.rpt" />
     <None Include="Crystal Reports GST\Purchase\AgingPaybles2.rpt" />
