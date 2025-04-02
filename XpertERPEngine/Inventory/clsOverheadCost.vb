@@ -81,6 +81,8 @@ Public Class clsOverheadCost
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
+
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
 
         Try

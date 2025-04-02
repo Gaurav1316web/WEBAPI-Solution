@@ -417,6 +417,18 @@ Public Class frmItemCategoryStructure
         End Try
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "ITEM_CATEGORY_STRUCT_CODE", "TSPL_ITEM_CATEGORY_STRUCTURE", "TSPL_ITEM_CATEGORY_STRUCT_DETAIL", Nothing)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub btnBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBack.Click
         Try
             If gvStructLevels.CurrentRow.Index >= 0 Then

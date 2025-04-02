@@ -134,6 +134,9 @@ Public Class frmWarrentyMaster
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Task Code not found to delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_WARRANTY_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_WARRANTY_MASTER", "Code", Nothing)
+
             If clsCommon.MyMessageBoxShow("Delete the current warranty code." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.OK Then
                 Dim qry As String = "delete from TSPL_TASK_MASTER where Task_Id='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
@@ -161,5 +164,17 @@ Public Class frmWarrentyMaster
 
     Sub CloseForm()
         Me.Close()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_WARRANTY_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

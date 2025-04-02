@@ -21,13 +21,14 @@ Partial Class FrmItemTypeMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblUOM = New common.Controls.MyLabel()
         Me.txtUOM = New common.UserControls.txtFinder()
         Me.chkVaccine = New Telerik.WinControls.UI.RadCheckBox()
@@ -45,7 +46,7 @@ Partial Class FrmItemTypeMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -55,6 +56,7 @@ Partial Class FrmItemTypeMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkVaccine, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -72,7 +74,7 @@ Partial Class FrmItemTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -147,6 +149,16 @@ Partial Class FrmItemTypeMaster
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(608, 169)
         Me.RadPanel1.TabIndex = 0
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(15, 62)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel3.TabIndex = 12136
+        Me.MyLabel3.Text = "UOM"
         '
         'lblUOM
         '
@@ -229,7 +241,7 @@ Partial Class FrmItemTypeMaster
         Me.txtTolerancePer.TabIndex = 25
         Me.txtTolerancePer.Text = "0"
         Me.txtTolerancePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerancePer.Value = 0R
+        Me.txtTolerancePer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'chkFixedTolerance
         '
@@ -328,15 +340,18 @@ Partial Class FrmItemTypeMaster
         '
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSchedule.MyExportFilePath = ""
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.ShowHeaderCellButtons = True
         Me.gvSchedule.Size = New System.Drawing.Size(608, 169)
         Me.gvSchedule.TabIndex = 1
+        Me.gvSchedule.VarID = ""
         '
         'RadPanel2
         '
+        Me.RadPanel2.Controls.Add(Me.btnHistory)
         Me.RadPanel2.Controls.Add(Me.btnClose)
         Me.RadPanel2.Controls.Add(Me.btnDelete)
         Me.RadPanel2.Controls.Add(Me.btnsave)
@@ -376,15 +391,15 @@ Partial Class FrmItemTypeMaster
         Me.btnsave.TabIndex = 1
         Me.btnsave.Text = "Save"
         '
-        'MyLabel3
+        'btnHistory
         '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(15, 62)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(90, 16)
-        Me.MyLabel3.TabIndex = 12136
-        Me.MyLabel3.Text = "UOM"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(141, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'FrmItemTypeMaster
         '
@@ -412,6 +427,7 @@ Partial Class FrmItemTypeMaster
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkVaccine, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -430,7 +446,7 @@ Partial Class FrmItemTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -460,5 +476,6 @@ Partial Class FrmItemTypeMaster
     Friend WithEvents txtUOM As common.UserControls.txtFinder
     Friend WithEvents lblUOM As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

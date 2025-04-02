@@ -30,6 +30,8 @@ Public Class clsInventorySourceCode
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_SOURCE_CODE", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_SOURCE_CODE", "Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_INVENTORY_SOURCE_CODE where Code ='" + strCode + "'"
@@ -123,6 +125,7 @@ Public Class clsInventorySourceCode
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_SOURCE_CODE", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_INVENTORY_SOURCE_CODE", "Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

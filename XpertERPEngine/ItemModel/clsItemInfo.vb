@@ -58,6 +58,7 @@ Public Class clsWeightConversionInfo
                 clsCommon.AddColumnsForChange(coll, "product_type", obj.Product_Type)
                 clsCommon.AddColumnsForChange(coll, "structure_code", obj.structure_code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WEIGHT_CONVERSION", OMInsertOrUpdate.Insert, "", trans)
+
             Next
             trans.Commit()
             Return True

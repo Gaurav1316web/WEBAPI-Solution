@@ -41,6 +41,7 @@ Partial Class frmWeightUomMaster
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,6 +54,7 @@ Partial Class frmWeightUomMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,6 +99,7 @@ Partial Class frmWeightUomMaster
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -224,7 +227,6 @@ Partial Class frmWeightUomMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(948, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -236,15 +238,11 @@ Partial Class frmWeightUomMaster
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '
@@ -258,11 +256,22 @@ Partial Class frmWeightUomMaster
         Me.btnPost.TabIndex = 323
         Me.btnPost.Text = "Post"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(227, 456)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 324
+        Me.btnHistory.Text = "History"
+        '
         'frmWeightUomMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(948, 479)
+        Me.Controls.Add(Me.btnHistory)
         Me.Controls.Add(Me.btnPost)
         Me.Controls.Add(Me.RadMenu1)
         Me.Controls.Add(Me.btnDelete)
@@ -288,6 +297,7 @@ Partial Class frmWeightUomMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -310,5 +320,6 @@ Partial Class frmWeightUomMaster
     Friend WithEvents cboType As common.Controls.MyComboBox
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblPending As common.usLock
+    Friend WithEvents btnHistory As RadButton
 End Class
 

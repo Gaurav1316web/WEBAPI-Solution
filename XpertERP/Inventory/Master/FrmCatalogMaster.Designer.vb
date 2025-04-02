@@ -24,37 +24,39 @@ Partial Class FrmCatalogMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCatalogMaster))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.lblmainItemDesc = New common.Controls.MyLabel
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Txtfeature = New common.Controls.MyTextBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.TxtSpecification = New common.Controls.MyTextBox
-        Me.MyLabel10 = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtcatlogdate = New common.Controls.MyDateTimePicker
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.mylabel18 = New common.Controls.MyLabel
-        Me.lblCode = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.label12 = New common.Controls.MyLabel
-        Me.label15 = New common.Controls.MyLabel
-        Me.txtBom = New common.UserControls.txtFinder
-        Me.lblBomDesc = New common.Controls.MyLabel
-        Me.lblmainItem = New common.Controls.MyLabel
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.pageComponent = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gvBOM = New common.UserControls.MyRadGridView
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RDSaveLayout = New Telerik.WinControls.UI.RadMenuItem
-        Me.RDDeleteLayout = New Telerik.WinControls.UI.RadMenuItem
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblmainItemDesc = New common.Controls.MyLabel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Txtfeature = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.TxtSpecification = New common.Controls.MyTextBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtcatlogdate = New common.Controls.MyDateTimePicker()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.mylabel18 = New common.Controls.MyLabel()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.label12 = New common.Controls.MyLabel()
+        Me.label15 = New common.Controls.MyLabel()
+        Me.txtBom = New common.UserControls.txtFinder()
+        Me.lblBomDesc = New common.Controls.MyLabel()
+        Me.lblmainItem = New common.Controls.MyLabel()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.pageComponent = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvBOM = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RDSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RDDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -87,6 +89,7 @@ Partial Class FrmCatalogMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -105,6 +108,7 @@ Partial Class FrmCatalogMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -154,11 +158,11 @@ Partial Class FrmCatalogMaster
         '
         Me.lblmainItemDesc.AutoSize = False
         Me.lblmainItemDesc.BorderVisible = True
+        Me.lblmainItemDesc.FieldName = Nothing
         Me.lblmainItemDesc.Location = New System.Drawing.Point(336, 78)
         Me.lblmainItemDesc.Name = "lblmainItemDesc"
         Me.lblmainItemDesc.Size = New System.Drawing.Size(397, 19)
         Me.lblmainItemDesc.TabIndex = 334
-        Me.lblmainItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'PictureBox1
         '
@@ -173,18 +177,31 @@ Partial Class FrmCatalogMaster
         '
         'Txtfeature
         '
+        Me.Txtfeature.CalculationExpression = Nothing
+        Me.Txtfeature.FieldCode = Nothing
+        Me.Txtfeature.FieldDesc = Nothing
+        Me.Txtfeature.FieldMaxLength = 0
+        Me.Txtfeature.FieldName = Nothing
         Me.Txtfeature.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtfeature.isCalculatedField = False
+        Me.Txtfeature.IsSourceFromTable = False
+        Me.Txtfeature.IsSourceFromValueList = False
+        Me.Txtfeature.IsUnique = False
         Me.Txtfeature.Location = New System.Drawing.Point(107, 120)
         Me.Txtfeature.MaxLength = 200
         Me.Txtfeature.MendatroryField = False
         Me.Txtfeature.MyLinkLable1 = Nothing
         Me.Txtfeature.MyLinkLable2 = Nothing
         Me.Txtfeature.Name = "Txtfeature"
+        Me.Txtfeature.ReferenceFieldDesc = Nothing
+        Me.Txtfeature.ReferenceFieldName = Nothing
+        Me.Txtfeature.ReferenceTableName = Nothing
         Me.Txtfeature.Size = New System.Drawing.Size(414, 18)
         Me.Txtfeature.TabIndex = 6
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(10, 121)
         Me.MyLabel2.Name = "MyLabel2"
@@ -194,18 +211,31 @@ Partial Class FrmCatalogMaster
         '
         'TxtSpecification
         '
+        Me.TxtSpecification.CalculationExpression = Nothing
+        Me.TxtSpecification.FieldCode = Nothing
+        Me.TxtSpecification.FieldDesc = Nothing
+        Me.TxtSpecification.FieldMaxLength = 0
+        Me.TxtSpecification.FieldName = Nothing
         Me.TxtSpecification.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtSpecification.isCalculatedField = False
+        Me.TxtSpecification.IsSourceFromTable = False
+        Me.TxtSpecification.IsSourceFromValueList = False
+        Me.TxtSpecification.IsUnique = False
         Me.TxtSpecification.Location = New System.Drawing.Point(107, 100)
         Me.TxtSpecification.MaxLength = 200
         Me.TxtSpecification.MendatroryField = False
         Me.TxtSpecification.MyLinkLable1 = Nothing
         Me.TxtSpecification.MyLinkLable2 = Nothing
         Me.TxtSpecification.Name = "TxtSpecification"
+        Me.TxtSpecification.ReferenceFieldDesc = Nothing
+        Me.TxtSpecification.ReferenceFieldName = Nothing
+        Me.TxtSpecification.ReferenceTableName = Nothing
         Me.TxtSpecification.Size = New System.Drawing.Size(415, 18)
         Me.TxtSpecification.TabIndex = 5
         '
         'MyLabel10
         '
+        Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel10.Location = New System.Drawing.Point(10, 101)
         Me.MyLabel10.Name = "MyLabel10"
@@ -215,6 +245,7 @@ Partial Class FrmCatalogMaster
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(451, 12)
         Me.MyLabel1.Name = "MyLabel1"
@@ -224,9 +255,18 @@ Partial Class FrmCatalogMaster
         '
         'txtcatlogdate
         '
+        Me.txtcatlogdate.CalculationExpression = Nothing
         Me.txtcatlogdate.CustomFormat = "dd/MM/yyyy"
+        Me.txtcatlogdate.FieldCode = Nothing
+        Me.txtcatlogdate.FieldDesc = Nothing
+        Me.txtcatlogdate.FieldMaxLength = 0
+        Me.txtcatlogdate.FieldName = Nothing
         Me.txtcatlogdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcatlogdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtcatlogdate.isCalculatedField = False
+        Me.txtcatlogdate.IsSourceFromTable = False
+        Me.txtcatlogdate.IsSourceFromValueList = False
+        Me.txtcatlogdate.IsUnique = False
         Me.txtcatlogdate.Location = New System.Drawing.Point(485, 11)
         Me.txtcatlogdate.MendatroryField = True
         Me.txtcatlogdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -234,6 +274,9 @@ Partial Class FrmCatalogMaster
         Me.txtcatlogdate.MyLinkLable2 = Nothing
         Me.txtcatlogdate.Name = "txtcatlogdate"
         Me.txtcatlogdate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtcatlogdate.ReferenceFieldDesc = Nothing
+        Me.txtcatlogdate.ReferenceFieldName = Nothing
+        Me.txtcatlogdate.ReferenceTableName = Nothing
         Me.txtcatlogdate.Size = New System.Drawing.Size(125, 18)
         Me.txtcatlogdate.TabIndex = 2
         Me.txtcatlogdate.TabStop = False
@@ -242,17 +285,30 @@ Partial Class FrmCatalogMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(107, 32)
         Me.txtDescription.MaxLength = 500
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.mylabel18
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(625, 20)
         Me.txtDescription.TabIndex = 3
         '
         'mylabel18
         '
+        Me.mylabel18.FieldName = Nothing
         Me.mylabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mylabel18.Location = New System.Drawing.Point(10, 34)
         Me.mylabel18.Name = "mylabel18"
@@ -262,6 +318,7 @@ Partial Class FrmCatalogMaster
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblCode.Location = New System.Drawing.Point(10, 12)
         Me.lblCode.Name = "lblCode"
@@ -280,6 +337,7 @@ Partial Class FrmCatalogMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(107, 8)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -295,6 +353,7 @@ Partial Class FrmCatalogMaster
         '
         'label12
         '
+        Me.label12.FieldName = Nothing
         Me.label12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.label12.Location = New System.Drawing.Point(10, 79)
         Me.label12.Name = "label12"
@@ -304,6 +363,7 @@ Partial Class FrmCatalogMaster
         '
         'label15
         '
+        Me.label15.FieldName = Nothing
         Me.label15.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.label15.Location = New System.Drawing.Point(10, 55)
         Me.label15.Name = "label15"
@@ -313,13 +373,26 @@ Partial Class FrmCatalogMaster
         '
         'txtBom
         '
+        Me.txtBom.CalculationExpression = Nothing
+        Me.txtBom.FieldCode = Nothing
+        Me.txtBom.FieldDesc = Nothing
+        Me.txtBom.FieldMaxLength = 0
+        Me.txtBom.FieldName = Nothing
+        Me.txtBom.isCalculatedField = False
+        Me.txtBom.IsSourceFromTable = False
+        Me.txtBom.IsSourceFromValueList = False
+        Me.txtBom.IsUnique = False
         Me.txtBom.Location = New System.Drawing.Point(107, 55)
         Me.txtBom.MendatroryField = True
         Me.txtBom.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBom.MyLinkLable1 = Me.label15
         Me.txtBom.MyLinkLable2 = Nothing
         Me.txtBom.MyReadOnly = False
+        Me.txtBom.MyShowMasterFormButton = False
         Me.txtBom.Name = "txtBom"
+        Me.txtBom.ReferenceFieldDesc = Nothing
+        Me.txtBom.ReferenceFieldName = Nothing
+        Me.txtBom.ReferenceTableName = Nothing
         Me.txtBom.Size = New System.Drawing.Size(219, 19)
         Me.txtBom.TabIndex = 4
         Me.txtBom.Value = ""
@@ -328,21 +401,21 @@ Partial Class FrmCatalogMaster
         '
         Me.lblBomDesc.AutoSize = False
         Me.lblBomDesc.BorderVisible = True
+        Me.lblBomDesc.FieldName = Nothing
         Me.lblBomDesc.Location = New System.Drawing.Point(336, 55)
         Me.lblBomDesc.Name = "lblBomDesc"
         Me.lblBomDesc.Size = New System.Drawing.Size(397, 19)
         Me.lblBomDesc.TabIndex = 20
-        Me.lblBomDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblmainItem
         '
         Me.lblmainItem.AutoSize = False
         Me.lblmainItem.BorderVisible = True
+        Me.lblmainItem.FieldName = Nothing
         Me.lblmainItem.Location = New System.Drawing.Point(107, 78)
         Me.lblmainItem.Name = "lblmainItem"
         Me.lblmainItem.Size = New System.Drawing.Size(218, 19)
         Me.lblmainItem.TabIndex = 19
-        Me.lblmainItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadPageView1
         '
@@ -353,7 +426,6 @@ Partial Class FrmCatalogMaster
         Me.RadPageView1.SelectedPage = Me.pageComponent
         Me.RadPageView1.Size = New System.Drawing.Size(977, 260)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageComponent
@@ -375,17 +447,23 @@ Partial Class FrmCatalogMaster
         Me.gvBOM.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvBOM.Location = New System.Drawing.Point(0, 0)
         '
-        'gvBOM
+        '
         '
         Me.gvBOM.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvBOM.MasterTemplate.AllowAddNewRow = False
         Me.gvBOM.MasterTemplate.AutoGenerateColumns = False
         Me.gvBOM.MasterTemplate.EnableGrouping = False
+        Me.gvBOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvBOM.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBOM.MyExportFilePath = ""
+        Me.gvBOM.MyStopExport = False
         Me.gvBOM.Name = "gvBOM"
         Me.gvBOM.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvBOM.ShowHeaderCellButtons = True
         Me.gvBOM.Size = New System.Drawing.Size(956, 212)
         Me.gvBOM.TabIndex = 0
-        Me.gvBOM.Text = "RadGridView1"
+        Me.gvBOM.VarID = ""
         '
         'btnPrint
         '
@@ -431,32 +509,31 @@ Partial Class FrmCatalogMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(977, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDSaveLayout, Me.RDDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RDSaveLayout
         '
-        Me.RDSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RDSaveLayout.AccessibleName = "Save Layout"
         Me.RDSaveLayout.Name = "RDSaveLayout"
         Me.RDSaveLayout.Text = "Save Layout"
-        Me.RDSaveLayout.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RDDeleteLayout
         '
-        Me.RDDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDDeleteLayout.Name = "RDDeleteLayout"
         Me.RDDeleteLayout.Text = "Delete Layout"
-        Me.RDDeleteLayout.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(452, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'FrmCatalogMaster
         '
@@ -504,6 +581,7 @@ Partial Class FrmCatalogMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -540,5 +618,6 @@ Partial Class FrmCatalogMaster
     Friend WithEvents RDSaveLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RDDeleteLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

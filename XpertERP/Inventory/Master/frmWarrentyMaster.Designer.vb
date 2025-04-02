@@ -22,20 +22,21 @@ Partial Class frmWarrentyMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.txtEffectiveDays = New common.MyNumBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtWarrantyDays = New common.MyNumBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.chkIsLifeTimeWarranty = New common.Controls.MyCheckBox
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.RadLabel5 = New common.Controls.MyLabel
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblUserName = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtEffectiveDays = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtWarrantyDays = New common.MyNumBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.chkIsLifeTimeWarranty = New common.Controls.MyCheckBox()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblUserName = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -51,6 +52,7 @@ Partial Class frmWarrentyMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +80,7 @@ Partial Class frmWarrentyMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -88,20 +91,33 @@ Partial Class frmWarrentyMaster
         'txtEffectiveDays
         '
         Me.txtEffectiveDays.BackColor = System.Drawing.Color.White
+        Me.txtEffectiveDays.CalculationExpression = Nothing
         Me.txtEffectiveDays.DecimalPlaces = 0
+        Me.txtEffectiveDays.FieldCode = Nothing
+        Me.txtEffectiveDays.FieldDesc = Nothing
+        Me.txtEffectiveDays.FieldMaxLength = 0
+        Me.txtEffectiveDays.FieldName = Nothing
+        Me.txtEffectiveDays.isCalculatedField = False
+        Me.txtEffectiveDays.IsSourceFromTable = False
+        Me.txtEffectiveDays.IsSourceFromValueList = False
+        Me.txtEffectiveDays.IsUnique = False
         Me.txtEffectiveDays.Location = New System.Drawing.Point(104, 105)
         Me.txtEffectiveDays.MendatroryField = False
         Me.txtEffectiveDays.MyLinkLable1 = Me.MyLabel2
         Me.txtEffectiveDays.MyLinkLable2 = Nothing
         Me.txtEffectiveDays.Name = "txtEffectiveDays"
+        Me.txtEffectiveDays.ReferenceFieldDesc = Nothing
+        Me.txtEffectiveDays.ReferenceFieldName = Nothing
+        Me.txtEffectiveDays.ReferenceTableName = Nothing
         Me.txtEffectiveDays.Size = New System.Drawing.Size(100, 20)
         Me.txtEffectiveDays.TabIndex = 5
         Me.txtEffectiveDays.Text = "0"
         Me.txtEffectiveDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEffectiveDays.Value = 0
+        Me.txtEffectiveDays.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(7, 107)
         Me.MyLabel2.Name = "MyLabel2"
@@ -112,20 +128,33 @@ Partial Class frmWarrentyMaster
         'txtWarrantyDays
         '
         Me.txtWarrantyDays.BackColor = System.Drawing.Color.White
+        Me.txtWarrantyDays.CalculationExpression = Nothing
         Me.txtWarrantyDays.DecimalPlaces = 0
+        Me.txtWarrantyDays.FieldCode = Nothing
+        Me.txtWarrantyDays.FieldDesc = Nothing
+        Me.txtWarrantyDays.FieldMaxLength = 0
+        Me.txtWarrantyDays.FieldName = Nothing
+        Me.txtWarrantyDays.isCalculatedField = False
+        Me.txtWarrantyDays.IsSourceFromTable = False
+        Me.txtWarrantyDays.IsSourceFromValueList = False
+        Me.txtWarrantyDays.IsUnique = False
         Me.txtWarrantyDays.Location = New System.Drawing.Point(104, 79)
         Me.txtWarrantyDays.MendatroryField = False
         Me.txtWarrantyDays.MyLinkLable1 = Me.MyLabel1
         Me.txtWarrantyDays.MyLinkLable2 = Nothing
         Me.txtWarrantyDays.Name = "txtWarrantyDays"
+        Me.txtWarrantyDays.ReferenceFieldDesc = Nothing
+        Me.txtWarrantyDays.ReferenceFieldName = Nothing
+        Me.txtWarrantyDays.ReferenceTableName = Nothing
         Me.txtWarrantyDays.Size = New System.Drawing.Size(100, 20)
         Me.txtWarrantyDays.TabIndex = 4
         Me.txtWarrantyDays.Text = "0"
         Me.txtWarrantyDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtWarrantyDays.Value = 0
+        Me.txtWarrantyDays.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(7, 81)
         Me.MyLabel1.Name = "MyLabel1"
@@ -156,6 +185,7 @@ Partial Class frmWarrentyMaster
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel5.Location = New System.Drawing.Point(7, 32)
         Me.RadLabel5.Name = "RadLabel5"
@@ -165,18 +195,31 @@ Partial Class frmWarrentyMaster
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(104, 31)
         Me.txtDesc.MaxLength = 1000
         Me.txtDesc.MendatroryField = True
         Me.txtDesc.MyLinkLable1 = Me.RadLabel5
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(262, 18)
         Me.txtDesc.TabIndex = 2
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(104, 5)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -192,6 +235,7 @@ Partial Class frmWarrentyMaster
         '
         'lblUserName
         '
+        Me.lblUserName.FieldName = Nothing
         Me.lblUserName.Location = New System.Drawing.Point(7, 6)
         Me.lblUserName.Name = "lblUserName"
         Me.lblUserName.Size = New System.Drawing.Size(81, 18)
@@ -226,6 +270,15 @@ Partial Class frmWarrentyMaster
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(150, 1)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmWarrentyMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -257,6 +310,7 @@ Partial Class frmWarrentyMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -275,5 +329,6 @@ Partial Class frmWarrentyMaster
     Friend WithEvents txtEffectiveDays As common.MyNumBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtWarrantyDays As common.MyNumBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

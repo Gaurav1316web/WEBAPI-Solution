@@ -745,6 +745,16 @@ Partial Class FrmUtility
         Me.TxtMultiDairyGPass = New common.UserControls.txtMultiSelectFinder()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel5 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.GroupBox113 = New System.Windows.Forms.GroupBox()
+        Me.RadButton311 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel70 = New common.Controls.MyLabel()
+        Me.txtAddBatchExpiryDate = New common.Controls.MyDateTimePicker()
+        Me.txtAddBatchBatchNo = New common.Controls.MyTextBox()
+        Me.MyLabel69 = New common.Controls.MyLabel()
+        Me.MyLabel63 = New common.Controls.MyLabel()
+        Me.txtAddBatchMfgDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.txtAddBatchItem = New common.UserControls.txtFinder()
         Me.GroupBox66 = New System.Windows.Forms.GroupBox()
         Me.RadButton212 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton213 = New Telerik.WinControls.UI.RadButton()
@@ -1496,6 +1506,15 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel5, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel5.PanelContainer.SuspendLayout
         Me.RadScrollablePanel5.SuspendLayout
+        Me.GroupBox113.SuspendLayout
+        CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtAddBatchExpiryDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtAddBatchBatchNo, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtAddBatchMfgDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox66.SuspendLayout
         CType(Me.RadButton212, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton213, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1943,7 +1962,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1974,7 +1993,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1091, 392)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage1.Text = "Utility"
         '
         'RadScrollablePanel1
@@ -2037,8 +2056,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnDuplicateVoucherNo)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnUpdateAPInvoiceBalanceAmount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
-        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 390)
-        Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 392)
+        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 405)
+        Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 407)
         Me.RadScrollablePanel1.TabIndex = 627
         '
         'RadButton357
@@ -4400,7 +4419,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(174.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1091, 392)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage3.Text = "Update Milk Inventory FAT/SNF"
         '
         'RadScrollablePanel3
@@ -4434,8 +4453,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox34)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox38)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox35)
-        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1072, 390)
-        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 392)
+        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1072, 405)
+        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 407)
         Me.RadScrollablePanel3.TabIndex = 628
         '
         'GroupBox97
@@ -7316,7 +7335,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(121.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1091, 392)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage7.Text = "Update After Posting"
         '
         'RadScrollablePanel4
@@ -7355,8 +7374,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.rbtnGatePass)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel43)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtMultiDairyGPass)
-        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 393)
-        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 395)
+        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 408)
+        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 410)
         Me.RadScrollablePanel4.TabIndex = 373
         '
         'GroupBox49
@@ -9442,6 +9461,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel5.PanelContainer
         '
+        Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox113)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox66)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox110)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox67)
@@ -9458,6 +9478,180 @@ Partial Class FrmUtility
         Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1074, 405)
         Me.RadScrollablePanel5.Size = New System.Drawing.Size(1093, 407)
         Me.RadScrollablePanel5.TabIndex = 387
+        '
+        'GroupBox113
+        '
+        Me.GroupBox113.Controls.Add(Me.RadButton311)
+        Me.GroupBox113.Controls.Add(Me.MyLabel70)
+        Me.GroupBox113.Controls.Add(Me.txtAddBatchExpiryDate)
+        Me.GroupBox113.Controls.Add(Me.txtAddBatchBatchNo)
+        Me.GroupBox113.Controls.Add(Me.MyLabel69)
+        Me.GroupBox113.Controls.Add(Me.MyLabel63)
+        Me.GroupBox113.Controls.Add(Me.txtAddBatchMfgDate)
+        Me.GroupBox113.Controls.Add(Me.MyLabel62)
+        Me.GroupBox113.Controls.Add(Me.txtAddBatchItem)
+        Me.GroupBox113.Location = New System.Drawing.Point(377, 170)
+        Me.GroupBox113.Name = "GroupBox113"
+        Me.GroupBox113.Size = New System.Drawing.Size(423, 94)
+        Me.GroupBox113.TabIndex = 387
+        Me.GroupBox113.TabStop = False
+        Me.GroupBox113.Text = "Add missing Batch details"
+        '
+        'RadButton311
+        '
+        Me.RadButton311.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.RadButton311.Location = New System.Drawing.Point(321, 41)
+        Me.RadButton311.Name = "RadButton311"
+        Me.RadButton311.Size = New System.Drawing.Size(96, 41)
+        Me.RadButton311.TabIndex = 1381
+        Me.RadButton311.Text = "Add Batch Row"
+        '
+        'MyLabel70
+        '
+        Me.MyLabel70.FieldName = Nothing
+        Me.MyLabel70.Location = New System.Drawing.Point(155, 64)
+        Me.MyLabel70.Name = "MyLabel70"
+        Me.MyLabel70.Size = New System.Drawing.Size(62, 18)
+        Me.MyLabel70.TabIndex = 1380
+        Me.MyLabel70.Text = "Expiry Date"
+        '
+        'txtAddBatchExpiryDate
+        '
+        Me.txtAddBatchExpiryDate.CalculationExpression = Nothing
+        Me.txtAddBatchExpiryDate.CustomFormat = "dd/MMM/yyyy"
+        Me.txtAddBatchExpiryDate.FieldCode = Nothing
+        Me.txtAddBatchExpiryDate.FieldDesc = Nothing
+        Me.txtAddBatchExpiryDate.FieldMaxLength = 0
+        Me.txtAddBatchExpiryDate.FieldName = Nothing
+        Me.txtAddBatchExpiryDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAddBatchExpiryDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtAddBatchExpiryDate.isCalculatedField = False
+        Me.txtAddBatchExpiryDate.IsSourceFromTable = False
+        Me.txtAddBatchExpiryDate.IsSourceFromValueList = False
+        Me.txtAddBatchExpiryDate.IsUnique = False
+        Me.txtAddBatchExpiryDate.Location = New System.Drawing.Point(228, 64)
+        Me.txtAddBatchExpiryDate.MendatroryField = False
+        Me.txtAddBatchExpiryDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAddBatchExpiryDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtAddBatchExpiryDate.MyLinkLable2 = Nothing
+        Me.txtAddBatchExpiryDate.Name = "txtAddBatchExpiryDate"
+        Me.txtAddBatchExpiryDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAddBatchExpiryDate.ReferenceFieldDesc = Nothing
+        Me.txtAddBatchExpiryDate.ReferenceFieldName = Nothing
+        Me.txtAddBatchExpiryDate.ReferenceTableName = Nothing
+        Me.txtAddBatchExpiryDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtAddBatchExpiryDate.TabIndex = 1379
+        Me.txtAddBatchExpiryDate.TabStop = False
+        Me.txtAddBatchExpiryDate.Text = "13/Jun/2011"
+        Me.txtAddBatchExpiryDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'txtAddBatchBatchNo
+        '
+        Me.txtAddBatchBatchNo.CalculationExpression = Nothing
+        Me.txtAddBatchBatchNo.FieldCode = Nothing
+        Me.txtAddBatchBatchNo.FieldDesc = Nothing
+        Me.txtAddBatchBatchNo.FieldMaxLength = 0
+        Me.txtAddBatchBatchNo.FieldName = Nothing
+        Me.txtAddBatchBatchNo.isCalculatedField = False
+        Me.txtAddBatchBatchNo.IsSourceFromTable = False
+        Me.txtAddBatchBatchNo.IsSourceFromValueList = False
+        Me.txtAddBatchBatchNo.IsUnique = False
+        Me.txtAddBatchBatchNo.Location = New System.Drawing.Point(62, 41)
+        Me.txtAddBatchBatchNo.MaxLength = 200
+        Me.txtAddBatchBatchNo.MendatroryField = False
+        Me.txtAddBatchBatchNo.MyLinkLable1 = Me.MyLabel2
+        Me.txtAddBatchBatchNo.MyLinkLable2 = Nothing
+        Me.txtAddBatchBatchNo.Name = "txtAddBatchBatchNo"
+        Me.txtAddBatchBatchNo.ReferenceFieldDesc = Nothing
+        Me.txtAddBatchBatchNo.ReferenceFieldName = Nothing
+        Me.txtAddBatchBatchNo.ReferenceTableName = Nothing
+        Me.txtAddBatchBatchNo.Size = New System.Drawing.Size(253, 20)
+        Me.txtAddBatchBatchNo.TabIndex = 1378
+        '
+        'MyLabel69
+        '
+        Me.MyLabel69.FieldName = Nothing
+        Me.MyLabel69.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel69.Location = New System.Drawing.Point(6, 43)
+        Me.MyLabel69.Name = "MyLabel69"
+        Me.MyLabel69.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel69.TabIndex = 1377
+        Me.MyLabel69.Text = "Batch No "
+        '
+        'MyLabel63
+        '
+        Me.MyLabel63.FieldName = Nothing
+        Me.MyLabel63.Location = New System.Drawing.Point(6, 64)
+        Me.MyLabel63.Name = "MyLabel63"
+        Me.MyLabel63.Size = New System.Drawing.Size(53, 18)
+        Me.MyLabel63.TabIndex = 60
+        Me.MyLabel63.Text = "Mfg Date"
+        '
+        'txtAddBatchMfgDate
+        '
+        Me.txtAddBatchMfgDate.CalculationExpression = Nothing
+        Me.txtAddBatchMfgDate.CustomFormat = "dd/MMM/yyyy"
+        Me.txtAddBatchMfgDate.FieldCode = Nothing
+        Me.txtAddBatchMfgDate.FieldDesc = Nothing
+        Me.txtAddBatchMfgDate.FieldMaxLength = 0
+        Me.txtAddBatchMfgDate.FieldName = Nothing
+        Me.txtAddBatchMfgDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAddBatchMfgDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtAddBatchMfgDate.isCalculatedField = False
+        Me.txtAddBatchMfgDate.IsSourceFromTable = False
+        Me.txtAddBatchMfgDate.IsSourceFromValueList = False
+        Me.txtAddBatchMfgDate.IsUnique = False
+        Me.txtAddBatchMfgDate.Location = New System.Drawing.Point(62, 64)
+        Me.txtAddBatchMfgDate.MendatroryField = False
+        Me.txtAddBatchMfgDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAddBatchMfgDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtAddBatchMfgDate.MyLinkLable2 = Nothing
+        Me.txtAddBatchMfgDate.Name = "txtAddBatchMfgDate"
+        Me.txtAddBatchMfgDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAddBatchMfgDate.ReferenceFieldDesc = Nothing
+        Me.txtAddBatchMfgDate.ReferenceFieldName = Nothing
+        Me.txtAddBatchMfgDate.ReferenceTableName = Nothing
+        Me.txtAddBatchMfgDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtAddBatchMfgDate.TabIndex = 59
+        Me.txtAddBatchMfgDate.TabStop = False
+        Me.txtAddBatchMfgDate.Text = "13/Jun/2011"
+        Me.txtAddBatchMfgDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(6, 21)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(28, 16)
+        Me.MyLabel62.TabIndex = 26
+        Me.MyLabel62.Text = "Item"
+        '
+        'txtAddBatchItem
+        '
+        Me.txtAddBatchItem.CalculationExpression = Nothing
+        Me.txtAddBatchItem.FieldCode = Nothing
+        Me.txtAddBatchItem.FieldDesc = Nothing
+        Me.txtAddBatchItem.FieldMaxLength = 0
+        Me.txtAddBatchItem.FieldName = Nothing
+        Me.txtAddBatchItem.isCalculatedField = False
+        Me.txtAddBatchItem.IsSourceFromTable = False
+        Me.txtAddBatchItem.IsSourceFromValueList = False
+        Me.txtAddBatchItem.IsUnique = False
+        Me.txtAddBatchItem.Location = New System.Drawing.Point(62, 20)
+        Me.txtAddBatchItem.MendatroryField = False
+        Me.txtAddBatchItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAddBatchItem.MyLinkLable1 = Me.MyLabel62
+        Me.txtAddBatchItem.MyLinkLable2 = Nothing
+        Me.txtAddBatchItem.MyReadOnly = False
+        Me.txtAddBatchItem.MyShowMasterFormButton = False
+        Me.txtAddBatchItem.Name = "txtAddBatchItem"
+        Me.txtAddBatchItem.ReferenceFieldDesc = Nothing
+        Me.txtAddBatchItem.ReferenceFieldName = Nothing
+        Me.txtAddBatchItem.ReferenceTableName = Nothing
+        Me.txtAddBatchItem.Size = New System.Drawing.Size(355, 18)
+        Me.txtAddBatchItem.TabIndex = 25
+        Me.txtAddBatchItem.Value = ""
         '
         'GroupBox66
         '
@@ -10657,6 +10851,16 @@ Partial Class FrmUtility
         Me.RadScrollablePanel5.PanelContainer.ResumeLayout(False)
         CType(Me.RadScrollablePanel5, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel5.ResumeLayout(False)
+        Me.GroupBox113.ResumeLayout(False)
+        Me.GroupBox113.PerformLayout
+        CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtAddBatchExpiryDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtAddBatchBatchNo, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtAddBatchMfgDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox66.ResumeLayout(False)
         CType(Me.RadButton212, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton213, System.ComponentModel.ISupportInitialize).EndInit
@@ -11478,5 +11682,15 @@ Partial Class FrmUtility
     Friend WithEvents chkExceptDoc As common.Controls.MyCheckBox
     Friend WithEvents isPosted As common.Controls.MyCheckBox
     Friend WithEvents RadButton310 As RadButton
+    Friend WithEvents GroupBox113 As GroupBox
+    Friend WithEvents MyLabel63 As common.Controls.MyLabel
+    Friend WithEvents txtAddBatchMfgDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents txtAddBatchItem As common.UserControls.txtFinder
+    Friend WithEvents RadButton311 As RadButton
+    Friend WithEvents MyLabel70 As common.Controls.MyLabel
+    Friend WithEvents txtAddBatchExpiryDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtAddBatchBatchNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel69 As common.Controls.MyLabel
 End Class
 
