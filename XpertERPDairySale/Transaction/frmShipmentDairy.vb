@@ -8380,8 +8380,14 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                    txtSupplyDate.Enabled = False
                     btnCancel.Enabled = True
                 Else
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        txtSupplyDate.Enabled = True
+                    Else
+                        txtSupplyDate.Enabled = False
+                    End If
                     btnCancel.Enabled = False
                 End If
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
@@ -8522,8 +8528,8 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                     txtPONo.Text = obj.Cust_PO_No
                     txtForm38.Text = obj.Form_38_No
                     txtDate.Enabled = False
-                    txtSupplyDate.Enabled = False
-                    txtVendorNo.Enabled = False
+
+                txtVendorNo.Enabled = False
                     chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
                     txtRoadPermitNo.Text = obj.Road_Permit_No
                     lblVendorName.Text = obj.Customer_Name
