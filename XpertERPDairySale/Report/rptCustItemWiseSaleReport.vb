@@ -973,7 +973,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                  " select *,GstAMt + Taxable_Amount+ Non_Taxable_Amount as Sale_Amt,((Taxable_Amount + Non_Taxable_Amount + GSTAmt + TCS_AMT) - ([Trip & other Charge]))as Bill_Amt from ( 
                 select 
             (XXFinal.Customer_Code) ,MAX(XXFinal.FromDate) as FromDate,MAX(XXFinal.ToDate) as ToDate,MAX(XXFinal.Customer_Name) as Customer_Name,SUM(XXFinal.[CGST Amt]+[SGST Amt]) as GstAMt,
-            MAX(XXFinal.GSTNO) as GSTNO, SUM(DISTINCT XXFinal.Taxable_Amount1) as Taxable_Amount ,SUM(XXFinal.Non_Taxable_Amount)as Non_Taxable_Amount,
+            MAX(XXFinal.GSTNO) as GSTNO, SUM(XXFinal.Taxable_Amount) as Taxable_Amount ,SUM(XXFinal.Non_Taxable_Amount)as Non_Taxable_Amount,
             SUM(XXFinal.[KKF_Amt]) as KKF,SUM(XXFinal.[Mandi_Tax_Amt]) as MandiTax,
             SUM(XXFinal.TCS_AMT) as TCS_AMT,SUM(XXFinal.Trp_othcharg) as [Trip & other Charge],
             MAX(XXFinal.Comp_Name) as Comp_Name,
@@ -986,7 +986,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                             TSPL_COMPANY_MASTER.Comp_Name,TSPL_SD_SHIPMENT_DETAIL.Item_Code,
                                             (TSPL_COMPANY_MASTER.Add1 + TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress, 
                                             TSPL_CUSTOMER_MASTER.GSTNO as GSTNO,
-                                             case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then TSPL_SD_SHIPMENT_HEAD.Total_Amt else 0 end as Taxable_Amount,
+                                             case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount else 0 end as Taxable_Amount,
                                              case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' Then TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount else 0 end as Non_Taxable_Amount,
                                              Case when TSPL_SD_SHIPMENT_DETAIL.TAX1 = 'IGST' Then isnull(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt,0) else(
                                             Case when ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax2,'')='KKF' Then (case when TSPL_SD_SHIPMENT_DETAIL.TAX3='IGST' Then (TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt)else (TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt +TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt) end) else 0 end) end as GSTAmt,

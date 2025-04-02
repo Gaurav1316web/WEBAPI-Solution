@@ -131,6 +131,12 @@ Public Class MDI
             RadButton18.Text = "Dashboard"
             LoadTheme()
             LoadWelcomeScreen()
+            Dim coll As New Dictionary(Of String, String)()
+            coll.Add("Program_Code", "VARCHAR(12) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) null")
+            coll.Add("Created_Date", "Datetime not null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER_COUNTER", coll)
+
             If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.AutoBackUp, clsFixedParameterCode.AutoBackUp, Nothing), "0") = CompairStringResult.Equal Then
                 Timer2.Enabled = False
             End If
@@ -2845,6 +2851,8 @@ Public Class MDI
     Public Function setCountertoblockforOpenForm(ByVal strProgramCode As String)
         Try
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROGRAM_MASTER set Form_Open_Counter=Form_Open_Counter+1  where program_code ='" & strProgramCode & "' ")
+            clsDBFuncationality.ExecuteNonQuery("INSERT TSPL_PROGRAM_MASTER_COUNTER(program_code ,Created_By,Created_Date) values ('" & strProgramCode & "','" + objCommonVar.CurrentUserCode + "',getdate() )")
+
             If clsCommon.myCdbl(clsFixedParameter.GetSpecification(clsFixedParameterType.BigValidity, clsFixedParameterCode.BigValidity, Nothing)) <> 1 Then
                 Qry = clsFixedParameter.GetData(clsFixedParameterType.BigValidity, clsFixedParameterCode.BigValidity, Nothing)
                 Dim BatchFileCounter As Integer = clsCommon.DecryptString(clsFixedParameter.GetData(clsFixedParameterType.BatchFileCounter, clsFixedParameterCode.BatchFileCounter, Nothing))
