@@ -39,6 +39,7 @@ Partial Class frmItemCategoryStructure
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,6 +58,7 @@ Partial Class frmItemCategoryStructure
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -74,6 +76,7 @@ Partial Class frmItemCategoryStructure
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -130,14 +133,18 @@ Partial Class frmItemCategoryStructure
         Me.gvStructLevels.MasterTemplate.AutoGenerateColumns = False
         Me.gvStructLevels.MasterTemplate.EnableCustomFiltering = True
         Me.gvStructLevels.MasterTemplate.EnableGrouping = False
+        Me.gvStructLevels.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvStructLevels.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvStructLevels.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvStructLevels.MyExportFilePath = ""
+        Me.gvStructLevels.MyStopExport = False
         Me.gvStructLevels.Name = "gvStructLevels"
         Me.gvStructLevels.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvStructLevels.ShowHeaderCellButtons = True
         Me.gvStructLevels.Size = New System.Drawing.Size(428, 352)
         Me.gvStructLevels.TabIndex = 6
         Me.gvStructLevels.TabStop = False
+        Me.gvStructLevels.VarID = ""
         '
         'rdbNext
         '
@@ -205,14 +212,18 @@ Partial Class frmItemCategoryStructure
         Me.gvCategoryLevels.MasterTemplate.AutoGenerateColumns = False
         Me.gvCategoryLevels.MasterTemplate.EnableCustomFiltering = True
         Me.gvCategoryLevels.MasterTemplate.EnableGrouping = False
+        Me.gvCategoryLevels.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategoryLevels.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategoryLevels.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategoryLevels.MyExportFilePath = ""
+        Me.gvCategoryLevels.MyStopExport = False
         Me.gvCategoryLevels.Name = "gvCategoryLevels"
         Me.gvCategoryLevels.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCategoryLevels.ShowHeaderCellButtons = True
         Me.gvCategoryLevels.Size = New System.Drawing.Size(427, 352)
         Me.gvCategoryLevels.TabIndex = 3
         Me.gvCategoryLevels.TabStop = False
+        Me.gvCategoryLevels.VarID = ""
         '
         'lblItemCategoryCode
         '
@@ -280,6 +291,16 @@ Partial Class frmItemCategoryStructure
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(153, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmItemCategoryStructure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -311,6 +332,7 @@ Partial Class frmItemCategoryStructure
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -329,4 +351,5 @@ Partial Class frmItemCategoryStructure
     Friend WithEvents rdbNext As Telerik.WinControls.UI.RadButton
     Friend WithEvents gvStructLevels As common.UserControls.MyRadGridView
     Friend WithEvents btnBack As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class

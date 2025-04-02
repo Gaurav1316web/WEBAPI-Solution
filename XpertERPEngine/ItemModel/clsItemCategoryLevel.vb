@@ -31,6 +31,8 @@ Public Class clsItemCategoryLevel
         Try
             ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             isSaved = False
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CATEGORY_LEVEL_VALUES", "ITEM_CATEGORY_CODE", "TSPL_ITEM_CATEGORY_LEVEL", "ITEM_CATEGORY_CODE", Trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CATEGORY_LEVEL_VALUES", "ITEM_CATEGORY_CODE", "TSPL_ITEM_CATEGORY_LEVEL", "ITEM_CATEGORY_CODE", Trans)
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
@@ -118,6 +120,8 @@ Public Class clsItemCategoryLevel
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_CATEGORY_LEVEL", OMInsertOrUpdate.Update, "ITEM_CATEGORY_CODE='" + obj.ITEM_CATEGORY_CODE + "' and isnull(form_type,'ITEM')='" + obj.formtype + "'", trans)
             End If
             isSaved = objitmCatLevelDetails.SaveData(obj.ITEM_CATEGORY_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ITEM_CATEGORY_CODE, "TSPL_ITEM_CATEGORY_LEVEL", "ITEM_CATEGORY_CODE", "TSPL_ITEM_CATEGORY_LEVEL_VALUES", "ITEM_CATEGORY_CODE", trans)
+
             'If isSaved Then
             '    trans.Commit()
             'Else

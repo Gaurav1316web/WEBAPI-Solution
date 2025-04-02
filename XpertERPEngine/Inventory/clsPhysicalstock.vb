@@ -834,7 +834,7 @@ Public Class clsPhysicalstock
                         obj.FatPerDifference = 0
                         obj.SNFPerDifference = 0
                     End If
-                    obj.arrBatchItem = clsBatchInventory.GetData("PH-ST", obj.Physical_No, obj.Item_Code, obj.Line_No, trans)
+                    obj.arrBatchItem = clsBatchInventory.GetData("PH-ST", obj.Physical_No, obj.Item_Code, obj.Stock_Unit, trans)
                     If Not isInvRead Then
                         Dim doc_no As String = ""
                         Dim line_No As Integer = 0

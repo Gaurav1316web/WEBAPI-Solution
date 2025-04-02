@@ -774,7 +774,7 @@ Public Class frmBatchItemOut
             qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
             qry += " and not( TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "' and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "') " + Environment.NewLine
             If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkStockOfItemTillTransactionDateOnly, clsFixedParameterCode.checkStockOfItemTillTransactionDateOnly, Nothing)) = 1) = True AndAlso clsCommon.CompairString(strCurrDocType, "PH-ST") = CompairStringResult.Equal Then
-                qry += " and  TSPL_BATCH_ITEM.Document_Date <= convert(date, '" + strCurrentDocDate + "',103) "
+                qry += " and  convert(date, TSPL_BATCH_ITEM.Document_Date,103) <= convert(date, '" + strCurrentDocDate + "',103) "
             End If
             qry += " and 1=(case when TSPL_BATCH_ITEM.In_Out_Type='I' and TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id is not null then 1 else case when TSPL_BATCH_ITEM.In_Out_Type='O' then 1 else 0 end end) AND TSPL_BATCH_ITEM.Document_Code NOT IN (sELECT tspl_transfer_order_head.Document_No FROM tspl_transfer_order_head WHERE STATUS =2) "
             qry += " " & strUnion & " ) xx where 2=2 "

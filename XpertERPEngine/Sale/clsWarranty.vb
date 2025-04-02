@@ -56,6 +56,8 @@ Public Class clsWarranty
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WARRANTY_MASTER", OMInsertOrUpdate.Update, "TSPL_WARRANTY_MASTER.Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_WARRANTY_MASTER", "Code", trans)
+
         Catch err As Exception
 
             Throw New Exception(err.Message)

@@ -142,6 +142,8 @@ Public Class ClsHSNMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HSN_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_HSN_MASTER", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -183,6 +185,10 @@ Public Class ClsHSNMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_HSN_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_HSN_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_HSN_MASTER where TSPL_HSN_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

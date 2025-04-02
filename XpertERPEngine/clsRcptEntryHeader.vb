@@ -1434,7 +1434,7 @@ Public Class clsRcptEntryHeader
             End If
 
             'Ticket No-TEC/06/09/19-001003,Save Deleted data ,sanjay
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strReceiptNo, "TSPL_RECEIPT_HEADER", "Receipt_No", "Receipt_No", "TSPL_RECEIPT_DETAIL", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strReceiptNo, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
             clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
 

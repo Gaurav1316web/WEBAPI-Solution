@@ -35,8 +35,11 @@ Public Class clsOverheadCostGroupHead
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OVERHEAD_COST_GROUP_HEAD", OMInsertOrUpdate.Update, "GROUP_CODE='" + obj.GROUP_CODE + "'", trans)
             End If
+
             Dim objtr As New clsOverheadCostGroupDetails
             objtr.SaveData(obj.GROUP_CODE, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GROUP_CODE, "TSPL_OVERHEAD_COST_GROUP_HEAD", "GROUP_CODE", "TSPL_OVERHEAD_COST_GROUP_DETAILS", "GROUP_CODE", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -110,6 +113,9 @@ Public Class clsOverheadCostGroupHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Group Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST_GROUP_HEAD", "GROUP_CODE", "TSPL_OVERHEAD_COST_GROUP_DETAILS", "GROUP_CODE", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST_GROUP_HEAD", "GROUP_CODE", "TSPL_OVERHEAD_COST_GROUP_DETAILS", "GROUP_CODE", Nothing)
+
         Dim obj As clsOverheadCostGroupHead = clsOverheadCostGroupHead.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GROUP_CODE) > 0) Then

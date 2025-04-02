@@ -37,6 +37,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkNoCrateIssue = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkisTCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTPT = New Telerik.WinControls.UI.RadCheckBox()
@@ -316,13 +317,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
+        Me.lblSupplyDate = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -589,7 +592,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -655,6 +659,8 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtSupplyDate)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsEwayBill)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoCrateIssue)
         Me.RadPageViewPage1.Controls.Add(Me.chkisTCS)
@@ -745,6 +751,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkIsEwayBill
+        '
+        Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwayBill.Location = New System.Drawing.Point(438, 134)
+        Me.chkIsEwayBill.Name = "chkIsEwayBill"
+        Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
+        Me.chkIsEwayBill.TabIndex = 1583
+        Me.chkIsEwayBill.Text = "Create E-Way Bill"
         '
         'chkNoCrateIssue
         '
@@ -1040,7 +1055,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.Items.Add(RadListDataItem3)
         Me.cmbPaymentType.Items.Add(RadListDataItem4)
         Me.cmbPaymentType.Items.Add(RadListDataItem5)
-        Me.cmbPaymentType.Location = New System.Drawing.Point(883, 0)
+        Me.cmbPaymentType.Location = New System.Drawing.Point(1048, 1)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
         Me.cmbPaymentType.MyLinkLable2 = Nothing
@@ -1048,7 +1063,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.ReferenceFieldDesc = Nothing
         Me.cmbPaymentType.ReferenceFieldName = Nothing
         Me.cmbPaymentType.ReferenceTableName = Nothing
-        Me.cmbPaymentType.Size = New System.Drawing.Size(108, 20)
+        Me.cmbPaymentType.Size = New System.Drawing.Size(102, 20)
         Me.cmbPaymentType.TabIndex = 1561
         '
         'MyLabel7
@@ -1065,7 +1080,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.lblPaymentType.FieldName = Nothing
         Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentType.Location = New System.Drawing.Point(797, 1)
+        Me.lblPaymentType.Location = New System.Drawing.Point(963, 1)
         Me.lblPaymentType.Name = "lblPaymentType"
         Me.lblPaymentType.Size = New System.Drawing.Size(79, 16)
         Me.lblPaymentType.TabIndex = 1560
@@ -1074,7 +1089,7 @@ Partial Class frmDairyBookingCustomer
         'chkcashsale
         '
         Me.chkcashsale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkcashsale.Location = New System.Drawing.Point(719, 2)
+        Me.chkcashsale.Location = New System.Drawing.Point(891, 1)
         Me.chkcashsale.Name = "chkcashsale"
         Me.chkcashsale.Size = New System.Drawing.Size(72, 16)
         Me.chkcashsale.TabIndex = 139
@@ -1103,7 +1118,7 @@ Partial Class frmDairyBookingCustomer
         'chkGhee
         '
         Me.chkGhee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkGhee.Location = New System.Drawing.Point(1068, 3)
+        Me.chkGhee.Location = New System.Drawing.Point(908, 23)
         Me.chkGhee.Name = "chkGhee"
         Me.chkGhee.Size = New System.Drawing.Size(74, 16)
         Me.chkGhee.TabIndex = 1557
@@ -1404,7 +1419,7 @@ Partial Class frmDairyBookingCustomer
         'chkDistributor
         '
         Me.chkDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDistributor.Location = New System.Drawing.Point(543, 2)
+        Me.chkDistributor.Location = New System.Drawing.Point(730, 1)
         Me.chkDistributor.Name = "chkDistributor"
         Me.chkDistributor.Size = New System.Drawing.Size(72, 16)
         Me.chkDistributor.TabIndex = 1485
@@ -1608,7 +1623,7 @@ Partial Class frmDairyBookingCustomer
         'chkBPL
         '
         Me.chkBPL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBPL.Location = New System.Drawing.Point(670, 2)
+        Me.chkBPL.Location = New System.Drawing.Point(847, 1)
         Me.chkBPL.Name = "chkBPL"
         Me.chkBPL.Size = New System.Drawing.Size(42, 16)
         Me.chkBPL.TabIndex = 1485
@@ -1807,7 +1822,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(134, 18)
+        Me.txtDate.Size = New System.Drawing.Size(127, 18)
         Me.txtDate.TabIndex = 1524
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
@@ -1952,7 +1967,7 @@ Partial Class frmDairyBookingCustomer
         'chkDCS
         '
         Me.chkDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDCS.Location = New System.Drawing.Point(618, 2)
+        Me.chkDCS.Location = New System.Drawing.Point(802, 1)
         Me.chkDCS.Name = "chkDCS"
         Me.chkDCS.Size = New System.Drawing.Size(44, 16)
         Me.chkDCS.TabIndex = 1484
@@ -4485,14 +4500,45 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'chkIsEwayBill
+        'txtSupplyDate
         '
-        Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEwayBill.Location = New System.Drawing.Point(438, 134)
-        Me.chkIsEwayBill.Name = "chkIsEwayBill"
-        Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
-        Me.chkIsEwayBill.TabIndex = 1583
-        Me.chkIsEwayBill.Text = "Create E-Way Bill"
+        Me.txtSupplyDate.CalculationExpression = Nothing
+        Me.txtSupplyDate.CustomFormat = "dd/MM/yyyy hh:mm:tt"
+        Me.txtSupplyDate.FieldCode = Nothing
+        Me.txtSupplyDate.FieldDesc = Nothing
+        Me.txtSupplyDate.FieldMaxLength = 0
+        Me.txtSupplyDate.FieldName = Nothing
+        Me.txtSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSupplyDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtSupplyDate.isCalculatedField = False
+        Me.txtSupplyDate.IsSourceFromTable = False
+        Me.txtSupplyDate.IsSourceFromValueList = False
+        Me.txtSupplyDate.IsUnique = False
+        Me.txtSupplyDate.Location = New System.Drawing.Point(603, 0)
+        Me.txtSupplyDate.MendatroryField = False
+        Me.txtSupplyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.MyLinkLable1 = Me.lblSupplyDate
+        Me.txtSupplyDate.MyLinkLable2 = Nothing
+        Me.txtSupplyDate.Name = "txtSupplyDate"
+        Me.txtSupplyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.ReferenceFieldDesc = Nothing
+        Me.txtSupplyDate.ReferenceFieldName = Nothing
+        Me.txtSupplyDate.ReferenceTableName = Nothing
+        Me.txtSupplyDate.Size = New System.Drawing.Size(125, 18)
+        Me.txtSupplyDate.TabIndex = 1585
+        Me.txtSupplyDate.TabStop = False
+        Me.txtSupplyDate.Text = "13/06/2011 11:29:AM"
+        Me.txtSupplyDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblSupplyDate
+        '
+        Me.lblSupplyDate.FieldName = Nothing
+        Me.lblSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSupplyDate.Location = New System.Drawing.Point(533, 3)
+        Me.lblSupplyDate.Name = "lblSupplyDate"
+        Me.lblSupplyDate.Size = New System.Drawing.Size(68, 16)
+        Me.lblSupplyDate.TabIndex = 1584
+        Me.lblSupplyDate.Text = "Supply Date"
         '
         'frmDairyBookingCustomer
         '
@@ -4516,6 +4562,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4801,7 +4848,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5089,5 +5137,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkNoCrateIssue As RadCheckBox
     Friend WithEvents chkIsEwayBill As RadCheckBox
+    Friend WithEvents txtSupplyDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblSupplyDate As common.Controls.MyLabel
 End Class
 

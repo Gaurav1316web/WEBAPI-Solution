@@ -453,6 +453,19 @@ Public Class FrmCatalogMaster
             funPrint()
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Catalog_Code", "TSPL_CATALOG_MASTER", "TSPL_CATALOG_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub funPrint()
         Try
             Dim qry As String = " Select  '" & objCommonVar.CurrentCompanyName & "' as Company_Name , TSPL_CATALOG_MASTER.Catalog_Code as CatalogNo,Convert(varchar,TSPL_CATALOG_MASTER.Catalog_Date,103) as catalogDate ,TSPL_CATALOG_MASTER.Catalog_Desc as CatalogDesc,TSPL_CATALOG_MASTER.Bom_Code as BOMCode,TSPL_CATALOG_MASTER.Specification as MainSpecification,TSPL_CATALOG_MASTER.Feature  as MainFeature,TSPL_CATALOG_MASTER.Item_Code as MainItemCode,TSPL_ITEM_MASTER.Item_Desc as mainItemdesc,"

@@ -56,6 +56,7 @@ Public Class clsPartNoMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PART_NO_MASTER", OMInsertOrUpdate.Update, " code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_PART_NO_MASTER", "code", trans)
 
             Return True
         Catch ex As Exception
@@ -78,6 +79,9 @@ Public Class clsPartNoMaster
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PART_NO_MASTER", "code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PART_NO_MASTER", "code", trans)
+
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_PART_NO_MASTER where code='" + strCode + "'", trans)
 
             Return True
