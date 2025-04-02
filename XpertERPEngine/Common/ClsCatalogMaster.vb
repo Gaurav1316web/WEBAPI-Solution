@@ -55,6 +55,8 @@ Public Class ClsCatalogMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CATALOG_MASTER", OMInsertOrUpdate.Update, "TSPL_CATALOG_MASTER.Catalog_Code='" + obj.Catalog_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso ClsCatalogDetail.saveData(obj.arrCatalogDetail, obj.Catalog_Code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Catalog_Code, "TSPL_CATALOG_MASTER", "Catalog_Code", "TSPL_CATALOG_DETAIL", "Catalog_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -106,6 +108,9 @@ Public Class ClsCatalogMaster
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CATALOG_MASTER", "Catalog_Code", "TSPL_CATALOG_DETAIL", "Catalog_Code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CATALOG_MASTER", "Catalog_Code", "TSPL_CATALOG_DETAIL", "Catalog_Code", trans)
+
         Try
             Dim qry As String = ""
             qry = "delete from TSPL_CATALOG_DETAIL where Catalog_Code='" + strDocNo + "'"

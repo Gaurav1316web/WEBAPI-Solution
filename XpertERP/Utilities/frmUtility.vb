@@ -121,6 +121,8 @@ Public Class FrmUtility
     Private Sub FrmUtility_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         txtRetestingDate.Value = clsCommon.GETSERVERDATE()
+        txtAddBatchExpiryDate.Value = txtRetestingDate.Value
+        txtAddBatchMfgDate.Value = txtRetestingDate.Value
 
         Timer3.Enabled = True
         MyCheckBox1.Checked = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, Nothing)) > 0)
@@ -26759,6 +26761,84 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
         Return obj
     End Function
+
+
+
+    Private Sub txtAddBatchItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtAddBatchItem._MYValidating
+        Try
+            Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER "
+            txtAddBatchItem.Value = clsCommon.ShowSelectForm("utiItemBatfix", qry, "Item_Code", "", txtAddBatchItem.Value, "", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub RadButton311_Click(sender As Object, e As EventArgs) Handles RadButton311.Click
+        Try
+            If clsCommon.myLen(txtAddBatchItem.Value) <= 0 Then
+                txtAddBatchItem.Focus()
+                Throw New Exception("Please select item")
+            End If
+            If clsCommon.myLen(txtAddBatchBatchNo.Text) <= 0 Then
+                txtAddBatchItem.Focus()
+                Throw New Exception("Please select item")
+            End If
+            If clsCommon.GetDateWithEndTime(txtAddBatchExpiryDate.Value) < clsCommon.GetDateWithEndTime(txtAddBatchMfgDate.Value) Then
+                txtAddBatchExpiryDate.Focus()
+                Throw New Exception("Expiry date should be greater than mfg date")
+            End If
+
+            Dim qry As String = "select Trans_Id,InOut,Location_Code,Item_Code,Qty,UOM ,Source_Doc_No,Trans_Type,InOut,Punching_Date
+from TSPL_INVENTORY_MOVEMENT 
+left outer join (select   Against_Inv_Movement_Trans_Id from TSPL_BATCH_ITEM where Against_Inv_Movement_Trans_Id is not null group by Against_Inv_Movement_Trans_Id) as Tab_Batch on Tab_Batch.Against_Inv_Movement_Trans_Id=TSPL_INVENTORY_MOVEMENT.Trans_Id
+where TSPL_INVENTORY_MOVEMENT.item_Code='" + txtAddBatchItem.Value + "' and Tab_Batch.Against_Inv_Movement_Trans_Id is null  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No missing batch item found")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Found [" + clsCommon.myCstr(dt.Rows.Count) + "] missing batch.Insert these batch details ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    For Each dr As DataRow In dt.Rows
+                        qry = " select max(Code) from TSPL_BATCH_ITEM"
+                        Dim strCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                        If clsCommon.myLen(strCode) > 0 Then
+                            strCode = clsCommon.incval(strCode)
+                        Else
+                            strCode = "BAT000000000000000000000000001"
+                        End If
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Code", strCode)
+                        clsCommon.AddColumnsForChange(coll, "Parent_Line_No", 1)
+                        clsCommon.AddColumnsForChange(coll, "Line_No", 1)
+                        clsCommon.AddColumnsForChange(coll, "Batch_No", txtAddBatchBatchNo.Text)
+                        clsCommon.AddColumnsForChange(coll, "Manufacture_Date", clsCommon.GetPrintDate(txtAddBatchMfgDate.Value, "dd/MMM/yyyy"))
+                        clsCommon.AddColumnsForChange(coll, "Expiry_Date", clsCommon.GetPrintDate(txtAddBatchExpiryDate.Value, "dd/MMM/yyyy"))
+                        clsCommon.AddColumnsForChange(coll, "UOM", clsCommon.myCstr(dr("UOM")))
+                        clsCommon.AddColumnsForChange(coll, "MRP", 0)
+                        clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCDecimal(dr("Qty")))
+                        clsCommon.AddColumnsForChange(coll, "Item_Code", clsCommon.myCstr(dr("Item_Code")))
+                        clsCommon.AddColumnsForChange(coll, "Document_Code", clsCommon.myCstr(dr("Source_Doc_No")))
+                        clsCommon.AddColumnsForChange(coll, "Document_Type", clsCommon.myCstr(dr("Trans_Type")))
+                        clsCommon.AddColumnsForChange(coll, "In_Out_Type", clsCommon.myCstr(dr("InOut")))
+                        clsCommon.AddColumnsForChange(coll, "Against_Inv_Movement_Trans_Id", clsCommon.myCDecimal(dr("Trans_Id")))
+                        clsCommon.AddColumnsForChange(coll, "Location_Code", clsCommon.myCstr(dr("Location_Code")))
+                        clsCommon.AddColumnsForChange(coll, "Manual_BatchNo", txtAddBatchBatchNo.Text)
+                        clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("Punching_Date")), "dd/MMM/yyyy hh:mm tt"))
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BATCH_ITEM", OMInsertOrUpdate.Insert, "", trans)
+                    Next
+                    trans.Commit()
+                    clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                Catch ex As Exception
+                    trans.Rollback()
+                    Throw New Exception(ex.Message)
+                End Try
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"

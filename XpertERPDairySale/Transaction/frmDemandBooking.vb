@@ -2,12 +2,13 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports common
+Imports common.UserControls
 Imports XpertERPEngine
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isIndent As Boolean = False
-    Dim GVTruckSheet As RadGridView
+    Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
     Dim SetDefaultShiftTime As String = ""
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
@@ -181,6 +182,15 @@ Public Class frmDemandBooking
 
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
             DeleteData()
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
+
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "ShuffleDemand"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                gbShuffleDemand.Visible = True
+            End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.KeyCode = Keys.Enter Then
@@ -699,6 +709,8 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             btn_GPCancel.Enabled = False
             txtcustomersearch.Text = ""
             txtDate.Value = clsCommon.GETSERVERDATE()
+            txtShuffleDate.Value = txtDate.Value
+            cmbShift.Text = "Evening"
             UsLock1.Status = ERPTransactionStatus.Pending
             chkIndividualCustomer.Checked = False
             chkIndividualCustomer.Enabled = True
@@ -758,6 +770,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                     rbtnMorning.IsChecked = True
                 End If
             End If
+            gbShuffleDemand.Visible = False
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1817,20 +1830,21 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         Try
             Dim MainQry As String = ""
             Dim qry As String = ""
+            Dim isPosted As Boolean = False
             If objCommonVar.ApplyBoothRouteMapping Then
                 qry = "select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
 left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
 where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_Booth_Route_Mapping_Head.Route_No='" + strtRouteCode + "' 
 and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) order by Document_No desc"
                 Dim BRM_DocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                qry = " select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
+                qry = " select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No, TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code 
 where Document_No='" + BRM_DocNO + "' and TSPL_CUSTOMER_MASTER.Status='N' "
                 If chkIndividualCustomer.Checked = True Then
                     qry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code ='" & txtCustomerNo.Value & "' "
                 End If
                 If isLoadData Then
-                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
+                    qry += " union select max(TSPL_DEMAND_BOOKING_DETAIL.Document_No) as Document_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
                 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                 left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
@@ -1841,7 +1855,7 @@ where Document_No='" + BRM_DocNO + "' and TSPL_CUSTOMER_MASTER.Status='N')
                 End If
                 'MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
                 MainQry = qry + "  order by TSPL_Booth_Route_Mapping_Detail.Serial_No "
-                Dim isPosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'  and Posted=1")) = 1, True, False)
+                isPosted = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'  and Posted=1")) = 1, True, False)
                 If isPosted Then
                     MainQry = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
                 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -1879,35 +1893,110 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
                 For Each dr As DataRow In dt1.Rows
-                    Dim flagE As Boolean = True
-                    Dim flagM As Boolean = True
-                    If SettSeprateDemandForMorningEveningShift Then
-                        flagE = rbtnEvening.IsChecked
-                        flagM = rbtnMorning.IsChecked
-                        RadGroupBox3.Enabled = False
+                    If objCommonVar.ApplyBoothRouteMapping Then
+                        If Not isPosted Then
+                            Dim strBoothQry As String = "select top 1 * from 
+TSPL_BOOTH_ROUTE_MAPPING_HEAD
+left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No
+ where TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code='" + clsCommon.myCstr(dr("cust_code")) + "' and CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "'
+and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) order by PK_ID desc "
+                            Dim dtBooth As DataTable = clsDBFuncationality.GetDataTable(strBoothQry)
+                            If clsCommon.CompairString(dtBooth.Rows(0)("Document_No"), clsCommon.myCstr(dr("Document_No"))) = CompairStringResult.Equal Then
+                                Dim flagE As Boolean = True
+                                Dim flagM As Boolean = True
+                                If SettSeprateDemandForMorningEveningShift Then
+                                    flagE = rbtnEvening.IsChecked
+                                    flagM = rbtnMorning.IsChecked
+                                    RadGroupBox3.Enabled = False
+                                End If
+                                If flagE Then
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                                    i = i + 1
+                                    gv1.Rows.AddNew()
+                                End If
+                                If flagM Then
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                                    i = i + 1
+                                    gv1.Rows.AddNew()
+                                End If
+                            End If
+                        Else
+                            Dim flagE As Boolean = True
+                            Dim flagM As Boolean = True
+                            If SettSeprateDemandForMorningEveningShift Then
+                                flagE = rbtnEvening.IsChecked
+                                flagM = rbtnMorning.IsChecked
+                                RadGroupBox3.Enabled = False
+                            End If
+                            If flagE Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                                i = i + 1
+                                gv1.Rows.AddNew()
+                            End If
+                            If flagM Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                                i = i + 1
+                                gv1.Rows.AddNew()
+                            End If
+                        End If
+                    Else
+                        Dim flagE As Boolean = True
+                        Dim flagM As Boolean = True
+                        If SettSeprateDemandForMorningEveningShift Then
+                            flagE = rbtnEvening.IsChecked
+                            flagM = rbtnMorning.IsChecked
+                            RadGroupBox3.Enabled = False
+                        End If
+                        If flagE Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                            i = i + 1
+                            gv1.Rows.AddNew()
+                        End If
+                        If flagM Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                            i = i + 1
+                            gv1.Rows.AddNew()
+                        End If
                     End If
-                    If flagE Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
-                        i = i + 1
-                        gv1.Rows.AddNew()
-                    End If
-                    If flagM Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
-                        i = i + 1
-                        gv1.Rows.AddNew()
-                    End If
+
+
+
                 Next
                 For n As Integer = 0 To gv1.Rows.Count - 1
                     Try
@@ -3394,8 +3483,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
     Private Sub TruckSheetExcel(ByVal isExcelPDF As Boolean, ByVal TripNo As String)
         Dim BaseQry As String = Nothing
-        Dim doc As New clsMyPrintDocument()
-        GVTruckSheet = New RadGridView()
+        Dim doc As New XpertERPEngine.clsMyPrintDocument()
+        GVTruckSheet = New MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
@@ -4114,7 +4203,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
     End Sub
 
-    Private Function GetNextvisibleColumn(gVTruckSheet As RadGridView, kk As Integer) As Integer
+    Private Function GetNextvisibleColumn(gVTruckSheet As MyRadGridView, kk As Integer) As Integer
         Dim retValu As Integer = -1
         For ii As Integer = kk + 1 To gVTruckSheet.Columns.Count
             If gVTruckSheet.Columns(ii).IsVisible Then
@@ -4126,9 +4215,9 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     End Function
 
     Private Sub TruckSheetPDF()
-        Dim GVTruckSheet As New RadGridView()
+        Dim GVTruckSheet As New MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
-        Dim doc As New clsMyPrintDocument()
+        Dim doc As New XpertERPEngine.clsMyPrintDocument()
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
                 On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -4863,8 +4952,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     End Sub
     Private Sub rmi_TS_Excel_Click(sender As Object, e As EventArgs) Handles rmi_TS_Excel.Click
         Try
+            isIndent = True
             exportExcel()
+            isIndent = False
         Catch ex As Exception
+            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -4904,8 +4996,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
     Private Sub rmi_TS_PDF_Click(sender As Object, e As EventArgs) Handles rmi_TS_PDF.Click
         Try
+            isIndent = True
             ExportPDF()
+            isIndent = False
         Catch ex As Exception
+            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -6221,24 +6316,33 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL_HISTORY", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
     End Sub
 
+    Private Sub btnShuffle_Click(sender As Object, e As EventArgs) Handles btnShuffle.Click
+        Try
+            clsCommon.ProgressBarShow()
+
+            clsDemandBookingSale.ShuffleBoothRouteData(txtShuffleDate.Value, cmbShift.Text)
+            clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(Me, "Shuffled Successffuly")
+
+        Catch ex As Exception
+            clsCommon.ProgressBarHide()
+
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub rmi_Indent_PDF_Click(sender As Object, e As EventArgs) Handles rmi_Indent_PDF.Click
         Try
-            isIndent = True
             ExportPDF()
-            isIndent = False
         Catch ex As Exception
-            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub rmi_Indent_Excel_Click(sender As Object, e As EventArgs) Handles rmi_Indent_Excel.Click
         Try
-            isIndent = True
             exportExcel()
-            isIndent = False
         Catch ex As Exception
-            isIndent = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

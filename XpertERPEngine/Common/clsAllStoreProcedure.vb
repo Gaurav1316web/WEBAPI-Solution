@@ -2918,7 +2918,7 @@ BEGIN
     END
     RETURN @InputString
 END;"
-            clsCommonFunctionality.CreateSQLFunctioin("RemoveSpecialCharacters", strFunctionBody)
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveSpecialCharacters", strFunctionBody)
 
 
 
@@ -2932,7 +2932,7 @@ BEGIN
     END
     RETURN @InputString
 END;"
-            clsCommonFunctionality.CreateSQLFunctioin("RemoveSpecialCharactersWithNumber", strFunctionBody)
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveSpecialCharactersWithNumber", strFunctionBody)
 
 
 
@@ -2946,7 +2946,7 @@ BEGIN
     END
     RETURN @InputString
 END;"
-            clsCommonFunctionality.CreateSQLFunctioin("RemoveExtraSpaces", strFunctionBody)
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveExtraSpaces", strFunctionBody)
 
 
 

@@ -2677,11 +2677,7 @@ Public Class clsMCCMaterialSale
           " TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_STATE_MASTER.GST_STATE_Code AS Cust_GstStateCode,  TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,    case when coalesce(p_cust.GST_STATE_CODE,'')='' then TSPL_state_Master.GST_STATE_CODE       when coalesce(p_cust.GST_STATE_CODE,'')<>'' then p_cust .GST_STATE_CODE    end as P_GST_STATE_CODE," &
           " case when coalesce(p_cust.P_GSTIN_NO,'')='' then TSPL_CUSTOMER_MASTER .GSTNO  when coalesce(p_cust.P_GSTIN_NO,'')<>'' then p_cust .P_GSTIN_NO end as P_GSTIN_NO,    TSPL_ITEM_MASTER.HSN_Code,  " &
           " isnull(dtax1.Type,'') as tax1Type,isnull(dtax2.Type,'') as tax2Type,isnull(dtax3.Type,'') as tax3Type,isnull(dtax4.Type,'') as tax4Type,isnull(dtax5.Type,'') as tax5Type,isnull(dtax6.Type,'') as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type, " &
-        " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt ,0)as DTax1_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt ,0)as DTax2_Amt," &
-       " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt ,0)as DTax3_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt ,0)as DTax4_Amt," &
-        "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt ,0)as DTax5_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt ,0)as DTax6_Amt," &
-         " ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt ,0)as DTax7_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt ,0)as DTax8_Amt," &
-          "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt ,0)as DTax9_Amt,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt ,0)as DTax10_Amt," &
+        " ISNULL(TSPL_SD_SHIPMENT_head.TAX1_Amt ,0)as DTax1_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX2_Amt ,0)as DTax2_Amt, ISNULL(TSPL_SD_SHIPMENT_head.TAX3_Amt ,0)as DTax3_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX4_Amt ,0)as DTax4_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX5_Amt ,0)as DTax5_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX6_Amt ,0)as DTax6_Amt, ISNULL(TSPL_SD_SHIPMENT_head.TAX7_Amt ,0)as DTax7_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX8_Amt ,0)as DTax8_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX9_Amt ,0)as DTax9_Amt,ISNULL(TSPL_SD_SHIPMENT_head.TAX10_Amt ,0)as DTax10_Amt," &
           "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Rate,0)as DTax1_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Rate,0)as DTax2_Rate," &
           "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Rate,0)as DTax3_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Rate,0)as DTax4_Rate," &
           "ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Rate,0)as DTax5_Rate,ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Rate,0)as DTax6_Rate," &

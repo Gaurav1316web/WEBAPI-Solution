@@ -375,6 +375,18 @@ Public Class frmInventorySourceCode
         SetInOutCategory()
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccgp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Code", "TSPL_INVENTORY_SOURCE_CODE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub SetInOutCategory()
         If clsCommon.CompairString(clsCommon.myCstr(cboInOutType.SelectedValue), "All") = CompairStringResult.Equal Then
             SplitContainer2.Panel1Collapsed = False

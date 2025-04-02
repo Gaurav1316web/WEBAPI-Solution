@@ -50,7 +50,10 @@ Public Class clsWeightUomMaster
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WEIGHT_UOM_MASTER", OMInsertOrUpdate.Update, "TSPL_WEIGHT_UOM_MASTER.Code='" + obj.Code + "'", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_WEIGHT_UOM_MASTER", "Code", trans)
+
             Next
+
             If isSaved Then
                 ' trans.Commit()
             End If
@@ -96,6 +99,8 @@ Public Class clsWeightUomMaster
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_WEIGHT_UOM_MASTER", "Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_WEIGHT_UOM_MASTER", "Code", Nothing)
 
         Dim qry As String = "delete from TSPL_WEIGHT_UOM_MASTER where Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
@@ -133,6 +138,7 @@ Public Class clsWeightUomMaster
             End If
             Dim strQry As String = " update TSPL_WEIGHT_UOM_MASTER set POSTED='1', POSTING_DATE='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' , Post_By = '" + objCommonVar.CurrentUserCode + "' where Code='" & strDocNo & "' "
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_WEIGHT_UOM_MASTER", "Code", trans)
             '================ Update in unit master================================
             Dim sql1 As String = "select count(*) from TSPL_UNIT_MASTER where Unit_Code='" + obj.Code + "'"
             count = CInt(connectSql.RunScalar(trans, sql1))

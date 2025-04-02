@@ -53,6 +53,7 @@ Public Class clsItemType
                 result = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_TYPE_MASTER", OMInsertOrUpdate.Update, "TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE='" + obj.ITEM_TYPE_CODE + "'", trans)
             End If
             clsItemTypeSchedule.SaveData(obj.ITEM_TYPE_CODE, obj.ArrSchedule, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ITEM_TYPE_CODE, "TSPL_ITEM_TYPE_MASTER", "ITEM_TYPE_CODE", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -131,6 +132,9 @@ Public Class clsItemType
         Dim Qry = ""
         Dim result As Boolean = False
         Dim no As Integer = 0
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, ItemTypeCode, "TSPL_ITEM_TYPE_MASTER", "ITEM_TYPE_CODE", Nothing)
+
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, ItemTypeCode, "TSPL_ITEM_TYPE_MASTER", "ITEM_TYPE_CODE", Nothing)
         Try
             Qry = " SELECT COUNT(1) FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + ItemTypeCode + "' AND IS_FREEZ=1 "
             no = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))

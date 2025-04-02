@@ -130,6 +130,7 @@ Public Class MSIProductionSaleReport
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                 DailySalesrptqry += ")XX )yy"
+
             ElseIf rdbDispatch.IsChecked = True Then
                 DailySalesrptqry = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
                                           from TSPL_SD_SHIPMENT_DETAIL
@@ -142,6 +143,9 @@ Public Class MSIProductionSaleReport
 				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                    DailySalesrptqry += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                End If
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + Stocktransferdispatch + ""
                 End If
@@ -157,6 +161,9 @@ Public Class MSIProductionSaleReport
 				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                    DailySalesrptqry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                End If
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptqry += "" + stocktransferinvoice + ""
                 End If
@@ -234,6 +241,7 @@ Public Class MSIProductionSaleReport
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusReturn + " "
                 DailySalesrptperiodicallyqry += ")XX )yy"
+
             ElseIf rdbDispatch.IsChecked = True Then
                 DailySalesrptperiodicallyqry = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/max(ToUOM.Conversion_Factor) as Qty
                                           from TSPL_SD_SHIPMENT_DETAIL
@@ -247,6 +255,9 @@ Public Class MSIProductionSaleReport
 				                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')    "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + Status + " "
+                If rdbDispatch.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                    DailySalesrptqry += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                End If
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + Stocktransferdispatch + ""
                 End If
@@ -263,6 +274,9 @@ Public Class MSIProductionSaleReport
 				                          and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
                                           AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  "
                 DailySalesrptperiodicallyqry += " " + FG + " " + SFG + " " + FGSFG + " " + StatusInvoice + " "
+                If rdbInvoice.IsChecked = True AndAlso rdbSale.IsChecked = True Then
+                    DailySalesrptqry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                End If
                 If rdbStockTransfer.IsChecked = True Then
                     DailySalesrptperiodicallyqry += "" + stocktransferinvoice + ""
                 End If
