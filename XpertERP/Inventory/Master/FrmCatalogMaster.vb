@@ -460,7 +460,7 @@ Public Class FrmCatalogMaster
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Catalog_Code", "TSPL_CATALOG_MASTER", "TSPL_CATALOG_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Catalog_Code", "TSPL_CATALOG_MASTER", "TSPL_CATALOG_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -4539,7 +4539,9 @@ Public Class clsCreateAllTable
             coll.Add("SchemeUOM", "varchar(12)  NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
             coll.Add("SchemeQty", "decimal(18,2) null")
 
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_MASTER_NEW", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_MASTER_NEW", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SCHEME_MASTER_NEW", coll, "", True, False, "", "", "", True)
+
             Try
 
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SCHEME_MASTER_NEW alter COLUMN Scheme_Type varchar(20) NOT NULL")
@@ -4581,12 +4583,14 @@ Public Class clsCreateAllTable
             coll.Add("Amount", "decimal(18, 2) NULL default 0")
             coll.Add("Max_Limit", "decimal(18, 2) NULL")
             coll.Add("Increment_Value", "decimal(18, 2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_DETAIL_NEW", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_DETAIL_NEW", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SCHEME_DETAIL_NEW", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Scheme_Code", "varchar(12) NOT NULL")
             coll.Add("Cust_Code", "varchar(12) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_BENEFICIARY", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_BENEFICIARY", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SCHEME_BENEFICIARY", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Scheme_Code", "Varchar(12) not null REFERENCES TSPL_SCHEME_MASTER_NEW(Scheme_Code)")
@@ -45101,7 +45105,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Email_Id", "varchar(50) not null")
             coll.Add("Status", "varchar(30)  null")
             coll.Add("Error_Log", "varchar(max)  null")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SENT_MAIL_SLIP_DETAIL", coll, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SENT_MAIL_SLIP_DETAIL", coll, "", True)
             '=============added by shivani=====================
             coll = New Dictionary(Of String, String)()
             coll.Add("Gate_Entry_No", "varchar(50) not NULL Primary Key")
