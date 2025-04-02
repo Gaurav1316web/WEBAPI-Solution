@@ -8404,6 +8404,7 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
             coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("Supply_Date", "datetime not NULL")
             coll.Add("Posted", "integer not null default 0")
             coll.Add("Comp_Code", "varchar(8) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
