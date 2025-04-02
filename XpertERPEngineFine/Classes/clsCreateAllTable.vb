@@ -5999,7 +5999,11 @@ Public Class clsCreateAllTable
             Catch ex As Exception
 
             End Try
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Program_Code", "VARCHAR(12) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) null")
+            coll.Add("Created_Date", "Datetime not null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER_COUNTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) not null Primary Key")
