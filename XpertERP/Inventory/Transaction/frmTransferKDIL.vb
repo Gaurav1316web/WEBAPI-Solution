@@ -7403,10 +7403,14 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProductBKN", "Stock Transfer Advice", Nothing)
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
+                    End If
                     'frmCRV.Close()
                 Else
-                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                        clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow("Select document.", Me.Text)

@@ -3320,10 +3320,18 @@ Public Class rptGSTR
 
 
             If openFileDialog.ShowDialog() = DialogResult.OK Then
+                'sourceFilePath = openFileDialog.FileName
+                '' Get File Name and Destination Path
+                'fileName = Path.GetFileName(sourceFilePath)
+                ''Dim destinationFilePath As String = Path.Combine(uploadFolder, fileName)
                 sourceFilePath = openFileDialog.FileName
-                ' Get File Name and Destination Path
                 fileName = Path.GetFileName(sourceFilePath)
-                'Dim destinationFilePath As String = Path.Combine(uploadFolder, fileName)
+
+                ' Remove Read-Only attribute if set
+                Dim fileAttributes As FileAttributes = File.GetAttributes(sourceFilePath)
+                If (fileAttributes And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
+                    File.SetAttributes(sourceFilePath, fileAttributes And Not FileAttributes.ReadOnly)
+                End If
             Else
                 Throw New Exception("No file selected. Select a file to upload.")
             End If
@@ -3425,6 +3433,7 @@ Public Class rptGSTR
 
 
             exportGSTR = True
+            clsCommon.ProgressBarPercentShow()
             For i As Integer = 1 To gv2.Rows.Count
                 GSTRDetails(i)
                 Dim finalQry As String = Nothing
@@ -3435,50 +3444,32 @@ Public Class rptGSTR
                     finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
                 ElseIf i = 5 Then
                     finalQry = "Select '' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
+                ElseIf i = 6 Then
+                    finalQry = " Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],'' As [Note Type],[Place of Supply],'' As [Reverse Charges],'' As [Note Supply Type],'' As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                ElseIf i = 7 Then
+                    finalQry = " Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
                 End If
                 If clsCommon.myLen(finalQry) > 0 Then
                     Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
                     If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
-                        'exportExcel(dtGSTR, outputFilePath, i)
-                    Else
-                        clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
+                        exportExcel(dtGSTR, outputFilePath, i)
+                        'Else
+                        '    clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
                     End If
                 End If
             Next
+            clsCommon.ProgressBarPercentHide()
             exportGSTR = False
         Catch ex As Exception
             exportGSTR = False
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    'Function IsFileOpen(filePath As String) As Boolean
-    '    Try
-    '        If Not File.Exists(filePath) Then Return False ' File doesn't exist
-
-    '        Using fs As FileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.None)
-    '            fs.Close()
-    '        End Using
-    '        Return False ' File is NOT open
-
-    '    Catch ex As IOException
-    '        Return True ' File is OPEN (locked by another process)
-    '    End Try
-    'End Function
 
     Sub exportExcel(ByVal dt As DataTable, ByVal filePath As String, ByVal i As Integer)
         Try
-
-            ' Remove Read-Only Attribute
-            'If File.Exists(filePath) Then
-            '    Dim fileInfo As New FileInfo(filePath)
-            '    If (fileInfo.Attributes And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
-            '        fileInfo.Attributes = fileInfo.Attributes And FileAttributes.Normal
-            '    End If
-            'End If
-
-
-
             If i = 1 Then
                 excelApp = New Excel.Application()
                 workbook = excelApp.Workbooks.Open(filePath)
@@ -3492,19 +3483,21 @@ Public Class rptGSTR
             Next
 
             ' Loop through each existing sheet and write data
+            Dim j As Integer = 1
             For Each sheetName As String In sheetNames
                 If Not clsCommon.CompairString(sheetName, "Help Instruction") = CompairStringResult.Equal Then
                     sheet = CType(workbook.Sheets(sheetName), Excel.Worksheet)
+                    clsCommon.ProgressBarPercentUpdate(j, sheetNames.Count, "Processing...")
                     If clsCommon.CompairString(sheetName, "b2b,sez,de") = CompairStringResult.Equal AndAlso i = 1 Then
                         WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
                     ElseIf clsCommon.CompairString(sheetName, "b2cl") = CompairStringResult.Equal AndAlso i = 4 Then
                         WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
                     ElseIf clsCommon.CompairString(sheetName, "b2cs") = CompairStringResult.Equal AndAlso i = 5 Then
                         WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                    ElseIf clsCommon.CompairString(sheetName, "cdnr") = CompairStringResult.Equal AndAlso i = 6 Then
+                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                    ElseIf clsCommon.CompairString(sheetName, "cdnur") = CompairStringResult.Equal AndAlso i = 7 Then
+                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
                         'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
                         '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
                         'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
@@ -3519,6 +3512,7 @@ Public Class rptGSTR
                     Marshal.ReleaseComObject(sheet) ' Release sheet object
                     sheet = Nothing
                 End If
+                j += 1
             Next
 
 

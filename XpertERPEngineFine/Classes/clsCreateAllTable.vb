@@ -8409,6 +8409,7 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
             coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("Supply_Date", "datetime NULL")
             coll.Add("Posted", "integer not null default 0")
             coll.Add("Comp_Code", "varchar(8) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -8548,8 +8549,11 @@ Public Class clsCreateAllTable
             coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
             coll.Add("Manual_VehicleNo", "varchar(12) null")
             coll.Add("NoCrateIssue", "integer null")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set supply_date=Document_Date where supply_date is null")
+                clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column supply_date datetime NOT NULL")
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Modified_Date datetime NOT NULL")
                 'clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NOT NULL")
@@ -30399,6 +30403,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Inter_unit_sale", "Integer default 0")
+            coll.Add("IsEwaybill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -30615,7 +30620,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
-            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL ")
             coll.Add("Booth_Code", "varchar(12) NULL")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Item_Code", "varchar(50) NULL")
@@ -32151,6 +32156,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("Send_Email", "Integer Null")
             coll.Add("Send_SMS", "Integer Null")
+            coll.Add("IsEwaybill", "Integer Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

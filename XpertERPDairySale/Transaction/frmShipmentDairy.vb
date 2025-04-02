@@ -6417,6 +6417,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
+        chkIsEWayBill.Checked = True
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -7592,6 +7593,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             obj.Shift_Type = cmbShift.SelectedValue
             obj.Vehicle_Type = cmbVehicleType.SelectedValue
             obj.OrgCustCOde = strOrginalCust
+            obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
             End If
@@ -8428,6 +8430,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 txtShippedCan.Value = obj.ShippedCAN
                 TxtTotalCAN.Value = obj.TotalCAN
                 chkownVehicle.Checked = IIf(obj.Is_OwnVehicle = 1, True, False)
+                chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 TxtRoundoff.Text = obj.RoundOffAmount
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(obj.RoundOffAmount) > 0.00 OrElse clsCommon.myCdbl(obj.RoundOffAmount) < 0.00 Then

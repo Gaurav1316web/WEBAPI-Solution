@@ -633,7 +633,6 @@ Partial Class rptGSTR
         Me.btnExportGSTR1.Size = New System.Drawing.Size(117, 21)
         Me.btnExportGSTR1.TabIndex = 317
         Me.btnExportGSTR1.Text = "Export GSTR Excel"
-        Me.btnExportGSTR1.Visible = False
         '
         'btnSplit
         '
