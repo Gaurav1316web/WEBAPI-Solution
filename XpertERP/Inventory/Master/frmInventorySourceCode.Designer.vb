@@ -22,16 +22,18 @@ Partial Class frmInventorySourceCode
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtSequence = New common.Controls.MyTextBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.cboInCatg = New common.Controls.MyComboBox()
@@ -53,11 +55,12 @@ Partial Class frmInventorySourceCode
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtSequence = New common.Controls.MyTextBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtSequence, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -77,8 +80,7 @@ Partial Class frmInventorySourceCode
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSequence, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,12 +111,51 @@ Partial Class frmInventorySourceCode
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Size = New System.Drawing.Size(560, 244)
         Me.SplitContainer1.SplitterDistance = 207
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtSequence
+        '
+        Me.txtSequence.CalculationExpression = Nothing
+        Me.txtSequence.FieldCode = Nothing
+        Me.txtSequence.FieldDesc = Nothing
+        Me.txtSequence.FieldMaxLength = 0
+        Me.txtSequence.FieldName = Nothing
+        Me.txtSequence.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSequence.isCalculatedField = False
+        Me.txtSequence.IsSourceFromTable = False
+        Me.txtSequence.IsSourceFromValueList = False
+        Me.txtSequence.IsUnique = False
+        Me.txtSequence.Location = New System.Drawing.Point(81, 149)
+        Me.txtSequence.MaxLength = 100
+        Me.txtSequence.MendatroryField = False
+        Me.txtSequence.MyLinkLable1 = Me.MyLabel4
+        Me.txtSequence.MyLinkLable2 = Nothing
+        Me.txtSequence.Name = "txtSequence"
+        Me.txtSequence.ReferenceFieldDesc = Nothing
+        Me.txtSequence.ReferenceFieldName = Nothing
+        Me.txtSequence.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtSequence.RootElement.StretchVertically = True
+        Me.txtSequence.Size = New System.Drawing.Size(176, 20)
+        Me.txtSequence.TabIndex = 346
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(10, 151)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel4.TabIndex = 347
+        Me.MyLabel4.Text = "Sequence"
         '
         'SplitContainer2
         '
@@ -150,6 +191,7 @@ Partial Class frmInventorySourceCode
         Me.cboInCatg.AutoCompleteDisplayMember = Nothing
         Me.cboInCatg.AutoCompleteValueMember = Nothing
         Me.cboInCatg.CalculationExpression = Nothing
+        Me.cboInCatg.DropDownAnimationEnabled = True
         Me.cboInCatg.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInCatg.FieldCode = Nothing
         Me.cboInCatg.FieldDesc = Nothing
@@ -160,12 +202,12 @@ Partial Class frmInventorySourceCode
         Me.cboInCatg.IsSourceFromTable = False
         Me.cboInCatg.IsSourceFromValueList = False
         Me.cboInCatg.IsUnique = False
-        RadListDataItem1.Text = "By Road"
-        RadListDataItem2.Text = "By Air"
-        RadListDataItem3.Text = "By Sea"
-        Me.cboInCatg.Items.Add(RadListDataItem1)
-        Me.cboInCatg.Items.Add(RadListDataItem2)
-        Me.cboInCatg.Items.Add(RadListDataItem3)
+        RadListDataItem10.Text = "By Road"
+        RadListDataItem11.Text = "By Air"
+        RadListDataItem12.Text = "By Sea"
+        Me.cboInCatg.Items.Add(RadListDataItem10)
+        Me.cboInCatg.Items.Add(RadListDataItem11)
+        Me.cboInCatg.Items.Add(RadListDataItem12)
         Me.cboInCatg.Location = New System.Drawing.Point(75, 1)
         Me.cboInCatg.MendatroryField = False
         Me.cboInCatg.MyLinkLable1 = Me.MyLabel2
@@ -193,6 +235,7 @@ Partial Class frmInventorySourceCode
         Me.cboOutCatg.AutoCompleteDisplayMember = Nothing
         Me.cboOutCatg.AutoCompleteValueMember = Nothing
         Me.cboOutCatg.CalculationExpression = Nothing
+        Me.cboOutCatg.DropDownAnimationEnabled = True
         Me.cboOutCatg.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboOutCatg.FieldCode = Nothing
         Me.cboOutCatg.FieldDesc = Nothing
@@ -203,12 +246,12 @@ Partial Class frmInventorySourceCode
         Me.cboOutCatg.IsSourceFromTable = False
         Me.cboOutCatg.IsSourceFromValueList = False
         Me.cboOutCatg.IsUnique = False
-        RadListDataItem4.Text = "By Road"
-        RadListDataItem5.Text = "By Air"
-        RadListDataItem6.Text = "By Sea"
-        Me.cboOutCatg.Items.Add(RadListDataItem4)
-        Me.cboOutCatg.Items.Add(RadListDataItem5)
-        Me.cboOutCatg.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "By Road"
+        RadListDataItem2.Text = "By Air"
+        RadListDataItem3.Text = "By Sea"
+        Me.cboOutCatg.Items.Add(RadListDataItem1)
+        Me.cboOutCatg.Items.Add(RadListDataItem2)
+        Me.cboOutCatg.Items.Add(RadListDataItem3)
         Me.cboOutCatg.Location = New System.Drawing.Point(81, 1)
         Me.cboOutCatg.MendatroryField = False
         Me.cboOutCatg.MyLinkLable1 = Me.MyLabel3
@@ -272,6 +315,7 @@ Partial Class frmInventorySourceCode
         Me.cboInOutType.AutoCompleteDisplayMember = Nothing
         Me.cboInOutType.AutoCompleteValueMember = Nothing
         Me.cboInOutType.CalculationExpression = Nothing
+        Me.cboInOutType.DropDownAnimationEnabled = True
         Me.cboInOutType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInOutType.FieldCode = Nothing
         Me.cboInOutType.FieldDesc = Nothing
@@ -282,12 +326,12 @@ Partial Class frmInventorySourceCode
         Me.cboInOutType.IsSourceFromTable = False
         Me.cboInOutType.IsSourceFromValueList = False
         Me.cboInOutType.IsUnique = False
-        RadListDataItem7.Text = "By Road"
-        RadListDataItem8.Text = "By Air"
-        RadListDataItem9.Text = "By Sea"
-        Me.cboInOutType.Items.Add(RadListDataItem7)
-        Me.cboInOutType.Items.Add(RadListDataItem8)
-        Me.cboInOutType.Items.Add(RadListDataItem9)
+        RadListDataItem4.Text = "By Road"
+        RadListDataItem5.Text = "By Air"
+        RadListDataItem6.Text = "By Sea"
+        Me.cboInOutType.Items.Add(RadListDataItem4)
+        Me.cboInOutType.Items.Add(RadListDataItem5)
+        Me.cboInOutType.Items.Add(RadListDataItem6)
         Me.cboInOutType.Location = New System.Drawing.Point(81, 102)
         Me.cboInOutType.MendatroryField = False
         Me.cboInOutType.MyLinkLable1 = Me.MyLabel7
@@ -306,12 +350,9 @@ Partial Class frmInventorySourceCode
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(560, 20)
         Me.RadMenu1.TabIndex = 47
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -434,43 +475,15 @@ Partial Class frmInventorySourceCode
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'txtSequence
+        'btnHistory
         '
-        Me.txtSequence.CalculationExpression = Nothing
-        Me.txtSequence.FieldCode = Nothing
-        Me.txtSequence.FieldDesc = Nothing
-        Me.txtSequence.FieldMaxLength = 0
-        Me.txtSequence.FieldName = Nothing
-        Me.txtSequence.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSequence.isCalculatedField = False
-        Me.txtSequence.IsSourceFromTable = False
-        Me.txtSequence.IsSourceFromValueList = False
-        Me.txtSequence.IsUnique = False
-        Me.txtSequence.Location = New System.Drawing.Point(81, 149)
-        Me.txtSequence.MaxLength = 100
-        Me.txtSequence.MendatroryField = False
-        Me.txtSequence.MyLinkLable1 = Me.MyLabel4
-        Me.txtSequence.MyLinkLable2 = Nothing
-        Me.txtSequence.Name = "txtSequence"
-        Me.txtSequence.ReferenceFieldDesc = Nothing
-        Me.txtSequence.ReferenceFieldName = Nothing
-        Me.txtSequence.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.txtSequence.RootElement.StretchVertically = True
-        Me.txtSequence.Size = New System.Drawing.Size(176, 20)
-        Me.txtSequence.TabIndex = 346
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(10, 151)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel4.TabIndex = 347
-        Me.MyLabel4.Text = "Sequence"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(143, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmInventorySourceCode
         '
@@ -488,6 +501,8 @@ Partial Class frmInventorySourceCode
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtSequence, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
@@ -509,8 +524,7 @@ Partial Class frmInventorySourceCode
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSequence, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -539,5 +553,6 @@ Partial Class frmInventorySourceCode
     Protected WithEvents cboOutCatg As common.Controls.MyComboBox
     Friend WithEvents txtSequence As common.Controls.MyTextBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

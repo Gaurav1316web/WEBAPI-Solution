@@ -33,11 +33,14 @@ Partial Class frmHSNMaster
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.TxtNavigator1 = New common.UserControls.txtNavigator()
+        Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -45,9 +48,7 @@ Partial Class frmHSNMaster
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.TxtNavigator1 = New common.UserControls.txtNavigator()
-        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,13 +57,14 @@ Partial Class frmHSNMaster
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadButton1.SuspendLayout()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -101,22 +103,16 @@ Partial Class frmHSNMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -136,6 +132,7 @@ Partial Class frmHSNMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -160,6 +157,31 @@ Partial Class frmHSNMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(529, 334)
         Me.RadGroupBox1.TabIndex = 11
         '
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(87, 12)
+        Me.txtCode.MendatroryField = False
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.RadLabel1
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(252, 20)
+        Me.txtCode.TabIndex = 18
+        Me.txtCode.Value = ""
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(12, 13)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
+        Me.RadLabel1.TabIndex = 0
+        Me.RadLabel1.Text = "Code"
+        '
         'RadButton1
         '
         Me.RadButton1.Controls.Add(Me.TxtNavigator1)
@@ -170,6 +192,38 @@ Partial Class frmHSNMaster
         Me.RadButton1.Size = New System.Drawing.Size(14, 20)
         Me.RadButton1.TabIndex = 17
         Me.RadButton1.Text = " "
+        '
+        'TxtNavigator1
+        '
+        Me.TxtNavigator1.FieldName = Nothing
+        Me.TxtNavigator1.Location = New System.Drawing.Point(-111, 8)
+        Me.TxtNavigator1.MendatroryField = False
+        Me.TxtNavigator1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TxtNavigator1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.TxtNavigator1.MyLinkLable1 = Me.RadLabel1
+        Me.TxtNavigator1.MyLinkLable2 = Nothing
+        Me.TxtNavigator1.MyMaxLength = 32767
+        Me.TxtNavigator1.MyReadOnly = False
+        Me.TxtNavigator1.Name = "TxtNavigator1"
+        Me.TxtNavigator1.Size = New System.Drawing.Size(252, 20)
+        Me.TxtNavigator1.TabIndex = 2
+        Me.TxtNavigator1.Value = ""
+        '
+        'txtDocNo
+        '
+        Me.txtDocNo.FieldName = Nothing
+        Me.txtDocNo.Location = New System.Drawing.Point(-119, 0)
+        Me.txtDocNo.MendatroryField = False
+        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
+        Me.txtDocNo.MyLinkLable2 = Nothing
+        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyReadOnly = False
+        Me.txtDocNo.Name = "txtDocNo"
+        Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
+        Me.txtDocNo.TabIndex = 1
+        Me.txtDocNo.Value = ""
         '
         'btnNew
         '
@@ -213,15 +267,6 @@ Partial Class frmHSNMaster
         Me.RadLabel2.TabIndex = 1
         Me.RadLabel2.Text = "Description"
         '
-        'RadLabel1
-        '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(12, 13)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
-        Me.RadLabel1.TabIndex = 0
-        Me.RadLabel1.Text = "Code"
-        '
         'RadMenu2
         '
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
@@ -229,98 +274,48 @@ Partial Class frmHSNMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.RadMenuItem4, Me.RadMenuItem5, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Region Import"
-        Me.RadMenuItem4.AccessibleName = "Region Import"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Region Import"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Region Export"
-        Me.RadMenuItem5.AccessibleName = "Region Export"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Region Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'txtDocNo
+        'btnHistory
         '
-        Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(-119, 0)
-        Me.txtDocNo.MendatroryField = False
-        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
-        Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
-        Me.txtDocNo.MyReadOnly = False
-        Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
-        Me.txtDocNo.TabIndex = 1
-        Me.txtDocNo.Value = ""
-        '
-        'TxtNavigator1
-        '
-        Me.TxtNavigator1.FieldName = Nothing
-        Me.TxtNavigator1.Location = New System.Drawing.Point(-111, 8)
-        Me.TxtNavigator1.MendatroryField = False
-        Me.TxtNavigator1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TxtNavigator1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.TxtNavigator1.MyLinkLable1 = Me.RadLabel1
-        Me.TxtNavigator1.MyLinkLable2 = Nothing
-        Me.TxtNavigator1.MyMaxLength = 32767
-        Me.TxtNavigator1.MyReadOnly = False
-        Me.TxtNavigator1.Name = "TxtNavigator1"
-        Me.TxtNavigator1.Size = New System.Drawing.Size(252, 20)
-        Me.TxtNavigator1.TabIndex = 2
-        Me.TxtNavigator1.Value = ""
-        '
-        'txtCode
-        '
-        Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(87, 12)
-        Me.txtCode.MendatroryField = False
-        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode.MyLinkLable1 = Me.RadLabel1
-        Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
-        Me.txtCode.MyReadOnly = False
-        Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(252, 20)
-        Me.txtCode.TabIndex = 18
-        Me.txtCode.Value = ""
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(145, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmHSNMaster
         '
@@ -344,13 +339,14 @@ Partial Class frmHSNMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadButton1.ResumeLayout(False)
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -378,5 +374,6 @@ Partial Class frmHSNMaster
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents TxtNavigator1 As common.UserControls.txtNavigator
+    Friend WithEvents btnHistory As RadButton
 End Class
 

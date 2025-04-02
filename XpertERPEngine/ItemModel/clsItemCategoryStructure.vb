@@ -30,6 +30,8 @@ Public Class clsItemCategoryStructure
         Try
 
             isSaved = True
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CATEGORY_STRUCTURE", "ITEM_CATEGORY_STRUCT_CODE", "TSPL_ITEM_CATEGORY_STRUCT_DETAIL", "ITEM_CATEGORY_STRUCT_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CATEGORY_STRUCTURE", "ITEM_CATEGORY_STRUCT_CODE", "TSPL_ITEM_CATEGORY_STRUCT_DETAIL", "ITEM_CATEGORY_STRUCT_CODE", trans)
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
@@ -116,6 +118,8 @@ Public Class clsItemCategoryStructure
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_CATEGORY_STRUCTURE", OMInsertOrUpdate.Update, "ITEM_CATEGORY_STRUCT_CODE='" + obj.ITEM_CATEGORY_STRUCT_CODE + "' and isnull(form_type,'item')='" + obj.formtype + "'", trans)
             End If
             isSaved = objitmCatLevelDetails.SaveData(obj.ITEM_CATEGORY_STRUCT_CODE, obj.formtype, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ITEM_CATEGORY_STRUCT_CODE, "TSPL_ITEM_CATEGORY_STRUCTURE", "ITEM_CATEGORY_STRUCT_CODE", "TSPL_ITEM_CATEGORY_STRUCT_DETAIL", "ITEM_CATEGORY_STRUCT_CODE", trans)
+
             'If isSaved Then
             '    trans.Commit()
             'Else
