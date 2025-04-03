@@ -1293,6 +1293,7 @@
     <None Include="Crystal Reports\Inventory Report\StockReportFinishGoods.rpt" />
     <None Include="Crystal Reports\Inventory Report\StockReportFinishGoods16042012.rpt" />
     <None Include="Crystal Reports\Inventory Report\StockTransferSTA.rpt" />
+    <None Include="Crystal Reports\Inventory Report\StockTransferSTAProduct.rpt" />
     <None Include="Crystal Reports\Inventory Report\StockTransferSTAProductBKN.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferLI-GUN.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferLI-VIZ.rpt" />
