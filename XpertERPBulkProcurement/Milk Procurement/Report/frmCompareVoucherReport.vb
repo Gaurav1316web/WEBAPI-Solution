@@ -97,8 +97,7 @@ where Document_Date>='" + strFromDate + "' and Document_Date<='" + strToDate + "
 
 
             qry += " union all
-select max(Document_No ) as Document_No,max(case when Sample_No=1 then x.Route_Code else '' end) as Route_Code,sum(x.Qty) as Qty,sum(x.FATKG) as FATKG,sum(x.SNFKG) as SNFKG,2 as RI ,0 as Chk from (
-select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No
+select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG,2 as RI ,0 as Chk
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 where  TSPL_MILK_COLLECTION_MCC.Document_Date>='" + strFromDate + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + strToDate + "' "
@@ -110,8 +109,9 @@ where  TSPL_MILK_COLLECTION_MCC.Document_Date>='" + strFromDate + "' and TSPL_MI
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
             End If
-            qry += ")x group by MCC_Code  
-union all
+
+
+            qry += " union all
 select TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,3 as RI ,0 as Chk
 from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
