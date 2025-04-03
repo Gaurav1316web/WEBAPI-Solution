@@ -7,6 +7,7 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
+    Dim defaultScreenstartup As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ApplyManualScheme As Boolean = False
@@ -6390,6 +6391,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Else
             txtPrintDiscountAmt.Visible = False
             lblPrintDisAmt.Visible = False
+
         End If
         txtTransNo.Text = ""
         ParentDocNo = ""
@@ -6398,7 +6400,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         lblAlternateVehicleName.Text = ""
         txtManualCustomer.Text = ""
         showSavedMessage = True
-        cmbShift.SelectedValue = ""
+        If defaultScreenstartup Then
+            cmbShift.SelectedValue = ""
+            txtSupplyDate.Value = txtDate.Value
+            defaultScreenstartup = False
+        End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            txtDate.Value = clsCommon.GETSERVERDATE(Nothing)
+        End If
+
         cmbShift.Enabled = True
         TxtTransportorMName.MendatroryField = True
         TxtTransportorMName.Visible = False
@@ -6427,7 +6437,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gvAC.Rows.AddNew()
         txtDate.Enabled = True
         txtSupplyDate.Enabled = True
-        txtSupplyDate.Value = txtDate.Value
+
         txtVendorNo.Enabled = True
         btnHistory.Enabled = False
         Dim ShowPrintChallan As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.ShowPrintChallanInDairyDispatch, clsFixedParameterCode.ShowPrintChallanInDairyDispatch, Nothing) = "1", True, False))
