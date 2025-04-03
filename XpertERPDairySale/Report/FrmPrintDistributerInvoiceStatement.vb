@@ -144,7 +144,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         Try
 
             Dim FinalQry As String = Nothing
-            If txtFromDate.Value > txtToDate.Value Then
+            If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
                 common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
@@ -1523,6 +1523,11 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                     btnBatchWiseInvoice.Visible = True
                 Else
                     btnBatchWiseInvoice.Visible = False
+                End If
+                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                    rbtnPartyWise.Enabled = True
+                Else
+                    rbtnPartyWise.Enabled = False
                 End If
             End If
         Catch ex As Exception

@@ -60,6 +60,7 @@ Public Class clsWeightConversionInfo
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WEIGHT_CONVERSION", OMInsertOrUpdate.Insert, "", trans)
 
             Next
+
             trans.Commit()
             Return True
         Catch ex As Exception

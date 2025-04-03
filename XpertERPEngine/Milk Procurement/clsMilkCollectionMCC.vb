@@ -499,11 +499,13 @@ Public Class clsMilkCollectionMCCDetail
                         CLR = clsEkoPro.getClrOnCalculation(obj.Retesting_FAT, obj.Retesting_SNF, corrFactor)
                         obj.Qty = (clsCommon.myCDecimal(obj.Gaze_Qty) * (1.0 + ((clsCommon.myCDecimal(CLR)) / 1000)))
                         Dim inputString As String = clsCommon.myCstr(obj.Qty)
-                        Dim parts() As String = inputString.Split(".")
-                        If parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) > (0.5) Then
-                            obj.Qty = clsCommon.myCDecimal(parts(0)) + 1
-                        ElseIf parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) < (0.5) Then
-                            obj.Qty = clsCommon.myCDecimal(parts(0))
+                        If inputString.Contains(".") Then
+                            Dim parts() As String = inputString.Split(".")
+                            If parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) > (0.5) Then
+                                obj.Qty = clsCommon.myCDecimal(parts(0)) + 1
+                            ElseIf parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) < (0.5) Then
+                                obj.Qty = clsCommon.myCDecimal(parts(0))
+                            End If
                         End If
                     End If
                 End If
