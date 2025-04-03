@@ -61,6 +61,7 @@ Partial Class frmGSTunitMeasure
         Me.btnSave1 = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete1 = New Telerik.WinControls.UI.RadButton()
         Me.btnClose1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu2.SuspendLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,6 +90,7 @@ Partial Class frmGSTunitMeasure
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -429,6 +431,7 @@ Partial Class frmGSTunitMeasure
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose1)
@@ -549,6 +552,17 @@ Partial Class frmGSTunitMeasure
         Me.btnClose1.TabIndex = 8
         Me.btnClose1.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(146, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'frmGSTunitMeasure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -592,6 +606,7 @@ Partial Class frmGSTunitMeasure
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -635,4 +650,5 @@ Partial Class frmGSTunitMeasure
     Friend WithEvents btnSave1 As RadButton
     Friend WithEvents btnDelete1 As RadButton
     Friend WithEvents btnClose1 As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class

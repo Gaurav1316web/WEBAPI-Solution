@@ -449,4 +449,20 @@ Public Class FrmPriceComponantMapping
             txtprinciple.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vendor_name from tspl_vendor_master where vendor_code='" + txtpri_code.Value + "'"))
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndPrice.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndPrice.Value, "Price_Code", "TSPL_PRICE_COMPONENT_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub grdPrice_Click(sender As Object, e As EventArgs) Handles grdPrice.Click
+
+    End Sub
 End Class

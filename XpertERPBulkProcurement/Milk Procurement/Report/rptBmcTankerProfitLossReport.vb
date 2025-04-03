@@ -55,9 +55,10 @@ sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg)Original_SNFKg,
     END) AS [FAT(%)],
 
 
-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty) -max(TSPL_MILK_COLLECTION_MCC.Entered_Qty) AS FLUSING,
- -(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg)-max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)) AS FATKG,
- -(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg)-max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)) AS SNFKG
+max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty) AS FLUSING,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg)) AS FATKG,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg)) AS SNFKG
+
 from TSPL_MILK_COLLECTION_MCC 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
 left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
@@ -232,7 +233,7 @@ left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COL
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Difference(A-B)"))
+            view.ColumnGroups.Add(New GridViewColumnGroup("Difference(B-A)"))
             view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FLUSING").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FATKG").Name)

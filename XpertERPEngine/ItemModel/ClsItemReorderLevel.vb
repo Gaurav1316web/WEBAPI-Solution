@@ -46,6 +46,8 @@ Public Class clsItemReorderLevel
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_REORDER_LEVEL_NEW", OMInsertOrUpdate.Update, "Item_Code='" + obj.Item_Code + "' and Location_Code='" + obj.Location_Code + "' ", trans)
 
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_REORDER_LEVEL_NEW", "Item_Code", trans)
+
             Next
             trans.Commit()
         Catch ex As Exception
