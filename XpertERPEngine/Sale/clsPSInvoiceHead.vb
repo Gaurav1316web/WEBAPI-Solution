@@ -850,8 +850,13 @@ Public Class clsPSInvoiceHead
         End Try
     End Function
 
-    Public Shared Function PrintEWayBill(ByVal strDoc As String, ByVal strCust As String) As String
-        Dim strInvoiceNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & strDoc & "'  and Customer_Code='" & strCust & "') and EWayBillNo is not null "))
+    Public Shared Function PrintEWayBill(ByVal strDoc As String, ByVal strCust As String, ByVal isBooking As Boolean) As String
+        Dim strInvoiceNO As String = ""
+        If isBooking Then
+            strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & strDoc & "'  and Customer_Code='" & strCust & "') and EWayBillNo is not null "))
+        Else
+            strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No='" + strDoc + "'  and EWayBillNo is not null "))
+        End If
         If clsCommon.myLen(strInvoiceNO) <= 0 Then
             Throw New Exception("Document not found !")
         End If

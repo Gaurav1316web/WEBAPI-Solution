@@ -404,7 +404,7 @@ Public Class frmShipmentDairy
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrintsvl.Visible = MyBase.isPrintFlag
-        RadSplitExp.Visible = MyBase.isPrintFlag
+        RadSplitExp.Visible = False
         If MyBase.isReverse Then
             'btnExport.Enabled = True
             'btnImport.Enabled = True
@@ -6543,7 +6543,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             cmbDisItemType.SelectedValue = "T"
         End If
-
+        btnprinte_wayBill.Visible = False
     End Sub
     Private Sub isValid_CashScheme()
         Dim scheme_Code As String = ""
@@ -9799,6 +9799,8 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             isCellValueChangedOpen = False
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
             AddNew()
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.E Then
+            btnprinte_wayBill.Visible = True
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
             ' done by priti GKD/05/06/18-000144
             If (AllowToSave(False)) Then
@@ -15923,6 +15925,21 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Else
             ApplyRoundOffZero = False
         End If
+    End Sub
+
+    Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            Else
+                Throw New Exception("No Data Found ")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 Class tempSchemStructrue

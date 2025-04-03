@@ -8680,7 +8680,7 @@ a:          End If
 
     Private Sub btnPrintEwayBill_Click(sender As Object, e As EventArgs) Handles btnPrintEwayBill.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
