@@ -6399,16 +6399,13 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         lblAlternateVehicleCode.Text = "" ''ERO/21/05/19-000610 by balwinder on 21/05/2019
         lblAlternateVehicleName.Text = ""
         txtManualCustomer.Text = ""
+        txtDate.Value = clsCommon.GETSERVERDATE(Nothing)
         showSavedMessage = True
         If defaultScreenstartup Then
             cmbShift.SelectedValue = ""
             txtSupplyDate.Value = txtDate.Value
             defaultScreenstartup = False
         End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            txtDate.Value = clsCommon.GETSERVERDATE(Nothing)
-        End If
-
         cmbShift.Enabled = True
         TxtTransportorMName.MendatroryField = True
         TxtTransportorMName.Visible = False
