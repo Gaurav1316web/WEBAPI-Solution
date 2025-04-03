@@ -2412,6 +2412,14 @@ sum(isnull (txt10amt,0)*RI) as txt10amt, max(tax10name) as tax10name
         JOIN TSPL_ITEM_MASTER M ON M.Item_Code = D.Item_Code
         WHERE M.Is_Milk_Pouch = 1
           AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+           UNION ALL
+		
+		  SELECT SR.Item_Code
+        FROM TSPL_SD_SALE_RETURN_DETAIL SR
+        JOIN TSPL_SD_SALE_RETURN_HEAD  ON SR.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE
+        JOIN TSPL_ITEM_MASTER M ON M.Item_Code = SR.Item_Code
+        WHERE M.Is_Milk_Pouch = 1
+          AND convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
     )
 ),
 FilteredProductAmt AS ( SELECT 
@@ -2422,6 +2430,15 @@ FilteredProductAmt AS ( SELECT
     WHERE M.Is_Milk_Pouch = 0
 	AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
     GROUP BY D.Cust_Code
+    UNION ALL
+		
+		  SELECT TSPL_SD_SALE_RETURN_HEAD.Customer_Code,sum(SR.Item_Net_Amt) as MilkProductAmt
+        FROM TSPL_SD_SALE_RETURN_DETAIL SR
+        JOIN TSPL_SD_SALE_RETURN_HEAD  ON SR.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE
+        JOIN TSPL_ITEM_MASTER M ON M.Item_Code = SR.Item_Code
+        WHERE M.Is_Milk_Pouch = 0
+          AND convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+		  GROUP BY TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
 ),
 DemandData AS (
     SELECT 
@@ -2520,7 +2537,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Documen
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
 left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.ActualUOM 
 INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
-LEFT JOIN DemandData CTE ON CTE.Item_Code = TSPL_ITEM_MASTER.Item_Code
+--LEFT JOIN DemandData CTE ON CTE.Item_Code = TSPL_ITEM_MASTER.Item_Code
+LEFT JOIN ItemData CTE ON CTE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+LEFT JOIN FilteredProductAmt ON FilteredProductAmt.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code
 left outer join TSPL_COMPANY_MASTER as CM on 2=2
 LEFT JOIN TSPL_CUSTOMER_MASTER C ON TSPL_SD_SALE_RETURN_HEAD.Customer_Code = C.Cust_Code
 LEFT JOIN TSPL_ROUTE_MASTER R ON TSPL_SD_SALE_RETURN_HEAD.route_no = R.Route_No
@@ -2553,13 +2572,32 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                                              from (select Convert(varchar(10), ROW_NUMBER() OVER(ORDER BY TSPL_ITEM_MASTER.Sku_Seq,TSPL_ITEM_MASTER.Item_Code)) AS Row_Number, TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Alies_Name, TSPL_ITEM_MASTER.Sku_Seq, SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', 
                                             REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS ItemNamePart2
                                             ,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name,0, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', 
-                                            REVERSE(TSPL_ITEM_MASTER.Alies_Name))+1) AS ItemNamePart1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code in (select TSPL_DEMAND_BOOKING_DETAIL.Item_Code from TSPL_DEMAND_BOOKING_DETAIL
+                                            REVERSE(TSPL_ITEM_MASTER.Alies_Name))+1) AS ItemNamePart1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code 
+                                            in (select TSPL_DEMAND_BOOKING_DETAIL.Item_Code from TSPL_DEMAND_BOOKING_DETAIL
                                             left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No =  TSPL_DEMAND_BOOKING_MASTER.Document_No 
                                             inner Join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
                                             left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no
                                             left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
                                             left outer join TSPL_LOCATION_MASTER on TSPL_DEMAND_BOOKING_MASTER.Location_Code = TSPL_LOCATION_MASTER.Location_Code
-                                            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code where 2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 " + strWhrClause2 + " ) )  XX ) XXX ) TBL_ItemNamePart1 on TBL_ItemNamePart1.SNO = XXXXXFinal.SNO
+                                            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
+                                            where 2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 " + strWhrClause2 + " 
+                                               
+                                             union all
+											select TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+											from TSPL_SD_SALE_RETURN_DETAIL
+                                            left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE =  TSPL_SD_SALE_RETURN_HEAD.Document_Code 
+                                            inner Join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                                            left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_RETURN_HEAD.route_no
+                                            left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
+                                            left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code
+                                            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
+                                            where 2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1  
+                                            and convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' 
+                                            and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'
+
+
+
+                                            ) )  XX ) XXX ) TBL_ItemNamePart1 on TBL_ItemNamePart1.SNO = XXXXXFinal.SNO
                                              group by [route_no], [Cust_Code] 
                                               "
                             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(MainQuery)

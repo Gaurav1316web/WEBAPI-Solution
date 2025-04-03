@@ -950,7 +950,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 Return False
             End If
         End If
-        Return funvalidatevehicle()
+        Return True
+        'funvalidatevehicle()
     End Function
     Private Function funvalidatevehicle() As Boolean
         Dim count As Decimal = 0
@@ -970,7 +971,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     Throw New Exception("Please Enter Vehicle No")
                 End If
                 txtVehicle.Value = clsCommon.incval(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Max(Segment_code) from TSPL_GL_SEGMENT_CODE where Segment_name = 'Vehicles'")))
-                'strvehiclenum = txtVehicle.Text
+                strvehiclenum = txtVehicle.Text
                 sql = "select seg_no from tspl_gl_segment where seg_name='Vehicles'"
                 segno = CStr(connectSql.RunScalar(sql))
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -983,7 +984,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     trans.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
-                'lblVehicleDesc.Text = txtVehicle.Text + "-Hired"
+                lblVehicleDesc.Text = txtVehicle.Text + "-Hired"
                 txtVehicle.Text = txtVehicle.Value
                 Return True
             Else

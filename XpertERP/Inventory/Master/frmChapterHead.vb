@@ -110,6 +110,8 @@ Public Class frmChapterHead
                 End If
             End If
             connectSql.RunSp("sp_chapterhead_insert", New SqlParameter("@chapterhead", fndchapterhead.Value), New SqlParameter("@chapterheaddesc", rdtxtchapterdesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@ComCode", companyCode))
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
+
             myMessages.insert()
             rdbtnSave.Text = "Update"
             rdbtnDelete.Enabled = True
@@ -152,6 +154,8 @@ Public Class frmChapterHead
         Else
             Try
                 connectSql.RunSp("sp_chapterhead_update", New SqlParameter("@chapterhead", fndchapterhead.Value), New SqlParameter("@chapterheaddesc", rdtxtchapterdesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@ComCode", companyCode))
+                ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
+
                 myMessages.update()
                 rdbtnSave.Text = "Update"
                 fndchapterhead.MyReadOnly = True
@@ -174,6 +178,9 @@ Public Class frmChapterHead
     End Sub
     Private Sub funDelete()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "Chapter_Head_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "Chapter_Head_Code", Nothing)
+
             connectSql.RunSp("sp_chapterhead_delete", New SqlParameter("@chapterhead", fndchapterhead.Value))
             myMessages.delete()
             rdbtnSave.Text = "Save"
@@ -362,6 +369,19 @@ Public Class frmChapterHead
 
         End If
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
+        Try
+            If clsCommon.myLen(fndchapterhead.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndchapterhead.Value, "chapter_head_code", "tspl_chapter_head")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub fndchapterhead__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndchapterhead._MYNavigator

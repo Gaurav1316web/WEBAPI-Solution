@@ -71,6 +71,8 @@ Public Class ClsCostCenter
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CostCenter_MASTER", OMInsertOrUpdate.Update, "TSPL_CostCenter_MASTER.Cost_Code='" + obj.Cost_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Cost_Code, "TSPL_CostCenter_MASTER", "Cost_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

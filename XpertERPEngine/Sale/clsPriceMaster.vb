@@ -357,10 +357,11 @@ Public Class clsPriceMaster
                             Stock_Price_Id = obj.Item_Price_ID
                         End If
 
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Price_ID, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
 
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_PRICE_MASTER", OMInsertOrUpdate.Update, "Item_Price_Id='" & obj.Item_Price_ID & "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Price_ID, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
+
                 End If
                 Count += 1
             Next
@@ -398,6 +399,7 @@ Public Class clsPriceMaster
             Dim qry As String = "Update TSPL_ITEM_PRICE_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Item_Price_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_item_price_master", "Item_Price_ID", trans)
 
         Catch ex As Exception
 
@@ -417,9 +419,10 @@ Public Class clsPriceMaster
                 Throw New Exception("Already unposted price Id" + strDocNo)
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
             qry = "Update TSPL_ITEM_PRICE_MASTER set Posted=0, Posted_Date=null,Posted_By=null where Item_Price_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -431,6 +434,8 @@ Public Class clsPriceMaster
     '----------------------------------Deletes the Price Code Component................
     Public Shared Function DeleteData(ByVal strItemCode As String, ByVal strUni_Code As String, ByVal StartDate As String, ByVal strPriceCode As String, ByVal item_basic_net As Double, ByVal Item_Basic_Price As Double, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strItemCode, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
+
             Dim qry As String = "delete from tspl_item_price_master where item_code='" + strItemCode + "' and Uom='" + strUni_Code + "' and  start_date=Convert(date,'" + StartDate + "',103) and price_code='" + strPriceCode + "' and item_basic_net=" + clsCommon.myCstr(item_basic_net) + " and Item_Basic_Price=" + clsCommon.myCstr(Item_Basic_Price) + ""
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Return True
@@ -676,8 +681,11 @@ Public Class clsPriceComponent
                 Else '----Old Entry [Update]
                     clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_PRICE_COMPONANT_MASTER_UPDATE", New SqlParameter("@Price_Comp_code", obj.Price_Comp_code), New SqlParameter("@Price_Comp_Desc", obj.Price_Comp_Desc), New SqlParameter("@Serial_Number", obj.Serial_Number), New SqlParameter("@Price_Comp_Account_Code", obj.Price_Comp_Account_Code), New SqlParameter("@GL_Account_App", obj.GL_Account_App), New SqlParameter("@TPT_Type", obj.TPT_Type), New SqlParameter("@Modify_By", objCommonVar.CurrentUserCode), New SqlParameter("@Modify_Date", obj.CurrentDate), New SqlParameter("@Comp_Code", objCommonVar.CurrentCompanyCode))
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Comp_code, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
+
                 '--------Save Custom Fields................
                 isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Price_Comp_code, obj.arrCustomFields, trans)
+
             Next
             trans.Commit()
         Catch ex As Exception
@@ -693,6 +701,9 @@ Public Class clsPriceComponent
             Dim obj As clsPriceComponent
             If clsCommon.myLen(strComponentCode) > 0 Then
                 obj = clsPriceComponent.GetData(strComponentCode, NavigatorType.Current)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
+
                 If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Price_Comp_code) > 0) Then
                     clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_PRICE_COMPONENT_MASTER_DELETE", New SqlParameter("@Price_Comp_code", strComponentCode))
                     clsCustomFieldValues.DeleteData(obj.Form_ID, obj.Price_Comp_code, trans)
@@ -840,7 +851,11 @@ Public Class clsPriceComponentMapping
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Update, "price_code='" & obj.Price_Code & "'", trans)
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Insert, "", trans)
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PRICE_COMPONENT_MAPPING set Transfer  =" & obj.Transfer & ",Inactive=" & obj.Inactive & " where Price_Code ='" & obj.Price_Code & "'", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_PRICE_COMPONENT_MAPPING", "Price_Code", trans)
+
             Next
+
+
             trans.Commit()
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -853,6 +868,9 @@ Public Class clsPriceComponentMapping
     Public Shared Function DeleteData(ByVal strPriceCode As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         Try
             Dim obj As clsPriceComponentMapping = Nothing
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strPriceCode, "TSPL_PRICE_COMPONENT_MAPPING", "Price_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPriceCode, "TSPL_PRICE_COMPONENT_MAPPING", "Price_Code", trans)
+
             If clsCommon.myLen(strPriceCode) > 0 Then
                 Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*) from tspl_item_price_master where Price_Code ='" + strPriceCode + "'")
                 'obj = clsPriceComponentMapping.GetData(strPriceCode, NavigatorType.Current)

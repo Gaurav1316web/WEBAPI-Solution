@@ -156,6 +156,7 @@ Public Class clsGstunitMeasure
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EINVOICE_UOM", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_EINVOICE_UOM", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -200,6 +201,9 @@ Public Class clsGstunitMeasure
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EINVOICE_UOM", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EINVOICE_UOM", "Code", Nothing)
+
             qry = "Delete from TSPL_EINVOICE_UOM where TSPL_EINVOICE_UOM.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
