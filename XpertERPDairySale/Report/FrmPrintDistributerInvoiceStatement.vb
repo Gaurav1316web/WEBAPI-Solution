@@ -18,6 +18,9 @@ Public Class FrmPrintDistributerInvoiceStatement
     Dim strRptPath As String = ""
     Dim ApplyMilkPouchPrint As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim lstinvNo As List(Of String)
+    Dim chkbtnEmailSMS As Boolean = False
+
 
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmPrintDistributerInvoiceStatement)
@@ -141,7 +144,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         Try
 
             Dim FinalQry As String = Nothing
-            If txtFromDate.Value > txtToDate.Value Then
+            If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
                 common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
@@ -566,16 +569,24 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                     common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
                 End Try
             Else
+                checkSendEmailSMS(False)
                 Printing()
             End If
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Function Printing(Optional ByVal DocNo As String = "", Optional ByVal isPdf As Boolean = False, Optional ByVal isPrePrintFormat As Boolean = False, Optional ByVal isPdfForMail As Boolean = False) As String
+    Function CheckEmailOrSMS(ByVal InvCode As String)
+        Dim strChkEmailSMS As String = "Select SUM(AlreadySendEmailParty)AlreadySendEmailParty,SUM(RemainingParty)RemainingParty,SUM(AlreadySendSMSParty)AlreadySendSMSParty,SUM(RemainingSMSParty)RemainingSMSParty from(Select Customer_Code,Sum(Distinct Case When IsNUll(Send_Email,0)>0 Then 1 Else 0 End)AlreadySendEmailParty,Sum(Distinct Case When IsNUll(Send_Email,0)=0 Then 1 Else 0 End)RemainingParty,Sum(Distinct Case When IsNUll(Send_SMS,0)>0 Then 1 Else 0 End)AlreadySendSMSParty,Sum(Distinct Case When IsNUll(Send_SMS,0)=0 Then 1 Else 0 End)RemainingSMSParty from( Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_SD_SALE_INVOICE_HEAD.Send_Email,TSPL_SD_SALE_INVOICE_HEAD.Send_SMS from TSPL_SD_SALE_INVOICE_HEAD
+Inner Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+Where TSPL_SD_SALE_INVOICE_HEAD.Document_Code In (" + InvCode + "))xyz Group By Customer_Code)final"
+        Return strChkEmailSMS
+    End Function
+
+    Private Function Printing(Optional ByVal DocNo As String = "", Optional ByVal isPdf As Boolean = False, Optional ByVal isPrePrintFormat As Boolean = False, Optional ByVal isPdfForMail As Boolean = False, Optional ByVal SupplyDate As String = Nothing, Optional ByVal Shift As String = Nothing, Optional ByVal isTaxable As String = Nothing, Optional ByVal strPartyCode As String = Nothing) As String
         Dim pdfPath As String = Nothing
-        clsCommon.ProgressBarPercentShow()
         Dim ii As Integer = 1
         Dim Total As Integer = 0
 
@@ -584,9 +595,9 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         Dim objMultPrintInvoice As New FrmPrintFreshInvoice
         ' Dim strInvoice As String
         ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        Dim lstinvNo As New List(Of String)
 
-        If isPdfForMail = True Then
+        If DocNo IsNot Nothing AndAlso clsCommon.myLen(DocNo) > 0 AndAlso isPdfForMail = True Then
+            lstinvNo = New List(Of String)
             Total = 1
             lstinvNo.Add(DocNo)
         Else
@@ -595,61 +606,27 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                     Total += 1
                 End If
             Next
-
-            Dim strDate As New List(Of String)
-            Dim strCustCode As New List(Of String)
-            Dim strTaxableNonTaxable As String = Nothing
-            If rbtnPartyWise.Checked Then
-                For Each grow As GridViewRowInfo In gv.Rows
-                    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                        strDate.Add("Convert(Date,'" + clsCommon.myCstr(grow.Cells("Supply_Date").Value) + "',103)")
-                        strCustCode.Add(clsCommon.myCstr(grow.Cells("Customer_Code").Value))
-                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Non-Taxable") = CompairStringResult.Equal Then
-                            If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("0") Then
-                                strTaxableNonTaxable += ",'0'"
-                            ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
-                                strTaxableNonTaxable = "'0'"
-                            End If
-                        End If
-                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
-                            If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("1") Then
-                                strTaxableNonTaxable += ",'1'"
-                            ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
-                                strTaxableNonTaxable = "'1'"
-                            End If
-                        End If
-                    End If
-                Next
-
-                Dim strQry As String = ReturnLoadReportQry()
-                strQry += " and CONVERT(date,Supply_Date,103) in (" + clsCommon.GetMulcallStringWithComma(strDate) + ") and TSPL_CUSTOMER_MASTER.Cust_Code In (" + clsCommon.GetMulcallString(strCustCode) + ")
-and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
-                Dim dtt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
-                    For Each rows In dtt.Rows
-                        'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
-                        lstinvNo.Add(clsCommon.myCstr(rows("Document_Code")))
-                        ii += 1
-                        'ii += 1
-                    Next
-                End If
-            Else
+            If rbtnInvoiceWise.Checked Then
+                lstinvNo = New List(Of String)
                 For Each grow As GridViewRowInfo In gv.Rows
                     'clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
                     If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                        clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                        'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Processing..." & (ii) & " Of " & Total)
                         lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
                         ii += 1
                     End If
                     'ii += 1
                 Next
+            Else
+                If Not isPdf Then
+
+                End If
             End If
         End If
 
-
-
         Try
-            If lstinvNo.Count <= 0 Then
+            If lstinvNo Is Nothing AndAlso lstinvNo.Count <= 0 Then
+                clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
@@ -675,48 +652,53 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                 End If
 
                 If rbtnPartyWise.Checked Then
-                    Dim BaseQry As String = "Select Max(Report_Status) As Report_Status,Max(Is_Distributor) As Is_Distributor,Max(Is_BPL) As Is_BPL,Max(Is_CashSale) As Is_CashSale,Max(Is_DCS) As Is_DCS,Max(Booking_Type) As Booking_Type,Max(xyz.CST_LST) As CST_LST,Max(Manual_VehicleNo) As Manual_VehicleNo,Max(Payment_Terms) As Payment_Terms,Max(ReceiverName) As ReceiverName,Sum(Security_TotalAmt) As Security_TotalAmt,Max(Supply_Date) As Supply_Date,Max(Shift_Type) As Shift_Type,Sum(QTY_LTRKG) As QTY_LTRKG,Max(ITAX1) As ITAX1,Max(ITAX1_RATE) As ITAX1_RATE,Sum(ITAX1_Amt) As ITAX1_Amt,Max(ITAX2) As ITAX2,Max(ITAX2_RATE) As ITAX2_RATE,Sum(ITAX2_Amt) As ITAX2_Amt,Max(ITAX3) As ITAX3,Max(ITAX3_Rate) As ITAX3_Rate,Sum(ITAX3_Amt) As ITAX3_Amt,Max(ITAX4) As ITAX4,Max(ITAX4_RATE) As ITAX4_RATE,Sum(ITAX4_Amt) As ITAX4_Amt,Max(ITAX5) As ITAX5,Max(ITAX5_RATE) As ITAX5_RATE,Sum(ITAX5_Amt) As ITAX5_Amt,Max(ITAX6) As ITAX6,Max(ITAX6_RATE) As ITAX6_RATE,Sum(ITAX6_Amt) As ITAX6_Amt,Max(ITAX7) As ITAX7,Max(ITAX7_Rate) As ITAX7_Rate,Sum(ITAX7_Amt) As ITAX7_Amt,Max(ITAX8) As ITAX8,Max(ITAX8_RATE) As ITAX8_RATE,Sum(ITAX8_Amt) As ITAX8_Amt,Max(ITAX9) As ITAX9,Max(ITAX9_Rate) As ITAX9_Rate,Sum(ITAX9_Amt) As ITAX9_Amt,Max(ITAX10) As ITAX10,Max(ITAX10_RATE) As ITAX10_RATE,Sum(ITAX10_Amt) As ITAX10_Amt,Max(Zone_Code) As Zone_Code,Max(CF) As CF,Max(ConversionFactor) As ConversionFactor,Max(EInvoice_Type) As EInvoice_Type,Max(LeakageDeduction_Freshsale) As LeakageDeduction_Freshsale,Max(LeakageDeduction) As LeakageDeduction,Max(Location_Desc) As Location_Desc,Max(Loc_Short_Name) As Loc_Short_Name,Max(Loc_Pin) As Loc_Pin,Max(Loc_Phone) As Loc_Phone,Max(Loc_Eamil) As Loc_Eamil,Max(Loc_Website) As Loc_Website,Max(xyz.ISO_No) As ISO_No,Max(Invoice_No) As Invoice_No,Max(Invoice_Date) As Invoice_Date,Max(Cust_City) As Cust_City,Max(Against_Shipment_No) As Against_Shipment_No,Max(Cust_Gst_StateCode) As Cust_Gst_StateCode,Max(Electronic_Ref_No) As Electronic_Ref_No,Max(CustGSTNo) As CustGSTNo,Max(gst_state_code) As gst_state_code,Max(LocGstNo) As LocGstNo,Max(EWayBillNo) As EWayBillNo,Max(EWayBillDate) As EWayBillDate,Max(HSN_Code) As HSN_Code,Max(InvRemarks) As InvRemarks,Max(Delivery_Code) As Delivery_Code,Max(Conversion_factor) As Conversion_factor,Sum(QTY_Box) As QTY_Box,Max(Sale_Invoice_No) As Sale_Invoice_No,Max(vehicleNo) As vehicleNo,Max(Sale_Invoice_Date) As Sale_Invoice_Date,Sum(RoundOffAmount) As RoundOffAmount,Max(Loc_ADd1) As Loc_ADd1,Max(LOC_ADD2) As LOC_ADD2,Max(LOC_ADD3) As LOC_ADD3,Max(LocationState) As LocationState,Max(LOCPhone) As LOCPhone,Max(Loc_TIN_NO) As Loc_TIN_NO,Max(Document_Code) As Document_Code,Max(Document_Date) As Document_Date,Max(Description) As Description,Max(Lorry_No) As Lorry_No,Max(Sku_Seq) As Sku_Seq,Max(Item_Code) As Item_Code,Max(Line_No) As Line_No,Max(Item_Desc) As Item_Desc,Sum(QtyCrates) As QtyCrates,Max(ConvFactInCrate) As ConvFactInCrate,Max(ConvQtyInCrate) As ConvQtyInCrate,Max(Unit_code) As Unit_code,Sum(Qty_Default) As Qty_Default,Max(Rate_Default) As Rate_Default,Sum(QtyPCS) As QtyPCS,Sum(free_qty) As free_qty,Max(FreeSchemeInLitres) As FreeSchemeInLitres,Max(RatePerPcs) As RatePerPcs,Sum(valueInRs) As valueInRs,Max(comp_add2) As comp_add2,Max(comp_add3) As comp_add3,Max(CompPhone) As CompPhone,Max(Cash_Scheme_Amount) As Cash_Scheme_Amount,Max(schemeInCrates) As schemeInCrates,Max(GrandTotalCrates) As GrandTotalCrates,Max(xyz.Comp_Code) As Comp_Code,Max(xyz.Comp_Name) As Comp_Name,Max(comp_add1) As comp_add1,Max(comp_Fax) As comp_Fax,Max(comp_Email) As comp_Email,Max(comp_tinNo) As comp_tinNo,Max(xyz.cust_Code) As cust_Code,Max(Customer_Name) As Customer_Name,Max(cust_add1) As cust_add1,Max(cust_add2) As cust_add2,Max(cust_add3) As cust_add3,Max(CustPhone) As CustPhone,Max(cust_fax) As cust_fax,Max(Cust_state) As Cust_state,Max(cust_Statename) As cust_Statename,Max(cust_Email) As cust_Email,Max(cust_website) As cust_website,Max(Customer_Pan) As Customer_Pan,Max(Ack_No) As Ack_No,Max(Ack_Date) As Ack_Date,Max(TaxableNonTaxable) As TaxableNonTaxable,Max(TAX1) As TAX1,Max(TaxType1) As TaxType1,Sum(TAX1_Amt) As TAX1_Amt,Max(TAX1_Rate) As TAX1_Rate,Sum(TAX1Amt) As TAX1Amt,Max(TaxType2) As TaxType2,Max(TAX2) As TAX2,Sum(TAX2_Amt) As TAX2_Amt,Max(TAX2_Rate) As TAX2_Rate,Sum(TAX2Amt) As TAX2Amt,Max(TaxType3) As TaxType3,Max(TAX3) As TAX3,Sum(TAX3_Amt) As TAX3_Amt,Max(TAX3_Rate) As TAX3_Rate,Sum(TAX3Amt) As TAX3Amt,Max(TaxType4) As TaxType4,Max(TAX4) As TAX4,Sum(TAX4_Amt) As TAX4_Amt,Max(TAX4_Rate) As TAX4_Rate,Sum(TAX4Amt) As TAX4Amt,Max(TaxType5) As TaxType5,Max(TAX5) As TAX5,Sum(TAX5_Amt) As TAX5_Amt,Max(TaxType6) As TaxType6,Max(TAX6) As TAX6,Sum(TAX6_Amt) As TAX6_Amt,STRING_AGG(Route_No, ', ') As Route_No,STRING_AGG(Route_Desc, ', ') As Route_Desc,Max(Distributor_Commission_TotalAmt) As Distributor_Commission_TotalAmt,Max(Transporter_Commission_TotalAmt) As Transporter_Commission_TotalAmt,Max(Against_Delivery_Code) As Against_Delivery_Code,Max(batchNO) As batchNO,Max(Credit_Customer) As Credit_Customer,Max(Ship_To_Code) As Ship_To_Code,Max(Ship_To_Desc) As Ship_To_Desc,Max(Ship_Address) As Ship_Address,Max(Ship_City) As Ship_City,Max(Ship_State) As Ship_State,Max(Ship_Pin_Code) As Ship_Pin_Code,Max(Ship_PAN) As Ship_PAN,Max(Ship_GSTNO) As Ship_GSTNO,Sum(Booth_Security_Amt) As Booth_Security_Amt,Max(Brand) As Brand,Max(BRANDDESC) As BRANDDESC,Max(Particulars) As Particulars,Max(Crate_No) As Crate_No,Max(CopyType) As CopyType,Max(SellerGST) As SellerGST,Max(xyz.Pan_No) As Pan_No,Max(RateLtr) As RateLtr from (" + objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType) + ")xyz Group By Convert(DAte,Supply_Date,103),Shift_Type,TaxableNonTaxable,cust_Code,Item_Code"
+                    Dim BaseQry As String = "Select Max(Report_Status) As Report_Status,Max(Is_Distributor) As Is_Distributor,Max(Is_BPL) As Is_BPL,Max(Is_CashSale) As Is_CashSale,Max(Is_DCS) As Is_DCS,Max(Booking_Type) As Booking_Type,Max(xyz.CST_LST) As CST_LST,Max(Manual_VehicleNo) As Manual_VehicleNo,Max(Payment_Terms) As Payment_Terms,Max(ReceiverName) As ReceiverName,Sum(Security_TotalAmt) As Security_TotalAmt,Max(Supply_Date) As Supply_Date,Max(Shift_Type) As Shift_Type,Sum(QTY_LTRKG) As QTY_LTRKG,Max(ITAX1) As ITAX1,Max(ITAX1_RATE) As ITAX1_RATE,Sum(ITAX1_Amt) As ITAX1_Amt,Max(ITAX2) As ITAX2,Max(ITAX2_RATE) As ITAX2_RATE,Sum(ITAX2_Amt) As ITAX2_Amt,Max(ITAX3) As ITAX3,Max(ITAX3_Rate) As ITAX3_Rate,Sum(ITAX3_Amt) As ITAX3_Amt,Max(ITAX4) As ITAX4,Max(ITAX4_RATE) As ITAX4_RATE,Sum(ITAX4_Amt) As ITAX4_Amt,Max(ITAX5) As ITAX5,Max(ITAX5_RATE) As ITAX5_RATE,Sum(ITAX5_Amt) As ITAX5_Amt,Max(ITAX6) As ITAX6,Max(ITAX6_RATE) As ITAX6_RATE,Sum(ITAX6_Amt) As ITAX6_Amt,Max(ITAX7) As ITAX7,Max(ITAX7_Rate) As ITAX7_Rate,Sum(ITAX7_Amt) As ITAX7_Amt,Max(ITAX8) As ITAX8,Max(ITAX8_RATE) As ITAX8_RATE,Sum(ITAX8_Amt) As ITAX8_Amt,Max(ITAX9) As ITAX9,Max(ITAX9_Rate) As ITAX9_Rate,Sum(ITAX9_Amt) As ITAX9_Amt,Max(ITAX10) As ITAX10,Max(ITAX10_RATE) As ITAX10_RATE,Sum(ITAX10_Amt) As ITAX10_Amt,Max(Zone_Code) As Zone_Code,Max(CF) As CF,Max(ConversionFactor) As ConversionFactor,Max(EInvoice_Type) As EInvoice_Type,Max(LeakageDeduction_Freshsale) As LeakageDeduction_Freshsale,Max(LeakageDeduction) As LeakageDeduction,Max(Location_Desc) As Location_Desc,Max(Loc_Short_Name) As Loc_Short_Name,Max(Loc_Pin) As Loc_Pin,Max(Loc_Phone) As Loc_Phone,Max(Loc_Eamil) As Loc_Eamil,Max(Loc_Website) As Loc_Website,Max(xyz.ISO_No) As ISO_No,Max(Invoice_No) As Invoice_No,Max(Invoice_Date) As Invoice_Date,Max(Cust_City) As Cust_City,Max(Against_Shipment_No) As Against_Shipment_No,Max(Cust_Gst_StateCode) As Cust_Gst_StateCode,Max(Electronic_Ref_No) As Electronic_Ref_No,Max(CustGSTNo) As CustGSTNo,Max(gst_state_code) As gst_state_code,Max(LocGstNo) As LocGstNo,Max(EWayBillNo) As EWayBillNo,Max(EWayBillDate) As EWayBillDate,Max(HSN_Code) As HSN_Code,Max(InvRemarks) As InvRemarks,Max(Delivery_Code) As Delivery_Code,Max(Conversion_factor) As Conversion_factor,Sum(QTY_Box) As QTY_Box,Max(Sale_Invoice_No) As Sale_Invoice_No,Max(vehicleNo) As vehicleNo,Max(Sale_Invoice_Date) As Sale_Invoice_Date,Sum(RoundOffAmount) As RoundOffAmount,Max(Loc_ADd1) As Loc_ADd1,Max(LOC_ADD2) As LOC_ADD2,Max(LOC_ADD3) As LOC_ADD3,Max(LocationState) As LocationState,Max(LOCPhone) As LOCPhone,Max(Loc_TIN_NO) As Loc_TIN_NO,Max(Document_Code) As Document_Code,Max(Document_Date) As Document_Date,Max(Description) As Description,Max(Lorry_No) As Lorry_No,Max(Sku_Seq) As Sku_Seq,Max(Item_Code) As Item_Code,Max(Line_No) As Line_No,Max(Item_Desc) As Item_Desc,Sum(QtyCrates) As QtyCrates,Max(ConvFactInCrate) As ConvFactInCrate,Max(ConvQtyInCrate) As ConvQtyInCrate,Max(Unit_code) As Unit_code,Sum(Qty_Default) As Qty_Default,Max(Rate_Default) As Rate_Default,Sum(QtyPCS) As QtyPCS,Sum(free_qty) As free_qty,Max(FreeSchemeInLitres) As FreeSchemeInLitres,Max(RatePerPcs) As RatePerPcs,Sum(valueInRs) As valueInRs,Max(comp_add2) As comp_add2,Max(comp_add3) As comp_add3,Max(CompPhone) As CompPhone,Max(Cash_Scheme_Amount) As Cash_Scheme_Amount,Max(schemeInCrates) As schemeInCrates,Max(GrandTotalCrates) As GrandTotalCrates,Max(xyz.Comp_Code) As Comp_Code,Max(xyz.Comp_Name) As Comp_Name,Max(comp_add1) As comp_add1,Max(comp_Fax) As comp_Fax,Max(comp_Email) As comp_Email,Max(comp_tinNo) As comp_tinNo,Max(xyz.cust_Code) As cust_Code,Max(Customer_Name) As Customer_Name,Max(cust_add1) As cust_add1,Max(cust_add2) As cust_add2,Max(cust_add3) As cust_add3,Max(CustPhone) As CustPhone,Max(cust_fax) As cust_fax,Max(Cust_state) As Cust_state,Max(cust_Statename) As cust_Statename,Max(cust_Email) As cust_Email,Max(cust_website) As cust_website,Max(Customer_Pan) As Customer_Pan,Max(Ack_No) As Ack_No,Max(Ack_Date) As Ack_Date,Max(TaxableNonTaxable) As TaxableNonTaxable,Max(TAX1) As TAX1,Max(TaxType1) As TaxType1,Sum(TAX1_Amt) As TAX1_Amt,Max(TAX1_Rate) As TAX1_Rate,Sum(TAX1Amt) As TAX1Amt,Max(TaxType2) As TaxType2,Max(TAX2) As TAX2,Sum(TAX2_Amt) As TAX2_Amt,Max(TAX2_Rate) As TAX2_Rate,Sum(TAX2Amt) As TAX2Amt,Max(TaxType3) As TaxType3,Max(TAX3) As TAX3,Sum(TAX3_Amt) As TAX3_Amt,Max(TAX3_Rate) As TAX3_Rate,Sum(TAX3Amt) As TAX3Amt,Max(TaxType4) As TaxType4,Max(TAX4) As TAX4,Sum(TAX4_Amt) As TAX4_Amt,Max(TAX4_Rate) As TAX4_Rate,Sum(TAX4Amt) As TAX4Amt,Max(TaxType5) As TaxType5,Max(TAX5) As TAX5,Sum(TAX5_Amt) As TAX5_Amt,Max(TaxType6) As TaxType6,Max(TAX6) As TAX6,Sum(TAX6_Amt) As TAX6_Amt,STRING_AGG(Route_No, ', ') As Route_No,STRING_AGG(Route_Desc, ', ') As Route_Desc,Max(Distributor_Commission_TotalAmt) As Distributor_Commission_TotalAmt,Max(Transporter_Commission_TotalAmt) As Transporter_Commission_TotalAmt,Max(Against_Delivery_Code) As Against_Delivery_Code,Max(batchNO) As batchNO,Max(Credit_Customer) As Credit_Customer,Max(Ship_To_Code) As Ship_To_Code,Max(Ship_To_Desc) As Ship_To_Desc,Max(Ship_Address) As Ship_Address,Max(Ship_City) As Ship_City,Max(Ship_State) As Ship_State,Max(Ship_Pin_Code) As Ship_Pin_Code,Max(Ship_PAN) As Ship_PAN,Max(Ship_GSTNO) As Ship_GSTNO,Sum(Booth_Security_Amt) As Booth_Security_Amt,Max(Brand) As Brand,Max(BRANDDESC) As BRANDDESC,Max(Particulars) As Particulars,Max(Crate_No) As Crate_No,Max(CopyType) As CopyType,Max(SellerGST) As SellerGST,Max(xyz.Pan_No) As Pan_No,Max(RateLtr) As RateLtr from (" + objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType) + ")xyz "
+                    If isPdf Then
+                        BaseQry += " where convert(Date,Supply_Date,103)=Convert(Date,'" + SupplyDate + "',103) And Shift_Type='" + Shift + "' And cust_Code ='" + strPartyCode + "' And TaxableNonTaxable='" + isTaxable + "'"
+                    End If
+                    BaseQry += " Group By Convert(DAte,Supply_Date,103),Shift_Type,TaxableNonTaxable,cust_Code,Item_Code "
                     Qry = "Select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,* from (" + BaseQry + ")xyzFinal left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=xyzFinal.comp_code"
                 Else
                     Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType)
                 End If
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                    If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
-                        Throw New Exception("Data not found !")
-                    End If
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        If rbtnPartyWise.Checked Then
-                            pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR _PartyWise", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        Else
-                            pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        End If
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKRPrintDistribution", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        'pdfPath = frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-
-                    Else
-                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    End If
-                    'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    frmCRV = Nothing
+                If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+                    Throw New Exception("Data not found !")
                 End If
-                clsCommon.ProgressBarPercentHide()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    If rbtnPartyWise.Checked Then
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR_PartyWise", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    Else
+                        pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    End If
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKRPrintDistribution", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'pdfPath = frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+                Else
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                End If
+                'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            End If
+            'clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)
         End Try
         'Else
@@ -1320,40 +1302,168 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub checkSendEmailSMS(Optional ByVal isPrintOrSend As Boolean = True)
+        Dim strDate As New List(Of String)
+        Dim strCustCode As New List(Of String)
+        Dim strTaxableNonTaxable As String = Nothing
+
+        If rbtnPartyWise.Checked Then
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    strDate.Add("Convert(Date,'" + clsCommon.myCstr(grow.Cells("Supply_Date").Value) + "',103)")
+                    strCustCode.Add(clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Non-Taxable") = CompairStringResult.Equal Then
+                        If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("0") Then
+                            strTaxableNonTaxable += ",'0'"
+                        ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                            strTaxableNonTaxable = "'0'"
+                        End If
+                    End If
+                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                        If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("1") Then
+                            strTaxableNonTaxable += ",'1'"
+                        ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                            strTaxableNonTaxable = "'1'"
+                        End If
+                    End If
+                End If
+            Next
+
+            Dim strQry As String = ReturnLoadReportQry()
+            strQry += " and CONVERT(date,Supply_Date,103) in (" + clsCommon.GetMulcallStringWithComma(strDate) + ") and TSPL_CUSTOMER_MASTER.Cust_Code In (" + clsCommon.GetMulcallString(strCustCode) + ")
+and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
+            Dim dtt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                lstinvNo = New List(Of String)
+                For Each rows In dtt.Rows
+                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                    lstinvNo.Add(clsCommon.myCstr(rows("Document_Code")))
+                    'ii += 1
+                Next
+            End If
+
+            If isPrintOrSend Then
+                Dim ChkQry As String = CheckEmailOrSMS(clsCommon.GetMulcallString(lstinvNo))
+                dtt = Nothing
+                dtt = clsDBFuncationality.GetDataTable(ChkQry)
+
+                If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                    If chkbtnEmailSMS Then
+                        If clsCommon.MyMessageBoxShow(Me, "Already send email is " + clsCommon.myCstr(dtt.Rows(0)("AlreadySendEmailParty")) + " and remaining for send email is " + clsCommon.myCstr(dtt.Rows(0)("RemainingParty")) + "." + Environment.NewLine + "Are you sure to send email for all ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No Then
+                            strQry += " and TSPL_SD_SALE_INVOICE_HEAD.Send_Email is Null"
+                            dtt = Nothing
+                            dtt = clsDBFuncationality.GetDataTable(strQry)
+                            If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                                lstinvNo = Nothing
+                                lstinvNo = New List(Of String)
+                                For Each rows In dtt.Rows
+                                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                                    lstinvNo.Add(clsCommon.myCstr(rows("Document_Code")))
+                                    'ii += 1
+                                Next
+                            Else
+                                Throw New Exception("Data not found to Send !")
+                            End If
+                        End If
+                    Else
+                        If clsCommon.MyMessageBoxShow(Me, "Already send sms is " + clsCommon.myCstr(dtt.Rows(0)("AlreadySendSMSParty")) + " and remaining for send sms is " + clsCommon.myCstr(dtt.Rows(0)("RemainingSMSParty")) + "." + Environment.NewLine + "Are you sure to send sms for all ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.No Then
+                            strQry += " and TSPL_SD_SALE_INVOICE_HEAD.Send_SMS is Null"
+                            dtt = Nothing
+                            dtt = clsDBFuncationality.GetDataTable(strQry)
+                            If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                                lstinvNo = Nothing
+                                lstinvNo = New List(Of String)
+                                For Each rows In dtt.Rows
+                                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Printing " & (ii) & " Of " & Total)
+                                    lstinvNo.Add(clsCommon.myCstr(rows("Document_Code")))
+                                    'ii += 1
+                                Next
+                            Else
+                                Throw New Exception("Data not found to Send !")
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End Sub
     'Ticket No-ERO/03/09/19-001018,Send Email with Invoice PDF attachment
     Private Sub BtnEmailSms_Click(sender As Object, e As EventArgs) Handles BtnEmailSms.Click
         Try
-            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+            chkbtnEmailSMS = True
+            Dim dtContent As DataTable
+            If rbtnPartyWise.Checked Then
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2'", Nothing)
+            Else
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1'", Nothing)
+            End If
             If dtContent Is Nothing OrElse dtContent.Rows.Count = 0 Then
                 clsCommon.MyMessageBoxShow(Me, "First do email setting", Me.Text)
                 Exit Sub
             End If
-
+            checkSendEmailSMS()
+            clsCommon.ProgressBarPercentShow()
+            Dim ii As Integer = 1
+            Dim Total As Integer = 0
             For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Processing..." & (ii) & " Of " & Total)
+                    Total += 1
+                End If
+                'ii += 1
+            Next
+            Dim istaxable As String = Nothing
+            For Each grow As GridViewRowInfo In gv.Rows
+                clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Processing..." & (ii) & " Of " & Total)
                 If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
                     Dim objEmailH As New clsEMailHead()
                     objEmailH.arrEMail = New List(Of String)()
+                    If rbtnInvoiceWise.Checked Then
+                        objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
 
-                    objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
-                    objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
-                    objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                        objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                        Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+                        '------------------------code for attchament-------------------------------------
+                        strRptPath = ""
+                        strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True, False, True)
+                    Else
+                        objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+                        objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "'")))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+                        '------------------------code for attchament-------------------------------------
+                        istaxable = Nothing
+                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                            istaxable = "T"
+                        Else
+                            istaxable = "NT"
+                        End If
+                        strRptPath = ""
+                        strRptPath = Printing(Nothing, True, False, True, clsCommon.myCstr(grow.Cells("Supply_Date").Value), clsCommon.myCstr(grow.Cells("Shift_type").Value), istaxable, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                    End If
 
-                    objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                    Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
-                    '------------------------code for attchament-------------------------------------
-                    strRptPath = ""
-                    strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True, False, True)
                     objEmailH.Attachment_1_Path = strRptPath
                     '---------------------------------------------------------------------------
                     'Dim Data As Attachment = New Attachment(objEmailH.Attachment_1_Path, MediaTypeNames.Application.Octet)
@@ -1365,7 +1475,12 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                         objEmailH.arrEMail.Add(emailId)
                     End If
 
-                    objEmailH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objEmailH, Nothing)
+                    If rbtnInvoiceWise.Checked Then
+                        objEmailH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objEmailH, Nothing)
+                    Else
+                        objEmailH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2", objEmailH, Nothing)
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_INVOICE_HEAD Set Send_Email=1 Where Document_Code In (" + clsCommon.GetMulcallString(lstinvNo) + ") and Customer_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "' and Is_Taxable='" + clsCommon.myCstr(IIf(clsCommon.CompairString(istaxable, "T") = CompairStringResult.Equal, 1, 0)) + "'")
+                    End If
                     'Dim MailMsg As New MailMessage()
                     'MailMsg.Subject = objEmailH.Email_Subject
                     'MailMsg.From = New MailAddress("mohdsuhail0677@gmail.com")
@@ -1381,11 +1496,16 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
 
                     'SmtpMail.Send(MailMsg)
                     'objEmailH = Nothing
+                    ii += 1
                 End If
             Next
             'clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
+            chkbtnEmailSMS = False
         Catch ex As Exception
+            chkbtnEmailSMS = False
+            clsCommon.ProgressBarPercentHide()
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
@@ -1403,6 +1523,11 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                     btnBatchWiseInvoice.Visible = True
                 Else
                     btnBatchWiseInvoice.Visible = False
+                End If
+                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                    rbtnPartyWise.Enabled = True
+                Else
+                    rbtnPartyWise.Enabled = False
                 End If
             End If
         Catch ex As Exception
@@ -1524,11 +1649,32 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
 
     Private Sub BtnSMS_Click(sender As Object, e As EventArgs) Handles BtnSMS.Click
         Try
-            Dim dtContent1 As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+            chkbtnEmailSMS = False
+            'Dim dtContent1 As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+
+            Dim dtContent1 As DataTable
+            If rbtnPartyWise.Checked Then
+                dtContent1 = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2'", Nothing)
+            Else
+                dtContent1 = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1'", Nothing)
+            End If
+
             If dtContent1 Is Nothing OrElse dtContent1.Rows.Count = 0 Then
+                clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "First do SMS setting", Me.Text)
                 Exit Sub
             End If
+            checkSendEmailSMS()
+            clsCommon.ProgressBarPercentShow()
+            Dim ii As Integer = 1
+            Dim Total As Integer = 0
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    'clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Processing..." & (ii) & " Of " & Total)
+                    Total += 1
+                End If
+                'ii += 1
+            Next
 
             'For Each grow As GridViewRowInfo In gv.Rows
             '    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
@@ -1559,7 +1705,9 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
             ''clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
             'clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Shaurya Rajput
+            Dim istaxable As String = Nothing
             For Each grow As GridViewRowInfo In gv.Rows
+                clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Processing..." & (ii) & " Of " & Total)
                 If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
                     Dim strContactPerson As String = ""
                     Dim strotherno As String = Nothing
@@ -1573,39 +1721,69 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                     'End If
 
 
-                    Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+                    Dim dtContent As DataTable
+                    If rbtnPartyWise.Checked Then
+                        dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2'", Nothing)
+                    Else
+                        dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1'", Nothing)
+                    End If
                     Dim objSMSH As New clsSMSHead()
                     objSMSH.arrMobilNo = New List(Of String)()
                     objSMSH.arrMobilNo.Add(clsCommon.myCstr(strotherno))
                     If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
-
                         If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
-
                             objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                            Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
-                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
-                        End If
+                            If rbtnInvoiceWise.Checked Then
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                                Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+                            Else
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "'")))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
 
+                                istaxable = Nothing
+                                If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                                    istaxable = "T"
+                                Else
+                                    istaxable = "NT"
+                                End If
+                            End If
+                        End If
                         If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
-                            objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objSMSH, Nothing)
+                            If rbtnInvoiceWise.Checked Then
+                                objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1", objSMSH, Nothing)
+                            Else
+                                objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2", objSMSH, Nothing)
+                                clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_INVOICE_HEAD Set Send_SMS=1 Where Document_Code In (" + clsCommon.GetMulcallString(lstinvNo) + ") and Customer_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "' and Is_Taxable='" + clsCommon.myCstr(IIf(clsCommon.CompairString(istaxable, "T") = CompairStringResult.Equal, 1, 0)) + "'")
+                            End If
                             objSMSH = Nothing
                         End If
                     End If
+                    ii += 1
                 End If
             Next
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1616,5 +1794,29 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnPartyWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnPartyWise.CheckedChanged
+        Try
+            InvoiceAndPartyWiseCheck()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnInvoiceWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnInvoiceWise.CheckedChanged
+        Try
+            InvoiceAndPartyWiseCheck()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub InvoiceAndPartyWiseCheck()
+        If rbtnPartyWise.Checked Then
+            rbtnDocumentDate.Enabled = False
+        Else
+            rbtnDocumentDate.Enabled = True
+        End If
     End Sub
 End Class

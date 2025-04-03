@@ -262,6 +262,18 @@ Public Class FrmAccountMainGroup
         SaveData()
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccgp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Account_Main_Group_Code", "TSPL_ACCOUNT_MAIN_GROUPS", Nothing)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub btndelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btndelete.Click
         DeleteData()
     End Sub

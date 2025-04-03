@@ -90,32 +90,32 @@ Public Class ucAttachment
                     obj.SNo = clsCommon.myCstr(gv1.Rows(ii).Cells(ColSNo).Value)
                     obj.FileName = clsCommon.myCstr(gv1.Rows(ii).Cells(ColFileName).Value)
                     obj.COMMENTS = clsCommon.myCstr(gv1.Rows(ii).Cells(ColCOMMENTS).Value)
-                    obj.SaveData(obj, trans)
-                    Dim FileNo As Integer = -1
-                    If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
-                        Dim str As String
-                        If RunServiceForUploadFolder Then
-                            FileNo = clsAttachDocument.UploadWithHttpRequest(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName, Form_ID, Transaction_ID)
-                        End If
+                    obj.SaveData(obj, trans, clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), RunServiceForUploadFolder)
+                    'Dim FileNo As Integer = -1
+                    'If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
+                    '    Dim str As String
+                    '    If  Then
+                    '        FileNo = clsAttachDocument.UploadWithHttpRequest(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName, Form_ID, Transaction_ID)
+                    '    End If
 
-                        Dim bData As Byte()
-                        Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value)))
-                        bData = br.ReadBytes(br.BaseStream.Length)
+                    '    Dim bData As Byte()
+                    '    Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value)))
+                    '    bData = br.ReadBytes(br.BaseStream.Length)
 
-                        str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
-                        If FileNo > 0 Then
-                            str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
-                        End If
-                        str += " where CODE='" + obj.CODE + "'"
+                    '    str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
+                    '    If FileNo > 0 Then
+                    '        str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
+                    '    End If
+                    '    str += " where CODE='" + obj.CODE + "'"
 
-                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
-                        Dim prm As New SqlParameter("@BLOBData", bData)
-                        cmd.Transaction = trans
-                        cmd.Parameters.Add(prm)
-                        cmd.ExecuteNonQuery()
-                        br.Close() ' done by stuti reagrding memory leakage
+                    '    Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
+                    '    Dim prm As New SqlParameter("@BLOBData", bData)
+                    '    cmd.Transaction = trans
+                    '    cmd.Parameters.Add(prm)
+                    '    cmd.ExecuteNonQuery()
+                    '    br.Close() ' done by stuti reagrding memory leakage
 
-                    End If
+                    'End If
                 End If
             Next
             LoadData(Transaction_ID, trans)

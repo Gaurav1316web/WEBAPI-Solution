@@ -38,6 +38,7 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkRoundoff = New Telerik.WinControls.UI.RadCheckBox()
         Me.cmbVehicleType = New common.Controls.MyComboBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblVehicleType = New common.Controls.MyLabel()
@@ -419,6 +420,7 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkIsEWayBill = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -430,6 +432,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkRoundoff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -800,6 +803,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu1.SuspendLayout()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -840,7 +844,7 @@ Partial Class frmShipmentDairy
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1121, 499)
+        Me.Panel1.Size = New System.Drawing.Size(1189, 499)
         Me.Panel1.TabIndex = 4
         '
         'radScrollablePanel1
@@ -855,8 +859,8 @@ Partial Class frmShipmentDairy
         '
         Me.radScrollablePanel1.PanelContainer.BackColor = System.Drawing.Color.Transparent
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.SplitContainer1)
-        Me.radScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1115, 497)
-        Me.radScrollablePanel1.Size = New System.Drawing.Size(1117, 499)
+        Me.radScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1183, 497)
+        Me.radScrollablePanel1.Size = New System.Drawing.Size(1185, 499)
         Me.radScrollablePanel1.TabIndex = 2
         '
         'SplitContainer1
@@ -919,7 +923,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -928,6 +932,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsEWayBill)
+        Me.RadPageViewPage1.Controls.Add(Me.chkRoundoff)
         Me.RadPageViewPage1.Controls.Add(Me.cmbVehicleType)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicleType)
         Me.RadPageViewPage1.Controls.Add(Me.rsbtnInvoice)
@@ -1022,6 +1028,15 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
         '
+        'chkRoundoff
+        '
+        Me.chkRoundoff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkRoundoff.Location = New System.Drawing.Point(1011, 171)
+        Me.chkRoundoff.Name = "chkRoundoff"
+        Me.chkRoundoff.Size = New System.Drawing.Size(72, 16)
+        Me.chkRoundoff.TabIndex = 1568
+        Me.chkRoundoff.Text = "Round Off"
+        '
         'cmbVehicleType
         '
         Me.cmbVehicleType.AutoCompleteDisplayMember = Nothing
@@ -1101,7 +1116,7 @@ Partial Class frmShipmentDairy
         Me.rgbTaxNonTax.Controls.Add(Me.txtSNFPER)
         Me.rgbTaxNonTax.Controls.Add(Me.lblAcidity)
         Me.rgbTaxNonTax.HeaderText = ""
-        Me.rgbTaxNonTax.Location = New System.Drawing.Point(367, 162)
+        Me.rgbTaxNonTax.Location = New System.Drawing.Point(352, 162)
         Me.rgbTaxNonTax.Name = "rgbTaxNonTax"
         Me.rgbTaxNonTax.Size = New System.Drawing.Size(654, 29)
         Me.rgbTaxNonTax.TabIndex = 1565
@@ -1751,7 +1766,7 @@ Partial Class frmShipmentDairy
         Me.txtBox.TabIndex = 1396
         Me.txtBox.Text = "0"
         Me.txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBox.Value = 0R
+        Me.txtBox.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel36
         '
@@ -1788,7 +1803,7 @@ Partial Class frmShipmentDairy
         Me.txtJaali.TabIndex = 1396
         Me.txtJaali.Text = "0"
         Me.txtJaali.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtJaali.Value = 0R
+        Me.txtJaali.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel35
         '
@@ -1825,7 +1840,7 @@ Partial Class frmShipmentDairy
         Me.txtCrate.TabIndex = 1396
         Me.txtCrate.Text = "0"
         Me.txtCrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCrate.Value = 0R
+        Me.txtCrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtTransportorMName
         '
@@ -1937,7 +1952,7 @@ Partial Class frmShipmentDairy
         Me.txtCLKM.TabIndex = 1412
         Me.txtCLKM.Text = "0"
         Me.txtCLKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCLKM.Value = 0R
+        Me.txtCLKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel48
         '
@@ -1974,7 +1989,7 @@ Partial Class frmShipmentDairy
         Me.txtOPKM.TabIndex = 1410
         Me.txtOPKM.Text = "0"
         Me.txtOPKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOPKM.Value = 0R
+        Me.txtOPKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtElecttefNo
         '
@@ -2337,7 +2352,7 @@ Partial Class frmShipmentDairy
         Me.txtShippedCan.TabIndex = 1450
         Me.txtShippedCan.Text = "0"
         Me.txtShippedCan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtShippedCan.Value = 0R
+        Me.txtShippedCan.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel52
         '
@@ -2376,7 +2391,7 @@ Partial Class frmShipmentDairy
         Me.TxtTotalCAN.TabIndex = 1448
         Me.TxtTotalCAN.Text = "0"
         Me.TxtTotalCAN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalCAN.Value = 0R
+        Me.TxtTotalCAN.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel51
         '
@@ -2426,7 +2441,7 @@ Partial Class frmShipmentDairy
         Me.txtCrateQty.TabIndex = 1446
         Me.txtCrateQty.Text = "0"
         Me.txtCrateQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCrateQty.Value = 0R
+        Me.txtCrateQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtCrateQty.Visible = False
         '
         'chkownVehicle
@@ -2462,7 +2477,7 @@ Partial Class frmShipmentDairy
         Me.txtGross_Wt.TabIndex = 1414
         Me.txtGross_Wt.Text = "0"
         Me.txtGross_Wt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGross_Wt.Value = 0R
+        Me.txtGross_Wt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel30
         '
@@ -2732,7 +2747,7 @@ Partial Class frmShipmentDairy
         Me.txtVehicleCapacity.TabIndex = 151
         Me.txtVehicleCapacity.Text = "0"
         Me.txtVehicleCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtVehicleCapacity.Value = 0R
+        Me.txtVehicleCapacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel19
         '
@@ -3100,6 +3115,7 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3215,7 +3231,7 @@ Partial Class frmShipmentDairy
         Me.txtFreightDistance.TabIndex = 1471
         Me.txtFreightDistance.Text = "0"
         Me.txtFreightDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightDistance.Value = 0R
+        Me.txtFreightDistance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtFreightDistance.Visible = False
         '
         'chkInternal
@@ -3298,7 +3314,7 @@ Partial Class frmShipmentDairy
         Me.txtAdvance.TabIndex = 1394
         Me.txtAdvance.Text = "0"
         Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = 0R
+        Me.txtAdvance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtAdvance.Visible = False
         '
         'chkAutoTransfer
@@ -3458,7 +3474,7 @@ Partial Class frmShipmentDairy
         Me.txtSOvalidity.TabIndex = 165
         Me.txtSOvalidity.Text = "0"
         Me.txtSOvalidity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSOvalidity.Value = 0R
+        Me.txtSOvalidity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtSOvalidity.Visible = False
         '
         'lblKMReading
@@ -3656,7 +3672,7 @@ Partial Class frmShipmentDairy
         Me.txtDispatchPeriod.TabIndex = 161
         Me.txtDispatchPeriod.Text = "0"
         Me.txtDispatchPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDispatchPeriod.Value = 0R
+        Me.txtDispatchPeriod.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtDispatchPeriod.Visible = False
         '
         'txtGEDate
@@ -4214,6 +4230,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
         Me.gvDistributor.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4509,6 +4526,7 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4583,6 +4601,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4817,7 +4836,7 @@ Partial Class frmShipmentDairy
         Me.txtTCSTaxRate.TabIndex = 1400
         Me.txtTCSTaxRate.Text = "0"
         Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtTCSTaxRate.Visible = False
         '
         'MyLabel57
@@ -4878,7 +4897,7 @@ Partial Class frmShipmentDairy
         Me.txttcstaxbaseamount.TabIndex = 1396
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnUpdateCustomerWithRoute
         '
@@ -4958,7 +4977,7 @@ Partial Class frmShipmentDairy
         Me.txtPrintDiscountAmt.TabIndex = 161
         Me.txtPrintDiscountAmt.Text = "0"
         Me.txtPrintDiscountAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPrintDiscountAmt.Value = 0R
+        Me.txtPrintDiscountAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblPrintDisAmt
         '
@@ -5051,7 +5070,7 @@ Partial Class frmShipmentDairy
         Me.txtMannaulInvoiceNo.TabIndex = 0
         Me.txtMannaulInvoiceNo.Text = "0"
         Me.txtMannaulInvoiceNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMannaulInvoiceNo.Value = 0R
+        Me.txtMannaulInvoiceNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -5151,7 +5170,7 @@ Partial Class frmShipmentDairy
         Me.txtDiscAmt.TabIndex = 8
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0R
+        Me.txtDiscAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDiscPer
         '
@@ -5178,7 +5197,7 @@ Partial Class frmShipmentDairy
         Me.txtDiscPer.TabIndex = 6
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0R
+        Me.txtDiscPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'pnlCurrConv
         '
@@ -5219,7 +5238,7 @@ Partial Class frmShipmentDairy
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -5546,6 +5565,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
         Me.gv_Uploader_Temp.ShowHeaderCellButtons = True
@@ -5567,6 +5587,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
         Me.gv_Uploader.ShowHeaderCellButtons = True
@@ -6859,7 +6880,7 @@ Partial Class frmShipmentDairy
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem6})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1121, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1189, 20)
         Me.RadMenu1.TabIndex = 3
         '
         'RadGroupBox4
@@ -6931,11 +6952,20 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'chkIsEWayBill
+        '
+        Me.chkIsEWayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEWayBill.Location = New System.Drawing.Point(777, 29)
+        Me.chkIsEWayBill.Name = "chkIsEWayBill"
+        Me.chkIsEWayBill.Size = New System.Drawing.Size(107, 16)
+        Me.chkIsEWayBill.TabIndex = 1569
+        Me.chkIsEWayBill.Text = "Create E-way Bill"
+        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1121, 519)
+        Me.ClientSize = New System.Drawing.Size(1189, 519)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmShipmentDairy"
@@ -6957,6 +6987,7 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkRoundoff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7350,6 +7381,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7743,5 +7775,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents rpvpManualScheme As RadPageViewPage
     Friend WithEvents gvManualscheme As RadGridView
     Friend WithEvents btnHistory1 As RadButton
+    Friend WithEvents chkRoundoff As RadCheckBox
+    Friend WithEvents chkIsEWayBill As RadCheckBox
 End Class
 

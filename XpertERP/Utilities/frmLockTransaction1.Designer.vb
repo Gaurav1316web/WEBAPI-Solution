@@ -27,6 +27,7 @@ Partial Class FrmLockTransaction1
         Me.dgvDetails = New common.UserControls.MyRadGridView()
         Me.btnLock = New Telerik.WinControls.UI.RadButton()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnLockUser = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.chkLocationCode = New Telerik.WinControls.UI.RadRadioButton()
@@ -47,6 +48,7 @@ Partial Class FrmLockTransaction1
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +95,7 @@ Partial Class FrmLockTransaction1
         Me.dgvDetails.ShowHeaderCellButtons = True
         Me.dgvDetails.Size = New System.Drawing.Size(931, 280)
         Me.dgvDetails.TabIndex = 0
+        Me.dgvDetails.VarID = ""
         '
         'btnLock
         '
@@ -106,6 +109,7 @@ Partial Class FrmLockTransaction1
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.btnHistory)
         Me.RadPanel1.Controls.Add(Me.btnLockUser)
         Me.RadPanel1.Controls.Add(Me.btnClose)
         Me.RadPanel1.Controls.Add(Me.btnLock)
@@ -114,6 +118,17 @@ Partial Class FrmLockTransaction1
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(951, 29)
         Me.RadPanel1.TabIndex = 58
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(188, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(85, 20)
+        Me.btnHistory.TabIndex = 60
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'btnLockUser
         '
@@ -321,6 +336,7 @@ Partial Class FrmLockTransaction1
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -358,5 +374,6 @@ Partial Class FrmLockTransaction1
     Friend WithEvents btnLockUser As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadLabel1 As RadLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

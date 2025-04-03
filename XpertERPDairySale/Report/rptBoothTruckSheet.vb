@@ -524,7 +524,8 @@ where 2 = 2 "
                         End If
                         BKNQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + "
 ,sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacNo,0)>0 then QtyStock/ConvFacNo else null end ) as ItemQtyNo_" + strJJ + "
-,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + ""
+,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + "
+                        ,max(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then ConvFacCrate else 0 end ) as ConvFacCrate_" + strJJ + ""
                     Next
                     If ii > 1 Then
                         BKNQuery += " ,null as Amount,null as ProductAmount"

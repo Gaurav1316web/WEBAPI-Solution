@@ -168,7 +168,6 @@ Partial Class FrmReceipttNew
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.CaptionItem = New common.Controls.MyLabel()
@@ -209,6 +208,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -586,10 +586,10 @@ Partial Class FrmReceipttNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 413)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 417)
         Me.RadPageViewPage1.Text = "Receipt"
         '
         'SplitContainer1
@@ -684,7 +684,7 @@ Partial Class FrmReceipttNew
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvReceipt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvmiscpayment)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 417)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
         '
@@ -773,7 +773,7 @@ Partial Class FrmReceipttNew
         Me.txtTDSAmt.TabIndex = 615
         Me.txtTDSAmt.Text = "0"
         Me.txtTDSAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTDSAmt.Value = 0R
+        Me.txtTDSAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'pnlCurrConv
         '
@@ -822,7 +822,7 @@ Partial Class FrmReceipttNew
         Me.TxtForeignBankCharges.TabIndex = 614
         Me.TxtForeignBankCharges.Text = "0"
         Me.TxtForeignBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtForeignBankCharges.Value = 0R
+        Me.TxtForeignBankCharges.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel25
         '
@@ -859,7 +859,7 @@ Partial Class FrmReceipttNew
         Me.TxtBankCharges.TabIndex = 612
         Me.TxtBankCharges.Text = "0"
         Me.TxtBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBankCharges.Value = 0R
+        Me.TxtBankCharges.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -896,7 +896,7 @@ Partial Class FrmReceipttNew
         Me.txtTotalPaymentBaseCurr.TabIndex = 7
         Me.txtTotalPaymentBaseCurr.Text = "0"
         Me.txtTotalPaymentBaseCurr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalPaymentBaseCurr.Value = 0R
+        Me.txtTotalPaymentBaseCurr.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblTotalReceived
         '
@@ -970,7 +970,7 @@ Partial Class FrmReceipttNew
         Me.txtConversionRate.TabIndex = 2
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -2643,12 +2643,13 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvReceipt.MyExportFilePath = ""
         Me.dgvReceipt.MyStopExport = False
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
         Me.dgvReceipt.ShowHeaderCellButtons = True
-        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
         Me.dgvReceipt.VarID = ""
@@ -2670,18 +2671,19 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvmiscpayment.MyExportFilePath = ""
         Me.dgvmiscpayment.MyStopExport = False
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
         Me.dgvmiscpayment.TabIndex = 4
         Me.dgvmiscpayment.VarID = ""
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1212, 413)
@@ -2698,24 +2700,16 @@ Partial Class FrmReceipttNew
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(967, 415)
         Me.Attachments.Text = "Attachments"
         '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(967, 415)
-        Me.UcAttachment1.TabIndex = 0
-        '
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1004, 413)
@@ -3017,6 +3011,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTaxDetail.MyExportFilePath = ""
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3044,6 +3039,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3268,6 +3264,14 @@ Partial Class FrmReceipttNew
         '
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(967, 415)
+        Me.UcAttachment1.TabIndex = 0
         '
         'FrmReceipttNew
         '

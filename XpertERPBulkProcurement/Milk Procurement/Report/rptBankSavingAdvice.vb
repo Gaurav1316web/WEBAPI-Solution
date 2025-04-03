@@ -202,7 +202,7 @@ left outer join tspl_company_master on 2 = 2
             If chkIfscno.Checked Then
                 Qry += " x.IFSCCode2,"
             End If
-            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code)"
+            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code) order by cast([DCS Code] as int)"
 
 
             Dim dt As DataTable = Nothing
@@ -372,7 +372,7 @@ left outer join tspl_company_master on 2 = 2
         Dim FromDates As String = clsCommon.myCstr(fromDate.Text)
         Dim TODates As String = clsCommon.myCstr(ToDate.Text)
         Try
-            Dim Qry As String = " ( select ROW_NUMBER() OVER (ORDER BY [DCS Code]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],(x.Code)Code,max(MCC_CODE)MCC_CODE,max(Area_location_code)Area_location_code,max(Mcc_Name)Mcc_Name,
+            Dim Qry As String = " ( select ROW_NUMBER() OVER (ORDER BY [BankName2]) AS SerialNumber, (x.[DCS Code])[DCSCode],max([DCS Name])[DCSName],(x.Code)Code,max(MCC_CODE)MCC_CODE,max(Area_location_code)Area_location_code,max(Mcc_Name)Mcc_Name,
                                  max(x.[DCS Type])[DCSType],max(x.[Is Own BMC])[IsOwnBMC],([Apply On])[ApplyOn],([Apply Type])[ApplyType],
                                  (x.[Formula])Formula  ,convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/DeductionAmount]  ,max(x.[Addition/Deduction Description])[Addition/DeductionDescription] 
 						         ,AccNo2,BankBranch2,BankName2,AccountType2,BankCode2
@@ -396,9 +396,13 @@ left outer join tspl_company_master on 2 = 2
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
                                     Else 0 end AS [Base Amount/Quantity]
-									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
-									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
-									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT "
+            If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                Qry += " ,(Round(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt,0)) as [Addition/Deduction Amount]"
+            Else
+                Qry += ",TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]"
+            End If
+            Qry += "  	,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
 									,TSPL_VLC_MASTER_HEAD.AccNo2"
             If chkIfscno.Checked Then
                 Qry += ",TSPL_VLC_MASTER_HEAD.IFSCCode2 "
@@ -438,7 +442,7 @@ left outer join tspl_company_master on 2 = 2
             If chkIfscno.Checked Then
                 Qry += " x.IFSCCode2,"
             End If
-            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code)"
+            Qry += " x.BankBranch2,x.BankName2,x.AccountType2,x.BankCode2 ,x.Add3,x.Add2,x.Add1,x.Comp_Name,x.Comp_Code) order by  cast([DCS Code] as int)"
             Dim dt As DataTable = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -535,9 +539,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VL
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
                                     Else 0 end AS [Base Amount/Quantity]
-									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
-									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
-									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT"
+            If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                Qry += " ,(Round(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt,0)) as [Addition/Deduction Amount]"
+            Else
+
+                Qry += "		,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]"
+            End If
+            Qry += "		,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
 									,TSPL_VLC_MASTER_HEAD.AccNo2,TSPL_VLC_MASTER_HEAD.BankBranch2
 									,TSPL_VLC_MASTER_HEAD.BankName2
 									,TSPL_VLC_MASTER_HEAD.AccountType2

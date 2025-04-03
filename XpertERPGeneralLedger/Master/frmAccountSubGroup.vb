@@ -264,6 +264,18 @@ Public Class FrmAccountSubGroup
         DeleteData()
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccgp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Account_Sub_Group_Code", "TSPL_ACCOUNT_SUB_GROUPS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub txtAccGrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAccGrp._MYValidating
         Dim Qry As String = " Select Account_Group_Code AS Code ,ISNULL(Account_Group_Desc,'') As [Description],ISNULL(GROUP_TYPE,'') As [Group Type]  From TSPL_ACCOUNT_GROUPS "
         txtAccGrp.Value = clsCommon.ShowSelectForm("AccGrpFin", Qry, "Code", "", txtAccGrp.Value, "Code", isButtonClicked)

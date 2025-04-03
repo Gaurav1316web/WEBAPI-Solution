@@ -98,6 +98,9 @@ Public Class FrmRegionMaster
             If Not (common.clsCommon.MyMessageBoxShow("Delete the Region Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_REGION_MASTER", "REGION_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_REGION_MASTER", "REGION_CODE", Nothing)
+
             qry = "delete from tspl_region_master where region_code='" + txtCode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -251,5 +254,17 @@ Public Class FrmRegionMaster
 
         End If
         Me.Controls.Remove(gv)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "REGION_CODE", "TSPL_REGION_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

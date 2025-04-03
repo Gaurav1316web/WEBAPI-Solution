@@ -28,8 +28,11 @@ Partial Class FrmPartNoMaster
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.txttype = New common.Controls.MyTextBox()
+        Me.txtBrand = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.lblBrand = New common.Controls.MyLabel()
+        Me.txtReleasedDate = New common.Controls.MyDateTimePicker()
+        Me.txttype = New common.Controls.MyTextBox()
         Me.txtReleasedBy = New common.Controls.MyTextBox()
         Me.txtSubPart = New common.Controls.MyTextBox()
         Me.lblSubPart = New common.Controls.MyLabel()
@@ -43,15 +46,16 @@ Partial Class FrmPartNoMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.txtReleasedDate = New common.Controls.MyDateTimePicker()
-        Me.txtBrand = New common.Controls.MyTextBox()
-        Me.lblBrand = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.txttype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBrand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBrand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtReleasedDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtReleasedBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSubPart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubPart, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,9 +68,7 @@ Partial Class FrmPartNoMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtReleasedDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBrand, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBrand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,28 +79,21 @@ Partial Class FrmPartNoMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(538, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport, Me.btnImport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'btnExport
         '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
         '
         'btnImport
         '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Text = "Import"
         '
@@ -132,6 +127,7 @@ Partial Class FrmPartNoMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -139,19 +135,32 @@ Partial Class FrmPartNoMaster
         Me.SplitContainer1.SplitterDistance = 306
         Me.SplitContainer1.TabIndex = 1
         '
-        'txttype
+        'txtBrand
         '
-        Me.txttype.Location = New System.Drawing.Point(94, 84)
-        Me.txttype.MaxLength = 200
-        Me.txttype.MendatroryField = False
-        Me.txttype.MyLinkLable1 = Me.MyLabel1
-        Me.txttype.MyLinkLable2 = Nothing
-        Me.txttype.Name = "txttype"
-        Me.txttype.Size = New System.Drawing.Size(414, 20)
-        Me.txttype.TabIndex = 16
+        Me.txtBrand.CalculationExpression = Nothing
+        Me.txtBrand.FieldCode = Nothing
+        Me.txtBrand.FieldDesc = Nothing
+        Me.txtBrand.FieldMaxLength = 0
+        Me.txtBrand.FieldName = Nothing
+        Me.txtBrand.isCalculatedField = False
+        Me.txtBrand.IsSourceFromTable = False
+        Me.txtBrand.IsSourceFromValueList = False
+        Me.txtBrand.IsUnique = False
+        Me.txtBrand.Location = New System.Drawing.Point(94, 62)
+        Me.txtBrand.MaxLength = 200
+        Me.txtBrand.MendatroryField = False
+        Me.txtBrand.MyLinkLable1 = Me.MyLabel1
+        Me.txtBrand.MyLinkLable2 = Nothing
+        Me.txtBrand.Name = "txtBrand"
+        Me.txtBrand.ReferenceFieldDesc = Nothing
+        Me.txtBrand.ReferenceFieldName = Nothing
+        Me.txtBrand.ReferenceTableName = Nothing
+        Me.txtBrand.Size = New System.Drawing.Size(414, 20)
+        Me.txtBrand.TabIndex = 19
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(12, 40)
         Me.MyLabel1.Name = "MyLabel1"
@@ -159,30 +168,117 @@ Partial Class FrmPartNoMaster
         Me.MyLabel1.TabIndex = 8
         Me.MyLabel1.Text = "Description"
         '
+        'lblBrand
+        '
+        Me.lblBrand.FieldName = Nothing
+        Me.lblBrand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBrand.Location = New System.Drawing.Point(12, 62)
+        Me.lblBrand.Name = "lblBrand"
+        Me.lblBrand.Size = New System.Drawing.Size(36, 16)
+        Me.lblBrand.TabIndex = 18
+        Me.lblBrand.Text = "Brand"
+        '
+        'txtReleasedDate
+        '
+        Me.txtReleasedDate.CalculationExpression = Nothing
+        Me.txtReleasedDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtReleasedDate.FieldCode = Nothing
+        Me.txtReleasedDate.FieldDesc = Nothing
+        Me.txtReleasedDate.FieldMaxLength = 0
+        Me.txtReleasedDate.FieldName = Nothing
+        Me.txtReleasedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtReleasedDate.isCalculatedField = False
+        Me.txtReleasedDate.IsSourceFromTable = False
+        Me.txtReleasedDate.IsSourceFromValueList = False
+        Me.txtReleasedDate.IsUnique = False
+        Me.txtReleasedDate.Location = New System.Drawing.Point(422, 108)
+        Me.txtReleasedDate.MendatroryField = False
+        Me.txtReleasedDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtReleasedDate.MyLinkLable1 = Nothing
+        Me.txtReleasedDate.MyLinkLable2 = Nothing
+        Me.txtReleasedDate.Name = "txtReleasedDate"
+        Me.txtReleasedDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtReleasedDate.ReferenceFieldDesc = Nothing
+        Me.txtReleasedDate.ReferenceFieldName = Nothing
+        Me.txtReleasedDate.ReferenceTableName = Nothing
+        Me.txtReleasedDate.Size = New System.Drawing.Size(86, 20)
+        Me.txtReleasedDate.TabIndex = 17
+        Me.txtReleasedDate.TabStop = False
+        Me.txtReleasedDate.Text = "16/11/2011"
+        Me.txtReleasedDate.Value = New Date(2011, 11, 16, 11, 21, 56, 285)
+        '
+        'txttype
+        '
+        Me.txttype.CalculationExpression = Nothing
+        Me.txttype.FieldCode = Nothing
+        Me.txttype.FieldDesc = Nothing
+        Me.txttype.FieldMaxLength = 0
+        Me.txttype.FieldName = Nothing
+        Me.txttype.isCalculatedField = False
+        Me.txttype.IsSourceFromTable = False
+        Me.txttype.IsSourceFromValueList = False
+        Me.txttype.IsUnique = False
+        Me.txttype.Location = New System.Drawing.Point(94, 84)
+        Me.txttype.MaxLength = 200
+        Me.txttype.MendatroryField = False
+        Me.txttype.MyLinkLable1 = Me.MyLabel1
+        Me.txttype.MyLinkLable2 = Nothing
+        Me.txttype.Name = "txttype"
+        Me.txttype.ReferenceFieldDesc = Nothing
+        Me.txttype.ReferenceFieldName = Nothing
+        Me.txttype.ReferenceTableName = Nothing
+        Me.txttype.Size = New System.Drawing.Size(414, 20)
+        Me.txttype.TabIndex = 16
+        '
         'txtReleasedBy
         '
+        Me.txtReleasedBy.CalculationExpression = Nothing
+        Me.txtReleasedBy.FieldCode = Nothing
+        Me.txtReleasedBy.FieldDesc = Nothing
+        Me.txtReleasedBy.FieldMaxLength = 0
+        Me.txtReleasedBy.FieldName = Nothing
+        Me.txtReleasedBy.isCalculatedField = False
+        Me.txtReleasedBy.IsSourceFromTable = False
+        Me.txtReleasedBy.IsSourceFromValueList = False
+        Me.txtReleasedBy.IsUnique = False
         Me.txtReleasedBy.Location = New System.Drawing.Point(94, 106)
         Me.txtReleasedBy.MaxLength = 200
         Me.txtReleasedBy.MendatroryField = False
         Me.txtReleasedBy.MyLinkLable1 = Me.MyLabel1
         Me.txtReleasedBy.MyLinkLable2 = Nothing
         Me.txtReleasedBy.Name = "txtReleasedBy"
+        Me.txtReleasedBy.ReferenceFieldDesc = Nothing
+        Me.txtReleasedBy.ReferenceFieldName = Nothing
+        Me.txtReleasedBy.ReferenceTableName = Nothing
         Me.txtReleasedBy.Size = New System.Drawing.Size(239, 20)
         Me.txtReleasedBy.TabIndex = 15
         '
         'txtSubPart
         '
+        Me.txtSubPart.CalculationExpression = Nothing
+        Me.txtSubPart.FieldCode = Nothing
+        Me.txtSubPart.FieldDesc = Nothing
+        Me.txtSubPart.FieldMaxLength = 0
+        Me.txtSubPart.FieldName = Nothing
+        Me.txtSubPart.isCalculatedField = False
+        Me.txtSubPart.IsSourceFromTable = False
+        Me.txtSubPart.IsSourceFromValueList = False
+        Me.txtSubPart.IsUnique = False
         Me.txtSubPart.Location = New System.Drawing.Point(94, 130)
         Me.txtSubPart.MaxLength = 200
         Me.txtSubPart.MendatroryField = False
         Me.txtSubPart.MyLinkLable1 = Me.MyLabel1
         Me.txtSubPart.MyLinkLable2 = Nothing
         Me.txtSubPart.Name = "txtSubPart"
+        Me.txtSubPart.ReferenceFieldDesc = Nothing
+        Me.txtSubPart.ReferenceFieldName = Nothing
+        Me.txtSubPart.ReferenceTableName = Nothing
         Me.txtSubPart.Size = New System.Drawing.Size(414, 20)
         Me.txtSubPart.TabIndex = 13
         '
         'lblSubPart
         '
+        Me.lblSubPart.FieldName = Nothing
         Me.lblSubPart.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSubPart.Location = New System.Drawing.Point(12, 130)
         Me.lblSubPart.Name = "lblSubPart"
@@ -192,6 +288,7 @@ Partial Class FrmPartNoMaster
         '
         'lblReleasedDate
         '
+        Me.lblReleasedDate.FieldName = Nothing
         Me.lblReleasedDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblReleasedDate.Location = New System.Drawing.Point(340, 110)
         Me.lblReleasedDate.Name = "lblReleasedDate"
@@ -201,6 +298,7 @@ Partial Class FrmPartNoMaster
         '
         'lblReleasedBy
         '
+        Me.lblReleasedBy.FieldName = Nothing
         Me.lblReleasedBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblReleasedBy.Location = New System.Drawing.Point(12, 106)
         Me.lblReleasedBy.Name = "lblReleasedBy"
@@ -210,6 +308,7 @@ Partial Class FrmPartNoMaster
         '
         'lblType
         '
+        Me.lblType.FieldName = Nothing
         Me.lblType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblType.Location = New System.Drawing.Point(12, 84)
         Me.lblType.Name = "lblType"
@@ -219,17 +318,30 @@ Partial Class FrmPartNoMaster
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(94, 40)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = True
         Me.txtDesc.MyLinkLable1 = Me.MyLabel1
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(414, 20)
         Me.txtDesc.TabIndex = 1
         '
         'txtPartNo
         '
+        Me.txtPartNo.FieldName = Nothing
         Me.txtPartNo.Location = New System.Drawing.Point(93, 16)
         Me.txtPartNo.MendatroryField = True
         Me.txtPartNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -245,6 +357,7 @@ Partial Class FrmPartNoMaster
         '
         'lblLocation
         '
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(12, 16)
         Me.lblLocation.Name = "lblLocation"
@@ -288,42 +401,14 @@ Partial Class FrmPartNoMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'txtReleasedDate
+        'btnHistory
         '
-        Me.txtReleasedDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtReleasedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtReleasedDate.Location = New System.Drawing.Point(422, 108)
-        Me.txtReleasedDate.MendatroryField = False
-        Me.txtReleasedDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtReleasedDate.MyLinkLable1 = Nothing
-        Me.txtReleasedDate.MyLinkLable2 = Nothing
-        Me.txtReleasedDate.Name = "txtReleasedDate"
-        Me.txtReleasedDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtReleasedDate.Size = New System.Drawing.Size(86, 20)
-        Me.txtReleasedDate.TabIndex = 17
-        Me.txtReleasedDate.TabStop = False
-        Me.txtReleasedDate.Text = "16/11/2011"
-        Me.txtReleasedDate.Value = New Date(2011, 11, 16, 11, 21, 56, 285)
-        '
-        'txtBrand
-        '
-        Me.txtBrand.Location = New System.Drawing.Point(94, 62)
-        Me.txtBrand.MaxLength = 200
-        Me.txtBrand.MendatroryField = False
-        Me.txtBrand.MyLinkLable1 = Me.MyLabel1
-        Me.txtBrand.MyLinkLable2 = Nothing
-        Me.txtBrand.Name = "txtBrand"
-        Me.txtBrand.Size = New System.Drawing.Size(414, 20)
-        Me.txtBrand.TabIndex = 19
-        '
-        'lblBrand
-        '
-        Me.lblBrand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBrand.Location = New System.Drawing.Point(12, 62)
-        Me.lblBrand.Name = "lblBrand"
-        Me.lblBrand.Size = New System.Drawing.Size(36, 16)
-        Me.lblBrand.TabIndex = 18
-        Me.lblBrand.Text = "Brand"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(160, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(75, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmPartNoMaster
         '
@@ -343,8 +428,11 @@ Partial Class FrmPartNoMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.txttype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBrand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBrand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtReleasedDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtReleasedBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSubPart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubPart, System.ComponentModel.ISupportInitialize).EndInit()
@@ -357,9 +445,7 @@ Partial Class FrmPartNoMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtReleasedDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBrand, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBrand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -388,5 +474,6 @@ Partial Class FrmPartNoMaster
     Friend WithEvents txtReleasedDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtBrand As common.Controls.MyTextBox
     Friend WithEvents lblBrand As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

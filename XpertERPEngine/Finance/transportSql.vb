@@ -1,6 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.IO
+Imports common.UserControls
 Imports Microsoft.Office.Interop
 Imports Telerik.WinControls.UI.Export
 
@@ -898,7 +899,7 @@ xxx:
     End Function
 
 
-    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As RadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
+    Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
         Dim FileCount As Integer = 1
         If AllCellsInString Then
             MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
@@ -1077,8 +1078,13 @@ xxx:
                 ''richa agarwal 12jan BM00000008685
                 If AllCellsInString Then
                     If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
-                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
+                        If gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
+                        Else
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
+                        End If
                     ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
@@ -1314,6 +1320,10 @@ xxx:
                 wSheet.Columns.AutoFit()
             End If
 
+            If AllCellsInString Then
+                wSheet.Columns.AutoFit()
+            End If
+
             'Manadatory Field Coloring
             If manadatoryField IsNot Nothing AndAlso manadatoryField.Count > 0 Then
                 For c As Integer = 0 To wSheet.Columns.Count - 1
@@ -1373,10 +1383,15 @@ xxx:
                     common.clsCommon.MyMessageBoxShow(gv, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(flname) & "\" & System.IO.Path.GetFileName(flname) & " in " & FileCount & " files.")
                 Else
                     common.clsCommon.MyMessageBoxShow(gv, "Exported Successfully.")
-                    Process.Start(flname)
+                    If clsCommon.myLen(gv.MyExportFilePath) <= 0 Then
+                        Process.Start(flname)
+                    Else
+                        gv.MyExportFilePath = flname
+                    End If
                 End If
             End If
             'sanjay
+
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)

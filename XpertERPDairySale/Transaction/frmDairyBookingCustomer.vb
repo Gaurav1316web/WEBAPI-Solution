@@ -2769,6 +2769,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
+        chkIsEwayBill.Checked = True
         chkBPL.Checked = False
         chkGhee.Checked = False
         chkGhee.Enabled = True
@@ -2779,10 +2780,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblUploadingDate.Text = ""
         Is_Cancelled = 0
         FlagCreateDo = False
+        chkNoCrateIssue.Checked = False
         'btnCopy.Enabled = True
         DOStatus = 0
         BookingStatus = 0
         txtDate.Value = clsCommon.GETSERVERDATE()
+        txtSupplyDate.Value = txtDate.Value
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         lblOutstandingDesc.Text = ""
         lblReceiptAmtDesc.Text = ""
@@ -3366,8 +3369,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
+                obj.Supply_Date = txtSupplyDate.Value
                 obj.location_code = txtLocation.Value
                 obj.Is_CashSale = IIf(chkcashsale.Checked, "Y", "N")
+                obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
                 If chkcashsale.Checked Then
                     obj.Payment_Terms = cmbPaymentType.Text
                     obj.ChequeNo = txtChequeNo.Text
@@ -3408,7 +3413,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     obj.Uploading_date = lblUploadingDate.Text
                 End If
                 obj.TotalCAN = txtCan.Text
-                obj.TotalCrate = txtCrate.Text
+                If chkNoCrateIssue.Checked Then
+                    obj.TotalCrate = 0
+                    obj.NoCrateIssue = 1
+                Else
+                    obj.TotalCrate = txtCrate.Text
+                    obj.NoCrateIssue = 0
+                End If
                 obj.TotalBox = txtBox.Text
                 obj.RoundOffAmount = clsCommon.myCdbl(TxtRoundoff.Text)
                 If txtEx_Factory_Date.Checked = True Then
@@ -4072,6 +4083,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 BlankAllControls()
                 LoadBlankGrid()
                 chkSampling.Checked = IIf(obj.IsSampling = 1, True, False)
+                chkIsEwayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 chkGatePass.Checked = IIf(obj.AgainstGatePass = 1, True, False)
                 chkisTCS.Checked = IIf(obj.IS_TCS = 1, True, False)
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
@@ -4108,6 +4120,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 txtVendorNo.Enabled = False
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
+                txtSupplyDate.Value = obj.Supply_Date
                 'GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
                 If clsCommon.myLen(obj.Against_Receipt_No) > 0 Then
                     txtReceipt.Value = obj.Against_Receipt_No
@@ -4171,7 +4184,13 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 txtLocation.Value = obj.location_code
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
                 txtCan.Text = obj.TotalCAN
-                txtCrate.Text = obj.TotalCrate
+                If obj.NoCrateIssue = 1 Then
+                    txtCrate.Text = 0
+                Else
+                    txtCrate.Text = obj.TotalCrate
+                End If
+                chkNoCrateIssue.Checked = IIf(obj.NoCrateIssue = 1, True, False)
+
                 txtBox.Text = obj.TotalBox
                 txtShipToLocation.Value = obj.Ship_To_Location
                 lblShipToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SHIP_TO_LOCATION.Ship_To_Desc FROM  TSPL_SHIP_TO_LOCATION WHERE Ship_To_Code  ='" + txtShipToLocation.Value + "'"))
@@ -8462,6 +8481,7 @@ from
                         obj.Transport_Id = fndTransporter.Value
                         obj.Transporter_Name = lblTransporter.Text
                         obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
+                        obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
                         'obj.ShippedCAN = txtCan.Value
                         obj.TotalCAN = txtCan.Text
                         obj.CrateQty = txtCrate.Text
@@ -8511,7 +8531,7 @@ from
                         'obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                         obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                         obj.Is_Create_Auto_Invoice = 1
-                        obj.Supply_Date = txtDate.Value
+                        obj.Supply_Date = txtSupplyDate.Value
                         If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
                             obj.Shift_Type = ""
                         Else

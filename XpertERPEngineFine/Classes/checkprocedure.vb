@@ -1684,7 +1684,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, "MCC Tanker Gate Out", "1.17.02.22", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOutSecurity, "Security MCC Tanker Gate Out", "1.17.02.23", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, "Tanker Dispatch", "1.17.02.34", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, "Tanker Dispatch Return", "1.17.02.25", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, "Tanker Dispatch Return", "1.17.02.25", clsUseCrMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmDispatchTransfer, "Tanker Location Change", "1.17.02.26", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmVSPAssetIssue, "VSP Asset Issue", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, "MCC Material Sale Return", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
@@ -1716,14 +1716,15 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, "Milk Purchase Register", "1.17.03.01", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, "Daily Qty Report", "1.17.03.02", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "BMC Truck sheet report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTankerUtilization, "Tanker Approval Utilization Report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "DCS Payment Deduction Summary", "1.17.03.04", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMarginAmt, "DCS Margin Report", "1.17.03.05", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "BMC Daily Summary Report", "1.17.03.06", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, "DCS Bank Advice", "1.17.03.07", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, "DCS Wise Summary Reports", "1.17.03.08", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMultipleDeductionReport, "Manual Addition Deduction Report", "1.17.03.09", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCDCSAbsent, "Absent BMC/DCS Report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "BMC Truck sheet report", "1.17.03.04", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerUtilization, "Tanker Approval Utilization Report", "1.17.03.05", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "DCS Payment Deduction Summary", "1.17.03.06", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMarginAmt, "DCS Margin Report", "1.17.03.07", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "BMC Daily Summary Report", "1.17.03.08", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, "DCS Bank Advice", "1.17.03.09", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, "DCS Wise Summary Reports", "1.17.03.10", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMultipleDeductionReport, "Manual Addition Deduction Report", "1.17.03.11", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         InsertDefaultValue(clsUserMgtCode.rptCollectionLevelChart, "Collection Level Chart", "1.17.03.10", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1895,6 +1896,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CompareVoucherReport, "Compare Voucher Report", "1.17.03.143", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBankSavingAdvice, "Bank Saving Advice", "1.17.03.144", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDCSWiseHoldPayments, "DCS Wise Hold Payment & TDS", "1.17.03.145", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCMobileHistory, "BMC Mobile History Report", "1.17.03.146", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2418,7 +2420,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptDeliveryOrderReport1, "Delivery Order Report", "1.06.03.31", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandForsingleBranch, "Demand for the single Branch", "1.06.03.32", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCrateJalliReportForTransfer, "Crate Jalli Report For Transfer", "1.06.03.33", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, "Print Distributer Invoice", "1.06.03.34", clsUserMgtCode.SubModuleSaleDairyReport, "", 37, 0, "", "", "", False, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, "Print Distributer Invoice", "1.06.03.34", clsUserMgtCode.SubModuleSaleDairyReport, "", 37, 0, "", "", "", True, True, False, "", Nothing, "Invoice Wise", "Party Wise", "", "", "", False, "")
         InsertDefaultValue(clsUserMgtCode.frmDistributerLedgerReport, "Distributer Ledger", "1.06.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmPendingBooking, "Pending Booking Report", "1.06.03.36", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmCustomerZone, "Customer Zone Wise Report", "1.06.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2970,7 +2972,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedProduction, "Cattle Feed Production", "1.49.03.17", clsUserMgtCode.SubModuleMilkUnion, 8)
         'InsertDefaultValue(clsUserMgtCode.frmUpdateAppLocation, "Update App Location", "1.49.03.19", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Milk Marketing Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
-
+        InsertDefaultValue(clsUserMgtCode.DBTPDAccountReport, "DBT PD Account Report", "1.49.03.21", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
 

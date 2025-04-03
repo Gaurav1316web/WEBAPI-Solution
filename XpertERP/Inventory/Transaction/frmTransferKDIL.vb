@@ -4044,7 +4044,7 @@ Public Class FrmTransferKDIL
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select Document_No as [TransferNO],convert (varchar(10), Document_Date,103) as Date,DOC_Total_Amt as Amount,case when Status='0' then 'Pending' else 'Approved' end as [Status], From_Location+' - '+FromLocation.Location_Desc as [FromLocation], To_Location+' - '+ToLocation.Location_Desc as [ToLocation], Case When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O' Then 'LOAD OUT' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' Then 'LOAD IN' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='T' Then 'Return' Else 'REJECTED' End as [Transfer Type], TSPL_TRANSFER_ORDER_HEAD.TransferOutNo from TSPL_TRANSFER_ORDER_HEAD LEFT OUTER JOIN TSPL_LOCATION_MASTER FromLocation ON FromLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location LEFT OUTER JOIN TSPL_LOCATION_MASTER ToLocation on ToLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location"
+        Dim qry As String = "select Document_No as [TransferNO],convert (varchar(10), Document_Date,103) as Date,DOC_Total_Amt as Amount,case when Status='0' then 'Pending' else 'Approved' end as [Status], From_Location+' - '+FromLocation.Location_Desc as [FromLocation], To_Location+' - '+ToLocation.Location_Desc as [ToLocation], Case When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O' Then 'LOAD OUT' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' Then 'LOAD IN' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='T' Then 'Return' Else 'REJECTED' End as [Transfer Type], TSPL_TRANSFER_ORDER_HEAD.TransferOutNo,TSPL_TRANSFER_ORDER_HEAD.Remarks,TSPL_TRANSFER_ORDER_HEAD.Price_Code as [Price Code] from TSPL_TRANSFER_ORDER_HEAD LEFT OUTER JOIN TSPL_LOCATION_MASTER FromLocation ON FromLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location LEFT OUTER JOIN TSPL_LOCATION_MASTER ToLocation on ToLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location"
         Dim whrClas As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas = " (case when transfer_type='O' then from_location else to_location end) in (" + arrLoc + ")"
@@ -7403,10 +7403,14 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProductBKN", "Stock Transfer Advice", Nothing)
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
+                    End If
                     'frmCRV.Close()
                 Else
-                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                        clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow("Select document.", Me.Text)

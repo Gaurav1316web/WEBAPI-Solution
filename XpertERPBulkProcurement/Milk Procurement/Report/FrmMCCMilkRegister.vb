@@ -5266,7 +5266,7 @@ Public Class FrmMCCMilkRegister
                     Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code WHERE 2=2 " + whrcls + "
 )XXfinal  where  (
     XXfinal.Shift_Date BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "')  and (Shift='" + Fromshift + "' or Shift='" + Toshift + "') and (Shift='" + Toshift + "' or Shift='" + Fromshift + "')   group by [Route Code],Shift_Date,shift,PK_Id
-	ORDER BY Shift_Date ASC,Shift Desc "
+	ORDER BY Shift_Date ASC,Shift Desc,PK_Id,sno asc "
             Else
                 strquery = "SELECT 
     TSPL_MILK_COLLECTION_MCC.Route_Code AS [Route Code],

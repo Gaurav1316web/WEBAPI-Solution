@@ -95,6 +95,7 @@ Public Class clsSchemeMaster
             isSaved = isSaved AndAlso clsSchemeBenificiary.SaveData(obj.Scheme_Code, obj.ArrSchmBen, obj.Scheme_Type, trans)
 
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Scheme_Code, obj.arrCustomFields, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Scheme_Code, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", "TSPL_SCHEME_BENEFICIARY", "Scheme_Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -206,6 +207,9 @@ Public Class clsSchemeMaster
             Else
                 Throw New Exception("Document not found to delete.")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strSchemeCode, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", "TSPL_SCHEME_BENEFICIARY", "Scheme_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strSchemeCode, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", "TSPL_SCHEME_BENEFICIARY", "Scheme_Code", trans)
+
             clsDBFuncationality.ExecuteNonQuery("Delete From TSPL_SCHEME_DETAIL_NEW Where Scheme_Code='" + strSchemeCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("Delete From TSPL_SCHEME_BENEFICIARY Where Scheme_Code='" + strSchemeCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("Delete From TSPL_SCHEME_MASTER_NEW Where Scheme_Code='" + strSchemeCode + "'", trans)

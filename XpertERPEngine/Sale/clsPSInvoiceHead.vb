@@ -35,6 +35,7 @@ Public Class clsPSInvoiceHead
     Public jaali As Double = 0
     Public Box As Double = 0
     Public isCardSale As Integer = 0
+    Public IsEwaybill As Integer = 0
     Public Is_CustomerChanged As Integer = 0
     Public RoundOffAmount As Double = 0
     Public Total_Comm_Amt As Double = 0
@@ -522,6 +523,7 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Crate", obj.Crate)
             clsCommon.AddColumnsForChange(coll, "jaali", obj.jaali)
             clsCommon.AddColumnsForChange(coll, "Box", obj.Box)
+            clsCommon.AddColumnsForChange(coll, "IsEwaybill", obj.IsEwaybill)
             clsCommon.AddColumnsForChange(coll, "isCardSale", obj.isCardSale)
             clsCommon.AddColumnsForChange(coll, "Road_Permit_No", obj.Road_Permit_No)
             clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
@@ -879,7 +881,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction 
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill 
     FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
@@ -962,6 +964,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             obj.Crate = clsCommon.myCdbl(dt.Rows(0)("Crate"))
             obj.jaali = clsCommon.myCdbl(dt.Rows(0)("jaali"))
             obj.Box = clsCommon.myCdbl(dt.Rows(0)("Box"))
+            obj.IsEwaybill = clsCommon.myCdbl(dt.Rows(0)("IsEwaybill"))
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
 
@@ -1493,14 +1496,14 @@ TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as ValDtlsTotInvVal, TSPL_SD_SALE_INVOICE_HE
 Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "' Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left Outer Join TSPL_LOCATION_MASTER as Bill_To_Location on Bill_To_Location.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location left Outer Join TSPL_SHIP_TO_LOCATION as Ship_To_Location on Ship_To_Location.Ship_To_Code = TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.document_code = TSPL_SD_SALE_INVOICE_head.document_code left outer join tspl_item_master on tspl_item_master.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_code left outer join TSPL_ADDITIONAL_CHARGES on TSPL_ADDITIONAL_CHARGES.CODE = TSPL_SD_SALE_INVOICE_DETAIL.Item_code left outer join TSPL_STATE_MASTER as BillToLocation_State_Master on BillToLocation_State_Master.STATE_CODE = Bill_To_Location.State left outer join TSPL_STATE_MASTER as Ship_To_Location_State_Master on Ship_To_Location_State_Master.STATE_CODE = Ship_To_Location.State left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE = TSPL_Customer_master.State left outer join tspl_city_master on tspl_city_master.city_code = TSPL_Customer_master.City_Code left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax2 left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax3 Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_SD_SALE_INVOICE_HEAD.Transport_Code 
                 where TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strDocNo & "'"
 
+                Dim isEwayBill As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsEwaybill from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" & strDocNo & "'", trans))
 
                 Dim objResult As Object
                 If OnlyEWayBill Then
                     objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_EWAYBillOnly(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, GetIRNNo(strDocNo, trans))
                 Else
-                    objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans)
+                    objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, isEwayBill, trans)
                 End If
-
                 If objResult IsNot Nothing Then
                     If Not OnlyEWayBill Then
                         'assign to variable
@@ -1513,23 +1516,25 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                         clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
-
-                    If objCommonVar.GenerateEWayBillWithEInvoice = True Then
-                        Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
-                        Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
-                        Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
-                        Dim Remarks As String = objResult.SelectToken("Remarks").ToString
-                        If clsCommon.myLen(EwbDt) > 0 Then
-                            EwbDt = clsCommon.GetPrintDate(EwbDt, "dd/MMM/yyyy hh:mm tt")
+                    If IsEwaybill = 1 Then
+                        If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                            Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
+                            Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
+                            Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
+                            Dim Remarks As String = objResult.SelectToken("Remarks").ToString
+                            If clsCommon.myLen(EwbDt) > 0 Then
+                                EwbDt = clsCommon.GetPrintDate(EwbDt, "dd/MMM/yyyy hh:mm tt")
+                            End If
+                            If clsCommon.myLen(EwbValidTill) > 0 Then
+                                EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
+                            End If
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
+                            Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                            Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EwbNo + "/" + CompGSTNo + "/" + EwbDt)
+                            clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                         End If
-                        If clsCommon.myLen(EwbValidTill) > 0 Then
-                            EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
-                        End If
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
-                        Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
-                        Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EwbNo + "/" + CompGSTNo + "/" + EwbDt)
-                        clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
+
                 Else
                     'Throw New Exception("EInvoice- Invalid JSON Value")
                 End If
@@ -1637,14 +1642,17 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
                     End If
                 End If
-                If objCommonVar.GenerateEWayBillWithEInvoice Then
-                    If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
-                        clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
-                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
-                            'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                If obj.IsEwaybill = 1 Then
+                    If objCommonVar.GenerateEWayBillWithEInvoice Then
+                        If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+                            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+                                'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                            End If
                         End If
                     End If
                 End If
+
             ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
                 Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
                 If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then

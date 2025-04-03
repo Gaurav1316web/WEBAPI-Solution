@@ -985,6 +985,7 @@ Public Class FrmPhysicalStock
                         frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colStockUnit).Value)
                         'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
                         frm.dblqty = diffQty
+                        frm.strCurrentDocDate = clsCommon.myCstr(clsCommon.GetPrintDate(dtpdate.Value, "dd/MMM/yyyy"))
                         frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                         frm.ShowDialog()
                         If Not frm.isCencelButtonClicked Then

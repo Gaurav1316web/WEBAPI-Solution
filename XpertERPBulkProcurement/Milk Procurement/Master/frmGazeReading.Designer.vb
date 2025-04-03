@@ -242,6 +242,7 @@ Partial Class frmGazeReading
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(785, 342)
         Me.gv.TabIndex = 6
+        Me.gv.VarID = ""
         '
         'Attachments
         '

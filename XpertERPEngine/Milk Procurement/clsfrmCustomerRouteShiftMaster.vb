@@ -71,6 +71,7 @@ Public Class clsfrmCustomerRouteShiftMaster
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ROUTE_SHIFT_MASTER", OMInsertOrUpdate.Update, " TSPL_CUSTOMER_ROUTE_SHIFT_MASTER.doc_no='" + strCode + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_ROUTE_SHIFT_MASTER", "doc_no", trans)
 
                     '----------------new route and village updates in vlc master---------------------------------
                     If clsCommon.myLen(obj.newroutecode) > 0 Then
@@ -175,6 +176,9 @@ Public Class clsfrmCustomerRouteShiftMaster
             If check <= 0 Then
                 Throw New Exception("No Data Found For Deletion")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_ROUTE_SHIFT_MASTER", "doc_no", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_ROUTE_SHIFT_MASTER", "doc_no", trans)
 
             qry = "delete from TSPL_CUSTOMER_ROUTE_SHIFT_MASTER where doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -147,7 +147,15 @@ Public Class frmPurchaseRequistion
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
         End If
         '--------------------------------------------------------------
-
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            txtReqstAjm.Visible = True
+            txtReqstByAjm.Visible = True
+            btnPrint2.Visible = True
+        Else
+            txtReqstAjm.Visible = False
+            txtRequestBy.Visible = True
+            btnPrint2.Visible = False
+        End If
         If clsCommon.myLen(strDocumentNo) > 0 Then
             LoadData(strDocumentNo, NavigatorType.Current)
         End If
@@ -282,6 +290,8 @@ Public Class frmPurchaseRequistion
         txtDept.Value = ""
         lblDept.Text = ""
         txtRequestBy.Text = ""
+        txtReqstAjm.Value = ""
+        txtReqstByAjm.Text = ""
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
@@ -831,6 +841,15 @@ Public Class frmPurchaseRequistion
                 txtDept.Focus()
                 Return False
             End If
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                If clsCommon.myLen(txtReqstAjm.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select RequestedBy", Me.Text)
+                    txtDept.Focus()
+                    Return False
+                End If
+            End If
+
             'If clsCommon.CompairString("R", cboItemType.SelectedValue) = CompairStringResult.Equal AndAlso Not (clsLocation.isLocatinExcisable(txtLocation.Value)) Then
             '    common.clsCommon.MyMessageBoxShow("Location should be Excisable for Raw Material")
             '    txtLocation.Focus()
@@ -942,9 +961,11 @@ Public Class frmPurchaseRequistion
                     obj.Item_Type = "A"
                 End If
                 obj.Dept = txtDept.Value
-                    obj.Dept_Desc = lblDept.Text
-                    obj.Request_By = txtRequestBy.Text
-                    obj.Requisition_Type = cboPOType.SelectedValue
+                obj.Dept_Desc = lblDept.Text
+                obj.Requested = txtReqstAjm.Value
+                obj.Reqst_Desc = txtReqstByAjm.Text
+                obj.Request_By = txtRequestBy.Text
+                obj.Requisition_Type = cboPOType.SelectedValue
                     obj.PROJECT_ID = fndProject.Value
 
                     obj.Category = clsCommon.myCstr(ddl_category.SelectedValue)
@@ -1236,9 +1257,11 @@ Public Class frmPurchaseRequistion
                     LoadItemType()
                 End If
                 txtDept.Value = obj.Dept
-                    lblDept.Text = obj.Dept_Desc
-                    txtRequestBy.Text = obj.Request_By
-                    cboPOType.SelectedValue = obj.Requisition_Type
+                lblDept.Text = obj.Dept_Desc
+                txtReqstAjm.Value = obj.Requested
+                txtReqstByAjm.Text = obj.Reqst_Desc
+                txtRequestBy.Text = obj.Request_By
+                cboPOType.SelectedValue = obj.Requisition_Type
                     fndProject.Value = obj.PROJECT_ID
                     lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
                     chkTender.Checked = IIf(obj.Is_Tender = "Y", True, False)
@@ -1376,7 +1399,7 @@ Public Class frmPurchaseRequistion
                     End If
                     '====================================================
                     If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
-                        funPrint(txtReqNo.Value)
+                        funPrint(txtReqNo.Value, False)
                     End If
 
                 End If
@@ -1610,12 +1633,21 @@ Public Class frmPurchaseRequistion
         If txtReqNo.Value = "" Then
             myMessages.blankValue(Me, "Requisition Number", Me.Text)
         Else
-            funPrint(txtReqNo.Value)
+            funPrint(txtReqNo.Value, False)
         End If
 
     End Sub
+
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+
+        If txtReqNo.Value = "" Then
+            myMessages.blankValue(Me, "Requisition Number", Me.Text)
+        Else
+            funPrint(txtReqNo.Value, True)
+        End If
+    End Sub
     ' Ticket No : ERO/22/08/19-001000 By Prabhakar
-    Public Sub funPrint(ByVal strdocno As String, Optional ByVal IsPDF As Boolean = False)
+    Public Sub funPrint(ByVal strdocno As String, ByVal Print2 As Boolean, Optional ByVal IsPDF As Boolean = False)
         '       Dim qry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id ,TSPL_REQUISITION_HEAD.Requisition_Date ,TSPL_REQUISITION_HEAD.Expire_Date ,TSPL_REQUISITION_HEAD.Require_Date ,TSPL_REQUISITION_HEAD.Ref_No ,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks ,TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_REQUISITION_HEAD.Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2  from TSPL_REQUISITION_HEAD join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id " & _
         '" left outer join TSPL_COMPANY_MASTER on  TSPL_REQUISITION_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on TSPL_REQUISITION_DETAIL.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code  where  2=2 "
         'Sanjay Ticket NO- UDL/25/10/18-000235 Show Subcapex and capex code and name
@@ -1687,7 +1719,7 @@ Public Class frmPurchaseRequistion
             "TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,case when TSPL_REQUISITION_HEAD.status=1 then TSPL_REQUISITION_HEAD.modify_by else '' end as AuthorizeBy,case when TSPL_REQUISITION_HEAD.status=1 then convert(varchar,TSPL_REQUISITION_HEAD.Posting_Date,103) else '' end as AuthorizeDate ,TSPL_REQUISITION_HEAD.Request_By, " &
             "TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Location , " &
             "TSPL_COMPANY_MASTER.Add1,case when  is_internal ='Y' then 'MATERIAL REQUISITION' else 'PURCHASE INDENT' END AS Heading ,isnull(TSPL_ITEM_MASTER.HSN_Code,'') as HSN_Code " &
-            ",isnull(TSPL_REQUISITION_HEAD.Capex_Code,'') as Capex_Code,isnull(TSPL_REQUISITION_HEAD.Capex_SubCode,'') as Capex_SubCode,isnull(TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION,'') as SubCapexNameDesc,isnull(TSPL_CAPEX_MASTER.DESCRIPTION,'') as CapexDesc" &
+            ",isnull(TSPL_REQUISITION_HEAD.Capex_Code,'') as Capex_Code,isnull(TSPL_REQUISITION_HEAD.Capex_SubCode,'') as Capex_SubCode,isnull(TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION,'') as SubCapexNameDesc,isnull(TSPL_CAPEX_MASTER.DESCRIPTION,'') as CapexDesc, TSPL_REQUISITION_HEAD.Reqst_Desc,TSPL_REQUISITION_HEAD.Requested,TSPL_VENDOR_MASTER.Add1,TSPL_VENDOR_MASTER.Add2,TSPL_VENDOR_MASTER.Add3,TSPL_VENDOR_MASTER.Contact_Person_Name,TSPL_VENDOR_MASTER.Email,TSPL_VENDOR_MASTER.Phone1,TSPL_VENDOR_MASTER.GSTFinalNo " &
             " from TSPL_REQUISITION_HEAD join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id left outer join TSPL_COMPANY_MASTER on  TSPL_REQUISITION_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on TSPL_REQUISITION_DETAIL.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code left outer join TSPL_USER_MASTER as user1 on TSPL_REQUISITION_HEAD.Created_By=user1.User_Code left outer join TSPL_USER_MASTER as user2 on TSPL_REQUISITION_HEAD.Modify_By=user2.User_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_REQUISITION_DETAIL.Item_Code " &
             " left join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_REQUISITION_HEAD.Capex_Code left join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.Code=TSPL_REQUISITION_HEAD.Capex_SubCode" &
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_REQUISITION_HEAD.Location " &
@@ -1710,6 +1742,10 @@ Public Class frmPurchaseRequistion
                 If no = 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
                         StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor-G", "Purchase Requisition")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal And Print2 Then
+                        StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM2", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     Else
                         StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     End If
@@ -2242,7 +2278,7 @@ Public Class frmPurchaseRequistion
                     'objEmailH.Attachment_1_Path = strRptPath
                     ''End If
 
-                    funPrint(txtReqNo.Value, True)
+                    funPrint(txtReqNo.Value, False)
                     objEmailH.Attachment_1_Path = StrPDFPath
 
                     '------------------------code for attchament-------------------------------------
@@ -2522,6 +2558,38 @@ Public Class frmPurchaseRequistion
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub txtReqstAjm__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReqstAjm._MYValidating
+        Try
+            Dim obj As clsDepartment = clsDepartment.Finder(txtReqstAjm.Value, isButtonClicked)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+                txtReqstAjm.Value = obj.Code
+                txtReqstByAjm.Text = obj.Name
+            Else
+                txtReqstAjm.Value = ""
+                txtReqstByAjm.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+
+    'Private Sub txtDeptAjm__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeptAjm._MYValidating
+    '    Try
+    '        Dim obj As clsDepartment = clsDepartment.Finder(txtDeptAjm.Value, isButtonClicked)
+    '        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+    '            txtReqstAjm.Value = obj.Code
+    '            txtReqstByAjm.Text = obj.Name
+    '        Else
+    '            txtReqstAjm.Value = ""
+    '            txtReqstByAjm.Text = ""
+    '        End If
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 End Class
 
 

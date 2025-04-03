@@ -93,6 +93,8 @@ Public Class frmItemGroup
                     End If
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, ddlclassname.Text, "TSPL_INV_CLASS", "Inv_Class_Name", trans)
+
             trans.Commit()
             myMessages.insert()
         Catch ex As Exception

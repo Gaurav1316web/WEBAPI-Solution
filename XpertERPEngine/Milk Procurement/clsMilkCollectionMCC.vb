@@ -66,7 +66,7 @@ Public Class clsMilkCollectionMCC
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
 
-                HistoryUpdate(obj.Document_No, trans)
+                ' HistoryUpdate(obj.Document_No, trans)
             End If
             'Dim objTr As New clsMilkCollectionMCCDetail()
 
@@ -102,6 +102,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days_Merge", obj.Against_DCS_Multiple_Days_Merge, True)
+            clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -118,8 +119,7 @@ Public Class clsMilkCollectionMCC
             End If
             Dim isCorrection As Integer = 0
             clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
-
+            HistoryUpdate(obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -127,7 +127,7 @@ Public Class clsMilkCollectionMCC
     End Function
 
     Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
         Return True
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkCollectionMCC
@@ -212,7 +212,7 @@ where 2=2"
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
-
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Deleted' where Document_No='" + strCode + "'", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC where Document_No='" + strCode + "'", trans)
@@ -253,6 +253,8 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Post' where Document_No='" + obj.Document_No + "'", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             For Each objtr As clsMilkCollectionMCCDetail In obj.Arr
@@ -260,11 +262,13 @@ where 2=2"
                     If objtr.Qty <= 0 Then
                         Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
                     End If
-                    If objtr.FAT <= 0 Then
-                        Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-                    End If
-                    If objtr.SNF <= 0 Then
-                        Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    If Not objtr.Required_Retesting Then
+                        If objtr.FAT <= 0 Then
+                            Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                        End If
+                        If objtr.SNF <= 0 Then
+                            Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                        End If
                     End If
                 End If
             Next
@@ -273,12 +277,12 @@ where 2=2"
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "operation_type", "Post")
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
-
+            HistoryUpdate(obj.Document_No, trans)
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -320,7 +324,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
 
-
+            HistoryUpdate(obj.Document_No, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -330,8 +334,6 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
     Public Shared Function CorrectionData(ByVal obj As clsMilkCollectionMCC, ByVal isCorrection As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            HistoryUpdate(obj.Document_No, trans)
-
             Dim coll As New Hashtable()
             If isCorrection = 0 Then
                 clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
@@ -367,6 +369,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
+            HistoryUpdate(obj.Document_No, trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -414,6 +417,7 @@ Public Class clsMilkCollectionMCCDetail
     Public SNo As Integer
     Public Sample_No As Integer
     Public Milk_Not_Picked As Boolean
+    Public Required_Retesting As Boolean
     Public MCC_Uploader_Code As String ''Not a Table Column
     Public MCC_Code As String
     Public MCC_Name As String
@@ -443,6 +447,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Against_Multiple_Days As Integer
     Public REF_PK_ID_BMCDCS_TRIP As Integer
     Public Against_Multiple_Days_Merge_Day_Detail As Integer
+
 
 
 
@@ -503,6 +508,7 @@ Public Class clsMilkCollectionMCCDetail
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Milk_Not_Picked", IIf(obj.Milk_Not_Picked, 1, 0), True)
+                clsCommon.AddColumnsForChange(coll, "Required_Retesting", IIf(obj.Required_Retesting, 1, 0), True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
@@ -527,7 +533,6 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
-
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
@@ -595,6 +600,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
                 objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
                 objTr.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
+                objTr.Required_Retesting = (clsCommon.myCDecimal(dr("Required_Retesting")) = 1)
                 objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
 
                 arr.Add(objTr)

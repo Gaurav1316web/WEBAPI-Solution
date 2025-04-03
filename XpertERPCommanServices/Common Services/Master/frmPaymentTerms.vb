@@ -306,6 +306,8 @@ Public Class frmPaymentTerms
                 ' clsCommon.AddColumnsForChange(coll, "Due_Date_By", cboDueDate.SelectedValue)
                 clsCommonFunctionality.UpdateDataTable(coll, "tspl_terms_master", OMInsertOrUpdate.Update, "Terms_Code='" + fnd_termscode.Value + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fnd_termscode.Value, "tspl_terms_master", "Terms_Code", Nothing)
+
             '=============================================================================
             myMessages.insert()
 
@@ -855,6 +857,18 @@ Public Class frmPaymentTerms
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fnd_termscode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fnd_termscode.Value, "Terms_Code", "tspl_terms_master")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     'Sub LoadDataErrorType()

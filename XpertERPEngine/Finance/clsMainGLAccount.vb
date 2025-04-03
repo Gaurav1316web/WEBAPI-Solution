@@ -31,6 +31,9 @@ Public Class clsMainGLAccount
             If clsMainGLAccount.IsMainGLaccountUsedOrNot(strCode) = True Then
                 Throw New Exception("You can not delete this code because Code used in another Document.")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACCOUNT_MAIN_GL_ACCOUNT", "Main_GL_Account", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACCOUNT_MAIN_GL_ACCOUNT", "Main_GL_Account", Nothing)
+
             Dim qry As String
             qry = "delete from TSPL_ACCOUNT_MAIN_GL_ACCOUNT where Main_GL_Account ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -123,6 +126,7 @@ Public Class clsMainGLAccount
                 End If
                 UpdateGLAccount(obj.Main_GL_Account, strIsContrilAccount, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Main_GL_Account, "TSPL_ACCOUNT_MAIN_GL_ACCOUNT", "Main_GL_Account", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

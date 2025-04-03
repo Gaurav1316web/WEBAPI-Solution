@@ -22,14 +22,14 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -343,7 +343,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -427,10 +427,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem9.Text = "M"
-        RadListDataItem10.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem9)
-        Me.cboShift.Items.Add(RadListDataItem10)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -623,10 +623,10 @@ Partial Class frmCorrection
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem1)
-        Me.cboRejectType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem3)
+        Me.cboRejectType.Items.Add(RadListDataItem4)
         Me.cboRejectType.Location = New System.Drawing.Point(209, 92)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Nothing
@@ -743,10 +743,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem3)
-        Me.cboMilkType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem5)
+        Me.cboMilkType.Items.Add(RadListDataItem6)
         Me.cboMilkType.Location = New System.Drawing.Point(71, 92)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -861,7 +861,7 @@ Partial Class frmCorrection
         Me.txtQty.TabIndex = 0
         Me.txtQty.Text = "0"
         Me.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQty.Value = 0R
+        Me.txtQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblManualFAT_Per
         '
@@ -899,7 +899,7 @@ Partial Class frmCorrection
         Me.txtSNF.TabIndex = 2
         Me.txtSNF.Text = "0"
         Me.txtSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNF.Value = 0R
+        Me.txtSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblManualSNF_Per
         '
@@ -937,7 +937,7 @@ Partial Class frmCorrection
         Me.txtFAT.TabIndex = 1
         Me.txtFAT.Text = "0"
         Me.txtFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFAT.Value = 0R
+        Me.txtFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage3
         '
@@ -1449,14 +1449,14 @@ Partial Class frmCorrection
         Me.RadGroupBox7.HeaderText = ""
         Me.RadGroupBox7.Location = New System.Drawing.Point(3, 314)
         Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(459, 30)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(566, 30)
         Me.RadGroupBox7.TabIndex = 14
         '
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(100, 4)
+        Me.btnExport.Location = New System.Drawing.Point(191, 4)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(91, 21)
         Me.btnExport.TabIndex = 12
@@ -1467,7 +1467,7 @@ Partial Class frmCorrection
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(7, 4)
+        Me.btnImport.Location = New System.Drawing.Point(288, 4)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(88, 21)
         Me.btnImport.TabIndex = 13
@@ -1489,7 +1489,7 @@ Partial Class frmCorrection
         Me.RadGroupBox3.HeaderText = "Filter"
         Me.RadGroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(566, 86)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(566, 68)
         Me.RadGroupBox3.TabIndex = 2
         Me.RadGroupBox3.Text = "Filter"
         '
@@ -1497,7 +1497,7 @@ Partial Class frmCorrection
         '
         Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton3.Location = New System.Drawing.Point(495, 61)
+        Me.RadButton3.Location = New System.Drawing.Point(495, 38)
         Me.RadButton3.Name = "RadButton3"
         Me.RadButton3.Size = New System.Drawing.Size(66, 21)
         Me.RadButton3.TabIndex = 4
@@ -1518,20 +1518,22 @@ Partial Class frmCorrection
         Me.lblBMCRoute.AutoSize = False
         Me.lblBMCRoute.BorderVisible = True
         Me.lblBMCRoute.FieldName = Nothing
-        Me.lblBMCRoute.Location = New System.Drawing.Point(234, 37)
+        Me.lblBMCRoute.Location = New System.Drawing.Point(441, 16)
         Me.lblBMCRoute.Name = "lblBMCRoute"
-        Me.lblBMCRoute.Size = New System.Drawing.Size(260, 21)
+        Me.lblBMCRoute.Size = New System.Drawing.Size(119, 21)
         Me.lblBMCRoute.TabIndex = 11
+        Me.lblBMCRoute.Visible = False
         '
         'MyLabel16
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel16.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel16.Location = New System.Drawing.Point(237, 17)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel16.TabIndex = 6
         Me.MyLabel16.Text = "Route"
+        Me.MyLabel16.Visible = False
         '
         'txtBMCDate
         '
@@ -1575,7 +1577,7 @@ Partial Class frmCorrection
         Me.txtBMCBMC.IsSourceFromTable = False
         Me.txtBMCBMC.IsSourceFromValueList = False
         Me.txtBMCBMC.IsUnique = False
-        Me.txtBMCBMC.Location = New System.Drawing.Point(71, 61)
+        Me.txtBMCBMC.Location = New System.Drawing.Point(71, 38)
         Me.txtBMCBMC.MendatroryField = True
         Me.txtBMCBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBMCBMC.MyLinkLable1 = Me.MyLabel14
@@ -1594,7 +1596,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel14.Location = New System.Drawing.Point(5, 62)
+        Me.MyLabel14.Location = New System.Drawing.Point(5, 39)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel14.TabIndex = 7
@@ -1605,9 +1607,9 @@ Partial Class frmCorrection
         Me.lblBMCBMC.AutoSize = False
         Me.lblBMCBMC.BorderVisible = True
         Me.lblBMCBMC.FieldName = Nothing
-        Me.lblBMCBMC.Location = New System.Drawing.Point(234, 61)
+        Me.lblBMCBMC.Location = New System.Drawing.Point(234, 38)
         Me.lblBMCBMC.Name = "lblBMCBMC"
-        Me.lblBMCBMC.Size = New System.Drawing.Size(260, 21)
+        Me.lblBMCBMC.Size = New System.Drawing.Size(259, 21)
         Me.lblBMCBMC.TabIndex = 10
         '
         'txtBMCRouteNo
@@ -1622,7 +1624,7 @@ Partial Class frmCorrection
         Me.txtBMCRouteNo.IsSourceFromTable = False
         Me.txtBMCRouteNo.IsSourceFromValueList = False
         Me.txtBMCRouteNo.IsUnique = False
-        Me.txtBMCRouteNo.Location = New System.Drawing.Point(71, 37)
+        Me.txtBMCRouteNo.Location = New System.Drawing.Point(278, 16)
         Me.txtBMCRouteNo.MendatroryField = True
         Me.txtBMCRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBMCRouteNo.MyLinkLable1 = Me.MyLabel16
@@ -1636,6 +1638,7 @@ Partial Class frmCorrection
         Me.txtBMCRouteNo.Size = New System.Drawing.Size(159, 21)
         Me.txtBMCRouteNo.TabIndex = 3
         Me.txtBMCRouteNo.Value = ""
+        Me.txtBMCRouteNo.Visible = False
         '
         'RadGroupBox4
         '
@@ -1664,9 +1667,9 @@ Partial Class frmCorrection
         Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrFAT)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel28)
         Me.RadGroupBox4.HeaderText = "Correction"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(3, 91)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(3, 77)
         Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(459, 208)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(566, 208)
         Me.RadGroupBox4.TabIndex = 3
         Me.RadGroupBox4.Text = "Correction"
         '
@@ -1674,7 +1677,7 @@ Partial Class frmCorrection
         '
         Me.RadButton5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton5.Location = New System.Drawing.Point(71, 175)
+        Me.RadButton5.Location = New System.Drawing.Point(191, 175)
         Me.RadButton5.Name = "RadButton5"
         Me.RadButton5.Size = New System.Drawing.Size(88, 21)
         Me.RadButton5.TabIndex = 5
@@ -1694,7 +1697,7 @@ Partial Class frmCorrection
         Me.txtRetestingCLR.IsSourceFromTable = False
         Me.txtRetestingCLR.IsSourceFromValueList = False
         Me.txtRetestingCLR.IsUnique = False
-        Me.txtRetestingCLR.Location = New System.Drawing.Point(352, 67)
+        Me.txtRetestingCLR.Location = New System.Drawing.Point(352, 70)
         Me.txtRetestingCLR.MendatroryField = False
         Me.txtRetestingCLR.MyLinkLable1 = Me.MyLabel22
         Me.txtRetestingCLR.MyLinkLable2 = Nothing
@@ -1706,14 +1709,14 @@ Partial Class frmCorrection
         Me.txtRetestingCLR.TabIndex = 23
         Me.txtRetestingCLR.Text = "0"
         Me.txtRetestingCLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRetestingCLR.Value = 0R
+        Me.txtRetestingCLR.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtRetestingCLR.Visible = False
         '
         'MyLabel22
         '
         Me.MyLabel22.FieldName = Nothing
         Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel22.Location = New System.Drawing.Point(320, 69)
+        Me.MyLabel22.Location = New System.Drawing.Point(320, 72)
         Me.MyLabel22.Name = "MyLabel22"
         Me.MyLabel22.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel22.TabIndex = 24
@@ -1726,16 +1729,16 @@ Partial Class frmCorrection
         Me.lblBMCStatus.BorderVisible = True
         Me.lblBMCStatus.Enabled = False
         Me.lblBMCStatus.FieldName = Nothing
-        Me.lblBMCStatus.Location = New System.Drawing.Point(331, 21)
+        Me.lblBMCStatus.Location = New System.Drawing.Point(352, 46)
         Me.lblBMCStatus.Name = "lblBMCStatus"
-        Me.lblBMCStatus.Size = New System.Drawing.Size(123, 21)
+        Me.lblBMCStatus.Size = New System.Drawing.Size(102, 21)
         Me.lblBMCStatus.TabIndex = 22
         '
         'MyLabel19
         '
         Me.MyLabel19.FieldName = Nothing
         Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel19.Location = New System.Drawing.Point(175, 47)
+        Me.MyLabel19.Location = New System.Drawing.Point(175, 48)
         Me.MyLabel19.Name = "MyLabel19"
         Me.MyLabel19.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel19.TabIndex = 21
@@ -1746,7 +1749,7 @@ Partial Class frmCorrection
         Me.lblBMCDetailNo.AutoSize = False
         Me.lblBMCDetailNo.BorderVisible = True
         Me.lblBMCDetailNo.FieldName = Nothing
-        Me.lblBMCDetailNo.Location = New System.Drawing.Point(207, 45)
+        Me.lblBMCDetailNo.Location = New System.Drawing.Point(207, 46)
         Me.lblBMCDetailNo.Name = "lblBMCDetailNo"
         Me.lblBMCDetailNo.Size = New System.Drawing.Size(102, 21)
         Me.lblBMCDetailNo.TabIndex = 20
@@ -1755,7 +1758,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(175, 23)
+        Me.MyLabel13.Location = New System.Drawing.Point(321, 23)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel13.TabIndex = 19
@@ -1765,7 +1768,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel18.Location = New System.Drawing.Point(5, 145)
+        Me.MyLabel18.Location = New System.Drawing.Point(5, 142)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(63, 18)
         Me.MyLabel18.TabIndex = 18
@@ -1776,7 +1779,7 @@ Partial Class frmCorrection
         Me.lblBMCSno.AutoSize = False
         Me.lblBMCSno.BorderVisible = True
         Me.lblBMCSno.FieldName = Nothing
-        Me.lblBMCSno.Location = New System.Drawing.Point(207, 21)
+        Me.lblBMCSno.Location = New System.Drawing.Point(353, 21)
         Me.lblBMCSno.Name = "lblBMCSno"
         Me.lblBMCSno.Size = New System.Drawing.Size(102, 21)
         Me.lblBMCSno.TabIndex = 16
@@ -1798,7 +1801,7 @@ Partial Class frmCorrection
         Me.lblBMCDocNo.FieldName = Nothing
         Me.lblBMCDocNo.Location = New System.Drawing.Point(71, 21)
         Me.lblBMCDocNo.Name = "lblBMCDocNo"
-        Me.lblBMCDocNo.Size = New System.Drawing.Size(102, 21)
+        Me.lblBMCDocNo.Size = New System.Drawing.Size(239, 21)
         Me.lblBMCDocNo.TabIndex = 13
         '
         'lblBMCCorrBMC
@@ -1806,7 +1809,7 @@ Partial Class frmCorrection
         Me.lblBMCCorrBMC.AutoSize = False
         Me.lblBMCCorrBMC.BorderVisible = True
         Me.lblBMCCorrBMC.FieldName = Nothing
-        Me.lblBMCCorrBMC.Location = New System.Drawing.Point(71, 144)
+        Me.lblBMCCorrBMC.Location = New System.Drawing.Point(71, 141)
         Me.lblBMCCorrBMC.Name = "lblBMCCorrBMC"
         Me.lblBMCCorrBMC.Size = New System.Drawing.Size(239, 21)
         Me.lblBMCCorrBMC.TabIndex = 12
@@ -1827,10 +1830,10 @@ Partial Class frmCorrection
         Me.cboBMCCorrMilkType.IsSourceFromTable = False
         Me.cboBMCCorrMilkType.IsSourceFromValueList = False
         Me.cboBMCCorrMilkType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem5)
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "M"
+        RadListDataItem8.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem7)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem8)
         Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboBMCCorrMilkType.MendatroryField = True
         Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24
@@ -1856,7 +1859,7 @@ Partial Class frmCorrection
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton4.Location = New System.Drawing.Point(218, 175)
+        Me.RadButton4.Location = New System.Drawing.Point(284, 175)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(91, 21)
         Me.RadButton4.TabIndex = 6
@@ -1866,7 +1869,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel25.FieldName = Nothing
         Me.MyLabel25.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel25.Location = New System.Drawing.Point(5, 118)
+        Me.MyLabel25.Location = New System.Drawing.Point(5, 117)
         Me.MyLabel25.Name = "MyLabel25"
         Me.MyLabel25.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel25.TabIndex = 6
@@ -1884,7 +1887,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrBMC.IsSourceFromTable = False
         Me.txtBMCCorrBMC.IsSourceFromValueList = False
         Me.txtBMCCorrBMC.IsUnique = False
-        Me.txtBMCCorrBMC.Location = New System.Drawing.Point(71, 117)
+        Me.txtBMCCorrBMC.Location = New System.Drawing.Point(71, 116)
         Me.txtBMCCorrBMC.MendatroryField = True
         Me.txtBMCCorrBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBMCCorrBMC.MyLinkLable1 = Me.MyLabel25
@@ -1903,7 +1906,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel26.FieldName = Nothing
         Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel26.Location = New System.Drawing.Point(5, 47)
+        Me.MyLabel26.Location = New System.Drawing.Point(5, 48)
         Me.MyLabel26.Name = "MyLabel26"
         Me.MyLabel26.Size = New System.Drawing.Size(24, 16)
         Me.MyLabel26.TabIndex = 10
@@ -1923,7 +1926,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrQty.IsSourceFromTable = False
         Me.txtBMCCorrQty.IsSourceFromValueList = False
         Me.txtBMCCorrQty.IsUnique = False
-        Me.txtBMCCorrQty.Location = New System.Drawing.Point(71, 45)
+        Me.txtBMCCorrQty.Location = New System.Drawing.Point(71, 46)
         Me.txtBMCCorrQty.MendatroryField = False
         Me.txtBMCCorrQty.MyLinkLable1 = Me.MyLabel26
         Me.txtBMCCorrQty.MyLinkLable2 = Nothing
@@ -1936,13 +1939,13 @@ Partial Class frmCorrection
         Me.txtBMCCorrQty.TabIndex = 0
         Me.txtBMCCorrQty.Text = "0"
         Me.txtBMCCorrQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrQty.Value = 0R
+        Me.txtBMCCorrQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel27
         '
         Me.MyLabel27.FieldName = Nothing
         Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel27.Location = New System.Drawing.Point(5, 70)
+        Me.MyLabel27.Location = New System.Drawing.Point(5, 72)
         Me.MyLabel27.Name = "MyLabel27"
         Me.MyLabel27.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel27.TabIndex = 9
@@ -1962,7 +1965,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrSNF.IsSourceFromTable = False
         Me.txtBMCCorrSNF.IsSourceFromValueList = False
         Me.txtBMCCorrSNF.IsUnique = False
-        Me.txtBMCCorrSNF.Location = New System.Drawing.Point(207, 68)
+        Me.txtBMCCorrSNF.Location = New System.Drawing.Point(207, 70)
         Me.txtBMCCorrSNF.MendatroryField = False
         Me.txtBMCCorrSNF.MyLinkLable1 = Me.MyLabel28
         Me.txtBMCCorrSNF.MyLinkLable2 = Nothing
@@ -1974,13 +1977,13 @@ Partial Class frmCorrection
         Me.txtBMCCorrSNF.TabIndex = 2
         Me.txtBMCCorrSNF.Text = "0"
         Me.txtBMCCorrSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrSNF.Value = 0R
+        Me.txtBMCCorrSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel28
         '
         Me.MyLabel28.FieldName = Nothing
         Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel28.Location = New System.Drawing.Point(175, 70)
+        Me.MyLabel28.Location = New System.Drawing.Point(175, 72)
         Me.MyLabel28.Name = "MyLabel28"
         Me.MyLabel28.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel28.TabIndex = 8
@@ -2000,7 +2003,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrFAT.IsSourceFromTable = False
         Me.txtBMCCorrFAT.IsSourceFromValueList = False
         Me.txtBMCCorrFAT.IsUnique = False
-        Me.txtBMCCorrFAT.Location = New System.Drawing.Point(71, 68)
+        Me.txtBMCCorrFAT.Location = New System.Drawing.Point(71, 70)
         Me.txtBMCCorrFAT.MendatroryField = False
         Me.txtBMCCorrFAT.MyLinkLable1 = Me.MyLabel27
         Me.txtBMCCorrFAT.MyLinkLable2 = Nothing
@@ -2012,7 +2015,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrFAT.TabIndex = 1
         Me.txtBMCCorrFAT.Text = "0"
         Me.txtBMCCorrFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCCorrFAT.Value = 0R
+        Me.txtBMCCorrFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage6
         '
@@ -2040,7 +2043,7 @@ Partial Class frmCorrection
         '
         Me.btnTankerMilkImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnTankerMilkImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnTankerMilkImport.Location = New System.Drawing.Point(6, 7)
+        Me.btnTankerMilkImport.Location = New System.Drawing.Point(161, 7)
         Me.btnTankerMilkImport.Name = "btnTankerMilkImport"
         Me.btnTankerMilkImport.Size = New System.Drawing.Size(88, 21)
         Me.btnTankerMilkImport.TabIndex = 23
@@ -2051,7 +2054,7 @@ Partial Class frmCorrection
         '
         Me.btnTankerMilkExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnTankerMilkExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnTankerMilkExport.Location = New System.Drawing.Point(100, 7)
+        Me.btnTankerMilkExport.Location = New System.Drawing.Point(69, 7)
         Me.btnTankerMilkExport.Name = "btnTankerMilkExport"
         Me.btnTankerMilkExport.Size = New System.Drawing.Size(91, 21)
         Me.btnTankerMilkExport.TabIndex = 22
@@ -2284,7 +2287,7 @@ Partial Class frmCorrection
         '
         Me.RadButton7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton7.Location = New System.Drawing.Point(166, 119)
+        Me.RadButton7.Location = New System.Drawing.Point(161, 119)
         Me.RadButton7.Name = "RadButton7"
         Me.RadButton7.Size = New System.Drawing.Size(91, 21)
         Me.RadButton7.TabIndex = 6
@@ -2294,7 +2297,7 @@ Partial Class frmCorrection
         '
         Me.RadButton8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton8.Location = New System.Drawing.Point(74, 119)
+        Me.RadButton8.Location = New System.Drawing.Point(69, 119)
         Me.RadButton8.Name = "RadButton8"
         Me.RadButton8.Size = New System.Drawing.Size(88, 21)
         Me.RadButton8.TabIndex = 5
@@ -2337,7 +2340,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerQty.TabIndex = 0
         Me.txtBMCTankerQty.Text = "0"
         Me.txtBMCTankerQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerQty.Value = 0R
+        Me.txtBMCTankerQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel44
         '
@@ -2375,7 +2378,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerSNF.TabIndex = 2
         Me.txtBMCTankerSNF.Text = "0"
         Me.txtBMCTankerSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerSNF.Value = 0R
+        Me.txtBMCTankerSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel45
         '
@@ -2413,7 +2416,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerFAT.TabIndex = 1
         Me.txtBMCTankerFAT.Text = "0"
         Me.txtBMCTankerFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCTankerFAT.Value = 0R
+        Me.txtBMCTankerFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnclose
         '

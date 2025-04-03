@@ -77,6 +77,7 @@ Public Class clsVendorBankMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Update, " Bank_Code='" + obj.Bank_code + "'", trans)
             End If
             clsVendorBankBranchDetail.saveData(obj.arrVendorBranchDetail, obj.Bank_code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Bank_code, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
 
             Return True
         Catch ex As Exception
@@ -181,6 +182,10 @@ Public Class clsVendorBankMaster
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Document Not Found.")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
+
             Dim qry As String = String.Empty
             qry = "delete from TSPL_Vendor_Bank_Branch_Details where Bank_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

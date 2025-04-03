@@ -22,6 +22,7 @@ Partial Class frmItemCategoryLevel
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmItemCategoryLevel))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -46,6 +47,7 @@ Partial Class frmItemCategoryLevel
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -65,6 +67,7 @@ Partial Class frmItemCategoryLevel
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -83,6 +86,7 @@ Partial Class frmItemCategoryLevel
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -140,57 +144,42 @@ Partial Class frmItemCategoryLevel
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(700, 20)
         Me.RadMenu1.TabIndex = 179
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexportItemHead, Me.BtnExportItemDetails})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
         'btnexportItemHead
         '
-        Me.btnexportItemHead.AccessibleDescription = "Item Category Head"
-        Me.btnexportItemHead.AccessibleName = "Item Category Head"
         Me.btnexportItemHead.Name = "btnexportItemHead"
         Me.btnexportItemHead.Text = "Item Category Head"
         '
         'BtnExportItemDetails
         '
-        Me.BtnExportItemDetails.AccessibleDescription = "Item Category Details"
-        Me.BtnExportItemDetails.AccessibleName = "Item Category Details"
         Me.BtnExportItemDetails.Name = "BtnExportItemDetails"
         Me.BtnExportItemDetails.Text = "Item Category Details"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnImpItemHead, Me.BtnImportItemDetails})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
         'BtnImpItemHead
         '
-        Me.BtnImpItemHead.AccessibleDescription = "Item Category Head"
-        Me.BtnImpItemHead.AccessibleName = "Item Category Head"
         Me.BtnImpItemHead.Name = "BtnImpItemHead"
         Me.BtnImpItemHead.Text = "Item Category Head"
         '
         'BtnImportItemDetails
         '
-        Me.BtnImportItemDetails.AccessibleDescription = "Item Category Details"
-        Me.BtnImportItemDetails.AccessibleName = "Item Category Details"
         Me.BtnImportItemDetails.Name = "BtnImportItemDetails"
         Me.BtnImportItemDetails.Text = "Item Category Details"
         '
@@ -219,7 +208,7 @@ Partial Class frmItemCategoryLevel
         Me.txtCategoryLevel.TabIndex = 3
         Me.txtCategoryLevel.Text = "0"
         Me.txtCategoryLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCategoryLevel.Value = 0.0R
+        Me.txtCategoryLevel.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCategoryLavel
         '
@@ -282,20 +271,25 @@ Partial Class frmItemCategoryLevel
         Me.gvCategoryValues.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvCategoryValues.Location = New System.Drawing.Point(18, 137)
         '
-        'gvCategoryValues
+        '
         '
         Me.gvCategoryValues.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvCategoryValues.MasterTemplate.AllowAddNewRow = False
         Me.gvCategoryValues.MasterTemplate.AutoGenerateColumns = False
         Me.gvCategoryValues.MasterTemplate.EnableCustomFiltering = True
         Me.gvCategoryValues.MasterTemplate.EnableGrouping = False
+        Me.gvCategoryValues.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategoryValues.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategoryValues.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategoryValues.MyExportFilePath = ""
+        Me.gvCategoryValues.MyStopExport = False
         Me.gvCategoryValues.Name = "gvCategoryValues"
         Me.gvCategoryValues.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCategoryValues.ShowHeaderCellButtons = True
         Me.gvCategoryValues.Size = New System.Drawing.Size(689, 294)
         Me.gvCategoryValues.TabIndex = 4
         Me.gvCategoryValues.TabStop = False
+        Me.gvCategoryValues.VarID = ""
         '
         'lblItemCategoryCode
         '
@@ -362,6 +356,16 @@ Partial Class frmItemCategoryLevel
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(153, 17)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmItemCategoryLevel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -394,6 +398,7 @@ Partial Class frmItemCategoryLevel
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -421,4 +426,5 @@ Partial Class frmItemCategoryLevel
     Friend WithEvents BtnImportItemDetails As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents chkMasterPack As common.Controls.MyCheckBox
     Friend WithEvents chkBinMapping As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class

@@ -332,26 +332,41 @@ Public Class frmShareAllotment
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim sqlqry As String = "  select Max(TSPL_SHARE_MOVEMENT.Source_Date)Source_Date,TSPL_SHARE_ALLOTMENT.Share_Code,max(TSPL_SHARE_MOVEMENT.Certificate_No)Certificate_No,Max(TSPL_SHARE_ALLOTMENT.Share_Code)Share_Code,max(TSPL_SHARE_ALLOTMENT.DCS_Code)DCS_Code,max(TSPL_SHARE_ALLOTMENT.Name)Name,max(TSPL_SHARE_MASTER.Qty)Qty,max(TSPL_SHARE_MASTER.Rate)Rate,max(TSPL_SHARE_MASTER.Amount)Amount,max(tspl_fiscal_year_master.Fiscal_Code)Fiscal_Code,
+
+            Dim sqlqry As String = "  select max(TSPL_SHARE_ALLOTMENT.code)code,  max(convert(date, TSPL_SHARE_MOVEMENT.Source_Date,106))Source_Date,max(TSPL_SHARE_MOVEMENT.Certificate_No)Certificate_No,Max(TSPL_SHARE_ALLOTMENT.Share_Code)Share_Code,max(TSPL_SHARE_ALLOTMENT.DCS_Code)DCS_Code,max(TSPL_SHARE_ALLOTMENT.Name)Name,max(TSPL_SHARE_MASTER.Qty)Qty,max(TSPL_SHARE_MASTER.Rate)Rate,max(TSPL_SHARE_MASTER.Amount)Amount,max(tspl_fiscal_year_master.Fiscal_Code)Fiscal_Code,
  max(SUBSTRING(tspl_fiscal_year_master.Fiscal_Name,15,23))Fiscal_Name, MAX(tspl_fiscal_year_master.Start_Date)Start_date,max(tspl_fiscal_year_master.end_Date)end_date,
  max(TSPL_SHARE_MASTER.Range_From)Range_From,max(TSPL_SHARE_MASTER.Range_To)Range_To,Max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_COMPANY_MASTER.City_Code)City_Code
+ ,max(TSPL_VENDOR_MASTER.RegistrationNo)Registration_No,max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader
+,max(TSPL_SHARE_MOVEMENT.Certificate_No) as Certificate_No
 FROM TSPL_SHARE_ALLOTMENT
 LEFT JOIN TSPL_SHARE_MASTER ON  TSPL_SHARE_MASTER.cODE= TSPL_SHARE_ALLOTMENT.Share_CODE
 left join TSPL_SHARE_MOVEMENT on TSPL_SHARE_MOVEMENT.Source_Code=TSPL_SHARE_MASTER.Code
 left join TSPL_VENDOR_MASTER on TSPL_SHARE_ALLOTMENT.DCS_Code=TSPL_VENDOR_MASTER.Vendor_Code
+  Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code
 left join tspl_fiscal_year_master on tspl_fiscal_year_master.Comp_Code=TSPL_VENDOR_MASTER.Comp_Code
 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code= TSPL_VENDOR_MASTER.Comp_Code
 
 where
-TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'
-            group by TSPL_SHARE_ALLOTMENT.Share_Code"
+TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'"
+            'group by TSPL_SHARE_ALLOTMENT.Share_Code,Certificate_No"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(sqlqry)
+            'Dim fontInstalled As Boolean = False
+            'For Each fontFamily As FontFamily In FontFamily.Families
+            '    If fontFamily.Name = "Mangal" Then
+            '        fontInstalled = True
+            '        Exit For
+            '    End If
+            'Next
+            'If fontInstalled Then
             If dt.Rows.Count > 0 Then
-                Dim crysFrm As New frmCrystalReportViewer()
-                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
-                crysFrm = Nothing
-            End If
+                    Dim crysFrm As New frmCrystalReportViewer()
+                    crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
+                    crysFrm = Nothing
+                End If
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "The font Mangal is not installed on the system.", Me.Text)
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 

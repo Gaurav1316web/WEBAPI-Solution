@@ -387,6 +387,19 @@ Public Class frmAccountMainGLAccount
         End If
         Return strRetCode
     End Function
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccgp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccgp.Value, "Main_GL_Account", "TSPL_ACCOUNT_MAIN_GL_ACCOUNT")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Function PwdOpen() As Boolean
         Dim qry As String = Nothing
         Dim count As Integer = 0

@@ -24,9 +24,7 @@ Partial Class Frmglsecurity
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Me.lbluserid = New common.Controls.MyLabel()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.txtname = New common.Controls.MyTextBox()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.dgvsegment = New common.UserControls.MyRadGridView()
@@ -45,9 +43,9 @@ Partial Class Frmglsecurity
         Me.RMIExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.fndUserCode = New common.UserControls.txtNavigator()
-        CType(Me.lbluserid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lbluserid = New common.Controls.MyLabel()
+        Me.txtname = New common.Controls.MyTextBox()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -64,17 +62,10 @@ Partial Class Frmglsecurity
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.lbluserid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'lbluserid
-        '
-        Me.lbluserid.FieldName = Nothing
-        Me.lbluserid.Location = New System.Drawing.Point(3, 3)
-        Me.lbluserid.Name = "lbluserid"
-        Me.lbluserid.Size = New System.Drawing.Size(41, 18)
-        Me.lbluserid.TabIndex = 0
-        Me.lbluserid.Text = "User Id"
         '
         'btnreset
         '
@@ -84,31 +75,6 @@ Partial Class Frmglsecurity
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(25, 20)
         Me.btnreset.TabIndex = 0
-        '
-        'txtname
-        '
-        Me.txtname.CalculationExpression = Nothing
-        Me.txtname.FieldCode = Nothing
-        Me.txtname.FieldDesc = Nothing
-        Me.txtname.FieldMaxLength = 0
-        Me.txtname.FieldName = Nothing
-        Me.txtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtname.isCalculatedField = False
-        Me.txtname.IsSourceFromTable = False
-        Me.txtname.IsSourceFromValueList = False
-        Me.txtname.IsUnique = False
-        Me.txtname.Location = New System.Drawing.Point(393, 3)
-        Me.txtname.MendatroryField = False
-        Me.txtname.MyLinkLable1 = Me.lbluserid
-        Me.txtname.MyLinkLable2 = Nothing
-        Me.txtname.Name = "txtname"
-        Me.txtname.ReadOnly = True
-        Me.txtname.ReferenceFieldDesc = Nothing
-        Me.txtname.ReferenceFieldName = Nothing
-        Me.txtname.ReferenceTableName = Nothing
-        Me.txtname.Size = New System.Drawing.Size(384, 18)
-        Me.txtname.TabIndex = 1
-        Me.txtname.TabStop = False
         '
         'RadPageView1
         '
@@ -151,6 +117,7 @@ Partial Class Frmglsecurity
         Me.dgvsegment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvsegment.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvsegment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvsegment.MyExportFilePath = ""
         Me.dgvsegment.MyStopExport = False
         Me.dgvsegment.Name = "dgvsegment"
         Me.dgvsegment.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -158,6 +125,7 @@ Partial Class Frmglsecurity
         Me.dgvsegment.Size = New System.Drawing.Size(796, 303)
         Me.dgvsegment.TabIndex = 0
         Me.dgvsegment.TabStop = False
+        Me.dgvsegment.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -186,12 +154,14 @@ Partial Class Frmglsecurity
         Me.dgvaccount.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvaccount.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvaccount.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvaccount.MyExportFilePath = ""
         Me.dgvaccount.MyStopExport = False
         Me.dgvaccount.Name = "dgvaccount"
         Me.dgvaccount.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvaccount.ShowHeaderCellButtons = True
         Me.dgvaccount.Size = New System.Drawing.Size(796, 331)
         Me.dgvaccount.TabIndex = 0
+        Me.dgvaccount.VarID = ""
         '
         'btnclose
         '
@@ -311,6 +281,40 @@ Partial Class Frmglsecurity
         Me.fndUserCode.TabIndex = 0
         Me.fndUserCode.Value = ""
         '
+        'lbluserid
+        '
+        Me.lbluserid.FieldName = Nothing
+        Me.lbluserid.Location = New System.Drawing.Point(3, 3)
+        Me.lbluserid.Name = "lbluserid"
+        Me.lbluserid.Size = New System.Drawing.Size(41, 18)
+        Me.lbluserid.TabIndex = 0
+        Me.lbluserid.Text = "User Id"
+        '
+        'txtname
+        '
+        Me.txtname.CalculationExpression = Nothing
+        Me.txtname.FieldCode = Nothing
+        Me.txtname.FieldDesc = Nothing
+        Me.txtname.FieldMaxLength = 0
+        Me.txtname.FieldName = Nothing
+        Me.txtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtname.isCalculatedField = False
+        Me.txtname.IsSourceFromTable = False
+        Me.txtname.IsSourceFromValueList = False
+        Me.txtname.IsUnique = False
+        Me.txtname.Location = New System.Drawing.Point(393, 3)
+        Me.txtname.MendatroryField = False
+        Me.txtname.MyLinkLable1 = Me.lbluserid
+        Me.txtname.MyLinkLable2 = Nothing
+        Me.txtname.Name = "txtname"
+        Me.txtname.ReadOnly = True
+        Me.txtname.ReferenceFieldDesc = Nothing
+        Me.txtname.ReferenceFieldName = Nothing
+        Me.txtname.ReferenceTableName = Nothing
+        Me.txtname.Size = New System.Drawing.Size(384, 18)
+        Me.txtname.TabIndex = 1
+        Me.txtname.TabStop = False
+        '
         'Frmglsecurity
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -323,9 +327,7 @@ Partial Class Frmglsecurity
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "GL Security"
-        CType(Me.lbluserid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
@@ -344,6 +346,8 @@ Partial Class Frmglsecurity
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.lbluserid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

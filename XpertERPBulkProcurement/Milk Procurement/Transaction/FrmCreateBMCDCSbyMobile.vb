@@ -110,19 +110,13 @@ where TSPL_MILK_COLLECTION_BMCDCS.IDate ='" + clsCommon.GetPrintDate(txtdate.Val
                                     For Each obj As clsBMCDCS_Trip In Arr
                                         ii += 1
                                         clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
-                                        qry = "select 1 from TSPL_MILK_COLLECTION_BMCDCS_TRIP_Hist_Data where PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'"
-                                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PK_ID, "TSPL_MILK_COLLECTION_BMCDCS_TRIP", "PK_ID", trans)
-                                        End If
-
                                         Dim coll As New Hashtable()
                                         clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
                                         clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No)
                                         clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_BMCDCS_TRIP", OMInsertOrUpdate.Update, "PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'", trans)
 
-                                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PK_ID, "TSPL_MILK_COLLECTION_BMCDCS_TRIP", "PK_ID", trans)
+                                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.REF_PK_ID, "TSPL_MILK_COLLECTION_BMCDCS", "PK_ID", "TSPL_MILK_COLLECTION_BMCDCS_DCS", "REF_PK_ID", "TSPL_MILK_COLLECTION_BMCDCS_TRIP", "REF_PK_ID", trans)
                                     Next
                                     trans.Commit()
                                 Catch ex As Exception

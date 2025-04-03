@@ -2906,21 +2906,67 @@ Public Class clsAllSQLFunction
         Try
 
             clsCommon.ProgressBarShow()
-            Dim strFunctionBody As String = " CREATE FUNCTION ExplodeDates(@startdate datetime, @enddate datetime)" & _
-            " returns table as " & _
-            " return ( " & _
-            " with  " & _
-            "  N0 as (SELECT 1 as n UNION ALL SELECT 1) " & _
-            " ,N1 as (SELECT 1 as n FROM N0 t1, N0 t2) " & _
-            " ,N2 as (SELECT 1 as n FROM N1 t1, N1 t2) " & _
-            " ,N3 as (SELECT 1 as n FROM N2 t1, N2 t2) " & _
-            " ,N4 as (SELECT 1 as n FROM N3 t1, N3 t2) " & _
-            " ,N5 as (SELECT 1 as n FROM N4 t1, N4 t2) " & _
-            " ,N6 as (SELECT 1 as n FROM N5 t1, N5 t2) " & _
-            " ,nums as (SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) as num FROM N6) " & _
-            " SELECT DATEADD(day,num-1,@startdate) as thedate " & _
-            " FROM nums " & _
-            " WHERE num <= DATEDIFF(day,@startdate,@enddate) + 1 " & _
+            Dim strFunctionBody As String
+
+            strFunctionBody = "CREATE FUNCTION dbo.RemoveSpecialCharacters (@InputString NVARCHAR(MAX))
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    WHILE PATINDEX('%[^a-zA-Z0-9 ]%', @InputString) > 0
+    BEGIN
+        SET @InputString = STUFF(@InputString, PATINDEX('%[^a-zA-Z0-9]%', @InputString), 1, '')
+    END
+    RETURN @InputString
+END;"
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveSpecialCharacters", strFunctionBody)
+
+
+
+            strFunctionBody = "CREATE FUNCTION dbo.RemoveSpecialCharactersWithNumber (@InputString NVARCHAR(MAX))
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    WHILE PATINDEX('%[^a-zA-Z ]%', @InputString) > 0
+    BEGIN
+        SET @InputString = STUFF(@InputString, PATINDEX('%[^a-zA-Z ]%', @InputString), 1, '')
+    END
+    RETURN @InputString
+END;"
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveSpecialCharactersWithNumber", strFunctionBody)
+
+
+
+            strFunctionBody = "CREATE FUNCTION dbo.RemoveExtraSpaces (@InputString NVARCHAR(MAX))
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    WHILE CHARINDEX('  ', @InputString) > 0
+    BEGIN
+        SET @InputString = REPLACE(@InputString, '  ', ' ')
+    END
+    RETURN @InputString
+END;"
+            clsCommonFunctionality.CreateSQLFunctioin("dbo.RemoveExtraSpaces", strFunctionBody)
+
+
+
+
+
+            strFunctionBody = " CREATE FUNCTION ExplodeDates(@startdate datetime, @enddate datetime)" &
+            " returns table as " &
+            " return ( " &
+            " with  " &
+            "  N0 as (SELECT 1 as n UNION ALL SELECT 1) " &
+            " ,N1 as (SELECT 1 as n FROM N0 t1, N0 t2) " &
+            " ,N2 as (SELECT 1 as n FROM N1 t1, N1 t2) " &
+            " ,N3 as (SELECT 1 as n FROM N2 t1, N2 t2) " &
+            " ,N4 as (SELECT 1 as n FROM N3 t1, N3 t2) " &
+            " ,N5 as (SELECT 1 as n FROM N4 t1, N4 t2) " &
+            " ,N6 as (SELECT 1 as n FROM N5 t1, N5 t2) " &
+            " ,nums as (SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) as num FROM N6) " &
+            " SELECT DATEADD(day,num-1,@startdate) as thedate " &
+            " FROM nums " &
+            " WHERE num <= DATEDIFF(day,@startdate,@enddate) + 1 " &
             " ); "
             clsCommonFunctionality.CreateSQLFunctioin("ExplodeDates", strFunctionBody)
             '=========================================================================

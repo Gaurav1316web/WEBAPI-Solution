@@ -1408,8 +1408,11 @@ Public Class FrmItemMasterRMOther
     End Sub
 
     Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductiontype._MYValidating
-        Dim Qry As String = "select Code, Description from TSPL_DEDUCTION_MASTER"
-        txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeduction", Qry, "Code", "", txtDeductiontype.Value, "Code", isButtonClicked)
+        'Dim Qry As String = " select Code, Description from TSPL_DEDUCTION_MASTER "
+        'txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeduction", Qry, "Code", "", txtDeductiontype.Value, "Code", isButtonClicked)
+        Dim whrcls1 As String = "  Ded_Grp_Code='DEDUCTION' "
+        Dim Qry As String = " select Code, Description from TSPL_DEDUCTION_MASTER "
+        txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeduction", Qry, "Code", whrcls1, txtDeductiontype.Value, "Code", isButtonClicked)
     End Sub
     Private Sub txtPurchaseACSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPurchaseACSet._MYValidating
         Dim qry As String = "select Purchase_Class_Code as [Code], Purchase_Class_Desc as [Description] from dbo.TSPL_PURCHASE_ACCOUNTS"
@@ -4640,7 +4643,7 @@ Public Class FrmItemMasterRMOther
     Sub LoadItemSubGroupType()
 
         Dim Qry As String = " SELECT '' AS Code,'Select' as Description union select Chapter_Head_Code as Code,Description from TSPL_CHAPTER_HEAD "
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         cboItemSubGroupType.DataSource = dt
         cboItemSubGroupType.ValueMember = "Code"
         cboItemSubGroupType.DisplayMember = "Description"

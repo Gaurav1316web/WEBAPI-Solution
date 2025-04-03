@@ -500,6 +500,7 @@ Public Class frmGLAccount
 
         qry = "Update TSPL_GL_ACCOUNTS set Description='" & txtdesc.Text & "' where Account_Code='" & fndaccount.Value & "'"
         clsDBFuncationality.ExecuteNonQuery(qry)
+        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
     End Sub
 
@@ -508,6 +509,7 @@ Public Class frmGLAccount
             '-----for payment screen------- 
             Dim qry As String = "select count(*) from TSPL_PAYMENT_DETAIL where Account_Code='" + fndaccount.Value + "'"
             Dim count As Integer = clsDBFuncationality.getSingleValue(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
             If count = 0 Then
                 connectSql.RunSp("SP_TSPL_GL_ACCOUNTS_DELETE", New SqlParameter("accountcode", fndaccount.Value))
@@ -696,6 +698,7 @@ Public Class frmGLAccount
                     Next
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
             btnsave.Text = "Update"
             btndelete.Enabled = True
@@ -2423,6 +2426,18 @@ Public Class frmGLAccount
 
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccount.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccount.Value, "Account_Code", "TSPL_GL_ACCOUNTS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub txtAccountSubGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAccountSubGroup._MYValidating
         Try
             txtAccountSubGroup.Value = clsMainGLAccount.getFinder("", txtAccountSubGroup.Value, isButtonClicked)
@@ -2432,6 +2447,6 @@ Public Class frmGLAccount
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString())
         End Try
-        
+
     End Sub
 End Class
