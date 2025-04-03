@@ -15618,7 +15618,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime  NULL")
             coll.Add("Modified_By", "varchar(12)  NULL")
             coll.Add("Modified_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CostCenter_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CostCenter_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CostCenter_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Hirerachy_Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
