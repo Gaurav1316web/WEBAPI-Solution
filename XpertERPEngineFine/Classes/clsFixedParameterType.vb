@@ -158,7 +158,9 @@ Public Class clsFixedParameterType
     Public Const BatchFileCounter = "BatchFileCounter"
     Public Const checkstockMRPwise = "checkstockMRPwise"
     Public Const TCSRateforCustomerWithPanNo = "TCSRateforCustomerWithPanNo"
+    Public Const ScrapTCSRateforCustomerWithPanNo = "ScrapTCSRateforCustomerWithPanNo"
     Public Const TCSRateforCustomerWithoutPanNo = "TCSRateforCustomerWithoutPanNo"
+    Public Const ScrapTCSRateforCustomerWithoutPanNo = "ScrapTCSRateforCustomerWithoutPanNo"
     Public Const TCSTaxApplicableOnbulkSale = "TCSTaxApplicableOnbulkSale"
     Public Const TCSTaxApplicableOnCanSale = "TCSTaxApplicableOnCanSale"
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
@@ -1526,6 +1528,8 @@ Public Class clsFixedParameterCode
     Public Const checkstockMRPwise = "checkstockMRPwise"
     Public Const TCSRateforCustomerWithPanNo = "TCSRateforCustomerWithPanNo"
     Public Const TCSRateforCustomerWithoutPanNo = "TCSRateforCustomerWithoutPanNo"
+    Public Const ScrapTCSRateforCustomerWithPanNo = "ScrapTCSRateforCustomerWithPanNo"
+    Public Const ScrapTCSRateforCustomerWithoutPanNo = "ScrapTCSRateforCustomerWithoutPanNo"
     Public Const TCSTaxApplicableOnbulkSale = "TCSTaxApplicableOnbulkSale"
     Public Const TCSTaxApplicableOnCanSale = "TCSTaxApplicableOnCanSale"
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
@@ -3053,6 +3057,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, "0", "checkstockMRPwise")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, "0", "TCSRateforCustomerWithPanNo")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, "0", "TCSRateforCustomerWithoutPanNo")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ScrapTCSRateforCustomerWithoutPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithoutPanNo, "0", "ScrapTCSRateforCustomerWithoutPanNo")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, "0", "TCSRateforCustomerWithoutPanNo")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ScrapTCSRateforCustomerWithPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithPanNo, "0", "ScrapTCSRateforCustomerWithPanNo")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TCSTaxApplicableOnbulkSale, clsFixedParameterCode.TCSTaxApplicableOnbulkSale, "0", "TCSTaxApplicableOnbulkSale")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TCSTaxApplicableOnCanSale, clsFixedParameterCode.TCSTaxApplicableOnCanSale, "0", "TCSTaxApplicableOnCanSale")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, "0", "AllowtoChangeTCSBaseAmount")

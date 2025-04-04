@@ -58,6 +58,8 @@ Public Class clsPricePlanHead
             End If
             Dim objtr As New clsPricePlanDetail
             objtr.SaveData(obj.Plan_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Plan_Code, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception
@@ -216,6 +218,8 @@ Public Class clsPricePlanHead
 
             qry = "Update TSPL_ITEM_PRICE_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Against_Plan_TR_Code in (select Plan_TR_Code from TSPL_ITEM_PRICE_PLAN_DETAIL where Plan_Code='" + strDocNo + "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Plan_Code, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -454,6 +458,9 @@ Public Class clsPricePlanHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Plan not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", Nothing)
+
         Dim obj As clsPricePlanHead = clsPricePlanHead.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Plan_Code) > 0) Then

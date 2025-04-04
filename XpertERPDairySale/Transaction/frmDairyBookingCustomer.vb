@@ -9803,7 +9803,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
 
     Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, True))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

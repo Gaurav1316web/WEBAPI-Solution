@@ -30,6 +30,8 @@ Partial Class FrmPriceMaster
         Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
@@ -41,6 +43,8 @@ Partial Class FrmPriceMaster
         Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn13 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -51,6 +55,8 @@ Partial Class FrmPriceMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.pvItemPrice = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtPlanningCode = New common.Controls.MyTextBox()
+        Me.MyLabel22 = New common.Controls.MyLabel()
         Me.lblType = New common.Controls.MyLabel()
         Me.ddlType = New common.Controls.MyComboBox()
         Me.chkAuto = New Telerik.WinControls.UI.RadCheckBox()
@@ -165,14 +171,14 @@ Partial Class FrmPriceMaster
         Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel22 = New common.Controls.MyLabel()
-        Me.txtPlanningCode = New common.Controls.MyTextBox()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.pvItemPrice.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAuto, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -286,8 +292,6 @@ Partial Class FrmPriceMaster
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -305,7 +309,6 @@ Partial Class FrmPriceMaster
         Me.RadPageView1.SelectedPage = Me.pvItemPrice
         Me.RadPageView1.Size = New System.Drawing.Size(1025, 423)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "Totals"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pvItemPrice
@@ -368,6 +371,39 @@ Partial Class FrmPriceMaster
         Me.SplitContainer2.SplitterDistance = 196
         Me.SplitContainer2.TabIndex = 0
         '
+        'txtPlanningCode
+        '
+        Me.txtPlanningCode.CalculationExpression = Nothing
+        Me.txtPlanningCode.FieldCode = Nothing
+        Me.txtPlanningCode.FieldDesc = Nothing
+        Me.txtPlanningCode.FieldMaxLength = 0
+        Me.txtPlanningCode.FieldName = Nothing
+        Me.txtPlanningCode.isCalculatedField = False
+        Me.txtPlanningCode.IsSourceFromTable = False
+        Me.txtPlanningCode.IsSourceFromValueList = False
+        Me.txtPlanningCode.IsUnique = False
+        Me.txtPlanningCode.Location = New System.Drawing.Point(628, 138)
+        Me.txtPlanningCode.MendatroryField = False
+        Me.txtPlanningCode.MyLinkLable1 = Nothing
+        Me.txtPlanningCode.MyLinkLable2 = Nothing
+        Me.txtPlanningCode.Name = "txtPlanningCode"
+        Me.txtPlanningCode.ReadOnly = True
+        Me.txtPlanningCode.ReferenceFieldDesc = Nothing
+        Me.txtPlanningCode.ReferenceFieldName = Nothing
+        Me.txtPlanningCode.ReferenceTableName = Nothing
+        Me.txtPlanningCode.Size = New System.Drawing.Size(173, 20)
+        Me.txtPlanningCode.TabIndex = 47
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.BackColor = System.Drawing.Color.Transparent
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Location = New System.Drawing.Point(543, 138)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(79, 18)
+        Me.MyLabel22.TabIndex = 46
+        Me.MyLabel22.Text = "Planning Code"
+        '
         'lblType
         '
         Me.lblType.FieldName = Nothing
@@ -382,6 +418,7 @@ Partial Class FrmPriceMaster
         Me.ddlType.AutoCompleteDisplayMember = Nothing
         Me.ddlType.AutoCompleteValueMember = Nothing
         Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
         Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlType.FieldCode = Nothing
         Me.ddlType.FieldDesc = Nothing
@@ -529,7 +566,6 @@ Partial Class FrmPriceMaster
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(440, 18)
         Me.lblLocationDesc.TabIndex = 11
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtRemarks
         '
@@ -625,7 +661,7 @@ Partial Class FrmPriceMaster
         Me.txtBasic.TabIndex = 20
         Me.txtBasic.Text = "0"
         Me.txtBasic.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBasic.Value = 0R
+        Me.txtBasic.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'fndPriceCode
         '
@@ -673,7 +709,6 @@ Partial Class FrmPriceMaster
         Me.txtPriceCodeDesc.Name = "txtPriceCodeDesc"
         Me.txtPriceCodeDesc.Size = New System.Drawing.Size(440, 18)
         Me.txtPriceCodeDesc.TabIndex = 41
-        Me.txtPriceCodeDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel3
         '
@@ -869,7 +904,7 @@ Partial Class FrmPriceMaster
         Me.txtMRP.TabIndex = 32
         Me.txtMRP.Text = "0"
         Me.txtMRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRP.Value = 0R
+        Me.txtMRP.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblItemDesc
         '
@@ -881,7 +916,6 @@ Partial Class FrmPriceMaster
         Me.lblItemDesc.Name = "lblItemDesc"
         Me.lblItemDesc.Size = New System.Drawing.Size(440, 18)
         Me.lblItemDesc.TabIndex = 15
-        Me.lblItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'SplitContainer3
         '
@@ -914,7 +948,7 @@ Partial Class FrmPriceMaster
         Me.grdPriceComp.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.grdPriceComp.Location = New System.Drawing.Point(0, 21)
         '
-        'grdPriceComp
+        '
         '
         Me.grdPriceComp.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.grdPriceComp.MasterTemplate.AllowAddNewRow = False
@@ -956,7 +990,11 @@ Partial Class FrmPriceMaster
         Me.grdPriceComp.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5})
         Me.grdPriceComp.MasterTemplate.EnableGrouping = False
         Me.grdPriceComp.MasterTemplate.EnableSorting = False
+        Me.grdPriceComp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdPriceComp.MasterTemplate.ShowHeaderCellButtons = True
+        Me.grdPriceComp.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdPriceComp.MyExportFilePath = ""
+        Me.grdPriceComp.MyStopExport = False
         Me.grdPriceComp.Name = "grdPriceComp"
         Me.grdPriceComp.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdPriceComp.ShowGroupPanel = False
@@ -964,7 +1002,7 @@ Partial Class FrmPriceMaster
         Me.grdPriceComp.Size = New System.Drawing.Size(573, 150)
         Me.grdPriceComp.TabIndex = 1
         Me.grdPriceComp.TabStop = False
-        Me.grdPriceComp.Text = "RadGridView1"
+        Me.grdPriceComp.VarID = ""
         '
         'Panel2
         '
@@ -995,7 +1033,7 @@ Partial Class FrmPriceMaster
         Me.lblPriceCompTotal.Size = New System.Drawing.Size(100, 19)
         Me.lblPriceCompTotal.TabIndex = 2
         Me.lblPriceCompTotal.Text = "0.0"
-        Me.lblPriceCompTotal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblPriceCompTotal.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         Me.lblPriceCompTotal.Visible = False
         '
         'RadLabel16
@@ -1191,17 +1229,21 @@ Partial Class FrmPriceMaster
         Me.cbgUOM.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.cbgUOM.Location = New System.Drawing.Point(0, 18)
         '
-        'cbgUOM
+        '
         '
         Me.cbgUOM.MasterTemplate.AllowAddNewRow = False
         Me.cbgUOM.MasterTemplate.AllowDeleteRow = False
+        Me.cbgUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.cbgUOM.MasterTemplate.ShowHeaderCellButtons = True
+        Me.cbgUOM.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.cbgUOM.MyExportFilePath = ""
+        Me.cbgUOM.MyStopExport = False
         Me.cbgUOM.Name = "cbgUOM"
         Me.cbgUOM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cbgUOM.ShowHeaderCellButtons = True
         Me.cbgUOM.Size = New System.Drawing.Size(196, 153)
         Me.cbgUOM.TabIndex = 19
-        Me.cbgUOM.Text = "RadGridView1"
+        Me.cbgUOM.VarID = ""
         '
         'Panel4
         '
@@ -1254,6 +1296,7 @@ Partial Class FrmPriceMaster
         Me.ddlTaxMnpln.AutoCompleteDisplayMember = Nothing
         Me.ddlTaxMnpln.AutoCompleteValueMember = Nothing
         Me.ddlTaxMnpln.CalculationExpression = Nothing
+        Me.ddlTaxMnpln.DropDownAnimationEnabled = True
         Me.ddlTaxMnpln.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTaxMnpln.FieldCode = Nothing
         Me.ddlTaxMnpln.FieldDesc = Nothing
@@ -1391,14 +1434,18 @@ Partial Class FrmPriceMaster
         GridViewTextBoxColumn13.Name = "Tax_On_Base_Amount"
         Me.grdTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewComboBoxColumn1, GridViewTextBoxColumn8, GridViewTextBoxColumn9, GridViewTextBoxColumn10, GridViewTextBoxColumn11, GridViewTextBoxColumn12, GridViewTextBoxColumn13})
         Me.grdTax.MasterTemplate.EnableGrouping = False
+        Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
+        Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.grdTax.MyExportFilePath = ""
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
         Me.grdTax.Size = New System.Drawing.Size(984, 277)
         Me.grdTax.TabIndex = 2
         Me.grdTax.TabStop = False
-        Me.grdTax.Text = "RadGridView2"
+        Me.grdTax.VarID = ""
         '
         'txtTaxGrp
         '
@@ -1451,13 +1498,17 @@ Partial Class FrmPriceMaster
         '
         '
         '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1004, 352)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -1667,7 +1718,7 @@ Partial Class FrmPriceMaster
         Me.txtAbtRate.TabIndex = 42
         Me.txtAbtRate.Text = "0"
         Me.txtAbtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAbtRate.Value = 0R
+        Me.txtAbtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblLandingCost
         '
@@ -1704,7 +1755,7 @@ Partial Class FrmPriceMaster
         Me.txtLandingCost.TabIndex = 44
         Me.txtLandingCost.Text = "0"
         Me.txtLandingCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLandingCost.Value = 0R
+        Me.txtLandingCost.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtAbtAmount
         '
@@ -1731,7 +1782,7 @@ Partial Class FrmPriceMaster
         Me.txtAbtAmount.TabIndex = 46
         Me.txtAbtAmount.Text = "0"
         Me.txtAbtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAbtAmount.Value = 0R
+        Me.txtAbtAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadLabel8
         '
@@ -1788,7 +1839,7 @@ Partial Class FrmPriceMaster
         Me.txtMarkupPercent.TabIndex = 40
         Me.txtMarkupPercent.Text = "0"
         Me.txtMarkupPercent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMarkupPercent.Value = 0R
+        Me.txtMarkupPercent.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -1825,7 +1876,7 @@ Partial Class FrmPriceMaster
         Me.txtPurchaseCost.TabIndex = 38
         Me.txtPurchaseCost.Text = "0"
         Me.txtPurchaseCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPurchaseCost.Value = 0R
+        Me.txtPurchaseCost.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -1841,6 +1892,7 @@ Partial Class FrmPriceMaster
         Me.ddlBasicRateOn.AutoCompleteDisplayMember = Nothing
         Me.ddlBasicRateOn.AutoCompleteValueMember = Nothing
         Me.ddlBasicRateOn.CalculationExpression = Nothing
+        Me.ddlBasicRateOn.DropDownAnimationEnabled = True
         Me.ddlBasicRateOn.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlBasicRateOn.FieldCode = Nothing
         Me.ddlBasicRateOn.FieldDesc = Nothing
@@ -1880,6 +1932,7 @@ Partial Class FrmPriceMaster
         Me.ddlMarkup.AutoCompleteDisplayMember = Nothing
         Me.ddlMarkup.AutoCompleteValueMember = Nothing
         Me.ddlMarkup.CalculationExpression = Nothing
+        Me.ddlMarkup.DropDownAnimationEnabled = True
         Me.ddlMarkup.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMarkup.FieldCode = Nothing
         Me.ddlMarkup.FieldDesc = Nothing
@@ -1921,6 +1974,7 @@ Partial Class FrmPriceMaster
         Me.ddlBasicRate.AutoCompleteDisplayMember = Nothing
         Me.ddlBasicRate.AutoCompleteValueMember = Nothing
         Me.ddlBasicRate.CalculationExpression = Nothing
+        Me.ddlBasicRate.DropDownAnimationEnabled = True
         Me.ddlBasicRate.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlBasicRate.FieldCode = Nothing
         Me.ddlBasicRate.FieldDesc = Nothing
@@ -1992,60 +2046,44 @@ Partial Class FrmPriceMaster
         '
         'Filemenu
         '
-        Me.Filemenu.AccessibleDescription = "File"
-        Me.Filemenu.AccessibleName = "File"
         Me.Filemenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import, Me.RadMenuItem3})
         Me.Filemenu.Name = "Filemenu"
         Me.Filemenu.Text = "File"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportPriceCodewise, Me.ExportVendorCodeWise, Me.rmiBackCalculation})
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
         'ExportPriceCodewise
         '
-        Me.ExportPriceCodewise.AccessibleDescription = "Export Price Code Wise"
-        Me.ExportPriceCodewise.AccessibleName = "Export Price Code Wise"
         Me.ExportPriceCodewise.Name = "ExportPriceCodewise"
         Me.ExportPriceCodewise.Text = "Export Price Code Wise"
         '
         'ExportVendorCodeWise
         '
-        Me.ExportVendorCodeWise.AccessibleDescription = "Export Vendor Code Wise"
-        Me.ExportVendorCodeWise.AccessibleName = "Export Vendor Code Wise"
         Me.ExportVendorCodeWise.Name = "ExportVendorCodeWise"
         Me.ExportVendorCodeWise.Text = "Export Vendor Code Wise"
         '
         'rmiBackCalculation
         '
-        Me.rmiBackCalculation.AccessibleDescription = "Back Calculation"
-        Me.rmiBackCalculation.AccessibleName = "Back Calculation"
         Me.rmiBackCalculation.Name = "rmiBackCalculation"
         Me.rmiBackCalculation.Text = "Back Calculation"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiMRPWithBackCalculation})
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'rmiMRPWithBackCalculation
         '
-        Me.rmiMRPWithBackCalculation.AccessibleDescription = "Price Master @ MRP-Back Calculation"
-        Me.rmiMRPWithBackCalculation.AccessibleName = "Price Master @ MRP-Back Calculation"
         Me.rmiMRPWithBackCalculation.Name = "rmiMRPWithBackCalculation"
         Me.rmiMRPWithBackCalculation.Text = "Price Master @ MRP-Back Calculation"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Exit"
-        Me.RadMenuItem3.AccessibleName = "Exit"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Exit"
         '
@@ -2118,40 +2156,6 @@ Partial Class FrmPriceMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "menu"
-        '
-        'MyLabel22
-        '
-        Me.MyLabel22.BackColor = System.Drawing.Color.Transparent
-        Me.MyLabel22.FieldName = Nothing
-        Me.MyLabel22.Location = New System.Drawing.Point(543, 138)
-        Me.MyLabel22.Name = "MyLabel22"
-        Me.MyLabel22.Size = New System.Drawing.Size(79, 18)
-        Me.MyLabel22.TabIndex = 46
-        Me.MyLabel22.Text = "Planning Code"
-        '
-        'txtPlanningCode
-        '
-        Me.txtPlanningCode.CalculationExpression = Nothing
-        Me.txtPlanningCode.FieldCode = Nothing
-        Me.txtPlanningCode.FieldDesc = Nothing
-        Me.txtPlanningCode.FieldMaxLength = 0
-        Me.txtPlanningCode.FieldName = Nothing
-        Me.txtPlanningCode.isCalculatedField = False
-        Me.txtPlanningCode.IsSourceFromTable = False
-        Me.txtPlanningCode.IsSourceFromValueList = False
-        Me.txtPlanningCode.IsUnique = False
-        Me.txtPlanningCode.Location = New System.Drawing.Point(628, 138)
-        Me.txtPlanningCode.MendatroryField = False
-        Me.txtPlanningCode.MyLinkLable1 = Nothing
-        Me.txtPlanningCode.MyLinkLable2 = Nothing
-        Me.txtPlanningCode.Name = "txtPlanningCode"
-        Me.txtPlanningCode.ReadOnly = True
-        Me.txtPlanningCode.ReferenceFieldDesc = Nothing
-        Me.txtPlanningCode.ReferenceFieldName = Nothing
-        Me.txtPlanningCode.ReferenceTableName = Nothing
-        Me.txtPlanningCode.Size = New System.Drawing.Size(173, 20)
-        Me.txtPlanningCode.TabIndex = 47
         '
         'FrmPriceMaster
         '
@@ -2173,6 +2177,8 @@ Partial Class FrmPriceMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAuto, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2295,8 +2301,6 @@ Partial Class FrmPriceMaster
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

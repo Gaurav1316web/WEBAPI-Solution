@@ -22,14 +22,19 @@ Partial Class frmInventorySetting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
         Dim ConditionalFormattingObject1 As Telerik.WinControls.UI.ConditionalFormattingObject = New Telerik.WinControls.UI.ConditionalFormattingObject()
         Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.chkallownegativeinventory = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkallowreceipts = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -39,6 +44,11 @@ Partial Class frmInventorySetting
         Me.mnexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnclose = New Telerik.WinControls.UI.RadMenuItem()
         Me.groupbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnStockAvailable = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbntBalanceOnDocDate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnIsConsiderOutTypeDoc = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkNegativeStockInDairyProduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.gv_itemsettings = New common.UserControls.MyRadGridView()
         Me.chkCreateTransferFromBooking = New Telerik.WinControls.UI.RadCheckBox()
@@ -88,10 +98,6 @@ Partial Class frmInventorySetting
         Me.chkAllowTermsEditMM = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkBatchMandatory = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkAllowchangeInvoiceType = New Telerik.WinControls.UI.RadCheckBox()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.rbtnStockAvailable = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbntBalanceOnDocDate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnIsConsiderOutTypeDoc = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkAutoScheme = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkMRPwithAbatement = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkBackCalculation = New Telerik.WinControls.UI.RadCheckBox()
@@ -108,13 +114,17 @@ Partial Class frmInventorySetting
         Me.grpItemType = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvItemType = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.chkNegativeStockInDairyProduction = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.chkallownegativeinventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkallowreceipts, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.groupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupbox.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnStockAvailable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbntBalanceOnDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
         CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,10 +175,6 @@ Partial Class frmInventorySetting
         CType(Me.chkAllowTermsEditMM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBatchMandatory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAllowchangeInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.rbtnStockAvailable, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbntBalanceOnDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAutoScheme, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMRPwithAbatement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBackCalculation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,7 +197,6 @@ Partial Class frmInventorySetting
         CType(Me.gvItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemType.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -237,30 +242,22 @@ Partial Class frmInventorySetting
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnimport, Me.mnexport, Me.mnclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'mnimport
         '
-        Me.mnimport.AccessibleDescription = "Import"
-        Me.mnimport.AccessibleName = "Import"
         Me.mnimport.Name = "mnimport"
         Me.mnimport.Text = "Import"
         '
         'mnexport
         '
-        Me.mnexport.AccessibleDescription = "Export"
-        Me.mnexport.AccessibleName = "Export"
         Me.mnexport.Name = "mnexport"
         Me.mnexport.Text = "Export"
         '
         'mnclose
         '
-        Me.mnclose.AccessibleDescription = "Close"
-        Me.mnclose.AccessibleName = "Close"
         Me.mnclose.Name = "mnclose"
         Me.mnclose.Text = "Close"
         '
@@ -318,6 +315,51 @@ Partial Class frmInventorySetting
         Me.groupbox.Size = New System.Drawing.Size(1057, 471)
         Me.groupbox.TabIndex = 0
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnStockAvailable)
+        Me.GroupBox1.Controls.Add(Me.rbntBalanceOnDocDate)
+        Me.GroupBox1.Controls.Add(Me.rbtnIsConsiderOutTypeDoc)
+        Me.GroupBox1.Location = New System.Drawing.Point(817, -7)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(215, 63)
+        Me.GroupBox1.TabIndex = 9
+        Me.GroupBox1.TabStop = False
+        '
+        'rbtnStockAvailable
+        '
+        Me.rbtnStockAvailable.Location = New System.Drawing.Point(3, 43)
+        Me.rbtnStockAvailable.Name = "rbtnStockAvailable"
+        Me.rbtnStockAvailable.Size = New System.Drawing.Size(96, 18)
+        Me.rbtnStockAvailable.TabIndex = 2
+        Me.rbtnStockAvailable.Text = "Stock Available"
+        '
+        'rbntBalanceOnDocDate
+        '
+        Me.rbntBalanceOnDocDate.Location = New System.Drawing.Point(3, 26)
+        Me.rbntBalanceOnDocDate.Name = "rbntBalanceOnDocDate"
+        Me.rbntBalanceOnDocDate.Size = New System.Drawing.Size(158, 18)
+        Me.rbntBalanceOnDocDate.TabIndex = 1
+        Me.rbntBalanceOnDocDate.Text = "Balance On Document Date"
+        '
+        'rbtnIsConsiderOutTypeDoc
+        '
+        Me.rbtnIsConsiderOutTypeDoc.Location = New System.Drawing.Point(3, 9)
+        Me.rbtnIsConsiderOutTypeDoc.Name = "rbtnIsConsiderOutTypeDoc"
+        Me.rbtnIsConsiderOutTypeDoc.Size = New System.Drawing.Size(208, 18)
+        Me.rbtnIsConsiderOutTypeDoc.TabIndex = 0
+        Me.rbtnIsConsiderOutTypeDoc.Text = "Is Consider Out Type Doc For Balance"
+        '
+        'chkNegativeStockInDairyProduction
+        '
+        Me.chkNegativeStockInDairyProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNegativeStockInDairyProduction.Location = New System.Drawing.Point(814, 56)
+        Me.chkNegativeStockInDairyProduction.Name = "chkNegativeStockInDairyProduction"
+        Me.chkNegativeStockInDairyProduction.Size = New System.Drawing.Size(224, 16)
+        Me.chkNegativeStockInDairyProduction.TabIndex = 49
+        Me.chkNegativeStockInDairyProduction.Text = "Allow Negative stock In Dairy Production"
+        Me.chkNegativeStockInDairyProduction.Visible = False
+        '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.gv_itemsettings)
@@ -338,12 +380,16 @@ Partial Class frmInventorySetting
         Me.gv_itemsettings.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv_itemsettings.Location = New System.Drawing.Point(3, 18)
         '
-        'gv_itemsettings
+        '
         '
         Me.gv_itemsettings.MasterTemplate.AllowAddNewRow = False
         Me.gv_itemsettings.MasterTemplate.AllowDeleteRow = False
+        Me.gv_itemsettings.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_itemsettings.MasterTemplate.ShowFilteringRow = False
         Me.gv_itemsettings.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_itemsettings.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_itemsettings.MyExportFilePath = ""
+        Me.gv_itemsettings.MyStopExport = False
         Me.gv_itemsettings.Name = "gv_itemsettings"
         Me.gv_itemsettings.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_itemsettings.ShowGroupPanel = False
@@ -351,7 +397,7 @@ Partial Class frmInventorySetting
         Me.gv_itemsettings.Size = New System.Drawing.Size(216, 122)
         Me.gv_itemsettings.TabIndex = 1
         Me.gv_itemsettings.TabStop = False
-        Me.gv_itemsettings.Text = "RadGridView1"
+        Me.gv_itemsettings.VarID = ""
         '
         'chkCreateTransferFromBooking
         '
@@ -469,7 +515,7 @@ Partial Class frmInventorySetting
         Me.txtNegativeStock.TabIndex = 42
         Me.txtNegativeStock.Text = "0"
         Me.txtNegativeStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNegativeStock.Value = 0.0R
+        Me.txtNegativeStock.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -504,7 +550,7 @@ Partial Class frmInventorySetting
         Me.txtProdQty_Decimal.TabIndex = 41
         Me.txtProdQty_Decimal.Text = "0"
         Me.txtProdQty_Decimal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtProdQty_Decimal.Value = 0.0R
+        Me.txtProdQty_Decimal.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GroupBox4
         '
@@ -514,7 +560,7 @@ Partial Class frmInventorySetting
         Me.GroupBox4.Size = New System.Drawing.Size(260, 168)
         Me.GroupBox4.TabIndex = 39
         Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "CSA Transfer(Non Excise) Series Setting [if checked then Stock Transfer Else CSA " & _
+        Me.GroupBox4.Text = "CSA Transfer(Non Excise) Series Setting [if checked then Stock Transfer Else CSA " &
     "Transfer]"
         '
         'gvLocation
@@ -527,12 +573,16 @@ Partial Class frmInventorySetting
         Me.gvLocation.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvLocation.Location = New System.Drawing.Point(3, 18)
         '
-        'gvLocation
+        '
         '
         Me.gvLocation.MasterTemplate.AllowAddNewRow = False
         Me.gvLocation.MasterTemplate.AllowDeleteRow = False
+        Me.gvLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLocation.MasterTemplate.ShowFilteringRow = False
         Me.gvLocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvLocation.MyExportFilePath = ""
+        Me.gvLocation.MyStopExport = False
         Me.gvLocation.Name = "gvLocation"
         Me.gvLocation.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvLocation.ShowGroupPanel = False
@@ -540,7 +590,7 @@ Partial Class frmInventorySetting
         Me.gvLocation.Size = New System.Drawing.Size(254, 147)
         Me.gvLocation.TabIndex = 1
         Me.gvLocation.TabStop = False
-        Me.gvLocation.Text = "RadGridView1"
+        Me.gvLocation.VarID = ""
         '
         'chkAllowtoshowMilkTypeonAdjustmentEntry
         '
@@ -582,7 +632,7 @@ Partial Class frmInventorySetting
         Me.chkLocal_InterStateTransfer.Name = "chkLocal_InterStateTransfer"
         Me.chkLocal_InterStateTransfer.Size = New System.Drawing.Size(522, 16)
         Me.chkLocal_InterStateTransfer.TabIndex = 36
-        Me.chkLocal_InterStateTransfer.Text = "different [Stock/CSA Transfer] series for Local/InterState, This will not be effe" & _
+        Me.chkLocal_InterStateTransfer.Text = "different [Stock/CSA Transfer] series for Local/InterState, This will not be effe" &
     "ctive if first check is On"
         '
         'MyLabel9
@@ -603,7 +653,7 @@ Partial Class frmInventorySetting
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(423, 18)
         Me.MyLabel8.TabIndex = 34
-        Me.MyLabel8.Text = "Select : Series of Stock Transfer and CSA Transfer will be same as Sale Invoice R" & _
+        Me.MyLabel8.Text = "Select : Series of Stock Transfer and CSA Transfer will be same as Sale Invoice R" &
     "etail."
         '
         'cbgLocation
@@ -615,12 +665,16 @@ Partial Class frmInventorySetting
         Me.cbgLocation.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.cbgLocation.Location = New System.Drawing.Point(3, 71)
         '
-        'cbgLocation
+        '
         '
         Me.cbgLocation.MasterTemplate.AllowAddNewRow = False
         Me.cbgLocation.MasterTemplate.AllowDeleteRow = False
+        Me.cbgLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.cbgLocation.MasterTemplate.ShowFilteringRow = False
         Me.cbgLocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.cbgLocation.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.cbgLocation.MyExportFilePath = ""
+        Me.cbgLocation.MyStopExport = False
         Me.cbgLocation.Name = "cbgLocation"
         Me.cbgLocation.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cbgLocation.ShowGroupPanel = False
@@ -628,7 +682,7 @@ Partial Class frmInventorySetting
         Me.cbgLocation.Size = New System.Drawing.Size(644, 140)
         Me.cbgLocation.TabIndex = 1
         Me.cbgLocation.TabStop = False
-        Me.cbgLocation.Text = "RadGridView1"
+        Me.cbgLocation.VarID = ""
         '
         'chkTransferWithProductionSaleSeries
         '
@@ -991,41 +1045,6 @@ Partial Class frmInventorySetting
         Me.chkAllowchangeInvoiceType.TabIndex = 14
         Me.chkAllowchangeInvoiceType.Text = "Allow Change Retail/tax Invoice Type"
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.rbtnStockAvailable)
-        Me.GroupBox1.Controls.Add(Me.rbntBalanceOnDocDate)
-        Me.GroupBox1.Controls.Add(Me.rbtnIsConsiderOutTypeDoc)
-        Me.GroupBox1.Location = New System.Drawing.Point(817, -7)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(215, 63)
-        Me.GroupBox1.TabIndex = 9
-        Me.GroupBox1.TabStop = False
-        '
-        'rbtnStockAvailable
-        '
-        Me.rbtnStockAvailable.Location = New System.Drawing.Point(3, 43)
-        Me.rbtnStockAvailable.Name = "rbtnStockAvailable"
-        Me.rbtnStockAvailable.Size = New System.Drawing.Size(96, 18)
-        Me.rbtnStockAvailable.TabIndex = 2
-        Me.rbtnStockAvailable.Text = "Stock Available"
-        '
-        'rbntBalanceOnDocDate
-        '
-        Me.rbntBalanceOnDocDate.Location = New System.Drawing.Point(3, 26)
-        Me.rbntBalanceOnDocDate.Name = "rbntBalanceOnDocDate"
-        Me.rbntBalanceOnDocDate.Size = New System.Drawing.Size(158, 18)
-        Me.rbntBalanceOnDocDate.TabIndex = 1
-        Me.rbntBalanceOnDocDate.Text = "Balance On Document Date"
-        '
-        'rbtnIsConsiderOutTypeDoc
-        '
-        Me.rbtnIsConsiderOutTypeDoc.Location = New System.Drawing.Point(3, 9)
-        Me.rbtnIsConsiderOutTypeDoc.Name = "rbtnIsConsiderOutTypeDoc"
-        Me.rbtnIsConsiderOutTypeDoc.Size = New System.Drawing.Size(208, 18)
-        Me.rbtnIsConsiderOutTypeDoc.TabIndex = 0
-        Me.rbtnIsConsiderOutTypeDoc.Text = "Is Consider Out Type Doc For Balance"
-        '
         'chkAutoScheme
         '
         Me.chkAutoScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1099,7 +1118,7 @@ Partial Class frmInventorySetting
         Me.dgvclasss.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvclasss.Location = New System.Drawing.Point(5, 7)
         '
-        'dgvclasss
+        '
         '
         Me.dgvclasss.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         GridViewTextBoxColumn1.HeaderText = "Class "
@@ -1126,15 +1145,19 @@ Partial Class frmInventorySetting
         GridViewComboBoxColumn1.Width = 118
         Me.dgvclasss.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1, GridViewComboBoxColumn1})
         Me.dgvclasss.MasterTemplate.EnableGrouping = False
+        Me.dgvclasss.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvclasss.MasterTemplate.ShowFilteringRow = False
         Me.dgvclasss.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvclasss.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvclasss.MyExportFilePath = ""
+        Me.dgvclasss.MyStopExport = False
         Me.dgvclasss.Name = "dgvclasss"
         Me.dgvclasss.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvclasss.ShowHeaderCellButtons = True
         Me.dgvclasss.Size = New System.Drawing.Size(571, 172)
         Me.dgvclasss.TabIndex = 0
         Me.dgvclasss.TabStop = False
-        Me.dgvclasss.Text = "RadGridView1"
+        Me.dgvclasss.VarID = ""
         '
         'chkauto_item_nlevel
         '
@@ -1173,10 +1196,9 @@ Partial Class frmInventorySetting
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1078, 519)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1195,7 +1217,7 @@ Partial Class frmInventorySetting
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(151.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1036, 471)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 471)
         Me.RadPageViewPage2.Text = "Item Prefix Counter Setting"
         '
         'grpItemType
@@ -1223,7 +1245,7 @@ Partial Class frmInventorySetting
         Me.gvItemType.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvItemType.Location = New System.Drawing.Point(5, 13)
         '
-        'gvItemType
+        '
         '
         Me.gvItemType.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         GridViewTextBoxColumn3.FieldName = "ITEM_TYPE_NAME"
@@ -1244,15 +1266,19 @@ Partial Class frmInventorySetting
         GridViewTextBoxColumn5.VisibleInColumnChooser = False
         Me.gvItemType.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5})
         Me.gvItemType.MasterTemplate.EnableGrouping = False
+        Me.gvItemType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemType.MasterTemplate.ShowFilteringRow = False
         Me.gvItemType.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemType.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvItemType.MyExportFilePath = ""
+        Me.gvItemType.MyStopExport = False
         Me.gvItemType.Name = "gvItemType"
         Me.gvItemType.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItemType.ShowHeaderCellButtons = True
         Me.gvItemType.Size = New System.Drawing.Size(393, 427)
         Me.gvItemType.TabIndex = 1
         Me.gvItemType.TabStop = False
-        Me.gvItemType.Text = "RadGridView1"
+        Me.gvItemType.VarID = ""
         '
         'RadMenu1
         '
@@ -1261,17 +1287,6 @@ Partial Class frmInventorySetting
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'chkNegativeStockInDairyProduction
-        '
-        Me.chkNegativeStockInDairyProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNegativeStockInDairyProduction.Location = New System.Drawing.Point(814, 56)
-        Me.chkNegativeStockInDairyProduction.Name = "chkNegativeStockInDairyProduction"
-        Me.chkNegativeStockInDairyProduction.Size = New System.Drawing.Size(224, 16)
-        Me.chkNegativeStockInDairyProduction.TabIndex = 49
-        Me.chkNegativeStockInDairyProduction.Text = "Allow Negative stock In Dairy Production"
-        Me.chkNegativeStockInDairyProduction.Visible = False
         '
         'frmInventorySetting
         '
@@ -1293,6 +1308,12 @@ Partial Class frmInventorySetting
         CType(Me.groupbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.groupbox.ResumeLayout(False)
         Me.groupbox.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnStockAvailable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbntBalanceOnDocDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1345,11 +1366,6 @@ Partial Class frmInventorySetting
         CType(Me.chkAllowTermsEditMM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBatchMandatory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAllowchangeInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.rbtnStockAvailable, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbntBalanceOnDocDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAutoScheme, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMRPwithAbatement, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBackCalculation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1373,7 +1389,6 @@ Partial Class frmInventorySetting
         CType(Me.gvItemType.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

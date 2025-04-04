@@ -206,6 +206,8 @@ Public Class frmItemStructure
             If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                 UcCustomFields1.GetData(arrCustomFields)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
+
             '' custom fields
             clsCustomFieldValues.SaveData(MyBase.Form_ID, fndstructurecode.Value.Trim(), arrCustomFields, trans)
             ''End of For Custom Fields
@@ -222,6 +224,9 @@ Public Class frmItemStructure
     Private Sub fundelete()
         Dim trans As SqlTransaction = Nothing
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
+
             connectSql.OpenConnection()
             trans = connectSql.OpenConnection.BeginTransaction()
             connectSql.RunSpTransaction(trans, "sp_TSPL_STRUCTURE_MASTER_delete", New SqlParameter("@structurecode", fndstructurecode.Value.Trim()))
@@ -372,8 +377,11 @@ Public Class frmItemStructure
             If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                 UcCustomFields1.GetData(arrCustomFields)
             End If
+
             '' custom fields
             clsCustomFieldValues.SaveData(MyBase.Form_ID, fndstructurecode.Value.Trim(), arrCustomFields, trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
+
             ''End of For Custom Fields
             trans.Commit()
             myMessages.update()
@@ -576,6 +584,18 @@ Public Class frmItemStructure
 
     Private Sub lblCSaType_Click(sender As Object, e As EventArgs)
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndstructurecode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndstructurecode.Value, "Structure_Code", "TSPL_STRUCTURE_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub cboCSAType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs)
