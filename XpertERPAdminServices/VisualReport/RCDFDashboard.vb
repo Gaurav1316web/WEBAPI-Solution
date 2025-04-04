@@ -866,16 +866,22 @@ Public Class RCDFDashboard
             Dim StatusReturn As String = ""
             Dim Stocktransferdispatch As String = ""
             Dim stocktransferinvoice As String = ""
+            Dim StatusScrap As String = ""
+            Dim StatusScrapInvoice As String = ""
             If rdbPosted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=1 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=1 "
+                StatusScrap = " And TSPL_SCRAPSALE_HEAD.ispost=1  "
+                StatusScrapInvoice = " And TSPL_SCRAPINVOICE_HEAD.ispost=1  "
             ElseIf rdbUnposted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=0 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=0 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=0 "
+                StatusScrap = " And TSPL_SCRAPSALE_HEAD.ispost=0  "
+                StatusScrapInvoice = " And TSPL_SCRAPINVOICE_HEAD.ispost=0  "
             ElseIf rdbAll.IsChecked = True Then
 
             End If
@@ -913,6 +919,7 @@ Public Class RCDFDashboard
             If dtFinishGoods Is Nothing OrElse dtFinishGoods.Rows.Count <= 0 Then
                 sQuery = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,MAX(SR_NO) AS SR_NO,Sum(Quantity)/100 As Quantity from (
                 select  convert(date, Document_Date,103) as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,SR_NO,Qty as Quantity   from "
+
                 If rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
                     sQuery += " ( Select Document_Date,price_CodeNon,SR_NO,(SaleQty-ReturnQty)Qty (
                 select TSPL_SD_SHIPMENT_HEAD.Document_Date,
@@ -1077,7 +1084,7 @@ Public Class RCDFDashboard
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
 
                 ElseIf rdbDispatch.IsChecked = True Then
-                    sQuery += " (
+                    sQuery += " ( Select Document_Date,price_CodeNon,max(SR_NO)SR_NO,sum(Qty)Qty from(
                 select TSPL_SD_SHIPMENT_HEAD.Document_Date,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
@@ -1094,10 +1101,34 @@ Public Class RCDFDashboard
                 WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
                 "' and  TSPL_SD_SHIPMENT_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
                     sQuery += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                    If rdbStockTransfer.IsChecked = False Then
+                        sQuery += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
+                    End If
                     If rdbStockTransfer.IsChecked = True Then
                         sQuery += "" + Stocktransferdispatch + ""
                     End If
-
+                    sQuery += " Union all
+                select TSPL_SCRAPSALE_HEAD.shipment_Date as Document_Date,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon, CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				end as 'SR_NO',(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL.shipped_Qty) as Qty
+				
+				from TSPL_SCRAPSALE_DETAIL
+				left outer join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_No =TSPL_SCRAPSALE_DETAIL.shipment_No
+				left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPSALE_HEAD.cust_Code
+				   LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code
+                    LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code 
+                AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL.Unit_code
+				WHERE TSPL_SCRAPSALE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                    And TSPL_SCRAPSALE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusScrap + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SCRAPSALE_HEAD.Loc_Code In  ('" + clsCommon.myCstr(txtLocation.Value) + "')"
+                    If rdbStockTransfer.IsChecked = False Then
+                        sQuery += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale=0 "
+                    End If
+                    If rdbStockTransfer.IsChecked = True Then
+                        sQuery += "" + Stocktransferdispatch + ""
+                    End If
+                    sQuery += " )XX Group by  XX.Document_Date,xx.price_CodeNon "
                     sQuery += " union all
                 select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
                 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
