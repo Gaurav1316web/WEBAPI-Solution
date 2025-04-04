@@ -92,6 +92,10 @@ Partial Class RCDFDashboard
         Me.lblvendor = New common.Controls.MyLabel()
         Me.gvAccountCustomer = New common.UserControls.MyRadGridView()
         Me.lblCustomer = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Prdnctnallchk = New common.Controls.MyRadioButton()
+        Me.ReprdctnChk = New common.Controls.MyRadioButton()
+        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -178,6 +182,11 @@ Partial Class RCDFDashboard
         CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -383,6 +392,7 @@ Partial Class RCDFDashboard
         '
         'RadPageViewPage5
         '
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox5)
@@ -633,6 +643,7 @@ Partial Class RCDFDashboard
         Me.gvRMStock.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMStock.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvRMStock.MyExportFilePath = ""
         Me.gvRMStock.MyStopExport = False
         Me.gvRMStock.Name = "gvRMStock"
         Me.gvRMStock.ShowHeaderCellButtons = True
@@ -686,6 +697,7 @@ Partial Class RCDFDashboard
         Me.gvRMSupply.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMSupply.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRMSupply.MyExportFilePath = ""
         Me.gvRMSupply.MyStopExport = False
         Me.gvRMSupply.Name = "gvRMSupply"
         Me.gvRMSupply.ShowHeaderCellButtons = True
@@ -717,6 +729,7 @@ Partial Class RCDFDashboard
         Me.gvRMInPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMInPlant.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRMInPlant.MyExportFilePath = ""
         Me.gvRMInPlant.MyStopExport = False
         Me.gvRMInPlant.Name = "gvRMInPlant"
         Me.gvRMInPlant.ShowHeaderCellButtons = True
@@ -778,6 +791,7 @@ Partial Class RCDFDashboard
         Me.gvFinishGoods.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFinishGoods.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvFinishGoods.MyExportFilePath = ""
         Me.gvFinishGoods.MyStopExport = False
         Me.gvFinishGoods.Name = "gvFinishGoods"
         Me.gvFinishGoods.ShowHeaderCellButtons = True
@@ -853,6 +867,7 @@ Partial Class RCDFDashboard
         Me.gvProdution.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProdution.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProdution.MyExportFilePath = ""
         Me.gvProdution.MyStopExport = False
         Me.gvProdution.Name = "gvProdution"
         Me.gvProdution.ShowHeaderCellButtons = True
@@ -926,6 +941,7 @@ Partial Class RCDFDashboard
         Me.gvQuality.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQuality.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvQuality.MyExportFilePath = ""
         Me.gvQuality.MyStopExport = False
         Me.gvQuality.Name = "gvQuality"
         Me.gvQuality.ShowHeaderCellButtons = True
@@ -957,6 +973,7 @@ Partial Class RCDFDashboard
         Me.gvQualitySummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQualitySummary.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvQualitySummary.MyExportFilePath = ""
         Me.gvQualitySummary.MyStopExport = False
         Me.gvQualitySummary.Name = "gvQualitySummary"
         Me.gvQualitySummary.ShowHeaderCellButtons = True
@@ -1017,6 +1034,7 @@ Partial Class RCDFDashboard
         Me.gvAccountVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountVendor.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAccountVendor.MyExportFilePath = ""
         Me.gvAccountVendor.MyStopExport = False
         Me.gvAccountVendor.Name = "gvAccountVendor"
         Me.gvAccountVendor.ShowHeaderCellButtons = True
@@ -1048,6 +1066,7 @@ Partial Class RCDFDashboard
         Me.gvAccountCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAccountCustomer.MyExportFilePath = ""
         Me.gvAccountCustomer.MyStopExport = False
         Me.gvAccountCustomer.Name = "gvAccountCustomer"
         Me.gvAccountCustomer.ShowHeaderCellButtons = True
@@ -1068,6 +1087,56 @@ Partial Class RCDFDashboard
         Me.lblCustomer.TabIndex = 22
         Me.lblCustomer.Text = "CUSTOMER LEDGER"
         Me.lblCustomer.TextAlignment = System.Drawing.ContentAlignment.TopCenter
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.Prdnctnallchk)
+        Me.RadGroupBox1.Controls.Add(Me.ReprdctnChk)
+        Me.RadGroupBox1.Controls.Add(Me.Productionchk)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(20, 206)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(366, 42)
+        Me.RadGroupBox1.TabIndex = 64
+        '
+        'Prdnctnallchk
+        '
+        Me.Prdnctnallchk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Prdnctnallchk.Location = New System.Drawing.Point(246, 11)
+        Me.Prdnctnallchk.MyLinkLable1 = Nothing
+        Me.Prdnctnallchk.MyLinkLable2 = Nothing
+        Me.Prdnctnallchk.Name = "Prdnctnallchk"
+        Me.Prdnctnallchk.Size = New System.Drawing.Size(33, 18)
+        Me.Prdnctnallchk.TabIndex = 3
+        Me.Prdnctnallchk.TabStop = False
+        Me.Prdnctnallchk.Text = "All"
+        '
+        'ReprdctnChk
+        '
+        Me.ReprdctnChk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.ReprdctnChk.Location = New System.Drawing.Point(122, 11)
+        Me.ReprdctnChk.MyLinkLable1 = Nothing
+        Me.ReprdctnChk.MyLinkLable2 = Nothing
+        Me.ReprdctnChk.Name = "ReprdctnChk"
+        Me.ReprdctnChk.Size = New System.Drawing.Size(92, 18)
+        Me.ReprdctnChk.TabIndex = 2
+        Me.ReprdctnChk.TabStop = False
+        Me.ReprdctnChk.Text = "Re-Production"
+        '
+        'Productionchk
+        '
+        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Productionchk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
+        Me.Productionchk.MyLinkLable1 = Nothing
+        Me.Productionchk.MyLinkLable2 = Nothing
+        Me.Productionchk.Name = "Productionchk"
+        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
+        Me.Productionchk.TabIndex = 1
+        Me.Productionchk.Text = "Production"
+        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RCDFDashboard
         '
@@ -1172,6 +1241,12 @@ Partial Class RCDFDashboard
         CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1235,5 +1310,9 @@ Partial Class RCDFDashboard
     Friend WithEvents rdbStockTransfer As common.Controls.MyRadioButton
     Friend WithEvents rdbSaleReturn As common.Controls.MyRadioButton
     Friend WithEvents rdbSale As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents Prdnctnallchk As common.Controls.MyRadioButton
+    Friend WithEvents ReprdctnChk As common.Controls.MyRadioButton
+    Friend WithEvents Productionchk As common.Controls.MyRadioButton
 End Class
 
