@@ -1413,7 +1413,7 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
             left outer join TSPL_ITEM_MASTER on  TSPL_ITEM_MASTER.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
             left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Unit_code
-				left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.item_code and ToUOM.UOM_Code='MT'
+				left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.item_code and ToUOM.UOM_Code='Qtl'
             WHERE CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE='" + txtLocation.Value + "' "
