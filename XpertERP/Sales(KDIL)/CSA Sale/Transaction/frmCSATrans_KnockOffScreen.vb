@@ -327,7 +327,7 @@ Public Class FrmCSATrans_KnockOffScreen
 
     Public Sub FillTransMoreItems(ByVal isMore As Boolean, ByVal IsNothing As Boolean, ByVal Line_No As String)
         Dim qry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim strReturnCond As String = ""
@@ -682,7 +682,7 @@ Public Class FrmCSATrans_KnockOffScreen
 
     Public Function GetBalance_of_Transfer(ByVal Line_No As String, ByVal IntRow As Integer) As Decimal
         Dim qry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim strReturnCond As String = ""
         Me.Controls.Add(gv)
         Try

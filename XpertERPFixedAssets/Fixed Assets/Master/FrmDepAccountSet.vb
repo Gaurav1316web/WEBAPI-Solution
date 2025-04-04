@@ -517,7 +517,7 @@ Public Class FrmDepAccountSet
         End Try
     End Sub
     Private Sub FunImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "A/c Set Code", "A/c Set Description", "Asset Control A/c", "Accoumulated Dep A/c", "Dep A/c", "Disposal A/c", "Disposal  Proceed A/c", "DIsposal Cost A/c", "Transfer Clearing A/c", "Not In Use Y/N", "WIP AC", "PROFIT AC", "LOSS AC") Then
             Try

@@ -47,7 +47,7 @@ Public Module transportSql
             Return False
         End If
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 ''''' Dim exporter As New RadGridViewExcelExporter()
                 gv.Name = "gTax"
@@ -151,7 +151,7 @@ a:          Dim frmFilter As New frmFilterToExport()
 
 
             If Not filePath.Equals(String.Empty) Then
-                Dim gv As New MyRadGridView
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     gv.Name = "gTax"
                     frm.Controls.Add(gv)
@@ -230,7 +230,7 @@ xxx:
             End If
 
             If Not filePath.Equals(String.Empty) Then
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     gv.Name = "gTax1"
                     frm.Controls.Add(gv)
@@ -309,7 +309,7 @@ xxx:
             Return False
         End If
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 ''''' Dim exporter As New RadGridViewExcelExporter()
                 gv.Name = "gTax"
@@ -415,7 +415,7 @@ xxx:
             Return False
         End If
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 ''''' Dim exporter As New RadGridViewExcelExporter()
                 gv.Name = "gTax"
@@ -2183,7 +2183,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                 path = Replace(path, ".xlsx", ".xls")
             End If
             If Not path.Equals(String.Empty) Then
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     'Dim exporter As New RadGridViewExcelExporter()
                     gv.Name = "gTax"
@@ -2290,7 +2290,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                 path = Replace(path, ".xlsx", ".xls")
             End If
             If Not path.Equals(String.Empty) Then
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     'Dim exporter As New RadGridViewExcelExporter()
                     gv.Name = "gTax"
@@ -2381,7 +2381,7 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
 
             If Not filePath.Equals(String.Empty) Then
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     'Dim exporter As New RadGridViewExcelExporter()
                     gv.Name = "gTax"

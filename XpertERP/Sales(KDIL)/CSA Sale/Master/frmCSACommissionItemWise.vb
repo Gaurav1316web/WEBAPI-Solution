@@ -717,7 +717,7 @@ Public Class FrmCSACommissionItemWise
 
     Private Sub btnImportHead_Click(sender As Object, e As EventArgs) Handles btnImportHead.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Dim coll As New Hashtable()
         Try
 
@@ -826,7 +826,7 @@ Public Class FrmCSACommissionItemWise
 
     Private Sub btnImportDetail_Click(sender As Object, e As EventArgs) Handles btnImportDetail.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Dim coll As New Hashtable()
         Me.Controls.Add(gv1)
         Dim DocNoImp As String = ""
@@ -1036,7 +1036,7 @@ Public Class FrmCSACommissionItemWise
 
     Private Sub btnImportCombined_Click(sender As Object, e As EventArgs) Handles btnImportCombined.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim Line_No As Integer = 0

@@ -839,7 +839,7 @@ where Document_Code='" + txtDocNo.Value + "')x  Group by Item_Code
             '    Return False
             'End If
             If Not filePath.Equals(String.Empty) Then
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Try
                     gv.Name = "gTax1"
                     frm.Controls.Add(gv)

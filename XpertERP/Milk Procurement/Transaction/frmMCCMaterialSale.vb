@@ -7690,7 +7690,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     '        Return False
     '    End If
     '    Dim frmFilter As New frmFilterToExport()
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    wBook = excel.Workbooks.Add()
     '    Dim iQueryIndex As Integer = 0
     '    For Each row_sql As String In Regex.Split(sql, "####")

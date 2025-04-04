@@ -2867,7 +2867,7 @@ AND LOCATION_CODE='" + txtLocation.Value + "' "
     End Sub
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         '' done by panch raj against ticket No: BM00000008191,BM00000008189
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today

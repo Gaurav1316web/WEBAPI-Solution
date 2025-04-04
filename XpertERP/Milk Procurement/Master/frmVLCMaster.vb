@@ -737,7 +737,7 @@ Public Class FrmVLCMaster
 
     Private Sub btnhead_im_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnhead_im.Click
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim flag As Boolean = False
@@ -933,7 +933,7 @@ Public Class FrmVLCMaster
 
     Private Sub btngrid_im_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btngrid_im.Click
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "vlc_code", "village_code", "village_name") Then

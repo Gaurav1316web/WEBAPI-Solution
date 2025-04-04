@@ -1365,7 +1365,7 @@ case when TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pe
     End Sub
 
     Private Sub btnBlankSheetImportUploder_Click(sender As Object, e As EventArgs) Handles btnBlankSheetImportUploder.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim totqty As Double = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today '"VehicleNo",

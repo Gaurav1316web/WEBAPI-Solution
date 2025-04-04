@@ -121,7 +121,7 @@ Public Class FrmFixedParameters
     End Sub
     'Ticket No-TEC/16/12/19-001049
     Private Sub btn_import_Click(sender As Object, e As EventArgs) Handles btn_import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim inputs() As String = {}

@@ -1526,7 +1526,7 @@ Public Class FrmCSAPriceMaster
     End Sub
 
     Private Sub btnimport_detail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport_detail.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -1768,7 +1768,7 @@ Public Class FrmCSAPriceMaster
     End Sub
 
     Private Sub btnimport_location_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport_location.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -2041,7 +2041,7 @@ Public Class FrmCSAPriceMaster
     End Sub
 
     Private Sub btnCombinedImport_Click(sender As Object, e As EventArgs) Handles btnCombinedImport.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
 
         Dim arrDocNo As New ArrayList()

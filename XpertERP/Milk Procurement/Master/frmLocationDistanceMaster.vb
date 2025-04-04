@@ -304,7 +304,7 @@ Public Class FrmLocationDistanceMaster
     End Sub
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
-        'Dim gv1 As New RadGridView()
+        'Dim gv1 As New UserControls.MyRadGridView
         'Me.Controls.Add(gv1)
         'Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv1, "Code", "Description", "Effective_Date", "Lower_Range", "Upper_Range", "Value") Then

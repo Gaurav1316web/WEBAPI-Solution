@@ -1162,7 +1162,7 @@ Public Class frmAdjustmentProduction
 
     Private Sub Opening_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Opening.Click
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

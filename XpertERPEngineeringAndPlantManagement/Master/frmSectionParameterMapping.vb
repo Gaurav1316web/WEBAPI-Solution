@@ -210,7 +210,7 @@ Public Class frmSectionParameterMapping
 
     'For Import functionality 
     Private Sub import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv, "Section Code", "Consumption Code", "ParameterCode1", "ParameterCode2", "ParameterCode3", "ParameterCode4", "ParameterCode5", "ParameterCode6", "ParameterCode7", "ParameterCode8", "ParameterCode9", "ParameterCode10", "ParameterCode11", "ParameterCode12", "ParameterCode13", "ParameterCode14", "ParameterCode15", "ParameterCode16", "ParameterCode17", "ParameterCode18", "ParameterCode19", "ParameterCode20", "ParameterCode21", "ParameterCode22", "ParameterCode23", "ParameterCode24", "ParameterCode25", "ParameterCode26", "ParameterCode27", "ParameterCode28", "ParameterCode29", "ParameterCode30", "ParameterCode31", "ParameterCode32", "ParameterCode33", "ParameterCode34", "ParameterCode35", "ParameterCode36", "ParameterCode37", "ParameterCode38", "ParameterCode39", "ParameterCode40", "ParameterCode41", "ParameterCode42", "ParameterCode43", "ParameterCode44", "ParameterCode45", "ParameterCode46", "ParameterCode47", "ParameterCode48", "ParameterCode49", "ParameterCode50") Then

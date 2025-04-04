@@ -625,7 +625,7 @@ Public Class FrmAssetAgreement
     End Sub
 
     Private Sub rMenueImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rMenueImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         'Document No	Document Date	Employee Code	Employee Name	Location Code	Location Description	Courier No	Courier Company Name	Courier Date	Outlet No	Outlet Name	Agreement No	Agreement Date	Received Status	Received Date

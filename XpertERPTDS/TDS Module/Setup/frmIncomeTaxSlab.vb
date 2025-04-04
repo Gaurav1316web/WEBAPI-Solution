@@ -372,7 +372,7 @@ Public Class frmIncomeTaxSlab
     End Sub
 
     Private Sub rmImportHead_Click(sender As Object, e As EventArgs) Handles rmImportHead.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As ClsIncomeTaxSlab
         Me.Controls.Add(gv)
@@ -466,7 +466,7 @@ Public Class frmIncomeTaxSlab
     End Sub
 
     Private Sub rmImportDetail_Click(sender As Object, e As EventArgs) Handles rmImportDetail.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As ClsIncomeTaxSlabDetail
         Dim ITCode As String

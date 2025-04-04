@@ -396,7 +396,7 @@ Public Class frmDCSSupervisorTagging
     End Sub
 
     Private Sub btnimport_Click(sender As Object, e As EventArgs) Handles btnimport.Click
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         Dim boolresult As Boolean = False

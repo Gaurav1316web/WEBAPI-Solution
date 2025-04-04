@@ -245,7 +245,7 @@ Public Class FrmHirerachyLevelMaster
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim linno As Integer = 0

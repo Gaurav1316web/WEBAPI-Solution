@@ -88,7 +88,7 @@ Public Class FrmDeductionGroup1
     End Sub
 
     Private Sub rmIMport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmIMport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Code", "Description", "Type") Then

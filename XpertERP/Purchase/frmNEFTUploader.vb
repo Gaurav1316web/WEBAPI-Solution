@@ -1733,7 +1733,7 @@ Public Class FrmNEFTUploader
                 Exit Sub
             End If
             If New_NeftUploader.Equals(1) Then
-                ' Dim GRDV As New RadGridView()
+                ' Dim GRDV As New UserControls.MyRadGridView
                 gvTemp.DataSource = Nothing
                 gvTemp.DataSource = dt
                 clsCommon.MyExportToExcelGrid("", gvTemp, Nothing, File_Name)

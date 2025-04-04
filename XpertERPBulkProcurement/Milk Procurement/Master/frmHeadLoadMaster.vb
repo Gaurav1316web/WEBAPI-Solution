@@ -626,7 +626,7 @@ Public Class frmHeadLoadMaster
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
 
         Me.Controls.Add(gvImport)
         Dim currentdate As Date = Date.Today

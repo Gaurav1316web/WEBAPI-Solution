@@ -151,7 +151,7 @@ Public Class FrmFaultMaster
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Code", "Description", "Fault Category Code") Then

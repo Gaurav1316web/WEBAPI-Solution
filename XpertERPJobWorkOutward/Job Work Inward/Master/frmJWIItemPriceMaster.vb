@@ -518,7 +518,7 @@ Public Class frmJWIItemPriceMaster
         Try
             Dim obj As New clsJWIItemPriceDetail()
             Dim arr As New List(Of clsJWIItemPriceDetail)
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim gvbool As Boolean = False
             Dim ii As Integer = 0

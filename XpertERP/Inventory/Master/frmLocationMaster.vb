@@ -2921,7 +2921,7 @@ Public Class frmLocationMaster
     End Sub
 
     Private Sub btnimportlocation_Click(sender As Object, e As EventArgs) Handles btnimportlocation.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         '''''''''''' retrieving associated custom field list
         Dim drr As DataTable
@@ -3691,7 +3691,7 @@ Public Class frmLocationMaster
     End Sub
 
     Private Sub btnimportlocationmap_Click(sender As Object, e As EventArgs) Handles btnimportlocationmap.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Plant Location Code", "Depot Location Code") Then

@@ -483,7 +483,7 @@ Public Class frmItemCategoryLevel
     End Sub
 
     Private Sub BtnImpItemHead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnImpItemHead.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Code", "Description", "Category Level", "Form_Type", "Bin Mapping") Then
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -604,7 +604,7 @@ Public Class frmItemCategoryLevel
 
  
     Private Sub BtnImportItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnImportItemDetails.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)
         Try

@@ -151,7 +151,7 @@ Public Class frmSectionConsumptionMapping
 
     'For Import functionality 
     Private Sub import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Section Code", "ConsumptionTypeCode1", "ConsumptionTypeCode2", "ConsumptionTypeCode3", "ConsumptionTypeCode4", "ConsumptionTypeCode5", "ConsumptionTypeCode6", "ConsumptionTypeCode7", "ConsumptionTypeCode8", "ConsumptionTypeCode9", "ConsumptionTypeCode10", "ConsumptionTypeCode11", "ConsumptionTypeCode12", "ConsumptionTypeCode13", "ConsumptionTypeCode14", "ConsumptionTypeCode15", "ConsumptionTypeCode16", "ConsumptionTypeCode17", "ConsumptionTypeCode18", "ConsumptionTypeCode19", "ConsumptionTypeCode20", "ConsumptionTypeCode21", "ConsumptionTypeCode22", "ConsumptionTypeCode23", "ConsumptionTypeCode24", "ConsumptionTypeCode25", "ConsumptionTypeCode26", "ConsumptionTypeCode27", "ConsumptionTypeCode28", "ConsumptionTypeCode29", "ConsumptionTypeCode30", "ConsumptionTypeCode31", "ConsumptionTypeCode32", "ConsumptionTypeCode33", "ConsumptionTypeCode34", "ConsumptionTypeCode35", "ConsumptionTypeCode36", "ConsumptionTypeCode37", "ConsumptionTypeCode38", "ConsumptionTypeCode39", "ConsumptionTypeCode40", "ConsumptionTypeCode41", "ConsumptionTypeCode42", "ConsumptionTypeCode43", "ConsumptionTypeCode44", "ConsumptionTypeCode45", "ConsumptionTypeCode46", "ConsumptionTypeCode47", "ConsumptionTypeCode48", "ConsumptionTypeCode49", "ConsumptionTypeCode50") Then

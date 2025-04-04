@@ -340,7 +340,7 @@ Public Class frmBranchDetails
         transportSql.ExporttoExcel(strSql, Me)
     End Sub
     Private Sub RadMenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Branch Code", "Branch Name", "Tax Account", "TaxAcct Description", "Interest Account", "Interest Acc Desc", "Others Account", "Other Acct Desc", "Penalty Account", "Penalty Acct Desc", "Circle Code", "Bank Code", "Bank Name", "Remit To", "Resp Person", "Person Name", "State Code", "State Name", "Inactive") Then
             Dim trans As SqlTransaction = Nothing

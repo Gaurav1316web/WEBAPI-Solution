@@ -3020,7 +3020,7 @@ Public Class frmCustomer
         End Try
     End Sub
     Public Sub funitem_Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim intCounter As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -3158,7 +3158,7 @@ Public Class frmCustomer
         Dim AllowAutoCCode As String = ""
         Dim AllowAutoCCodeForallCompnay As String = ""
         Dim strCusCode As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim Input() As String = {}
@@ -4400,7 +4400,7 @@ Public Class frmCustomer
         End Try
     End Sub
     Public Sub funVisiDetailImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim intCounter As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -5061,7 +5061,7 @@ Public Class frmCustomer
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "CATEGORY")
     End Sub
     Private Sub btnimport_cat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport_cat.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Customer Code", "Category Structure Code", "Category Structure", "Category_Code", "Category_Desc", "Category_Code_Values", "Category_Values_Desc") Then
@@ -5294,7 +5294,7 @@ Public Class frmCustomer
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "CrateOpening")
     End Sub
     Private Sub BtnImportCrateOpening_Click(sender As Object, e As EventArgs) Handles BtnImportCrateOpening.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Line No", "Customer Code", "Customer Name", "Location Code", "Location Name", "Crate Opening Date", "Crate Opening Qty") Then
@@ -5604,7 +5604,7 @@ Public Class frmCustomer
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
     End Sub
     Private Sub rmMultiRouteImport_Click(sender As Object, e As EventArgs) Handles rmMultiRouteImport.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Customer Code", "RouteNo1", "RouteNo2", "RouteNo3", "RouteNo4", "RouteNo5", "RouteNo6", "RouteNo7", "RouteNo8", "RouteNo9", "RouteNo10", "RouteNo11", "RouteNo12", "RouteNo13", "RouteNo14", "RouteNo15", "RouteNo16", "RouteNo17", "RouteNo18", "RouteNo19", "RouteNo20", "RouteNo21", "RouteNo22", "RouteNo23", "RouteNo24", "RouteNo25", "RouteNo26", "RouteNo27", "RouteNo28", "RouteNo29", "RouteNo30", "RouteNo31", "RouteNo32", "RouteNo33", "RouteNo34", "RouteNo35", "RouteNo36", "RouteNo37", "RouteNo38", "RouteNo39", "RouteNo40", "RouteNo41", "RouteNo42", "RouteNo43", "RouteNo44", "RouteNo45", "RouteNo46", "RouteNo47", "RouteNo48", "RouteNo49", "RouteNo50") Then
@@ -5893,7 +5893,7 @@ Public Class frmCustomer
     End Sub
     Private Sub rmiCustomerDisplaySeq_Click(sender As Object, e As EventArgs) Handles rmiCustomerDisplaySeq.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
                 clsCommon.ProgressBarPercentShow()

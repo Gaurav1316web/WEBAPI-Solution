@@ -1037,7 +1037,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
     End Sub
     Public Shared Sub MultipleDateSingleImport(ByRef frm As RadForm)
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         frm.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim ii As Integer = 1
@@ -1196,7 +1196,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         frm.Controls.Remove(gv)
     End Sub
     Public Shared Sub MultipleDateSingleImportDBF(ByRef frm As RadForm)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         frm.Controls.Add(gv)
         Try
             Dim dtRejctType As DataTable = clsDBFuncationality.GetDataTable("select Code from TSPL_MILK_REJECT_TYPE")

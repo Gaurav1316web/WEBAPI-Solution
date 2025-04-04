@@ -1611,7 +1611,7 @@ Public Class FrmUserMaster
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
     End Sub
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor") Then  ' "Zone Code"
             Dim trans As SqlTransaction = Nothing
@@ -2541,7 +2541,7 @@ order by LEVEL"
     ' rmImportCustomerMapping, RadMenuItem1
     Private Sub rmImportCustomerMapping_Click(sender As Object, e As EventArgs) Handles rmImportCustomerMapping.Click
         If ChkSuperUser = True AndAlso PanelCNF = True Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "User Code", "User Name", "Login Type", "Cust Code") Then
                 Dim trans As SqlTransaction = Nothing
@@ -2765,7 +2765,7 @@ order by LEVEL"
     End Sub
 
     Private Sub rmImportZone_Click(sender As Object, e As EventArgs) Handles rmImportZone.Click
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Me.Controls.Add(gv)
         'Try
         '    Dim currentdate As Date = Date.Today
@@ -2832,7 +2832,7 @@ order by LEVEL"
     End Sub
 
     Private Sub rmImportCustomerCategory_Click(sender As Object, e As EventArgs) Handles rmImportCustomerCategory.Click
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Me.Controls.Add(gv)
         'Try
         '    Dim currentdate As Date = Date.Today

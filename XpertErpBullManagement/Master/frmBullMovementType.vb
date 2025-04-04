@@ -107,7 +107,7 @@ Public Class frmBullMovementType
     End Sub
 
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim oldNewentry As Boolean = isNewEntry
         Dim counter As Integer = 0

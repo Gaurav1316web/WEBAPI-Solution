@@ -315,7 +315,7 @@ Public Class FrmItemWiseDispatchLedger3
 
 
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 ''''' Dim exporter As New RadGridViewExcelExporter()
                 gv.Name = "gTax"

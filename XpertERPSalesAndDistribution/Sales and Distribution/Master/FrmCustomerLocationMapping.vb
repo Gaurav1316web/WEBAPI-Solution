@@ -268,7 +268,7 @@ Public Class FrmCustomerLocationMapping
 
    
     Private Sub btnimport_Click(sender As Object, e As EventArgs) Handles btnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

@@ -5152,7 +5152,7 @@ Public Class FrmReceipttNew
     End Sub
 
     Public Sub funImport(ByVal IsForPost As Boolean)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "Receipt Date", "Description", "Customer Code", "Bank Code", "Receipt Type(P/O/F)", "Payment Mode", "Cheque No", "Cheque Date", "Amount", "Location Code", "Security Deposit", "Security Deposit Type", "Bank Charges", "Foreign Bank Charges", "Conv Rate", "Distributer Code") Then

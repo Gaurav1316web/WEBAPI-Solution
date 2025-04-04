@@ -555,7 +555,7 @@ Public Class frmVehicleMaster
     End Sub
     'It Is Used To Import The Records From TSPL_VEHICLE_MASTER
     Private Sub RadMenuItem_Import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         'If transportSql.importExcel(gv, "Vehicle Id", "Model", "Number", "Description", "Vehicle No", "Type", "Vehicle Reg No", "Vehicle Chasis No", "Capacity", "Trans Type", "Transport Id", "Registered On", "Vehicle Brand", "Vehicle Name", "Engine No", "insurance Valid Frm", "Insurance Valid Till", "Fitness Valid Frm", "Fitness Valid Till", "Pollution Valid Frm", "Pollution check Valid Till", "Road Tax Valid Frm", "Road Tax Valid Till", "Location", "Crate Capacity", "Employee No", "MT Capacity", "MT Value") Then
         If transportSql.importExcel(gv, "Vehicle Id", "Model", "Number", "Description", "Vehicle No", "Type", "Vehicle Reg No", "Vehicle Chasis No", "Capacity", "Trans Type", "Transport Id", "Registered On", "Vehicle Brand", "Vehicle Name", "Engine No", "insurance Valid Frm", "Insurance Valid Till", "Fitness Valid Frm", "Fitness Valid Till", "Pollution Valid Frm", "Pollution check Valid Till", "Road Tax Valid Frm", "Road Tax Valid Till", "Location", "Crate Capacity", "Employee No", "MT Capacity", "MT Value", "Basis of Freight Payments", "Charges per Shift", "Average KM per Ltr", "Rate of Diesel", "Rental Type", "Rental Amount", "Rate LtrKG", "Rate Type", "Rate Per KM") Then

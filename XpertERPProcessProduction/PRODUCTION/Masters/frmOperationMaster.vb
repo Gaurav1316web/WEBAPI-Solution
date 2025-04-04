@@ -393,7 +393,7 @@ Public Class frmOperationMaster
     End Sub
     '----preeti Gupta---Ticket No.BM00000002845--
     Private Sub rmHead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmHead.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
        
         Dim isSaved As Boolean = True
 
@@ -473,7 +473,7 @@ Public Class frmOperationMaster
     End Sub
 
     Private Sub rmDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDetails.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As clsOperationMasterDetail
         Dim OperationCode As String

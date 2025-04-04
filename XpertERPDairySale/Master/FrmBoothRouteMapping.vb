@@ -498,7 +498,7 @@ Public Class FrmBoothRouteMapping
     End Sub
     Public Sub GridImport()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsBoothRouteMappingDetail)
             Dim currentdate As Date = Date.Today
@@ -617,7 +617,7 @@ Public Class FrmBoothRouteMapping
     End Sub
     Private Sub BulkImport()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsBoothRouteMappingHead)
             Dim lststr As New List(Of String)
@@ -884,7 +884,7 @@ left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Doc
                     'Dim whrCls As String = " and TSPL_Booth_Route_Mapping_Head.Document_No='" + docno + "' "
                     Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(str)
                     If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                        Dim GVroute As New RadGridView()
+                        Dim GVroute As New UserControls.MyRadGridView
                         Me.Controls.Add(GVroute)
                         GVroute.DataSource = dt1
                         transportSql.exportdata(GVroute, "", "Booth Route Mapping", ,, False, False, False)

@@ -465,7 +465,7 @@ Public Class frmSaleIncentiveMaster
         transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory)
     End Sub
     Private Sub rmiImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today

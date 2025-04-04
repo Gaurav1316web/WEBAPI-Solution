@@ -820,7 +820,7 @@ Public Class frmParameterRangeMasterForQC
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
         Dim arrParameterCode As New List(Of String)
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim table_name As String = "tspl_parameter_master"
         If clsCommon.CompairString(clsUserMgtCode.frmQualityModuleParameterRangeMaster, FORMTYPE) = CompairStringResult.Equal Then

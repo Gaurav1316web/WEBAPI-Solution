@@ -655,7 +655,7 @@ Public Class FrmAllotmentOfLeaves
             clsCommon.MyMessageBoxShow(Me, "Invalid Import Type", Me.Text)
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim currentdate As Date = Date.Today
@@ -807,7 +807,7 @@ Public Class FrmAllotmentOfLeaves
             clsCommon.MyMessageBoxShow(Me, "Invalid Import Type", Me.Text)
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim currentdate As Date = Date.Today
@@ -1045,7 +1045,7 @@ Public Class FrmAllotmentOfLeaves
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
         Me.Controls.Add(gvImport)
         Try
             Dim Strs As List(Of String) = New List(Of String)

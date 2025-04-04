@@ -252,7 +252,7 @@ Public Class frmDCSforSale
 #Region "Import/Export"
 
     Public Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Name", "Uploader_No", "Zone", "Location", "Customer") Then
