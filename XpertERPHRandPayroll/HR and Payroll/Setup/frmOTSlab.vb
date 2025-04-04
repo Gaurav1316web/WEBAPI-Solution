@@ -387,7 +387,7 @@ Public Class frmOTSlab
     End Sub
 
     Private Sub rmHeadImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmHeadImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As clsOTSlab
         Me.Controls.Add(gv)
@@ -457,7 +457,7 @@ Public Class frmOTSlab
     End Sub
 
     Private Sub rmDetailImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDetailImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As clsOTSlabDetails
         Dim OTCode As String

@@ -678,7 +678,7 @@ Public Class frmFreightChargesMaster
     End Sub
 
     Private Sub btnimport_Click(sender As Object, e As EventArgs) Handles btnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Freight_Code", "Freight_Description", "Payment Method(Day/Diesel,Rate/K.M,Rate/Ltr,Rental,Rental/Diesel,KM_Range)", "Charges per Day", "Average KM per Ltr", "Rate of Diesel", "Rental Type", "Rental Amount", "Rate per KM", "Rate Type", "Price Ltr/KG", "Additional(Y/N)", "Slab Upto 1", "Slab Rate 1", "Slab Upto 2", "Slab Rate 2", "Slab Upto 3", "Slab Rate 3", "Slab Upto 4", "Slab Rate 4", "Slab Upto 5", "Slab Rate 5") Then
             Dim counter As Integer = 1

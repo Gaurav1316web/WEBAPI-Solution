@@ -604,7 +604,7 @@ Public Class frmAdjustmentVoucher
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         '' import  BY PANCH RAJ AGAINST TICKET NO:BM00000007892
         gvAdjustmentVoucher.Rows.Clear()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim currentdate As Date = Date.Today

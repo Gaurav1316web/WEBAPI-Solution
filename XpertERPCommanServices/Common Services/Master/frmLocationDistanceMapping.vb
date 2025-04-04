@@ -316,7 +316,7 @@ Public Class frmLocationDistanceMapping
     End Sub
 
     Private Sub Import_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "TransType", "Location Code", "Customer Code", "Distance") Then

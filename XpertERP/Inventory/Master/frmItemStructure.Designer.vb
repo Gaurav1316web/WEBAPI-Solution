@@ -22,8 +22,9 @@ Partial Class frmItemStructure
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewComboBoxColumn3 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewDecimalColumn3 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -49,6 +50,7 @@ Partial Class frmItemStructure
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,35 +73,28 @@ Partial Class frmItemStructure
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnimport, Me.mnexport, Me.mnclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'mnimport
         '
-        Me.mnimport.AccessibleDescription = "Import"
-        Me.mnimport.AccessibleName = "Import"
         Me.mnimport.Name = "mnimport"
         Me.mnimport.Text = "Import"
         '
         'mnexport
         '
-        Me.mnexport.AccessibleDescription = "Export"
-        Me.mnexport.AccessibleName = "Export"
         Me.mnexport.Name = "mnexport"
         Me.mnexport.Text = "Export"
         '
         'mnclose
         '
-        Me.mnclose.AccessibleDescription = "Close"
-        Me.mnclose.AccessibleName = "Close"
         Me.mnclose.Name = "mnclose"
         Me.mnclose.Text = "Close"
         '
@@ -110,10 +105,10 @@ Partial Class frmItemStructure
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(497, 20)
         Me.RadMenu1.TabIndex = 14
-        Me.RadMenu1.Text = "File"
         '
         'fndstructurecode
         '
+        Me.fndstructurecode.FieldName = Nothing
         Me.fndstructurecode.Location = New System.Drawing.Point(92, 10)
         Me.fndstructurecode.MendatroryField = True
         Me.fndstructurecode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -129,6 +124,7 @@ Partial Class frmItemStructure
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(3, 12)
         Me.RadLabel1.Name = "RadLabel1"
@@ -163,40 +159,59 @@ Partial Class frmItemStructure
         Me.dgcaccountstrucuture.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgcaccountstrucuture.Location = New System.Drawing.Point(3, 96)
         '
-        'dgcaccountstrucuture
+        '
         '
         Me.dgcaccountstrucuture.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewComboBoxColumn3.HeaderText = "Class"
-        GridViewComboBoxColumn3.Name = "column1"
-        GridViewComboBoxColumn3.Width = 150
-        GridViewDecimalColumn3.HeaderText = "Class Length"
-        GridViewDecimalColumn3.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
-        GridViewDecimalColumn3.Name = "column2"
-        GridViewDecimalColumn3.ReadOnly = True
-        GridViewDecimalColumn3.Width = 265
-        Me.dgcaccountstrucuture.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewComboBoxColumn3, GridViewDecimalColumn3})
+        GridViewComboBoxColumn2.HeaderText = "Class"
+        GridViewComboBoxColumn2.Name = "column1"
+        GridViewComboBoxColumn2.Width = 150
+        GridViewDecimalColumn2.HeaderText = "Class Length"
+        GridViewDecimalColumn2.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
+        GridViewDecimalColumn2.Name = "column2"
+        GridViewDecimalColumn2.ReadOnly = True
+        GridViewDecimalColumn2.Width = 265
+        Me.dgcaccountstrucuture.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewComboBoxColumn2, GridViewDecimalColumn2})
         Me.dgcaccountstrucuture.MasterTemplate.EnableGrouping = False
+        Me.dgcaccountstrucuture.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgcaccountstrucuture.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgcaccountstrucuture.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgcaccountstrucuture.MyExportFilePath = ""
+        Me.dgcaccountstrucuture.MyStopExport = False
         Me.dgcaccountstrucuture.Name = "dgcaccountstrucuture"
         Me.dgcaccountstrucuture.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.dgcaccountstrucuture.ShowHeaderCellButtons = True
         Me.dgcaccountstrucuture.Size = New System.Drawing.Size(438, 232)
         Me.dgcaccountstrucuture.TabIndex = 6
         Me.dgcaccountstrucuture.TabStop = False
-        Me.dgcaccountstrucuture.Text = "                  "
+        Me.dgcaccountstrucuture.VarID = ""
         '
         'txtlength
         '
+        Me.txtlength.CalculationExpression = Nothing
+        Me.txtlength.FieldCode = Nothing
+        Me.txtlength.FieldDesc = Nothing
+        Me.txtlength.FieldMaxLength = 0
+        Me.txtlength.FieldName = Nothing
+        Me.txtlength.isCalculatedField = False
+        Me.txtlength.IsSourceFromTable = False
+        Me.txtlength.IsSourceFromValueList = False
+        Me.txtlength.IsUnique = False
         Me.txtlength.Location = New System.Drawing.Point(402, 60)
         Me.txtlength.MendatroryField = False
         Me.txtlength.MyLinkLable1 = Me.RadLabel4
         Me.txtlength.MyLinkLable2 = Nothing
         Me.txtlength.Name = "txtlength"
         Me.txtlength.ReadOnly = True
+        Me.txtlength.ReferenceFieldDesc = Nothing
+        Me.txtlength.ReferenceFieldName = Nothing
+        Me.txtlength.ReferenceTableName = Nothing
         Me.txtlength.Size = New System.Drawing.Size(39, 20)
         Me.txtlength.TabIndex = 5
         Me.txtlength.TabStop = False
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(327, 60)
         Me.RadLabel4.Name = "RadLabel4"
@@ -206,6 +221,7 @@ Partial Class frmItemStructure
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(3, 60)
         Me.RadLabel3.Name = "RadLabel3"
@@ -215,28 +231,53 @@ Partial Class frmItemStructure
         '
         'txtitemstructure
         '
+        Me.txtitemstructure.CalculationExpression = Nothing
+        Me.txtitemstructure.FieldCode = Nothing
+        Me.txtitemstructure.FieldDesc = Nothing
+        Me.txtitemstructure.FieldMaxLength = 0
+        Me.txtitemstructure.FieldName = Nothing
+        Me.txtitemstructure.isCalculatedField = False
+        Me.txtitemstructure.IsSourceFromTable = False
+        Me.txtitemstructure.IsSourceFromValueList = False
+        Me.txtitemstructure.IsUnique = False
         Me.txtitemstructure.Location = New System.Drawing.Point(92, 60)
         Me.txtitemstructure.MendatroryField = False
         Me.txtitemstructure.MyLinkLable1 = Me.RadLabel3
         Me.txtitemstructure.MyLinkLable2 = Nothing
         Me.txtitemstructure.Name = "txtitemstructure"
         Me.txtitemstructure.ReadOnly = True
+        Me.txtitemstructure.ReferenceFieldDesc = Nothing
+        Me.txtitemstructure.ReferenceFieldName = Nothing
+        Me.txtitemstructure.ReferenceTableName = Nothing
         Me.txtitemstructure.Size = New System.Drawing.Size(229, 20)
         Me.txtitemstructure.TabIndex = 4
         Me.txtitemstructure.TabStop = False
         '
         'txtdesc
         '
+        Me.txtdesc.CalculationExpression = Nothing
+        Me.txtdesc.FieldCode = Nothing
+        Me.txtdesc.FieldDesc = Nothing
+        Me.txtdesc.FieldMaxLength = 0
+        Me.txtdesc.FieldName = Nothing
+        Me.txtdesc.isCalculatedField = False
+        Me.txtdesc.IsSourceFromTable = False
+        Me.txtdesc.IsSourceFromValueList = False
+        Me.txtdesc.IsUnique = False
         Me.txtdesc.Location = New System.Drawing.Point(92, 34)
         Me.txtdesc.MendatroryField = False
         Me.txtdesc.MyLinkLable1 = Me.RadLabel2
         Me.txtdesc.MyLinkLable2 = Nothing
         Me.txtdesc.Name = "txtdesc"
+        Me.txtdesc.ReferenceFieldDesc = Nothing
+        Me.txtdesc.ReferenceFieldName = Nothing
+        Me.txtdesc.ReferenceTableName = Nothing
         Me.txtdesc.Size = New System.Drawing.Size(349, 20)
         Me.txtdesc.TabIndex = 3
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(3, 34)
         Me.RadLabel2.Name = "RadLabel2"
@@ -289,6 +330,7 @@ Partial Class frmItemStructure
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -306,7 +348,6 @@ Partial Class frmItemStructure
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(497, 380)
         Me.RadPageView1.TabIndex = 217
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -345,6 +386,16 @@ Partial Class frmItemStructure
         Me.UcCustomFields1.Size = New System.Drawing.Size(476, 332)
         Me.UcCustomFields1.TabIndex = 2
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(144, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmItemStructure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -381,6 +432,7 @@ Partial Class frmItemStructure
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         Me.pvpCustomFields.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -412,5 +464,6 @@ Partial Class frmItemStructure
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
+    Friend WithEvents btnHistory As RadButton
 End Class
 

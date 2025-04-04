@@ -1381,7 +1381,7 @@ End if
     End Sub
     'For Import functionality 
     Private Sub bankimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bankimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         '' Richa Againt Ticket No. BM00000003641 on 27/08/2014 add FDPercentage,LCCreditLimit

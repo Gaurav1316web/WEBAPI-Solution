@@ -390,7 +390,7 @@ Public Class FrmTemplateCreation
     End Sub
 
     Public Sub ImportFromExcel()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Template Id", "Description", "Start Date", "Customer Id", "Created By", "Created Date", "Modify By", "Modified date", "Company") Then

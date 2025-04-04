@@ -356,48 +356,184 @@ where 2=2"
 
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal changeStatus As Boolean) As Boolean
         Try
-            Dim arrAllDoc As New List(Of String)
-            Dim arrShiftDetail As New List(Of clsTemp)
-            GetRecursiveDoc(strDocNo, arrAllDoc, arrShiftDetail, trans)
-            If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
-                For Each str As String In arrAllDoc
-                    Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
-                    If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-                        Throw New Exception("No Data found to reverse And unpost")
-                    End If
-
-                    If Not obj.Status = ERPTransactionStatus.Approved Then
-                        Throw New Exception("Transaction status should be posted for reverse and unpost")
-                    End If
-                    If changeStatus Then
-                        Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Against_DCS_Multiple_Days='" + obj.Document_No + "'"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            Throw New Exception("DCS Multiple Days Document No [" + strDocNo + "] is used in DCS Multiple Days Merge Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-                        End If
-                    End If
-                Next
-            End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
-            If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
-                For Each objSD As clsTemp In arrShiftDetail
-                    Dim arrMCC As New ArrayList
-                    arrMCC.Add(objSD.MCC_Code)
-                    clsMilkShiftUploaderHead.DeleteCollectionBulk(objSD.C_Date, objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", arrMCC, True, trans)
-                Next
-            End If
-
-            If changeStatus Then
+            Dim SettApplyMergeForDCSMultipleDays As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, trans)) > 0)
+            If SettApplyMergeForDCSMultipleDays Then
+                Dim arrAllDoc As New List(Of String)
+                Dim arrShiftDetail As New List(Of clsTemp)
+                GetRecursiveDoc(strDocNo, arrAllDoc, arrShiftDetail, trans)
                 If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
                     For Each str As String In arrAllDoc
-                        Dim coll As New Hashtable()
-                        clsCommon.AddColumnsForChange(coll, "Status", 0)
-                        clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-                        clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + str + "'", trans)
+                        Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
+                        If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+                            Throw New Exception("No Data found to reverse And unpost")
+                        End If
+
+                        If Not obj.Status = ERPTransactionStatus.Approved Then
+                            Throw New Exception("Transaction status should be posted for reverse and unpost")
+                        End If
+                        If changeStatus Then
+                            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Against_DCS_Multiple_Days='" + obj.Document_No + "'"
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                Throw New Exception("DCS Multiple Days Document No [" + strDocNo + "] is used in DCS Multiple Days Merge Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+                            End If
+                        End If
                     Next
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
+                If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
+                    For Each objSD As clsTemp In arrShiftDetail
+                        Dim arrMCC As New ArrayList
+                        arrMCC.Add(objSD.MCC_Code)
+                        clsMilkShiftUploaderHead.DeleteCollectionBulk(objSD.C_Date, objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", arrMCC, True, trans)
+                    Next
+                End If
+
+                If changeStatus Then
+                    If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
+                        For Each str As String In arrAllDoc
+                            Dim coll As New Hashtable()
+                            clsCommon.AddColumnsForChange(coll, "Status", 0)
+                            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+                            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + str + "'", trans)
+                        Next
+                    End If
+                End If
+            Else
+                Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
+                If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+                    Throw New Exception("No Data found to reverse And unpost")
+                End If
+
+                If Not obj.Status = ERPTransactionStatus.Approved Then
+                    Throw New Exception("Transaction status should be posted for reverse and unpost")
+                End If
+
+                Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
+from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No
+left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_SRN_HEAD on ((TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No) or  (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No))
+left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No='" + strDocNo + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Throw New Exception("Milk purchase invoice generated you cannot revese it.")
+                End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
+
+                qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (
+select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select DOC_CODE from tspl_milk_Srn_head where Against_Shift_Uploader_TR_No in (select TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))
+union all 
+select DOC_CODE from tspl_milk_Srn_head where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in (select DOC_CODE from tspl_milk_Srn_head where Against_Shift_Uploader_TR_No in (select TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))
+union all 
+select DOC_CODE from tspl_milk_Srn_head where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in (select DOC_CODE from tspl_milk_Srn_head where Against_Shift_Uploader_TR_No in (select TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))
+union all 
+select DOC_CODE from tspl_milk_Srn_head where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_MILK_SRN_DETAIL where doc_code in (select DOC_CODE from tspl_milk_Srn_head where Against_Shift_Uploader_TR_No in (select TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))
+union all 
+select DOC_CODE from tspl_milk_Srn_head where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from tspl_milk_Srn_head where Against_Shift_Uploader_TR_No in (select TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from tspl_milk_Srn_head where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "select distinct Document_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))"
+                Dim dtProUploader As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+
+                qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "select distinct Document_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))"
+                Dim dtProShiftUploader As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+
+                qry = "delete from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+where Against_Milk_Collection_DCS_Detail in (select PK_Id from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "select distinct Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))"
+                Dim dtMilkCollectionDCSDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+
+                qry = "delete from TSPL_MILK_COLLECTION_DCS_detail where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (select PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'))"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                If dtMilkCollectionDCSDetail IsNot Nothing AndAlso dtMilkCollectionDCSDetail.Rows.Count > 0 Then
+                    For Each dr As DataRow In dtMilkCollectionDCSDetail.Rows
+                        qry = "delete from TSPL_MILK_COLLECTION_DCS where Document_No ='" + clsCommon.myCstr(dr("Document_No")) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    Next
+                End If
+
+                qry = "delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_MILK_COLLECTION_MCC where Against_DCS_Multiple_Days='" + strDocNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                If dtProUploader IsNot Nothing AndAlso dtProUploader.Rows.Count > 0 Then
+                    For Each dr As DataRow In dtProUploader.Rows
+                        qry = "select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+                        Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dtCheck Is Nothing OrElse dtCheck.Rows.Count <= 0 Then
+                            qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where  Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        End If
+                    Next
+                End If
+
+                If dtProShiftUploader IsNot Nothing AndAlso dtProShiftUploader.Rows.Count > 0 Then
+                    For Each dr As DataRow In dtProShiftUploader.Rows
+                        qry = "select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+                        Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dtCheck Is Nothing OrElse dtCheck.Rows.Count <= 0 Then
+                            qry = "delete from TSPL_MILK_SHIFT_UPLOADER_HEAD where  Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        End If
+                    Next
+                End If
+
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Status", 0)
+                clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+                clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + strDocNo + "'", trans)
+
             End If
+
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

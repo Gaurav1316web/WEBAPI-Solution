@@ -708,7 +708,7 @@ Public Class frmPartyDetails
     End Sub
 
     Public Sub funimport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Vendor Code", "Deduction", "State", "PAN", "Vendor Type", "Status", "Branch Code", "Inactive") Then

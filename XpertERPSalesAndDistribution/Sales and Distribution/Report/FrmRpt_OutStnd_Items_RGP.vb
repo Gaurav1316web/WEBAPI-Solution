@@ -258,7 +258,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
         End If
 
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 gv.Name = "OutStanding Items against RGP"
                 frm.Controls.Add(gv)

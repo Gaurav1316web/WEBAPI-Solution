@@ -246,7 +246,7 @@ Public Class RptLocationItemMappingDS
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

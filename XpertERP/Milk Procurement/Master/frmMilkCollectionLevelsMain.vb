@@ -141,7 +141,7 @@ Public Class frmMilkCollectionLevelsMain
     End Sub
 
     Private Sub mbtnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim rowNo As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

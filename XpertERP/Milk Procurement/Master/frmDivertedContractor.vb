@@ -231,7 +231,7 @@ Public Class frmDivertedContractor
     End Sub
 
     Private Sub rdmenuimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "CONTRACTOR CODE", "Description", "IS DIVERTED") Then

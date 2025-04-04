@@ -343,7 +343,7 @@ WHERE
     End Sub
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Code", "Date", "Subject", "Description", "Start Date", "End Date", "Login_Type1", "Login_Type2", "Login_Type3", "Login_Type4", "Login_Type5") Then

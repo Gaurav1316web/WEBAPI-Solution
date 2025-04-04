@@ -93,7 +93,7 @@ Public Class frmItemGroup
                     End If
                 Next
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, ddlclassname.Text, "TSPL_INV_CLASS", "Inv_Class_Name", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, ddlclassname.Text, "TSPL_INV_CLASS", "Inv_Class_Name", "TSPL_INV_CLASS_DETAILS", "Inv_Class_Name", trans)
 
             trans.Commit()
             myMessages.insert()
@@ -307,7 +307,7 @@ Public Class frmItemGroup
     End Sub
     ''To Import the data from excel
     Private Sub mnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Invoice Class Name", "Invoice Class Code", "Description") Then
             Dim trans As SqlTransaction = Nothing
@@ -378,6 +378,19 @@ Public Class frmItemGroup
         End If
 
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(ddlclassname.Text) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Class Name")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(ddlclassname.Text, "Inv_Class_Name", "TSPL_INV_CLASS", "TSPL_INV_CLASS_DETAILS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     ''To Authorised the user 
     'Private Function funSetUserAccess() As Boolean
     '    Try

@@ -2029,7 +2029,7 @@ Public Class frmTender
         End Try
     End Sub
     Sub funImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         isInsideLoadData = True
         Try

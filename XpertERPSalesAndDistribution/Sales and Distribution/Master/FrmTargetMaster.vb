@@ -545,7 +545,7 @@ Public Class FrmTargetMaster
         ImportData()
     End Sub
     Public Sub ImportData()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Customer Code", "Customer Group Code", "Discount Type", "Month & Year", "Amount", "Balance Amount") Then

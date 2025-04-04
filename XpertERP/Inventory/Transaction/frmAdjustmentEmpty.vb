@@ -1390,7 +1390,7 @@ Public Class frmAdjustmentEmpty
     End Sub
 
     Private Function ImportBalance() As Boolean
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Me.Controls.Add(gv1)
         Dim currentdate As Date = Date.Today

@@ -374,7 +374,7 @@ Public Class frmCustomerItemMapping
     End Sub
 
     Private Sub Import_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         Dim currentdate As Date = Date.Today

@@ -980,7 +980,7 @@ Public Class FrmTaxGroups
     End Sub
 
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim input() As String = {}
         If objCommonVar.GSTApplicable Then

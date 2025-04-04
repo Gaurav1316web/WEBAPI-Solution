@@ -761,7 +761,7 @@ Public Class frmMilkSRNMCC
 
 
     Private Sub ImportCorrection()
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
         Me.Controls.Add(gvImport)
         Try
             Dim frm As New XpertERPEngine.FrmFreeComboBox()
@@ -1657,7 +1657,7 @@ Public Class frmMilkSRNMCC
     End Sub
 
     Private Sub ImportSRNUpdate(Optional ByVal UpdateOnlyGl As Boolean = False)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         'Dim IsNewEntry As Boolean
         Dim counter As Integer = 0
         Dim totqty As Double = 0

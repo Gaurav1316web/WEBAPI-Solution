@@ -298,7 +298,7 @@ Public Class FrmSecondaryCustomer
         End Try
     End Sub
     Private Sub ImportCustomers()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Customer Code", "Customer Name", "Distributor Code", "Distributor Name", "Address1", "Address2", "Address3", "City Code", "City Name", "State Code", "State Name", "Country", "Phone1", "Phone2", "Fax", "Email", "WebSite", "Currency Code", "Currency Name", "Status") Then
             clsCommon.ProgressBarShow()

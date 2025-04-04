@@ -300,7 +300,7 @@ Public Class frmTrainerMaster
     End Sub
 
     Public Sub funImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "VSP No", "VSP Name", "Address1", "Address2", "Address3", "Group Code", "Vendor Group Description", "City Code", "City Code Description", "State", "Country", "Phone Num1", "Phone Num2", "Fax", "Email Id", "Website", "Terms Code", "Terms Description", "Vendor Account", "Vendor Account Description", "Payment Code", "Paymnet Code Description", "Bank Code", "Bank Code Description", "Vendor Type", "Vendor Type Description", "Tax Group", "Tax Group Description", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Transporter", "Created By", "Created Date", "Modify By", "Modify Date", "Company Code", "Collectorate", "PAN", "State_Code", "Country_Code", "service_charges", "Service_Charge_Type", "commision_pers", "payment_commision_pers", "incentive", "incentive_days", "vsp_payment", "VSP_Payee_Name", "Joint_Name", "form_type", "Branch_Name", "Account_No", "Bank_Name", "IFSC_Code", "Account_Type") Then

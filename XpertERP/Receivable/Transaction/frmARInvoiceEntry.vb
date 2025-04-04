@@ -3789,7 +3789,7 @@ Public Class FrmARInvoiceEntry
 
     Sub funfillimport(ByRef type As String)
         Dim BalanceType As String = type
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
         Dim qry As String = "select top 1 Account_Code,Description from TSPL_GL_ACCOUNTS where LEN(Account_Code)>6 order by Account_Code"
@@ -4390,7 +4390,7 @@ Public Class FrmARInvoiceEntry
     End Sub
 
     Sub ImporAR_CN_DN(ByVal CN_DN As String)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As String = ""
         Dim qry As String
@@ -4717,7 +4717,7 @@ Public Class FrmARInvoiceEntry
             Exit Sub
         End If
         Dim strQry As String
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As String = ""
 
@@ -5264,7 +5264,7 @@ Public Class FrmARInvoiceEntry
 
     Public Sub Import()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsOPInvoiceForTCS)
             Dim currentdate As Date = Date.Today

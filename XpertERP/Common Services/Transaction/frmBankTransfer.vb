@@ -1808,7 +1808,7 @@ Public Class FrmBankTransfer
     End Sub
 
     Public Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim LineNo As String = ""
         'Dim Qry As String
         Me.Controls.Add(gv)

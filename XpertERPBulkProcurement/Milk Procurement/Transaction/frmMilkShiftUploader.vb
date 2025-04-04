@@ -950,7 +950,7 @@ Public Class frmMilkShiftUploader
             If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
                 Throw New Exception("Please select MCC Code")
             End If
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gv, "S NO", "VLC Uploader Code", "Qty (Ltr)", "FAT%", "SNF%", "Milk Type(M/C/B)", "Reject Type", "Reject Defaulter") Then

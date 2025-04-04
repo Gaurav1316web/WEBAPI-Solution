@@ -424,7 +424,7 @@ Public Class frmPayHeadDefinitions
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim ArrStr As String() = {"Code", "Name", "Print Name", "Pay Head Type", "Sub Pay Head Type", "Periodicity", "Calculation Basis", "Round Off Type", "Is Earning", "Is Hidden", "Account Code", "Sequence", "Print Sequence", "Arrear Type", "Employer Gl Account"}

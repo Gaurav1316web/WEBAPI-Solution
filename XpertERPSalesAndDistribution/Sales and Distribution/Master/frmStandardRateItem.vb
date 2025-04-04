@@ -692,7 +692,7 @@ Public Class frmStandardRateItem
         End If
     End Sub
     Private Sub btnimprtHead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimprtHead.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Doc Code", "From Date", "Is Valid Date", "Valid Till", "Code", "Description", "Is Customer") Then
 
@@ -826,7 +826,7 @@ Public Class frmStandardRateItem
     End Sub
 
     Private Sub BtnimportDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnimportDetails.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Doc No", "Line No", "Item Code", "Description", "Unit", "MRP", "Rate", "price before CST VAT", "CST", "VAT", "Excise on Purchase Rs", "Excise on Purchase Percent", "Freight Charges", "Other Charges", "Total landing Cost") Then
 

@@ -166,7 +166,7 @@ Public Class FrmBudgetMaintenance
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
 

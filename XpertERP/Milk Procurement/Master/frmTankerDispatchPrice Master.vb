@@ -256,7 +256,7 @@ Public Class FrmTankerDispatchPrice_Master
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
        
 
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Dim IsNewEntry As Boolean
         'Me.Controls.Add(gv)
         'If transportSql.importExcel(gv, "PRICE CODE", "PRICE DESC", "TOTAL SOLID RATE", "EFFECTIVE DATE", "MCC CODE", "Posted") Then

@@ -412,7 +412,7 @@ Public Class FrmSourceCode
     End Sub
 
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "SourceCode", "SourceDescription", "TallyName") Then
             Dim trans As SqlTransaction = Nothing

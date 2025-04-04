@@ -513,7 +513,7 @@ Public Class frmRouteGroupMaster
     End Sub
     'It Is Used To Import The Records From TSPL_ROUTE_GROUP_MASTER
     Private Sub RadMenuItem_Import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Group Id", "Status", "Route Code", "Start date", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Description") Then
             Dim trans As SqlTransaction = Nothing

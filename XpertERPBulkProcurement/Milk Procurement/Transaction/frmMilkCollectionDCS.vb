@@ -1503,7 +1503,7 @@ where 2=2 "
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim totqty As Double = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

@@ -201,7 +201,7 @@ Public Class FrmPartNoMaster
     End Sub
 
     Private Sub btnImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         clsCommon.ProgressBarShow()
         Dim obj As New clsPartNoMaster()

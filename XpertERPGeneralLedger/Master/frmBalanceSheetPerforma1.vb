@@ -385,7 +385,7 @@ Public Class FrmBalanceSheetPerforma1
     End Sub
 
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "S No", "Main Particular", "Particular", "Group Code", "Group Name", "Note", "Type") Then
             'Dim trans As SqlTransaction

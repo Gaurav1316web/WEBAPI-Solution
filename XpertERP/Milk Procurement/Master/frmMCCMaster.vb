@@ -2940,7 +2940,7 @@ Public Class FrmMCCMaster
             dtDefaultUOM = clsDBFuncationality.GetDataTable(Strqry)
         End If
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()
@@ -3781,7 +3781,7 @@ Public Class FrmMCCMaster
     End Sub
 
     Private Sub mnuGenSetDetailsImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuGenSetDetailsImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()
@@ -3830,7 +3830,7 @@ Public Class FrmMCCMaster
     End Sub
 
     Private Sub mnuCompressorDetailsImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuCompressorDetailsImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
 
@@ -4767,7 +4767,7 @@ Public Class FrmMCCMaster
     End Sub
 
     Private Sub ImportMCCUOMDetails()
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         If transportSql.importExcel(gv1, "MCC Code", "UOM", "Conversion Factor", "Stocking Unit", "Weight") Then
             Dim isSaved As Boolean = True
@@ -4878,7 +4878,7 @@ Public Class FrmMCCMaster
 
 
     Private Sub ImportMilkPUmp()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()
@@ -4937,7 +4937,7 @@ Public Class FrmMCCMaster
     End Sub
 
     Private Sub ImportChiller()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()
@@ -5007,7 +5007,7 @@ Public Class FrmMCCMaster
         ImportSilo()
     End Sub
     Private Sub ImportSilo()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
 

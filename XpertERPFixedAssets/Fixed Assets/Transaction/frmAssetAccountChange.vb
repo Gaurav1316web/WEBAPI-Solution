@@ -1181,7 +1181,7 @@ Public Class frmAssetAccountChange
     End Sub
 
     Private Sub ImportHeader()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim total As Integer = 0
         If transportSql.importExcel(gv, "Acqisition Code", "Acquisition Date", "Vendor Code", "Description", "Remarks", "Location Code", "SRN No", "Template Code", "New/Old") Then
@@ -1262,7 +1262,7 @@ Public Class frmAssetAccountChange
     End Sub
 
     Private Sub ImportDetail()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim total As Integer = 0
 
@@ -1408,7 +1408,7 @@ Public Class frmAssetAccountChange
     End Sub
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
         Me.Controls.Add(gvImport)
 
         Try

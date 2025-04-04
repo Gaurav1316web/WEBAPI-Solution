@@ -473,7 +473,7 @@ Public Class FrmDepreciationPeriods
         End Try
     End Sub
     Private Sub FunImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Period Code", "Description", "Not In Use", "FiscalPeriodRun1", "FiscalPeriodRunPerm1", "FiscalPeriodRun2", "FiscalPeriodRunPerm2", "FiscalPeriodRun3", "FiscalPeriodRunPerm3", "FiscalPeriodRun4", "FiscalPeriodRunPerm4", "FiscalPeriodRun5", "FiscalPeriodRunPerm5", "FiscalPeriodRun6", "FiscalPeriodRunPerm6", "FiscalPeriodRun7", "FiscalPeriodRunPerm7", "FiscalPeriodRun8", "FiscalPeriodRunPerm8", "FiscalPeriodRun9", "FiscalPeriodRunPerm9", "FiscalPeriodRun10", "FiscalPeriodRunPerm10", "FiscalPeriodRun11", "FiscalPeriodRunPerm11", "FiscalPeriodRun12", "FiscalPeriodRunPerm12") Then
             Try

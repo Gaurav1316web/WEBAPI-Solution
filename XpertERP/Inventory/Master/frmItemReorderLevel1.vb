@@ -251,7 +251,7 @@ Public Class frmItemReorderLevel1
     End Sub
 
     Private Sub ImportItems()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Item Code", "Unit Code", "Min Level", "Min Level Tolerance", "Max Level", "Max Level Tolerance", "Reorder Level", "Reorder Level Tolerance", "Reorder Qty", "Location Code") Then
             clsCommon.ProgressBarShow()

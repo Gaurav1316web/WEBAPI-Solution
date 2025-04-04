@@ -359,7 +359,7 @@ Public Class frmMakeTempleteImportMP
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, gvColumnsMain.Columns(colSeqNo).HeaderText, gvColumnsMain.Columns(colOrginal).HeaderText, gvColumnsMain.Columns(colMandatory).HeaderText, gvColumnsMain.Columns(colExcel).HeaderText) Then

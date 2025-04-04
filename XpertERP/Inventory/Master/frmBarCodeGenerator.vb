@@ -631,7 +631,7 @@ Public Class FrmBarCodeGenerator
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Bar_Code", "Item_Code", "Item_Cost", "Item_MRP", "Item_Selling_Price") Then

@@ -198,7 +198,7 @@ Public Class frmDeliveryTermsMaster
     End Sub
 
     Private Sub btnImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnImport.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim oldNewentry As Boolean = isNewEntry
         Dim counter As Integer = 0

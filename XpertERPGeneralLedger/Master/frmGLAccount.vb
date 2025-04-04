@@ -1188,7 +1188,7 @@ Public Class frmGLAccount
     End Sub
 
     Private Sub funimport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Account Code", "Description", "Structure Code", "Structure Description", "Account Balance", "Status", "Control Account", "Auto Allocation", "Multicurrency", "Segment Code 1", "Segment Description 1", "Segment Code 2", "Segment Description 2", "Segment Code 3", "Segment Description 3", "Segment Code 4", "Segment Description 4", "Segment Code 5", "Segment Description 5", "Segment Code 6", "Segment Description 6", "Segment Code 7", "Segment Description 7", "Segment Code 8", "Segment Description 8", "Segment Code 9", "Segment Description 9", "Segment Code 10", "Segment Description 10", "Close To Segment", "Close To Account", "GL Main Account") Then
@@ -1907,7 +1907,7 @@ Public Class frmGLAccount
     End Sub
 
     Public Sub funrollupImpor()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         If transportSql.importExcel(gv, "Account Code", "Description", "RollUp Account Code", "RollUp Account Description", "RollUp", "Account Group", "Account Group Description", "Account Type", "Status", "Account Balance", "Multicurrency") Then
@@ -2064,7 +2064,7 @@ Public Class frmGLAccount
     End Sub
 
     Public Sub ImportrollupGLAccSeq()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         If transportSql.importExcel(gv, "Account Code", "Description", "Seq No") Then
@@ -2213,7 +2213,7 @@ Public Class frmGLAccount
     End Sub
 
     Private Sub funimportCombined()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Account Code", "Description", "Structure Code", "Structure Description", "Account Balance", "Status", "Control Account", "Auto Allocation", "Multicurrency", "Segment Code 1", "Segment Description 1", "Segment Code 2", "Segment Description 2", "Segment Code 3", "Segment Description 3", "Segment Code 4", "Segment Description 4", "Segment Code 5", "Segment Description 5", "Segment Code 6", "Segment Description 6", "Segment Code 7", "Segment Description 7", "Segment Code 8", "Segment Description 8", "Segment Code 9", "Segment Description 9", "Segment Code 10", "Segment Description 10", "Close To Segment", "Close To Account", "GL_Main_Code") Then

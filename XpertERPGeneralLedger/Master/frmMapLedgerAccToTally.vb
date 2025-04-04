@@ -90,7 +90,7 @@ Public Class frmMapLedgerAccToTally
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim strqry As String = ""
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Account Code", "Description", "Name In Tally") Then

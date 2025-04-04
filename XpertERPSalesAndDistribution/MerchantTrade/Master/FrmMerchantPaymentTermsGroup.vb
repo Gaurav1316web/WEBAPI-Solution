@@ -218,7 +218,7 @@ Public Class FrmMerchantPaymentTermsGroup
     End Sub
 
     Private Sub RMImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

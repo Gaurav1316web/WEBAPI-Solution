@@ -1046,7 +1046,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 Throw New Exception("Please select location first.")
             End If
 
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
 
             Dim dtError As New DataTable
@@ -1198,7 +1198,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
     End Sub
     Private Sub RadMenuItem7_Click(sender As Object, e As EventArgs) Handles RadMenuItem7.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
 
             Dim dtError As New DataTable

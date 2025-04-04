@@ -774,7 +774,7 @@ Public Class frmRouteMaster
     End Sub
     'It Is Used To Import The Records From TSPL_ROUTE_MASTER
     Private Sub RadMenuItem_import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Strs As List(Of String) = New List(Of String)
         Strs.Add("Route No")

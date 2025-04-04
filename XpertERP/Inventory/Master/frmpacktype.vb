@@ -333,7 +333,7 @@ Public Class Frmpacktype
     End Sub
 
     Private Sub mnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Class Type", "Finished Good", "Mother Code", "Father Code") Then
             Dim trans As SqlTransaction = Nothing

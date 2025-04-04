@@ -1801,7 +1801,7 @@ Public Class FrmMakePayment
 
     Public Sub funImportO()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -1983,7 +1983,7 @@ Public Class FrmMakePayment
 
     Public Sub funImportOA()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

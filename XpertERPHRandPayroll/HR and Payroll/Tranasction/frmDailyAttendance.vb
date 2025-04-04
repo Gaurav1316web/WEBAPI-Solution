@@ -506,7 +506,7 @@ Public Class frmDailyAttendance
             Exit Sub
         End If
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
 
@@ -572,7 +572,7 @@ Public Class frmDailyAttendance
             Exit Sub
         End If
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
 

@@ -376,7 +376,7 @@ Public Class FrmPriceChartUploader
         End Try
         '-------------------------------------------
 
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
 
         Dim OFDFileName As String = ""

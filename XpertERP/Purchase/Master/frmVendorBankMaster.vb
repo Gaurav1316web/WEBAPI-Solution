@@ -458,7 +458,7 @@ Public Class FrmVendorBankMaster
 
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDImportBankDetail.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
 
@@ -705,7 +705,7 @@ Public Class FrmVendorBankMaster
     End Sub
 
     Private Sub RDImportBranchDetail_Click(sender As Object, e As EventArgs) Handles RDImportBranchDetail.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
 

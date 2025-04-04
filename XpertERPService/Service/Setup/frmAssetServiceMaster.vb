@@ -827,7 +827,7 @@ Public Class FrmAssetServiceMaster
     End Sub
 
     Private Sub rdimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Visi Id", "Asset Code", "Asset Desc", "Asset Serial No", "Asset Tag No") Then

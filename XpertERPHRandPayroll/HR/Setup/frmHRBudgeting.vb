@@ -263,7 +263,7 @@ Public Class FrmHRBudgeting
         Dim CustMapEntry As Double = 0
         Dim VenMapEntry As Double = 0
         Dim DuplicateEntry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Is Applied", "Department Code", "Department Name", "Budget") Then

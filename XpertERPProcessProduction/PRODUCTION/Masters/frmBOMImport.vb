@@ -21,7 +21,7 @@ Public Class frmBOMImport
     Private Sub Save()
         If AllowToSave() Then
 
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If Me.cboBOMStatus.Text = "BOM Head" Then

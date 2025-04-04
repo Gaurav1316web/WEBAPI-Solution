@@ -247,7 +247,7 @@ Public Class FrmNDDBMaster
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "NDDB No", "NDDB Desc", "NDDB Date", "Tag Prefix", "Tag SNO", "USED By", "Farmer Id") Then

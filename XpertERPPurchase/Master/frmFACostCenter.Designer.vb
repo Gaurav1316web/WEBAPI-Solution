@@ -22,28 +22,29 @@ Partial Class FrmCostCenter
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.txtdes = New common.Controls.MyTextBox
-        Me.lbldes = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lbldesid = New common.Controls.MyLabel
+        Me.components = New System.ComponentModel.Container()
+        Me.txtdes = New common.Controls.MyTextBox()
+        Me.lbldes = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lbldesid = New common.Controls.MyLabel()
         Me.ToolTipdesig = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox
-        Me.lblGLAcc = New common.Controls.MyLabel
-        Me.txtGLAcc = New common.UserControls.txtFinder
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.lblCostDesp = New common.Controls.MyLabel
-        Me.txtcostcenter = New common.UserControls.txtFinder
-        Me.lblcostcenter = New common.Controls.MyLabel
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblGLAcc = New common.Controls.MyLabel()
+        Me.txtGLAcc = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.lblCostDesp = New common.Controls.MyLabel()
+        Me.txtcostcenter = New common.UserControls.txtFinder()
+        Me.lblcostcenter = New common.Controls.MyLabel()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtdes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldesid, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,18 +62,31 @@ Partial Class FrmCostCenter
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(116, 36)
         Me.txtdes.MaxLength = 100
         Me.txtdes.MendatroryField = False
         Me.txtdes.MyLinkLable1 = Nothing
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -82,6 +96,7 @@ Partial Class FrmCostCenter
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(9, 36)
         Me.lbldes.Name = "lbldes"
@@ -91,6 +106,7 @@ Partial Class FrmCostCenter
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(116, 11)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -106,6 +122,7 @@ Partial Class FrmCostCenter
         '
         'lbldesid
         '
+        Me.lbldesid.FieldName = Nothing
         Me.lbldesid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldesid.Location = New System.Drawing.Point(9, 13)
         Me.lbldesid.Name = "lbldesid"
@@ -148,28 +165,42 @@ Partial Class FrmCostCenter
         '
         Me.lblGLAcc.AutoSize = False
         Me.lblGLAcc.BorderVisible = True
+        Me.lblGLAcc.FieldName = Nothing
         Me.lblGLAcc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblGLAcc.Location = New System.Drawing.Point(262, 82)
         Me.lblGLAcc.Name = "lblGLAcc"
         Me.lblGLAcc.Size = New System.Drawing.Size(386, 18)
         Me.lblGLAcc.TabIndex = 53
-        Me.lblGLAcc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtGLAcc
         '
+        Me.txtGLAcc.CalculationExpression = Nothing
+        Me.txtGLAcc.FieldCode = Nothing
+        Me.txtGLAcc.FieldDesc = Nothing
+        Me.txtGLAcc.FieldMaxLength = 0
+        Me.txtGLAcc.FieldName = Nothing
+        Me.txtGLAcc.isCalculatedField = False
+        Me.txtGLAcc.IsSourceFromTable = False
+        Me.txtGLAcc.IsSourceFromValueList = False
+        Me.txtGLAcc.IsUnique = False
         Me.txtGLAcc.Location = New System.Drawing.Point(116, 82)
         Me.txtGLAcc.MendatroryField = False
         Me.txtGLAcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtGLAcc.MyLinkLable1 = Me.MyLabel4
         Me.txtGLAcc.MyLinkLable2 = Nothing
         Me.txtGLAcc.MyReadOnly = False
+        Me.txtGLAcc.MyShowMasterFormButton = False
         Me.txtGLAcc.Name = "txtGLAcc"
+        Me.txtGLAcc.ReferenceFieldDesc = Nothing
+        Me.txtGLAcc.ReferenceFieldName = Nothing
+        Me.txtGLAcc.ReferenceTableName = Nothing
         Me.txtGLAcc.Size = New System.Drawing.Size(141, 18)
         Me.txtGLAcc.TabIndex = 51
         Me.txtGLAcc.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Location = New System.Drawing.Point(9, 83)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(63, 18)
@@ -180,28 +211,42 @@ Partial Class FrmCostCenter
         '
         Me.lblCostDesp.AutoSize = False
         Me.lblCostDesp.BorderVisible = True
+        Me.lblCostDesp.FieldName = Nothing
         Me.lblCostDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCostDesp.Location = New System.Drawing.Point(262, 59)
         Me.lblCostDesp.Name = "lblCostDesp"
         Me.lblCostDesp.Size = New System.Drawing.Size(386, 18)
         Me.lblCostDesp.TabIndex = 40
-        Me.lblCostDesp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtcostcenter
         '
+        Me.txtcostcenter.CalculationExpression = Nothing
+        Me.txtcostcenter.FieldCode = Nothing
+        Me.txtcostcenter.FieldDesc = Nothing
+        Me.txtcostcenter.FieldMaxLength = 0
+        Me.txtcostcenter.FieldName = Nothing
+        Me.txtcostcenter.isCalculatedField = False
+        Me.txtcostcenter.IsSourceFromTable = False
+        Me.txtcostcenter.IsSourceFromValueList = False
+        Me.txtcostcenter.IsUnique = False
         Me.txtcostcenter.Location = New System.Drawing.Point(116, 59)
         Me.txtcostcenter.MendatroryField = False
         Me.txtcostcenter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcostcenter.MyLinkLable1 = Me.lblcostcenter
         Me.txtcostcenter.MyLinkLable2 = Nothing
         Me.txtcostcenter.MyReadOnly = False
+        Me.txtcostcenter.MyShowMasterFormButton = False
         Me.txtcostcenter.Name = "txtcostcenter"
+        Me.txtcostcenter.ReferenceFieldDesc = Nothing
+        Me.txtcostcenter.ReferenceFieldName = Nothing
+        Me.txtcostcenter.ReferenceTableName = Nothing
         Me.txtcostcenter.Size = New System.Drawing.Size(142, 19)
         Me.txtcostcenter.TabIndex = 3
         Me.txtcostcenter.Value = ""
         '
         'lblcostcenter
         '
+        Me.lblcostcenter.FieldName = Nothing
         Me.lblcostcenter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblcostcenter.Location = New System.Drawing.Point(9, 61)
         Me.lblcostcenter.Name = "lblcostcenter"
@@ -245,6 +290,7 @@ Partial Class FrmCostCenter
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -259,32 +305,22 @@ Partial Class FrmCostCenter
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(666, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
-        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnclose
         '
@@ -295,6 +331,16 @@ Partial Class FrmCostCenter
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(174, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmCostCenter
         '
@@ -327,6 +373,7 @@ Partial Class FrmCostCenter
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -352,5 +399,6 @@ Partial Class FrmCostCenter
     Friend WithEvents lblGLAcc As common.Controls.MyLabel
     Friend WithEvents txtGLAcc As common.UserControls.txtFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

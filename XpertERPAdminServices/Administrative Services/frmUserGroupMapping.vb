@@ -271,7 +271,7 @@ Public Class FrmUserGroupMapping
     End Sub
     'It Is Used To Import The Records From TSPL_USER_GROUP_MAPPING
     Private Sub RadMenuItem_Import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "User Code", "Group Code") Then
             Dim trans As SqlTransaction = Nothing

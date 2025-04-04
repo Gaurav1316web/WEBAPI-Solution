@@ -267,7 +267,7 @@ Public Class frmItemChargeCategoryMaster
     End Sub
 
     Private Sub Rdmenuimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Rdmenuimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Charge Category Code", "Description", "Account Code", "Account Description") Then
