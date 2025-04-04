@@ -45,6 +45,10 @@ Partial Class RCDFDashboard
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Prdnctnallchk = New common.Controls.MyRadioButton()
+        Me.ReprdctnChk = New common.Controls.MyRadioButton()
+        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSaleTransfer = New common.Controls.MyRadioButton()
         Me.rdbStockTransfer = New common.Controls.MyRadioButton()
@@ -92,10 +96,6 @@ Partial Class RCDFDashboard
         Me.lblvendor = New common.Controls.MyLabel()
         Me.gvAccountCustomer = New common.UserControls.MyRadGridView()
         Me.lblCustomer = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Prdnctnallchk = New common.Controls.MyRadioButton()
-        Me.ReprdctnChk = New common.Controls.MyRadioButton()
-        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -110,6 +110,11 @@ Partial Class RCDFDashboard
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.rdbSaleTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,11 +187,6 @@ Partial Class RCDFDashboard
         CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -403,6 +403,56 @@ Partial Class RCDFDashboard
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1140, 433)
         Me.RadPageViewPage5.Text = "Filters"
         Me.RadPageViewPage5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.Prdnctnallchk)
+        Me.RadGroupBox1.Controls.Add(Me.ReprdctnChk)
+        Me.RadGroupBox1.Controls.Add(Me.Productionchk)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(20, 206)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(366, 42)
+        Me.RadGroupBox1.TabIndex = 64
+        '
+        'Prdnctnallchk
+        '
+        Me.Prdnctnallchk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Prdnctnallchk.Location = New System.Drawing.Point(246, 11)
+        Me.Prdnctnallchk.MyLinkLable1 = Nothing
+        Me.Prdnctnallchk.MyLinkLable2 = Nothing
+        Me.Prdnctnallchk.Name = "Prdnctnallchk"
+        Me.Prdnctnallchk.Size = New System.Drawing.Size(33, 18)
+        Me.Prdnctnallchk.TabIndex = 3
+        Me.Prdnctnallchk.TabStop = False
+        Me.Prdnctnallchk.Text = "All"
+        '
+        'ReprdctnChk
+        '
+        Me.ReprdctnChk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.ReprdctnChk.Location = New System.Drawing.Point(122, 11)
+        Me.ReprdctnChk.MyLinkLable1 = Nothing
+        Me.ReprdctnChk.MyLinkLable2 = Nothing
+        Me.ReprdctnChk.Name = "ReprdctnChk"
+        Me.ReprdctnChk.Size = New System.Drawing.Size(92, 18)
+        Me.ReprdctnChk.TabIndex = 2
+        Me.ReprdctnChk.TabStop = False
+        Me.ReprdctnChk.Text = "Re-Production"
+        '
+        'Productionchk
+        '
+        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Productionchk.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
+        Me.Productionchk.MyLinkLable1 = Nothing
+        Me.Productionchk.MyLinkLable2 = Nothing
+        Me.Productionchk.Name = "Productionchk"
+        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
+        Me.Productionchk.TabIndex = 1
+        Me.Productionchk.Text = "Production"
+        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox6
         '
@@ -1088,56 +1138,6 @@ Partial Class RCDFDashboard
         Me.lblCustomer.Text = "CUSTOMER LEDGER"
         Me.lblCustomer.TextAlignment = System.Drawing.ContentAlignment.TopCenter
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.Prdnctnallchk)
-        Me.RadGroupBox1.Controls.Add(Me.ReprdctnChk)
-        Me.RadGroupBox1.Controls.Add(Me.Productionchk)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(20, 206)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(366, 42)
-        Me.RadGroupBox1.TabIndex = 64
-        '
-        'Prdnctnallchk
-        '
-        Me.Prdnctnallchk.ForeColor = System.Drawing.Color.WhiteSmoke
-        Me.Prdnctnallchk.Location = New System.Drawing.Point(246, 11)
-        Me.Prdnctnallchk.MyLinkLable1 = Nothing
-        Me.Prdnctnallchk.MyLinkLable2 = Nothing
-        Me.Prdnctnallchk.Name = "Prdnctnallchk"
-        Me.Prdnctnallchk.Size = New System.Drawing.Size(33, 18)
-        Me.Prdnctnallchk.TabIndex = 3
-        Me.Prdnctnallchk.TabStop = False
-        Me.Prdnctnallchk.Text = "All"
-        '
-        'ReprdctnChk
-        '
-        Me.ReprdctnChk.ForeColor = System.Drawing.Color.WhiteSmoke
-        Me.ReprdctnChk.Location = New System.Drawing.Point(122, 11)
-        Me.ReprdctnChk.MyLinkLable1 = Nothing
-        Me.ReprdctnChk.MyLinkLable2 = Nothing
-        Me.ReprdctnChk.Name = "ReprdctnChk"
-        Me.ReprdctnChk.Size = New System.Drawing.Size(92, 18)
-        Me.ReprdctnChk.TabIndex = 2
-        Me.ReprdctnChk.TabStop = False
-        Me.ReprdctnChk.Text = "Re-Production"
-        '
-        'Productionchk
-        '
-        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Productionchk.ForeColor = System.Drawing.Color.WhiteSmoke
-        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
-        Me.Productionchk.MyLinkLable1 = Nothing
-        Me.Productionchk.MyLinkLable2 = Nothing
-        Me.Productionchk.Name = "Productionchk"
-        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
-        Me.Productionchk.TabIndex = 1
-        Me.Productionchk.Text = "Production"
-        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'RCDFDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1165,6 +1165,12 @@ Partial Class RCDFDashboard
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -1241,12 +1247,6 @@ Partial Class RCDFDashboard
         CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.Prdnctnallchk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ReprdctnChk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

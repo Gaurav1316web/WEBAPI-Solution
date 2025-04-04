@@ -181,6 +181,7 @@ Public Class RCDFDashboard
         RadGroupBox4.Enabled = val
         RadGroupBox5.Enabled = val
         RadGroupBox6.Enabled = val
+        RadGroupBox1.Enabled = val
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         Me.Close()
