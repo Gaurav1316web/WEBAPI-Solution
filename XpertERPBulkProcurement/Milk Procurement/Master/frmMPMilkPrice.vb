@@ -82,7 +82,7 @@ Public Class frmMPMilkPrice
             Dim matrixtype As String = clsCommon.myCstr(cmbmatrix.Text)
 
 
-            Dim gv1 As New RadGridView()
+            Dim gv1 As New UserControls.MyRadGridView
             Me.Controls.Add(gv1)
             Dim OFDFileName As String = ""
             Dim OFDSafeFileName As String = ""

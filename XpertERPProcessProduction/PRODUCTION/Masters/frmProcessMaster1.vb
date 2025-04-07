@@ -288,7 +288,7 @@ Public Class FrmProcessMaster1
 
     ''richa Ticket No BM00000002902 19/06/2014
     Private Sub RMHeadImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMHeadImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         'Dim IsNewEntry As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = Nothing
@@ -361,7 +361,7 @@ Public Class FrmProcessMaster1
     End Sub
 
     Private Sub RMDetailImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMDetailImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Dim obj As clsProcessMasterDetail
         Dim StrProcessCode As String = ""

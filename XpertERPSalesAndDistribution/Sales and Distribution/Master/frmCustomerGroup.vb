@@ -658,7 +658,7 @@ where Cust_Group_Code ='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'"
 #End Region
 #Region "Import/Export"
     Private Sub MenuImport1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport1.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Cust_Group_Code", "Cust_Group_Desc", "Tax_Group", "Cust_Account", "Terms_Code", "SalesPerson_Code", "SalesPerson_Name", "Percentage", "Shelf_Life", "ShowGroupOnReport", "PONOMandatory", "IsDefaultVSP") Then
             clsCommon.ProgressBarShow()

@@ -491,7 +491,7 @@ Public Class frmShipToLocation
     End Sub
 
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Ship_To_Type_Code", "Ship_To_Type_Desc", "Ship_To_Type", "Ship_To_Code", "Ship_To_Desc", "Add1", "Add2", "Add3", "Add4", "City_Code", "State", "Pin_Code", "Country", "Telphone", "Email") Then
             Dim trans As SqlTransaction = Nothing

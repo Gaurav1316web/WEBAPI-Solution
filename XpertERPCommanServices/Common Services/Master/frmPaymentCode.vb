@@ -281,7 +281,7 @@ Public Class FrmPaymentCode
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
 
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Payment_Code", "Payment_Desc", "Payment_Type") Then
             Dim trans As SqlTransaction = Nothing

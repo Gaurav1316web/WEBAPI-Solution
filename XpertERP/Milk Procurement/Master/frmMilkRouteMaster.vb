@@ -790,7 +790,7 @@ Public Class FrmMilkRouteMaster
     End Sub
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today
 
@@ -1146,7 +1146,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub rmMilkRouteDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmMilkRouteDetails.Click
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim flag As Boolean = False
@@ -1360,7 +1360,7 @@ Public Class FrmMilkRouteMaster
     End Sub
 
     Private Sub ImportVLCDetails()
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         Dim boolresult As Boolean = False

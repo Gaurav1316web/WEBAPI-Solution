@@ -420,7 +420,7 @@ group by xx.PK_Id having sum(RI)>0"
         Return outputTable
     End Function
     Private Sub btn_Import_Click(sender As Object, e As EventArgs) Handles btn_Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Try
             Me.Controls.Add(gv)
 

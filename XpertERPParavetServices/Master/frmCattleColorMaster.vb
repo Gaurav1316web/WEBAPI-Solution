@@ -208,7 +208,7 @@ Public Class FrmCattleColorMaster
     End Sub
     'select Cattle_Color_Code,Cattle_Color_Name,Created_By,Created_Date,Modify_By,Modify_Date,Comp_Code from TSPL_CATTLE_COLOR_MASTER
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Code", "Description") Then

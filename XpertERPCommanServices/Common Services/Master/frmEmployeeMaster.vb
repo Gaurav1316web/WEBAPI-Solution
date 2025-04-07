@@ -855,7 +855,7 @@ Public Class frmEmployeeMaster
     'End Sub
     'For Import functionality 
     'Private Sub empim_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles empim.Click
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    Me.Controls.Add(gv)
     '    Dim currentdate As Date = Date.Today
     '    If transportSql.importExcel(gv, "Employee Code", "Employee Name", "Designation", "Address1", "Address2", "Pin Code", "Phone", "Birth Date", "Cash Sh/Ex", "Card Number", "Joining Date", "Employee Type", "Ex Date", "Employee Status", "Releaving Date", "Payroll Code", "Empty Sh/Ex", "GL Account") Then
@@ -1262,7 +1262,7 @@ Public Class frmEmployeeMaster
 
 
     Private Sub btnEmpdetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmpdetails.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Employee Code", "Employee Name", "Designation", "Address1", "Address2", "Pin Code", "Phone", "Birth Date", "Cash Sh/Ex", "Card Number", "Joining Date", "Employee Type", "Ex Date", "Employee Status", "Releaving Date", "Payroll Code", "Empty Sh/Ex", "GL Account") Then
@@ -1464,7 +1464,7 @@ Public Class frmEmployeeMaster
     End Sub
 
     Private Sub btnAsmtype_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAsmtype.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Emp Code", "Emp type", "city code", "city name", "state code", "state name", "region code", "region name") Then

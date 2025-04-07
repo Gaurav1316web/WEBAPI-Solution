@@ -256,7 +256,7 @@ Public Class FrmGroups
         Import()
     End Sub
     Private Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Group", "Description", "Category Code", "Prefix Counter") Then
             Try

@@ -256,7 +256,7 @@ Public Class frmGSTunitMeasure
     End Sub
 
     Private Sub MenuItemImport_Click(sender As Object, e As EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description") Then
@@ -304,4 +304,17 @@ Public Class frmGSTunitMeasure
     Private Sub btnNew1_Click(sender As Object, e As EventArgs) Handles btnNew1.Click
         funReset()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtcode1.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtcode1.Value, "Code", "TSPL_EINVOICE_UOM")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
 End Class

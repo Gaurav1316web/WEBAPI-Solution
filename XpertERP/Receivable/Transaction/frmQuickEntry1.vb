@@ -2177,7 +2177,7 @@ Public Class FrmQuickEntry1
 
     Public Sub funImportO()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -2359,7 +2359,7 @@ Public Class FrmQuickEntry1
 
     Public Sub funImportOA()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -2588,7 +2588,7 @@ Public Class FrmQuickEntry1
     End Sub
 
     Private Sub rmiImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Try
             Me.Controls.Add(gv)
             Try

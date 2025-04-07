@@ -187,7 +187,7 @@ End if
     End Sub
 
     Private Sub rdmenuimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Vendor Type", "Description") Then
             Dim trans As SqlTransaction = Nothing

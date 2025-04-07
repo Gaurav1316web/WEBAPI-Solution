@@ -210,6 +210,7 @@ Public Class clsPOSCommissionMapping
                 clsCommon.AddColumnsForChange(coll, "MODIFIED_BY", objCommonVar.CurrentUserCode)
                 isSave = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_POS_COMMISSION_MAPPING", OMInsertOrUpdate.Insert, "", trans)
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(PriceId), "TSPL_POS_COMMISSION_MAPPING", "ITEM_PRICE_ID", trans)
 
         End If
         Return isSave

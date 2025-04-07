@@ -121,7 +121,7 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
 
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim columnsname As String = transportSql.GetExcelColumnsName(gv1)
         Try

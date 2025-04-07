@@ -3475,6 +3475,8 @@ Public Class FrmPriceMaster
         End Try
     End Sub
 
+
+
     Private Sub chkTaxInclusive_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkBackCalWithTAX.ToggleStateChanged
         If chkWithoutTax.Checked = True Then
             chkBackCalWithTAX.Checked = False

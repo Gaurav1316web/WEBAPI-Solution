@@ -519,7 +519,7 @@ Public Class frmEmployeeSavingsMapping
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
         Dim qry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
         Try
@@ -630,7 +630,7 @@ Public Class frmEmployeeSavingsMapping
             Me.Controls.Remove(gv)
         End Try
 
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Me.Controls.Add(gv)
         'Dim obj As clsSavingMaster = Nothing
         'Dim currentdate As Date = Date.Today

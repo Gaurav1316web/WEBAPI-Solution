@@ -1501,7 +1501,7 @@ Public Class FrmPhysicalStock
     Dim isImport As Boolean = False
     Private Sub btnimport_Click(sender As Object, e As EventArgs) Handles btnimport.Click
         ''GKD/24/09/18-000165 by balwinder on 26/09/2018
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
         Me.Controls.Add(gvImport)
         isImport = True
         Try

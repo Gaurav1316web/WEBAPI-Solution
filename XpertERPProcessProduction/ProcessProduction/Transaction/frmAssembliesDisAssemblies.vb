@@ -840,7 +840,11 @@ Public Class frmAssembDis
             UcCustomFields1.AllowToSave()
             Dim isMatch As Boolean = False
             Dim Weight_Uom_Head As String = clsDBFuncationality.getSingleValue("SELECT Weight_UOM FROM TSPL_ITEM_MASTER WHERE  Item_Code = '" & fndMainItem.Value & "'")
-            Dim Weight_Uom_Qty_Head As Decimal = Val(Me.txtQuantity.Text) * clsItemMaster.GetConvertionFactor(fndMainItem.Value, fndUom.Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Head, Nothing)
+            Dim Weight_Uom_Qty_Head As Decimal
+            If clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Head, Nothing) > 0 Then
+                Weight_Uom_Qty_Head = Val(Me.txtQuantity.Text) * clsItemMaster.GetConvertionFactor(fndMainItem.Value, fndUom.Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Head, Nothing)
+            End If
+
             Dim Weight_Uom_Qty_Detail As Decimal = 0
             Dim Weight_Uom_Amt_Detail As Decimal = 0
             Dim Head_Qty_Toleance As Decimal = 0
@@ -850,8 +854,10 @@ Public Class frmAssembDis
                     Weight_Uom_Amt_Detail += clsCommon.myCdbl(row.Cells(colItemAmount).Value)
                     Dim Weight_Uom_Detail As String = clsDBFuncationality.getSingleValue("SELECT Weight_UOM FROM TSPL_ITEM_MASTER WHERE  Item_Code = '" & row.Cells(colItemCode).Value & "'")
                     If clsCommon.CompairString(Weight_Uom_Head, Weight_Uom_Detail) = CompairStringResult.Equal Then
-                        Weight_Uom_Qty_Detail += Val(clsCommon.myCdbl(row.Cells(colqty).Value)) * clsItemMaster.GetConvertionFactor(row.Cells(colItemCode).Value, row.Cells(colUnitCode).Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Detail, Nothing)
-                        isMatch = True
+                        If clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Detail, Nothing) > 0 Then
+                            Weight_Uom_Qty_Detail += Val(clsCommon.myCdbl(row.Cells(colqty).Value)) * clsItemMaster.GetConvertionFactor(row.Cells(colItemCode).Value, row.Cells(colUnitCode).Value, Nothing) / clsItemMaster.GetConvertionFactor(fndMainItem.Value, Weight_Uom_Detail, Nothing)
+                            isMatch = True
+                        End If
                     End If
                 End If
             Next

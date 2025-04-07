@@ -483,7 +483,7 @@ Public Class FrmVSPIncentiveTagging
     End Sub
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "MCC Code", " MCC Name", " VSP Code", "VSP Name", "Incentive Code", " Incentive Name", " Document Code", " VLC code", " VLC Name", "Start Date", "Start Shift", "End Date", "End Date") Then

@@ -358,7 +358,7 @@ where 2=2  "
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
-            Dim gvImport As New RadGridView()
+            Dim gvImport As New UserControls.MyRadGridView
             Me.Controls.Add(gvImport)
             loadBlankGrid()
             If transportSql.importExcel(gvImport, colMPCode, colMPUploader, colMPName, colSocietyUploader, colSocietyName, colIFSC, colBankName, colBankBranch, colBankCity, colBankState) Then

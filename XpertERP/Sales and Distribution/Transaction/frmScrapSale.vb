@@ -3706,7 +3706,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & fndcustNo.Value & "'")), "0") = CompairStringResult.Equal Then
-                            If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+                            If AmountToCheckCustomerOutstandingForTCSTax >= 0 Then
                                 Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(fndcustNo.Value, dtpshipment.Value))
                                 If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
                                     dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
@@ -3721,17 +3721,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                     If EnableTCSRateValidityFrom01July2021 Then
                                         Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & fndcustNo.Value & "'")) = 1, True, False)
                                         If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
-                                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ScrapTCSRateforCustomerWithPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithPanNo, Nothing))
                                         Else
-                                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ScrapTCSRateforCustomerWithoutPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithoutPanNo, Nothing))
                                         End If
                                     Else
                                         Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & fndcustNo.Value & "'"))
                                         If rbtnManualTCS.IsChecked = False Then
                                             If clsCommon.myLen(panno) > 0 Then
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ScrapTCSRateforCustomerWithPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithPanNo, Nothing))
                                             Else
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ScrapTCSRateforCustomerWithoutPanNo, clsFixedParameterCode.ScrapTCSRateforCustomerWithoutPanNo, Nothing))
                                             End If
                                         End If
                                     End If
@@ -5667,7 +5667,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Public Sub funImport()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

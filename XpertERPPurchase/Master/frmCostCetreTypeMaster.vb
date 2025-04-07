@@ -267,7 +267,7 @@ Public Class FrmCostCetreTypeMaster
     End Sub
 
     Private Sub MenuItemImport_Click(sender As Object, e As EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description") Then
@@ -390,5 +390,15 @@ Public Class FrmCostCetreTypeMaster
         End Try
     End Sub
 
-
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_COST_CENTER_TYPE_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

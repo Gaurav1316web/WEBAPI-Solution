@@ -29,6 +29,7 @@ Partial Class FrmCapexMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkProvisional = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtdate = New common.Controls.MyDateTimePicker()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.lblcurrentBudget = New common.Controls.MyLabel()
@@ -51,11 +52,12 @@ Partial Class FrmCapexMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkProvisional = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblcurrentBudget, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,7 +79,7 @@ Partial Class FrmCapexMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -88,34 +90,25 @@ Partial Class FrmCapexMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(679, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Close"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
         '
@@ -151,12 +144,23 @@ Partial Class FrmCapexMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(679, 253)
         Me.SplitContainer1.SplitterDistance = 198
         Me.SplitContainer1.TabIndex = 1
+        '
+        'chkProvisional
+        '
+        Me.chkProvisional.AccessibleDescription = ""
+        Me.chkProvisional.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkProvisional.Location = New System.Drawing.Point(510, 43)
+        Me.chkProvisional.Name = "chkProvisional"
+        Me.chkProvisional.Size = New System.Drawing.Size(76, 16)
+        Me.chkProvisional.TabIndex = 207
+        Me.chkProvisional.Text = "Provisional"
         '
         'txtdate
         '
@@ -243,7 +247,7 @@ Partial Class FrmCapexMaster
         Me.NumIncBudget.TabIndex = 202
         Me.NumIncBudget.Text = "0"
         Me.NumIncBudget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.NumIncBudget.Value = 0.0R
+        Me.NumIncBudget.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -319,7 +323,7 @@ Partial Class FrmCapexMaster
         Me.txt_tolerence.TabIndex = 195
         Me.txt_tolerence.Text = "0"
         Me.txt_tolerence.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_tolerence.Value = 0.0R
+        Me.txt_tolerence.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel3
         '
@@ -355,7 +359,7 @@ Partial Class FrmCapexMaster
         Me.txt_budget.TabIndex = 193
         Me.txt_budget.Text = "0"
         Me.txt_budget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_budget.Value = 0.0R
+        Me.txt_budget.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txt_revisedbudget
         '
@@ -383,7 +387,7 @@ Partial Class FrmCapexMaster
         Me.txt_revisedbudget.TabIndex = 196
         Me.txt_revisedbudget.Text = "0"
         Me.txt_revisedbudget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_revisedbudget.Value = 0.0R
+        Me.txt_revisedbudget.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnNew
         '
@@ -456,7 +460,7 @@ Partial Class FrmCapexMaster
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnSave.Location = New System.Drawing.Point(4, 29)
+        Me.btnSave.Location = New System.Drawing.Point(3, 29)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 3
@@ -484,15 +488,16 @@ Partial Class FrmCapexMaster
         Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "Close"
         '
-        'chkProvisional
+        'btnHistory
         '
-        Me.chkProvisional.AccessibleDescription = ""
-        Me.chkProvisional.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkProvisional.Location = New System.Drawing.Point(510, 43)
-        Me.chkProvisional.Name = "chkProvisional"
-        Me.chkProvisional.Size = New System.Drawing.Size(76, 16)
-        Me.chkProvisional.TabIndex = 207
-        Me.chkProvisional.Text = "Provisional"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(144, 30)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'FrmCapexMaster
         '
@@ -512,6 +517,7 @@ Partial Class FrmCapexMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblcurrentBudget, System.ComponentModel.ISupportInitialize).EndInit()
@@ -533,7 +539,7 @@ Partial Class FrmCapexMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -568,5 +574,6 @@ Partial Class FrmCapexMaster
     Friend WithEvents txtdate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents chkProvisional As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

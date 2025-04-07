@@ -173,6 +173,7 @@ Public Class clsDeliveryTermsMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DELIVERY_TERMS_MASTER", OMInsertOrUpdate.Update, " Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DELIVERY_TERMS_MASTER", "Code", trans)
 
             Return True
         Catch ex As Exception
@@ -238,6 +239,9 @@ Public Class clsDeliveryTermsMaster
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_TERMS_MASTER", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_TERMS_MASTER", "Code", trans)
+
             Dim qry As String = "delete from TSPL_DELIVERY_TERMS_MASTER where code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

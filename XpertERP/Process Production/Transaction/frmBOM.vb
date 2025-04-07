@@ -2329,7 +2329,7 @@ Public Class frmBOM
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim currentdate As Date = Date.Today
         Dim oldnewentry As Boolean = isNewEntry
@@ -3074,7 +3074,7 @@ Public Class frmBOM
     End Sub
 
     Private Sub MenuImportOverheadCost_Click(sender As Object, e As EventArgs) Handles MenuImportOverheadCost.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim currentdate As Date = Date.Today
         Dim oldnewentry As Boolean = isNewEntry

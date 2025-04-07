@@ -546,7 +546,7 @@ Public Class frmMultipleShareAllotment
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Try
-            Dim gvImport As New RadGridView()
+            Dim gvImport As New UserControls.MyRadGridView
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gvImport, "DCS Code", "DCS Name", "Share Captial Opening Amount", "Total Share Captial Deducted Amount", "Balance Amt", "Share Rate Per Share", "No of Share to be allocated", "Share Certificate No Start From", "Share Certificate No To") Then

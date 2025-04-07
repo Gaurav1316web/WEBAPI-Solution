@@ -182,7 +182,7 @@ Public Class frmCostType
     '' Anubhooti 19-June-2014
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
         Dim trans As SqlTransaction = Nothing
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "COST TYPE CODE", "DESCRIPTION", "COST CLASS") Then

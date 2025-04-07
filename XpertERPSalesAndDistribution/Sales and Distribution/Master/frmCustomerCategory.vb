@@ -375,7 +375,7 @@ Public Class frmCustomerCategory
 #End Region
 #Region "Import/Export"
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "CUST_CATEGORY_CODE", "CUST_CATEGORY_DESC", "Price_Code", "Price_Code_Desc", "Route_No", "Route_Desc", "Price Code Non-Excise", "Price Code Non-Excise Description") Then
             Dim trans As SqlTransaction = Nothing

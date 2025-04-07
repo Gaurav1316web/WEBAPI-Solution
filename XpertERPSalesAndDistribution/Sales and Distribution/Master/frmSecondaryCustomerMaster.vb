@@ -2801,7 +2801,7 @@ Public Class FrmSecondaryCustomerMaster
     Public Sub funImport()
         Dim AllowAutoCCode As String = ""
         Dim strCusCode As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim GSTNo As String = Nothing
         Dim GSTState As String = Nothing
         Dim GSTEntity As String = Nothing
@@ -3684,7 +3684,7 @@ Public Class FrmSecondaryCustomerMaster
     Private Sub RmiImportCompetitor_Click(sender As Object, e As EventArgs) Handles rmiImportCompetitor.Click
         Dim trans As SqlTransaction = Nothing
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gv, "Customer Code", "Competitor Code", "Milk", "Curd", "Others") Then

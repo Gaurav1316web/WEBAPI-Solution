@@ -369,7 +369,7 @@ Public Class FrmItemExciseMapping
     End Sub
 
     Private Sub Import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Item Code", "Unit Code", "Excise", "Excise Tax Code", "Ecess", "Ecess Tax Code", "Hcess", "Hcess Tax Code") Then

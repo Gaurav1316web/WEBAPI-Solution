@@ -595,7 +595,7 @@ Public Class FrmCustomerInfo
     End Sub
 
     Public Sub funitem_Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim intCounter As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -730,7 +730,7 @@ Public Class FrmCustomerInfo
 
     Public Sub funImport()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

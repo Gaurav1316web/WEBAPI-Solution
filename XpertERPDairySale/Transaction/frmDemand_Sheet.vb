@@ -604,7 +604,7 @@ Public Class frmDemand_Sheet
         End Try
     End Sub
     Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim arr As New List(Of Integer)
         Try
             Dim obj As clsDemandSheet = New clsDemandSheet()

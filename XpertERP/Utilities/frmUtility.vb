@@ -4627,7 +4627,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton9_Click(sender As Object, e As EventArgs) Handles RadButton9.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "InvNo", "ARNo", "JVNo") Then
@@ -5273,7 +5273,7 @@ Public Class FrmUtility
 
 
     Private Sub RadButton22_Click(sender As Object, e As EventArgs) Handles RadButton22.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo", "NewItemCode") Then
@@ -5334,7 +5334,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton23_Click(sender As Object, e As EventArgs) Handles RadButton23.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo", "NewLocCode") Then
@@ -5485,7 +5485,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton27_Click(sender As Object, e As EventArgs) Handles RadButton27.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo", "NewLocCode") Then
@@ -7772,7 +7772,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton44_Click(sender As Object, e As EventArgs) Handles RadButton44.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -8311,7 +8311,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnImportDocAR_Click(sender As Object, e As EventArgs) Handles btnImportDocAR.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -9964,7 +9964,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnImportRAE_Click(sender As Object, e As EventArgs) Handles btnImportRAE.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocumentNo") Then
@@ -10084,7 +10084,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnImportPAE_Click(sender As Object, e As EventArgs) Handles btnImportPAE.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocumentNo") Then
@@ -10202,7 +10202,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnImportDocFdisp_Click(sender As Object, e As EventArgs) Handles btnImportDocFdisp.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocumentNo") Then
@@ -10319,7 +10319,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnPdispImportJE_Click(sender As Object, e As EventArgs) Handles btnPdispImportJE.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocumentNo") Then
@@ -12188,7 +12188,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton72_Click(sender As Object, e As EventArgs) Handles RadButton72.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocumentNo") Then
@@ -12267,7 +12267,7 @@ Public Class FrmUtility
 
 
     Private Sub RadButton81_Click(sender As Object, e As EventArgs) Handles RadButton81.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Trans Type", "Document No", "Document No To be change") Then
@@ -12969,7 +12969,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton113_Click(sender As Object, e As EventArgs) Handles RadButton113.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -13254,7 +13254,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton118_Click(sender As Object, e As EventArgs) Handles RadButton118.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -14589,7 +14589,7 @@ line1:
     Private Sub RadButton148_Click(sender As Object, e As EventArgs) Handles RadButton148.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) as CN from TEMP_PR_CHANGE_PARY_DATE_AMOUNT")) > 0 Then
@@ -14980,7 +14980,7 @@ line1:
     Private Sub RadButton151_Click(sender As Object, e As EventArgs) Handles RadButton151.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -15085,7 +15085,7 @@ line1:
     Private Sub RadButton154_Click(sender As Object, e As EventArgs) Handles RadButton154.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -15189,7 +15189,7 @@ line1:
     Private Sub RadButton157_Click(sender As Object, e As EventArgs) Handles RadButton157.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -15293,7 +15293,7 @@ line1:
     Private Sub RadButton160_Click(sender As Object, e As EventArgs) Handles RadButton160.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -15397,7 +15397,7 @@ line1:
     Private Sub RadButton163_Click(sender As Object, e As EventArgs) Handles RadButton163.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -16632,7 +16632,7 @@ line1:
     Private Sub RadButton182_Click(sender As Object, e As EventArgs) Handles RadButton182.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -16737,7 +16737,7 @@ line1:
     Private Sub RadButton179_Click(sender As Object, e As EventArgs) Handles RadButton179.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -16840,7 +16840,7 @@ line1:
     Private Sub RadButton174_Click(sender As Object, e As EventArgs) Handles RadButton174.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -16945,7 +16945,7 @@ line1:
     Private Sub RadButton173_Click(sender As Object, e As EventArgs) Handles RadButton173.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -17529,7 +17529,7 @@ line1:
     Sub AssemblyDeassemblyPickDocs()
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -17679,7 +17679,7 @@ line1:
     Private Sub RadButton198_Click(sender As Object, e As EventArgs) Handles RadButton198.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Try
@@ -18045,7 +18045,7 @@ line1:
     End Sub
 
     Private Sub RadButton204_Click(sender As Object, e As EventArgs) Handles RadButton204.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -18740,7 +18740,7 @@ line1:
     End Sub
 
     Private Sub RadButton219_Click(sender As Object, e As EventArgs) Handles RadButton219.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -18966,7 +18966,7 @@ line1:
         End Try
     End Sub
     Private Sub RadButton226_Click(sender As Object, e As EventArgs) Handles RadButton226.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Production issue no", "Item Code", "Old Location", "New Location") Then
@@ -21388,7 +21388,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Private Sub RadButton230_Click(sender As Object, e As EventArgs) Handles RadButton230.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "SaleInvoiceNo") Then
@@ -21425,7 +21425,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
     ''richa ERO/21/05/19-000611
     Private Sub RadButton235_Click(sender As Object, e As EventArgs) Handles RadButton235.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Booking_No", "Vehicle_No") Then
@@ -22531,7 +22531,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Private Sub RadButton263_Click(sender As Object, e As EventArgs) Handles RadButton263.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Doc_No") Then
@@ -25696,7 +25696,7 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
 
     Private Sub btnImportAndUpdateVSPCodeOnly_Click(sender As Object, e As EventArgs) Handles btnImportAndUpdateVSPCodeOnly.Click
         Dim qryEnableCons As String = " exec sp_MSforeachtable @command1=""print '?'"", @command2=""ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"" "
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "VSP Code", "New VSP Code") Then

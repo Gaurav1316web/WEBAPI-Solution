@@ -822,7 +822,7 @@ Public Class GroupProgramMapping
         Dim updateflag As String
 
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Group Code", "Program Code", "Program Name", "SubModule", "Module", "Read", "Modify", "Delete", "Authorized", "Reverse", "Export", "Print", "Cancel", "QuickExport", "CancelPostTransaction", "isModifyonPassword", "isAmendment", "Update") Then

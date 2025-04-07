@@ -311,7 +311,7 @@ Public Class frmAssetBookMaster
         Import()
     End Sub
     Private Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         ''Book_Code,Book_Name,Dep_Method_Code,Dep_Method_Tax_Code,Dep_Period_Code,Start_Date,Dep_Rate,Dep_Tax_Rate,
         'Book_Source_Original_value, Book_Estimated_Life, Book_Source_value, Book_Salvage_Rate, Book_Salvage_Value, Book_Net_Value, Book_Dep_Type, Tax_Dep_Type

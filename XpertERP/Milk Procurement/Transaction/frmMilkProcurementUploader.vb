@@ -1076,7 +1076,7 @@ Public Class frmMilkProcurementUploader
             If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
                 Throw New Exception("Please select MCC Code")
             End If
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             Dim isCorrect As Boolean = False

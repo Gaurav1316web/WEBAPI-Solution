@@ -553,7 +553,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         Try
-            Dim gv1 As New RadGridView()
+            Dim gv1 As New UserControls.MyRadGridView
             Me.Controls.Add(gv1)
             If transportSql.importExcel(gv1, "Date", "Item Code", "Qty", "UOM", "Shift") Then
                 Dim Arr As New List(Of clsDairyProductionUploaderDetail)

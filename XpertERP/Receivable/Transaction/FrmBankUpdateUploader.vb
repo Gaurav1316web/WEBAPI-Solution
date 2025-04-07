@@ -22,7 +22,7 @@ Public Class FrmBankUpdateUploader
     Private Sub RadButton148_Click(sender As Object, e As EventArgs) Handles RadButton148.Click
         Dim counter As Integer = 0
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) as CN from TEMP_PR_CHANGE_PARY_DATE_AMOUNT")) > 0 Then
@@ -535,7 +535,7 @@ Public Class FrmBankUpdateUploader
            
             Dim counter As Integer = 0
             Try
-                Dim gv As New RadGridView()
+                Dim gv As New UserControls.MyRadGridView
                 Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
 
@@ -778,7 +778,7 @@ Public Class FrmBankUpdateUploader
     End Sub
 
     Private Sub RadButton118_Click(sender As Object, e As EventArgs) Handles RadButton118.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then
@@ -821,7 +821,7 @@ Public Class FrmBankUpdateUploader
     End Sub
 
     Private Sub RadButton113_Click(sender As Object, e As EventArgs) Handles RadButton113.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo") Then

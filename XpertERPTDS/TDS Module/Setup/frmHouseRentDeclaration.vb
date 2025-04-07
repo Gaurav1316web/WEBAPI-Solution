@@ -283,7 +283,7 @@ Public Class FrmHouseRentDeclaration
         Dim FIN_CODE As String = ""
         Dim EMP_CODE As String = ""
         Dim PAY_CODE As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description", "Financial Year Code", "Pay Period Code", "Emp Code", "House Rent Amount") Then

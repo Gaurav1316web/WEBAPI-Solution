@@ -2515,7 +2515,7 @@ Public Class frmMilkSampleMCCOddEven
     End Sub
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim counter As Integer = 0
         Dim totqty As Double = 0
         Dim totsnf As Double = 0

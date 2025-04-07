@@ -240,7 +240,7 @@ Public Class frmVSPDayWiseIncentive
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Name", "Rate", "From 1", "To 1", "Rate 1", "From 2", "To 2", "Rate 2", "From 3", "To 3", "Rate 3", "From 4", "To 4", "Rate 4", "From 5", "To 5", "Rate 5") Then

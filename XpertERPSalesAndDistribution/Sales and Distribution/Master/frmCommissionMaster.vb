@@ -461,7 +461,7 @@ Public Class FrmCommissionMaster
         funexport()
     End Sub
     Public Sub funImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "ItemCode", "ItemDesc", "UOM", "Hierarchy", "CustomerGroup", "Commission", "Start date") Then
             Dim trans As SqlTransaction = Nothing

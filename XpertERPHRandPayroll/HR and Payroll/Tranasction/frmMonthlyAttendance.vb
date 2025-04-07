@@ -955,7 +955,7 @@ Public Class frmMonthlyAttendance
     End Sub
 
     Private Sub ImportMonthlyAttendance()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()

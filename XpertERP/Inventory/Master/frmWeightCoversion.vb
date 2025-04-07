@@ -331,7 +331,7 @@ Public Class FrmWeightCoversion
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
         ' Ticket No : BHA/14/01/19-000778 By Prabhakar 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim obj As clsWeightConversionInfo = Nothing
         Dim currentdate As Date = Date.Today

@@ -318,7 +318,7 @@ Public Class frmPFRulesMaster
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Date", "Company EPF Share(%)", "Company EPF Round Off Type", "Company EPS Share(%)", "Max EPS Amount", "Company Admin Charges on EPF(ACEPF)", "Max amount of ACEPF", "EDLI Paid by Company", "Max of EDLI", "Admin Charges on EDLI(ACEDLI)", "Max of ACEDLI", "Min of ACEDLI", "Employee EPF Share(%)", "Max EPF Amount", "Employee EPF Round Off Type", "Other Charges(OC)", "Other Charges Round off type", "Max of Other Charges(OC)") Then

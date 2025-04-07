@@ -565,7 +565,7 @@ Public Class frmResponsiblePerson
     End Sub
 
     Private Sub RadMenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Person Code", "Person Name", "Father Name", "Designation", "Address1", "Address2", "City", "Branch Code", "State Code", "Country", "Pincode", "Telephone", "Fax", "Email", "Signature", "Active") Then
             Dim trans As SqlTransaction = Nothing

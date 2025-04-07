@@ -7690,7 +7690,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     '        Return False
     '    End If
     '    Dim frmFilter As New frmFilterToExport()
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    wBook = excel.Workbooks.Add()
     '    Dim iQueryIndex As Integer = 0
     '    For Each row_sql As String In Regex.Split(sql, "####")
@@ -8680,7 +8680,7 @@ a:          End If
 
     Private Sub btnPrintEwayBill_Click(sender As Object, e As EventArgs) Handles btnPrintEwayBill.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

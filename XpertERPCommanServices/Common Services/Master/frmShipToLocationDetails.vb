@@ -800,7 +800,7 @@ Public Class FrmShipToLocationDetails
         End If
     End Sub
     Private Sub menuImport1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport1.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         '''''''''''' retrieving associated custom field list
         Dim drr As DataTable

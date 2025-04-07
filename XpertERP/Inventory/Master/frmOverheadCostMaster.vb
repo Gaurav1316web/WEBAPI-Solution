@@ -196,7 +196,7 @@ Public Class frmOverheadCostMaster
     End Sub
 
     Private Sub MenuItemImport_Click(sender As Object, e As EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim strColumn As Boolean = False

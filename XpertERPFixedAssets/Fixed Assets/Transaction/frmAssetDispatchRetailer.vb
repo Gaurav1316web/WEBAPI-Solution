@@ -4205,7 +4205,7 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_ASSE
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim totqty As Double = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -4422,7 +4422,7 @@ a:              Next
     End Sub
 
     Private Sub btnUploder_Click(sender As Object, e As EventArgs) Handles btnUploder.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim totqty As Double = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

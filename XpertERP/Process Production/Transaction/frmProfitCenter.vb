@@ -156,7 +156,7 @@ Public Class frmProfitCenter
    
     'For Import functionality 
     Private Sub import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Profit Center Code", "Profit Center Name", "CostCenterCode1", "CostCenterCode2", "CostCenterCode3", "CostCenterCode4", "CostCenterCode5", "CostCenterCode6", "CostCenterCode7", "CostCenterCode8", "CostCenterCode9", "CostCenterCode10", "CostCenterCode11", "CostCenterCode12", "CostCenterCode13", "CostCenterCode14", "CostCenterCode15", "CostCenterCode16", "CostCenterCode17", "CostCenterCode18", "CostCenterCode19", "CostCenterCode20", "CostCenterCode21", "CostCenterCode22", "CostCenterCode23", "CostCenterCode24", "CostCenterCode25", "CostCenterCode26", "CostCenterCode27", "CostCenterCode28", "CostCenterCode29", "CostCenterCode30", "CostCenterCode31", "CostCenterCode32", "CostCenterCode33", "CostCenterCode34", "CostCenterCode35", "CostCenterCode36", "CostCenterCode37", "CostCenterCode38", "CostCenterCode39", "CostCenterCode40", "CostCenterCode41", "CostCenterCode42", "CostCenterCode43", "CostCenterCode44", "CostCenterCode45", "CostCenterCode46", "CostCenterCode47", "CostCenterCode48", "CostCenterCode49", "CostCenterCode50") Then

@@ -793,7 +793,7 @@ Public Class frmVendorQuotation
 
 
     Private Sub btnimporthead_Click(sender As Object, e As EventArgs) Handles btnimporthead.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Date", "RFQ No", "Requisition No", "Vendor Code", "Vendor Quotation No", "Vendor Quotation Date", "Description", "Reference No", "Remarks", "Comments") Then
@@ -884,7 +884,7 @@ Public Class frmVendorQuotation
     End Sub
 
     Private Sub btnimportdetail_Click(sender As Object, e As EventArgs) Handles btnimportdetail.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Dim obj As New ClsVendorQuotationHead()
         obj.ArrTr = New List(Of ClsVendorQuotationDeatil)
