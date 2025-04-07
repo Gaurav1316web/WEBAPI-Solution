@@ -333,7 +333,7 @@ Public Class frmPJCEmployeeMaster
     End Sub
 
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim Counter As Int16 = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

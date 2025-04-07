@@ -2506,7 +2506,7 @@ Public Class frmBillOfMaterialCosting
         End Try
     End Sub
     Function ImportBOMHead() As Boolean
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Main Item Code", "BOM Code", "Description", "Quantity", "Unit Code", "BOM Date", "Start Date", "End Date", "Status(O,A,H,D)", "Default", "Min Batch Size") Then
             Try
@@ -2647,7 +2647,7 @@ Public Class frmBillOfMaterialCosting
         Return False
     End Function
     Function ImportBOMComponents() As Boolean
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Main Item Code", "BOM Code", "Line No", "Item Code", "Item Desc", "Quantity", "Unit Code", "Scrap Percent", "Wastage Percent", "Remarks") Then
             Dim trans As SqlTransaction = Nothing

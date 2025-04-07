@@ -412,7 +412,7 @@ where  TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE='" + clsCommon.myCstr(gv1.Rows(
             '            If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
             '                Throw New Exception("Please select MCC Code")
             '            End If
-            '            Dim gv As New RadGridView()
+            '            Dim gv As New UserControls.MyRadGridView
             '            Me.Controls.Add(gv)
             '            Dim currentdate As Date = Date.Today
             '            If transportSql.importExcel(gv, "S NO", "VLC Uploader Code", "Qty (Ltr)", "FAT%", "SNF%", "Milk Type(M/C/B)", "Reject Type", "Reject Defaulter") Then

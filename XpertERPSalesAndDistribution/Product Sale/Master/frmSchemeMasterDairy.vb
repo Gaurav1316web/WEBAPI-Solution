@@ -2259,7 +2259,7 @@ Public Class FrmSchemeMasterDairy
 
     Private Sub Import_Main_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import_Main.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim isSaved As Boolean = True
             Dim counter As Integer = 0
@@ -2404,7 +2404,7 @@ Public Class FrmSchemeMasterDairy
 
     Private Sub import_beneficial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import_beneficial.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme Code", "Main Item Code", "Main Unit Code", "Main Qty", "Scheme Item", "Unit Code", "Scheme Qty", "Cash per", "Cash Amount", "Remarks") Then
@@ -2539,7 +2539,7 @@ Public Class FrmSchemeMasterDairy
     Private Sub import_criteria_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import_criteria.Click
 
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme Code", "Criteria", "Criteria Code", "Customer Code") Then
@@ -2727,7 +2727,7 @@ Public Class FrmSchemeMasterDairy
     Private Sub rmImportWholeSheet_Click(sender As Object, e As EventArgs) Handles rmImportWholeSheet.Click
         ''import whole sheet
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme_Code", "Scheme_Desc", "Cust_Code", "Customer_Name", "MainItem_Code", "Item_Desc", "Unit_Code", "MainQty", "Scheme_Type", "Start_Date", "End_Date", "Discount", "Discount_Type") Then
@@ -3184,7 +3184,7 @@ Public Class FrmSchemeMasterDairy
 
     Private Sub rmSchemeWithSlabImp_Click(sender As Object, e As EventArgs) Handles rmSchemeWithSlabImp.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme_Code", "Scheme_Desc", "Cust_Code", "Customer_Name", "MainItem_Code", "Item_Desc", "MainUnit_Code", "MainQty", "Scheme_Type", "Item_Code", "Unit_Code", "Qty", "Start_Date", "End_Date", "Min_Range", "Value") Then

@@ -575,7 +575,7 @@ Public Class FrmRGP_Register_NRGP
         End If
 
         If Not path.Equals(String.Empty) Then
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Try
                 ''''' Dim exporter As New RadGridViewExcelExporter()
                 gv.Name = "RegisterNRGP"

@@ -536,7 +536,7 @@ Public Class frmVendorItemChargeMaster
 
             Dim obj As New clsVendorItemChargeDetail()
         Dim arr As New List(Of clsVendorItemChargeDetail)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim gvbool As Boolean = False

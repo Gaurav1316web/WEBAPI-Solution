@@ -184,7 +184,7 @@ Public Class frmCityMaster
     End Sub
     'For Import functionality 
     Private Sub cityimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cityimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "City Code", "City Name", "State Code", "Region Code", "District Code") Then

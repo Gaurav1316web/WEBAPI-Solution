@@ -3442,7 +3442,7 @@ Public Class FrmItemMasterRMOther
         End Try
     End Sub
     Private Sub ImportItemDetail()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         Dim inputs() As String = {}
@@ -4006,7 +4006,7 @@ Public Class FrmItemMasterRMOther
         Me.Controls.Remove(gv)
     End Sub
     Private Sub ImportItemUOMDetails()
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim LineNo As String = ""
         Dim countDefaultUOM As Integer = 0
@@ -4196,7 +4196,7 @@ Public Class FrmItemMasterRMOther
         End If
     End Sub
     Private Sub ImportItemCategoryStructure()
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         ''-Insertig for ITem MAster
         If transportSql.importExcel(gv1, "Item Code", "Category Structure", "line_no", "Category Code", "Category Value") Then
@@ -4417,7 +4417,7 @@ Public Class FrmItemMasterRMOther
         End If
     End Sub
     Private Sub btnparam_import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnparam_import.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Item_Code", "Code", "Description", "Lower_Range", "Upper_Range", "Status", "Value1", "Actual_Range", "Actual_Value", "Actual_Status", "StandardRate") Then
@@ -4658,7 +4658,7 @@ Public Class FrmItemMasterRMOther
         End Try
     End Sub
     Private Sub btnSerializedImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerializedImport.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Item Code", "Is Serialized Item", "Serial Counter", "Warranty Code", "Asset Life", "Warranty Period") Then
@@ -4807,7 +4807,7 @@ Public Class FrmItemMasterRMOther
         Return dblConvF
     End Function
     Private Sub rmWholeImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmWholeImport.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim countDefaultUOM As Integer = 0
         Dim inputs() As String = {}
@@ -6360,7 +6360,7 @@ ExitLOOP:
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         Try
             If SettItemWiseQualityCheckInGeneralPurchase Then
-                Dim gv1 As New RadGridView()
+                Dim gv1 As New UserControls.MyRadGridView
                 Me.Controls.Add(gv1)
                 Dim LineNo As String = ""
                 Dim countDefaultUOM As Integer = 0

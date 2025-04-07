@@ -265,7 +265,7 @@ Public Class FrmAMAcquisitionCode
     End Sub
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
         'trans = clsDBFuncationality.GetTransactin()

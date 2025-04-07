@@ -812,7 +812,7 @@ Public Class frmItemSublocationMapping
             clsCommon.MyMessageBoxShow(Me, "Please slect location first.", Me.Text)
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

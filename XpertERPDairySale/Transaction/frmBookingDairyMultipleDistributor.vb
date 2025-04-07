@@ -2137,7 +2137,7 @@ Public Class frmBookingDairyMultipleDistributor
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim qry As String = "select count(*) from TSPL_BOOKING_DETAIL"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         Dim ISFresh As Integer = 0

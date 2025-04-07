@@ -583,7 +583,7 @@ Public Class FrmItemCapacityLimit
     Public Sub Import()
         Try
             AddNew()
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsItemCapacityLimitDetail)
             Dim currentdate As Date = Date.Today

@@ -198,7 +198,7 @@ Public Class frmDeliveryTermsMaster
     End Sub
 
     Private Sub btnImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnImport.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim oldNewentry As Boolean = isNewEntry
         Dim counter As Integer = 0
@@ -253,5 +253,18 @@ Public Class frmDeliveryTermsMaster
 
         isNewEntry = oldNewentry
         Me.Controls.Remove(gv_Import)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_DELIVERY_TERMS_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

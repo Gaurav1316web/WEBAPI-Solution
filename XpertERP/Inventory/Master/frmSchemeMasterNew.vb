@@ -877,7 +877,7 @@ Public Class FrmSchemeMasterNew
 
     Private Sub Import_Main_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import_Main.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim isSaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme Code", "Description", "Start Date", "End Date", "Active Status", "Main Item Code", "Main Item Name", "Unit Code", "Unit", "Scheme Type", "Main Qty", "Basic price", "Percentage", "MRP", "Amount", "Comments") Then
@@ -1018,7 +1018,7 @@ Public Class FrmSchemeMasterNew
 
     Private Sub import_beneficial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import_beneficial.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme Code", "Scheme Description", "Item Code", "Item Name", "Qty", "Unit Code", "Unit", "MRP", "Price Date", "Basic Price", "Remarks") Then
@@ -1130,7 +1130,7 @@ Public Class FrmSchemeMasterNew
     Private Sub import_criteria_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles import_criteria.Click
 
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
             If transportSql.importExcel(gv, "Scheme Code", "Scheme Description", "Criteria Code", "Criteria", "Customer Code", "Cutomer Name", "Add1", "Add2", "Add3") Then

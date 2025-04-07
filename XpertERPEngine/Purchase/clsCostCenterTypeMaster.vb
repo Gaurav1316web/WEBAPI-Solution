@@ -44,6 +44,7 @@ Public Class clsCostCenterTypeMaster
             'If Not isNewEntry Then
             '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
             'End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -87,6 +88,9 @@ Public Class clsCostCenterTypeMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_TYPE_MASTER", "Code", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_TYPE_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_COST_CENTER_TYPE_MASTER where TSPL_COST_CENTER_TYPE_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

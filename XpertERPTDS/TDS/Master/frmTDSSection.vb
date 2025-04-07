@@ -300,7 +300,7 @@ Public Class frmTDSSection
     End Sub
     'This function is for Import functionality
     Public Sub funimport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "TDS Group", "Description", "Report Section", "Cumulative Cutoff", "Include Tax") Then

@@ -872,7 +872,7 @@ Public Class FrmOpenMCCShift
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
         ' Dim trans As SqlTransaction
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "MCC SHIFT CODE", "MCC CODE", "SHIFT", "DATE") Then

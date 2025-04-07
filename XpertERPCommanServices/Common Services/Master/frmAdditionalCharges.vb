@@ -303,7 +303,7 @@ Public Class FrmAdditionalCharges
     ' For Import Data Excel Sheet to Database table
     Public Sub Import()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim StrVar() As String = {}

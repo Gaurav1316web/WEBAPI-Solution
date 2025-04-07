@@ -177,7 +177,7 @@ Public Class frmConsumptionTypeMaster
     End Sub
 
     Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim currentdate As Date = Date.Today
 

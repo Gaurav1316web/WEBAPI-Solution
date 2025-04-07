@@ -3875,7 +3875,7 @@ Public Class FrmAPInvoiceEntryTDS
 
     Sub funfillimport(ByRef type As String)
         Dim BalanceType As String = type
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
         Dim qry As String = "select top 1 Account_Code,Description from TSPL_GL_ACCOUNTS where LEN(Account_Code)>6 order by Account_Code"

@@ -410,7 +410,7 @@ Public Class FrmDiscountMaster
 
     Sub funImport()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Discount Code", "Description", "Account Code", "Account Description", "Discount", "Vsnd Type", "Discount Category Code", "Other", "SKU Wise", "Sampling") Then

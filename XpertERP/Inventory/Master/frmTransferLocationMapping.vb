@@ -390,7 +390,7 @@ Public Class frmTransferLocationMapping
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim intCounter As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

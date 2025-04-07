@@ -718,7 +718,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
     End Sub
 
     Private Sub Import_Vehical_Details_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import_Vehical_Details.Click 'btnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim inputs() As String = {}
@@ -920,7 +920,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
     End Sub
 
     Private Sub Import_Slab_Details_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import_Slab_Details.Click 'btnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
 

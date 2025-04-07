@@ -495,7 +495,7 @@ Public Class FrmCustomerItemDetails
     End Sub
 
     Private Sub Import_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Customer Code", "Customer Description", "Item No", "Item Description", "UOM", "Rate", "Customer Item No", "Start Date", "End Date", "Disc Percentage", "Approval Item Rate", "Min Rate", "Disc Percentage Level2") Then

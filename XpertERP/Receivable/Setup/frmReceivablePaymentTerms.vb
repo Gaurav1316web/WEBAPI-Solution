@@ -291,7 +291,7 @@ Public Class FrmReceivablePaymentTerms
     End Sub
 
     Private Sub Import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

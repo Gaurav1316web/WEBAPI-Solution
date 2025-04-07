@@ -4662,7 +4662,7 @@ Public Class frmVSPMaster
 
 
     Private Sub ImportChargeDetails()
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         If transportSql.importExcel(gvCharges, "VSP Code", "Charge Code", "Description", "EMP") Then
@@ -5104,7 +5104,7 @@ Public Class frmVSPMaster
         Dim GSTLastEntity As String = ""
         Dim GSTMiddleEntity As String = ""
         Dim PartyDetailsQry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = """"
 
@@ -6253,7 +6253,7 @@ Public Class frmVSPMaster
         End Try
     End Sub
     Private Sub ImportIncentiveDetails()
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         If transportSql.importExcel(gvCharges, "VSP Code", "Incentive Code") Then

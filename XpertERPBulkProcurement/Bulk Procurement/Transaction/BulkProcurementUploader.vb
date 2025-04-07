@@ -1221,7 +1221,7 @@ Public Class BulkProcurementUploader
 
     '    whrCls = " where Param_for='MCC' or Param_for='BOTH'"
 
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    Me.Controls.Add(gv)
 
     '    inputs = {"MCC Code", "MCC Name", "Dispatch Date", "Dispatch To", "MCC OR Plant Code", "Tanker No", "Tanker KM Reading", "Drip Marking", "Tanker Full", "Control Sample", "Name of Custodian", "Item Code", "Item Desc", "UOM", "Gross Weight", "Tare Weight", "Transfer Price", "Control Sample Fat", "Control Sample SNF", "Remarks", "Price Chart", "IsJobWork", "JobWork Location", "Weighment Gross Weight", "Weighment Tare Weight", "Cleaning Done by", "Cleaning Checked by"}

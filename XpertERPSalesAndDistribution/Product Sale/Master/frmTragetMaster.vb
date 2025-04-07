@@ -658,7 +658,7 @@ Public Class FrmTragetMaster
     Private Sub RadMenuInport_Click(sender As Object, e As EventArgs) Handles RadMenuInport.Click
         ''import whole sheet
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim isSaved As Boolean = True
             Dim counter As Integer = 0

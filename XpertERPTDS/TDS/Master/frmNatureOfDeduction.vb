@@ -411,7 +411,7 @@ Public Class frmNatureOfDeduction
     End Sub
     ' For Import Functionality
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Deduction Code", "Description", "TDS Section", "Cumulative Cuttoff", "Percent/Amount", "Status", "Remark", "GL_Account", "Line No", "Details Deduction Code", "From Range", "To Range", "TDS", "Surcharge", "EDU Cess", "Sec Edu Cess", "Non PAN No", "Cumulative Cuttoff Document") Then

@@ -1862,7 +1862,7 @@ Public Class FrmPrimaryTransporterMaster
         Dim GSTEntity As String = ""
         Dim GSTLastEntity As String = ""
         Dim GSTMiddleEntity As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "Transporter No", "Transporter Name", "Address1", "Address2", "Address3", "Group Code", "Vendor Group Description", "City", "State", "Country", "Phone Num1", "Phone Num2", "Fax", "Email Id", "Website", "Terms Code", "Terms Description", "Vendor Account", "Vendor Account Description", "Payment Code", "Paymnet Code Description", "Bank Code", "Vendor Type", "Vendor Type Description", "Tax Group", "Tax Group Description", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Transporter", "Created By", "Created Date", "Modify By", "Modify Date", "Company Code", "Currency Code", "Collectorate", "PAN", "State_Code", "Country_Code", "Zila", "Tehsil", "Payee Name", "Account_No", "Industry_Type", "Prop Name", "Partner Name", "Director Name", "Agreement", "Start_Date", "End_Date", "Security_Cheque", "No_of_Installment", "Amount_of_Installment", "form_type", "IFSC_Code", "Branch_Name", "Cheque in Favour of", "Incentive", "Multiple Incentive(0/1)", "GST Register", "GSTIN No", "Aadhar_No", "Care_Of", "SecChequeNoLac1", "SecChequeNoRs100") Then
@@ -3989,7 +3989,7 @@ Public Class FrmPrimaryTransporterMaster
     End Sub
 
     Public Sub funImportDeduction()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         Dim coll As New Dictionary(Of String, List(Of clsPTMDeductionRange))
@@ -4129,7 +4129,7 @@ Public Class FrmPrimaryTransporterMaster
 
     End Sub
     Private Sub ImportIncentiveDetails()
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         If transportSql.importExcel(gvCharges, "Transporter", "Incentive Code") Then

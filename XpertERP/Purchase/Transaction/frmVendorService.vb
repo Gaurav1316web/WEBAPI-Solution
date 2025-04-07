@@ -5864,7 +5864,7 @@ Public Class FrmVendorService
 
     Sub funfillimport(ByRef type As String)
         Dim BalanceType As String = type
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
         Dim qry As String = "select top 1 Account_Code,Description from TSPL_GL_ACCOUNTS where LEN(Account_Code)>6 order by Account_Code"
@@ -6042,7 +6042,7 @@ Public Class FrmVendorService
         If clsCommon.MyMessageBoxShow("You are going to import" & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As String = ""
         Dim IsLevel As Boolean = False

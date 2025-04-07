@@ -180,7 +180,7 @@ Public Class frmCustomerDeduction
     End Sub
 
     Private Sub rmImport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today

@@ -22,23 +22,25 @@ Partial Class FrmCostCentreGroupStores
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCostCentreGroupStores))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadDropDownMenu
-        Me.grpCustomer = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.txtdescription = New common.Controls.MyTextBox
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RmImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RmExport = New Telerik.WinControls.UI.RadMenuItem
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadDropDownMenu()
+        Me.grpCustomer = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.txtdescription = New common.Controls.MyTextBox()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +55,7 @@ Partial Class FrmCostCentreGroupStores
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -72,6 +75,7 @@ Partial Class FrmCostCentreGroupStores
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -94,6 +98,7 @@ Partial Class FrmCostCentreGroupStores
         Me.RadMenu1.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenu1.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenu1.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.Smooth
+        Me.RadMenu1.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenu1.Location = New System.Drawing.Point(154, 299)
         Me.RadMenu1.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenu1.Minimum = New System.Drawing.Size(0, 0)
@@ -101,10 +106,13 @@ Partial Class FrmCostCentreGroupStores
         Me.RadMenu1.Opacity = 1.0!
         Me.RadMenu1.ProcessKeyboard = False
         Me.RadMenu1.RollOverItemSelection = True
-        Me.RadMenu1.Size = New System.Drawing.Size(457, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(27, 2)
         Me.RadMenu1.TabIndex = 0
         Me.RadMenu1.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenu1.Visible = False
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenu1.WindowsSettings = WindowsSettings2
         '
         'grpCustomer
         '
@@ -123,6 +131,7 @@ Partial Class FrmCostCentreGroupStores
         '
         'fndCode
         '
+        Me.fndCode.FieldName = Nothing
         Me.fndCode.Location = New System.Drawing.Point(91, 10)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -138,6 +147,7 @@ Partial Class FrmCostCentreGroupStores
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblCode.Location = New System.Drawing.Point(8, 12)
         Me.lblCode.Name = "lblCode"
@@ -147,6 +157,7 @@ Partial Class FrmCostCentreGroupStores
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(8, 38)
         Me.lblDescription.Name = "lblDescription"
@@ -157,7 +168,16 @@ Partial Class FrmCostCentreGroupStores
         'txtdescription
         '
         Me.txtdescription.AutoSize = False
+        Me.txtdescription.CalculationExpression = Nothing
+        Me.txtdescription.FieldCode = Nothing
+        Me.txtdescription.FieldDesc = Nothing
+        Me.txtdescription.FieldMaxLength = 0
+        Me.txtdescription.FieldName = Nothing
         Me.txtdescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdescription.isCalculatedField = False
+        Me.txtdescription.IsSourceFromTable = False
+        Me.txtdescription.IsSourceFromValueList = False
+        Me.txtdescription.IsUnique = False
         Me.txtdescription.Location = New System.Drawing.Point(91, 36)
         Me.txtdescription.MaxLength = 100
         Me.txtdescription.MendatroryField = False
@@ -165,6 +185,9 @@ Partial Class FrmCostCentreGroupStores
         Me.txtdescription.MyLinkLable1 = Me.lblDescription
         Me.txtdescription.MyLinkLable2 = Nothing
         Me.txtdescription.Name = "txtdescription"
+        Me.txtdescription.ReferenceFieldDesc = Nothing
+        Me.txtdescription.ReferenceFieldName = Nothing
+        Me.txtdescription.ReferenceTableName = Nothing
         Me.txtdescription.Size = New System.Drawing.Size(343, 21)
         Me.txtdescription.TabIndex = 2
         Me.txtdescription.Text = " "
@@ -210,11 +233,8 @@ Partial Class FrmCostCentreGroupStores
         '
         'rdmenufile
         '
-        Me.rdmenufile.AccessibleDescription = "File"
-        Me.rdmenufile.AccessibleName = "File"
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Text = "File"
-        Me.rdmenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenu2
         '
@@ -223,32 +243,32 @@ Partial Class FrmCostCentreGroupStores
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(465, 20)
         Me.RadMenu2.TabIndex = 1
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmImport, Me.RmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RmImport
         '
-        Me.RmImport.AccessibleDescription = "Import"
-        Me.RmImport.AccessibleName = "Import"
         Me.RmImport.Name = "RmImport"
         Me.RmImport.Text = "Import"
-        Me.RmImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RmExport
         '
-        Me.RmExport.AccessibleDescription = "Export"
-        Me.RmExport.AccessibleName = "Export"
         Me.RmExport.Name = "RmExport"
         Me.RmExport.Text = "Export"
-        Me.RmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(143, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'FrmCostCentreGroupStores
         '
@@ -279,6 +299,7 @@ Partial Class FrmCostCentreGroupStores
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -300,5 +321,6 @@ Partial Class FrmCostCentreGroupStores
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

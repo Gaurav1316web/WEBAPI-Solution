@@ -1175,7 +1175,7 @@ Public Class frmProductionPlanning
         ImportDetail()
     End Sub
     Function ImportHead() As Boolean
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Plan Code", "Location Code", "Description", "Comments", "Planning Date", "Plan For Date", "Plan To Date", "Planned By") Then
             Try
@@ -1264,7 +1264,7 @@ Public Class frmProductionPlanning
         Return False
     End Function
     Function ImportDetail() As Boolean
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Plan Code", "BOM Code", "SO Code", "Line No", "Item Code", "Item Desc", "Plan Qty", "Buffer Qty", "Extra Add Qty", "Unit Code", "Remarks") Then
             Dim trans As SqlTransaction = Nothing

@@ -1468,7 +1468,7 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
                 'End If
 
                 'Dim dttemp As New DataTable
-                'Dim gv As New RadGridView()
+                'Dim gv As New UserControls.MyRadGridView
                 'Dim totqty As Double = 0
                 'Me.Controls.Add(gv)
 

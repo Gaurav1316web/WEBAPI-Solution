@@ -465,7 +465,7 @@ Public Class frmBullInsurance
     Private Sub rmimport_Click(sender As Object, e As EventArgs) Handles rmimport.Click
         Try
 
-            Dim gvImport As New RadGridView()
+            Dim gvImport As New UserControls.MyRadGridView
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gvImport, "SNO", "Tag No") Then

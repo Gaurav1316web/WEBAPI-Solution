@@ -442,7 +442,7 @@ Public Class frmContractTanker
     End Sub
 
     Private Sub mnuImport_Click(sender As Object, e As EventArgs) Handles mnuImport.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         If transportSql.importExcel(gv1, "TANKER CODE", "TANKER NO", "Vendor Code", "NO OF CHAMBER", "ChamberDesc1", "ChamberDesc2", "ChamberDesc3", "ChamberDesc4", "ChamberDesc5", "ChamberDesc6", "ChamberDesc7", "ChamberDesc8", "ChamberDesc9", "ChamberDesc10") Then
             Dim isSaved As Boolean = True
@@ -598,7 +598,7 @@ ExitLOOP:
 
     Private Sub mnuImportVendor_Click(sender As Object, e As EventArgs) Handles mnuImportVendor.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
 

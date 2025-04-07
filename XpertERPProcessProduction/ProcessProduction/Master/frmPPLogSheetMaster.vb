@@ -501,7 +501,7 @@ Public Class frmPPLogSheetMaster
     End Sub
 
     Private Sub btnIm_Detail_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnIm_Detail.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -687,7 +687,7 @@ Public Class frmPPLogSheetMaster
     End Sub
 
     Private Sub btnIm_Users_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnIm_Users.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -776,7 +776,7 @@ Public Class frmPPLogSheetMaster
         If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.frmPPLogSheetMaster) = CompairStringResult.Equal Then
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim obj As New clsPPLogSheetMaster()
         Dim objtr As New clsPPLogSheetUserMaster()

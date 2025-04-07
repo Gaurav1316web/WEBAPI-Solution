@@ -375,7 +375,7 @@ Public Class frmTransportMaster
 
     'For Import functionality 
     Private Sub transimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles transimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Transporter Code", "Transporter Name", "City", "State", "Pin Code", "PAN NO", "Phone", "Address1", "Address2", "Email") Then

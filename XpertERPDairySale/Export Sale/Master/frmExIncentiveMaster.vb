@@ -481,7 +481,7 @@ Public Class FrmExIncentiveMaster
     End Sub
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim oldNewentry As Boolean = isNewEntry
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

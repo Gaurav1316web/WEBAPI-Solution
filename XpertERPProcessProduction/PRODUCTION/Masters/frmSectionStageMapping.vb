@@ -868,7 +868,7 @@ Public Class FrmSectionStageMapping
 
     Private Sub btnimportExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimportExcel.Click
         'qry = "select '' as Doc_Code,'' as Doc_Date,'' as Section_Code,'' as Structure_Code,1 as SNO,'' as Stage_Code,'' as Department_Code,'' as Log_Sheet_No,1 as Sequence_No"
-        Dim gv_Import As New RadGridView()
+        Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
         Dim currentdate As Date = Date.Today
         Dim oldNewentry As Boolean = isNewEntry

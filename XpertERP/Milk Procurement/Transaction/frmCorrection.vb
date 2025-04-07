@@ -1573,7 +1573,7 @@ where TSPL_MILK_COLLECTION_MCC.Status=1 and convert(date, TSPL_MILK_COLLECTION_M
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "PK_Id", "Document_No", "Document_Date", "MCC", "MCC_Code", "MCC_NAME", "Route_Code", "Tanker_No", "Trip_No", "Milk_Type", "Qty", "FAT", "SNF", "SNo", "Sample_No") Then
             Try
@@ -1705,7 +1705,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
 
 
     Private Sub btnTankerMilkImport_Click(sender As Object, e As EventArgs) Handles btnTankerMilkImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Document_No", "Document_Date", "Trip_No", "Route_Code", "Tanker_No", "Vehicle_No", "Entered_Qty", "FATPer", "SNFPer") Then
             Try

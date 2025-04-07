@@ -479,7 +479,7 @@ Public Class FrmSettlementMaster
     End Sub
     ' Added By Abhishek kumar as On 30/05/2012
     Public Sub FunImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Settlement Code", "Description", "Calculate", "Gl Account", "Account Description", "Type", "Financial Entry") Then

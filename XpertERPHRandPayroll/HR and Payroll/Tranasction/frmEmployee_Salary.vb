@@ -668,7 +668,7 @@ Public Class frmEmployee_Salary
             clsCommon.MyMessageBoxShow(Me, "Please Select any Salary Structure.", Me.Text)
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim strSelect As String

@@ -24,7 +24,7 @@ where TSPL_MILK_COLLECTION_BMCDCS.IDate ='" + clsCommon.GetPrintDate(txtdate.Val
     End Sub
 
     Private Sub btnBlankSheetImportUploder_Click(sender As Object, e As EventArgs) Handles btnBlankSheetImportUploder.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Try

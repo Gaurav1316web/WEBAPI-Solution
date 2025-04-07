@@ -184,7 +184,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "LocationCode", "LocationDesc", "LocationShortName", "Add1", "CityCode", "State", "PINCode", "Country", "Telphone", "Email", "LocationType", "LocationSegmentCode", "RegistrationNumber", "Section(Y/N)", "SubLocation(Y/N)", "SectionCode", "MainLocationCode", "ConsumptionLocation(Y/N)", "SubLocationWise(Y/N)", "GSTNo", "IsMainPlant(0/1)") Then
@@ -367,7 +367,7 @@ Public Class frmImplementImportExport
 
     Private Sub RadButton11_Click(sender As Object, e As EventArgs) Handles RadButton11.Click
         Dim linno As Integer = 0
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Try
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
@@ -439,7 +439,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton9_Click(sender As Object, e As EventArgs) Handles RadButton9.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Try
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
@@ -527,7 +527,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton7_Click(sender As Object, e As EventArgs) Handles RadButton7.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -599,7 +599,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton23_Click(sender As Object, e As EventArgs) Handles RadButton23.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -675,7 +675,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton21_Click(sender As Object, e As EventArgs) Handles RadButton21.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim LineNo As Integer = 0
@@ -909,7 +909,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton19_Click(sender As Object, e As EventArgs) Handles RadButton19.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim Input() As String = {}
@@ -1023,7 +1023,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton17_Click(sender As Object, e As EventArgs) Handles RadButton17.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -1415,7 +1415,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton35_Click(sender As Object, e As EventArgs) Handles RadButton35.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim strbankdes As String = ""
@@ -2000,7 +2000,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton31_Click(sender As Object, e As EventArgs) Handles RadButton31.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -2112,7 +2112,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton29_Click(sender As Object, e As EventArgs) Handles RadButton29.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim AllowAutoCCode As String = ""
@@ -2486,7 +2486,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton27_Click(sender As Object, e As EventArgs) Handles RadButton27.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Structure Code", "Description", "Item Structure", "Total Length") Then
@@ -2932,7 +2932,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton13_Click(sender As Object, e As EventArgs) Handles RadButton13.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Unit_Code", "Unit_Desc", "Conv_Factor", "Weight_Type", "Crate_Type") Then
@@ -3086,7 +3086,7 @@ Public Class frmImplementImportExport
     Private Sub RadButton53_Click(sender As Object, e As EventArgs) Handles RadButton53.Click
         Dim settUpdateItemMasterWithoutTransactionValidation As Boolean = (clsFixedParameter.GetData(clsFixedParameterType.UpdateItemMasterWithoutTransactionValidation, clsFixedParameterCode.UpdateItemMasterWithoutTransactionValidation, Nothing) = 1)
         ' Ticket No : TEC/24/06/19-000565 By Prabhakar
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Try
             Dim LineNo As String = "1"
@@ -3691,7 +3691,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton51_Click(sender As Object, e As EventArgs) Handles RadButton51.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim i As Integer = 0
@@ -4170,7 +4170,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton47_Click(sender As Object, e As EventArgs) Handles RadButton47.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = clsCommon.GETSERVERDATE()
@@ -4341,7 +4341,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton45_Click(sender As Object, e As EventArgs) Handles RadButton45.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -4804,7 +4804,7 @@ Public Class frmImplementImportExport
     End Sub
 
     Private Sub RadButton43_Click(sender As Object, e As EventArgs) Handles RadButton43.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -5037,7 +5037,7 @@ ExitLOOP:
     End Sub
 
     Sub OLD()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim Count As String = ""
@@ -5378,7 +5378,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton79_Click(sender As Object, e As EventArgs) Handles RadButton79.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -5742,7 +5742,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton77_Click(sender As Object, e As EventArgs) Handles RadButton77.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -5955,7 +5955,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton75_Click(sender As Object, e As EventArgs) Handles RadButton75.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim counter As Integer = 1
@@ -6069,7 +6069,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton71_Click(sender As Object, e As EventArgs) Handles RadButton71.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -6303,7 +6303,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton69_Click(sender As Object, e As EventArgs) Handles RadButton69.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Try
             Me.Controls.Add(gv)
@@ -6352,7 +6352,7 @@ ExitLOOP:
     End Sub
 
     Sub OLD2()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim Count As String = ""
@@ -6662,7 +6662,7 @@ ExitLOOP:
         End Try
     End Sub
     Private Sub RadButton67_Click(sender As Object, e As EventArgs) Handles RadButton67.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -7008,7 +7008,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton65_Click(sender As Object, e As EventArgs) Handles RadButton65.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -7165,7 +7165,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton61_Click(sender As Object, e As EventArgs) Handles RadButton61.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim ii As Integer = 0
         Try
@@ -7365,7 +7365,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton95_Click(sender As Object, e As EventArgs) Handles RadButton95.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim CustMapEntry As Double = 0
@@ -7498,7 +7498,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton93_Click(sender As Object, e As EventArgs) Handles RadButton93.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
 
         Try
@@ -8078,7 +8078,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton91_Click(sender As Object, e As EventArgs) Handles RadButton91.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
         Try
@@ -8505,7 +8505,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton89_Click(sender As Object, e As EventArgs) Handles RadButton89.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim currentdate As Date = Date.Today
@@ -9006,7 +9006,7 @@ ExitLOOP:
     End Function
 
     Private Sub RadButton85_Click(sender As Object, e As EventArgs) Handles RadButton85.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Try
             Dim currentdate As Date = Date.Today
@@ -9105,7 +9105,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton59_Click(sender As Object, e As EventArgs) Handles RadButton59.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Code", "Description", "Category Level") Then
@@ -9203,7 +9203,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton57_Click(sender As Object, e As EventArgs) Handles RadButton57.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim trans As SqlTransaction = Nothing
@@ -9353,7 +9353,7 @@ ExitLOOP:
 
     Private Sub RadButton49_Click(sender As Object, e As EventArgs) Handles RadButton49.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim trans As SqlTransaction = Nothing
             If transportSql.importExcel(gv, "Bank Code", "Bank Name", "Add1", "Country Code", "State Code", "City Code") Then
@@ -9452,7 +9452,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton41_Click(sender As Object, e As EventArgs) Handles RadButton41.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim counter As Integer = 1
@@ -9606,7 +9606,7 @@ ExitLOOP:
 
     Private Sub RadButton97_Click(sender As Object, e As EventArgs) Handles RadButton97.Click
         Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, Nothing)) = 1, True, False))
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             Dim IsNewEntry As Boolean
@@ -9705,7 +9705,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton64_Click(sender As Object, e As EventArgs) Handles RadButton64.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Bank Code", "Branch", "IFSC Code", "Swift Code") Then
@@ -9815,7 +9815,7 @@ ExitLOOP:
 
     Private Sub RadButton83_Click(sender As Object, e As EventArgs) Handles RadButton83.Click
         Dim isNewEntry As Boolean = True
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description") Then
@@ -9872,7 +9872,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton100_Click(sender As Object, e As EventArgs) Handles RadButton100.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         If transportSql.importExcel(gv, "Terms Code", "Terms Desc", "No Days", "LC Required", "isAdvance", "Advance(%)") Then
@@ -10021,7 +10021,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton110_Click(sender As Object, e As EventArgs) Handles RadButton110.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Region Name") Then
@@ -10068,7 +10068,7 @@ ExitLOOP:
 
 
     Private Sub RadButton108_Click(sender As Object, e As EventArgs) Handles RadButton108.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Name", "State_Code", "Region_Code") Then
@@ -10137,7 +10137,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton106_Click(sender As Object, e As EventArgs) Handles RadButton106.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "City Code", "City Name", "State Code", "Region Code", "District Code") Then
@@ -10222,7 +10222,7 @@ ExitLOOP:
     End Sub
 
     Private Sub RadButton104_Click(sender As Object, e As EventArgs) Handles RadButton104.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description", "Type", "Value") Then
@@ -10291,7 +10291,7 @@ ExitLOOP:
 
         Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
 
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         Dim boolresult As Boolean = False
@@ -10466,7 +10466,7 @@ ExitLOOP:
     End Sub
     ' Ticket No : TEC/30/07/19-000969 By Prabhakar 
     Private Sub RadButton115_Click(sender As Object, e As EventArgs) Handles RadButton115.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = Nothing
         Try
@@ -10673,7 +10673,7 @@ ExitLOOP:
     End Sub
 
     Private Sub btnImportMultipleMaster_Click(sender As Object, e As EventArgs) Handles btnImportMultipleMaster.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try

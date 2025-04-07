@@ -53,9 +53,9 @@ Public Class FrmItemMsterRM_Others
     End Sub
 
     Private Sub mnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnimport.Click
-        Dim gv As New RadGridView()
-        Dim gv1 As New RadGridView()
-        Dim gv2 As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
+        Dim gv1 As New UserControls.MyRadGridView
+        Dim gv2 As New UserControls.MyRadGridView
         Dim isSaved As Boolean = True
         Me.Controls.Add(gv)
         Me.Controls.Add(gv1)

@@ -1124,7 +1124,7 @@ Public Class frmVCGLEntry
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv, "Document Date", "Document Type", "Location", "Vendor Code", "Vendor Name", " Remarks", " Total Cradit Amount", " Total Debit Amount", "Amount", "Amount Type", "GL Account", "GL Account Desc", "Description", "VCGL_Code", "VCGL_Name", "Row Type") Then

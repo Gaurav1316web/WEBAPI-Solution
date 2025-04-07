@@ -126,7 +126,7 @@ Public Class frmEmployeeDeductionMaster
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "CODE", "EMP CODE", "LIC POLICY NO", "LIC PREMIUM AMT", "BANK NAME", "BANK ACCOUNT NO", "BANK INSTALMENT", "QUARTER TYPE", "QUARTER ALLOTED DATE", "QUARTER LEFT DATE", "KKK INSTALMENT", "KKK LOAN TOTAL") Then

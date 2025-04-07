@@ -247,7 +247,7 @@ Public Class Sampling_Master
         funImport()
     End Sub
     Sub funImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Sampling_Code", "Description", "Account_Code", "Account_Description") Then

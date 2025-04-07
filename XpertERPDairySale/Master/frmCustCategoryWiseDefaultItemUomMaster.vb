@@ -448,7 +448,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
 
     Private Sub Import_Click(sender As Object, e As EventArgs) Handles Import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)

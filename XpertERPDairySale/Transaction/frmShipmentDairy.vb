@@ -10222,177 +10222,181 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         End If
     End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
-        btnHistory.Enabled = True
-        'If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-        '    clsCommon.MyMessageBoxShow(Me,"Please select Location first")
-        '    Exit Sub
-        'End If
-        ''-------richa 30/07/2014 Ticket No. BM00000003242---------
-        If SeparateDairyDispatchTaxableNonTaxable = 1 Then
-            If clsCommon.CompairString(cmbDisItemType.SelectedValue, "") = CompairStringResult.Equal Then
-                cmbDisItemType.Focusable = True
-                clsCommon.MyMessageBoxShow(Me, "Please Select Item Type.", Me.Text)
-                Exit Sub
+        Try
+            btnHistory.Enabled = True
+            'If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+            '    clsCommon.MyMessageBoxShow(Me,"Please select Location first")
+            '    Exit Sub
+            'End If
+            ''-------richa 30/07/2014 Ticket No. BM00000003242---------
+            If SeparateDairyDispatchTaxableNonTaxable = 1 Then
+                If clsCommon.CompairString(cmbDisItemType.SelectedValue, "") = CompairStringResult.Equal Then
+                    cmbDisItemType.Focusable = True
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Item Type.", Me.Text)
+                    Exit Sub
+                End If
             End If
-        End If
-        Dim strwherecls As String = ""
-        strwherecls = Xtra.CustomerPermission()
-        '-----------------------------------------------------
-        Dim qry As String = ""
-        Dim strWhrClause As String = ""
-        qry = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
+            Dim strwherecls As String = ""
+            strwherecls = Xtra.CustomerPermission()
+            '-----------------------------------------------------
+            Dim qry As String = ""
+            Dim strWhrClause As String = ""
+            qry = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
         ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number,TSPL_VEHICLE_MASTER.Capacity "
-        qry += " from TSPL_CUSTOMER_MASTER "
-        qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
-        qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
-        qry += " left outer join TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER on TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
+            qry += " from TSPL_CUSTOMER_MASTER "
+            qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+            qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
+            qry += " left outer join TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER on TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
+            qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
         "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
         "left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id "
-        If clsCommon.myLen(txtDocNo.Value) > 0 And blnChangeCustomer = True Then
-            Dim intCount As Integer = 0
-            For Each grow As GridViewRowInfo In gv1.Rows
-                If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
-                    intCount = 1
-                End If
-            Next
-            If intCount = 0 Then
-                Dim strState = clsDBFuncationality.getSingleValue("select State from TSPL_LOCATION_MASTER where Location_Code='" & txtBillToLocation.Value & "'")
-                If clsCommon.CompairString(ddlInvoiceType.SelectedValue, "T") Then
-                    strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and isnull(Tin_No,'') <> '' and State='" & strState & "' and "
-                ElseIf clsCommon.CompairString(ddlInvoiceType.SelectedValue, "R") Then
-                    strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and (isnull(Tin_No,'') = '' or  State <> '" & strState & "') and "
-                ElseIf clsCommon.CompairString(ddlInvoiceType.SelectedValue, "E") Then
-                    strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and "
+            If clsCommon.myLen(txtDocNo.Value) > 0 And blnChangeCustomer = True Then
+                Dim intCount As Integer = 0
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
+                        intCount = 1
+                    End If
+                Next
+                If intCount = 0 Then
+                    Dim strState = clsDBFuncationality.getSingleValue("select State from TSPL_LOCATION_MASTER where Location_Code='" & txtBillToLocation.Value & "'")
+                    If clsCommon.CompairString(ddlInvoiceType.SelectedValue, "T") Then
+                        strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and isnull(Tin_No,'') <> '' and State='" & strState & "' and "
+                    ElseIf clsCommon.CompairString(ddlInvoiceType.SelectedValue, "R") Then
+                        strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and (isnull(Tin_No,'') = '' or  State <> '" & strState & "') and "
+                    ElseIf clsCommon.CompairString(ddlInvoiceType.SelectedValue, "E") Then
+                        strWhrClause = "Parent_Customer_YN='Y' and TSPL_CUSTOMER_MASTER.Status='N' and "
+                    End If
+                Else
+                    strWhrClause = ""
                 End If
             Else
                 strWhrClause = ""
             End If
-        Else
-            strWhrClause = ""
-        End If
-        Dim strCustState As String = ""
-        If blnChangeCustomer Then
-            Dim strOrginalCustState = clsDBFuncationality.getSingleValue("select tspl_customer_master.State from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE left join tspl_customer_master on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code=tspl_customer_master.Cust_Code  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
-            If clsCommon.myLen(strOrginalCustState) > 0 Then
-                strCustState = " and tspl_customer_master.State='" & strOrginalCustState & "'"
+            Dim strCustState As String = ""
+            If blnChangeCustomer Then
+                Dim strOrginalCustState = clsDBFuncationality.getSingleValue("select tspl_customer_master.State from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE left join tspl_customer_master on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code=tspl_customer_master.Cust_Code  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+                If clsCommon.myLen(strOrginalCustState) > 0 Then
+                    strCustState = " and tspl_customer_master.State='" & strOrginalCustState & "'"
+                End If
             End If
-        End If
-        '-------richa 30/07/2014 Ticket No. BM00000003242---------
-        If clsCommon.myLen(strwherecls) = 0 Then
-            txtVendorNo.Value = clsCommon.ShowSelectForm("DSShipmentVendorFndr", qry, "Code", "TSPL_CUSTOMER_MASTER.Status='N'" & strCustState, txtVendorNo.Value, "Code", isButtonClicked)
-        Else
-            txtVendorNo.Value = clsCommon.ShowSelectForm("DSShipmentVendorFndr", qry, "Code", strWhrClause + " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")" & strCustState, txtVendorNo.Value, "Code", isButtonClicked)
-        End If
-        '-----------------------------------------------------
-        qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
-        Dim qrycheck As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Manual_Customer from TSPL_Customer_Master where Cust_Code='" + txtVendorNo.Value + "'"))
-        If (clsCommon.CompairString(qrycheck, "Y")) = CompairStringResult.Equal Then
-            txtManualCustomer.Enabled = True
-        End If
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-            lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
-            txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
-            lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
-            'txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax Group"))
-            'lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax Group Description"))
-            txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
-            lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
-            txtRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_No"))
-            lblRouteDesc.Text = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
-            txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
-            lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
-            txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
-            txtDate.Enabled = False
-            txtSupplyDate.Enabled = False
-            txtVendorNo.Enabled = False
-            chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
-            SetMultiCurrencyVisibility()
-            If EnableLocation Then
-                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+            '-------richa 30/07/2014 Ticket No. BM00000003242---------
+            If clsCommon.myLen(strwherecls) = 0 Then
+                txtVendorNo.Value = clsCommon.ShowSelectForm("DSShipmentVendorFndr", qry, "Code", "TSPL_CUSTOMER_MASTER.Status='N'" & strCustState, txtVendorNo.Value, "Code", isButtonClicked)
             Else
-                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                txtVendorNo.Value = clsCommon.ShowSelectForm("DSShipmentVendorFndr", qry, "Code", strWhrClause + " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")" & strCustState, txtVendorNo.Value, "Code", isButtonClicked)
             End If
-            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+            '-----------------------------------------------------
+            qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+            Dim qrycheck As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Manual_Customer from TSPL_Customer_Master where Cust_Code='" + txtVendorNo.Value + "'"))
+            If (clsCommon.CompairString(qrycheck, "Y")) = CompairStringResult.Equal Then
+                txtManualCustomer.Enabled = True
             End If
-        Else
-            lblVendorName.Text = ""
-            txtTermCode.Value = ""
-            lblTermName.Text = ""
-            txtTaxGroup.Value = ""
-            lblTaxGrpName.Text = ""
-            txtSalesman.Value = ""
-            lblSalesman.Text = ""
-            Me.txtCurrencyCode.Value = ""
-            Me.txtConversionRate.Text = 1
-            Me.txtApplicableFrom.Text = ""
-        End If
-        '''' priti change start here
-        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
+                txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
+                lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
+                'txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax Group"))
+                'lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax Group Description"))
+                txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
+                lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
+                txtRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_No"))
+                lblRouteDesc.Text = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
+                txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
+                lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
+                txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
+                txtDate.Enabled = False
+                txtSupplyDate.Enabled = False
+                txtVendorNo.Enabled = False
+                chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
+                SetMultiCurrencyVisibility()
+                If EnableLocation Then
+                    txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                Else
+                    txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                End If
+                If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+                End If
+            Else
+                lblVendorName.Text = ""
+                txtTermCode.Value = ""
+                lblTermName.Text = ""
+                txtTaxGroup.Value = ""
+                lblTaxGrpName.Text = ""
+                txtSalesman.Value = ""
+                lblSalesman.Text = ""
+                Me.txtCurrencyCode.Value = ""
+                Me.txtConversionRate.Text = 1
+                Me.txtApplicableFrom.Text = ""
+            End If
+            '''' priti change start here
+            qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
         "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
         "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
         "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(txtBillToLocation.Value) + "'"
-        Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
-        Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
-        If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
-            strExcise = True
-        Else
-            strExcise = False
-        End If
-        If strExcise = True Then
-            lblRemovalDate.Visible = True
-            txtRemovalDate.Visible = True
-        Else
-            lblRemovalDate.Visible = False
-            txtRemovalDate.Visible = False
-        End If
-        If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-            qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
-                txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
+            Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
+            If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
+                strExcise = True
             Else
-                txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                strExcise = False
             End If
-            If clsCommon.myLen(txtPriceCode.Text) = 0 Then
-                txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
-            End If
-            If clsCommon.myLen(txtPriceCode.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please map Price Code with customer code.", Me.Text)
-                btnUpdateCustomer.Enabled = False
-                Exit Sub
+            If strExcise = True Then
+                lblRemovalDate.Visible = True
+                txtRemovalDate.Visible = True
             Else
-                For Each grow As GridViewRowInfo In gv1.Rows
-                    grow.Cells(colPriceCOde).Value = txtPriceCode.Text
-                Next
+                lblRemovalDate.Visible = False
+                txtRemovalDate.Visible = False
             End If
-            txtVendorNo.Enabled = False
-            'If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
-            '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
-            '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
-            'Else
-            '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
-            '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
+                    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+                Else
+                    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                End If
+                If clsCommon.myLen(txtPriceCode.Text) = 0 Then
+                    txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
+                End If
+                If clsCommon.myLen(txtPriceCode.Text) = 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please map Price Code with customer code.", Me.Text)
+                    btnUpdateCustomer.Enabled = False
+                    Exit Sub
+                Else
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        grow.Cells(colPriceCOde).Value = txtPriceCode.Text
+                    Next
+                End If
+                txtVendorNo.Enabled = False
+                'If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
+                '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
+                '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
+                'Else
+                '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
+                '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+                'End If
+            End If
+            ' SetTax()
+            ' LoadDemandData()
+            'If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
+            '    txtVendorNo.Value = ""
+            '    clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & txtBillToLocation.Value, Me.Text)
+            '    Exit Sub
             'End If
-        End If
-        ' SetTax()
-        ' LoadDemandData()
-        'If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
-        '    txtVendorNo.Value = ""
-        '    clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & txtBillToLocation.Value, Me.Text)
-        '    Exit Sub
-        'End If
-        '''' priti change ends here
-        'SetTaxDetails()
-        SetTermDetails()
-        If gv1.Rows.Count > 0 Then
-            'strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
-            strOrginalCust = txtVendorNo.Value
-        End If
-        LoadDemandData(Nothing)
+            '''' priti change ends here
+            'SetTaxDetails()
+            SetTermDetails()
+            If gv1.Rows.Count > 0 Then
+                'strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+                strOrginalCust = txtVendorNo.Value
+            End If
+            LoadDemandData(Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name,Loc_Short_Name as [Short Name] from TSPL_LOCATION_MASTER "
@@ -13150,6 +13154,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceAJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 Else
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If

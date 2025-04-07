@@ -499,7 +499,7 @@ Public Class frmGLStructure
     '***** Import data from excel seat in a proper way.
 
     Private Sub radmenu_import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radmenu_import.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Str_Code", "Str_Description", "Seg_No1", "Seg_Name1", "Seg_length1", "Seg_No2", "Seg_Name2", "Seg_length2", "Seg_No3", "Seg_Name3", "Seg_length3", "Seg_No4", "Seg_Name4", "Seg_length4", "Seg_No5", "Seg_Name5", "Seg_length5", "Seg_No6", "Seg_Name6", "Seg_length6", "Seg_No7", "Seg_Name7", "Seg_length7", "Seg_No8", "Seg_Name8", "Seg_length8", "Seg_No9", "Seg_Name9", "Seg_length9", "Seg_No10", "Seg_Name10", "Seg_length10") Then
             Dim trans As SqlTransaction = Nothing

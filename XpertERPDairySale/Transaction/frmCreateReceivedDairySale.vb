@@ -2420,7 +2420,7 @@ Public Class frmCreateReceivedDairySale
 
     End Sub
     Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
 
@@ -3010,7 +3010,7 @@ Public Class frmCreateReceivedDairySale
     '    'End If
     'End Sub
     Sub ImportInCrate()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

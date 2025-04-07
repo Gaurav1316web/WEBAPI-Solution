@@ -2583,7 +2583,7 @@ Public Class frmJournalEntry
         Dim DrAmt, TotDrAmt, Amt As Decimal
         Dim CrAmt, TotCrAmt As Decimal
         Dim DetailDesc As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim LineNumber As Integer = 1
@@ -2778,7 +2778,7 @@ Public Class frmJournalEntry
     End Sub
     ''GKD/04/06/18-000143 by balwinder 
     Public Sub FunImport(ByVal IsClosingEntry As Boolean)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim flag As Boolean = False
         If SettingCostCenter Then

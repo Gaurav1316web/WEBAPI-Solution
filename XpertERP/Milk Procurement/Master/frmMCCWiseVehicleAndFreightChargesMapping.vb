@@ -223,7 +223,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "MCC_Code", "Freight_Code", "Tanker_No") Then
             Dim counter As Integer = 1

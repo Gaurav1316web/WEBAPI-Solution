@@ -418,7 +418,7 @@ Public Class frmFinancialYear
     End Sub
     'It Is Used To Import The Records From TSPL_TDS_FINANCIAL_YEAR
     Private Sub RadMenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "From Date", "To Date", "Year Name", "End Date1", "End Date2", "End Date3", "End Date4", "End Date5", "End Date6", "End Date7", "End Date8", "End Date9", "End Date10", "End Date11", "End Date12", "Due Date1", "Due Date2", "Due Date3", "Due Date4", "Due Date5", "Due Date6", "Due Date7", "Due Date8", "Due Date9", "Due Date10", "Due Date11", "Due Date12") Then
             Dim trans As SqlTransaction = Nothing

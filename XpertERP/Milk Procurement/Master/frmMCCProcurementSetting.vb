@@ -541,7 +541,7 @@ Public Class frmMCCProcurementSetting
     End Sub
     ''import function
     Private Sub mnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Invoice Class Name", "Invoice Class Length", "Class Type", "Allow Negative Inventory", "Allow Non Stock") Then
             Dim trans As SqlTransaction = Nothing

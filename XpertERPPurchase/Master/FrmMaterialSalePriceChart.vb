@@ -222,7 +222,7 @@ Public Class FrmMaterialSalePriceChart
         '------------------------------------------------------------------
         '-------------------------------------------
 
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim columnsname As String = transportSql.GetExcelColumnsName(gv1)
 
@@ -421,6 +421,8 @@ Public Class FrmMaterialSalePriceChart
 
                     End If
                 Next
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, code, "TSPL_MATERIAL_SALE_RATE_MASTER", "code", "TSPL_MATERIAL_SALE_RATE_DETAIL", "code", trans)
+
             Else
                 Throw New Exception("No Data Found For Transfer")
             End If
