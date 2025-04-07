@@ -407,6 +407,18 @@ Public Class FrmCapexMaster
             btnSave.Enabled = True
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "CODE", "TSPL_CAPEX_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     'Function POAmount(ByVal StrCapexCode As String, ByVal Budget As Decimal, ByVal Tolerence As Decimal) As Boolean
     '    Dim strPoAmount As Decimal = 0
     '    Dim strBudget As Decimal = 0
@@ -438,6 +450,6 @@ Public Class FrmCapexMaster
     '    Return True
     'End Function
 
-   
+
 
 End Class

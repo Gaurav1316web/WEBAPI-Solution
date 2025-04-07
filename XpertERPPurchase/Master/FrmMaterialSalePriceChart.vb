@@ -421,6 +421,8 @@ Public Class FrmMaterialSalePriceChart
 
                     End If
                 Next
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, code, "TSPL_MATERIAL_SALE_RATE_MASTER", "code", "TSPL_MATERIAL_SALE_RATE_DETAIL", "code", trans)
+
             Else
                 Throw New Exception("No Data Found For Transfer")
             End If

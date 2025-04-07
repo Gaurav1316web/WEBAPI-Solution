@@ -43,6 +43,9 @@ Public Class clsCapexMaster
         Dim isSaved As Boolean
 
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAPEX_MASTER", "CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAPEX_MASTER", "CODE", Nothing)
+
             isSaved = False
 
             If (clsCommon.myLen(strCode) <= 0) Then
@@ -144,9 +147,10 @@ Public Class clsCapexMaster
                     Throw New Exception("This Code Is Already Exist")
                 End If
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_CAPEX_MASTER", "CODE", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAPEX_MASTER", OMInsertOrUpdate.Update, "TSPL_CAPEX_MASTER.CODE='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_CAPEX_MASTER", "CODE", trans)
+
             isSaved = isSaved AndAlso chkLimitBugetMaster(obj.Code, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

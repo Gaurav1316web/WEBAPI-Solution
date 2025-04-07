@@ -30,6 +30,9 @@ Public Class ClsCostCentreGroupStores
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTRE_GROUP_MASTER", "CostCenter_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTRE_GROUP_MASTER", "CostCenter_Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_COST_CENTRE_GROUP_MASTER where CostCenter_Code ='" + strCode + "'"
@@ -93,6 +96,7 @@ Public Class ClsCostCentreGroupStores
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COST_CENTRE_GROUP_MASTER", OMInsertOrUpdate.Update, "CostCenter_Code='" + obj.CostCenter_Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.CostCenter_Code, "TSPL_COST_CENTRE_GROUP_MASTER", "CostCenter_Code", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
