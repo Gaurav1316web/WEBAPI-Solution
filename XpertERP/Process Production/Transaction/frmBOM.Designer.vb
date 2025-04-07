@@ -31,6 +31,10 @@ Partial Class frmBOM
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -48,15 +52,9 @@ Partial Class frmBOM
         Me.txtByproductItem = New common.UserControls.txtFinder()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.lblMasterItemName = New common.Controls.MyLabel()
-        Me.txtJobWorkLoc = New common.UserControls.txtFinder()
-        Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.chkOSP_JW = New System.Windows.Forms.CheckBox()
-        Me.txtvendorName = New common.Controls.MyLabel()
         Me.TxtitemType = New common.Controls.MyComboBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.txtVendorCode = New common.UserControls.txtFinder()
         Me.txtdesc = New common.Controls.MyTextBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -83,6 +81,13 @@ Partial Class frmBOM
         Me.txtBuildQty = New common.MyNumBox()
         Me.lblBuildQty = New common.Controls.MyLabel()
         Me.cboBOMStatus = New common.Controls.MyComboBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.chkOSP_JW = New System.Windows.Forms.CheckBox()
+        Me.txtJobWorkLoc = New common.UserControls.txtFinder()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtVendorCode = New common.UserControls.txtFinder()
+        Me.txtvendorName = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvBOM = New common.UserControls.MyRadGridView()
         Me.RadPageViewSectionDetail = New Telerik.WinControls.UI.RadPageViewPage()
@@ -115,7 +120,7 @@ Partial Class frmBOM
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuImportOverheadCost = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuExportOverheadCost = New Telerik.WinControls.UI.RadMenuItem()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -136,12 +141,9 @@ Partial Class frmBOM
         CType(Me.txtuomname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMasterItemName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtvendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtitemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,6 +166,10 @@ Partial Class frmBOM
         CType(Me.txtBuildQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBuildQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboBOMStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtvendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gvBOM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -190,7 +196,7 @@ Partial Class frmBOM
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -248,6 +254,7 @@ Partial Class frmBOM
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
@@ -273,7 +280,6 @@ Partial Class frmBOM
         Me.RadPageView.SelectedPage = Me.RadPageItemDetails
         Me.RadPageView.Size = New System.Drawing.Size(917, 473)
         Me.RadPageView.TabIndex = 0
-        Me.RadPageView.Text = "RADPAGEVIEW"
         CType(Me.RadPageView.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageItemDetails
@@ -381,7 +387,7 @@ Partial Class frmBOM
         Me.txtByproductQty.TabIndex = 40
         Me.txtByproductQty.Text = "0"
         Me.txtByproductQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtByproductQty.Value = 0.0R
+        Me.txtByproductQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel16
         '
@@ -402,7 +408,6 @@ Partial Class frmBOM
         Me.txtbuildUnit.Name = "txtbuildUnit"
         Me.txtbuildUnit.Size = New System.Drawing.Size(138, 19)
         Me.txtbuildUnit.TabIndex = 12
-        Me.txtbuildUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtByproductUOM
         '
@@ -449,7 +454,6 @@ Partial Class frmBOM
         Me.txtuomname.Name = "txtuomname"
         Me.txtuomname.Size = New System.Drawing.Size(407, 19)
         Me.txtuomname.TabIndex = 34
-        Me.txtuomname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtByproductItem
         '
@@ -496,70 +500,13 @@ Partial Class frmBOM
         Me.lblMasterItemName.Name = "lblMasterItemName"
         Me.lblMasterItemName.Size = New System.Drawing.Size(407, 19)
         Me.lblMasterItemName.TabIndex = 27
-        Me.lblMasterItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtJobWorkLoc
-        '
-        Me.txtJobWorkLoc.CalculationExpression = Nothing
-        Me.txtJobWorkLoc.FieldCode = Nothing
-        Me.txtJobWorkLoc.FieldDesc = Nothing
-        Me.txtJobWorkLoc.FieldMaxLength = 0
-        Me.txtJobWorkLoc.FieldName = Nothing
-        Me.txtJobWorkLoc.isCalculatedField = False
-        Me.txtJobWorkLoc.IsSourceFromTable = False
-        Me.txtJobWorkLoc.IsSourceFromValueList = False
-        Me.txtJobWorkLoc.IsUnique = False
-        Me.txtJobWorkLoc.Location = New System.Drawing.Point(530, 17)
-        Me.txtJobWorkLoc.MendatroryField = False
-        Me.txtJobWorkLoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtJobWorkLoc.MyLinkLable1 = Me.MyLabel10
-        Me.txtJobWorkLoc.MyLinkLable2 = Me.txtuomname
-        Me.txtJobWorkLoc.MyReadOnly = False
-        Me.txtJobWorkLoc.MyShowMasterFormButton = False
-        Me.txtJobWorkLoc.Name = "txtJobWorkLoc"
-        Me.txtJobWorkLoc.ReferenceFieldDesc = Nothing
-        Me.txtJobWorkLoc.ReferenceFieldName = Nothing
-        Me.txtJobWorkLoc.ReferenceTableName = Nothing
-        Me.txtJobWorkLoc.Size = New System.Drawing.Size(147, 19)
-        Me.txtJobWorkLoc.TabIndex = 51
-        Me.txtJobWorkLoc.Value = ""
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel10.Location = New System.Drawing.Point(476, 16)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(49, 18)
-        Me.MyLabel10.TabIndex = 52
-        Me.MyLabel10.Text = "Location"
-        '
-        'chkOSP_JW
-        '
-        Me.chkOSP_JW.AutoSize = True
-        Me.chkOSP_JW.Location = New System.Drawing.Point(0, 0)
-        Me.chkOSP_JW.Name = "chkOSP_JW"
-        Me.chkOSP_JW.Size = New System.Drawing.Size(75, 17)
-        Me.chkOSP_JW.TabIndex = 4
-        Me.chkOSP_JW.Text = "Job Work"
-        Me.chkOSP_JW.UseVisualStyleBackColor = True
-        '
-        'txtvendorName
-        '
-        Me.txtvendorName.AutoSize = False
-        Me.txtvendorName.BorderVisible = True
-        Me.txtvendorName.FieldName = Nothing
-        Me.txtvendorName.Location = New System.Drawing.Point(275, 17)
-        Me.txtvendorName.Name = "txtvendorName"
-        Me.txtvendorName.Size = New System.Drawing.Size(201, 19)
-        Me.txtvendorName.TabIndex = 49
-        Me.txtvendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'TxtitemType
         '
         Me.TxtitemType.AutoCompleteDisplayMember = Nothing
         Me.TxtitemType.AutoCompleteValueMember = Nothing
         Me.TxtitemType.CalculationExpression = Nothing
+        Me.TxtitemType.DropDownAnimationEnabled = True
         Me.TxtitemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.TxtitemType.FieldCode = Nothing
         Me.TxtitemType.FieldDesc = Nothing
@@ -608,42 +555,6 @@ Partial Class frmBOM
         Me.MyLabel11.Size = New System.Drawing.Size(33, 18)
         Me.MyLabel11.TabIndex = 47
         Me.MyLabel11.Text = "UOM"
-        '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(4, 18)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel12.TabIndex = 50
-        Me.MyLabel12.Text = "Vendor"
-        '
-        'txtVendorCode
-        '
-        Me.txtVendorCode.CalculationExpression = Nothing
-        Me.txtVendorCode.FieldCode = Nothing
-        Me.txtVendorCode.FieldDesc = Nothing
-        Me.txtVendorCode.FieldMaxLength = 0
-        Me.txtVendorCode.FieldName = Nothing
-        Me.txtVendorCode.isCalculatedField = False
-        Me.txtVendorCode.IsSourceFromTable = False
-        Me.txtVendorCode.IsSourceFromValueList = False
-        Me.txtVendorCode.IsUnique = False
-        Me.txtVendorCode.Location = New System.Drawing.Point(121, 17)
-        Me.txtVendorCode.MendatroryField = True
-        Me.txtVendorCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVendorCode.MyLinkLable1 = Me.MyLabel12
-        Me.txtVendorCode.MyLinkLable2 = Me.txtvendorName
-        Me.txtVendorCode.MyReadOnly = False
-        Me.txtVendorCode.MyShowMasterFormButton = False
-        Me.txtVendorCode.Name = "txtVendorCode"
-        Me.txtVendorCode.ReferenceFieldDesc = Nothing
-        Me.txtVendorCode.ReferenceFieldName = Nothing
-        Me.txtVendorCode.ReferenceTableName = Nothing
-        Me.txtVendorCode.Size = New System.Drawing.Size(153, 19)
-        Me.txtVendorCode.TabIndex = 5
-        Me.txtVendorCode.Value = ""
         '
         'txtdesc
         '
@@ -767,7 +678,6 @@ Partial Class frmBOM
         Me.txtrevisionno.Name = "txtrevisionno"
         Me.txtrevisionno.Size = New System.Drawing.Size(154, 19)
         Me.txtrevisionno.TabIndex = 9
-        Me.txtrevisionno.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -788,7 +698,6 @@ Partial Class frmBOM
         Me.txtsubcat_name.Name = "txtsubcat_name"
         Me.txtsubcat_name.Size = New System.Drawing.Size(30, 19)
         Me.txtsubcat_name.TabIndex = 29
-        Me.txtsubcat_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtsubcat_name.Visible = False
         '
         'txtsubcatcode
@@ -800,7 +709,6 @@ Partial Class frmBOM
         Me.txtsubcatcode.Name = "txtsubcatcode"
         Me.txtsubcatcode.Size = New System.Drawing.Size(26, 19)
         Me.txtsubcatcode.TabIndex = 37
-        Me.txtsubcatcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtsubcatcode.Visible = False
         '
         'MyLabel4
@@ -859,7 +767,6 @@ Partial Class frmBOM
         Me.TxtCategory.Name = "TxtCategory"
         Me.TxtCategory.Size = New System.Drawing.Size(407, 19)
         Me.TxtCategory.TabIndex = 28
-        Me.TxtCategory.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblBomDate
         '
@@ -1029,7 +936,7 @@ Partial Class frmBOM
         Me.txtBuildQty.TabIndex = 10
         Me.txtBuildQty.Text = "0"
         Me.txtBuildQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuildQty.Value = 0.0R
+        Me.txtBuildQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblBuildQty
         '
@@ -1046,6 +953,7 @@ Partial Class frmBOM
         Me.cboBOMStatus.AutoCompleteDisplayMember = Nothing
         Me.cboBOMStatus.AutoCompleteValueMember = Nothing
         Me.cboBOMStatus.CalculationExpression = Nothing
+        Me.cboBOMStatus.DropDownAnimationEnabled = True
         Me.cboBOMStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboBOMStatus.FieldCode = Nothing
         Me.cboBOMStatus.FieldDesc = Nothing
@@ -1075,6 +983,112 @@ Partial Class frmBOM
         Me.cboBOMStatus.Size = New System.Drawing.Size(118, 18)
         Me.cboBOMStatus.TabIndex = 2
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.chkOSP_JW)
+        Me.GroupBox2.Controls.Add(Me.txtJobWorkLoc)
+        Me.GroupBox2.Controls.Add(Me.MyLabel12)
+        Me.GroupBox2.Controls.Add(Me.MyLabel10)
+        Me.GroupBox2.Controls.Add(Me.txtVendorCode)
+        Me.GroupBox2.Controls.Add(Me.txtvendorName)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 164)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(683, 37)
+        Me.GroupBox2.TabIndex = 53
+        Me.GroupBox2.TabStop = False
+        '
+        'chkOSP_JW
+        '
+        Me.chkOSP_JW.AutoSize = True
+        Me.chkOSP_JW.Location = New System.Drawing.Point(0, 0)
+        Me.chkOSP_JW.Name = "chkOSP_JW"
+        Me.chkOSP_JW.Size = New System.Drawing.Size(75, 17)
+        Me.chkOSP_JW.TabIndex = 4
+        Me.chkOSP_JW.Text = "Job Work"
+        Me.chkOSP_JW.UseVisualStyleBackColor = True
+        '
+        'txtJobWorkLoc
+        '
+        Me.txtJobWorkLoc.CalculationExpression = Nothing
+        Me.txtJobWorkLoc.FieldCode = Nothing
+        Me.txtJobWorkLoc.FieldDesc = Nothing
+        Me.txtJobWorkLoc.FieldMaxLength = 0
+        Me.txtJobWorkLoc.FieldName = Nothing
+        Me.txtJobWorkLoc.isCalculatedField = False
+        Me.txtJobWorkLoc.IsSourceFromTable = False
+        Me.txtJobWorkLoc.IsSourceFromValueList = False
+        Me.txtJobWorkLoc.IsUnique = False
+        Me.txtJobWorkLoc.Location = New System.Drawing.Point(530, 17)
+        Me.txtJobWorkLoc.MendatroryField = False
+        Me.txtJobWorkLoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtJobWorkLoc.MyLinkLable1 = Me.MyLabel10
+        Me.txtJobWorkLoc.MyLinkLable2 = Me.txtuomname
+        Me.txtJobWorkLoc.MyReadOnly = False
+        Me.txtJobWorkLoc.MyShowMasterFormButton = False
+        Me.txtJobWorkLoc.Name = "txtJobWorkLoc"
+        Me.txtJobWorkLoc.ReferenceFieldDesc = Nothing
+        Me.txtJobWorkLoc.ReferenceFieldName = Nothing
+        Me.txtJobWorkLoc.ReferenceTableName = Nothing
+        Me.txtJobWorkLoc.Size = New System.Drawing.Size(147, 19)
+        Me.txtJobWorkLoc.TabIndex = 51
+        Me.txtJobWorkLoc.Value = ""
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel10.Location = New System.Drawing.Point(476, 16)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel10.TabIndex = 52
+        Me.MyLabel10.Text = "Location"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(4, 18)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel12.TabIndex = 50
+        Me.MyLabel12.Text = "Vendor"
+        '
+        'txtVendorCode
+        '
+        Me.txtVendorCode.CalculationExpression = Nothing
+        Me.txtVendorCode.FieldCode = Nothing
+        Me.txtVendorCode.FieldDesc = Nothing
+        Me.txtVendorCode.FieldMaxLength = 0
+        Me.txtVendorCode.FieldName = Nothing
+        Me.txtVendorCode.isCalculatedField = False
+        Me.txtVendorCode.IsSourceFromTable = False
+        Me.txtVendorCode.IsSourceFromValueList = False
+        Me.txtVendorCode.IsUnique = False
+        Me.txtVendorCode.Location = New System.Drawing.Point(121, 17)
+        Me.txtVendorCode.MendatroryField = True
+        Me.txtVendorCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVendorCode.MyLinkLable1 = Me.MyLabel12
+        Me.txtVendorCode.MyLinkLable2 = Me.txtvendorName
+        Me.txtVendorCode.MyReadOnly = False
+        Me.txtVendorCode.MyShowMasterFormButton = False
+        Me.txtVendorCode.Name = "txtVendorCode"
+        Me.txtVendorCode.ReferenceFieldDesc = Nothing
+        Me.txtVendorCode.ReferenceFieldName = Nothing
+        Me.txtVendorCode.ReferenceTableName = Nothing
+        Me.txtVendorCode.Size = New System.Drawing.Size(153, 19)
+        Me.txtVendorCode.TabIndex = 5
+        Me.txtVendorCode.Value = ""
+        '
+        'txtvendorName
+        '
+        Me.txtvendorName.AutoSize = False
+        Me.txtvendorName.BorderVisible = True
+        Me.txtvendorName.FieldName = Nothing
+        Me.txtvendorName.Location = New System.Drawing.Point(275, 17)
+        Me.txtvendorName.Name = "txtvendorName"
+        Me.txtvendorName.Size = New System.Drawing.Size(201, 19)
+        Me.txtvendorName.TabIndex = 49
+        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -1097,20 +1111,24 @@ Partial Class frmBOM
         Me.gvBOM.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvBOM.Location = New System.Drawing.Point(2, 18)
         '
-        'gvBOM
+        '
         '
         Me.gvBOM.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvBOM.MasterTemplate.AllowAddNewRow = False
         Me.gvBOM.MasterTemplate.AutoGenerateColumns = False
         Me.gvBOM.MasterTemplate.EnableGrouping = False
+        Me.gvBOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBOM.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBOM.MyExportFilePath = ""
+        Me.gvBOM.MyStopExport = False
         Me.gvBOM.Name = "gvBOM"
         Me.gvBOM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBOM.ShowHeaderCellButtons = True
         Me.gvBOM.Size = New System.Drawing.Size(886, 190)
         Me.gvBOM.TabIndex = 0
         Me.gvBOM.TabStop = False
-        Me.gvBOM.Text = "RadGridView1"
+        Me.gvBOM.VarID = ""
         '
         'RadPageViewSectionDetail
         '
@@ -1133,7 +1151,6 @@ Partial Class frmBOM
         Me.TxtSection.Name = "TxtSection"
         Me.TxtSection.Size = New System.Drawing.Size(296, 19)
         Me.TxtSection.TabIndex = 33
-        Me.TxtSection.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel6
         '
@@ -1189,14 +1206,18 @@ Partial Class frmBOM
         Me.gvStages.MasterTemplate.AllowAddNewRow = False
         Me.gvStages.MasterTemplate.AutoGenerateColumns = False
         Me.gvStages.MasterTemplate.EnableGrouping = False
+        Me.gvStages.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvStages.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvStages.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvStages.MyExportFilePath = ""
+        Me.gvStages.MyStopExport = False
         Me.gvStages.Name = "gvStages"
         Me.gvStages.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvStages.ShowHeaderCellButtons = True
         Me.gvStages.Size = New System.Drawing.Size(894, 388)
         Me.gvStages.TabIndex = 1
         Me.gvStages.TabStop = False
-        Me.gvStages.Text = "RadGridView1"
+        Me.gvStages.VarID = ""
         '
         'RadPageViewPage1
         '
@@ -1229,16 +1250,20 @@ Partial Class frmBOM
         Me.gv_History.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv_History.Location = New System.Drawing.Point(0, 0)
         '
-        'gv_History
+        '
         '
         Me.gv_History.MasterTemplate.AllowAddNewRow = False
+        Me.gv_History.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_History.MasterTemplate.ShowGroupedColumns = True
         Me.gv_History.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_History.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_History.MyExportFilePath = ""
+        Me.gv_History.MyStopExport = False
         Me.gv_History.Name = "gv_History"
         Me.gv_History.ShowHeaderCellButtons = True
         Me.gv_History.Size = New System.Drawing.Size(896, 425)
         Me.gv_History.TabIndex = 5
-        Me.gv_History.Text = "RadGridView1"
+        Me.gv_History.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1263,19 +1288,23 @@ Partial Class frmBOM
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 29)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AutoGenerateColumns = False
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(894, 395)
         Me.gv1.TabIndex = 66
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'MyLabel13
         '
@@ -1325,16 +1354,12 @@ Partial Class frmBOM
         '
         'btnexcel
         '
-        Me.btnexcel.AccessibleDescription = "Excel"
-        Me.btnexcel.AccessibleName = "Excel"
         Me.btnexcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnexcel.Name = "btnexcel"
         Me.btnexcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -1418,64 +1443,47 @@ Partial Class frmBOM
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(943, 20)
         Me.RadMenu2.TabIndex = 1
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose, Me.MenuImportOverheadCost, Me.MenuExportOverheadCost})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
         'MenuImportOverheadCost
         '
-        Me.MenuImportOverheadCost.AccessibleDescription = "Import Overhead Cost"
-        Me.MenuImportOverheadCost.AccessibleName = "Import Overhead Cost"
         Me.MenuImportOverheadCost.Name = "MenuImportOverheadCost"
         Me.MenuImportOverheadCost.Text = "Import Overhead Cost"
         '
         'MenuExportOverheadCost
         '
-        Me.MenuExportOverheadCost.AccessibleDescription = "Export OverHead Cost"
-        Me.MenuExportOverheadCost.AccessibleName = "Export OverHead Cost"
         Me.MenuExportOverheadCost.Name = "MenuExportOverheadCost"
         Me.MenuExportOverheadCost.Text = "Export OverHead Cost"
         '
-        'GroupBox2
+        'btnHistory1
         '
-        Me.GroupBox2.Controls.Add(Me.chkOSP_JW)
-        Me.GroupBox2.Controls.Add(Me.txtJobWorkLoc)
-        Me.GroupBox2.Controls.Add(Me.MyLabel12)
-        Me.GroupBox2.Controls.Add(Me.MyLabel10)
-        Me.GroupBox2.Controls.Add(Me.txtVendorCode)
-        Me.GroupBox2.Controls.Add(Me.txtvendorName)
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 164)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(683, 37)
-        Me.GroupBox2.TabIndex = 53
-        Me.GroupBox2.TabStop = False
+        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory1.Location = New System.Drawing.Point(756, 5)
+        Me.btnHistory1.Name = "btnHistory1"
+        Me.btnHistory1.Size = New System.Drawing.Size(68, 22)
+        Me.btnHistory1.TabIndex = 8
+        Me.btnHistory1.Text = "History"
         '
         'frmBOM
         '
@@ -1512,12 +1520,9 @@ Partial Class frmBOM
         CType(Me.txtuomname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMasterItemName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtvendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtitemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1540,6 +1545,11 @@ Partial Class frmBOM
         CType(Me.txtBuildQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBuildQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboBOMStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtvendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gvBOM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1568,8 +1578,7 @@ Partial Class frmBOM
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1660,4 +1669,5 @@ Partial Class frmBOM
     Friend WithEvents txtByproductItem As common.UserControls.txtFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents btnHistory1 As RadButton
 End Class

@@ -151,6 +151,8 @@ Public Class clsSchemeMasterDairy
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCHEME_MASTER_NEW", OMInsertOrUpdate.Update, "Scheme_Code='" + obj.Scheme_Code + "'", trans)
             End If
             clsSchemeDetailDairy.SaveData(obj.Scheme_Code, obj.ArrDTL, obj.Scheme_Type, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Scheme_Code, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", trans)
+
             clsSchemeBenificiaryDairy.SaveData(obj.Scheme_Code, obj.ArrSchmBen, obj.Scheme_Type, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Scheme_Code, obj.arrCustomFields, trans)
             If obj.Apply_Slab And obj.Quantative_Scheme_In_Slab Then
@@ -366,6 +368,9 @@ Public Class clsSchemeMasterDairy
             Else
                 Throw New Exception("Document not found to delete.")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strSchemeCode, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strSchemeCode, "TSPL_SCHEME_MASTER_NEW", "Scheme_Code", "TSPL_SCHEME_DETAIL_NEW", "Scheme_Code", trans)
+
             clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_SCHEME_QUANTITIVE_STRUCTURE WHERE Scheme_Code ='" + obj.Scheme_Code + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_SCHEME_MASTER_VOLUME_SLAB WHERE Scheme_Code ='" + obj.Scheme_Code + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_SCHEME_MASTER_NEW_QUANTATIVE_SLAB WHERE Scheme_Code ='" + obj.Scheme_Code + "'", trans)

@@ -866,6 +866,18 @@ Public Class FrmSectionStageMapping
         transportSql.ExporttoExcel(qry, Me)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(fndCode.Value, "doc_code", "TSPL_SECTION_STAGE_MAPPING_HEAD", "TSPL_SECTION_STAGE_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub btnimportExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimportExcel.Click
         'qry = "select '' as Doc_Code,'' as Doc_Date,'' as Section_Code,'' as Structure_Code,1 as SNO,'' as Stage_Code,'' as Department_Code,'' as Log_Sheet_No,1 as Sequence_No"
         Dim gv_Import As New UserControls.MyRadGridView

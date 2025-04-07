@@ -44,6 +44,7 @@ Partial Class frmCustomerDeduction
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +63,7 @@ Partial Class frmCustomerDeduction
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,6 +95,7 @@ Partial Class frmCustomerDeduction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -136,7 +139,7 @@ Partial Class frmCustomerDeduction
         Me.txtAmount.TabIndex = 359
         Me.txtAmount.Text = "0"
         Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmount.Value = 0.0R
+        Me.txtAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblTankerKmReading
         '
@@ -216,7 +219,7 @@ Partial Class frmCustomerDeduction
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.ShowUpDown = True
-        Me.txtDate.Size = New System.Drawing.Size(70, 20)
+        Me.txtDate.Size = New System.Drawing.Size(70, 19)
         Me.txtDate.TabIndex = 48
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "May/2011"
@@ -229,12 +232,9 @@ Partial Class frmCustomerDeduction
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(563, 20)
         Me.RadMenu1.TabIndex = 47
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -352,7 +352,7 @@ Partial Class frmCustomerDeduction
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(5, 7)
+        Me.btnsave.Location = New System.Drawing.Point(3, 7)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(66, 18)
         Me.btnsave.TabIndex = 7
@@ -367,6 +367,16 @@ Partial Class frmCustomerDeduction
         Me.btndelete.Size = New System.Drawing.Size(66, 18)
         Me.btndelete.TabIndex = 8
         Me.btndelete.Text = "Delete"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(210, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
         '
         'frmCustomerDeduction
         '
@@ -399,6 +409,7 @@ Partial Class frmCustomerDeduction
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -425,5 +436,6 @@ Partial Class frmCustomerDeduction
     Friend WithEvents txtAmount As common.MyNumBox
     Friend WithEvents lblTankerKmReading As common.Controls.MyLabel
     Friend WithEvents chkInactive As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

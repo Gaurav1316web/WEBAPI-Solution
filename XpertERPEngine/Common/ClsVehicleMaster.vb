@@ -62,6 +62,8 @@ Public Class ClsVehicleMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_VEHICLE_MASTER where Vehicle_Id='" + strCode + "'"
@@ -317,9 +319,11 @@ Public Class ClsVehicleMaster
                     Throw New Exception("This Code Is Already Exist")
                 End If
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.VehicleCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.VehicleCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vehicle_MASTER", OMInsertOrUpdate.Update, "Vehicle_Id='" + obj.VehicleCode + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.VehicleCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", trans)
+
             If trans IsNot Nothing Then
                 If isSaved = True Then
                     trans.Commit()

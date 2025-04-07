@@ -42,6 +42,7 @@ Partial Class frmDistributorRouteTagging
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblCode = New System.Windows.Forms.Label()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -65,6 +66,7 @@ Partial Class frmDistributorRouteTagging
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,6 +104,7 @@ Partial Class frmDistributorRouteTagging
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnpost)
@@ -303,6 +306,7 @@ Partial Class frmDistributorRouteTagging
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -374,6 +378,15 @@ Partial Class frmDistributorRouteTagging
         Me.lblCode.Size = New System.Drawing.Size(34, 13)
         Me.lblCode.TabIndex = 57
         Me.lblCode.Text = "Code"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(663, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 160
+        Me.btnHistory.Text = "History"
         '
         'btnPrint
         '
@@ -450,6 +463,7 @@ Partial Class frmDistributorRouteTagging
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(818, 450)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.IconScaling = Telerik.WinControls.Enumerations.ImageScaling.SizeToFit
         Me.Name = "frmDistributorRouteTagging"
         '
         '
@@ -472,6 +486,7 @@ Partial Class frmDistributorRouteTagging
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -509,4 +524,5 @@ Partial Class frmDistributorRouteTagging
     Friend WithEvents rbtnDistributor As RadRadioButton
     Friend WithEvents cmbItemType As common.Controls.MyComboBox
     Friend WithEvents lblItemType As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class

@@ -69,6 +69,8 @@ Public Class clsProcessProductionLogSheet
 
             isSaved = isSaved AndAlso clsProcessProductionLogSheetDetail.SaveData(obj.Doc_no, obj.Arr, trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_no, "TSPL_PP_LOG_SHEET_HEAD", "doc_no", "TSPL_PP_LOG_SHEET_DETAIL", "doc_no", trans)
+
             trans.Commit()
             Return isSaved
         Catch ex As Exception
@@ -148,6 +150,9 @@ Public Class clsProcessProductionLogSheet
 
     Public Shared Function DeleteData(ByVal strcode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strcode, "TSPL_PP_LOG_SHEET_HEAD", "doc_no", "TSPL_PP_LOG_SHEET_DETAIL", "doc_no", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, "TSPL_PP_LOG_SHEET_HEAD", "doc_no", "TSPL_PP_LOG_SHEET_DETAIL", "doc_no", trans)
+
             Dim qry As String = "delete from TSPL_PP_LOG_SHEET_DETAIL where doc_no='" + strcode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
