@@ -380,7 +380,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     End Sub
     Public Sub Import()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsDistributorCommissionDetails)
             Dim currentdate As Date = Date.Today

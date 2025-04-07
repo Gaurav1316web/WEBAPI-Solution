@@ -273,7 +273,7 @@ Public Class FrmItemPriceListLevel3
     End Sub
 
     Private Sub rmiImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Vendor Code", "Vendor Description", "Item No", "Item Description", "UOM", "MRP", "Rate", "Vendor Item No", "Start Date", "End Date") Then

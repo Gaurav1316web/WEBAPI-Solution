@@ -1122,7 +1122,7 @@ Public Class frmIncentiveMaster
     End Sub
 
     Private Sub BtnImport_Click(sender As Object, e As EventArgs) Handles BtnImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
 

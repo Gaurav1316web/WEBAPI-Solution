@@ -219,7 +219,7 @@ Public Class FrmInvestmentType
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
         Dim IT_SEC_CODE As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
 

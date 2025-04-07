@@ -278,7 +278,7 @@ Public Class FrmBullMaster
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Bull No", "Bull Desc", "Bull No Date", "Bull Profile Id", "Cattle Type", "No of Straws", "DOB", "Status", "Site Id", "Dams Yield", "Breed Details", "Breed info") Then

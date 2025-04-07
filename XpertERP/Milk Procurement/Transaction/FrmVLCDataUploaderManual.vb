@@ -980,7 +980,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
     End Sub
 
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
-        Dim gvItem As New RadGridView()
+        Dim gvItem As New UserControls.MyRadGridView
         Me.Controls.Add(gvItem)
         Try
             If transportSql.importExcel(gvItem, "ID", "vlc_code", "milk_qty", "fatper", "snfper", "collection_date", "shift", "farmer_id", "TFS", "fatkg", "snfkg", "route_code", "mcc_code", "Milk_Type", "Flag") Then
@@ -1178,7 +1178,7 @@ Where 2=2 and TSPL_MP_MASTER.VLC_Code<>'" + obj.VLC_Code + "' and MP_Code in('" 
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "MCC Code", "VLC Code", "Shift", "Farmer Code", "Qty", "Fat %", "SNF %", "Unit", "Rate", "Reject Type") Then
@@ -1373,7 +1373,7 @@ Where 2=2 and TSPL_MP_MASTER.VLC_Code<>'" + obj.VLC_Code + "' and MP_Code in('" 
     End Sub
     Function ImportData(ByVal ManualRate As Boolean) As Boolean
         '' done by Panch Raj against ticket no: ERO/08/06/18-000339 on 11-06-2018
-        Dim gvItem As New RadGridView()
+        Dim gvItem As New UserControls.MyRadGridView
         Me.Controls.Add(gvItem)
         Try
             Dim importcol As String = ""

@@ -343,7 +343,7 @@ Public Class FrmServiceMaster
     End Sub
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Service Code", "Service Desc", "Service Group Name", "Service Name", "Cattle Type Code", "Breed Code", "Service Charge", "Reminder Days") Then

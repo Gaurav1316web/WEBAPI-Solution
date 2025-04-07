@@ -3797,7 +3797,7 @@ Public Class frmVSP_VLCMaster
     End Sub
     Public Sub funImportBankDetail()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
@@ -3867,7 +3867,7 @@ Public Class frmVSP_VLCMaster
     End Sub
     Public Sub funImport()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
             If transportSql.importExcel(gv, "Bank Code Desc", "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "REIL Integrated", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
@@ -4149,7 +4149,7 @@ Public Class frmVSP_VLCMaster
     End Sub
     'Public Sub funImport()
     '    Try
-    '        Dim gv As New RadGridView()
+    '        Dim gv As New UserControls.MyRadGridView
     '        Me.Controls.Add(gv)
     '        Dim currentdate As Date = Date.Today
     '        If transportSql.importExcel(gv, "Bank Code Desc", "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "REIL Integrated", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
@@ -5097,7 +5097,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
     Private Sub ImportIncentiveDetails()
-        Dim gvCharges As New RadGridView()
+        Dim gvCharges As New UserControls.MyRadGridView
         Me.Controls.Add(gvCharges)
         Dim countDefaultUOM As Integer = 0
         If transportSql.importExcel(gvCharges, "VSP Code", "Incentive Code") Then
@@ -5623,7 +5623,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub btnImportMultipleMaster_Click(sender As Object, e As EventArgs) Handles btnImportMultipleMaster.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim LineNo As Integer = 0
         Try
@@ -6802,7 +6802,7 @@ Public Class frmVSP_VLCMaster
 
     'Private Sub ImportDcs_Click(sender As Object, e As EventArgs)
     '    Try
-    '        Dim gv As New RadGridView()
+    '        Dim gv As New UserControls.MyRadGridView
     '        Me.Controls.Add(gv)
     '        Dim currentdate As Date = Date.Today
     '        If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "Route Code") Then
@@ -7035,7 +7035,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub ImportRoute_Click(sender As Object, e As EventArgs) Handles ImportRoute.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim qry As String = ""
         Dim check As Integer = 0
@@ -7206,7 +7206,7 @@ Public Class frmVSP_VLCMaster
 
     'Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click
     '    Try
-    '        Dim gv As New RadGridView()
+    '        Dim gv As New UserControls.MyRadGridView
     '        Me.Controls.Add(gv)
     '        If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
     '            Dim ii As Integer = 0

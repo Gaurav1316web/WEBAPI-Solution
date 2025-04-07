@@ -1616,7 +1616,7 @@ Public Class FrmMPMaster
 
     Private Sub mnuMpDetailsImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMpDetailsImport.Click
         '=====update by Preeti Gupta[ERO/19/06/18-000354]
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim isSaved As Boolean = True
         Dim i As Integer = 0
@@ -2125,7 +2125,7 @@ Public Class FrmMPMaster
 
     'Private Sub mnuBuffaloesDetailsImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBuffaloesDetailsImport.Click
 
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    Me.Controls.Add(gv)
     '    Dim i As Integer = 0
     '    Dim trans As SqlTransaction
@@ -2180,7 +2180,7 @@ Public Class FrmMPMaster
 
 
     'Private Sub mnuCowDetailsImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCowDetailsImport.Click
-    '    Dim gv As New RadGridView()
+    '    Dim gv As New UserControls.MyRadGridView
     '    Me.Controls.Add(gv)
     '    Dim i As Integer = 0
     '    Dim trans As SqlTransaction
@@ -2264,7 +2264,7 @@ Public Class FrmMPMaster
     End Sub
 
     Private Sub mnuImportAnimalDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportAnimalDetails.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         Dim totalAnimal As Double = 0
@@ -2775,7 +2775,7 @@ Public Class FrmMPMaster
 
     Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
                 Dim ii As Integer = 0
@@ -2917,7 +2917,7 @@ Public Class FrmMPMaster
     End Sub
     Public Sub funImportMPName()
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "MP Code", "MP Name", "Payee Name") Then
                 Dim ii As Integer = 0

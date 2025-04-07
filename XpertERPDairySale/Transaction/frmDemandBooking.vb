@@ -3484,7 +3484,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Private Sub TruckSheetExcel(ByVal isExcelPDF As Boolean, ByVal TripNo As String)
         Dim BaseQry As String = Nothing
         Dim doc As New XpertERPEngine.clsMyPrintDocument()
-        GVTruckSheet = New MyRadGridView()
+        GVTruckSheet = New UserControls.MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
             Dim ItemInUse As String = " TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
@@ -3900,8 +3900,8 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                 Dim dtFreshTotal As DataTable = Nothing
                 Dim dtAmbient As DataTable = Nothing
                 Dim dtAmbientTotal As DataTable = Nothing
-                Dim GVFresh As New RadGridView()
-                Dim GVFreshTotal As New RadGridView()
+                Dim GVFresh As New UserControls.MyRadGridView
+                Dim GVFreshTotal As New UserControls.MyRadGridView
 
                 If strFUOMPivot IsNot Nothing AndAlso (rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
                     strQry = "Select Alies_Name As [Product Name]," + strFUOM + ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
@@ -4215,7 +4215,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     End Function
 
     Private Sub TruckSheetPDF()
-        Dim GVTruckSheet As New MyRadGridView()
+        Dim GVTruckSheet As New UserControls.MyRadGridView()
         Me.Controls.Add(GVTruckSheet)
         Dim doc As New XpertERPEngine.clsMyPrintDocument()
         Try
@@ -5707,7 +5707,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
         End Try
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gvImport As New RadGridView()
+        Dim gvImport As New UserControls.MyRadGridView
         Dim arrVisbleColumns As New List(Of Integer)
         Try
             If clsCommon.myLen(gv1.Rows(0).Cells(colCustCode).Value) = 0 Then

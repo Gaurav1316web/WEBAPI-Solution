@@ -486,7 +486,7 @@ Public Class frmPaymentTerms
     '***** Import data from excel seat in a proper way.
 
     Private Sub RadMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         ''richa Ticket No.BM00000003438 on 20/08/2014
         If transportSql.importExcel(gv, "Terms Code", "Terms Desc", "No Days", "LC Required", "isAdvance", "Advance(%)") Then

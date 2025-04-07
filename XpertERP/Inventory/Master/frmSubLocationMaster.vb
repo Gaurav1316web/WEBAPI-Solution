@@ -270,7 +270,7 @@ Public Class frmSubLocationMaster
 
 #Region "Import/Export"
     Public Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Sub Category Code", "Category Code", "Description") Then

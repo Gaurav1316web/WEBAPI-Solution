@@ -766,7 +766,7 @@ Public Class FrmCustomFieldMaster
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
 
         clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv, "Code", "Description", "Type", "Validate", "Value_1", "Description_1", "Value_2", "Description_2", "Value_3", "Description_3", "Value_4", "Description_4", "Value_5", "Description_5", "Value_6", "Description_6", "Value_7", "Description_7", "Value_8", "Description_8", "Value_9", "Description_9", "Value_10", "Description_10", "Value_11", "Description_11", "Value_12", "Description_12", "Value_13", "Description_13", "Value_14", "Description_14", "Value_15", "Description_15", "Value_16", "Description_16", "Value_17", "Description_17", "Value_18", "Description_18", "Value_19", "Description_19", "Value_20", "Description_20") Then

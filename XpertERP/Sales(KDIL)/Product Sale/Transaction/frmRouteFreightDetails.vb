@@ -653,7 +653,7 @@ Public Class FrmRouteFreightDetails
     End Sub
     'updated by preeti gupta ticket no[BM00000004761]
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         'Dim IsNewEntry As Boolean
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

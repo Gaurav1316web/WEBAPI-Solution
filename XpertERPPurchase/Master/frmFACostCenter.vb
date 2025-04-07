@@ -239,7 +239,7 @@ Public Class FrmCostCenter
     End Sub
     '------------------------------Preeti gupta -------BM00000002845------
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Cost Code", "Cost Name", "Cost Center Code", "GL Account Code") Then

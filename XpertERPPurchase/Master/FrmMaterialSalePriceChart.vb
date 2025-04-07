@@ -222,7 +222,7 @@ Public Class FrmMaterialSalePriceChart
         '------------------------------------------------------------------
         '-------------------------------------------
 
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim columnsname As String = transportSql.GetExcelColumnsName(gv1)
 

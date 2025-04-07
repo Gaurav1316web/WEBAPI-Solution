@@ -416,7 +416,7 @@ Public Class frmSerializeItemOut
 
     Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "AutoSerialNo") Then
                 Dim counter As Integer = 0

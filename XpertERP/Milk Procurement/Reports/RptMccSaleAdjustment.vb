@@ -1099,7 +1099,7 @@ Public Class RptMccSaleAdjustment
         End Try
     End Sub
     Public Sub funImport(ByVal IsForPost As Boolean)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "MCCCode", "MCC_NAME", "VSP_CODE", "Vendor_Name", "VLC_Code", "VLC_Name", "VLC_Code_VLC_Uploader", "Payment Advance Amount", "Total Amount") Then

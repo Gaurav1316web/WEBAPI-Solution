@@ -4851,7 +4851,7 @@ Public Class frmScrapSaleReturn
 
     Public Sub funImport()
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

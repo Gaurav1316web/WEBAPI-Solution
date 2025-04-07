@@ -6063,7 +6063,7 @@ Public Class frmAcquisionEntry
     End Sub
 
     Private Sub ImportHeader()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim total As Integer = 0
         If transportSql.importExcel(gv, "Acqisition Code", "Acquisition Date", "Vendor Code", "Description", "Remarks", "Location Code", "SRN No", "Template Code", "New/Old") Then
@@ -6144,7 +6144,7 @@ Public Class frmAcquisionEntry
     End Sub
 
     Private Sub ImportDetail()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim total As Integer = 0
 
@@ -6375,7 +6375,7 @@ Public Class frmAcquisionEntry
     End Sub
 
     Private Sub Import_Asset()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim total As Integer = 0
         Dim lstACQ As New List(Of String)

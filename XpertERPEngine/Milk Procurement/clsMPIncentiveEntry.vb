@@ -256,7 +256,7 @@ Public Class clsMPIncentiveEntry
         End Try
     End Sub
     Public Shared Sub MultipleDateSingleImport(ByRef frm As RadForm)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         frm.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim ii As Integer = 1

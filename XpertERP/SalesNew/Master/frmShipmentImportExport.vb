@@ -278,7 +278,7 @@ Public Class frmShipmentImportExport
     '======================================================================
 #End Region
     Private Sub HeadImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDetailImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "S No", "Document Date", "Customer Code", "Tax Group", "Bill To Location", "Salesman Code") Then
@@ -340,7 +340,7 @@ Public Class frmShipmentImportExport
     End Sub
 
     Private Sub DetailImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HeadImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "S No", "Item Code", "Quantity", "UOM", "Location", "Item Cost", "MRP") Then

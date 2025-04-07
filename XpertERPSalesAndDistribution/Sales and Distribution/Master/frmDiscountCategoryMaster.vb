@@ -299,7 +299,7 @@ Public Class FrmDiscountCategoryMaster
     End Sub
     ' For Import Data Excel Sheet to Database table
     Public Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description") Then

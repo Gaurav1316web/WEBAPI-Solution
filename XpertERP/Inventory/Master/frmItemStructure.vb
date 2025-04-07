@@ -455,7 +455,7 @@ Public Class frmItemStructure
         transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
     End Sub
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Structure Code", "Description", "Item Structure", "Total Length") Then
             Dim trans As SqlTransaction = Nothing

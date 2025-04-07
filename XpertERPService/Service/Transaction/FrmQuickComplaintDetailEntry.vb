@@ -816,7 +816,7 @@ Public Class FrmQuickComplaintDetailEntry
         End If
     End Sub
     Sub ImportAuto()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()
@@ -1057,7 +1057,7 @@ Public Class FrmQuickComplaintDetailEntry
         ImportAuto()
     End Sub
     Sub ImportManual()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()

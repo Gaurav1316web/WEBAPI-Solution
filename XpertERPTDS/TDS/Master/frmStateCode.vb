@@ -274,7 +274,7 @@ Public Class frmStateCode
     End Sub
     'It Is Used To Import The Records From Table.
     Private Sub RadMenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "State Code", "State Name") Then
             Dim trans As SqlTransaction = Nothing

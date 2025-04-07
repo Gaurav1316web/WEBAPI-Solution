@@ -275,7 +275,7 @@ Public Class FrmCapexMaster
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim rbudget As String = Nothing
         Dim revno As String = Nothing
         Me.Controls.Add(gv)

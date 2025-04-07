@@ -411,7 +411,7 @@ Public Class FrmInvestmentDeclaration
         Dim EMP_CODE As String = ""
         Dim PAY_CODE As String = ""
         Dim IsPost As Integer = 0
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Code", "Description", "Financial Year Code", "Investment Type Code", "Emp Code", "Provisional Amount", "Actual Amount", "Status") Then

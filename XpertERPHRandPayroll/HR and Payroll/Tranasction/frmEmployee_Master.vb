@@ -2021,7 +2021,7 @@ Public Class frmEmployee_Master
     Private Sub CboRelation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
     End Sub
     Sub demoImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim Counter As Int16 = 0
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -2598,7 +2598,7 @@ Public Class frmEmployee_Master
     '' changes by shivani against[8264]
     '==update by preeti gupta Against ticket no[GKD/06/03/19-000178]
     Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim i As Integer = 0
         connectSql.OpenConnection()

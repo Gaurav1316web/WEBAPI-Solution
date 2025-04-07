@@ -285,7 +285,7 @@ Public Class frmItemRackBinMapping
     End Sub
 
     Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim gvbool As Boolean = False

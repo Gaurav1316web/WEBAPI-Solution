@@ -7049,7 +7049,7 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, "Please select location.")
             Exit Sub
         End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Item Code", "Item Unit", "Item Qty") Then
             Dim dt As New DataTable()

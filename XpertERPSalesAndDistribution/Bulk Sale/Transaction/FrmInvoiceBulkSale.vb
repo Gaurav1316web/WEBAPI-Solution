@@ -2587,7 +2587,7 @@ Public Class FrmInvoiceBulkSale
     End Sub
 
     Sub ImportDatafromExcelSheetAndCreateAllBulkDocuments()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)
         '' declare object of classes

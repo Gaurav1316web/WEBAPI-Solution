@@ -452,7 +452,7 @@ Public Class frmTankerMasterSale
     End Sub
 
     Private Sub mnuImport_Click(sender As Object, e As EventArgs) Handles mnuImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Tanker Code", "Tanker No", "Tare Weight", "No Of Chamber", "Driver Code", "Chamber Description", "Chamber Capacity", "Capacity UOM") Then

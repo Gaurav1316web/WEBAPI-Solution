@@ -815,7 +815,7 @@ Public Class Frmglsecurity
     End Sub
 
     Private Sub RMIImportSegment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMIImportSegment.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -891,7 +891,7 @@ Public Class Frmglsecurity
     End Sub
 
     Private Sub RMIImportAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMIImportAccount.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
 
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

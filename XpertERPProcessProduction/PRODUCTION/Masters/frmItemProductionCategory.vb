@@ -182,7 +182,7 @@ Public Class FrmItemProductionCategory
     '--------Preeti gupta--Ticket No.-BM00000002845--
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
 
         If transportSql.importExcel(gv, "PROD ITEM CATEGORY CODE", "PROD ITEM CATEGORY NAME", "DESCRIPTION", "ITEM GROUP") Then

@@ -232,7 +232,7 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
         Dim CustMapEntry As Double = 0
         Dim VenMapEntry As Double = 0
         Dim DuplicateEntry As String = ""
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Customer Code", "Employee Code") Then

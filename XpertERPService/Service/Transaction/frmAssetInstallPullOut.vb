@@ -994,7 +994,7 @@ Public Class frmAssetInstallPullOut
     End Function
 
     '    Private Sub Import_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PullOutAndinstallSheet.Click
-    '        Dim gv As New RadGridView()
+    '        Dim gv As New UserControls.MyRadGridView
     '        Me.Controls.Add(gv)
     '        Dim currentdate As Date = Date.Today
     '        'If transportSql.importExcel(gv, "Customer Code", "Customer Name", "Asset No", "Model No", "Asset Id", "Installation Date") Then
@@ -1131,7 +1131,7 @@ Public Class frmAssetInstallPullOut
                & " from TSPL_ASSET_INSTALL_PULLOUT_NEW tapns where tapn.Install_Customer_Id=tapns.Pullout_Customer_Id and " _
                & " tapn.Asset_Id=tapns.Asset_Id and tapns.Asset_Pullout_Date>tapn.Asset_Installation_Date and " _
                & " tapn.Trans_Type<>'Both'))AS [Asset_PullOut_date] from TSPL_ASSET_INSTALL_PULLOUT_NEW tapn order by Trans_Type")
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Customer Code", "Customer Name", "Asset No", "Model No", "Asset Id", "Installation Date") Then
@@ -1253,7 +1253,7 @@ a:              Next
                    & " from TSPL_ASSET_INSTALL_PULLOUT_NEW tapns where tapn.Install_Customer_Id=tapns.Pullout_Customer_Id and " _
                    & " tapn.Asset_Id=tapns.Asset_Id and tapns.Asset_Pullout_Date>tapn.Asset_Installation_Date and " _
                    & " tapn.Trans_Type<>'Both'))AS [Asset_PullOut_date] from TSPL_ASSET_INSTALL_PULLOUT_NEW tapn order by Trans_Type")
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv, "Customer Code", "Customer Name", "Asset No", "Model No", "Asset Id", "Installation Date") Then
@@ -1418,7 +1418,7 @@ a:              Next
 
     End Sub
     Private Sub RMInstallSheetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RMInstallSheetAll.Click
-        Dim gv1 As New RadGridView()
+        Dim gv1 As New UserControls.MyRadGridView
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

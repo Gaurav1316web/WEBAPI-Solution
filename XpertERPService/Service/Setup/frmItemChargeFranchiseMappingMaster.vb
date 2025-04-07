@@ -278,7 +278,7 @@ Public Class FrmItemChargeFranchiseMappingMaster
     End Sub
 
     Private Sub rdimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdimport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Charge Cat Code", "Description", "Item Code", "Item Desc", "Vendor Code", "Vendor Name", "Charges") Then

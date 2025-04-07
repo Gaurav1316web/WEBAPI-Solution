@@ -284,7 +284,7 @@ Public Class frmRackBinMaster
     End Sub
 
     Private Sub MenuRackItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Description", "Location") Then
@@ -371,7 +371,7 @@ Public Class frmRackBinMaster
     End Sub
 
     Private Sub RadBinItemImport_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Description", "Rack Code", "Location") Then

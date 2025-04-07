@@ -3249,7 +3249,7 @@ Public Class frmBookingDairyMultipleCustomer
 
 
 
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
         'Dim qry As String = "select count(*) from TSPL_BOOKING_DETAIL"
         'Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         'Dim ISFresh As Integer = 0

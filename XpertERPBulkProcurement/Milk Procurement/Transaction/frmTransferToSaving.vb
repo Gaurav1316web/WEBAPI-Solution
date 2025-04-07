@@ -701,7 +701,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
                 Throw New Exception("Please select location first.")
             End If
 
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
 
             Dim dtError As New DataTable
@@ -822,7 +822,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
     End Sub
     Private Sub RadMenuItem7_Click(sender As Object, e As EventArgs) Handles RadMenuItem7.Click
         '        Try
-        '            Dim gv As New RadGridView()
+        '            Dim gv As New UserControls.MyRadGridView
         '            Me.Controls.Add(gv)
 
         '            Dim dtError As New DataTable

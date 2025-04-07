@@ -1928,7 +1928,7 @@ line1:
         ImportDoc()
     End Sub
     Sub ImportDoc()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "DocNo", "DocDate") Then

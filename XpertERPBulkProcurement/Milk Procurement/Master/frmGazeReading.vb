@@ -246,7 +246,7 @@ select '1' as [CM/MM],'24' as '0','24' as '1','26' as '2','27' as '3','28' as '4
         End Try
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-        Dim gvTemp As New RadGridView()
+        Dim gvTemp As New UserControls.MyRadGridView
         Me.Controls.Add(gvTemp)
         Try
             UcAttachment1.BlankAllControls()

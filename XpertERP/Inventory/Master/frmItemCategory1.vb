@@ -343,7 +343,7 @@ Public Class FrmItemCategory1
     ''Added On Date 30/09/2011 by Pankaj Kumar Chaudhary
     ''
     Public Sub Import()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         If transportSql.importExcel(gv, "Category Code", "Category Name") Then

@@ -780,7 +780,7 @@ Public Class frmPriceChartBulkProc
     End Sub
 
     Private Sub RmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RmImport.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim IsNewEntry As Boolean
         Dim trans As SqlTransaction = Nothing
         Me.Controls.Add(gv)
@@ -1304,7 +1304,7 @@ Public Class frmPriceChartBulkProc
 
     Private Sub btnInportDetail_Click(sender As Object, e As EventArgs) Handles btnImportDetail.Click
         Try
-            Dim gv As New RadGridView()
+            Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             Dim issaved As Boolean = True
 

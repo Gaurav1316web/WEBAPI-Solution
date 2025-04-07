@@ -4789,7 +4789,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
     End Sub
 
     Public Sub funImport(ByVal IsForPost As Boolean)
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "Payment Date", "Description", "Vendor Code", "Bank Code", "Payment Type(A/O/R/M)", "Payment Mode", "Cheque No", "Cheque Date", "Amount", "Location Code", "Advance Against Salary", "Is Opening", "Bank Charges", "Is Security", "Conv Rate", "GLAccount", "Employee Advance Type(S/T/I)", "Employee Expense Type(TD/S/T/I)", "MP Code", "VLC Uploader Code") Then
@@ -5262,7 +5262,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
 
     Private Sub rbtnImportPosted_Click(sender As Object, e As EventArgs) Handles rbtnImportPosted.Click
         '' done by panch raj against ticket No: 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
         If transportSql.importExcel(gv, "Payment No", "Payment Date", "Description", "Vendor Code", "Bank Code", "Payment Type(A/O/R)", "Payment Mode", "Cheque No", "Cheque Date", "Amount", "Location Code", "Advance Against Salary", "Is Opening", "Bank Charges", "Is Security", "Conv Rate") Then

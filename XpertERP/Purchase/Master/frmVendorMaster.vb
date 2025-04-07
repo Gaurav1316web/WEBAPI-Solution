@@ -2057,7 +2057,7 @@ Public Class frmVendorMaster
     End Sub
 
     Public Sub funImport()
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim strbankdes As String
         Dim Count As String = ""

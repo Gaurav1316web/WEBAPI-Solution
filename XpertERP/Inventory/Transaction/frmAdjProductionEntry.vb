@@ -2460,7 +2460,7 @@ Public Class frmAdjProductionEntry
     End Sub
 
     Private Sub OpeningwithSerial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpeningwithSerial.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -3131,7 +3131,7 @@ Public Class frmAdjProductionEntry
 
     Private Sub rbtnImportPosted_Click(sender As Object, e As EventArgs)
         ' done by panch raj against ticket No: BM00000008191,BM00000008189
-        'Dim gv As New RadGridView()
+        'Dim gv As New UserControls.MyRadGridView
 
         'Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today
@@ -3462,7 +3462,7 @@ Public Class frmAdjProductionEntry
     End Sub
 
     Private Sub rmOpeningForMilkType_Click(sender As Object, e As EventArgs) Handles rmOpeningForMilkType.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -3949,7 +3949,7 @@ Public Class frmAdjProductionEntry
     End Sub
 
     Private Sub Opening_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpeningExcel.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Dim arrExistBatchItem As New List(Of String)
         Me.Controls.Add(gv)
@@ -4202,7 +4202,7 @@ Public Class frmAdjProductionEntry
             Exit Sub
         End If
 
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
@@ -4866,7 +4866,7 @@ Public Class frmAdjProductionEntry
     End Sub
     ''====================Monika==========================
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Dim line As Integer = 1
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today

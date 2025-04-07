@@ -497,7 +497,7 @@ Public Class frmUnitOfCode
         'Else
         btnsave.Text = "&Update"
         'End If
-        Dim gv As New RadGridView()
+        Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         If transportSql.importExcel(gv, "Unit_Code", "Unit_Desc", "Conv_Factor", "Weight_Type", "Crate_Type", "Item_Category", "Packet_Type", "GST_UNIT_CODE") Then
             Dim trans As SqlTransaction = Nothing
