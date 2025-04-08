@@ -37,15 +37,20 @@ Public Module transportSql
 
 
     Public Function OpenExporttoExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+        If IsExists = False Then
+            System.IO.Directory.CreateDirectory(forlderName)
+        End If
         Dim sfd As SaveFileDialog = New SaveFileDialog()
         Dim path As String
         sfd.FileName = frm.Text
         sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
-        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            path = sfd.FileName
-        Else
-            Return False
-        End If
+        'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        path = forlderName
+        'Else
+        '    Return False
+        'End If
         If Not path.Equals(String.Empty) Then
             Dim gv As New UserControls.MyRadGridView
             Try
@@ -138,16 +143,21 @@ a:          Dim frmFilter As New frmFilterToExport()
                 sql = sql & " Order by " + OrderByClaus
             End If
             ''************* Filter Block End
-
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
-            Dim filePath As String
+            Dim filePath As String = forlderName
             sfd.FileName = frm.Text
             sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                filePath = sfd.FileName
-            Else
-                Return False
-            End If
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            filePath = forlderName + "\" + sfd.FileName
+            'Else
+            '    Return False
+            'End If
+
 
 
             If Not filePath.Equals(String.Empty) Then
@@ -183,7 +193,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                         If SupermanadatoryField IsNot Nothing AndAlso SupermanadatoryField.Count > 0 AndAlso clsCommon.myLen(formid) > 0 Then
                             transportSql.applyExpImpTemplate(gv, formid)
                         End If
-                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.chkBlankSheet.Checked, True, False), Nothing, False, False, False, True, manadatoryField) 'frm.Text)
+                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.chkBlankSheet.Checked, True, False), Nothing, False, False, False, False, manadatoryField) 'frm.Text)
                         'sanjay
                     End If
 
@@ -219,15 +229,20 @@ xxx:
 
     Public Function ExporttoExcel(ByVal dt As DataTable, ByVal frm As RadForm) As Boolean
         Try
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim filePath As String
             sfd.FileName = frm.Text
             sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                filePath = sfd.FileName
-            Else
-                Return False
-            End If
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            filePath = forlderName + "\" + sfd.FileName
+            'Else
+            '    Return False
+            'End If
 
             If Not filePath.Equals(String.Empty) Then
                 Dim gv As New UserControls.MyRadGridView
@@ -255,7 +270,7 @@ xxx:
                     If clsCommon.CompairString(ext, ".csv") = CompairStringResult.Equal Then
                         exportdataInCSV(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False)
                     Else
-                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, Nothing, False, False, False, True)
+                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, Nothing, False, False, False, False)
                     End If
                     If clsCommon.CompairString(ext, ".csv") = CompairStringResult.Equal Then
                         common.clsCommon.MyMessageBoxShow("Data transfer Completed!", "Export", MessageBoxButtons.OK)
@@ -298,16 +313,20 @@ xxx:
         End If
         sql = frmFilter.qry
         ''************* Filter Block End
-
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+        If IsExists = False Then
+            System.IO.Directory.CreateDirectory(forlderName)
+        End If
         Dim sfd As SaveFileDialog = New SaveFileDialog()
         Dim path As String
         sfd.FileName = frm.Text
         sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
-        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            path = sfd.FileName
-        Else
-            Return False
-        End If
+        'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        path = forlderName
+        'Else
+        '    Return False
+        'End If
         If Not path.Equals(String.Empty) Then
             Dim gv As New UserControls.MyRadGridView
             Try
@@ -404,16 +423,20 @@ xxx:
         End If
         sql = frmFilter.qry
         ''************* Filter Block End
-
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+        If IsExists = False Then
+            System.IO.Directory.CreateDirectory(forlderName)
+        End If
         Dim sfd As SaveFileDialog = New SaveFileDialog()
         Dim path As String
         sfd.FileName = frm.Text
         sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
-        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            path = sfd.FileName
-        Else
-            Return False
-        End If
+        'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        path = forlderName
+        'Else
+        '    Return False
+        'End If
         If Not path.Equals(String.Empty) Then
             Dim gv As New UserControls.MyRadGridView
             Try
@@ -438,7 +461,7 @@ xxx:
 
                 clsCommon.ProgressBarShow()
 
-                exportdata(gv, path, frm.Text, False, Nothing, False, False, False, True)
+                exportdata(gv, path, frm.Text, False, Nothing, False, False, False, False)
 
 
                 frm.Controls.Remove(gv)
@@ -485,31 +508,31 @@ xxx:
         If sname.Contains("\") Then
             sname = sname.Replace("\", " ")
         End If
-        If UseFilePath = False And MultipleFiles = False Then
-            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportToDefineLocation, clsFixedParameterCode.ExportToDefineLocation, Nothing)) = 1 Then
-                UseFilePath = True
-                Dim sfd As SaveFileDialog = New SaveFileDialog()
-                sfd.FileName = sname
-                'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
-                sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-                If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                    flname = sfd.FileName
-                    sname = flname.Substring(flname.LastIndexOf("\") + 1, flname.Length - flname.LastIndexOf("\") - 1)
-                Else
-                    Return False
-                End If
-            End If
-        End If
-
-        Dim IsExists As Boolean = System.IO.Directory.Exists("C:\ERPTempFolder")
+        'If UseFilePath = False And MultipleFiles = False Then
+        '    'If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportToDefineLocation, clsFixedParameterCode.ExportToDefineLocation, Nothing)) = 1 Then
+        '    '    UseFilePath = True
+        '    '    Dim sfd As SaveFileDialog = New SaveFileDialog()
+        '    '    sfd.FileName = sname
+        '    '    'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
+        '    '    sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+        '    '    If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        '    '        flname = sfd.FileName
+        '    '        sname = flname.Substring(flname.LastIndexOf("\") + 1, flname.Length - flname.LastIndexOf("\") - 1)
+        '    '    Else
+        '    '        Return False
+        '    '    End If
+        '    'End If
+        'End If
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
-            System.IO.Directory.CreateDirectory("C:\ERPTempFolder")
+            System.IO.Directory.CreateDirectory(forlderName)
         End If
 
         If UseFilePath = False And MultipleFiles = False Then
             Dim currTime As DateTime = DateTime.Now
             sname = sname & clsCommon.GetPrintDate(currTime, "yyyyMMddhhmmss")
-            flname = "C:\ERPTempFolder" & "\" & sname & ".xls"
+            flname = forlderName & "\" & sname & ".xls"
             sname = sname & ".xls"
         End If
         'sanjay
@@ -911,31 +934,31 @@ xxx:
         If sname.Contains("\") Then
             sname = sname.Replace("\", " ")
         End If
-        If UseFilePath = False And MultipleFiles = False Then
-            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportToDefineLocation, clsFixedParameterCode.ExportToDefineLocation, Nothing)) = 1 Then
-                UseFilePath = True
-                Dim sfd As SaveFileDialog = New SaveFileDialog()
-                sfd.FileName = sname
-                'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
-                sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-                If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                    flname = sfd.FileName
-                    sname = flname.Substring(flname.LastIndexOf("\") + 1, flname.Length - flname.LastIndexOf("\") - 1)
-                Else
-                    Return False
-                End If
-            End If
-        End If
-
-        Dim IsExists As Boolean = System.IO.Directory.Exists("C:\ERPTempFolder")
+        'If UseFilePath = False And MultipleFiles = False Then
+        '    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportToDefineLocation, clsFixedParameterCode.ExportToDefineLocation, Nothing)) = 1 Then
+        '        UseFilePath = True
+        '        Dim sfd As SaveFileDialog = New SaveFileDialog()
+        '        sfd.FileName = sname
+        '        'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
+        '        sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+        '        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        '            flname = sfd.FileName
+        '            sname = flname.Substring(flname.LastIndexOf("\") + 1, flname.Length - flname.LastIndexOf("\") - 1)
+        '        Else
+        '            Return False
+        '        End If
+        '    End If
+        'End If
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
-            System.IO.Directory.CreateDirectory("C:\ERPTempFolder")
+            System.IO.Directory.CreateDirectory(forlderName)
         End If
 
         If UseFilePath = False And MultipleFiles = False Then
             Dim currTime As DateTime = DateTime.Now
             sname = sname & clsCommon.GetPrintDate(currTime, "yyyyMMddhhmmss")
-            flname = "C:\ERPTempFolder" & "\" & sname & ".xls"
+            flname = forlderName & "\" & sname & ".xls"
             sname = sname & ".xls"
         End If
         'sanjay
@@ -2169,16 +2192,20 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
             sql = frmFilter.qry
             ''************* Filter Block End
-
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim path As String
             sfd.FileName = frm.Text
             sfd.Filter = "Excel (*.xlsx;*.xls)|*.xlsx;*.xls"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                path = sfd.FileName
-            Else
-                Return False
-            End If
+            ' If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            path = forlderName
+            'Else
+            '    Return False
+            'End If
             If InStr(path, ".xlsx") <> -1 Then
                 path = Replace(path, ".xlsx", ".xls")
             End If
@@ -2276,16 +2303,20 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
             sql = frmFilter.qry
             ''************* Filter Block End
-
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim path As String
             sfd.FileName = frm.Text
             sfd.Filter = "Excel (*.xlsx;*.xls)|*.xlsx;*.xls"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                path = sfd.FileName
-            Else
-                Return False
-            End If
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            path = forlderName
+            'Else
+            '    Return False
+            'End If
             If InStr(path, ".xlsx") <> -1 Then
                 path = Replace(path, ".xlsx", ".xls")
             End If
@@ -2370,15 +2401,20 @@ a:          Dim frmFilter As New frmFilterToExport()
 
     Public Function ExporttoExcelWithoutFilter(ByVal sql As String, ByVal whrClaus As String, ByVal OrderByClaus As String, ByVal frm As RadForm, Optional Display_Firstrow As Boolean = False) As Boolean
         Try
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim filePath As String
             sfd.FileName = frm.Text
             sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                filePath = sfd.FileName
-            Else
-                Return False
-            End If
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            filePath = forlderName + "\" + sfd.FileName
+            'Else
+            '    Return False
+            'End If
 
             If Not filePath.Equals(String.Empty) Then
                 Dim gv As New UserControls.MyRadGridView
@@ -2535,14 +2571,16 @@ xxx:
         Dim subPath As String = ""
         Dim ReportPath As String = ""
         Dim NetworkSubPath As String = ""
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+
         If clsCommon.CompairString(Server.Substring(0, IIf(Server.Contains("\"), Server.IndexOf("\"), Server.Length)), Environment.MachineName, False) <> CompairStringResult.Equal Then
             subPath = "\\" + Server.Substring(0, IIf(Server.Contains("\"), Server.IndexOf("\"), Server.Length)) + "\ERPTempFolder"
             ReportPath = "\\" + Server.Substring(0, IIf(Server.Contains("\"), Server.IndexOf("\"), Server.Length)) + "\ERPTempFolder"
         Else
-            subPath = "C:\\ERPTempFolder"
-            ReportPath = "C:\\ERPTempFolder"
+            subPath = forlderName
+            ReportPath = forlderName
         End If
-        NetworkSubPath = "ERPTempFolder"
+        NetworkSubPath = forlderName
         'Dim subPath As String = "E:\\DataBase"
         'Dim ReportPath As String = "E:\\DataBase"
         'Dim NetworkSubPath As String = "DataBase"
@@ -2748,7 +2786,7 @@ xxx:
                 'Dim SrcPath As String = "\\" & Server & "\" & Networkpath & "." & File_Type
                 'System.IO.File.Copy(SrcPath, ReportPath, True)
                 System.Threading.Thread.Sleep(10000)
-                Dim DestinationReportPath = "C:\\" & Networkpath & "." & File_Type
+                Dim DestinationReportPath = Networkpath & "." & File_Type
                 System.IO.File.Copy(ReportPath, DestinationReportPath, True)
                 ReportPath = DestinationReportPath
             End If

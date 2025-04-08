@@ -651,7 +651,12 @@ Public Class frmRptVendorLedgerVsAgeing
 
     Private Sub PDFGrid_Click(sender As Object, e As EventArgs) Handles PDFGrid.Click
         Try
-            Dim FilePath As String = "C:\\ERPTempFolder\\Vendor Ledger Vs Ageing Report" + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
+            Dim FilePath As String = forlderName + "\Vendor Ledger Vs Ageing Report" + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
             Dim pdfExporter As ExportToPDF = Nothing
 
             pdfExporter = New ExportToPDF(gvVendor)

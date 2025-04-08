@@ -16,6 +16,9 @@ Public Class clsLineMaster
     Public Shared Function deleteData(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LINE_MASTER", "LINE_NO", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LINE_MASTER", "LINE_NO", trans)
+
             Dim qry As String = "delete from TSPL_LINE_MASTER where LINE_NO='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -107,6 +110,8 @@ Public Class clsLineMaster
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LINE_MASTER", OMInsertOrUpdate.Update, "TSPL_LINE_MASTER.LINE_NO='" + obj.LINE_NO + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LINE_NO, "TSPL_LINE_MASTER", "LINE_NO", trans)
+
             'trans.Commit()
         Catch ex As Exception
             ' trans.Rollback()

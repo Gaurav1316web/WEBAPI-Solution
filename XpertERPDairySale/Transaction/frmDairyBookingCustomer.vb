@@ -6810,7 +6810,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
                      " Order By XXXXXFinal.route_no,XXXXXFinal.Cust_Code,XXXXXFinal.DataSNO , case when TSPL_ITEM_MASTER.SKU_Seq = 0 then 10000 else  TSPL_ITEM_MASTER.SKU_Seq end  "
             Dim dtMain As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtMain IsNot Nothing And dtMain.Rows.Count > 0 Then
-                Dim subPath As String = "C:\\ERPTempFolder"
+                Dim subPath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
                 Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
                 If (IsExists = False) Then
                     System.IO.Directory.CreateDirectory(subPath)

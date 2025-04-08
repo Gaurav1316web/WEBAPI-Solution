@@ -764,7 +764,7 @@ Public Class clsSNSalesReturnHead
             'trans.Rollback()
 
             Dim strEx As String = ex.Message
-            Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date,WayBillNo, wayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" + strDocNo + "'"
+            Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" + strDocNo + "'"
             Dim dtPortalInfo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             trans.Rollback()
             Try

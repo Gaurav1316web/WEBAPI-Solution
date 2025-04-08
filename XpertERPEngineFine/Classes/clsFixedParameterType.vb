@@ -16,6 +16,7 @@ Public Class clsFixedParameterType
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const CreateEInvoicePassword As String = "Create EInvoice Password"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
+    Public Const ImportExportDrive As String = "Import/Export-Drive"
     Public Const RCDFControl As String = "RCDF Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -1347,6 +1348,8 @@ Public Class clsFixedParameterCode
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
     Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
+    Public Const ImportExportDrive As String = "Import/Export-Drive"
+
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
@@ -2883,6 +2886,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintPouchCrateQtyOnPrint, clsFixedParameterCode.PrintPouchCrateQtyOnPrint, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ImportExportDrive, clsFixedParameterCode.ImportExportDrive, "E", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
 

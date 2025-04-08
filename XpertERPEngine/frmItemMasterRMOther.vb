@@ -1882,11 +1882,7 @@ Public Class FrmItemMasterRMOther
     Private Function AllowToSave() As Boolean
         Try
             If chkDoNotCheckOnSave.Checked Then
-                If CheckItemBalance() Then
-                    Return True
-                Else
-                    Return False
-                End If
+                Return True
             End If
             AllowTo = True
             Dim ShortDesp As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) As Row from tspl_item_master Where (Short_Description ='" & clsCommon.myCstr(txtShortDescription.Text) & "' and LEN(ISNULL( Short_Description,'')) > 0) AND Item_Code <>'" & clsCommon.myCstr(txtCode.Value) & "'"))
@@ -2512,30 +2508,8 @@ Public Class FrmItemMasterRMOther
         End If
 
 
-        Return CheckItemBalance()
-        AllowTo = False
-    End Function
-
-    Private Function CheckItemBalance() As Boolean
-        Try
-            Dim StockQty As Decimal 
-            Dim isBatchWise As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Batch_Item from tspl_item_master Where Item_Code='" + txtCode.Value + "'"))
-            If (isBatchWise AndAlso Not chkIsReqBatch.Checked) OrElse (Not isBatchWise AndAlso chkIsReqBatch.Checked) Then
-                StockQty = clsDBFuncationality.getSingleValue("select sum(Stock_Qty)  as Stock_Qty from ( select  (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end)  as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW 
-            " + Environment.NewLine + " union all " + Environment.NewLine + " select (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end) as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT )xx  where xx.item_code = '" + txtCode.Value + "' ")
-                If StockQty > 0 Then
-                    If (isBatchWise AndAlso Not chkIsReqBatch.Checked) Then
-                        clsCommon.MyMessageBoxShow(Me, "You cannot make this Item without Batch wise because stock is available [" + clsCommon.myCstr(StockQty) + "]", Me.Text)
-                    ElseIf (Not isBatchWise AndAlso chkIsReqBatch.Checked) Then
-                        clsCommon.MyMessageBoxShow(Me, "You cannot make this Item Batch wise because stock is available [" + clsCommon.myCstr(StockQty) + "]", Me.Text)
-                    End If
-                    Return False
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
         Return True
+        AllowTo = False
     End Function
     Function strQtyForIsUOMUsed(ByVal strUOM As String, ByVal isUOMInclude As Boolean) As String
         Dim strUOMIncludeOrExclude = " not in "

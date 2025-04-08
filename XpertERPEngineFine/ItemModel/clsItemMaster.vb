@@ -1425,198 +1425,222 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
     Public Function SaveDataRMOther(ByVal obj As clsItemMaster, ByVal ArrDatabase As List(Of String), ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", "TSPL_ITEM_UOM_DETAIL", "Item_Code", "TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER", "Item_Code", trans)
-            End If
-            Dim qry As String = "delete from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "'"
-            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
-            qry = "delete from TSPL_ITEM_MASTER_CATEGORY where Item_Code='" + obj.Item_Code + "'"
-            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
-            qry = "delete from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER where Item_Code='" + obj.Item_Code + "'"
-            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
-            qry = "delete from TSPL_ITEM_SCHEDULE_PENALTY where Against_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "delete from TSPL_ITEM_NOC_SCHEDULE_PENALTY where Against_NOC_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
-            clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Item_Short_Desc)
-            '=============Added by preeti gupta Against Ticket no[ERO/10/05/18-000302]
-            clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
-            clsCommon.AddColumnsForChange(coll, "Report_Name", obj.ReportName)
-            clsCommon.AddColumnsForChange(coll, "Alies_Name2", obj.Alies_Name2)
-            clsCommon.AddColumnsForChange(coll, "Alies_Name3", obj.Alies_Name3)
-            '=========================================================================
-            clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
-            clsCommon.AddColumnsForChange(coll, "Part_No", obj.Part_No)
-            clsCommon.AddColumnsForChange(coll, "Drawing_No", obj.Drawing_No)
-            clsCommon.AddColumnsForChange(coll, "Purchase_Price", obj.std_pur_rate)
-            clsCommon.AddColumnsForChange(coll, "Structure_Code", obj.Structure_Code)
-            clsCommon.AddColumnsForChange(coll, "Structure_Desc", obj.Structure_Desc)
-            clsCommon.AddColumnsForChange(coll, "Purchase_Class_Code", obj.Purchase_Class_Code)
-            clsCommon.AddColumnsForChange(coll, "Sale_Class_Code", obj.Sale_Class_Code)
-            clsCommon.AddColumnsForChange(coll, "item_category", obj.item_category, True)
-            clsCommon.AddColumnsForChange(coll, "Sub_item_category", obj.Sub_item_category, True)
-            clsCommon.AddColumnsForChange(coll, "TypeOfItm", obj.TypeOfItm, True)
-            clsCommon.AddColumnsForChange(coll, "Cheapter_Heads", obj.Cheapter_Heads)
-            clsCommon.AddColumnsForChange(coll, "Item_Sub_Group_Type", obj.Item_Sub_Group_Type)
-            clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type) ''R OR O
-            '' newly added column SubItemType-
-            clsCommon.AddColumnsForChange(coll, "SubItemType", obj.SubItemType) ''Direct or Packaging
-            '' end newly added column SubItemType
-            clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
-            clsCommon.AddColumnsForChange(coll, "Morning", IIf(obj.Morning, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Chilled_Freezen", IIf(obj.Chilled_Freezen, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "IsTaxable", IIf(obj.IsTaxable, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Cost", obj.Cost)
-            clsCommon.AddColumnsForChange(coll, "tolerence", obj.Tolerance)
-            clsCommon.AddColumnsForChange(coll, "Production_Tolerance", obj.Production_Tolerance)
-            clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
-            clsCommon.AddColumnsForChange(coll, "Asset_Life", obj.Asset_Life)
-            clsCommon.AddColumnsForChange(coll, "Warranty_Period", obj.Warranty_period)
-            clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
-            clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
-            clsCommon.AddColumnsForChange(coll, "Uploader_Seq", clsCommon.myCdbl(obj.Uploader_Seq))
-            clsCommon.AddColumnsForChange(coll, "DcsSeqNo", clsCommon.myCdbl(obj.DcsSeqNo))
-            clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
-            clsCommon.AddColumnsForChange(coll, "Is_ExcludeAPP", clsCommon.myCdbl(obj.Is_ExcludeAPP))
-            clsCommon.AddColumnsForChange(coll, "ItemSpecification", obj.ItemSpecification)
-            clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "Item_Category_Struct_Code", obj.Item_Category_Struct_Code, True)
-            clsCommon.AddColumnsForChange(coll, "Is_Serial_Item", IIf(obj.Is_Serial_Item, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Pick_Auto_SrNo", IIf(obj.Is_Pick_Auto_SrNo, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Serial_Counter", obj.Serial_Counter)
-            clsCommon.AddColumnsForChange(coll, "Warranty_Code", obj.Warranty_Code, True)
-            clsCommon.AddColumnsForChange(coll, "Weight_UOM", obj.Weight_UOM)
-            clsCommon.AddColumnsForChange(coll, "Weight_Value", obj.Weight_Value)
-            clsCommon.AddColumnsForChange(coll, "ITF_Code", obj.ITFCode)
-            clsCommon.AddColumnsForChange(coll, "Is_MRP", IIf(obj.Is_MRP, 1, 0))
-            '============ROhit=============================
-            clsCommon.AddColumnsForChange(coll, "Is_Purchaseable", IIf(obj.Is_Purchaseable_item, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Purchase", IIf(obj.Is_Allow_QC, 1, 0))
-            '================================================
-            clsCommon.AddColumnsForChange(coll, "Is_FreshItem", IIf(obj.Is_FreshItem, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_FreshAmbient", IIf(obj.Is_FreshAmbient, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Batch_Item", IIf(obj.Is_Batch_Item, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "RAL", IIf(obj.RAL, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Rate_Change_OnDairyDispatch", obj.Is_Rate_Change_OnDairyDispatch)
-            clsCommon.AddColumnsForChange(coll, "Is_QC_SNF_Based", obj.Is_QC_SNF_Based)
-            clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Production", obj.Is_AllowQC_ON_Production)
-            clsCommon.AddColumnsForChange(coll, "FG_for_CF_RPT", obj.FG_for_CF_RPT)
-            clsCommon.AddColumnsForChange(coll, "FG_for_CF_PL", obj.FG_for_CF_PL)
-            clsCommon.AddColumnsForChange(coll, "SFG_for_CF", obj.SFG_for_CF)
-            clsCommon.AddColumnsForChange(coll, "AllowSRNWithoutShortReject", obj.AllowSRNWithoutShortReject)
-            clsCommon.AddColumnsForChange(coll, "Is_Ambient", IIf(obj.Is_Ambient, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Tax_Exempted", obj.Tax_Exempted)
-            '' Anubhooti 11-Sep-2014 BM00000003891
-            clsCommon.AddColumnsForChange(coll, "Is_CrateType", IIf(obj.Is_CrateType, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account, True)
-            clsCommon.AddColumnsForChange(coll, "IsRepeat", obj.IsRepeat)
-            clsCommon.AddColumnsForChange(coll, "AllowEntryInDecimal", obj.AllowEntryInDecimal)
-            ''
-            'If Not String.IsNullOrEmpty(obj.Rack_No) Then
-            clsCommon.AddColumnsForChange(coll, "Rack_No", obj.Rack_No)
-            'End If
-            clsCommon.AddColumnsForChange(coll, "Product_Type", obj.Product_Type)
-            clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
-            clsCommon.AddColumnsForChange(coll, "Item_used_as", obj.Item_used_as) ''S OR I
-            clsCommon.AddColumnsForChange(coll, "CreateSepAssetForEachQty", obj.CreateSepAssetForEachQty)
-            ' BM00000007860 BM00000007910
-            clsCommon.AddColumnsForChange(coll, "Warranty_Applied_From", obj.Warranty_Applied_From, True)
-            clsCommon.AddColumnsForChange(coll, "Is_Scheme_Item", obj.Is_Scheme_Item)
-            clsCommon.AddColumnsForChange(coll, "Distributor_Commission", obj.Distributor_Commission)
-            clsCommon.AddColumnsForChange(coll, "CNF_Commission", obj.CNF_Commission)
-            clsCommon.AddColumnsForChange(coll, "Correction_Factor", obj.Correction_Factor)
-            clsCommon.AddColumnsForChange(coll, "Cust_Account", obj.Cust_Account, True)
-            clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "tech_shelf_life", obj.shelflife)
-            clsCommon.AddColumnsForChange(coll, "Min_shelf_life", obj.Min_shelf_life)
-            clsCommon.AddColumnsForChange(coll, "Skip_GST", IIf(obj.Skip_GST, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Power_And_Fuel", IIf(obj.Is_Power_And_Fuel, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "HSN_Code", obj.HSNCode)
-            clsCommon.AddColumnsForChange(coll, "STD_FatPer", obj.STD_FatPer)
-            clsCommon.AddColumnsForChange(coll, "STD_SNFPer", obj.STD_SNFPer)
-            clsCommon.AddColumnsForChange(coll, "Crate", IIf(obj.Crate, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Can", IIf(obj.Can, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_CAN_Type", IIf(obj.Is_CAN_Type, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Scrap_Item", IIf(obj.Is_Scrap_Item, 1, 0))
-            If obj.Is_Scrap_Item = True Then
-                clsCommon.AddColumnsForChange(coll, "Scrap_Item_Code", obj.Scrap_Item_Code, True)
-            Else
-                clsCommon.AddColumnsForChange(coll, "Scrap_Item_Code", Nothing, True)
-            End If
-            clsCommon.AddColumnsForChange(coll, "Is_Milk_Pouch", IIf(obj.Is_Milk_Pouch, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Advance_Required", IIf(obj.Is_Advance_Required, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Leakage_Not_Applicable", IIf(obj.Is_Leakage_Not_Applicable, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "FG_for_CF", obj.FG_for_CF)
-            clsCommon.AddColumnsForChange(coll, "BomBuildQty", obj.BomBuildQty)
-            clsCommon.AddColumnsForChange(coll, "NIR_QC", IIf(obj.NIR_QC, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Is_Insurance", obj.Is_Insurance)
-            If obj.Is_Insurance = 1 Then
-                clsCommon.AddColumnsForChange(coll, "InsuranceNo", obj.InsuranceNo, True)
-                clsCommon.AddColumnsForChange(coll, "InsuranceFromDate", clsCommon.GetPrintDate(obj.InsuranceFromDate, "dd/MMM/yyyy"), True)
-                clsCommon.AddColumnsForChange(coll, "InsuranceToDate", clsCommon.GetPrintDate(obj.InsuranceToDate, "dd/MMM/yyyy"), True)
-            Else
-                clsCommon.AddColumnsForChange(coll, "InsuranceNo", Nothing, True)
-                clsCommon.AddColumnsForChange(coll, "InsuranceFromDate", Nothing, True)
-                clsCommon.AddColumnsForChange(coll, "InsuranceToDate", Nothing, True)
-            End If
-            clsCommon.AddColumnsForChange(coll, "Marketing_Seq", clsCommon.myCdbl(obj.Marketing_Seq))
-            clsCommon.AddColumnsForChange(coll, "Visual_QC", IIf(obj.Visual_QC, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Security_Deduction", obj.Security_Deduction)
-            clsCommon.AddColumnsForChange(coll, "ApplyRoundingInStdProd", IIf(obj.ApplyRoundingInStdProd, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "Item_Desc_Hindi", obj.Item_Desc_Hindi, True, True)
-            clsCommon.AddColumnsForChange(coll, "Short_Description_Hindi", obj.Item_Short_Desc_Hindi, True, True)
-            clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
-            clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
-            clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
-            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
-            clsCommon.AddColumnsForChange(coll, "Deduction", obj.Deduction, True)
-            'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
-            clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
-            clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
-            clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
-            If isNewEntry Then
-                ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
-                ' Ticket No : ERO/11/07/19-000679 By Prabhakar
-                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoItemNLevel, clsFixedParameterCode.AutoItemNLevel, trans)) = 1 Then
-                    'obj.Item_Code = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoItemNLevel, obj.Item_Type, trans))
-                    qry = "SELECT PREFIX FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + clsCommon.myCstr(obj.Item_Type) + "'"
-                    obj.Item_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                    qry = "update TSPL_ITEM_TYPE_MASTER set PREFIX='" + clsCommon.incval(obj.Item_Code) + "' where ITEM_TYPE_CODE='" + clsCommon.myCstr(obj.Item_Type) + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            If CheckItemBalance(obj.Item_Code, obj.Is_Batch_Item, trans) Then
+                If Not isNewEntry Then
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", "TSPL_ITEM_UOM_DETAIL", "Item_Code", "TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER", "Item_Code", trans)
                 End If
+                Dim qry As String = "delete from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "'"
+                clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
+                qry = "delete from TSPL_ITEM_MASTER_CATEGORY where Item_Code='" + obj.Item_Code + "'"
+                clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
+                qry = "delete from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER where Item_Code='" + obj.Item_Code + "'"
+                clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
+                qry = "delete from TSPL_ITEM_SCHEDULE_PENALTY where Against_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_ITEM_NOC_SCHEDULE_PENALTY where Against_NOC_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
+                clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Item_Short_Desc)
+                '=============Added by preeti gupta Against Ticket no[ERO/10/05/18-000302]
+                clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
+                clsCommon.AddColumnsForChange(coll, "Report_Name", obj.ReportName)
+                clsCommon.AddColumnsForChange(coll, "Alies_Name2", obj.Alies_Name2)
+                clsCommon.AddColumnsForChange(coll, "Alies_Name3", obj.Alies_Name3)
+                '=========================================================================
+                clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
+                clsCommon.AddColumnsForChange(coll, "Part_No", obj.Part_No)
+                clsCommon.AddColumnsForChange(coll, "Drawing_No", obj.Drawing_No)
+                clsCommon.AddColumnsForChange(coll, "Purchase_Price", obj.std_pur_rate)
+                clsCommon.AddColumnsForChange(coll, "Structure_Code", obj.Structure_Code)
+                clsCommon.AddColumnsForChange(coll, "Structure_Desc", obj.Structure_Desc)
+                clsCommon.AddColumnsForChange(coll, "Purchase_Class_Code", obj.Purchase_Class_Code)
+                clsCommon.AddColumnsForChange(coll, "Sale_Class_Code", obj.Sale_Class_Code)
+                clsCommon.AddColumnsForChange(coll, "item_category", obj.item_category, True)
+                clsCommon.AddColumnsForChange(coll, "Sub_item_category", obj.Sub_item_category, True)
+                clsCommon.AddColumnsForChange(coll, "TypeOfItm", obj.TypeOfItm, True)
+                clsCommon.AddColumnsForChange(coll, "Cheapter_Heads", obj.Cheapter_Heads)
+                clsCommon.AddColumnsForChange(coll, "Item_Sub_Group_Type", obj.Item_Sub_Group_Type)
+                clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type) ''R OR O
+                '' newly added column SubItemType-
+                clsCommon.AddColumnsForChange(coll, "SubItemType", obj.SubItemType) ''Direct or Packaging
+                '' end newly added column SubItemType
+                clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
+                clsCommon.AddColumnsForChange(coll, "Morning", IIf(obj.Morning, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Chilled_Freezen", IIf(obj.Chilled_Freezen, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "IsTaxable", IIf(obj.IsTaxable, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Cost", obj.Cost)
+                clsCommon.AddColumnsForChange(coll, "tolerence", obj.Tolerance)
+                clsCommon.AddColumnsForChange(coll, "Production_Tolerance", obj.Production_Tolerance)
+                clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
+                clsCommon.AddColumnsForChange(coll, "Asset_Life", obj.Asset_Life)
+                clsCommon.AddColumnsForChange(coll, "Warranty_Period", obj.Warranty_period)
+                clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
+                clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
+                clsCommon.AddColumnsForChange(coll, "Uploader_Seq", clsCommon.myCdbl(obj.Uploader_Seq))
+                clsCommon.AddColumnsForChange(coll, "DcsSeqNo", clsCommon.myCdbl(obj.DcsSeqNo))
+                clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
+                clsCommon.AddColumnsForChange(coll, "Is_ExcludeAPP", clsCommon.myCdbl(obj.Is_ExcludeAPP))
+                clsCommon.AddColumnsForChange(coll, "ItemSpecification", obj.ItemSpecification)
+                clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "Item_Category_Struct_Code", obj.Item_Category_Struct_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Is_Serial_Item", IIf(obj.Is_Serial_Item, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Pick_Auto_SrNo", IIf(obj.Is_Pick_Auto_SrNo, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Serial_Counter", obj.Serial_Counter)
+                clsCommon.AddColumnsForChange(coll, "Warranty_Code", obj.Warranty_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Weight_UOM", obj.Weight_UOM)
+                clsCommon.AddColumnsForChange(coll, "Weight_Value", obj.Weight_Value)
+                clsCommon.AddColumnsForChange(coll, "ITF_Code", obj.ITFCode)
+                clsCommon.AddColumnsForChange(coll, "Is_MRP", IIf(obj.Is_MRP, 1, 0))
+                '============ROhit=============================
+                clsCommon.AddColumnsForChange(coll, "Is_Purchaseable", IIf(obj.Is_Purchaseable_item, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Purchase", IIf(obj.Is_Allow_QC, 1, 0))
+                '================================================
+                clsCommon.AddColumnsForChange(coll, "Is_FreshItem", IIf(obj.Is_FreshItem, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_FreshAmbient", IIf(obj.Is_FreshAmbient, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Batch_Item", IIf(obj.Is_Batch_Item, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "RAL", IIf(obj.RAL, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Rate_Change_OnDairyDispatch", obj.Is_Rate_Change_OnDairyDispatch)
+                clsCommon.AddColumnsForChange(coll, "Is_QC_SNF_Based", obj.Is_QC_SNF_Based)
+                clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Production", obj.Is_AllowQC_ON_Production)
+                clsCommon.AddColumnsForChange(coll, "FG_for_CF_RPT", obj.FG_for_CF_RPT)
+                clsCommon.AddColumnsForChange(coll, "FG_for_CF_PL", obj.FG_for_CF_PL)
+                clsCommon.AddColumnsForChange(coll, "SFG_for_CF", obj.SFG_for_CF)
+                clsCommon.AddColumnsForChange(coll, "AllowSRNWithoutShortReject", obj.AllowSRNWithoutShortReject)
+                clsCommon.AddColumnsForChange(coll, "Is_Ambient", IIf(obj.Is_Ambient, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Tax_Exempted", obj.Tax_Exempted)
+                '' Anubhooti 11-Sep-2014 BM00000003891
+                clsCommon.AddColumnsForChange(coll, "Is_CrateType", IIf(obj.Is_CrateType, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account, True)
+                clsCommon.AddColumnsForChange(coll, "IsRepeat", obj.IsRepeat)
+                clsCommon.AddColumnsForChange(coll, "AllowEntryInDecimal", obj.AllowEntryInDecimal)
+                ''
+                'If Not String.IsNullOrEmpty(obj.Rack_No) Then
+                clsCommon.AddColumnsForChange(coll, "Rack_No", obj.Rack_No)
                 'End If
-                If clsCommon.myLen(obj.Item_Code) <= 0 Then
-                    Throw New Exception("Item Code not found to save")
+                clsCommon.AddColumnsForChange(coll, "Product_Type", obj.Product_Type)
+                clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
+                clsCommon.AddColumnsForChange(coll, "Item_used_as", obj.Item_used_as) ''S OR I
+                clsCommon.AddColumnsForChange(coll, "CreateSepAssetForEachQty", obj.CreateSepAssetForEachQty)
+                ' BM00000007860 BM00000007910
+                clsCommon.AddColumnsForChange(coll, "Warranty_Applied_From", obj.Warranty_Applied_From, True)
+                clsCommon.AddColumnsForChange(coll, "Is_Scheme_Item", obj.Is_Scheme_Item)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission", obj.Distributor_Commission)
+                clsCommon.AddColumnsForChange(coll, "CNF_Commission", obj.CNF_Commission)
+                clsCommon.AddColumnsForChange(coll, "Correction_Factor", obj.Correction_Factor)
+                clsCommon.AddColumnsForChange(coll, "Cust_Account", obj.Cust_Account, True)
+                clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "tech_shelf_life", obj.shelflife)
+                clsCommon.AddColumnsForChange(coll, "Min_shelf_life", obj.Min_shelf_life)
+                clsCommon.AddColumnsForChange(coll, "Skip_GST", IIf(obj.Skip_GST, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Power_And_Fuel", IIf(obj.Is_Power_And_Fuel, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "HSN_Code", obj.HSNCode)
+                clsCommon.AddColumnsForChange(coll, "STD_FatPer", obj.STD_FatPer)
+                clsCommon.AddColumnsForChange(coll, "STD_SNFPer", obj.STD_SNFPer)
+                clsCommon.AddColumnsForChange(coll, "Crate", IIf(obj.Crate, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Can", IIf(obj.Can, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_CAN_Type", IIf(obj.Is_CAN_Type, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Scrap_Item", IIf(obj.Is_Scrap_Item, 1, 0))
+                If obj.Is_Scrap_Item = True Then
+                    clsCommon.AddColumnsForChange(coll, "Scrap_Item_Code", obj.Scrap_Item_Code, True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Scrap_Item_Code", Nothing, True)
                 End If
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Insert, "", trans)
-            Else
-                clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Update, "Item_Code='" + obj.Item_Code + "'", trans)
+                clsCommon.AddColumnsForChange(coll, "Is_Milk_Pouch", IIf(obj.Is_Milk_Pouch, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Advance_Required", IIf(obj.Is_Advance_Required, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Leakage_Not_Applicable", IIf(obj.Is_Leakage_Not_Applicable, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "FG_for_CF", obj.FG_for_CF)
+                clsCommon.AddColumnsForChange(coll, "BomBuildQty", obj.BomBuildQty)
+                clsCommon.AddColumnsForChange(coll, "NIR_QC", IIf(obj.NIR_QC, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Is_Insurance", obj.Is_Insurance)
+                If obj.Is_Insurance = 1 Then
+                    clsCommon.AddColumnsForChange(coll, "InsuranceNo", obj.InsuranceNo, True)
+                    clsCommon.AddColumnsForChange(coll, "InsuranceFromDate", clsCommon.GetPrintDate(obj.InsuranceFromDate, "dd/MMM/yyyy"), True)
+                    clsCommon.AddColumnsForChange(coll, "InsuranceToDate", clsCommon.GetPrintDate(obj.InsuranceToDate, "dd/MMM/yyyy"), True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "InsuranceNo", Nothing, True)
+                    clsCommon.AddColumnsForChange(coll, "InsuranceFromDate", Nothing, True)
+                    clsCommon.AddColumnsForChange(coll, "InsuranceToDate", Nothing, True)
+                End If
+                clsCommon.AddColumnsForChange(coll, "Marketing_Seq", clsCommon.myCdbl(obj.Marketing_Seq))
+                clsCommon.AddColumnsForChange(coll, "Visual_QC", IIf(obj.Visual_QC, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Security_Deduction", obj.Security_Deduction)
+                clsCommon.AddColumnsForChange(coll, "ApplyRoundingInStdProd", IIf(obj.ApplyRoundingInStdProd, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Item_Desc_Hindi", obj.Item_Desc_Hindi, True, True)
+                clsCommon.AddColumnsForChange(coll, "Short_Description_Hindi", obj.Item_Short_Desc_Hindi, True, True)
+                clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
+                clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
+                clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
+                clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
+                clsCommon.AddColumnsForChange(coll, "Deduction", obj.Deduction, True)
+                'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
+                clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
+                clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
+                clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
+                If isNewEntry Then
+                    ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
+                    ' Ticket No : ERO/11/07/19-000679 By Prabhakar
+                    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoItemNLevel, clsFixedParameterCode.AutoItemNLevel, trans)) = 1 Then
+                        'obj.Item_Code = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoItemNLevel, obj.Item_Type, trans))
+                        qry = "SELECT PREFIX FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + clsCommon.myCstr(obj.Item_Type) + "'"
+                        obj.Item_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                        qry = "update TSPL_ITEM_TYPE_MASTER set PREFIX='" + clsCommon.incval(obj.Item_Code) + "' where ITEM_TYPE_CODE='" + clsCommon.myCstr(obj.Item_Type) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
+                    'End If
+                    If clsCommon.myLen(obj.Item_Code) <= 0 Then
+                        Throw New Exception("Item Code not found to save")
+                    End If
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                    clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                Else
+                    clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Update, "Item_Code='" + obj.Item_Code + "'", trans)
+                End If
+                clsItemUOMDetails.SaveData(obj.Item_Code, obj.ArrUomDetails, ArrDatabase, trans)
+                clsItemMasterCategory.SaveData(obj.Item_Code, obj.ArrItemMasterCategory, ArrDatabase, trans)
+                clsCustomFieldValues.SaveData(obj.Form_ID, obj.Item_Code, obj.arrCustomFields, trans)
+                clsItemMaster.SaveData_Parameter(obj.Item_Code, obj.Arr_Param, trans)
+                chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
+                clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
+                clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
+                clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
+                trans.Commit()
             End If
-            clsItemUOMDetails.SaveData(obj.Item_Code, obj.ArrUomDetails, ArrDatabase, trans)
-            clsItemMasterCategory.SaveData(obj.Item_Code, obj.ArrItemMasterCategory, ArrDatabase, trans)
-            clsCustomFieldValues.SaveData(obj.Form_ID, obj.Item_Code, obj.arrCustomFields, trans)
-            clsItemMaster.SaveData_Parameter(obj.Item_Code, obj.Arr_Param, trans)
-            chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
-            clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
-            clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
-            clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
-            trans.Commit()
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+
+    Private Function CheckItemBalance(ByVal Item_Code As String, ByVal Is_Batch_Item As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim StockQty As Decimal
+            Dim isBatchWise As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Batch_Item from tspl_item_master Where Item_Code='" + Item_Code + "'", trans))
+            If (isBatchWise AndAlso Not Is_Batch_Item) OrElse (Not isBatchWise AndAlso Is_Batch_Item) Then
+                StockQty = clsDBFuncationality.getSingleValue("select sum(Stock_Qty)  as Stock_Qty from ( select  (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end)  as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW 
+            " + Environment.NewLine + " union all " + Environment.NewLine + " select (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end) as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT )xx  where xx.item_code = '" + Item_Code + "' ", trans)
+                If StockQty > 0 Then
+                    If (isBatchWise AndAlso Not Is_Batch_Item) Then
+                        Throw New Exception("You cannot make this Item without Batch wise because stock is available [" + clsCommon.myCstr(StockQty) + "]")
+                    ElseIf (Not isBatchWise AndAlso Is_Batch_Item) Then
+                        Throw New Exception("You cannot make this Item Batch wise because stock is available [" + clsCommon.myCstr(StockQty) + "]")
+                    End If
+                    Return False
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
         Return True
     End Function

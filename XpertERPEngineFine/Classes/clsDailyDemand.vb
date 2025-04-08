@@ -61,6 +61,7 @@ Public Class clsDailyDemand
             clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "Tspl_Daily_Demand_Master", OMInsertOrUpdate.Update, "Code='" + clsCommon.myCstr(obj.Code) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "Tspl_Daily_Demand_Master", "Code", trans)
 
         Catch ex As Exception
 
@@ -110,6 +111,7 @@ Public Class clsDailyDemand
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "Tspl_Daily_Demand_Master", OMInsertOrUpdate.Update, "Tspl_Daily_Demand_Master.Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "Tspl_Daily_Demand_Master", "Code", trans)
 
             'IsSaved = IsSaved AndAlso clsDailyDemand.SaveData(obj.Code, obj.Arr, trans)
         Catch err As Exception
@@ -137,6 +139,9 @@ Public Class clsDailyDemand
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "Tspl_Daily_Demand_Master", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "Tspl_Daily_Demand_Master", "Code", trans)
+
             Dim qry As String = ""
             qry = "delete from Tspl_Daily_Demand_Master where Code='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

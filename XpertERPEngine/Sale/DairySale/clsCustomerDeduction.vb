@@ -24,6 +24,10 @@ Public Class clsCustomerDeductionHead
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_DEDUCTION_HEAD", "Deduction_Code", "TSPL_CUSTOMER_DEDUCTION_CUSTOMER", "Deduction_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_DEDUCTION_HEAD", "Deduction_Code", "TSPL_CUSTOMER_DEDUCTION_CUSTOMER", "Deduction_Code", trans)
+
             Dim qry As String = "delete from TSPL_CUSTOMER_DEDUCTION_CUSTOMER where Deduction_Code ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_CUSTOMER_DEDUCTION_HEAD where Deduction_Code ='" + strCode + "'"
@@ -124,6 +128,8 @@ Public Class clsCustomerDeductionHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_DEDUCTION_HEAD", OMInsertOrUpdate.Update, "Deduction_Code='" + obj.Deduction_Code + "'", trans)
             End If
             clsCustomerDeductionCustomer.SaveData(obj.arr, obj.Deduction_Code, obj.Deduction_Valid_Till, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Deduction_Code, "TSPL_CUSTOMER_DEDUCTION_HEAD", "Deduction_Code", "TSPL_CUSTOMER_DEDUCTION_CUSTOMER", "Deduction_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -148,6 +154,8 @@ Public Class clsCustomerDeductionHead
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_DEDUCTION_HEAD", OMInsertOrUpdate.Update, "Deduction_Code='" + obj.Deduction_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_DEDUCTION_HEAD", "Deduction_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

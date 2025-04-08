@@ -5436,6 +5436,11 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         txtTaxGroup.Enabled = False
         'gvAC.ReadOnly = True
         isInsideLoadData = False
+        If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                UpdateCurrentRow(ii)
+            Next
+        End If
         UpdateAllTotals()
         RefreshReqNo()
     End Sub

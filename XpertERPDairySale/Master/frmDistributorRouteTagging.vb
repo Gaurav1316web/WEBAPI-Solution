@@ -581,4 +581,16 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
             LoadBlankGrid()
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Code", "TSPL_DISTRIBUTOR_ROUTE", "TSPL_DISTRIBUTOR_ROUTE_CUSTOMER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

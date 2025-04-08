@@ -23,6 +23,7 @@ Partial Class frmDailyDemand
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtUnionName1 = New common.UserControls.txtFinder()
         Me.txtUnionName = New common.UserControls.txtFinder()
         Me.txtqty = New System.Windows.Forms.TextBox()
         Me.UsLock1 = New common.usLock()
@@ -42,7 +43,7 @@ Partial Class frmDailyDemand
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.txtUnionName1 = New common.UserControls.txtFinder()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -58,6 +59,7 @@ Partial Class frmDailyDemand
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,6 +91,7 @@ Partial Class frmDailyDemand
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -96,6 +99,32 @@ Partial Class frmDailyDemand
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 407
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtUnionName1
+        '
+        Me.txtUnionName1.CalculationExpression = Nothing
+        Me.txtUnionName1.FieldCode = Nothing
+        Me.txtUnionName1.FieldDesc = Nothing
+        Me.txtUnionName1.FieldMaxLength = 0
+        Me.txtUnionName1.FieldName = Nothing
+        Me.txtUnionName1.isCalculatedField = False
+        Me.txtUnionName1.IsSourceFromTable = False
+        Me.txtUnionName1.IsSourceFromValueList = False
+        Me.txtUnionName1.IsUnique = False
+        Me.txtUnionName1.Location = New System.Drawing.Point(81, 99)
+        Me.txtUnionName1.MendatroryField = True
+        Me.txtUnionName1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnionName1.MyLinkLable1 = Nothing
+        Me.txtUnionName1.MyLinkLable2 = Nothing
+        Me.txtUnionName1.MyReadOnly = False
+        Me.txtUnionName1.MyShowMasterFormButton = False
+        Me.txtUnionName1.Name = "txtUnionName1"
+        Me.txtUnionName1.ReferenceFieldDesc = Nothing
+        Me.txtUnionName1.ReferenceFieldName = Nothing
+        Me.txtUnionName1.ReferenceTableName = Nothing
+        Me.txtUnionName1.Size = New System.Drawing.Size(141, 19)
+        Me.txtUnionName1.TabIndex = 1527
+        Me.txtUnionName1.Value = ""
         '
         'txtUnionName
         '
@@ -363,31 +392,14 @@ Partial Class frmDailyDemand
         Me.btnSave.TabIndex = 1
         Me.btnSave.Text = "Save"
         '
-        'txtUnionName1
+        'btnHistory
         '
-        Me.txtUnionName1.CalculationExpression = Nothing
-        Me.txtUnionName1.FieldCode = Nothing
-        Me.txtUnionName1.FieldDesc = Nothing
-        Me.txtUnionName1.FieldMaxLength = 0
-        Me.txtUnionName1.FieldName = Nothing
-        Me.txtUnionName1.isCalculatedField = False
-        Me.txtUnionName1.IsSourceFromTable = False
-        Me.txtUnionName1.IsSourceFromValueList = False
-        Me.txtUnionName1.IsUnique = False
-        Me.txtUnionName1.Location = New System.Drawing.Point(81, 99)
-        Me.txtUnionName1.MendatroryField = True
-        Me.txtUnionName1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtUnionName1.MyLinkLable1 = Nothing
-        Me.txtUnionName1.MyLinkLable2 = Nothing
-        Me.txtUnionName1.MyReadOnly = False
-        Me.txtUnionName1.MyShowMasterFormButton = False
-        Me.txtUnionName1.Name = "txtUnionName1"
-        Me.txtUnionName1.ReferenceFieldDesc = Nothing
-        Me.txtUnionName1.ReferenceFieldName = Nothing
-        Me.txtUnionName1.ReferenceTableName = Nothing
-        Me.txtUnionName1.Size = New System.Drawing.Size(141, 19)
-        Me.txtUnionName1.TabIndex = 1527
-        Me.txtUnionName1.Value = ""
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(263, 11)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 18)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
         '
         'frmDailyDemand
         '
@@ -417,6 +429,7 @@ Partial Class frmDailyDemand
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -443,4 +456,5 @@ Partial Class frmDailyDemand
     Friend WithEvents txtqty As TextBox
     Friend WithEvents txtUnionName As common.UserControls.txtFinder
     Friend WithEvents txtUnionName1 As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class

@@ -17,6 +17,7 @@ Public Class rptGSTR
     Dim variable1 As String = Nothing
     Dim exportGSTR As Boolean = False
     Dim strQryGSTR As String = Nothing
+    Dim isGVDoubleClick As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -578,6 +579,8 @@ Public Class rptGSTR
             gv3.Columns("Taxable Amount").Width = 110
             gv3.Columns("Taxable Amount").HeaderText = "Tax Amount"
 
+            gv3.Columns("Invoice Type").IsVisible = False
+            gv3.Columns("Invoice Type").HeaderText = "Invoice Type"
 
             Dim item3 As New GridViewSummaryItem("Taxable Value", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
@@ -588,51 +591,81 @@ Public Class rptGSTR
             Dim item6 As New GridViewSummaryItem("Round Off Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
         ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
-            ''richa GKD/05/02/19-000174 6 Feb,2019
-            gv3.Columns("TotalTaxableValue").Width = 135
-            gv3.Columns("TotalTaxableValue").HeaderText = "Total Taxable Amount"
-            gv3.Columns("TotalTaxableValue").FormatString = "{0:F2}"
+            If isGVDoubleClick Then
+                gv3.Columns("Taxable Value").Width = 110
+                gv3.Columns("Taxable Value").HeaderText = "Taxable Value"
+                gv3.Columns("Taxable Value").FormatString = "{0:F2}"
 
-            gv3.Columns("TotalAmount").Width = 110
-            gv3.Columns("TotalAmount").HeaderText = "Total Amount"
-            gv3.Columns("TotalAmount").FormatString = "{0:F2}"
+                gv3.Columns("Taxable Amount").Width = 110
+                gv3.Columns("Taxable Amount").HeaderText = "Taxable Amount"
+                gv3.Columns("Taxable Amount").FormatString = "{0:F2}"
 
-            gv3.Columns("TotalTaxAmount").Width = 110
-            gv3.Columns("TotalTaxAmount").HeaderText = "Total Tax Amount"
-            gv3.Columns("TotalTaxAmount").FormatString = "{0:F2}"
+                gv3.Columns("Invoice Amount").Width = 110
+                gv3.Columns("Invoice Amount").HeaderText = "Invoice Amount"
+                gv3.Columns("Invoice Amount").FormatString = "{0:F2}"
 
-            gv3.Columns("CGSTAmount").Width = 110
-            gv3.Columns("CGSTAmount").HeaderText = "CGST Amount"
-            gv3.Columns("CGSTAmount").FormatString = "{0:F2}"
+                gv3.Columns("Round Off Amount").Width = 110
+                gv3.Columns("Round Off Amount").HeaderText = "Round Off Amount"
+                gv3.Columns("Round Off Amount").FormatString = "{0:F2}"
 
-            gv3.Columns("SGSTAmount").Width = 110
-            gv3.Columns("SGSTAmount").HeaderText = "SGST Amount"
-            gv3.Columns("SGSTAmount").FormatString = "{0:F2}"
+                Dim item11 As New GridViewSummaryItem("Taxable Value", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item11)
 
-            gv3.Columns("IGSTAmount").Width = 110
-            gv3.Columns("IGSTAmount").HeaderText = "IGST Amount"
-            gv3.Columns("IGSTAmount").FormatString = "{0:F2}"
+                Dim item12 As New GridViewSummaryItem("Taxable Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item12)
 
-            gv3.Columns("UGSTAmount").Width = 110
-            gv3.Columns("UGSTAmount").HeaderText = "UGST Amount"
-            gv3.Columns("UGSTAmount").FormatString = "{0:F2}"
+                Dim item13 As New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item13)
 
-            Dim item3 As New GridViewSummaryItem("TotalAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item3)
-            Dim item4 As New GridViewSummaryItem("TotalTaxAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item4)
-            Dim item5 As New GridViewSummaryItem("CGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item5)
-            Dim item6 As New GridViewSummaryItem("SGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item6)
-            Dim item7 As New GridViewSummaryItem("IGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item7)
-            Dim item8 As New GridViewSummaryItem("UGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item8)
-            Dim item9 As New GridViewSummaryItem("TotalQty", "{0:F0}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item9)
-            Dim item10 As New GridViewSummaryItem("TotalTaxableValue", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item10)
+                Dim item14 As New GridViewSummaryItem("Round Off Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item14)
+            Else
+                'richa GKD/05/02/19-000174 6 Feb,2019
+                gv3.Columns("TotalTaxableValue").Width = 135
+                gv3.Columns("TotalTaxableValue").HeaderText = "Total Taxable Amount"
+                gv3.Columns("TotalTaxableValue").FormatString = "{0:F2}"
+
+                gv3.Columns("TotalAmount").Width = 110
+                gv3.Columns("TotalAmount").HeaderText = "Total Amount"
+                gv3.Columns("TotalAmount").FormatString = "{0:F2}"
+
+                gv3.Columns("TotalTaxAmount").Width = 110
+                gv3.Columns("TotalTaxAmount").HeaderText = "Total Tax Amount"
+                gv3.Columns("TotalTaxAmount").FormatString = "{0:F2}"
+
+                gv3.Columns("CGSTAmount").Width = 110
+                gv3.Columns("CGSTAmount").HeaderText = "CGST Amount"
+                gv3.Columns("CGSTAmount").FormatString = "{0:F2}"
+
+                gv3.Columns("SGSTAmount").Width = 110
+                gv3.Columns("SGSTAmount").HeaderText = "SGST Amount"
+                gv3.Columns("SGSTAmount").FormatString = "{0:F2}"
+
+                gv3.Columns("IGSTAmount").Width = 110
+                gv3.Columns("IGSTAmount").HeaderText = "IGST Amount"
+                gv3.Columns("IGSTAmount").FormatString = "{0:F2}"
+
+                gv3.Columns("UGSTAmount").Width = 110
+                gv3.Columns("UGSTAmount").HeaderText = "UGST Amount"
+                gv3.Columns("UGSTAmount").FormatString = "{0:F2}"
+
+                Dim item3 As New GridViewSummaryItem("TotalAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item3)
+                Dim item4 As New GridViewSummaryItem("TotalTaxAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item4)
+                Dim item5 As New GridViewSummaryItem("CGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item5)
+                Dim item6 As New GridViewSummaryItem("SGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item6)
+                Dim item7 As New GridViewSummaryItem("IGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item7)
+                Dim item8 As New GridViewSummaryItem("UGSTAmount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item8)
+                Dim item9 As New GridViewSummaryItem("TotalQty", "{0:F0}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item9)
+                Dim item10 As New GridViewSummaryItem("TotalTaxableValue", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item10)
+            End If
         End If
 
         gv3.ShowGroupPanel = False
@@ -1880,12 +1913,15 @@ Public Class rptGSTR
 
     Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
         Try
+            isGVDoubleClick = True
             If btnGSTR1.IsChecked = True Then
                 DrillDownHeaderForGSTR1()
             Else
                 drilldownHeaderforgv1()
             End If
+            isGVDoubleClick = False
         Catch ex As Exception
+            isGVDoubleClick = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -1896,20 +1932,16 @@ Public Class rptGSTR
 
     Private Sub gv2_DoubleClick(sender As Object, e As EventArgs) Handles gv2.DoubleClick
         Try
-            GSTRDetails(0)
+            If btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
+                DrillDownDetailForGSTR1_ItemWise()
+            ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = False Then
+                DrillDownDetailForGSTR1()
+            ElseIf btnGSTR2.IsChecked = True Then
+                drilldownDetailforgv2()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-    End Sub
-
-    Sub GSTRDetails(ByVal i As Integer)
-        If btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
-            DrillDownDetailForGSTR1_ItemWise()
-        ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = False Then
-            DrillDownDetailForGSTR1(i)
-        ElseIf btnGSTR2.IsChecked = True Then
-            drilldownDetailforgv2()
-        End If
     End Sub
 
     ''richa agarwal 29 Nov,2018 ALF/26/11/18-000089
@@ -1919,7 +1951,11 @@ Public Class rptGSTR
             ''richa GKD/05/02/19-000174 6 Feb,2019
             ''BaseQry = " select FinalQuery .Item_Code,max(tspl_item_master.item_Desc) as Description,max(tspl_item_master.HSN_Code) as [HSN Code] ,FinalQuery.UOM ,SUM(FinalQuery.TotalQty) as TotalQty,sum(FinalQuery.TotalAmount) as TotalAmount,sum(FinalQuery.TotalTaxAmount) as TotalTaxAmount,sum(FinalQuery.CGSTAmount) as CGSTAmount,sum(FinalQuery.SGSTAmount) as SGSTAmount,sum(FinalQuery.IGSTAmount) as IGSTAmount,sum(FinalQuery.UGSTAmount) as UGSTAmount " & Environment.NewLine & _
 
-            BaseQry = "  select FinalQuery .Item_Code,max(tspl_item_master.item_Desc) as Description,max(tspl_item_master.HSN_Code) as [HSN Code] ,FinalQuery.UOM ,SUM(FinalQuery.TotalQty) as TotalQty,(sum(FinalQuery.TotalAmount)-sum(FinalQuery.TotalTaxAmount)) as TotalTaxableValue,sum(FinalQuery.TotalTaxAmount) as TotalTaxAmount,sum(FinalQuery.CGSTAmount) as CGSTAmount,sum(FinalQuery.SGSTAmount) as SGSTAmount,sum(FinalQuery.IGSTAmount) as IGSTAmount,sum(FinalQuery.UGSTAmount) as UGSTAmount ,sum(FinalQuery.TotalAmount) as TotalAmount " & Environment.NewLine &
+            BaseQry = "  select FinalQuery .Item_Code,max(tspl_item_master.item_Desc) as Description,max(tspl_item_master.HSN_Code) as [HSN Code] ,FinalQuery.UOM ,SUM(FinalQuery.TotalQty) as TotalQty,(sum(FinalQuery.TotalAmount)-sum(FinalQuery.TotalTaxAmount)) as TotalTaxableValue,"
+            If clsCommon.CompairString(trantype, "Credit/Debit Notes(Unregistered) - 9B") <> CompairStringResult.Equal And clsCommon.CompairString(trantype, "Credit/Debit Notes(Registered) - 9B") <> CompairStringResult.Equal Then
+                BaseQry += " Max(Tax_Rate)Tax_Rate, "
+            End If
+            BaseQry += " sum(FinalQuery.TotalTaxAmount) as TotalTaxAmount,sum(FinalQuery.CGSTAmount) as CGSTAmount,sum(FinalQuery.SGSTAmount) as SGSTAmount,sum(FinalQuery.IGSTAmount) as IGSTAmount,sum(FinalQuery.UGSTAmount) as UGSTAmount ,sum(FinalQuery.TotalAmount) as TotalAmount " & Environment.NewLine &
                " from ( " & Environment.NewLine
             If clsCommon.CompairString(trantype, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal Or clsCommon.CompairString(trantype, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal Or clsCommon.CompairString(trantype, "Credit/Debit Notes(Registered) - 9B") = CompairStringResult.Equal Then
                 BaseQry += "---------------- Direct AR Invoice-------------------" & Environment.NewLine &
@@ -1958,7 +1994,7 @@ Public Class rptGSTR
             End If
             If clsCommon.CompairString(trantype, "Credit/Debit Notes(Unregistered) - 9B") <> CompairStringResult.Equal And clsCommon.CompairString(trantype, "Credit/Debit Notes(Registered) - 9B") <> CompairStringResult.Equal Then
                 BaseQry += " ---------------- Sale Invoice ,BULK SALE,CAN SALE--------------------- " & Environment.NewLine &
-                   " select saleInvoice.Item_Code ,saleInvoice.UOM ,SUM(saleInvoice.Qty) as TotalQty,sum(saleInvoice.Item_Net_Amt) as TotalAmount,sum(saleInvoice.Total_Tax_Amt) as TotalTaxAmount,sum(saleInvoice.CGSTAmount) as CGSTAmount,sum(saleInvoice.SGSTAmount) as SGSTAmount,sum(saleInvoice.IGSTAmount) as IGSTAmount,sum(saleInvoice.UGSTAmount) as UGSTAmount  from (select TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ,TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else 0 end " & Environment.NewLine &
+                   " select saleInvoice.Item_Code ,saleInvoice.UOM ,SUM(saleInvoice.Qty) as TotalQty,sum(saleInvoice.Item_Net_Amt) as TotalAmount,sum(saleInvoice.Total_Tax_Amt) as TotalTaxAmount,sum(saleInvoice.CGSTAmount) as CGSTAmount,sum(saleInvoice.SGSTAmount) as SGSTAmount,sum(saleInvoice.IGSTAmount) as IGSTAmount,sum(saleInvoice.UGSTAmount) as UGSTAmount,Max(Tax_Rate)Tax_Rate  from (select TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ,TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end  " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt else 0 end " & Environment.NewLine &
@@ -1977,19 +2013,40 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt else 0 end " & Environment.NewLine &
-                   " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt else 0 end as UGSTAmount from TSPL_SD_SALE_INVOICE_DETAIL " & Environment.NewLine &
+                   " + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt else 0 end as UGSTAmount, " & Environment.NewLine &
+                   " case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
+                   " from TSPL_SD_SALE_INVOICE_DETAIL " & Environment.NewLine &
                    " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.Document_Code  " & Environment.NewLine &
                    " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
                    " left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER .Location_Code  " & Environment.NewLine &
                    " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code in (select  TSPL_Customer_INVOICE_HEAD.Against_Sale_No  from TSPL_Customer_Invoice_Head  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' " & strWhrCls & ") and TSPL_SD_SALE_INVOICE_HEAD.Status =1 " & Environment.NewLine &
                    " union all  " & Environment.NewLine &
-                   " select TSPL_CANSALE_INVOICE_detail.Document_No,TSPL_CANSALE_INVOICE_detail.ItemCode ,TSPL_CANSALE_INVOICE_detail.Qty ,TSPL_CANSALE_INVOICE_detail.UOM ,TSPL_CANSALE_INVOICE_detail.TotalAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount from TSPL_CANSALE_INVOICE_detail " & Environment.NewLine &
+                   " select TSPL_CANSALE_INVOICE_detail.Document_No,TSPL_CANSALE_INVOICE_detail.ItemCode ,TSPL_CANSALE_INVOICE_detail.Qty ,TSPL_CANSALE_INVOICE_detail.UOM ,TSPL_CANSALE_INVOICE_detail.TotalAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount,0 As Tax_Rate from TSPL_CANSALE_INVOICE_detail " & Environment.NewLine &
                    " left outer join TSPL_CANSALE_INVOICE_HEAD on TSPL_CANSALE_INVOICE_HEAD .Document_no =TSPL_CANSALE_INVOICE_detail.Document_No " & Environment.NewLine &
                    " left outer join TSPL_Customer_INVOICE_HEAD on TSPL_Customer_INVOICE_HEAD .Against_Sale_No =TSPL_CANSALE_INVOICE_HEAD.Document_No " & Environment.NewLine &
                    " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_CANSALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
                    " where TSPL_CANSALE_INVOICE_HEAD.Posted =1 and TSPL_CANSALE_INVOICE_HEAD.Document_No in (select  TSPL_Customer_INVOICE_HEAD.Against_Sale_No  from TSPL_Customer_Invoice_Head  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' " & strWhrCls & ") " & Environment.NewLine &
                    " union all " & Environment.NewLine &
-                   " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.item_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code as UOM,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount  from TSPL_INVOICE_DETAIL_BULKSALE " & Environment.NewLine &
+                   " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.item_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code as UOM,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount,0 As Tax_Rate  from TSPL_INVOICE_DETAIL_BULKSALE " & Environment.NewLine &
                    " left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE .Document_no =TSPL_INVOICE_DETAIL_BULKSALE.Document_No  " & Environment.NewLine &
                    " left outer join TSPL_Customer_INVOICE_HEAD on TSPL_Customer_INVOICE_HEAD .Against_Sale_No =TSPL_INVOICE_MASTER_BULKSALE.Document_No " & Environment.NewLine &
                    " where TSPL_INVOICE_MASTER_BULKSALE.Posted =1 and TSPL_INVOICE_MASTER_BULKSALE.Document_No in (select  TSPL_Customer_INVOICE_HEAD.Against_Sale_No  from TSPL_Customer_Invoice_Head  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' " & strWhrCls & ") " & Environment.NewLine &
@@ -1997,7 +2054,7 @@ Public Class rptGSTR
                    " group by  saleInvoice.Item_Code ,saleInvoice.UOM " & Environment.NewLine &
                    "   union all  " & Environment.NewLine &
                    " ---------------- Sale RETURN ,CAN SALE RETURN----------------------- " & Environment.NewLine &
-                   " select saleRETURN.Item_Code ,saleRETURN.UOM ,SUM(saleRETURN.Qty) * -1  as TotalQty,sum(saleRETURN.Item_Net_Amt) * -1  as TotalAmount,sum(saleRETURN.Total_Tax_Amt) * -1  as TotalTaxAmount ,sum(saleRETURN.CGSTAmount) * -1  as CGSTAmount,sum(saleRETURN.SGSTAmount)  * -1  as SGSTAmount,sum(saleRETURN.IGSTAmount) * -1  as IGSTAmount,sum(saleRETURN.UGSTAmount)  * -1  as UGSTAmount from ( " & Environment.NewLine &
+                   " select saleRETURN.Item_Code ,saleRETURN.UOM ,SUM(saleRETURN.Qty) * -1  as TotalQty,sum(saleRETURN.Item_Net_Amt) * -1  as TotalAmount,sum(saleRETURN.Total_Tax_Amt) * -1  as TotalTaxAmount ,sum(saleRETURN.CGSTAmount) * -1  as CGSTAmount,sum(saleRETURN.SGSTAmount)  * -1  as SGSTAmount,sum(saleRETURN.IGSTAmount) * -1  as IGSTAmount,sum(saleRETURN.UGSTAmount)  * -1  as UGSTAmount,Max(Tax_Rate)*-1 As Tax_Rate from ( " & Environment.NewLine &
                    " select  " & Environment.NewLine &
                    " TSPL_SD_SALE_RETURN_DETAIL.Document_Code,TSPL_SD_SALE_RETURN_DETAIL.Item_Code ,TSPL_SD_SALE_RETURN_DETAIL.Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as UOM,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ,TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt, case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
@@ -2018,12 +2075,32 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt else 0 end " & Environment.NewLine &
-                   " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt else 0 end as UGSTAmount " & Environment.NewLine &
-                   " from TSPL_SD_SALE_RETURN_DETAIL " & Environment.NewLine &
+                   " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt else 0 end as UGSTAmount, " & Environment.NewLine &
+                " case when isnull(TSPL_SD_SALE_Return_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_Return_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_Return_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX3,'')='CGST' then TSPL_SD_SALE_Return_DETAIL.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX4 ,'')='CGST' then TSPL_SD_SALE_Return_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX5 ,'')='CGST' then TSPL_SD_SALE_Return_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_Return_DETAIL.tax1,'')='SGST' then TSPL_SD_SALE_Return_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.tax2,'')='SGST' then TSPL_SD_SALE_Return_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX3,'')='SGST' then TSPL_SD_SALE_Return_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX4 ,'')='SGST' then TSPL_SD_SALE_Return_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX5 ,'')='SGST' then TSPL_SD_SALE_Return_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_Return_DETAIL.tax1,'')='IGST' then TSPL_SD_SALE_Return_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.tax2,'')='IGST' then TSPL_SD_SALE_Return_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX3,'')='IGST' then TSPL_SD_SALE_Return_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX4 ,'')='IGST' then TSPL_SD_SALE_Return_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX5 ,'')='IGST' then TSPL_SD_SALE_Return_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_Return_DETAIL.tax1,'')='UGST' then TSPL_SD_SALE_Return_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_Return_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_Return_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_Return_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_Return_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_Return_DETAIL.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
+                " from TSPL_SD_SALE_RETURN_DETAIL " & Environment.NewLine &
                    " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code  " & Environment.NewLine &
                    " where TSPL_SD_SALE_RETURN_DETAIL.Document_Code in (select  TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')<>''  " & strWhrCls & ") and TSPL_SD_SALE_RETURN_HEAD.Status =1 " & Environment.NewLine &
                    " union all " & Environment.NewLine &
-                   " select TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No,TSPL_SALE_RETURN_DETAIL_BULKSALE.item_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code as UOM,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount  from TSPL_SALE_RETURN_DETAIL_BULKSALE " & Environment.NewLine &
+                   " select TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No,TSPL_SALE_RETURN_DETAIL_BULKSALE.item_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code as UOM,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount ,0 as Total_Tax_Amt,0 AS CGSTAmount,0 AS SGSTAmount ,0 AS IGSTAmount,0 AS UGSTAmount,0 As Tax_Rate  from TSPL_SALE_RETURN_DETAIL_BULKSALE " & Environment.NewLine &
                    " left outer join TSPL_SALE_RETURN_MASTER_BULKSALE on TSPL_SALE_RETURN_MASTER_BULKSALE .Document_no =TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No  " & Environment.NewLine &
                    " left outer join TSPL_Customer_INVOICE_HEAD on TSPL_Customer_INVOICE_HEAD .Against_Sale_Return_No =TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No " & Environment.NewLine &
                    " where TSPL_SALE_RETURN_MASTER_BULKSALE.Posted =1 AND TSPL_SALE_RETURN_MASTER_BULKSALE.AGAINST='Bulk Invoice' " & Environment.NewLine &
@@ -2032,7 +2109,7 @@ Public Class rptGSTR
                    " group by  saleRETURN.Item_Code ,saleRETURN.UOM " & Environment.NewLine &
                    " union all " & Environment.NewLine &
                    "---------------- Scrap Sale Return---------------------- " & Environment.NewLine &
-                   " select ScrapsaleReturN.Item_Code ,ScrapsaleReturN.UOM ,SUM(ScrapsaleReturN.Qty) * -1 as TotalQty,sum(ScrapsaleReturN.Item_Net_Amt) * -1 as TotalAmount,sum(ScrapsaleReturN.Total_Tax_Amt) * -1 as TotalTaxAmount,sum(ScrapsaleReturN.CGSTAmount) * -1 as CGSTAmount,sum(ScrapsaleReturN.SGSTAmount) * -1 as SGSTAmount,sum(ScrapsaleReturN.IGSTAmount) * -1 as IGSTAmount,sum(ScrapsaleReturN.UGSTAmount) * -1 as UGSTAmount  from (select TSPL_SCRAPSALE_DETAIL_RETURN.Document_No,TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code ,TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty AS Qty ,TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code as UOM,TSPL_SCRAPSALE_DETAIL_RETURN.TotalAmt as Item_Net_Amt ,TSPL_SCRAPSALE_DETAIL_RETURN.TotalTaxAmt as Total_Tax_Amt, case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Amt else 0 end " & Environment.NewLine &
+                   " select ScrapsaleReturN.Item_Code ,ScrapsaleReturN.UOM ,SUM(ScrapsaleReturN.Qty) * -1 as TotalQty,sum(ScrapsaleReturN.Item_Net_Amt) * -1 as TotalAmount,sum(ScrapsaleReturN.Total_Tax_Amt) * -1 as TotalTaxAmount,sum(ScrapsaleReturN.CGSTAmount) * -1 as CGSTAmount,sum(ScrapsaleReturN.SGSTAmount) * -1 as SGSTAmount,sum(ScrapsaleReturN.IGSTAmount) * -1 as IGSTAmount,sum(ScrapsaleReturN.UGSTAmount) * -1 as UGSTAmount,Max(Tax_Rate)*-1 As Tax_Rate  from (select TSPL_SCRAPSALE_DETAIL_RETURN.Document_No,TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code ,TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty AS Qty ,TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code as UOM,TSPL_SCRAPSALE_DETAIL_RETURN.TotalAmt as Item_Net_Amt ,TSPL_SCRAPSALE_DETAIL_RETURN.TotalTaxAmt as Total_Tax_Amt, case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Amt else 0 end " & Environment.NewLine &
@@ -2051,14 +2128,35 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Amt else 0 end " & Environment.NewLine &
-                   " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Amt else 0 end as UGSTAmount from TSPL_SCRAPSALE_DETAIL_RETURN " & Environment.NewLine &
+                   " + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Amt else 0 end as UGSTAmount, " & Environment.NewLine &
+                " case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='CGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='SGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='SGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='SGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='SGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='SGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='IGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='IGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='IGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='IGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='IGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax1,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.tax2,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4 ,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5 ,'')='UGST' then TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
+                " from TSPL_SCRAPSALE_DETAIL_RETURN " & Environment.NewLine &
                    " left outer join TSPL_SCRAPSALE_HEAD_RETURN on TSPL_SCRAPSALE_HEAD_RETURN .Document_No =TSPL_SCRAPSALE_DETAIL_RETURN.Document_No  " & Environment.NewLine &
                    " where TSPL_SCRAPSALE_DETAIL_RETURN.Document_No in (select  TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn ,'')<>''  " & strWhrCls & ") and TSPL_SCRAPSALE_HEAD_RETURN.ispost =1  " & Environment.NewLine &
                    " ) ScrapsaleReturN  " & Environment.NewLine &
                    " group by  ScrapsaleReturN.Item_Code ,ScrapsaleReturN.UOM " & Environment.NewLine &
                    " union all  " & Environment.NewLine &
                    " ---------------- Scrap Sale ----------------- " & Environment.NewLine &
-                   " select Scrapsale.Item_Code ,Scrapsale.UOM ,SUM(Scrapsale.Qty) as TotalQty,sum(Scrapsale.Item_Net_Amt) as TotalAmount,sum(Scrapsale.Total_Tax_Amt) as TotalTaxAmount,sum(Scrapsale.CGSTAmount) as CGSTAmount,sum(Scrapsale.SGSTAmount) as SGSTAmount,sum(Scrapsale.IGSTAmount) as IGSTAmount,sum(Scrapsale.UGSTAmount) as UGSTAmount  from ( " & Environment.NewLine &
+                   " select Scrapsale.Item_Code ,Scrapsale.UOM ,SUM(Scrapsale.Qty) as TotalQty,sum(Scrapsale.Item_Net_Amt) as TotalAmount,sum(Scrapsale.Total_Tax_Amt) as TotalTaxAmount,sum(Scrapsale.CGSTAmount) as CGSTAmount,sum(Scrapsale.SGSTAmount) as SGSTAmount,sum(Scrapsale.IGSTAmount) as IGSTAmount,sum(Scrapsale.UGSTAmount) as UGSTAmount,Max(Tax_Rate) As Tax_Rate  from ( " & Environment.NewLine &
                    " select TSPL_SCRAPINVOICE_DETAIL.invoice_No AS Document_No " & Environment.NewLine &
                    " ,TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty AS Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code as UOM,TSPL_SCRAPINVOICE_DETAIL.TotalAmt as Item_Net_Amt ,TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt as Total_Tax_Amt, case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
@@ -2079,7 +2177,27 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX3,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX4 ,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Amt else 0 end " & Environment.NewLine &
-                   " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Amt else 0 end as UGSTAmount " & Environment.NewLine &
+                   " + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Amt else 0 end as UGSTAmount, " & Environment.NewLine &
+                   " case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX3,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX4 ,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='CGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX3,'')='SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX4 ,'')='SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX3,'')='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX4 ,'')='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX3,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX4 ,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SCRAPINVOICE_DETAIL.TAX5 ,'')='UGST' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
                    " from TSPL_SCRAPINVOICE_DETAIL " & Environment.NewLine &
                    " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No  " & Environment.NewLine &
                    " where TSPL_SCRAPINVOICE_DETAIL.invoice_No in (select  TSPL_Customer_INVOICE_HEAD.AgainstScrap  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap ,'')<>''  " & strWhrCls & ") and TSPL_SCRAPINVOICE_HEAD.ispost =1  " & Environment.NewLine &
@@ -2087,7 +2205,7 @@ Public Class rptGSTR
                    " group by  Scrapsale.Item_Code ,Scrapsale.UOM " & Environment.NewLine &
                    " union all " & Environment.NewLine &
                    " ---------------- mcc Material Sale RETURN-------------------------------- " & Environment.NewLine &
-                   " select MCCMaterialsaleRETURN.Item_Code ,MCCMaterialsaleRETURN.UOM ,SUM(MCCMaterialsaleRETURN.Qty) * -1  as TotalQty,sum(MCCMaterialsaleRETURN.Item_Net_Amt) * -1  as TotalAmount,sum(MCCMaterialsaleRETURN.Total_Tax_Amt) * -1  as TotalTaxAmount ,sum(MCCMaterialsaleRETURN.CGSTAmount) * -1  as CGSTAmount,sum(MCCMaterialsaleRETURN.SGSTAmount)  * -1  as SGSTAmount,sum(MCCMaterialsaleRETURN.IGSTAmount) * -1  as IGSTAmount,sum(MCCMaterialsaleRETURN.UGSTAmount)  * -1  as UGSTAmount from ( " & Environment.NewLine &
+                   " select MCCMaterialsaleRETURN.Item_Code ,MCCMaterialsaleRETURN.UOM ,SUM(MCCMaterialsaleRETURN.Qty) * -1  as TotalQty,sum(MCCMaterialsaleRETURN.Item_Net_Amt) * -1  as TotalAmount,sum(MCCMaterialsaleRETURN.Total_Tax_Amt) * -1  as TotalTaxAmount ,sum(MCCMaterialsaleRETURN.CGSTAmount) * -1  as CGSTAmount,sum(MCCMaterialsaleRETURN.SGSTAmount)  * -1  as SGSTAmount,sum(MCCMaterialsaleRETURN.IGSTAmount) * -1  as IGSTAmount,sum(MCCMaterialsaleRETURN.UGSTAmount)  * -1  as UGSTAmount,Max(Tax_Rate)*-1 As Tax_Rate from ( " & Environment.NewLine &
                    " select  " & Environment.NewLine &
                    " TSPL_SD_SALE_RETURN_DETAIL.Document_Code,TSPL_SD_SALE_RETURN_DETAIL.Item_Code ,TSPL_SD_SALE_RETURN_DETAIL.Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as UOM,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ,TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt, case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
@@ -2108,7 +2226,27 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt else 0 end " & Environment.NewLine &
                    " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt else 0 end " & Environment.NewLine &
-                   " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt else 0 end as UGSTAmount " & Environment.NewLine &
+                   " + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt else 0 end as UGSTAmount, " & Environment.NewLine &
+                   " case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5 ,'')='UGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
                    " from TSPL_SD_SALE_RETURN_DETAIL " & Environment.NewLine &
                    " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code  " & Environment.NewLine &
                    " where TSPL_SD_SALE_RETURN_DETAIL.Document_Code in (select  TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return ,'')<>''  " & strWhrCls & ") and TSPL_SD_SALE_RETURN_HEAD.Status =1 AND TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' " & Environment.NewLine &
@@ -2116,24 +2254,24 @@ Public Class rptGSTR
                    " group by  MCCMaterialsaleRETURN.Item_Code ,MCCMaterialsaleRETURN.UOM " & Environment.NewLine &
                    " union all " & Environment.NewLine &
                    " ---------------- VCGL---------------------------- " & Environment.NewLine &
-                    " select VCGL.Item_Code ,VCGL.UOM ,SUM(VCGL.Qty) as TotalQty,sum(VCGL.Item_Net_Amt)   as TotalAmount,sum(VCGL.Total_Tax_Amt)  as TotalTaxAmount ,sum(VCGL.CGSTAmount)  as CGSTAmount,sum(VCGL.SGSTAmount)   as SGSTAmount,sum(VCGL.IGSTAmount)  as IGSTAmount,sum(VCGL.UGSTAmount)   as UGSTAmount from (  " & Environment.NewLine &
+                    " select VCGL.Item_Code ,VCGL.UOM ,SUM(VCGL.Qty) as TotalQty,sum(VCGL.Item_Net_Amt)   as TotalAmount,sum(VCGL.Total_Tax_Amt)  as TotalTaxAmount ,sum(VCGL.CGSTAmount)  as CGSTAmount,sum(VCGL.SGSTAmount)   as SGSTAmount,sum(VCGL.IGSTAmount)  as IGSTAmount,sum(VCGL.UGSTAmount)   as UGSTAmount,Max(Tax_Rate) As Tax_Rate from (  " & Environment.NewLine &
                     " select TSPL_VCGL_Detail.Document_No,'' as Item_Code ,0 as Qty ,'' as UOM,case when TSPL_VCGL_Detail.Row_Type ='Customer' then TSPL_VCGL_Detail.Dr_Amount-TSPL_VCGL_Detail.Cr_Amount else  " & Environment.NewLine &
                     " 0 end as Item_Net_Amt ,0 as Total_Tax_Amt, 0 as CGSTAmount,  " & Environment.NewLine &
-                    " 0 as SGSTAmount ,0 as IGSTAmount ,0 as UGSTAmount  " & Environment.NewLine &
+                    " 0 as SGSTAmount ,0 as IGSTAmount ,0 as UGSTAmount,0 As Tax_Rate  " & Environment.NewLine &
                     " from TSPL_VCGL_Detail left outer join TSPL_VCGL_Head on TSPL_VCGL_Head.Document_No  =TSPL_VCGL_Detail.Document_No  " & Environment.NewLine &
                     " where TSPL_VCGL_Detail.Document_No in (select  TSPL_Customer_INVOICE_HEAD.Against_VCGL  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')<>''   " & strWhrCls & ") and TSPL_VCGL_Head.Status =1  " & Environment.NewLine &
                     " union all " & Environment.NewLine &
                     " select   " & Environment.NewLine &
                     " TSPL_VCGL_Head.Document_No,'' as Item_Code ,0 as Qty ,'' as UOM,case when TSPL_VCGL_Head.Document_Type  ='C' then TSPL_VCGL_Head.Tot_Cr_Amount-TSPL_VCGL_Head.Tot_Dr_Amount else " & Environment.NewLine &
                     " 0 end as Item_Net_Amt ,0 as Total_Tax_Amt, 0 as CGSTAmount,  " & Environment.NewLine &
-                    " 0 as SGSTAmount ,0 as IGSTAmount ,0 as UGSTAmount  " & Environment.NewLine &
+                    " 0 as SGSTAmount ,0 as IGSTAmount ,0 as UGSTAmount,0 As Tax_Rate  " & Environment.NewLine &
                     " from TSPL_VCGL_Detail left outer join TSPL_VCGL_Head on TSPL_VCGL_Head.Document_No  =TSPL_VCGL_Detail.Document_No  " & Environment.NewLine &
                     " where TSPL_VCGL_Head.Document_No in (select  TSPL_Customer_INVOICE_HEAD.Against_VCGL  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')<>''   " & strWhrCls & ") and TSPL_VCGL_Head.Status =1  " & Environment.NewLine &
                     " ) VCGL  " & Environment.NewLine &
                     " group by  VCGL.Item_Code ,VCGL.UOM " & Environment.NewLine &
                    "  union all " & Environment.NewLine &
                    " ---------------- Security Receipt--------------------------" & Environment.NewLine &
-                   " select SecurityReceipt.Item_Code ,SecurityReceipt.UOM ,SUM(SecurityReceipt.Qty) as TotalQty,sum(SecurityReceipt.Item_Net_Amt) as TotalAmount,sum(SecurityReceipt.Total_Tax_Amt) as TotalTaxAmount,sum(SecurityReceipt.CGSTAmount) as CGSTAmount,sum(SecurityReceipt.SGSTAmount) as SGSTAmount,sum(SecurityReceipt.IGSTAmount) as IGSTAmount,sum(SecurityReceipt.UGSTAmount) as UGSTAmount  from ( " & Environment.NewLine &
+                   " select SecurityReceipt.Item_Code ,SecurityReceipt.UOM ,SUM(SecurityReceipt.Qty) as TotalQty,sum(SecurityReceipt.Item_Net_Amt) as TotalAmount,sum(SecurityReceipt.Total_Tax_Amt) as TotalTaxAmount,sum(SecurityReceipt.CGSTAmount) as CGSTAmount,sum(SecurityReceipt.SGSTAmount) as SGSTAmount,sum(SecurityReceipt.IGSTAmount) as IGSTAmount,sum(SecurityReceipt.UGSTAmount) as UGSTAmount,Max(Tax_Rate) as Tax_Rate  from ( " & Environment.NewLine &
                    " select TSPL_Customer_Invoice_Head.Against_Security_Receipt_No as Document_No,'' AS Item_Code ,0 AS Qty ,'' as UOM,TSPL_Customer_Invoice_Head.Document_Type," & Environment.NewLine &
                    " case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  (isnull(TSPL_Customer_Invoice_Detail.Total_Amount ,0))" & Environment.NewLine &
                    " as Item_Net_Amt ,case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  (isnull(TSPL_Customer_Invoice_Detail.Total_Tax  ,0))" & Environment.NewLine &
@@ -2156,7 +2294,28 @@ Public Class rptGSTR
                    " + case when isnull(TSPL_Customer_Invoice_Detail.tax2,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX2_Amt else 0 end" & Environment.NewLine &
                    " + case when isnull(TSPL_Customer_Invoice_Detail.TAX3,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX3_Amt else 0 end" & Environment.NewLine &
                    " + case when isnull(TSPL_Customer_Invoice_Detail.TAX4 ,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX4_Amt else 0 end" & Environment.NewLine &
-                   " + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX5_Amt else 0 end) as UGSTAmount from TSPL_Customer_Invoice_Detail" & Environment.NewLine &
+                   " + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX5_Amt else 0 end) as UGSTAmount," & Environment.NewLine &
+                " case when isnull(TSPL_Customer_Invoice_Detail.tax1,'')='CGST' then TSPL_Customer_Invoice_Detail.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.tax2,'')='CGST' then TSPL_Customer_Invoice_Detail.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX3,'')='CGST' then TSPL_Customer_Invoice_Detail.TAX3_Rate else 0 end  
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX4 ,'')='CGST' then TSPL_Customer_Invoice_Detail.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='CGST' then TSPL_Customer_Invoice_Detail.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_Customer_Invoice_Detail.tax1,'')='SGST' then TSPL_Customer_Invoice_Detail.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.tax2,'')='SGST' then TSPL_Customer_Invoice_Detail.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX3,'')='SGST' then TSPL_Customer_Invoice_Detail.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX4 ,'')='SGST' then TSPL_Customer_Invoice_Detail.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='SGST' then TSPL_Customer_Invoice_Detail.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_Customer_Invoice_Detail.tax1,'')='IGST' then TSPL_Customer_Invoice_Detail.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.tax2,'')='IGST' then TSPL_Customer_Invoice_Detail.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX3,'')='IGST' then TSPL_Customer_Invoice_Detail.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX4 ,'')='IGST' then TSPL_Customer_Invoice_Detail.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='IGST' then TSPL_Customer_Invoice_Detail.TAX5_Rate else 0 end + 
+ case when isnull(TSPL_Customer_Invoice_Detail.tax1,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX1_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.tax2,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX2_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX3,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX3_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX4 ,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX4_Rate else 0 end 
+ + case when isnull(TSPL_Customer_Invoice_Detail.TAX5 ,'')='UGST' then TSPL_Customer_Invoice_Detail.TAX5_Rate else 0 end as Tax_Rate " & Environment.NewLine &
+                " from TSPL_Customer_Invoice_Detail" & Environment.NewLine &
                    " left outer join TSPL_Customer_INVOICE_HEAD on TSPL_Customer_INVOICE_HEAD .Document_No =TSPL_Customer_Invoice_Detail.Document_No " & Environment.NewLine &
                    " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code" & Environment.NewLine &
                    " where isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No ,'')<>''  and TSPL_Customer_INVOICE_HEAD.Status =1  " & strWhrCls & " " & Environment.NewLine &
@@ -2186,7 +2345,7 @@ Public Class rptGSTR
             " (case when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')<>'' then case when isnull(TSPL_SD_SALE_RETURN_HEAD.Document_Code,'')='' then TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code else case when isnull(TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location ,'')='' then NULL else TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location end end when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' then case when isnull(TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location ,'')='' then NULL else TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location end when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap,'')<>'' then TSPL_SCRAPINVOICE_HEAD.loc_code when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn  ,'')<>'' then TSPL_SCRAPSALE_HEAD_RETURN.loc_code when isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL   ,'')<>'' then TSPL_VCGL_HEAD.Location_Segment when isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')<>'' then case when isnull(TSPL_MCC_Material_sale_Return.Ship_To_Location ,'')='' then NULL else TSPL_MCC_Material_sale_Return.Ship_To_Location end when isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')<>'' then TSPL_RECEIPT_HEADER. Location_GL_Code when (isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')='' and isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')='' ) then ''  end) as [Location Code], "
 
 
-            BaseQry = " select SNo,Particulars,[Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount] from ( " & Environment.NewLine &
+            BaseQry = " select SNo,Particulars,[Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount],Case When TSPL_COMPANY_MASTER.GSTReg_No Is not null and [GST No] Is not null Then Case When TSPL_COMPANY_MASTER.State=TSPL_Customer_Master.State Then 'Regular B2B' Else 'Intra-State supplies attracting IGST' End Else '' End As [Invoice Type] from ( " & Environment.NewLine &
             " select ROW_NUMBER() OVER(ORDER BY TSPL_Customer_Invoice_Head.Document_No ASC) as  SNo,'" & strType & "' as Particulars,TSPL_Customer_Invoice_Head.Document_No as [Document No],convert(varchar,TSPL_Customer_Invoice_Head.Document_Date ,103) as [Document Date]," & strtranstypeandsaleinvoiceno & " " & Environment.NewLine &
             " TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_Customer_Invoice_Head.Document_Type as [Document Type],case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  (isnull(TSPL_Customer_Invoice_Head.Discount_Base,0)-isnull(TSPL_Customer_Invoice_Head.Discount_Amount ,0)) as [Taxable Value]," & Environment.NewLine &
             " CASE WHEN TSPL_Customer_Invoice_Head.Document_Type = 'C' THEN -1 ELSE 1 END *(CASE  WHEN TSPL_SD_SALE_INVOICE_HEAD.tax2 = 'TCS' THEN 0 ELSE ISNULL(TSPL_Customer_Invoice_Head.Total_Tax, 0) 
@@ -2210,14 +2369,14 @@ Public Class rptGSTR
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =z.[Location Code] " & Environment.NewLine &
             " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =z.[Location Code] " & Environment.NewLine &
             " left outer join tspl_state_master on tspl_state_master.STATE_CODE =tspl_customer_master.State" & Environment.NewLine &
-            " left outer join tspl_state_master TSPL_SHIP_TO_LOCATION_sTATE on TSPL_SHIP_TO_LOCATION_sTATE.STATE_CODE =TSPL_SHIP_TO_LOCATION.State" & Environment.NewLine
-
+            " left outer join tspl_state_master TSPL_SHIP_TO_LOCATION_sTATE on TSPL_SHIP_TO_LOCATION_sTATE.STATE_CODE =TSPL_SHIP_TO_LOCATION.State" & Environment.NewLine &
+            " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " & Environment.NewLine
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return BaseQry
     End Function
-    Sub DrillDownDetailForGSTR1_ItemWise()
+    Sub DrillDownDetailForGSTR1_ItemWise(Optional ByVal i As Integer = 0)
         Try
             If clsCommon.myLen(gv2.CurrentRow.Cells("Name").Value) > 0 Then
                 Dim qry As String = String.Empty
@@ -2235,61 +2394,61 @@ Public Class rptGSTR
                     Wrcls += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code in (" + clsCommon.GetMulcallString(txtCustomerGroup.arrValueMember) + ")"
                 End If
                 'Dim strtranstypeandsaleinvoiceno As String = " (case when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')<>'' then 'Sale Return' when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' then 'Sale Invoice'  when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap,'')<>'' then 'Scrap' when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn  ,'')<>'' then 'Scrap Return'   when isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL   ,'')<>'' then 'VCGL' when isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')<>'' then 'MCC Material Sale Return'  when isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')<>'' then 'Security Receipt'  when (isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')='' and isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')='' ) then 'Direct AR Invoice'  end) as [Trans Type],  (case when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')<>'' then Against_Sale_Return_No when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' then Against_Sale_No  when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap,'')<>'' then AgainstScrap when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn  ,'')<>'' then AgainstScrapReturn   when isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL   ,'')<>'' then Against_VCGL when isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')<>'' then Against_MCC_Material_Sale_Return  when isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')<>'' then Against_Security_Receipt_No  when (isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')='' and isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')='' ) then ''  end) as [Sale Invoice No],"
-
-                If clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
+                If IIf(exportGSTR, i = 13, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal) Then
                     Wrcls += "  AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "B2B Invoices - 4A, 4B, 4C, 6B, 6C")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Sales") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Taxable Sales") = CompairStringResult.Equal) Then
                     Wrcls += "  AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Taxable Sales")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal) Then
                     Wrcls += "  AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 and TSPL_Customer_Invoice_Head.Document_Total>250000 "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "B2C(Large) Invoices - 5A, 5B")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Small) Invoices - 7") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "B2C(Small) Invoices - 7") = CompairStringResult.Equal) Then
                     Wrcls += "  AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 and TSPL_Customer_Invoice_Head.Document_Total<= 250000 "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "B2C(Small) Invoices - 7")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Registered) - 9B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Registered) - 9B") = CompairStringResult.Equal) Then
                     Wrcls += "  and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Credit/Debit Notes(Registered) - 9B")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal) Then
                     Wrcls += "  and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Credit/Debit Notes(Unregistered) - 9B")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Exports Invoices - 6A") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Exports Invoices - 6A") = CompairStringResult.Equal) Then
                     Wrcls += "  AND TSPL_Customer_Invoice_Head.Against_Sale_No  IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Exports Invoices - 6A")
-                ElseIf clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal Then
+                ElseIf IIf(exportGSTR, i > (gv2.Rows.Count + 1), clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal) Then
                     Wrcls += "  AND isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) =0  AND TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Nil Rated Invoices - 8A, 8B, 8C, 8D")
                 End If
 
-                dt = clsDBFuncationality.GetDataTable(qry)
-
-                gv3.DataSource = Nothing
-                gv3.Rows.Clear()
-                gv3.Columns.Clear()
-                gv3.GroupDescriptors.Clear()
-                gv3.MasterTemplate.SummaryRowsBottom.Clear()
-                gv3.MasterView.Refresh()
-
-                If dt Is Nothing OrElse dt.Rows.Count > 0 Then
-                    gv3.DataSource = dt
-                    RadPageView1.SelectedPage = RadPageViewPage3
-                    gv3.BestFitColumns()
-                    gv3.EnableFiltering = True
-                    FormatGridFooterDetail()
-                    RadPageViewPage3.Text = clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value)
+                If Not exportGSTR Then
+                    dt = clsDBFuncationality.GetDataTable(qry)
+                    gv3.DataSource = Nothing
+                    gv3.Rows.Clear()
+                    gv3.Columns.Clear()
+                    gv3.GroupDescriptors.Clear()
+                    gv3.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv3.MasterView.Refresh()
+                    If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                        gv3.DataSource = dt
+                        RadPageView1.SelectedPage = RadPageViewPage3
+                        gv3.BestFitColumns()
+                        gv3.EnableFiltering = True
+                        FormatGridFooterDetail()
+                        RadPageViewPage3.Text = clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value)
+                    Else
+                        RadPageViewPage3.Text = "Detail data"
+                        Throw New Exception("No Data Found to Display")
+                    End If
                 Else
-                    RadPageViewPage3.Text = "Detail data"
-                    Throw New Exception("No Data Found to Display")
+                    strQryGSTR = qry
                 End If
-
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
     ''richa 30 Nov,2018 ALF/26/11/18-000089,GKD/29/01/19-000173
-    Sub DrillDownDetailForGSTR1(ByVal i As Integer)
+    Sub DrillDownDetailForGSTR1(Optional ByVal i As Integer = 0)
         Try
             If clsCommon.myLen(gv2.CurrentRow.Cells("Name").Value) > 0 Then
                 Dim qry As String = String.Empty
@@ -3395,37 +3554,43 @@ Public Class rptGSTR
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
-            Dim IsExists As Boolean = System.IO.Directory.Exists("C:\ERPTempFolder")
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
-                System.IO.Directory.CreateDirectory("C:\ERPTempFolder")
+                System.IO.Directory.CreateDirectory(forlderName)
             End If
-            Dim outputFilePath As String = "C:\ERPTempFolder\"
+            Dim outputFilePath As String = forlderName
             Dim strQry As String = "SELECT TOP 1 * FROM TSPL_GSTR_BLANK_SHEET ORDER BY Created_Date DESC"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 outputFilePath += clsCommon.myCstr(dt.Rows(0)("FileName"))
 
+                If File.Exists(outputFilePath) Then
+                    File.Delete(outputFilePath)
+                End If
+
                 If Not File.Exists(outputFilePath) Then
-                    If clsCommon.MyMessageBoxShow(Me, "File does not exist at " & outputFilePath & Environment.NewLine & "Are you sure you want to download the GSTR blank sheet?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                        Dim fileData As Byte() = TryCast(dt.Rows(0)("FileData"), Byte())
-                        If fileData IsNot Nothing AndAlso fileData.Length > 0 Then
-                            Try
-                                ' Write file
-                                File.WriteAllBytes(outputFilePath, fileData)
+                    'If clsCommon.MyMessageBoxShow(Me, "File does not exist at " & outputFilePath & Environment.NewLine & "Are you sure you want to download the GSTR blank sheet?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                    Dim fileData As Byte() = TryCast(dt.Rows(0)("FileData"), Byte())
+                    If fileData IsNot Nothing AndAlso fileData.Length > 0 Then
+                        Try
+                            ' Write file
+                            File.WriteAllBytes(outputFilePath, fileData)
 
-                                ' Ensure file is writable
-                                File.SetAttributes(outputFilePath, FileAttributes.Normal)
+                            ' Ensure file is writable
+                            File.SetAttributes(outputFilePath, FileAttributes.Normal)
 
-                                ' Notify user
-                                clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
-                            Catch ex As Exception
-                                Throw New Exception(ex.Message)
-                            End Try
-                        Else
-                            Throw New Exception("File data is empty.")
-                        End If
+                            ' Notify user
+                            'clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Else
+                        Throw New Exception("File data is empty.")
                     End If
+                    'End If
                 End If
             Else
                 Throw New Exception("GSTR blank sheet not found!")
@@ -3434,27 +3599,28 @@ Public Class rptGSTR
 
             exportGSTR = True
             clsCommon.ProgressBarPercentShow()
-            For i As Integer = 1 To gv2.Rows.Count
-                GSTRDetails(i)
+            For i As Integer = 1 To (gv2.Rows.Count + 1)
+                clsCommon.ProgressBarPercentUpdate((i / (gv2.Rows.Count + 1)) * 100, "Processing...")
+                DrillDownDetailForGSTR1(i)
                 Dim finalQry As String = Nothing
                 If i = 1 Then
-                    finalQry = " Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],
-                                 '' As [Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    finalQry = "Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
                 ElseIf i = 4 Then
                     finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
                 ElseIf i = 5 Then
                     finalQry = "Select '' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
                 ElseIf i = 6 Then
-                    finalQry = " Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],'' As [Note Type],[Place of Supply],'' As [Reverse Charges],'' As [Note Supply Type],'' As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    finalQry = "Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
                 ElseIf i = 7 Then
-                    finalQry = " Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    finalQry = "Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                ElseIf i = (gv2.Rows.Count + 1) Then
+                    DrillDownDetailForGSTR1_ItemWise(i)
+                    finalQry = "Select [HSN Code],Description,UOM,TotalQty,TotalAmount,Tax_Rate,TotalTaxableValue,IGSTAmount,CGSTAmount,SGSTAmount,'' As [Cess Amount] from (" + strQryGSTR + ") xyz"
                 End If
                 If clsCommon.myLen(finalQry) > 0 Then
                     Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
                     If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
                         exportExcel(dtGSTR, outputFilePath, i)
-                        'Else
-                        '    clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
                     End If
                 End If
             Next
@@ -3483,36 +3649,25 @@ Public Class rptGSTR
             Next
 
             ' Loop through each existing sheet and write data
-            Dim j As Integer = 1
             For Each sheetName As String In sheetNames
                 If Not clsCommon.CompairString(sheetName, "Help Instruction") = CompairStringResult.Equal Then
                     sheet = CType(workbook.Sheets(sheetName), Excel.Worksheet)
-                    clsCommon.ProgressBarPercentUpdate(j, sheetNames.Count, "Processing...")
                     If clsCommon.CompairString(sheetName, "b2b,sez,de") = CompairStringResult.Equal AndAlso i = 1 Then
-                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     ElseIf clsCommon.CompairString(sheetName, "b2cl") = CompairStringResult.Equal AndAlso i = 4 Then
-                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     ElseIf clsCommon.CompairString(sheetName, "b2cs") = CompairStringResult.Equal AndAlso i = 5 Then
-                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     ElseIf clsCommon.CompairString(sheetName, "cdnr") = CompairStringResult.Equal AndAlso i = 6 Then
-                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     ElseIf clsCommon.CompairString(sheetName, "cdnur") = CompairStringResult.Equal AndAlso i = 7 Then
-                        WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
-                        'ElseIf clsCommon.CompairString(sheetName, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal AndAlso i = 4 Then
-                        '    WriteDataTableToSheet(sheet, dt, 4) ' Writing data from row 4
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
+                    ElseIf clsCommon.CompairString(sheetName, "hsn") = CompairStringResult.Equal AndAlso i = 13 Then
+                        WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     End If
                     Marshal.ReleaseComObject(sheet) ' Release sheet object
                     sheet = Nothing
                 End If
-                j += 1
             Next
 
 
@@ -3524,13 +3679,15 @@ Public Class rptGSTR
 
             ' Save and close workbook
             workbook.Save()
-            If i = gv2.Rows.Count Then
+            If i = (gv2.Rows.Count + 1) Then
                 workbook.Close(False)
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, "File saved successfully at " + filePath, Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         Finally
-            If i = gv2.Rows.Count Then
+            If i = (gv2.Rows.Count + 1) Then
                 ' Release COM objects
                 If workbook IsNot Nothing Then Marshal.ReleaseComObject(workbook)
                 If excelApp IsNot Nothing Then
@@ -3543,6 +3700,7 @@ Public Class rptGSTR
                 excelApp = Nothing
                 GC.Collect()
                 GC.WaitForPendingFinalizers()
+                Process.Start(filePath)
             End If
         End Try
     End Sub

@@ -56,6 +56,7 @@ Public Class ClsZoneMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ZONE_MASTER", OMInsertOrUpdate.Update, "TSPL_ZONE_MASTER.Zone_Code='" + obj.Zone_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Zone_Code, "TSPL_ZONE_MASTER", "Zone_Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
