@@ -9972,6 +9972,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptDCSSaleRegister
                         frm = New rptDCSSaleRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.RoutePartyWisePriceList
+                        frm = New RoutePartyWisePriceList
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.saleconsignee
                         frm = New SaleConsignee
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
