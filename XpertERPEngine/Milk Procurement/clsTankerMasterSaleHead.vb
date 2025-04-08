@@ -52,6 +52,8 @@ Public Class clsTankerMasterSaleHead
             End If
             issaved = issaved And clsTankerMasterSaleDetail.SaveData(obj.Tanker_Code, obj.Arr, trans)
             issaved = issaved And clsTankerMasterSaleDriverDetail.SaveData(obj.Tanker_Code, obj.ArrDriver, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Tanker_Code, "TSPL_TANKER_MASTER_SALE", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DETAIL", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", "Tanker_Code", trans)
+
             If issaved Then
                 trans.Commit()
             End If
@@ -132,6 +134,8 @@ Public Class clsTankerMasterSaleHead
             Throw New Exception("Tanker Code not found to Delete")
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strTankerCode, "TSPL_TANKER_MASTER_SALE", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DETAIL", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", "Tanker_Code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strTankerCode, "TSPL_TANKER_MASTER_SALE", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DETAIL", "Tanker_Code", "TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", "Tanker_Code", trans)
 
         Dim qry As String = "delete from TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL where TANKER_CODE='" + strTankerCode + "'"
         isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

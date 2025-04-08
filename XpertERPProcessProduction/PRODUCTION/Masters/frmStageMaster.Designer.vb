@@ -22,24 +22,26 @@ Partial Class frmStageMasters
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.cboStageType = New common.Controls.MyComboBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lbldesid = New common.Controls.MyLabel
-        Me.txtdes = New common.Controls.MyTextBox
-        Me.lbldes = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.cboStageType = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lbldesid = New common.Controls.MyLabel()
+        Me.txtdes = New common.Controls.MyTextBox()
+        Me.lbldes = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboStageType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldesid, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -49,7 +51,7 @@ Partial Class frmStageMasters
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +77,7 @@ Partial Class frmStageMasters
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -82,23 +85,60 @@ Partial Class frmStageMasters
         Me.SplitContainer1.SplitterDistance = 165
         Me.SplitContainer1.TabIndex = 0
         '
+        'RadMenu2
+        '
+        Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu2.Name = "RadMenu2"
+        Me.RadMenu2.Size = New System.Drawing.Size(391, 20)
+        Me.RadMenu2.TabIndex = 49
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport, Me.btnImport})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "File"
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
+        '
         'cboStageType
         '
-        Me.cboStageType.AllowShowFocusCues = False
         Me.cboStageType.AutoCompleteDisplayMember = Nothing
         Me.cboStageType.AutoCompleteValueMember = Nothing
         Me.cboStageType.BackColor = System.Drawing.Color.Transparent
+        Me.cboStageType.CalculationExpression = Nothing
+        Me.cboStageType.DropDownAnimationEnabled = True
+        Me.cboStageType.FieldCode = Nothing
+        Me.cboStageType.FieldDesc = Nothing
+        Me.cboStageType.FieldMaxLength = 0
+        Me.cboStageType.FieldName = Nothing
         Me.cboStageType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboStageType.isCalculatedField = False
+        Me.cboStageType.IsSourceFromTable = False
+        Me.cboStageType.IsSourceFromValueList = False
+        Me.cboStageType.IsUnique = False
         Me.cboStageType.Location = New System.Drawing.Point(88, 95)
         Me.cboStageType.MendatroryField = True
         Me.cboStageType.MyLinkLable1 = Me.MyLabel1
         Me.cboStageType.MyLinkLable2 = Nothing
         Me.cboStageType.Name = "cboStageType"
+        Me.cboStageType.ReferenceFieldDesc = Nothing
+        Me.cboStageType.ReferenceFieldName = Nothing
+        Me.cboStageType.ReferenceTableName = Nothing
         Me.cboStageType.Size = New System.Drawing.Size(204, 18)
         Me.cboStageType.TabIndex = 19
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(8, 95)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(61, 18)
@@ -107,6 +147,7 @@ Partial Class frmStageMasters
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(90, 45)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -122,6 +163,7 @@ Partial Class frmStageMasters
         '
         'lbldesid
         '
+        Me.lbldesid.FieldName = Nothing
         Me.lbldesid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldesid.Location = New System.Drawing.Point(8, 47)
         Me.lbldesid.Name = "lbldesid"
@@ -131,13 +173,25 @@ Partial Class frmStageMasters
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(88, 70)
         Me.txtdes.MaxLength = 150
         Me.txtdes.MendatroryField = False
         Me.txtdes.MyLinkLable1 = Nothing
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -147,6 +201,7 @@ Partial Class frmStageMasters
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(8, 72)
         Me.lbldes.Name = "lbldes"
@@ -192,39 +247,15 @@ Partial Class frmStageMasters
         Me.btnclose.TabIndex = 5
         Me.btnclose.Text = "Close"
         '
-        'RadMenu2
+        'btnHistory
         '
-        Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
-        Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(391, 20)
-        Me.RadMenu2.TabIndex = 49
-        Me.RadMenu2.Text = "RadMenu2"
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport, Me.btnImport})
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'btnExport
-        '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Text = "Export"
-        Me.btnExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'btnImport
-        '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Text = "Import"
-        Me.btnImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(162, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'frmStageMasters
         '
@@ -242,6 +273,7 @@ Partial Class frmStageMasters
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboStageType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbldesid, System.ComponentModel.ISupportInitialize).EndInit()
@@ -251,7 +283,7 @@ Partial Class frmStageMasters
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -271,5 +303,6 @@ Partial Class frmStageMasters
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnImport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

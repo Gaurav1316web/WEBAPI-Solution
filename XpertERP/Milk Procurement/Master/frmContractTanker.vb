@@ -671,4 +671,16 @@ ExitLOOP:
             Next
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtTankerCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtTankerCode.Value, "TANKER_CODE", "TSPL_CONTRACT_TANKER_MASTER", "TSPL_CONTRACT_TANKER_DETAIL", Nothing)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

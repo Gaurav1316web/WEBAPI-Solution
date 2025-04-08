@@ -58,6 +58,7 @@ Public Class clsTankerCleaningItemHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TANKER_CLEANING_ITEM_HEAD", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
             clsTankerCleaningItemDetail.SaveData(obj.Code, obj.Apply_Date, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", "TSPL_TANKER_CLEANING_ITEM_DETAIL", "Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -161,7 +162,10 @@ Public Class clsTankerCleaningItemHead
             End If
 
             Dim qry As String = "Update TSPL_TANKER_CLEANING_ITEM_HEAD set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Code='" + strDocNo + "'"
+
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -174,12 +178,16 @@ Public Class clsTankerCleaningItemHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
+
                 If (clsCommon.myLen(obj.Code) <= 0) Then
                     Throw New Exception("Document No not found to Delete")
                 End If
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Posted Document can't be delete")
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", "TSPL_TANKER_CLEANING_ITEM_DETAIL", "Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", "TSPL_TANKER_CLEANING_ITEM_DETAIL", "Code", trans)
+
                 Dim qry As String = "delete from TSPL_TANKER_CLEANING_ITEM_DETAIL where Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

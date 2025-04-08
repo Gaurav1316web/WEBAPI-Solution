@@ -96,6 +96,7 @@ Public Class clsPriceChartBulkProc
             Else
                 clspriceCodeBulkProcDetail.SaveData(obj.Price_Code, obj.Arr, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", trans)
 
 
             trans.Commit()
@@ -128,6 +129,7 @@ Public Class clsPriceChartBulkProc
 
             Dim qry As String = "Update TSPL_Bulk_Price_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Price_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", trans)
 
 
         Catch ex As Exception
@@ -200,6 +202,9 @@ Public Class clsPriceChartBulkProc
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", Nothing)
+        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", Nothing)
+
         Try
             Dim qry As String = ""
             qry = "delete from tspl_bulk_price_detail_item_wise where Price_Code='" + strDocNo + "'"

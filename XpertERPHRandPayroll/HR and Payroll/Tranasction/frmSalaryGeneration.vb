@@ -281,6 +281,7 @@ Public Class frmSalaryGeneration
     End Sub
 
     Public Function Save() As Boolean
+
         Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then

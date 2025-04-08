@@ -1277,7 +1277,12 @@ Public Class rptCustomerAgeingDrillDown
 
     Private Sub PDFGrid_Click(sender As Object, e As EventArgs) Handles PDFGrid.Click
         Try
-            Dim FilePath As String = "C:\\ERPTempFolder\\" + Me.Text + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
+            Dim FilePath As String = forlderName + "\" + Me.Text + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
             Dim pdfExporter As New ExportToPDF(gv1)
             pdfExporter.Font = New System.Drawing.Font("Verdana", 6)
             pdfExporter.TableBorderThickness = 1

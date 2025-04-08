@@ -77,6 +77,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -131,6 +132,7 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -150,6 +152,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnNew)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -212,7 +215,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(6, 6)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(789, 473)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -250,10 +253,13 @@ Partial Class frmParameterRangeMasterForQC
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(762, 404)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -399,7 +405,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio3.TabIndex = 358
         Me.txtDeductionRatio3.Text = "0"
         Me.txtDeductionRatio3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionRatio3.Value = 0R
+        Me.txtDeductionRatio3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel14
         '
@@ -437,7 +443,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange3.TabIndex = 357
         Me.txtDeductionURange3.Text = "0"
         Me.txtDeductionURange3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionURange3.Value = 0R
+        Me.txtDeductionURange3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel12
         '
@@ -475,7 +481,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange3.TabIndex = 356
         Me.txtDeductionLRange3.Text = "0"
         Me.txtDeductionLRange3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionLRange3.Value = 0R
+        Me.txtDeductionLRange3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
@@ -513,7 +519,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio2.TabIndex = 355
         Me.txtDeductionRatio2.Text = "0"
         Me.txtDeductionRatio2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionRatio2.Value = 0R
+        Me.txtDeductionRatio2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -551,7 +557,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange2.TabIndex = 354
         Me.txtDeductionURange2.Text = "0"
         Me.txtDeductionURange2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionURange2.Value = 0R
+        Me.txtDeductionURange2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -589,7 +595,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange2.TabIndex = 353
         Me.txtDeductionLRange2.Text = "0"
         Me.txtDeductionLRange2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionLRange2.Value = 0R
+        Me.txtDeductionLRange2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -679,7 +685,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtUpperRange.TabIndex = 343
         Me.txtUpperRange.Text = "0"
         Me.txtUpperRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtUpperRange.Value = 0R
+        Me.txtUpperRange.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -717,7 +723,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtLowerRange.TabIndex = 342
         Me.txtLowerRange.Text = "0"
         Me.txtLowerRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLowerRange.Value = 0R
+        Me.txtLowerRange.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -767,7 +773,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio.TabIndex = 336
         Me.txtDeductionRatio.Text = "0"
         Me.txtDeductionRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionRatio.Value = 0R
+        Me.txtDeductionRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -805,7 +811,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange.TabIndex = 335
         Me.txtDeductionURange.Text = "0"
         Me.txtDeductionURange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionURange.Value = 0R
+        Me.txtDeductionURange.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel3
         '
@@ -843,7 +849,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange.TabIndex = 334
         Me.txtDeductionLRange.Text = "0"
         Me.txtDeductionLRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionLRange.Value = 0R
+        Me.txtDeductionLRange.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -960,6 +966,15 @@ Partial Class frmParameterRangeMasterForQC
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(633, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
+        '
         'frmParameterRangeMasterForQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1029,6 +1044,7 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1086,5 +1102,6 @@ Partial Class frmParameterRangeMasterForQC
     Friend WithEvents txtParameterMapping As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents txtDescription As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

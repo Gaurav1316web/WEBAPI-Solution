@@ -76,6 +76,7 @@ Partial Class frmPriceChartBulkProc
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -128,6 +129,7 @@ Partial Class frmPriceChartBulkProc
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -175,6 +177,7 @@ Partial Class frmPriceChartBulkProc
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -334,7 +337,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtTotalSolidRate.TabIndex = 286
         Me.txtTotalSolidRate.Text = "0"
         Me.txtTotalSolidRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalSolidRate.Value = 0R
+        Me.txtTotalSolidRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'chkPriceGradeWise
         '
@@ -623,7 +626,7 @@ Partial Class frmPriceChartBulkProc
         Me.TxtFatWeightage.TabIndex = 0
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -680,7 +683,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtfatPercentage.TabIndex = 2
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0R
+        Me.txtfatPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'fndVendor
         '
@@ -745,7 +748,7 @@ Partial Class frmPriceChartBulkProc
         Me.TxtSNFWeightage.TabIndex = 1
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtStanadardrate
         '
@@ -772,7 +775,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtStanadardrate.TabIndex = 4
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0R
+        Me.txtStanadardrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -809,7 +812,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtsnfPercentage.TabIndex = 3
         Me.txtsnfPercentage.Text = "0"
         Me.txtsnfPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnfPercentage.Value = 0R
+        Me.txtsnfPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblVendorName
         '
@@ -847,7 +850,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtTolerance.TabIndex = 5
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0R
+        Me.txtTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -882,11 +885,13 @@ Partial Class frmPriceChartBulkProc
         Me.gvPriceChart.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPriceChart.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPriceChart.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPriceChart.MyExportFilePath = ""
         Me.gvPriceChart.MyStopExport = False
         Me.gvPriceChart.Name = "gvPriceChart"
         Me.gvPriceChart.ShowHeaderCellButtons = True
         Me.gvPriceChart.Size = New System.Drawing.Size(1069, 125)
         Me.gvPriceChart.TabIndex = 264
+        Me.gvPriceChart.VarID = ""
         '
         'btnPrint
         '
@@ -940,6 +945,15 @@ Partial Class frmPriceChartBulkProc
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1073, 20)
         Me.RadMenu1.TabIndex = 14
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(326, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'frmPriceChartBulkProc
         '
@@ -1011,6 +1025,7 @@ Partial Class frmPriceChartBulkProc
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1069,5 +1084,6 @@ Partial Class frmPriceChartBulkProc
     Friend WithEvents txtUOM As common.UserControls.txtFinder
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents pnlUOM As System.Windows.Forms.Panel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

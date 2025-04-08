@@ -54,6 +54,9 @@ Public Class clsMilkTypeMaster
     End Function
     '' For Delete of Data in TSPL_MILK_TYPE_MASTER
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_TYPE_MASTER", "MILK_TYPE_CODE", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_TYPE_MASTER", "MILK_TYPE_CODE", Nothing)
+
         Dim qry As String = "Delete from TSPL_MILK_TYPE_MASTER where MILK_TYPE_CODE='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function
@@ -91,6 +94,8 @@ Public Class clsMilkTypeMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_TYPE_MASTER ", OMInsertOrUpdate.Update, " MILK_TYPE_CODE='" + obj.MILK_TYPE_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MILK_TYPE_CODE, "TSPL_MILK_TYPE_MASTER", "MILK_TYPE_CODE", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -192,7 +192,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
             coll.Add("SNo", "Integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_TYPE_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("HCODE", "Varchar(30) Not null Primary key")
@@ -862,7 +863,8 @@ Public Class clsCreateAllTable
             coll.Add("FROM_Date", "datetime NULL")
             coll.Add("TO_Date", "datetime NULL")
             coll.Add("Posted", "char(1) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIFT_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIFT_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SHIFT_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null PRIMARY KEY")
@@ -998,7 +1000,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_Milk_Sample", "int Not NULL default 0 ")
             coll.Add("IsCanType", "int Not NULL default 0 ")
             coll.Add("IsShowInMMC", "int Not NULL default 0 ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PARAMETER_MASTER", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -2205,8 +2208,8 @@ Public Class clsCreateAllTable
             coll.Add("Form_Type", "varchar(12) NOT NULL Default 'ITEM'")
             coll.Add("Master_Packing", "Integer NOT NULL Default 0")
             coll.Add("Bin_Mapping", "Integer NOT NULL Default 0")
-           ' clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_CATEGORY_LEVEL", coll)
-           clsCommonFunctionality.CreateOrAlterTable(false, False, "TSPL_ITEM_CATEGORY_LEVEL", coll, "", True, False, "", "", "",true)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_CATEGORY_LEVEL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_CATEGORY_LEVEL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("ITEM_CATEGORY_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_ITEM_CATEGORY_LEVEL(ITEM_CATEGORY_CODE)")
@@ -4020,7 +4023,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
             coll.Add("Comp_Code", "varchar(8) Not null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SECTION_MASTER", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_SECTION_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SECTION_MASTER", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -4302,7 +4306,8 @@ Public Class clsCreateAllTable
             coll.Add("SegType", "varchar(50) NULL")
             coll.Add("Short_Fiscal_Year", "bit null")
             coll.Add("Dont_Add_Prefix", "int NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_DOCPREFIX_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DOCPREFIX_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DOCPREFIX_MASTER", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -7818,14 +7823,16 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime not null")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modify_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GAZE_READING", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Code", "Varchar(30) not null REFERENCES TSPL_GAZE_READING(Code)")
             coll.Add("MM", "integer null")
             coll.Add("Value", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING_DETAIL", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GAZE_READING_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Prog_Code", "varchar(12) NOT NULL")
@@ -7915,18 +7922,21 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_MASTER", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CONTRACT_TANKER_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TANKER_CODE", "Varchar(30) not null references TSPL_CONTRACT_TANKER_MASTER(TANKER_CODE)")
             coll.Add("LINE_NO", "integer not null default 0")
             coll.Add("CHAMBER_DESC", "VARCHAR(200) NOT NULL ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_DETAIL", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CONTRACT_TANKER_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TANKER_CODE", "Varchar(30) not null references TSPL_CONTRACT_TANKER_MASTER(TANKER_CODE)")
             coll.Add("Vendor_Code", "VARCHAR(12)  NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code) ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_VENDOR_DETAIL", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTRACT_TANKER_VENDOR_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_CONTRACT_TANKER_VENDOR_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SUPPLIER_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
@@ -7937,7 +7947,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("comp_code", "varchar(8) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SUPPLIER_MASTER", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_SUPPLIER_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SUPPLIER_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("CONTRACTOR_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
@@ -7948,7 +7959,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("comp_code", "varchar(8) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_DIVERTED_CONTRACTOR_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DIVERTED_CONTRACTOR_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DIVERTED_CONTRACTOR_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("MILK_TYPE_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
@@ -7959,7 +7971,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("comp_code", "varchar(8) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_TYPE_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_TYPE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MILK_TYPE_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Intimation_No", "varchar(30) not NULL Primary Key")
@@ -8195,7 +8208,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
             coll.Add("Comp_Code", "varchar(8) Not null")
             coll.Add("Stage_Type", "Varchar(30) not  null  default 'None'") '' possible value 1. None 2. Standardization 3. Stage Process 4. Production Entry
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_STAGE_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_STAGE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_STAGE_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Card_No", "varchar(30) NOT NULL Primary Key")
@@ -9912,7 +9926,8 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
             coll.Add("Description", "varchar(500) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PARAMETER_RANGE_MASTER_QC", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) null REFERENCES TSPL_PARAMETER_MASTER(Code)") 'for production module
@@ -10275,7 +10290,7 @@ Public Class clsCreateAllTable
             coll.Add("IsPrice_ItemWise", "INTEGER not null default 0")
             coll.Add("Total_Solid_Rate", "Decimal(18,2) null")
             coll.Add("Total_Solid_Unit_Code", "varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Bulk_Price_MASTER", coll, "", False, False, "", "Price_Code", "Price_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Bulk_Price_MASTER", coll, "", True, False, "", "Price_Code", "Price_Date", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Bulk_Price_MASTER alter column effective_Date datetime null")
             'Catch ex As Exception
@@ -10293,7 +10308,7 @@ Public Class clsCreateAllTable
             coll.Add("Standard_Rate", "float not null default 0")
             coll.Add("Tolerance", "float not null default 0")
             coll.Add("Remarks", "varchar(50) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_bulk_price_detail", coll, "", False, False, "TSPL_BULK_PRICE_MASTER", "Price_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_bulk_price_detail", coll, "", True, False, "TSPL_BULK_PRICE_MASTER", "Price_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "varchar(30) primary key")
@@ -10685,7 +10700,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
             coll.Add("Specification", "Varchar(100) null")
-            clsCommonFunctionality.CreateOrAlterTable("tspl_Parameter_value_master", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("tspl_Parameter_value_master", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "tspl_Parameter_value_master", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
@@ -10972,7 +10988,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted", "integer not null default 0")
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Posted_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable("Tspl_Vendor_Price_Chart_mapping", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("Tspl_Vendor_Price_Chart_mapping", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "tspl_Vendor_price_chart_mapping", coll, "", True, False, "", "", "", True)
 
 
 
@@ -15223,7 +15240,8 @@ Public Class clsCreateAllTable
             coll.Add("MIKL_TYPE_CODE", "varchar(30)  NULL REFERENCES TSPL_MILK_TYPE_MASTER (MILK_TYPE_CODE)  ")
             coll.Add("Procurement_Type", "char(1)  NULL ")
             coll.Add("End_Date", "Date null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PARAMETER_RANGE_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null REFERENCES TSPL_PARAMETER_MASTER(Code)")
@@ -25445,14 +25463,17 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Consider_Negative_Amt", "integer NULL")
             coll.Add("IsShare", "integer NULL")
             coll.Add("MarginDCS", "integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
+
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
             coll.Add("Add_Of_Add_Ded_Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
@@ -27187,7 +27208,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_REMITTANCE set Is_TDS_Provision='N' where Is_TDS_Provision is null;")
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_REMITTANCE ADD CONSTRAINT DF_Is_TDS_Provision_N DEFAULT 'N' FOR Is_TDS_Provision;")
-        Catch ex As Exception
+            Catch ex As Exception
             End Try
 
             coll = New Dictionary(Of String, String)()
@@ -32605,8 +32626,75 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_ManualTCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX1_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX1_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX1_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX2_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX2_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX2_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX3_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX3_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX3_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX4_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX4_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX4_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX5_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX5_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX5_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX6_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX6_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX6_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX7_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX7_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX7_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX8_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX8_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX8_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX9_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX9_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX9_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX10_Rate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX10_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX10_Base_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Discount_Base decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Discount_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Amount_Less_Discount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Total_Tax_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Total_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt1 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt2 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt3 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt4 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt5 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt6 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt7 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt8 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt9 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Add_Charge_Amt10 decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Total_Add_Charge decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column ConvRate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column HeadDisc_Per decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column HeadDisc_Amt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TotCashDiscAmt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column HeadDisc_PerAmt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column RoundOffAmount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Commission_Amount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Advance_Percentage decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column CHA_Charge_Amount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column CHA_FOB_Amount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column CHA_Frieght_Kg_Amount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column CHA_Basic_Freight_Amount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Crate_ItemRate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Can_ItemRate decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column LeakageAmount decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Distributor_Commission_TotalAmt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Transporter_Commission_TotalAmt decimal(18,6)")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Security_TotalAmt decimal(18,6)")
+            Catch ex As Exception
+            End Try
 
-            coll = New Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SALE_RETURN_HEAD(DOCUMENT_CODE)")
             coll.Add("Line_No", "integer not null default 0")
             coll.Add("Row_Type", "varchar(10) NULL")
@@ -32782,6 +32870,97 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Item_Cost decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX1_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX1_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX1_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX2_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX2_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX2_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX3_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX3_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX3_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX4_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX4_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX4_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX5_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX5_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX5_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX6_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX6_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX6_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX7_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX7_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX7_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX8_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX8_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX8_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX9_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX9_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX9_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX10_Base_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX10_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX10_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Amount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Disc_Per decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Disc_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Amt_Less_Discount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Total_Tax_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Item_Net_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column MRP decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Assessable decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column AssessableAmt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Abatement_Per decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Abatement_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Item_Tax decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Total_MRP_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Total_Basic_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Total_Disc_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Cust_DiscountQty decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Cust_Discount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Total_Cust_Discount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount1 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount2 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount3 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount4 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount5 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount6 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount7 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount8 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount9 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Price_Amount10 decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column ActualRate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Item_Weight decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Conv_Factor decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TotalItem_Weight decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Markup_Percent decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Landing_Cost decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column HeadDiscAmt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column CustDiscPer decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Purchase_Cost decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column OrgRate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column DamageQty decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Return_Amount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Damage_Amount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column HeadDiscPer decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column HeadDiscPerAmt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Commission_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Commission_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Amt_Less_Commission decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Cash_Scheme_Pers decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Cash_Scheme_Amount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column ActualConvAmt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column ItemLeakageAmount decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Distributor_Commission_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Distributor_Commission_RateWithTax decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Distributor_Commission_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Transporter_Commission_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Transporter_Commission_Amt decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Security_Rate decimal(18,6) ")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Security_Amt decimal(18,6) ")
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Transaction_Type", "Varchar(20) NULL")
@@ -35694,7 +35873,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("UseInCanSale", "integer not null default 0")
             coll.Add("TSRate", "decimal(18,2) null")
             coll.Add("UOM", "varchar(12)  NULL references tspl_Unit_master(Unit_Code) ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_BulkSalePrice_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_BulkSalePrice_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BulkSalePrice_MASTER", coll, "", True, False, "", "", "", True)
 
 
             '--------Richa 10/09/2014 Against Ticket No BM00000003849
@@ -39139,7 +39319,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modified_Date", "datetime NULL")
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Posted_Date", "datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TANKER_CLEANING_ITEM_HEAD", coll, Nothing, False, False, "", "Code", "Apply_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TANKER_CLEANING_ITEM_HEAD", coll, Nothing, True, False, "", "Code", "Apply_Date", True)
 
 
 
@@ -39150,7 +39330,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Code", "varchar(20) NOT NULL")
             coll.Add("Qty", "decimal(18,2) NULL")
             coll.Add("Unit_Code", "varchar(20) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TANKER_CLEANING_ITEM_DETAIL", coll, Nothing, False, False, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TANKER_CLEANING_ITEM_DETAIL", coll, Nothing, True, False, "TSPL_TANKER_CLEANING_ITEM_HEAD", "Code", "", True)
 
 
 
@@ -42327,7 +42507,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, "", True, False, "", "", "", True)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(50) not null REFERENCES TSPL_QC_VENDOR_ITEM_MAPPING_HEAD(Document_Code)")
@@ -42337,7 +42519,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Parameter_Code", "varchar(30) null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
             coll.Add("Nature", "char(1) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, Nothing, True)
+            ' clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, "", True, False, "", "", "", True)
+
             '=======================================================================
 
             '===============Fixed Assets new work integrated from pepsi erp========================
@@ -47793,7 +47977,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TANKER_MASTER_SALE", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Tanker_Code", "Varchar(30) not null references TSPL_TANKER_MASTER_SALE(Tanker_Code)")
@@ -47801,12 +47986,16 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Chamber_Capacity", "decimal(18,2) not null default 0")
             coll.Add("Capacity_Uom", "varchar(12) null REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
             coll.Add("Chamber_Desc", "VARCHAR(200) NOT NULL ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE_DETAIL", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TANKER_MASTER_SALE_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Tanker_Code", "Varchar(30) not null references TSPL_TANKER_MASTER_SALE(Tanker_Code)")
             coll.Add("Driver_Code", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE) ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", coll)
+
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TANKER_MASTER_SALE_DRIVER_DETAIL", coll, "", True, False, "", "", "", True)
+
             '=============================================================================================///
 
 
@@ -51484,7 +51673,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("PriceType", "varchar(15) NUll")
             coll.Add("TotalSolidRate", "float not null default 0")
             coll.Add("TotalSolidUOM", "varchar(12) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_bulk_price_detail_item_wise", coll, Nothing, False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_bulk_price_detail_item_wise", coll, Nothing, True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Price_Code", "Varchar(30) not null REFERENCES TSPL_Bulk_Price_MASTER(Price_Code)")
@@ -56028,7 +56217,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
@@ -56037,7 +56227,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
             coll.Add("Cycle_Frequency", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD_DCS", coll, "", True, False, "", "", "", True)
 
             Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
             If isRecordExist = 0 Then

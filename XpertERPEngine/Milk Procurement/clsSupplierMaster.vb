@@ -51,6 +51,9 @@ Public Class clsSupplierMaster
     End Function
     '' For Delete of Data in TSPL_SUPPLIER_MASTER
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUPPLIER_MASTER", "SUPPLIER_CODE", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUPPLIER_MASTER", "SUPPLIER_CODE", Nothing)
+
         Dim qry As String = "Delete from TSPL_SUPPLIER_MASTER where SUPPLIER_CODE='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function
@@ -88,6 +91,8 @@ Public Class clsSupplierMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SUPPLIER_MASTER ", OMInsertOrUpdate.Update, " SUPPLIER_CODE='" + obj.SUPPLIER_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SUPPLIER_CODE, "TSPL_SUPPLIER_MASTER", "SUPPLIER_CODE", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -22,6 +22,7 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkMarginDCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkShare = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkDontGenerateDRCRNote = New Telerik.WinControls.UI.RadCheckBox()
@@ -98,10 +99,11 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.chkMarginDCS = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShare, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDontGenerateDRCRNote, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,7 +173,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -242,6 +244,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEndDate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -250,6 +253,15 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Size = New System.Drawing.Size(752, 420)
         Me.SplitContainer1.SplitterDistance = 386
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkMarginDCS
+        '
+        Me.chkMarginDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkMarginDCS.Location = New System.Drawing.Point(670, 37)
+        Me.chkMarginDCS.Name = "chkMarginDCS"
+        Me.chkMarginDCS.Size = New System.Drawing.Size(79, 16)
+        Me.chkMarginDCS.TabIndex = 391
+        Me.chkMarginDCS.Text = "MarginDCS"
         '
         'chkShare
         '
@@ -671,7 +683,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtConvertsion.TabIndex = 383
         Me.txtConvertsion.Text = "0"
         Me.txtConvertsion.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConvertsion.Value = 0R
+        Me.txtConvertsion.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -976,7 +988,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtApplyValue.TabIndex = 7
         Me.txtApplyValue.Text = "0"
         Me.txtApplyValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtApplyValue.Value = 0R
+        Me.txtApplyValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -1065,7 +1077,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtSNo.TabIndex = 8
         Me.txtSNo.Text = "0"
         Me.txtSNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNo.Value = 0R
+        Me.txtSNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -1248,14 +1260,14 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'chkMarginDCS
+        'btnHistory
         '
-        Me.chkMarginDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMarginDCS.Location = New System.Drawing.Point(670, 37)
-        Me.chkMarginDCS.Name = "chkMarginDCS"
-        Me.chkMarginDCS.Size = New System.Drawing.Size(82, 16)
-        Me.chkMarginDCS.TabIndex = 391
-        Me.chkMarginDCS.Text = "MarginDCS"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(611, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'frmDCSAdditionDeduction
         '
@@ -1274,6 +1286,7 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkShare, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDontGenerateDRCRNote, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1347,7 +1360,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1430,4 +1443,5 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents chkNegativeAmt As RadCheckBox
     Friend WithEvents chkShare As RadCheckBox
     Friend WithEvents chkMarginDCS As RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class

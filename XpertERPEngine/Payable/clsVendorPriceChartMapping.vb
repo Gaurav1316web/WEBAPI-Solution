@@ -30,6 +30,8 @@ Public Class clsVendorPriceChartMapping
                             clsCommon.AddColumnsForChange(coll, "VendorCode", obj.VendorCode)
                             clsCommon.AddColumnsForChange(coll, "isDefault", obj.isDefault)
                             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "tspl_vendor_price_chart_Mapping", OMInsertOrUpdate.Insert, "", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Pricecode, "tspl_Vendor_price_chart_mapping", "Pricecode", trans)
+
                         Else
                             If obj.isDefault = 1 Then
                                 qry = "  update tspl_Vendor_price_chart_mapping set isDefault=0 where vendorCode='" & obj.VendorCode & "'"
@@ -62,9 +64,13 @@ Public Class clsVendorPriceChartMapping
                             clsCommon.AddColumnsForChange(coll, "Milk_Grade_Code", obj.Milk_Grade_Code)
                             clsCommon.AddColumnsForChange(coll, "SequenceNo", obj.SequenceNo)
                             isSaved = clsCommonFunctionality.UpdateDataTable(coll, "tspl_Vendor_price_chart_mapping", OMInsertOrUpdate.Insert, "", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Pricecode, "tspl_Vendor_price_chart_mapping", "Pricecode", trans)
+
                         Next
                     End If
+
                 End If
+
             End If
             Return True
         Catch ex As Exception
@@ -116,10 +122,13 @@ Public Class clsVendorPriceChartMappingUDLHead
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String
         Try
+
+
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
                 For Each obj As clsVendorPriceChartMappingUDLHead In arr
                     qry = "select top 1 PriceCode from TSPL_VENDOR_PRICE_CHART_MAPPING where PriceCode='" + obj.Pricecode + "' and Milk_Grade_Code='" + obj.Milk_Grade_Code + "' and posted=1"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Throw New Exception("Some posted vendor mapping found for Price code :" + obj.Pricecode + " and Milk Grade Code:" + obj.Milk_Grade_Code)
                     End If

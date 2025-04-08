@@ -148,6 +148,7 @@ Public Class clsRcptEntryHeader
     Public strRecieptNum As String = Nothing
     Public Property Name1 As String = Nothing
     Public TDS_Recoverable_Amt As Double = 0.0
+    Public Against_ECollect As Double = 0
 
 
 
@@ -874,7 +875,7 @@ Public Class clsRcptEntryHeader
         " TSPL_RECEIPT_HEADER.TAX6,TSPL_RECEIPT_HEADER.TAX6_Rate,TSPL_RECEIPT_HEADER.TAX6_Amt,TSPL_RECEIPT_HEADER.TAX6_Base_Amt,TSPL_RECEIPT_HEADER.tax7, TSPL_RECEIPT_HEADER.TAX7_Rate, " &
         " TSPL_RECEIPT_HEADER.TAX7_Amt, TSPL_RECEIPT_HEADER.TAX7_Base_Amt, TSPL_RECEIPT_HEADER.TAX8, TSPL_RECEIPT_HEADER.TAX8_Rate, TSPL_RECEIPT_HEADER.TAX8_Amt," &
         " TSPL_RECEIPT_HEADER.TAX8_Base_Amt, TSPL_RECEIPT_HEADER.TAX9, TSPL_RECEIPT_HEADER.TAX9_Rate, TSPL_RECEIPT_HEADER.TAX9_Amt, TSPL_RECEIPT_HEADER.TAX9_Base_Amt, " &
-        " TSPL_RECEIPT_HEADER.TAX10, TSPL_RECEIPT_HEADER.TAX10_Rate, TSPL_RECEIPT_HEADER.TAX10_Amt, TSPL_RECEIPT_HEADER.TAX10_Base_Amt,TSPL_RECEIPT_HEADER.Set_Off_Date,TSPL_RECEIPT_HEADER.SetOffSkipJE,TSPL_RECEIPT_HEADER.Rec_Route_Code,TSPL_RECEIPT_HEADER.Rec_Zone_Code " &
+        " TSPL_RECEIPT_HEADER.TAX10, TSPL_RECEIPT_HEADER.TAX10_Rate, TSPL_RECEIPT_HEADER.TAX10_Amt, TSPL_RECEIPT_HEADER.TAX10_Base_Amt,TSPL_RECEIPT_HEADER.Set_Off_Date,TSPL_RECEIPT_HEADER.SetOffSkipJE,TSPL_RECEIPT_HEADER.Rec_Route_Code,TSPL_RECEIPT_HEADER.Rec_Zone_Code,TSPL_RECEIPT_HEADER.Against_ECollect " &
         " FROM  TSPL_RECEIPT_HEADER "
 
 
@@ -930,6 +931,7 @@ Public Class clsRcptEntryHeader
             obj.CSATransfer_No = clsCommon.myCstr(dt.Rows(0)("Against_CSA_Transfer_Code"))
             obj.SecurityDepositType = clsCommon.myCstr(dt.Rows(0)("SecurityDepositType"))
             obj.memorndmamt = clsCommon.myCstr(dt.Rows(0)("memorandum_amt"))
+            obj.Against_ECollect = clsCommon.myCdbl(dt.Rows(0)("Against_ECollect"))
             obj.Receipt_No = clsCommon.myCstr(dt.Rows(0)("Receipt_No"))
             obj.Rec_Route_Code = clsCommon.myCstr(dt.Rows(0)("Rec_Route_Code"))
             obj.Rec_Zone_Code = clsCommon.myCstr(dt.Rows(0)("Rec_Zone_Code"))

@@ -3554,11 +3554,13 @@ Public Class rptGSTR
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
-            Dim IsExists As Boolean = System.IO.Directory.Exists("C:\ERPTempFolder")
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
-                System.IO.Directory.CreateDirectory("C:\ERPTempFolder")
+                System.IO.Directory.CreateDirectory(forlderName)
             End If
-            Dim outputFilePath As String = "C:\ERPTempFolder\"
+            Dim outputFilePath As String = forlderName
             Dim strQry As String = "SELECT TOP 1 * FROM TSPL_GSTR_BLANK_SHEET ORDER BY Created_Date DESC"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
 
@@ -3572,22 +3574,22 @@ Public Class rptGSTR
                 If Not File.Exists(outputFilePath) Then
                     'If clsCommon.MyMessageBoxShow(Me, "File does not exist at " & outputFilePath & Environment.NewLine & "Are you sure you want to download the GSTR blank sheet?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     Dim fileData As Byte() = TryCast(dt.Rows(0)("FileData"), Byte())
-                        If fileData IsNot Nothing AndAlso fileData.Length > 0 Then
-                            Try
-                                ' Write file
-                                File.WriteAllBytes(outputFilePath, fileData)
+                    If fileData IsNot Nothing AndAlso fileData.Length > 0 Then
+                        Try
+                            ' Write file
+                            File.WriteAllBytes(outputFilePath, fileData)
 
-                                ' Ensure file is writable
-                                File.SetAttributes(outputFilePath, FileAttributes.Normal)
+                            ' Ensure file is writable
+                            File.SetAttributes(outputFilePath, FileAttributes.Normal)
 
-                                ' Notify user
-                                'clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
-                            Catch ex As Exception
-                                Throw New Exception(ex.Message)
-                            End Try
-                        Else
-                            Throw New Exception("File data is empty.")
-                        End If
+                            ' Notify user
+                            'clsCommon.MyMessageBoxShow(Me, "File downloaded successfully at " & outputFilePath, Me.Text)
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Else
+                        Throw New Exception("File data is empty.")
+                    End If
                     'End If
                 End If
             Else

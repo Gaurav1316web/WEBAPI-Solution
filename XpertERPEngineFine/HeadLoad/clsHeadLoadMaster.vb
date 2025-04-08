@@ -87,6 +87,7 @@ Public Class clsHeadLoadMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HEAD_LOAD", OMInsertOrUpdate.Update, "TSPL_HEAD_LOAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             isSaved = isSaved AndAlso clsHeadLoadDCS.SaveData(obj.Document_No, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", "TSPL_HEAD_LOAD_DCS", "Document_No", trans)
 
         Catch err As Exception
 
@@ -163,6 +164,7 @@ Public Class clsHeadLoadMaster
             End If
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_HEAD_LOAD set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_No='" & obj.Document_No & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", trans)
 
         Catch ex As Exception
 
@@ -208,6 +210,7 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HEAD_LOAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -235,6 +238,8 @@ Public Class clsHeadLoadMaster
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", "TSPL_HEAD_LOAD_DCS", "Document_No", trans)
+
             If clsCommon.CompairString(obj.Status, "1") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")
             End If

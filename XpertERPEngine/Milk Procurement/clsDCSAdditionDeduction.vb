@@ -173,6 +173,7 @@ Public Class clsDCSAdditionDeduction
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", tran)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", tran)
 
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT  where Code='" + strCode + "' "
@@ -300,6 +301,8 @@ Public Class clsDCSAdditionDeduction
 
             Dim qry As String = "Update TSPL_DCS_ADDITION_DEDUCTION set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_ADDITION_DEDUCTION", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

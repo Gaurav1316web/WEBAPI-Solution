@@ -353,13 +353,13 @@ Public Class FrmCustomerGroupOutstanding
 
             Dim rowsPerSheet As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuickExport, clsFixedParameterCode.MaxRowsForQuickExport, Nothing))
 
-            Dim FilePath As String = "C:\ERPTempFolder"
+            Dim FilePath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(FilePath)
             If Not IsExists Then
                 System.IO.Directory.CreateDirectory(FilePath)
             End If
             strReportNameInSaveDialog += clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss")
-            FilePath = "C:\ERPTempFolder\" + strReportNameInSaveDialog.Replace("/", "_").Replace("\\", "_") + ".xlsx"
+            FilePath = FilePath + strReportNameInSaveDialog.Replace("/", "_").Replace("\\", "_") + ".xlsx"
 
             Dim intTotalRows As Integer = 0
             Dim intSheetCounter As Integer = 1

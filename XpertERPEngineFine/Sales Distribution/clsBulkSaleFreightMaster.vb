@@ -155,6 +155,7 @@ Public Class clsBulkSaleFreightMaster
             End If
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BLK_FREIGHT_MASTER set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", trans)
 
         Catch ex As Exception
 
@@ -194,6 +195,7 @@ Public Class clsBulkSaleFreightMaster
                 clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
                 isResponse = False
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
@@ -227,6 +229,9 @@ Public Class clsBulkSaleFreightMaster
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "TSPL_BLK_FREIGHT_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "TSPL_BLK_FREIGHT_DETAIL", "Document_Code", trans)
+
             If clsCommon.CompairString(obj.Status, "1") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")
             End If
