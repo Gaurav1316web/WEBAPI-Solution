@@ -606,13 +606,18 @@ Public Class clsMilkCollectionDCSDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction, ByVal intPKID As Integer, ByVal isMissingOnly As Boolean, ByVal isForCorrection As Boolean) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionDCSDetail In Arr
-                If obj.Qty > 0 Then
-                    If obj.FAT <= 0 OrElse obj.SNF <= 0 Then
-                        If clsMilkRejectType.GetApplicableOn(obj.Milk_Type, trans) <> 1 Then
-                            Continue For
-                        End If
-                    End If
+                If isForCorrection Then
                     SaveDataTRData(strDocNo, obj, intPKID, trans)
+                    clsMilkCollectionDCS.HistoryUpdate(strDocNo, trans)
+                Else
+                    If obj.Qty > 0 Then
+                        If obj.FAT <= 0 OrElse obj.SNF <= 0 Then
+                            If clsMilkRejectType.GetApplicableOn(obj.Milk_Type, trans) <> 1 Then
+                                Continue For
+                            End If
+                        End If
+                        SaveDataTRData(strDocNo, obj, intPKID, trans)
+                    End If
                 End If
             Next
             If Not isForCorrection Then

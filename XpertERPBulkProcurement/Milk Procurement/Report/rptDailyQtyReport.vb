@@ -582,9 +582,9 @@ left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collec
                             'summaryRowItem.Add(Entered_SNFKg)
                             Dim Qty As New GridViewSummaryItem("Qty", "{0:F0}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(Qty)
-                            Dim FATKG As New GridViewSummaryItem("FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                            Dim FATKG As New GridViewSummaryItem("FATKG", "{0:F3}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(FATKG)
-                            Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                            Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:F3}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(SNFKG)
                         End If
                         If rbtnRouteWise.Checked = False Then
@@ -1285,13 +1285,13 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Gv1.Columns("Entered_Qty").HeaderText = "Entered Qty"
             Gv1.Columns("Entered_Qty").FormatString = "{0:n2}"
             Gv1.Columns("Entered_FATKg").HeaderText = "FATKG"
-            Gv1.Columns("Entered_FATKg").FormatString = "{0:n2}"
+            Gv1.Columns("Entered_FATKg").FormatString = "{0:n3}"
             Gv1.Columns("Entered_SNFKg").HeaderText = "SNFKG"
-            Gv1.Columns("Entered_SNFKg").FormatString = "{0:n2}"
+            Gv1.Columns("Entered_SNFKg").FormatString = "{0:n3}"
             Gv1.Columns("CLR").HeaderText = "CLR"
-            Gv1.Columns("CLR").FormatString = "{0:n2}"
+            Gv1.Columns("CLR").FormatString = "{0:n3}"
             Gv1.Columns("DCS_FAT").HeaderText = "FAT"
-            Gv1.Columns("DCS_FAT").FormatString = "{0:n2}"
+            Gv1.Columns("DCS_FAT").FormatString = "{0:n3}"
             Gv1.Columns("DCS_SNFPER").HeaderText = "SNF%"
             Gv1.Columns("DCS_SNFPER").FormatString = "{0:n2}"
             Gv1.Columns("VLC_Code").HeaderText = "VLC Code"
@@ -1305,9 +1305,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Gv1.Columns("SNF").HeaderText = "CLR"
             Gv1.Columns("SNF").FormatString = "{0:n2}"
             Gv1.Columns("FATKG").HeaderText = "FATKG"
-            Gv1.Columns("FATKG").FormatString = "{0:n2}"
+            Gv1.Columns("FATKG").FormatString = "{0:n3}"
             Gv1.Columns("SNFKG").HeaderText = "SNFKG"
-            Gv1.Columns("SNFKG").FormatString = "{0:n2}"
+            Gv1.Columns("SNFKG").FormatString = "{0:n3}"
             Gv1.Columns("SNFPER").HeaderText = "SNF%"
             Gv1.Columns("SNFPER").FormatString = "{0:n2}"
             'Gv1.Columns("DCS_FAT").HeaderText = "DCS_FAT"

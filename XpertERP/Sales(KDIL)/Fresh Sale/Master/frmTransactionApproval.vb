@@ -2164,7 +2164,7 @@ Public Class FrmTransactionApproval
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowHistoryData(cmbScreenName.ValueMember, "Program_Code", "TSPL_TRANSACTION_APPROVAL")
+            clsERPFuncationalityOLD.ShowHistoryData(cmbScreenName.ValueMember, "Screen_Name", "TSPL_TRANSACTION_APPROVAL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

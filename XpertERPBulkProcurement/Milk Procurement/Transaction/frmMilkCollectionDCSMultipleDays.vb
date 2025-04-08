@@ -49,6 +49,7 @@ Public Class frmMilkCollectionDCSMultipleDays
     Dim corrFactor As Decimal = 0
     Dim SettMilkCollectionFATSNFTypeHeader As Integer
     Dim SettApplyMergeForDCSMultipleDays As Boolean
+    Dim FATSNFKGDecimalPlaces As Integer = 2
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -66,6 +67,9 @@ Public Class frmMilkCollectionDCSMultipleDays
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            FATSNFKGDecimalPlaces = 3
+        End If
         If SettApplyMergeForDCSMultipleDays Then
             btnPost.Visible = False
             btnPost.Enabled = False
@@ -498,16 +502,16 @@ Public Class frmMilkCollectionDCSMultipleDays
     Sub UpdateCurrentRow(ByVal Shift As String, ByVal ii As Integer)
         If clsCommon.CompairString(Shift, "E") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
-                gv1.Rows(ii).Cells(colEveningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
-                gv1.Rows(ii).Cells(colEveningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
+                gv1.Rows(ii).Cells(colEveningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATPer).Value) / 100, FATSNFKGDecimalPlaces, MidpointRounding.AwayFromZero)
+                gv1.Rows(ii).Cells(colEveningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFPer).Value) / 100, FATSNFKGDecimalPlaces, MidpointRounding.AwayFromZero)
             ElseIf clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 1 Then
                 gv1.Rows(ii).Cells(colEveningFATPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value), 1, MidpointRounding.AwayFromZero)
                 gv1.Rows(ii).Cells(colEveningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value), 2, MidpointRounding.AwayFromZero)
             End If
         Else
             If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
-                gv1.Rows(ii).Cells(colMorningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
-                gv1.Rows(ii).Cells(colMorningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
+                gv1.Rows(ii).Cells(colMorningFATKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATPer).Value) / 100, FATSNFKGDecimalPlaces, MidpointRounding.AwayFromZero)
+                gv1.Rows(ii).Cells(colMorningSNFKG).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFPer).Value) / 100, FATSNFKGDecimalPlaces, MidpointRounding.AwayFromZero)
             ElseIf clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 1 Then
                 gv1.Rows(ii).Cells(colMorningFATPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 1, MidpointRounding.AwayFromZero)
                 gv1.Rows(ii).Cells(colMorningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 2, MidpointRounding.AwayFromZero)

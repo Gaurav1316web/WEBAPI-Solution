@@ -3204,15 +3204,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         lblTotalDisSubsidy.Text = 0
         lblTotalSubsidy.Text = 0
         SETGSTControl()
-        If AllowPlandDeptMCCLocation = True Then
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-                txtBillToLocation.Value = obj.Default_LocCode
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
-            Else
-            End If
-        End If
+        'If AllowPlandDeptMCCLocation = True Then
+        '    Dim obj As New clsMCCCodes()
+        '    obj = clsMCCCodes.GetData(True)
+        '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+        '        txtBillToLocation.Value = obj.Default_LocCode
+        '        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
+        '    Else
+        '    End If
+        'End If
 
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
@@ -8554,10 +8554,12 @@ a:          End If
             txtRateAmt.Enabled = True
             txtRatePer.Enabled = False
             txtRatePer.Text = 0
+            txtRateAmt.Text = 0
         Else
             txtRateAmt.Enabled = False
             txtRatePer.Enabled = True
             txtRatePer.Text = 0
+            txtRateAmt.Text = 0
         End If
     End Sub
     Private Sub txtRateAmt_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRateAmt.Leave
@@ -8573,9 +8575,9 @@ a:          End If
                 clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
-                txtRateAmt.Text = 0
+                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
             ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
-                txtRatePer.Text = 0
+                txtRatePer.Text = clsCommon.myCdbl(lblTotRAmt.Text) / clsCommon.myCdbl(txtRateAmt.Text)
             End If
             If chkRateDiffAmt.IsChecked Then
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then

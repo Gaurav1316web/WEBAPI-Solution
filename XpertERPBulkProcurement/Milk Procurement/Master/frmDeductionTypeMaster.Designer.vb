@@ -24,6 +24,8 @@ Partial Class frmDeductionTypeMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtSNo = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtDescriptionHindi = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -34,11 +36,12 @@ Partial Class frmDeductionTypeMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtSNo = New common.MyNumBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescriptionHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -48,8 +51,7 @@ Partial Class frmDeductionTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -74,12 +76,50 @@ Partial Class frmDeductionTypeMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Size = New System.Drawing.Size(501, 199)
         Me.SplitContainer1.SplitterDistance = 170
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtSNo
+        '
+        Me.txtSNo.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSNo.CalculationExpression = Nothing
+        Me.txtSNo.DecimalPlaces = 1
+        Me.txtSNo.FieldCode = Nothing
+        Me.txtSNo.FieldDesc = Nothing
+        Me.txtSNo.FieldMaxLength = 0
+        Me.txtSNo.FieldName = Nothing
+        Me.txtSNo.isCalculatedField = False
+        Me.txtSNo.IsSourceFromTable = False
+        Me.txtSNo.IsSourceFromValueList = False
+        Me.txtSNo.IsUnique = False
+        Me.txtSNo.Location = New System.Drawing.Point(114, 78)
+        Me.txtSNo.MendatroryField = False
+        Me.txtSNo.MyLinkLable1 = Me.MyLabel5
+        Me.txtSNo.MyLinkLable2 = Nothing
+        Me.txtSNo.Name = "txtSNo"
+        Me.txtSNo.ReferenceFieldDesc = Nothing
+        Me.txtSNo.ReferenceFieldName = Nothing
+        Me.txtSNo.ReferenceTableName = Nothing
+        Me.txtSNo.Size = New System.Drawing.Size(81, 20)
+        Me.txtSNo.TabIndex = 627
+        Me.txtSNo.Text = "0"
+        Me.txtSNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(13, 80)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel5.TabIndex = 628
+        Me.MyLabel5.Text = "Serial No"
         '
         'MyLabel1
         '
@@ -224,42 +264,16 @@ Partial Class frmDeductionTypeMaster
         Me.btnDelete.TabIndex = 3
         Me.btnDelete.Text = "Delete"
         '
-        'txtSNo
+        'btnHistory
         '
-        Me.txtSNo.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtSNo.CalculationExpression = Nothing
-        Me.txtSNo.DecimalPlaces = 1
-        Me.txtSNo.FieldCode = Nothing
-        Me.txtSNo.FieldDesc = Nothing
-        Me.txtSNo.FieldMaxLength = 0
-        Me.txtSNo.FieldName = Nothing
-        Me.txtSNo.isCalculatedField = False
-        Me.txtSNo.IsSourceFromTable = False
-        Me.txtSNo.IsSourceFromValueList = False
-        Me.txtSNo.IsUnique = False
-        Me.txtSNo.Location = New System.Drawing.Point(114, 78)
-        Me.txtSNo.MendatroryField = False
-        Me.txtSNo.MyLinkLable1 = Me.MyLabel5
-        Me.txtSNo.MyLinkLable2 = Nothing
-        Me.txtSNo.Name = "txtSNo"
-        Me.txtSNo.ReferenceFieldDesc = Nothing
-        Me.txtSNo.ReferenceFieldName = Nothing
-        Me.txtSNo.ReferenceTableName = Nothing
-        Me.txtSNo.Size = New System.Drawing.Size(81, 20)
-        Me.txtSNo.TabIndex = 627
-        Me.txtSNo.Text = "0"
-        Me.txtSNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNo.Value = 0R
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 80)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(53, 16)
-        Me.MyLabel5.TabIndex = 628
-        Me.MyLabel5.Text = "Serial No"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(350, 1)
+        Me.btnHistory.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(72, 22)
+        Me.btnHistory.TabIndex = 8
+        Me.btnHistory.Text = "History"
         '
         'frmDeductionTypeMaster
         '
@@ -277,6 +291,8 @@ Partial Class frmDeductionTypeMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescriptionHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -286,8 +302,7 @@ Partial Class frmDeductionTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -306,4 +321,5 @@ Partial Class frmDeductionTypeMaster
     Friend WithEvents txtDescriptionHindi As common.Controls.MyTextBox
     Friend WithEvents txtSNo As common.MyNumBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
