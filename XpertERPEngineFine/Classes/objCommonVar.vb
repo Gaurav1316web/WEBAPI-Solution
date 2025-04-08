@@ -175,6 +175,7 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
             _ImportExportDrive = Value
+            clsCommon.importExportDrive = Value
         End Set
     End Property
     Public Shared Property RCDFRateControl() As Boolean
@@ -1194,6 +1195,7 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
             _currDatabase = Value.Trim()
+            clsCommon.importExportDBName = Value
         End Set
     End Property
 
