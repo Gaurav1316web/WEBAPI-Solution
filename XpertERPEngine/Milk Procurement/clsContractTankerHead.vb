@@ -46,6 +46,8 @@ Public Class clsContractTankerHead
             End If
             issaved = issaved And clsContractTankerDetail.SaveData(obj.TANKER_CODE, obj.Arr, trans)
             issaved = issaved And clsContractTankerVendorDetail.SaveData(obj.TANKER_CODE, obj.Arrvendor, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.TANKER_CODE, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", "TSPL_CONTRACT_TANKER_VENDOR_DETAIL", "TANKER_CODE", trans)
+
             If issaved Then
                 trans.Commit()
             End If
@@ -123,7 +125,11 @@ Public Class clsContractTankerHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Tanker Code not found to Delete")
         End If
+        ' clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+
         Dim qry As String = "delete from TSPL_CONTRACT_TANKER_DETAIL where TANKER_CODE='" + strCode + "'"
         isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

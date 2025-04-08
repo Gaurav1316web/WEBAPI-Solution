@@ -27,6 +27,8 @@ Public Class clsParameterValueMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_Parameter_value_master", "Parameter_code", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_Parameter_value_master", "Parameter_code", Nothing)
 
             Dim qry As String
             qry = "delete from tspl_Parameter_value_master where Parameter_code ='" + strCode + "'"
@@ -59,7 +61,10 @@ Public Class clsParameterValueMaster
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Comp_code", objCommonVar.CurrentCompanyCode)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "tspl_Parameter_value_master", OMInsertOrUpdate.Insert, "")
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, arrObj(i).Parameter_CODE, "tspl_Parameter_value_master", "Parameter_CODE", Nothing)
+
             Next
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

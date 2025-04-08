@@ -546,6 +546,8 @@ Public Class FrmParameterMaster
                 trans.Rollback()
                 Return
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndNo.Value), "TSPL_PARAMETER_MASTER", "Code", trans)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndNo.Value), "TSPL_PARAMETER_MASTER", "Code", trans)
 
             qry = "delete from TSPL_PARAMETER_MASTER where comp_code='" + objCommonVar.CurrentCompanyCode + "' and code='" + clsCommon.myCstr(fndNo.Value) + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -984,5 +986,17 @@ Public Class FrmParameterMaster
         Else
             ChkProduction.Enabled = True
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndNo.Value, "Code", "TSPL_PARAMETER_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

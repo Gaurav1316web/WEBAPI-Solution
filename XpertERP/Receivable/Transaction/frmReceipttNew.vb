@@ -3053,7 +3053,11 @@ Public Class FrmReceipttNew
                     End If
                     btnSave.Enabled = True
                     btnPost.Enabled = True
-                    btnDelete.Enabled = True
+                    If obj.Against_ECollect > 0 Then
+                        btnDelete.Enabled = False
+                    Else
+                        btnDelete.Enabled = True
+                    End If
                     btnGo.Enabled = False
                     dgvReceipt.ReadOnly = False
                 End If

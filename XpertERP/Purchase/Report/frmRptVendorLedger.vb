@@ -3293,7 +3293,12 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
 
     Private Sub PDFGrid_Click(sender As Object, e As EventArgs) Handles PDFGrid.Click
         Try
-            Dim FilePath As String = "C:\\ERPTempFolder\\Vendor Ledger Report" + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            If IsExists = False Then
+                System.IO.Directory.CreateDirectory(forlderName)
+            End If
+            Dim FilePath As String = forlderName + "\Vendor Ledger Report" + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
             Dim pdfExporter As ExportToPDF = Nothing
 
             If gvVendorGroup.Visible = True Then

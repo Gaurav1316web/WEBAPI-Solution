@@ -39,6 +39,8 @@ Public Class ClsSectionMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SECTION_MASTER", OMInsertOrUpdate.Update, "TSPL_SECTION_MASTER.Section_Code='" + obj.Section_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Section_Code, "TSPL_SECTION_MASTER", "Section_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -87,6 +89,9 @@ Public Class ClsSectionMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECTION_MASTER", "Section_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECTION_MASTER", "Section_Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_SECTION_MASTER where Section_Code ='" + strCode + "'"

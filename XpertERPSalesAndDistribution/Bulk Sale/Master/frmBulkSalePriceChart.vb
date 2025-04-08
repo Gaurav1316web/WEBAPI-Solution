@@ -680,6 +680,18 @@ Public Class FrmBulkSalePriceChart
         TxtUOM.Value = clsCommon.ShowSelectForm("UOMFinder", qry, "Code", "", TxtUOM.Value, "Code", isButtonClicked)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Price_Code", "TSPL_BulkSalePrice_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Sub funPrint()
         Try
             ' KUNAL > KDIL > TICKET : BM00000009117 > REQUEST : KLREQ000563 > BUG OF STUTI > ASSIGENED TO ME ON EXCEL NO TICKET > DATE : 24 NOV 2016

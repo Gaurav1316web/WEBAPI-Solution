@@ -683,7 +683,7 @@ Public Class rptCollectionDataChangeReport
         ORDER BY Hist_On ASC ) AS RowNum FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING left join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No WHERE FAT > 0 or SNF > 0 ),UpdatedData AS ( SELECT Bulk_Route_Code AS Upd_Route_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Shift ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS Upd_VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name AS Upd_VLC_Name,  Hist_By AS Upd_VLC_User,
         CONVERT(VARCHAR, TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) AS Upd_Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No as Upd_Document_No,SNo as Upd_SNo,Milk_Weight AS Upd_Milk_Weight,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else Manual_Weight end AS Upd_Manual_Weight,Hist_By AS Upd_Weighment_User,convert(varchar, Hist_On,103) AS Upd_Weighment_Date,FAT AS Upd_FAT,SNF AS Upd_SNF,
 		case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else Manual_Sample end AS Upd_Manual_Sample,Hist_By AS Upd_Sample_User,convert(varchar,Hist_On,103) AS Upd_Sample_Date,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No, SNo ORDER BY Hist_On DESC ) AS RowNum FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING Left join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No
-        LEFT JOIN TSPL_VLC_MASTER_HEAD  ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code where Status =0 )SELECT FirstMilkWeightData.Org_Route_No,Org_VLC_Code_VLC_Uploader,Org_VLC_Name,Org_VLC_User,Org_Document_Date,FirstMilkWeightData.Org_Document_No, FirstMilkWeightData.SNo as Org_SNo,FirstMilkWeightData.Org_Milk_Weight,FirstMilkWeightData.Org_Manual_Weight,FirstMilkWeightData.Org_Weighment_User,FirstMilkWeightData.Org_Weighment_Date ,isnull(FirstFatSnf.Org_FAT,0) as Org_FAT ,isnull(FirstFatSnf.Org_SNF,0) as Org_SNF ,FirstFatSnf.Org_Manual_Sample,
+        LEFT JOIN TSPL_VLC_MASTER_HEAD  ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Hist_On <= TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Posted_Date )SELECT FirstMilkWeightData.Org_Route_No,Org_VLC_Code_VLC_Uploader,Org_VLC_Name,Org_VLC_User,Org_Document_Date,FirstMilkWeightData.Org_Document_No, FirstMilkWeightData.SNo as Org_SNo,FirstMilkWeightData.Org_Milk_Weight,FirstMilkWeightData.Org_Manual_Weight,FirstMilkWeightData.Org_Weighment_User,FirstMilkWeightData.Org_Weighment_Date ,isnull(FirstFatSnf.Org_FAT,0) as Org_FAT ,isnull(FirstFatSnf.Org_SNF,0) as Org_SNF ,FirstFatSnf.Org_Manual_Sample,
         FirstFatSnf.Org_Sample_User,FirstFatSnf.Org_Sample_Date,CASE WHEN (FirstMilkWeightData.Org_Route_No = UpdatedData.Upd_Route_No) and (FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT,0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF 
         or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstMilkWeightData.Org_Route_No else (case when FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No then UpdatedData.Upd_Route_No else null end) END AS Upd_Route_No, CASE WHEN  ( FirstMilkWeightData.Org_VLC_Code_VLC_Uploader = UpdatedData.Upd_VLC_Code_VLC_Uploader) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or 
         ISNULL(FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) then FirstMilkWeightData.Org_VLC_Code_VLC_Uploader ELSE (case when FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <>  UpdatedData.Upd_VLC_Code_VLC_Uploader then UpdatedData.Upd_VLC_Code_VLC_Uploader else null end ) END AS Upd_VLC_Code_VLC_Uploader,
@@ -715,22 +715,22 @@ Public Class rptCollectionDataChangeReport
             qry += " and UpdatedData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
         End If
 
-        qry += " and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) = CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  "
+        qry += " and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  
+        and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' , 103)  "
+
         If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            qry += " and 2=( case when convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and UpdatedData.Shift ='M' then 3 else 2 end  )"
+            qry += " and 2=( case when Cast(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and UpdatedData.SHIFT='M' then 3 else 2 end  )"
         End If
-        If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
-            qry += " and 2=( case when convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and UpdatedData.Shift ='E' then 3 else 2 end  )"
+        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and UpdatedData.SHIFT='E' then 3 else 2 end  )"
         End If
         qry += "  ORDER BY FirstMilkWeightData.Org_Document_no, FirstMilkWeightData.SNo "
         Return qry
     End Function
     Sub Reset()
-        txtMCC.arrValueMember = Nothing
-        txtRoute.arrValueMember = Nothing
-        txtVLC.arrValueMember = Nothing
-        'txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
-        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        ' txtMCC.arrValueMember = Nothing
+        'txtRoute.arrValueMember = Nothing
+        'txtVLC.arrValueMember = Nothing
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         rbtnCorrectionData.Checked = False
@@ -757,25 +757,25 @@ Public Class rptCollectionDataChangeReport
         'cbgShift.DisplayMember = "Shift"
     End Sub
 
-    'Sub LoadShiftTo()
-    '    Dim dt As DataTable = New DataTable
-    '    dt.Columns.Add("Code")
-    '    dt.Columns.Add("Shift")
+    Sub LoadShiftTo()
+        Dim dt As DataTable = New DataTable
+        dt.Columns.Add("Code")
+        dt.Columns.Add("Shift")
 
-    '    Dim dr As DataRow = dt.NewRow
-    '    dr("Code") = "M"
-    '    dr("Shift") = "Morning"
-    '    dt.Rows.Add(dr)
+        Dim dr As DataRow = dt.NewRow
+        dr("Code") = "M"
+        dr("Shift") = "Morning"
+        dt.Rows.Add(dr)
 
-    '    dr = dt.NewRow
-    '    dr("Code") = "E"
-    '    dr("Shift") = "Evening"
-    '    dt.Rows.Add(dr)
+        dr = dt.NewRow
+        dr("Code") = "E"
+        dr("Shift") = "Evening"
+        dt.Rows.Add(dr)
 
-    '    txtToShift.DataSource = dt
-    '    txtToShift.ValueMember = "Code"
+        txtToShift.DataSource = dt
+        txtToShift.ValueMember = "Code"
 
-    'End Sub
+    End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
@@ -825,6 +825,14 @@ Public Class rptCollectionDataChangeReport
     Private Sub rptTankerStatusReport_Load(sender As Object, e As EventArgs) Handles Me.Load
         SetUserMgmtNew()
         PickDataFromRetestingTable = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, Nothing)) > 0)
+        If PickDataFromRetestingTable Then
+            RadGroupBox3.Visible = True
+        Else
+            RadGroupBox3.Visible = False
+        End If
+        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         'Try
         '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Document_No, Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No , Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
@@ -854,7 +862,7 @@ Public Class rptCollectionDataChangeReport
         ButtonToolTip.SetToolTip(btnGo, "Press Alt+R Refresh ")
         ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
         LoadShiftFrom()
-        'LoadShiftTo()
+        LoadShiftTo()
         Reset()
     End Sub
 
@@ -1057,9 +1065,12 @@ Public Class rptCollectionDataChangeReport
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value)) > 0 Then
-                clsERPFuncationalityOLD.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
+            If rbtnMilkProcUpl.Checked <> True Then
+                If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value)) > 0 Then
+                    clsERPFuncationalityOLD.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

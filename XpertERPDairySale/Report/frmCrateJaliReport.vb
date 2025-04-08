@@ -1780,7 +1780,12 @@ Public Class FrmCrateJaliReport
             If exporter = EnumExportTo.Excel Then
                 clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, clsCommon.myCstr(StrReportName), True)
             Else
-                Dim FilePath As String = "C:\\ERPTempFolder\\" + clsCommon.myCstr(StrReportName) + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
+                Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+                Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+                If IsExists = False Then
+                    System.IO.Directory.CreateDirectory(forlderName)
+                End If
+                Dim FilePath As String = forlderName + "\" + clsCommon.myCstr(StrReportName) + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmss") + ".pdf"
                 Dim pdfExporter As New ExportToPDF(Gv1)
                 pdfExporter.Font = New System.Drawing.Font("Verdana", 6)
                 pdfExporter.TableBorderThickness = 1

@@ -24,6 +24,7 @@ Partial Class FrmParameterValueMaster
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.ddlParamCode = New common.Controls.MyComboBox()
         Me.lblParamCode = New common.Controls.MyLabel()
         Me.gv = New common.UserControls.MyRadGridView()
@@ -36,6 +37,7 @@ Partial Class FrmParameterValueMaster
         Me.mnuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -55,6 +57,7 @@ Partial Class FrmParameterValueMaster
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,6 +69,7 @@ Partial Class FrmParameterValueMaster
         Me.ddlParamCode.AutoCompleteDisplayMember = Nothing
         Me.ddlParamCode.AutoCompleteValueMember = Nothing
         Me.ddlParamCode.CalculationExpression = Nothing
+        Me.ddlParamCode.DropDownAnimationEnabled = True
         Me.ddlParamCode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlParamCode.FieldCode = Nothing
         Me.ddlParamCode.FieldDesc = Nothing
@@ -105,13 +109,18 @@ Partial Class FrmParameterValueMaster
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(3, 18)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(840, 194)
         Me.gv.TabIndex = 63
+        Me.gv.VarID = ""
         '
         'GroupBox1
         '
@@ -195,28 +204,21 @@ Partial Class FrmParameterValueMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(846, 20)
         Me.rdmenufile.TabIndex = 2
-        Me.rdmenufile.Text = "File"
         Me.rdmenufile.Visible = False
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImport, Me.mnuExport})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
         '
         'mnuImport
         '
-        Me.mnuImport.AccessibleDescription = "Import"
-        Me.mnuImport.AccessibleName = "Import"
         Me.mnuImport.Name = "mnuImport"
         Me.mnuImport.Text = "Import"
         '
         'mnuExport
         '
-        Me.mnuExport.AccessibleDescription = "Export"
-        Me.mnuExport.AccessibleName = "Export"
         Me.mnuExport.Name = "mnuExport"
         Me.mnuExport.Text = "Export"
         '
@@ -234,12 +236,23 @@ Partial Class FrmParameterValueMaster
         '
         'SplitContainer3.Panel2
         '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer3.Size = New System.Drawing.Size(846, 249)
         Me.SplitContainer3.SplitterDistance = 215
         Me.SplitContainer3.TabIndex = 65
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(149, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 19)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'btnClose
         '
@@ -299,6 +312,7 @@ Partial Class FrmParameterValueMaster
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -321,5 +335,6 @@ Partial Class FrmParameterValueMaster
     Friend WithEvents RadMenufile As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents mnuImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents mnuExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

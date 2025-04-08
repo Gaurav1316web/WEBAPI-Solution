@@ -1223,15 +1223,16 @@ ExitLOOP:
 
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
         Try
-            If Not System.IO.Directory.Exists("C:\\ERPTempFolder") Then
-                System.IO.Directory.CreateDirectory("C:\\ERPTempFolder")
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            If Not System.IO.Directory.Exists(forlderName) Then
+                System.IO.Directory.CreateDirectory(forlderName)
             End If
 
             If Not File.Exists(Application.StartupPath + "\XpertBennyDecrptor.exe") Then
                 LocalException("Please add File - XpertBennyDecrptor.exe.")
             End If
             Dim qry As String
-            Dim strOPFile As String = "C:\\ERPTempFolder\BSP.CSV"
+            Dim strOPFile As String = forlderName + "\BSP.CSV"
             Dim ofd As FolderBrowserDialog = New FolderBrowserDialog()
             If clsCommon.myLen(strFolderPath) > 0 Then
                 ofd.SelectedPath = strFolderPath

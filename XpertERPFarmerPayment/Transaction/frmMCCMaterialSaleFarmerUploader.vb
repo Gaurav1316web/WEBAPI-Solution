@@ -193,7 +193,7 @@ Public Class frmMCCMaterialSaleFarmerUploader
     Private Sub btnExportInvalid_Click(sender As Object, e As EventArgs) Handles btnExportInvalid.Click
         If rdbAgainstBulkSale.IsChecked Then
             'Gv1.Columns(colIsValidated).FilterDescriptor = New FilterDescriptor("ProductName", FilterOperator.IsEqualTo, False)
-            Dim dirName As String = "c:\ERPTempFolder"
+            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
 
             If Not System.IO.Directory.Exists(dirName) Then
                 System.IO.Directory.CreateDirectory(dirName)

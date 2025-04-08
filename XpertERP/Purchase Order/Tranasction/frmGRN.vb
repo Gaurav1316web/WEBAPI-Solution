@@ -7669,7 +7669,7 @@ Public Class frmGRN
             End If
             filename = "QCFile.mp4"
             Dim blob As Byte() = ds_attachment.Rows(0)("FileData")
-            file_path = "C:\ERPTempFolder"
+            file_path = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
             Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
             If dir.Exists = False Then
                 dir.Create()

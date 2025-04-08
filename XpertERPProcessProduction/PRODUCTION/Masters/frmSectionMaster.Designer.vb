@@ -22,19 +22,20 @@ Partial Class FrmSectionMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lbldesid = New common.Controls.MyLabel
-        Me.txtdes = New common.Controls.MyTextBox
-        Me.lbldes = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lbldesid = New common.Controls.MyLabel()
+        Me.txtdes = New common.Controls.MyTextBox()
+        Me.lbldes = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.BtnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -46,6 +47,7 @@ Partial Class FrmSectionMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,6 +71,7 @@ Partial Class FrmSectionMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -83,19 +86,26 @@ Partial Class FrmSectionMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(446, 20)
         Me.RadMenu2.TabIndex = 48
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport, Me.btnImport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(96, 41)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -111,6 +121,7 @@ Partial Class FrmSectionMaster
         '
         'lbldesid
         '
+        Me.lbldesid.FieldName = Nothing
         Me.lbldesid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldesid.Location = New System.Drawing.Point(11, 41)
         Me.lbldesid.Name = "lbldesid"
@@ -120,13 +131,25 @@ Partial Class FrmSectionMaster
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(96, 66)
         Me.txtdes.MaxLength = 150
         Me.txtdes.MendatroryField = True
         Me.txtdes.MyLinkLable1 = Nothing
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -136,6 +159,7 @@ Partial Class FrmSectionMaster
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(11, 67)
         Me.lbldes.Name = "lbldes"
@@ -165,7 +189,7 @@ Partial Class FrmSectionMaster
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(85, 3)
+        Me.btndelete.Location = New System.Drawing.Point(78, 4)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(66, 18)
         Me.btndelete.TabIndex = 4
@@ -181,21 +205,15 @@ Partial Class FrmSectionMaster
         Me.btnclose.TabIndex = 5
         Me.btnclose.Text = "Close"
         '
-        'btnExport
+        'BtnHistory
         '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Text = "Export"
-        Me.btnExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'btnImport
-        '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Text = "Import"
-        Me.btnImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnHistory.Location = New System.Drawing.Point(152, 4)
+        Me.BtnHistory.Name = "BtnHistory"
+        Me.BtnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.BtnHistory.TabIndex = 6
+        Me.BtnHistory.Text = "History"
         '
         'FrmSectionMaster
         '
@@ -221,6 +239,7 @@ Partial Class FrmSectionMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -238,5 +257,6 @@ Partial Class FrmSectionMaster
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnImport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents BtnHistory As RadButton
 End Class
 

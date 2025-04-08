@@ -1508,6 +1508,8 @@ Public Class FrmParameterRangeMaster
                 whrCls = " where loc_Code in (" & objCommonVar.strCurrUserLocations & ")"
             End If
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
+        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
 
         Try
             Dim qry As String = "delete from tspl_parameter_range_master " & whrCls
@@ -1525,4 +1527,15 @@ Public Class FrmParameterRangeMaster
         Me.Close()
     End Sub
 
+    'Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+    '    Try
+    '        If clsCommon.myLen(gv.Rows(0).Cells(colCode).Value) <= 0 Then
+    '            clsCommon.MyMessageBoxShow("Select Document No")
+    '            Exit Sub
+    '        End If
+    '        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "pk_Id", "TSPL_PARAMETER_RANGE_MASTER")
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Sub
 End Class

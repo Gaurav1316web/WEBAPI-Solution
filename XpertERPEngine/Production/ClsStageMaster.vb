@@ -79,6 +79,7 @@ Public Class ClsStageMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_STAGE_MASTER", OMInsertOrUpdate.Update, "TSPL_STAGE_MASTER.Stage_Code='" + obj.Stage_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Stage_Code, "TSPL_STAGE_MASTER", "Stage_Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
