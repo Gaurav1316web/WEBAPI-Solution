@@ -51,6 +51,7 @@ Partial Class frmTankerMasterSale
         Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -83,6 +84,7 @@ Partial Class frmTankerMasterSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -96,11 +98,13 @@ Partial Class frmTankerMasterSale
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(480, 340)
         Me.gv.TabIndex = 63
+        Me.gv.VarID = ""
         '
         'GroupBox1
         '
@@ -169,7 +173,7 @@ Partial Class frmTankerMasterSale
         Me.txtTareWeight.TabIndex = 115
         Me.txtTareWeight.Text = "0"
         Me.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTareWeight.Value = 0R
+        Me.txtTareWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -317,7 +321,7 @@ Partial Class frmTankerMasterSale
         Me.txtChamborNo.TabIndex = 109
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0R
+        Me.txtChamborNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel49
         '
@@ -343,6 +347,7 @@ Partial Class frmTankerMasterSale
         '
         'SplitContainer3.Panel2
         '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnSave)
@@ -392,6 +397,7 @@ Partial Class frmTankerMasterSale
         Me.GvDriver.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvDriver.MasterTemplate.ShowHeaderCellButtons = True
         Me.GvDriver.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GvDriver.MyExportFilePath = ""
         Me.GvDriver.MyStopExport = False
         Me.GvDriver.Name = "GvDriver"
         Me.GvDriver.ShowGroupPanel = False
@@ -399,6 +405,7 @@ Partial Class frmTankerMasterSale
         Me.GvDriver.Size = New System.Drawing.Size(479, 331)
         Me.GvDriver.TabIndex = 2
         Me.GvDriver.TabStop = False
+        Me.GvDriver.VarID = ""
         '
         'btnClose
         '
@@ -451,6 +458,15 @@ Partial Class frmTankerMasterSale
         Me.mnuExport.Name = "mnuExport"
         Me.mnuExport.Text = "Export"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(153, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 19)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        '
         'frmTankerMasterSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -499,6 +515,7 @@ Partial Class frmTankerMasterSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -531,5 +548,6 @@ Partial Class frmTankerMasterSale
     Friend WithEvents chkVendorAll As common.Controls.MyRadioButton
     Friend WithEvents txtTareWeight As common.MyNumBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

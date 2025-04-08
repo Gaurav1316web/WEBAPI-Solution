@@ -43,6 +43,7 @@ Partial Class frmMilkTypeMaster
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.cmbMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,6 +59,7 @@ Partial Class frmMilkTypeMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -244,6 +246,7 @@ Partial Class frmMilkTypeMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnDelete)
@@ -282,6 +285,16 @@ Partial Class frmMilkTypeMaster
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(409, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmMilkTypeMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -311,6 +324,7 @@ Partial Class frmMilkTypeMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -332,5 +346,6 @@ Partial Class frmMilkTypeMaster
     Friend WithEvents rdmenuexit As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents cmbMilkType As common.Controls.MyComboBox
     Friend WithEvents MyLabel56 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

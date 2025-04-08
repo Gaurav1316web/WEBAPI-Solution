@@ -74,6 +74,7 @@ Public Class clsfrmParameterRangeMaster
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PARAMETER_RANGE_MASTER", OMInsertOrUpdate.Insert, "", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PK_Id, "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
 
                 Next
                 'trans.Commit()
@@ -260,6 +261,8 @@ Public Class clsfrmParameterMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PARAMETER_MASTER", OMInsertOrUpdate.Update, " TSPL_PARAMETER_MASTER.Code='" + obj.code + "' and tspl_parameter_master.comp_code='" + objCommonVar.CurrentCompanyCode + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_PARAMETER_MASTER", "Code", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception

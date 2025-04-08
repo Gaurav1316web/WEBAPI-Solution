@@ -54,6 +54,7 @@ Partial Class frmContractTanker
         Me.mnuImportVendor = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExportVendor = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -86,6 +87,7 @@ Partial Class frmContractTanker
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -99,11 +101,13 @@ Partial Class frmContractTanker
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(482, 362)
         Me.gv.TabIndex = 63
+        Me.gv.VarID = ""
         '
         'GroupBox1
         '
@@ -328,7 +332,7 @@ Partial Class frmContractTanker
         Me.txtChamborNo.TabIndex = 109
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0R
+        Me.txtChamborNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel49
         '
@@ -354,6 +358,7 @@ Partial Class frmContractTanker
         '
         'SplitContainer3.Panel2
         '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btnSave)
@@ -403,6 +408,7 @@ Partial Class frmContractTanker
         Me.GvVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvVendor.MasterTemplate.ShowHeaderCellButtons = True
         Me.GvVendor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GvVendor.MyExportFilePath = ""
         Me.GvVendor.MyStopExport = False
         Me.GvVendor.Name = "GvVendor"
         Me.GvVendor.ShowGroupPanel = False
@@ -410,6 +416,7 @@ Partial Class frmContractTanker
         Me.GvVendor.Size = New System.Drawing.Size(481, 353)
         Me.GvVendor.TabIndex = 2
         Me.GvVendor.TabStop = False
+        Me.GvVendor.VarID = ""
         '
         'btnClose
         '
@@ -474,6 +481,15 @@ Partial Class frmContractTanker
         Me.mnuExportVendor.Name = "mnuExportVendor"
         Me.mnuExportVendor.Text = "Export Vendor"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(460, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 19)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        '
         'frmContractTanker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -522,6 +538,7 @@ Partial Class frmContractTanker
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -557,5 +574,6 @@ Partial Class frmContractTanker
     Friend WithEvents chkVendorAll As common.Controls.MyRadioButton
     Friend WithEvents mnuImportVendor As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents mnuExportVendor As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

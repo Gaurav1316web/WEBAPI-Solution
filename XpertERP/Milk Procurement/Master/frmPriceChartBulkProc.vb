@@ -1443,6 +1443,18 @@ Public Class frmPriceChartBulkProc
         End If
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Price_Code", "TSPL_Bulk_Price_MASTER", "tspl_bulk_price_detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
         Dim qry As String = "select Unit_Code as Code,Unit_Desc as Name from TSPL_UNIT_MASTER"
         txtUOM.Value = clsCommon.ShowSelectForm("BMPC@TSUOM", qry, "Code", "", txtUOM.Value, "Code", isButtonClicked)

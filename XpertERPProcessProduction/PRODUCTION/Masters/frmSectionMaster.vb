@@ -183,6 +183,18 @@ Public Class FrmSectionMaster
         transportSql.ExporttoExcel(qry, Me)
     End Sub
 
+    Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles BtnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Section_Code", "TSPL_SECTION_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
         Dim gv_Import As New UserControls.MyRadGridView
         Me.Controls.Add(gv_Import)
