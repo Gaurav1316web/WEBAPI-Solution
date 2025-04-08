@@ -42343,7 +42343,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, "", True, False, "", "", "", True)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(50) not null REFERENCES TSPL_QC_VENDOR_ITEM_MAPPING_HEAD(Document_Code)")
@@ -42353,7 +42355,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Parameter_Code", "varchar(30) null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
             coll.Add("Nature", "char(1) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, Nothing, True)
+            ' clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", coll, "", True, False, "", "", "", True)
+
             '=======================================================================
 
             '===============Fixed Assets new work integrated from pepsi erp========================
