@@ -144,7 +144,7 @@ Public Class frmCrystalReportViewer
 
                 If isPDFPath Then
                     Me.crptViewer.Refresh()
-                    Dim subPath As String = "C:\\ERPTempFolder"
+                    Dim subPath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
                     Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
                     If (IsExists = False) Then
                         System.IO.Directory.CreateDirectory(subPath)
@@ -381,7 +381,7 @@ Public Class frmCrystalReportViewer
 
                 If isPDFPath Then
                     Me.crptViewer.Refresh()
-                    Dim subPath As String = "C:\\ERPTempFolder"
+                    Dim subPath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
                     Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
                     If (IsExists = False) Then
                         System.IO.Directory.CreateDirectory(subPath)

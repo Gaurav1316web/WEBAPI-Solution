@@ -2518,7 +2518,7 @@ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MA
                     'obj.Print(obj, dt, PageSetup.Potrate)
                     Dim frm As New frmCrystalReportViewer()
                     Dim strReportPath As String = frm.GetReportPath(CrystalReportFolder.MilkProcurement, "UnitMilkBillSummery")
-                    Dim subPath As String = "C:\\ERPTempFolder"
+                    Dim subPath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
                     strReportPath = strReportPath.Replace(".rpt", ".Txt")
                     Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
                     If (IsExists = False) Then

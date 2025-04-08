@@ -149,6 +149,7 @@ Public Class objCommonVar
     Private Shared _StopInventoryNew As Boolean = False
     Private Shared _RCDFRateControl As Boolean = False
     Private Shared _JSONTrack As Boolean = False
+    Private Shared _ImportExportDrive As String = ""
     Private Shared _ApplyBoothRouteMapping As Boolean = False
 #End Region
 
@@ -166,6 +167,14 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
 
+        End Set
+    End Property
+    Public Shared Property ImportExportDrive() As String
+        Get
+            Return _ImportExportDrive
+        End Get
+        Set(ByVal Value As String)
+            _ImportExportDrive = Value
         End Set
     End Property
     Public Shared Property RCDFRateControl() As Boolean
@@ -1018,6 +1027,7 @@ Public Class objCommonVar
         objCommonVar.StopInventoryNew = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopSetting, clsFixedParameterCode.InventoryNew, Nothing)) = 1, True, False)
 
         objCommonVar.RCDFRateControl = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, Nothing)) = 1, True, False)
+        objCommonVar.ImportExportDrive = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ImportExportDrive, clsFixedParameterCode.ImportExportDrive, Nothing))
         objCommonVar.ApplyBoothRouteMapping = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, Nothing)) = 1, True, False)
 
         dt.Dispose()
