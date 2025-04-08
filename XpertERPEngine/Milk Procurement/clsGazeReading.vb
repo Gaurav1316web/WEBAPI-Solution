@@ -35,6 +35,8 @@ Public Class clsGazeReading
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GAZE_READING", OMInsertOrUpdate.Update, "Code = '" + obj.Code + "'", trans)
             End If
             clsGazeReadingDetail.SaveData(obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_GAZE_READING", "Code", "TSPL_GAZE_READING_DETAIL", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -50,6 +52,7 @@ Public Class clsGazeReading
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GAZE_READING", "Code", "TSPL_GAZE_READING_DETAIL", "Code", trans)
 
             Dim qry As String = "Delete from TSPL_GAZE_READING_DETAIL where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

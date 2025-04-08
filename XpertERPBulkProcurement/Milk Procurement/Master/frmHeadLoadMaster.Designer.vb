@@ -22,10 +22,10 @@ Partial Class frmHeadLoadMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -57,6 +57,7 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis = New common.Controls.MyComboBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.rbtnDetails = New common.Controls.MyRadioButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
@@ -89,6 +90,7 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +108,8 @@ Partial Class frmHeadLoadMaster
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -115,6 +118,7 @@ Partial Class frmHeadLoadMaster
         Me.gv1.Size = New System.Drawing.Size(934, 371)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel2
         '
@@ -138,6 +142,7 @@ Partial Class frmHeadLoadMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
@@ -456,7 +461,7 @@ Partial Class frmHeadLoadMaster
         Me.txtCycleFrequency.TabIndex = 1093
         Me.txtCycleFrequency.Text = "0"
         Me.txtCycleFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCycleFrequency.Value = 0R
+        Me.txtCycleFrequency.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtRate
         '
@@ -485,7 +490,7 @@ Partial Class frmHeadLoadMaster
         Me.txtRate.TabIndex = 1092
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0R
+        Me.txtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'chkRate
         '
@@ -520,12 +525,12 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis.IsSourceFromTable = False
         Me.cmbHeadLoadBasis.IsSourceFromValueList = False
         Me.cmbHeadLoadBasis.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Rate/Kg"
-        RadListDataItem6.Text = "Rate/Ltr"
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem4)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem5)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Rate/Kg"
+        RadListDataItem3.Text = "Rate/Ltr"
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem1)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem2)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem3)
         Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 2)
         Me.cmbHeadLoadBasis.MendatroryField = True
         Me.cmbHeadLoadBasis.MyLinkLable1 = Me.MyLabel1
@@ -582,6 +587,17 @@ Partial Class frmHeadLoadMaster
         Me.rbtnDetails.TabStop = False
         Me.rbtnDetails.Text = "Details"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(770, 5)
+        Me.btnHistory.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(72, 22)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
+        '
         'frmHeadLoadMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -631,6 +647,7 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -666,6 +683,7 @@ Partial Class frmHeadLoadMaster
     Friend WithEvents btnReverseUnpost As RadButton
     Friend WithEvents txtCycleFrequency As common.MyNumBox
     Friend WithEvents lblCycleFrequency As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 
 

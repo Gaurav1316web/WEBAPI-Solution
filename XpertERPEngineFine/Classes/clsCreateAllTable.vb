@@ -192,7 +192,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
             coll.Add("SNo", "Integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_TYPE_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("HCODE", "Varchar(30) Not null Primary key")
@@ -7822,14 +7823,16 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime not null")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modify_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GAZE_READING", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Code", "Varchar(30) not null REFERENCES TSPL_GAZE_READING(Code)")
             coll.Add("MM", "integer null")
             coll.Add("Value", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING_DETAIL", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_GAZE_READING_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_GAZE_READING_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Prog_Code", "varchar(12) NOT NULL")
@@ -25460,14 +25463,17 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Consider_Negative_Amt", "integer NULL")
             coll.Add("IsShare", "integer NULL")
             coll.Add("MarginDCS", "integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
+
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
             coll.Add("Add_Of_Add_Ded_Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
@@ -56053,7 +56059,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
@@ -56062,7 +56069,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
             coll.Add("Cycle_Frequency", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD_DCS", coll, "", True, False, "", "", "", True)
 
             Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
             If isRecordExist = 0 Then

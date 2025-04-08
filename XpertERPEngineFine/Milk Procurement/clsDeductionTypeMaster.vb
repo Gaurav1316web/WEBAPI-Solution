@@ -48,6 +48,7 @@ Public Class clsDeductionTypeMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEDUCTION_TYPE_MASTER", OMInsertOrUpdate.Update, "TSPL_DEDUCTION_TYPE_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEDUCTION_TYPE_MASTER", "Document_No", trans)
 
         Catch ex As Exception
 
@@ -91,6 +92,7 @@ Public Class clsDeductionTypeMaster
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEDUCTION_TYPE_MASTER", "Document_No", tran)
 
             qry = "Delete from TSPL_DEDUCTION_TYPE_MASTER  where Document_No='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
