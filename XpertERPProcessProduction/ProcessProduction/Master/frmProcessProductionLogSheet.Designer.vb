@@ -58,6 +58,7 @@ Partial Class FrmProcessProductionLogSheet
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.txtsequnce = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -103,6 +104,7 @@ Partial Class FrmProcessProductionLogSheet
         CType(Me.gv_Param.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtsequnce, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -130,6 +132,7 @@ Partial Class FrmProcessProductionLogSheet
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtsequnce)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -150,7 +153,7 @@ Partial Class FrmProcessProductionLogSheet
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 23)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(748, 371)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -312,7 +315,7 @@ Partial Class FrmProcessProductionLogSheet
         Me.txtdiff.TabIndex = 7
         Me.txtdiff.Text = "0"
         Me.txtdiff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdiff.Value = 0R
+        Me.txtdiff.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btngo
         '
@@ -550,12 +553,14 @@ Partial Class FrmProcessProductionLogSheet
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(717, 188)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -591,12 +596,14 @@ Partial Class FrmProcessProductionLogSheet
         Me.gv_Param.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Param.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_Param.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_Param.MyExportFilePath = ""
         Me.gv_Param.MyStopExport = False
         Me.gv_Param.Name = "gv_Param"
         Me.gv_Param.ShowGroupPanel = False
         Me.gv_Param.ShowHeaderCellButtons = True
         Me.gv_Param.Size = New System.Drawing.Size(723, 303)
         Me.gv_Param.TabIndex = 0
+        Me.gv_Param.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -638,6 +645,15 @@ Partial Class FrmProcessProductionLogSheet
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "RadMenuItem1"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(593, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 46
+        Me.btnHistory.Text = "History"
+        '
         'txtsequnce
         '
         Me.txtsequnce.BackColor = System.Drawing.Color.LightGoldenrodYellow
@@ -664,7 +680,7 @@ Partial Class FrmProcessProductionLogSheet
         Me.txtsequnce.TabIndex = 3
         Me.txtsequnce.Text = "0"
         Me.txtsequnce.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsequnce.Value = 0R
+        Me.txtsequnce.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtsequnce.Visible = False
         '
         'MyLabel2
@@ -806,6 +822,7 @@ Partial Class FrmProcessProductionLogSheet
         CType(Me.gv_Param, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtsequnce, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -858,5 +875,6 @@ Partial Class FrmProcessProductionLogSheet
     Friend WithEvents chkMannual As common.Controls.MyCheckBox
     Friend WithEvents txtdesc As common.Controls.MyTextBox
     Friend WithEvents lblvendorname As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

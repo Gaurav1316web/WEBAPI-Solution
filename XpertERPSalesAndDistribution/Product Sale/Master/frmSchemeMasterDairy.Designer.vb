@@ -122,6 +122,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadLabel13 = New common.Controls.MyLabel()
         Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.pgAttachmentSchMst = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -157,7 +158,7 @@ Partial Class FrmSchemeMasterDairy
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -277,6 +278,7 @@ Partial Class FrmSchemeMasterDairy
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -285,7 +287,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1303, 18)
+        Me.RadMenu1.Size = New System.Drawing.Size(1292, 20)
         Me.RadMenu1.TabIndex = 3
         '
         'RadMenuItem1
@@ -371,7 +373,7 @@ Partial Class FrmSchemeMasterDairy
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 18)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -381,11 +383,12 @@ Partial Class FrmSchemeMasterDairy
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1303, 434)
-        Me.SplitContainer1.SplitterDistance = 404
+        Me.SplitContainer1.Size = New System.Drawing.Size(1292, 432)
+        Me.SplitContainer1.SplitterDistance = 402
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -401,17 +404,17 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1303, 404)
+        Me.RadPageView1.Size = New System.Drawing.Size(1292, 402)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(88.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1282, 360)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 354)
         Me.RadPageViewPage1.Text = "Scheme Details"
         '
         'SplitContainer3
@@ -469,7 +472,7 @@ Partial Class FrmSchemeMasterDairy
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.gvItem)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1282, 360)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1271, 354)
         Me.SplitContainer3.SplitterDistance = 122
         Me.SplitContainer3.TabIndex = 0
         '
@@ -554,7 +557,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtSchemeQty.TabIndex = 47
         Me.txtSchemeQty.Text = "0"
         Me.txtSchemeQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSchemeQty.Value = 0R
+        Me.txtSchemeQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtSchemeQty.Visible = False
         '
         'lblMinQty
@@ -604,7 +607,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtMinQty.TabIndex = 41
         Me.txtMinQty.Text = "0"
         Me.txtMinQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinQty.Value = 0R
+        Me.txtMinQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtMinQty.Visible = False
         '
         'lblSchemeUOM
@@ -764,7 +767,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtQuantitiveStructureFreeQty.TabIndex = 4
         Me.txtQuantitiveStructureFreeQty.Text = "0"
         Me.txtQuantitiveStructureFreeQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQuantitiveStructureFreeQty.Value = 0R
+        Me.txtQuantitiveStructureFreeQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -873,7 +876,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtQuantitiveStructureMainQty.TabIndex = 1
         Me.txtQuantitiveStructureMainQty.Text = "0"
         Me.txtQuantitiveStructureMainQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQuantitiveStructureMainQty.Value = 0R
+        Me.txtQuantitiveStructureMainQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -953,7 +956,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtAmount.TabIndex = 12
         Me.txtAmount.Text = "0"
         Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmount.Value = 0R
+        Me.txtAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtAmount.Visible = False
         '
         'lblUnit
@@ -992,7 +995,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtPercentage.TabIndex = 11
         Me.txtPercentage.Text = "0"
         Me.txtPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPercentage.Value = 0R
+        Me.txtPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtPercentage.Visible = False
         '
         'MyLabel1
@@ -1064,7 +1067,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtQty.TabIndex = 9
         Me.txtQty.Text = "0"
         Me.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQty.Value = 0R
+        Me.txtQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtQty.Visible = False
         '
         'lblQty
@@ -1627,11 +1630,12 @@ Partial Class FrmSchemeMasterDairy
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(1282, 234)
+        Me.gvItem.Size = New System.Drawing.Size(1271, 228)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
@@ -1639,7 +1643,7 @@ Partial Class FrmSchemeMasterDairy
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(115.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(119.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(959, 361)
@@ -1767,6 +1771,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1779,16 +1784,24 @@ Partial Class FrmSchemeMasterDairy
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(959, 361)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(959, 361)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'pgAttachmentSchMst
         '
         Me.pgAttachmentSchMst.Controls.Add(Me.UcAttachment1)
-        Me.pgAttachmentSchMst.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.pgAttachmentSchMst.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.pgAttachmentSchMst.Location = New System.Drawing.Point(10, 37)
         Me.pgAttachmentSchMst.Name = "pgAttachmentSchMst"
         Me.pgAttachmentSchMst.Size = New System.Drawing.Size(959, 361)
@@ -1808,7 +1821,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox9)
         Me.RadPageViewPage3.Controls.Add(Me.chkSlabWise)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(33.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(37.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(959, 361)
@@ -1881,7 +1894,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtQuantum.TabIndex = 42
         Me.txtQuantum.Text = "0"
         Me.txtQuantum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQuantum.Value = 0R
+        Me.txtQuantum.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtQuantum.Visible = False
         '
         'RadGroupBox9
@@ -1930,6 +1943,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTS.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTS.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTS.MyExportFilePath = ""
         Me.gvTS.MyStopExport = False
         Me.gvTS.Name = "gvTS"
         Me.gvTS.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1955,6 +1969,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTS2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTS2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTS2.MyExportFilePath = ""
         Me.gvTS2.MyStopExport = False
         Me.gvTS2.Name = "gvTS2"
         Me.gvTS2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1977,7 +1992,7 @@ Partial Class FrmSchemeMasterDairy
         'VolumeSlab
         '
         Me.VolumeSlab.Controls.Add(Me.SplitContainer5)
-        Me.VolumeSlab.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.VolumeSlab.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.VolumeSlab.Location = New System.Drawing.Point(10, 37)
         Me.VolumeSlab.Name = "VolumeSlab"
         Me.VolumeSlab.Size = New System.Drawing.Size(959, 361)
@@ -2115,6 +2130,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvVolumeSlab.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvVolumeSlab.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvVolumeSlab.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvVolumeSlab.MyExportFilePath = ""
         Me.gvVolumeSlab.MyStopExport = False
         Me.gvVolumeSlab.Name = "gvVolumeSlab"
         Me.gvVolumeSlab.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2128,7 +2144,7 @@ Partial Class FrmSchemeMasterDairy
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(147.0!, 24.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(151.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(959, 361)
@@ -2278,6 +2294,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvCashDisGrid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCashDisGrid.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCashDisGrid.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCashDisGrid.MyExportFilePath = ""
         Me.gvCashDisGrid.MyStopExport = False
         Me.gvCashDisGrid.Name = "gvCashDisGrid"
         Me.gvCashDisGrid.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2291,7 +2308,7 @@ Partial Class FrmSchemeMasterDairy
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(1220, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1209, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(80, 18)
         Me.btnClose.TabIndex = 2
@@ -2315,19 +2332,20 @@ Partial Class FrmSchemeMasterDairy
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'UcCustomFields1
+        'btnHistory
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(959, 361)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(175, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmSchemeMasterDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1303, 452)
+        Me.ClientSize = New System.Drawing.Size(1292, 452)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmSchemeMasterDairy"
@@ -2464,6 +2482,7 @@ Partial Class FrmSchemeMasterDairy
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2600,5 +2619,6 @@ Partial Class FrmSchemeMasterDairy
     Friend WithEvents lblMainUOM As common.Controls.MyLabel
     Friend WithEvents txtMainUOM As common.UserControls.txtFinder
     Friend WithEvents gbScheme As GroupBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

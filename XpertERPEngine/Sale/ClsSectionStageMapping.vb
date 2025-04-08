@@ -67,6 +67,7 @@ Public Class ClsSectionStageMapping
 
             isSaved = isSaved AndAlso clsSectionStageMappingDetail.SaveData(obj.doc_code, obj.Section_Code, obj.Arr, trans)
             isSaved = isSaved AndAlso clsSectionStageMapping_User.SaveData(obj.doc_code, obj.Arr_User, obj.Section_Code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.doc_code, "TSPL_SECTION_STAGE_MAPPING_HEAD", "doc_code", "TSPL_SECTION_STAGE_MAPPING", "doc_code", "TSPL_SECTION_STAGE_USER_DETAIL", "doc_code", trans)
 
             trans.Commit()
             Return isSaved
@@ -81,6 +82,8 @@ Public Class ClsSectionStageMapping
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECTION_STAGE_MAPPING_HEAD", "doc_code", "TSPL_SECTION_STAGE_MAPPING", "doc_code", "TSPL_SECTION_STAGE_USER_DETAIL", "doc_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SECTION_STAGE_MAPPING_HEAD", "doc_code", "TSPL_SECTION_STAGE_MAPPING", "doc_code", "TSPL_SECTION_STAGE_USER_DETAIL", "doc_code", trans)
 
             Dim qry As String
             qry = "delete from TSPL_SECTION_STAGE_MAPPING_HEAD where DOC_CODE ='" + strCode + "'"

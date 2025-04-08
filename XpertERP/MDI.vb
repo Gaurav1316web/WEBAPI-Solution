@@ -6904,7 +6904,7 @@ Public Class MDI
                     '    frm = New frmBOM
                     '         formShow(frm,strProgramCode, strProgramName, isOpenInMDI,strDocNo)
                     'Else
-                    '    frm = New frmBillOfMaterial
+                    '    frm = New frmBiclsUserMgtCode.frmPPLogSheetMasterllOfMaterial
                     '         formShow(frm,strProgramCode, strProgramName, isOpenInMDI,strDocNo)
                     'End If
                     Case clsUserMgtCode.frmBillOfMaterialDairy

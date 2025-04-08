@@ -79,6 +79,7 @@ Public Class clsPPLogSheetMaster
             End If
 
             isSaved = isSaved AndAlso clsPPLogSheetUserMaster.SaveData(strCode, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_QC_LOG_SHEET_MASTER", "Code", "TSPL_QC_LOG_SHEET_USER_MASTER", "Code", trans)
 
             If obj.IsReq_Parameter_Master = 1 AndAlso clsCommon.CompairString(obj.Trans_Id, "PRODUCTION") = CompairStringResult.Equal Then
                 isSaved = isSaved AndAlso SaveParameterMaster(obj, isNewEntry, trans)
@@ -218,6 +219,8 @@ Public Class clsPPLogSheetMaster
         Try
             Dim isSaved As Boolean = True
             Dim check As Integer = 0
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_LOG_SHEET_MASTER", "code", "TSPL_QC_LOG_SHEET_USER_MASTER", "code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_LOG_SHEET_MASTER", "code", "TSPL_QC_LOG_SHEET_USER_MASTER", "code", trans)
 
             check = clsDBFuncationality.getSingleValue("select count(*) from TSPL_PP_LOG_SHEET_DETAIL where parameter_Code='" + strCode + "'", trans)
 

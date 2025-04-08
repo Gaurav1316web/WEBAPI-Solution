@@ -62,6 +62,8 @@ Public Class clsDistributorCommission
             End If
             clsCommisionItems.SaveData(obj.Doc_No, obj.Items, trans)
             clsDistributorCommissionDetails.SaveData(obj.Doc_No, obj.Arr, False, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Distributor_Commission_Head", "Doc_No", "TSPL_Distributor_Commission_Detail", "Doc_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -168,6 +170,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Head", OMInsertOrUpdate.Update, "Doc_No='" + clsCommon.myCstr(obj.Doc_No) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Distributor_Commission_Head", "Doc_No", trans)
 
         Catch ex As Exception
 
@@ -190,6 +193,8 @@ Public Class clsDistributorCommission
                 qry = "update TSPL_DISTRIBUTOR_COMMISSION_HEAD set IsPosted=0,Posted_Date=null,Posted_By=null where Doc_no='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DISTRIBUTOR_COMMISSION_HEAD", "Doc_no", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -207,6 +212,8 @@ Public Class clsDistributorCommission
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Distributor_Commission_Head", "Doc_no", "TSPL_Distributor_Commission_Detail", "Doc_no", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Distributor_Commission_Head", "Doc_no", "TSPL_Distributor_Commission_Detail", "Doc_no", trans)
 
             Dim isPosted As Integer = 0
             isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_DISTRIBUTOR_COMMISSION_HEAD where Doc_no = '" & strCode & "' and isPosted=1", trans)

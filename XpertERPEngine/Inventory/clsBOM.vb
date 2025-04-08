@@ -577,6 +577,8 @@ Public Class clsBOM
         Try
 
             Dim qry As String
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
             qry = "delete from TSPL_PP_BOM_ITEM_DETAIL where BOM_CODE ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -674,9 +676,9 @@ Public Class clsBOM
                     obj.BOM_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.BOM_DATE), clsDocType.BOM, clsDocTransactionType.SNQuotationOther, "")
                 End If
             End If
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOM_CODE), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOM_CODE), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
+            'End If
 
             'Dim qry As String = "select count(*) FROM TSPL_PP_BOM_HEAD WHERE BOM_CODE='" + obj.BOM_CODE + "'"
             'Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
@@ -722,6 +724,7 @@ Public Class clsBOM
             isSaved = isSaved AndAlso clsBOMItemDetail.SaveBOMDetail(obj.BOM_CODE, obj.ObjListBOM, 0, trans)
             isSaved = isSaved AndAlso clsBOMStage.SaveBOMStage(obj.BOM_CODE, obj.Section_Code, obj.ObjListBOMOP, trans)
             isSaved = isSaved AndAlso clsBomCostMappingDetails.SaveBOMOverHeadCost(obj.BOM_CODE, obj.ObjCostGroupDetail, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOM_CODE), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

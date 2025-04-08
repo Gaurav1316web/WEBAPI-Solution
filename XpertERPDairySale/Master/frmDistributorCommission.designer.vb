@@ -27,6 +27,8 @@ Partial Class frmDistributorCommission
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.cmbVehicleType = New common.Controls.MyComboBox()
+        Me.lblVehicleType = New common.Controls.MyLabel()
         Me.cmbItemType = New common.Controls.MyComboBox()
         Me.lblItemType = New common.Controls.MyLabel()
         Me.txtInActiveDate = New common.Controls.MyDateTimePicker()
@@ -59,14 +61,15 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.cmbVehicleType = New common.Controls.MyComboBox()
-        Me.lblVehicleType = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,8 +96,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,6 +115,7 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -166,6 +169,42 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Size = New System.Drawing.Size(986, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'cmbVehicleType
+        '
+        Me.cmbVehicleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbVehicleType.AutoCompleteValueMember = Nothing
+        Me.cmbVehicleType.CalculationExpression = Nothing
+        Me.cmbVehicleType.DropDownAnimationEnabled = True
+        Me.cmbVehicleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbVehicleType.FieldCode = Nothing
+        Me.cmbVehicleType.FieldDesc = Nothing
+        Me.cmbVehicleType.FieldMaxLength = 0
+        Me.cmbVehicleType.FieldName = Nothing
+        Me.cmbVehicleType.isCalculatedField = False
+        Me.cmbVehicleType.IsSourceFromTable = False
+        Me.cmbVehicleType.IsSourceFromValueList = False
+        Me.cmbVehicleType.IsUnique = False
+        Me.cmbVehicleType.Location = New System.Drawing.Point(681, 35)
+        Me.cmbVehicleType.MendatroryField = False
+        Me.cmbVehicleType.MyLinkLable1 = Nothing
+        Me.cmbVehicleType.MyLinkLable2 = Nothing
+        Me.cmbVehicleType.Name = "cmbVehicleType"
+        Me.cmbVehicleType.ReferenceFieldDesc = Nothing
+        Me.cmbVehicleType.ReferenceFieldName = Nothing
+        Me.cmbVehicleType.ReferenceTableName = Nothing
+        Me.cmbVehicleType.Size = New System.Drawing.Size(126, 20)
+        Me.cmbVehicleType.TabIndex = 1531
+        '
+        'lblVehicleType
+        '
+        Me.lblVehicleType.FieldName = Nothing
+        Me.lblVehicleType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleType.Location = New System.Drawing.Point(609, 37)
+        Me.lblVehicleType.Name = "lblVehicleType"
+        Me.lblVehicleType.Size = New System.Drawing.Size(72, 16)
+        Me.lblVehicleType.TabIndex = 1532
+        Me.lblVehicleType.Text = "Vehicle Type"
         '
         'cmbItemType
         '
@@ -511,6 +550,7 @@ Partial Class frmDistributorCommission
         Me.GV1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GV1.MasterTemplate.ShowHeaderCellButtons = True
         Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GV1.MyExportFilePath = ""
         Me.GV1.MyStopExport = False
         Me.GV1.Name = "GV1"
         Me.GV1.ShowHeaderCellButtons = True
@@ -595,41 +635,14 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'cmbVehicleType
+        'btnHistory
         '
-        Me.cmbVehicleType.AutoCompleteDisplayMember = Nothing
-        Me.cmbVehicleType.AutoCompleteValueMember = Nothing
-        Me.cmbVehicleType.CalculationExpression = Nothing
-        Me.cmbVehicleType.DropDownAnimationEnabled = True
-        Me.cmbVehicleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbVehicleType.FieldCode = Nothing
-        Me.cmbVehicleType.FieldDesc = Nothing
-        Me.cmbVehicleType.FieldMaxLength = 0
-        Me.cmbVehicleType.FieldName = Nothing
-        Me.cmbVehicleType.isCalculatedField = False
-        Me.cmbVehicleType.IsSourceFromTable = False
-        Me.cmbVehicleType.IsSourceFromValueList = False
-        Me.cmbVehicleType.IsUnique = False
-        Me.cmbVehicleType.Location = New System.Drawing.Point(681, 35)
-        Me.cmbVehicleType.MendatroryField = False
-        Me.cmbVehicleType.MyLinkLable1 = Nothing
-        Me.cmbVehicleType.MyLinkLable2 = Nothing
-        Me.cmbVehicleType.Name = "cmbVehicleType"
-        Me.cmbVehicleType.ReferenceFieldDesc = Nothing
-        Me.cmbVehicleType.ReferenceFieldName = Nothing
-        Me.cmbVehicleType.ReferenceTableName = Nothing
-        Me.cmbVehicleType.Size = New System.Drawing.Size(126, 20)
-        Me.cmbVehicleType.TabIndex = 1531
-        '
-        'lblVehicleType
-        '
-        Me.lblVehicleType.FieldName = Nothing
-        Me.lblVehicleType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleType.Location = New System.Drawing.Point(609, 37)
-        Me.lblVehicleType.Name = "lblVehicleType"
-        Me.lblVehicleType.Size = New System.Drawing.Size(72, 16)
-        Me.lblVehicleType.TabIndex = 1532
-        Me.lblVehicleType.Text = "Vehicle Type"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(609, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(74, 24)
+        Me.btnHistory.TabIndex = 160
+        Me.btnHistory.Text = "History"
         '
         'frmDistributorCommission
         '
@@ -650,6 +663,8 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -676,8 +691,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -719,4 +733,5 @@ Partial Class frmDistributorCommission
     Friend WithEvents lblItemType As common.Controls.MyLabel
     Friend WithEvents cmbVehicleType As common.Controls.MyComboBox
     Friend WithEvents lblVehicleType As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
