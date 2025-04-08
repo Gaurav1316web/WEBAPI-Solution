@@ -1962,7 +1962,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2006,6 +2006,7 @@ Partial Class FrmUtility
         '
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton357)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox4)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton356)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnBankAdvice)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.UpdateVirtualCustomerAccount)
@@ -2017,7 +2018,6 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton348)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtBlankTransDataDate)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton143)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton144)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnUpdateEInvoiceHead)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton234)
@@ -5788,7 +5788,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(117.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1091, 392)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1091, 407)
         Me.RadPageViewPage4.Text = "Machine Integration"
         '
         'SplitContainer1
@@ -5821,7 +5821,7 @@ Partial Class FrmUtility
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtKeyDown)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtHyperTerminal)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 392)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 407)
         Me.SplitContainer1.SplitterDistance = 51
         Me.SplitContainer1.TabIndex = 0
         '
@@ -6047,7 +6047,7 @@ Partial Class FrmUtility
         Me.txtKeyDown.ReferenceFieldDesc = Nothing
         Me.txtKeyDown.ReferenceFieldName = Nothing
         Me.txtKeyDown.ReferenceTableName = Nothing
-        Me.txtKeyDown.Size = New System.Drawing.Size(368, 337)
+        Me.txtKeyDown.Size = New System.Drawing.Size(368, 352)
         Me.txtKeyDown.TabIndex = 8
         Me.txtKeyDown.TabStop = False
         '
@@ -6077,7 +6077,7 @@ Partial Class FrmUtility
         Me.txtHyperTerminal.ReferenceFieldDesc = Nothing
         Me.txtHyperTerminal.ReferenceFieldName = Nothing
         Me.txtHyperTerminal.ReferenceTableName = Nothing
-        Me.txtHyperTerminal.Size = New System.Drawing.Size(717, 337)
+        Me.txtHyperTerminal.Size = New System.Drawing.Size(717, 352)
         Me.txtHyperTerminal.TabIndex = 7
         Me.txtHyperTerminal.TabStop = False
         '
