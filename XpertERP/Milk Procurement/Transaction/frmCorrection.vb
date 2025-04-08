@@ -1004,7 +1004,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                 Else
                     If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
                         qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
-(select PK_Id,Qty,FATKG,SNFKG,Shift,TSPL_MILK_REJECT_TYPE.Code as Milk_Type  
+(select PK_Id,Qty,FATKG,SNFKG,Shift,TSPL_MILK_REJECT_TYPE.Code as Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No as DCSDocNo  
 from TSPL_MILK_COLLECTION_DCS_DETAIL 
 left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code=TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type 
 WHERE VLC_Code =  ( SELECT VLC_Code FROM TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + ")  
@@ -1033,16 +1033,15 @@ order by  xx.Shift desc,xx.Qty "
                                 If settMaxFATPerLimit > 0 Then
                                     If FAT > settMaxFATPerLimit Then
                                         FAT = settMaxFATPerLimit
-                                        FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
                                     End If
                                 End If
+                                FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
                                 If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
                                     If SNF > settMaxSNFPerLimit Then
                                         SNF = settMaxSNFPerLimit
-                                        SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
                                     End If
                                 End If
-
+                                SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
                                 Dim strRejectType As String = clsCommon.myCstr(dtDetail.Rows(indx)("Milk_Type"))
                                 Try
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
@@ -1057,6 +1056,8 @@ order by  xx.Shift desc,xx.Qty "
                                         clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
                                         clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
                                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
+
+                                        clsMilkCollectionDCS.HistoryUpdate(clsCommon.myCstr(dtDetail.Rows(indx)("DCSDocNo")), trans)
                                     End If
 
                                     Exit For

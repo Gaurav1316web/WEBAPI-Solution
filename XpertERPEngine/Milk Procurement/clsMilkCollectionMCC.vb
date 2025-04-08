@@ -507,6 +507,8 @@ Public Class clsMilkCollectionMCCDetail
                                 obj.Qty = clsCommon.myCDecimal(parts(0))
                             End If
                         End If
+                        obj.FATKG = Math.Round(obj.Qty * obj.FAT / 100, 3, MidpointRounding.ToEven)
+                        obj.SNFKG = Math.Round(obj.Qty * obj.SNF / 100, 3, MidpointRounding.ToEven)
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Milk_Not_Picked", IIf(obj.Milk_Not_Picked, 1, 0), True)
