@@ -25,46 +25,48 @@ Partial Class frmShiftMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmShiftMaster))
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.txtSndAdjMin = New common.MyNumBox
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.txtFstAdjMin = New common.MyNumBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.DtpIntervalTime = New common.Controls.MyDateTimePicker
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.dtpFrom = New common.Controls.MyDateTimePicker
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtName = New common.Controls.MyTextBox
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.dtpTo = New common.Controls.MyDateTimePicker
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.dtpTo = New common.Controls.MyDateTimePicker()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.txtSndAdjMin = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFstAdjMin = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.DtpIntervalTime = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.dtpFrom = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSndAdjMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFstAdjMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DtpIntervalTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpFrom, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,7 +79,7 @@ Partial Class frmShiftMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -108,24 +110,77 @@ Partial Class frmShiftMaster
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
         '
+        'dtpTo
+        '
+        Me.dtpTo.CalculationExpression = Nothing
+        Me.dtpTo.CustomFormat = "hh:mm tt"
+        Me.dtpTo.FieldCode = Nothing
+        Me.dtpTo.FieldDesc = Nothing
+        Me.dtpTo.FieldMaxLength = 0
+        Me.dtpTo.FieldName = Nothing
+        Me.dtpTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpTo.isCalculatedField = False
+        Me.dtpTo.IsSourceFromTable = False
+        Me.dtpTo.IsSourceFromValueList = False
+        Me.dtpTo.IsUnique = False
+        Me.dtpTo.Location = New System.Drawing.Point(144, 96)
+        Me.dtpTo.MendatroryField = True
+        Me.dtpTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTo.MyLinkLable1 = Me.RadLabel3
+        Me.dtpTo.MyLinkLable2 = Nothing
+        Me.dtpTo.Name = "dtpTo"
+        Me.dtpTo.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTo.ReferenceFieldDesc = Nothing
+        Me.dtpTo.ReferenceFieldName = Nothing
+        Me.dtpTo.ReferenceTableName = Nothing
+        Me.dtpTo.ShowUpDown = True
+        Me.dtpTo.Size = New System.Drawing.Size(142, 19)
+        Me.dtpTo.TabIndex = 4
+        Me.dtpTo.TabStop = False
+        Me.dtpTo.Text = "09:26 PM"
+        Me.dtpTo.Value = New Date(2011, 5, 17, 21, 26, 29, 812)
+        '
+        'RadLabel3
+        '
+        Me.RadLabel3.FieldName = Nothing
+        Me.RadLabel3.Location = New System.Drawing.Point(13, 73)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(60, 18)
+        Me.RadLabel3.TabIndex = 20
+        Me.RadLabel3.Text = "From Time"
+        '
         'txtSndAdjMin
         '
         Me.txtSndAdjMin.BackColor = System.Drawing.Color.White
+        Me.txtSndAdjMin.CalculationExpression = Nothing
         Me.txtSndAdjMin.DecimalPlaces = 2
+        Me.txtSndAdjMin.FieldCode = Nothing
+        Me.txtSndAdjMin.FieldDesc = Nothing
+        Me.txtSndAdjMin.FieldMaxLength = 0
+        Me.txtSndAdjMin.FieldName = Nothing
+        Me.txtSndAdjMin.isCalculatedField = False
+        Me.txtSndAdjMin.IsSourceFromTable = False
+        Me.txtSndAdjMin.IsSourceFromValueList = False
+        Me.txtSndAdjMin.IsUnique = False
         Me.txtSndAdjMin.Location = New System.Drawing.Point(144, 172)
         Me.txtSndAdjMin.MaxLength = 19
         Me.txtSndAdjMin.MendatroryField = False
         Me.txtSndAdjMin.MyLinkLable1 = Me.MyLabel4
         Me.txtSndAdjMin.MyLinkLable2 = Nothing
         Me.txtSndAdjMin.Name = "txtSndAdjMin"
+        Me.txtSndAdjMin.ReferenceFieldDesc = Nothing
+        Me.txtSndAdjMin.ReferenceFieldName = Nothing
+        Me.txtSndAdjMin.ReferenceTableName = Nothing
         Me.txtSndAdjMin.Size = New System.Drawing.Size(142, 20)
         Me.txtSndAdjMin.TabIndex = 7
         Me.txtSndAdjMin.Text = "0"
         Me.txtSndAdjMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSndAdjMin.Value = 0
+        Me.txtSndAdjMin.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Location = New System.Drawing.Point(13, 173)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(127, 18)
@@ -135,21 +190,34 @@ Partial Class frmShiftMaster
         'txtFstAdjMin
         '
         Me.txtFstAdjMin.BackColor = System.Drawing.Color.White
+        Me.txtFstAdjMin.CalculationExpression = Nothing
         Me.txtFstAdjMin.DecimalPlaces = 2
+        Me.txtFstAdjMin.FieldCode = Nothing
+        Me.txtFstAdjMin.FieldDesc = Nothing
+        Me.txtFstAdjMin.FieldMaxLength = 0
+        Me.txtFstAdjMin.FieldName = Nothing
+        Me.txtFstAdjMin.isCalculatedField = False
+        Me.txtFstAdjMin.IsSourceFromTable = False
+        Me.txtFstAdjMin.IsSourceFromValueList = False
+        Me.txtFstAdjMin.IsUnique = False
         Me.txtFstAdjMin.Location = New System.Drawing.Point(144, 147)
         Me.txtFstAdjMin.MaxLength = 19
         Me.txtFstAdjMin.MendatroryField = False
         Me.txtFstAdjMin.MyLinkLable1 = Me.MyLabel2
         Me.txtFstAdjMin.MyLinkLable2 = Nothing
         Me.txtFstAdjMin.Name = "txtFstAdjMin"
+        Me.txtFstAdjMin.ReferenceFieldDesc = Nothing
+        Me.txtFstAdjMin.ReferenceFieldName = Nothing
+        Me.txtFstAdjMin.ReferenceTableName = Nothing
         Me.txtFstAdjMin.Size = New System.Drawing.Size(142, 20)
         Me.txtFstAdjMin.TabIndex = 6
         Me.txtFstAdjMin.Text = "0"
         Me.txtFstAdjMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFstAdjMin.Value = 0
+        Me.txtFstAdjMin.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(13, 148)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(119, 18)
@@ -158,9 +226,18 @@ Partial Class frmShiftMaster
         '
         'DtpIntervalTime
         '
+        Me.DtpIntervalTime.CalculationExpression = Nothing
         Me.DtpIntervalTime.CustomFormat = " hh:mm tt"
+        Me.DtpIntervalTime.FieldCode = Nothing
+        Me.DtpIntervalTime.FieldDesc = Nothing
+        Me.DtpIntervalTime.FieldMaxLength = 0
+        Me.DtpIntervalTime.FieldName = Nothing
         Me.DtpIntervalTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpIntervalTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpIntervalTime.isCalculatedField = False
+        Me.DtpIntervalTime.IsSourceFromTable = False
+        Me.DtpIntervalTime.IsSourceFromValueList = False
+        Me.DtpIntervalTime.IsUnique = False
         Me.DtpIntervalTime.Location = New System.Drawing.Point(144, 122)
         Me.DtpIntervalTime.MendatroryField = True
         Me.DtpIntervalTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -168,8 +245,11 @@ Partial Class frmShiftMaster
         Me.DtpIntervalTime.MyLinkLable2 = Nothing
         Me.DtpIntervalTime.Name = "DtpIntervalTime"
         Me.DtpIntervalTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DtpIntervalTime.ReferenceFieldDesc = Nothing
+        Me.DtpIntervalTime.ReferenceFieldName = Nothing
+        Me.DtpIntervalTime.ReferenceTableName = Nothing
         Me.DtpIntervalTime.ShowUpDown = True
-        Me.DtpIntervalTime.Size = New System.Drawing.Size(142, 20)
+        Me.DtpIntervalTime.Size = New System.Drawing.Size(142, 19)
         Me.DtpIntervalTime.TabIndex = 5
         Me.DtpIntervalTime.TabStop = False
         Me.DtpIntervalTime.Text = " 09:26 PM"
@@ -177,25 +257,27 @@ Partial Class frmShiftMaster
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Location = New System.Drawing.Point(13, 123)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(71, 18)
         Me.MyLabel3.TabIndex = 24
         Me.MyLabel3.Text = "Interval Time"
         '
-        'MyLabel1
-        '
-        Me.MyLabel1.Location = New System.Drawing.Point(13, 98)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(46, 18)
-        Me.MyLabel1.TabIndex = 21
-        Me.MyLabel1.Text = "To Time"
-        '
         'dtpFrom
         '
+        Me.dtpFrom.CalculationExpression = Nothing
         Me.dtpFrom.CustomFormat = "hh:mm tt"
+        Me.dtpFrom.FieldCode = Nothing
+        Me.dtpFrom.FieldDesc = Nothing
+        Me.dtpFrom.FieldMaxLength = 0
+        Me.dtpFrom.FieldName = Nothing
         Me.dtpFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpFrom.isCalculatedField = False
+        Me.dtpFrom.IsSourceFromTable = False
+        Me.dtpFrom.IsSourceFromValueList = False
+        Me.dtpFrom.IsUnique = False
         Me.dtpFrom.Location = New System.Drawing.Point(144, 72)
         Me.dtpFrom.MendatroryField = True
         Me.dtpFrom.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -203,20 +285,24 @@ Partial Class frmShiftMaster
         Me.dtpFrom.MyLinkLable2 = Nothing
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFrom.ReferenceFieldDesc = Nothing
+        Me.dtpFrom.ReferenceFieldName = Nothing
+        Me.dtpFrom.ReferenceTableName = Nothing
         Me.dtpFrom.ShowUpDown = True
-        Me.dtpFrom.Size = New System.Drawing.Size(142, 20)
+        Me.dtpFrom.Size = New System.Drawing.Size(142, 19)
         Me.dtpFrom.TabIndex = 3
         Me.dtpFrom.TabStop = False
         Me.dtpFrom.Text = "09:26 PM"
         Me.dtpFrom.Value = New Date(2011, 5, 17, 21, 26, 29, 812)
         '
-        'RadLabel3
+        'MyLabel1
         '
-        Me.RadLabel3.Location = New System.Drawing.Point(13, 73)
-        Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(60, 18)
-        Me.RadLabel3.TabIndex = 20
-        Me.RadLabel3.Text = "From Time"
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 98)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(46, 18)
+        Me.MyLabel1.TabIndex = 21
+        Me.MyLabel1.Text = "To Time"
         '
         'RadButton1
         '
@@ -238,17 +324,30 @@ Partial Class frmShiftMaster
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
         Me.txtName.Location = New System.Drawing.Point(144, 47)
         Me.txtName.MaxLength = 50
         Me.txtName.MendatroryField = False
         Me.txtName.MyLinkLable1 = Me.RadLabel2
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(359, 20)
         Me.txtName.TabIndex = 2
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(13, 48)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(62, 18)
@@ -257,6 +356,7 @@ Partial Class frmShiftMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(144, 22)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -272,6 +372,7 @@ Partial Class frmShiftMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(13, 23)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -313,27 +414,18 @@ Partial Class frmShiftMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -351,6 +443,7 @@ Partial Class frmShiftMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -365,59 +458,38 @@ Partial Class frmShiftMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
-        'dtpTo
+        'btnHistory
         '
-        Me.dtpTo.CustomFormat = "hh:mm tt"
-        Me.dtpTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTo.Location = New System.Drawing.Point(144, 96)
-        Me.dtpTo.MendatroryField = True
-        Me.dtpTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpTo.MyLinkLable1 = Me.RadLabel3
-        Me.dtpTo.MyLinkLable2 = Nothing
-        Me.dtpTo.Name = "dtpTo"
-        Me.dtpTo.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpTo.ShowUpDown = True
-        Me.dtpTo.Size = New System.Drawing.Size(142, 20)
-        Me.dtpTo.TabIndex = 4
-        Me.dtpTo.TabStop = False
-        Me.dtpTo.Text = "09:26 PM"
-        Me.dtpTo.Value = New Date(2011, 5, 17, 21, 26, 29, 812)
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(386, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmShiftMaster
         '
@@ -434,15 +506,16 @@ Partial Class frmShiftMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSndAdjMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFstAdjMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DtpIntervalTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpFrom, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -456,7 +529,7 @@ Partial Class frmShiftMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -490,5 +563,6 @@ Partial Class frmShiftMaster
     Friend WithEvents txtSndAdjMin As common.MyNumBox
     Friend WithEvents txtFstAdjMin As common.MyNumBox
     Friend WithEvents dtpTo As common.Controls.MyDateTimePicker
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

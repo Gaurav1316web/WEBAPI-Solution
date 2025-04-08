@@ -549,7 +549,7 @@ Public Class FrmTransactionApproval
                                 clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='1' where Document_No='" + obj1.Document_No + "'")
                                 clsDBFuncationality.ExecuteNonQuery("update tspl_bulk_milk_srn set isApproved=1,Approved_Rate=" & clsCommon.myCdbl(Gv1.Rows(i).Cells(colNewBasicRate).Value) & " where SRN_NO='" & obj1.Document_No & "'")
                             End If
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj1.Document_No, "TSPL_TRANSACTION_APPROVAL", "Document_No", Nothing)
+                            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj1.Document_No, "TSPL_TRANSACTION_APPROVAL", "Document_No", Nothing)
 
                         End If
                     Next

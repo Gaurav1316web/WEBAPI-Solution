@@ -123,6 +123,7 @@ Public Class clsParameterRangeMasterForQC
                             strwhrcls = " QC_Param_Code ='" + obj.QC_Param_Code + "'"
                             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PARAMETER_RANGE_MASTER_QC", OMInsertOrUpdate.Update, strwhrcls, trans)
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.QC_Param_Code, "TSPL_PARAMETER_RANGE_MASTER_QC", "QC_Param_Code", trans)
 
                         ' isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PARAMETER_RANGE_MASTER_QC", OMInsertOrUpdate.Insert, "", trans)
 
@@ -206,6 +207,10 @@ Public Class clsParameterRangeMasterForQC
 
     Public Shared Function DeleteData(ByVal Trans_Id As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.QC_Param_Code, "TSPL_PARAMETER_RANGE_MASTER_QC", "QC_Param_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Trans_Id, "TSPL_PARAMETER_RANGE_MASTER_QC", "trans_id", trans)
+
             Dim qry As String = "delete from tspl_parameter_range_master_qc where trans_id='" + Trans_Id + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception

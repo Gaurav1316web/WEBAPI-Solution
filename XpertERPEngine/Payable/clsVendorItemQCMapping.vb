@@ -60,8 +60,8 @@ Public Class clsVendorItemQCMapping
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", OMInsertOrUpdate.Update, " Document_Code='" + obj.Document_Code + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", "Document_Code", trans)
             clsVendorItemQCMappingDetail.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", "Document_Code", "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", "Document_Code", trans)
 
             Return True
         Catch ex As Exception
@@ -84,6 +84,10 @@ Public Class clsVendorItemQCMapping
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", "Document_Code", "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", "Document_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_VENDOR_ITEM_MAPPING_HEAD", "Document_Code", "TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL", "Document_Code", trans)
+
             Dim qry As String = "delete from TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL where document_code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

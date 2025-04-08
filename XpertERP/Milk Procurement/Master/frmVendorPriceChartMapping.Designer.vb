@@ -22,6 +22,9 @@ Partial Class frmVendorPriceChartMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -46,6 +49,7 @@ Partial Class frmVendorPriceChartMapping
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -79,6 +83,7 @@ Partial Class frmVendorPriceChartMapping
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,6 +103,7 @@ Partial Class frmVendorPriceChartMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -134,27 +140,20 @@ Partial Class frmVendorPriceChartMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(895, 20)
         Me.RadMenu1.TabIndex = 17
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -224,7 +223,6 @@ Partial Class frmVendorPriceChartMapping
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(893, 464)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -254,15 +252,19 @@ Partial Class frmVendorPriceChartMapping
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(3, 18)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(866, 395)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -291,18 +293,22 @@ Partial Class frmVendorPriceChartMapping
         '
         Me.GvVendor.Location = New System.Drawing.Point(13, 52)
         '
-        'GvVendor
+        '
         '
         Me.GvVendor.MasterTemplate.AllowAddNewRow = False
         Me.GvVendor.MasterTemplate.EnableFiltering = True
+        Me.GvVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvVendor.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvVendor.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.GvVendor.MyExportFilePath = ""
+        Me.GvVendor.MyStopExport = False
         Me.GvVendor.Name = "GvVendor"
         Me.GvVendor.ShowGroupPanel = False
         Me.GvVendor.ShowHeaderCellButtons = True
         Me.GvVendor.Size = New System.Drawing.Size(401, 347)
         Me.GvVendor.TabIndex = 2
         Me.GvVendor.TabStop = False
-        Me.GvVendor.Text = "RadGridView1"
+        Me.GvVendor.VarID = ""
         '
         'Panel1
         '
@@ -349,18 +355,22 @@ Partial Class frmVendorPriceChartMapping
         '
         Me.gvPriceCode.Location = New System.Drawing.Point(3, 18)
         '
-        'gvPriceCode
+        '
         '
         Me.gvPriceCode.MasterTemplate.AllowAddNewRow = False
         Me.gvPriceCode.MasterTemplate.EnableFiltering = True
+        Me.gvPriceCode.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPriceCode.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPriceCode.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvPriceCode.MyExportFilePath = ""
+        Me.gvPriceCode.MyStopExport = False
         Me.gvPriceCode.Name = "gvPriceCode"
         Me.gvPriceCode.ShowGroupPanel = False
         Me.gvPriceCode.ShowHeaderCellButtons = True
         Me.gvPriceCode.Size = New System.Drawing.Size(411, 386)
         Me.gvPriceCode.TabIndex = 3
         Me.gvPriceCode.TabStop = False
-        Me.gvPriceCode.Text = "RadGridView1"
+        Me.gvPriceCode.VarID = ""
         '
         'btnclose
         '
@@ -388,6 +398,15 @@ Partial Class frmVendorPriceChartMapping
         Me.btnsave.Size = New System.Drawing.Size(78, 21)
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(178, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'frmVendorPriceChartMapping
         '
@@ -437,6 +456,7 @@ Partial Class frmVendorPriceChartMapping
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -465,5 +485,6 @@ Partial Class frmVendorPriceChartMapping
     Friend WithEvents chkVendorSelect As common.Controls.MyRadioButton
     Friend WithEvents chkVendorAll As common.Controls.MyRadioButton
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

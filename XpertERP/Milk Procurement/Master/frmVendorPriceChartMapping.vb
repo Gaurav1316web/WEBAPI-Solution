@@ -518,6 +518,8 @@ Public Class frmVendorPriceChartMapping
             clsCommon.MyMessageBoxShow(Me, "Please select a Price code to delete", Me.Text)
             Exit Sub
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndPriceCode.Value, "tspl_Vendor_price_chart_mapping", "Pricecode", Nothing)
+        ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndPriceCode.Value, "tspl_Vendor_price_chart_mapping", "Pricecode", Nothing)
         If myMessages.deleteConfirm() Then
             Dim qry As String = " delete from tspl_vendor_Price_Chart_mapping where priceCode='" & fndPriceCode.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -762,5 +764,17 @@ Public Class frmVendorPriceChartMapping
                 GvVendor.Rows(ii).Cells("SEL").Value = False
             Next
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndPriceCode.Value, "PriceCode", "TSPL_VENDOR_PRICE_CHART_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

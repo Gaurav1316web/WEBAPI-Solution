@@ -23,6 +23,8 @@ Partial Class FrmBulkSalePriceChart
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.TxtUOM = New common.UserControls.txtFinder()
         Me.TxtTSRate = New common.MyNumBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.chkUseInCanSale = New common.Controls.MyCheckBox()
@@ -63,11 +65,11 @@ Partial Class FrmBulkSalePriceChart
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.TxtUOM = New common.UserControls.txtFinder()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtTSRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkUseInCanSale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -103,7 +105,7 @@ Partial Class FrmBulkSalePriceChart
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,6 +156,7 @@ Partial Class FrmBulkSalePriceChart
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -162,6 +165,42 @@ Partial Class FrmBulkSalePriceChart
         Me.SplitContainer1.Size = New System.Drawing.Size(487, 397)
         Me.SplitContainer1.SplitterDistance = 359
         Me.SplitContainer1.TabIndex = 1
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel13.Location = New System.Drawing.Point(10, 244)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel13.TabIndex = 73
+        Me.MyLabel13.Text = "UOM"
+        '
+        'TxtUOM
+        '
+        Me.TxtUOM.CalculationExpression = Nothing
+        Me.TxtUOM.FieldCode = Nothing
+        Me.TxtUOM.FieldDesc = Nothing
+        Me.TxtUOM.FieldMaxLength = 0
+        Me.TxtUOM.FieldName = Nothing
+        Me.TxtUOM.isCalculatedField = False
+        Me.TxtUOM.IsSourceFromTable = False
+        Me.TxtUOM.IsSourceFromValueList = False
+        Me.TxtUOM.IsUnique = False
+        Me.TxtUOM.Location = New System.Drawing.Point(102, 245)
+        Me.TxtUOM.MendatroryField = False
+        Me.TxtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtUOM.MyLinkLable1 = Me.MyLabel13
+        Me.TxtUOM.MyLinkLable2 = Nothing
+        Me.TxtUOM.MyReadOnly = False
+        Me.TxtUOM.MyShowMasterFormButton = False
+        Me.TxtUOM.Name = "TxtUOM"
+        Me.TxtUOM.ReferenceFieldDesc = Nothing
+        Me.TxtUOM.ReferenceFieldName = Nothing
+        Me.TxtUOM.ReferenceTableName = Nothing
+        Me.TxtUOM.Size = New System.Drawing.Size(124, 19)
+        Me.TxtUOM.TabIndex = 74
+        Me.TxtUOM.Value = ""
         '
         'TxtTSRate
         '
@@ -188,7 +227,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtTSRate.TabIndex = 72
         Me.TxtTSRate.Text = "0"
         Me.TxtTSRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTSRate.Value = 0R
+        Me.TxtTSRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -279,7 +318,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtSnfRate.TabIndex = 25
         Me.TxtSnfRate.Text = "0"
         Me.TxtSnfRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSnfRate.Value = 0R
+        Me.TxtSnfRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFatRate
         '
@@ -308,7 +347,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtFatRate.TabIndex = 23
         Me.TxtFatRate.Text = "0"
         Me.TxtFatRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatRate.Value = 0R
+        Me.TxtFatRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -355,7 +394,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtToleranceinMinus.TabIndex = 21
         Me.TxtToleranceinMinus.Text = "0"
         Me.TxtToleranceinMinus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtToleranceinMinus.Value = 0R
+        Me.TxtToleranceinMinus.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -392,7 +431,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtToleranceInPlus.TabIndex = 19
         Me.TxtToleranceInPlus.Text = "0"
         Me.TxtToleranceInPlus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtToleranceInPlus.Value = 0R
+        Me.TxtToleranceInPlus.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -449,7 +488,6 @@ Partial Class FrmBulkSalePriceChart
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(218, 19)
         Me.lblLocation.TabIndex = 7
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'TxtSNFWeightage
         '
@@ -476,7 +514,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtSNFWeightage.TabIndex = 11
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFatWeightage
         '
@@ -503,7 +541,7 @@ Partial Class FrmBulkSalePriceChart
         Me.TxtFatWeightage.TabIndex = 9
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblvandorno
         '
@@ -537,7 +575,7 @@ Partial Class FrmBulkSalePriceChart
         '
         'btnnew
         '
-        Me.btnnew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(407, 10)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 20)
@@ -578,7 +616,7 @@ Partial Class FrmBulkSalePriceChart
         Me.txtStanadardrate.TabIndex = 17
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0R
+        Me.txtStanadardrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -641,7 +679,7 @@ Partial Class FrmBulkSalePriceChart
         Me.txtsnfRatio.TabIndex = 15
         Me.txtsnfRatio.Text = "0"
         Me.txtsnfRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnfRatio.Value = 0R
+        Me.txtsnfRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -708,7 +746,7 @@ Partial Class FrmBulkSalePriceChart
         Me.txtfatRatio.TabIndex = 13
         Me.txtfatRatio.Text = "0"
         Me.txtfatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatRatio.Value = 0R
+        Me.txtfatRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnPost
         '
@@ -762,66 +800,32 @@ Partial Class FrmBulkSalePriceChart
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(487, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmImport, Me.RmExport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'RmImport
         '
-        Me.RmImport.AccessibleDescription = "Import"
-        Me.RmImport.AccessibleName = "Import"
         Me.RmImport.Name = "RmImport"
         Me.RmImport.Text = "Import"
         '
         'RmExport
         '
-        Me.RmExport.AccessibleDescription = "Export"
-        Me.RmExport.AccessibleName = "Export"
         Me.RmExport.Name = "RmExport"
         Me.RmExport.Text = "Export"
         '
-        'MyLabel13
+        'btnHistory
         '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel13.Location = New System.Drawing.Point(10, 244)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel13.TabIndex = 73
-        Me.MyLabel13.Text = "UOM"
-        '
-        'TxtUOM
-        '
-        Me.TxtUOM.CalculationExpression = Nothing
-        Me.TxtUOM.FieldCode = Nothing
-        Me.TxtUOM.FieldDesc = Nothing
-        Me.TxtUOM.FieldMaxLength = 0
-        Me.TxtUOM.FieldName = Nothing
-        Me.TxtUOM.isCalculatedField = False
-        Me.TxtUOM.IsSourceFromTable = False
-        Me.TxtUOM.IsSourceFromValueList = False
-        Me.TxtUOM.IsUnique = False
-        Me.TxtUOM.Location = New System.Drawing.Point(102, 245)
-        Me.TxtUOM.MendatroryField = False
-        Me.TxtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtUOM.MyLinkLable1 = Me.MyLabel13
-        Me.TxtUOM.MyLinkLable2 = Nothing
-        Me.TxtUOM.MyReadOnly = False
-        Me.TxtUOM.MyShowMasterFormButton = False
-        Me.TxtUOM.Name = "TxtUOM"
-        Me.TxtUOM.ReferenceFieldDesc = Nothing
-        Me.TxtUOM.ReferenceFieldName = Nothing
-        Me.TxtUOM.ReferenceTableName = Nothing
-        Me.TxtUOM.Size = New System.Drawing.Size(124, 19)
-        Me.TxtUOM.TabIndex = 74
-        Me.TxtUOM.Value = ""
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(330, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'FrmBulkSalePriceChart
         '
@@ -840,6 +844,7 @@ Partial Class FrmBulkSalePriceChart
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtTSRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkUseInCanSale, System.ComponentModel.ISupportInitialize).EndInit()
@@ -875,7 +880,7 @@ Partial Class FrmBulkSalePriceChart
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -924,5 +929,6 @@ Partial Class FrmBulkSalePriceChart
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents TxtUOM As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 
