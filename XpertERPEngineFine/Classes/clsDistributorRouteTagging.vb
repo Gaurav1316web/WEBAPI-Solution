@@ -62,6 +62,8 @@ Public Class clsDistributorRouteTagging
             End If
 
             IsSaved = IsSaved AndAlso clsDistributorRouteTaggingDetail.SaveData(obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DISTRIBUTOR_ROUTE", "Code", "TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -140,6 +142,7 @@ Public Class clsDistributorRouteTagging
             clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DISTRIBUTOR_ROUTE", OMInsertOrUpdate.Update, "Code='" + clsCommon.myCstr(obj.Code) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DISTRIBUTOR_ROUTE", "Code", trans)
 
         Catch ex As Exception
 
@@ -180,6 +183,9 @@ Public Class clsDistributorRouteTagging
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "TSPL_DISTRIBUTOR_ROUTE", "Code", "TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_DISTRIBUTOR_ROUTE", "Code", "TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", "Code", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER where Code='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

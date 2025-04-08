@@ -460,6 +460,8 @@ Public Class frmRouteMaster
             If fndRouteid.Value = "" Then
                 myMessages.blankValue(Me, "Route Code", Me.Text)
             ElseIf myMessages.deleteConfirm() Then
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "ROUTE_NO", Nothing)
+                '  clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "ROUTE_NO", Nothing)
 
                 'sanjay
                 Dim strqry As String = "delete from TSPL_ROUTE_CUSTOMER_SEQUENCE WHERE ROUTE_NO='" + fndRouteid.Value + "'"
@@ -598,6 +600,8 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
         clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
+
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
     Private Sub funUpdate()
@@ -1444,6 +1448,18 @@ Public Class frmRouteMaster
         Else
             cboEntryUOM.SelectedValue = "0"
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndRouteid.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndRouteid.Value, "Route_No", "TSPL_ROUTE_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged

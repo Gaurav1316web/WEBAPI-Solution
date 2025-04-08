@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -99,6 +99,7 @@ Partial Class frmRouteMaster
         Me.txtZone = New common.Controls.MyTextBox()
         Me.rbtnSplitPrint = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkDepartmentRoute = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,6 +160,7 @@ Partial Class frmRouteMaster
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -891,7 +893,7 @@ Partial Class frmRouteMaster
         Me.txtDistance.TabIndex = 41
         Me.txtDistance.Text = "0"
         Me.txtDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistance.Value = 0R
+        Me.txtDistance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnDistance
         '
@@ -980,7 +982,8 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MyExportFilePath = ""
         Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1016,7 +1019,7 @@ Partial Class frmRouteMaster
         Me.txtTollAmount.TabIndex = 360
         Me.txtTollAmount.Text = "0"
         Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTollAmount.Value = 0R
+        Me.txtTollAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -1110,7 +1113,7 @@ Partial Class frmRouteMaster
         Me.txtSeqNo.TabIndex = 1400
         Me.txtSeqNo.Text = "0"
         Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeqNo.Value = 0R
+        Me.txtSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -1310,11 +1313,22 @@ Partial Class frmRouteMaster
         Me.chkDepartmentRoute.TabIndex = 1411
         Me.chkDepartmentRoute.Text = "Department Route"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(317, 493)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 1412
+        Me.btnHistory.Text = "History"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(930, 511)
+        Me.Controls.Add(Me.btnHistory)
         Me.Controls.Add(Me.chkDepartmentRoute)
         Me.Controls.Add(Me.rbtnSplitPrint)
         Me.Controls.Add(Me.txtZone)
@@ -1448,6 +1462,7 @@ Partial Class frmRouteMaster
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1527,5 +1542,6 @@ Partial Class frmRouteMaster
     Friend WithEvents txtZone As common.Controls.MyTextBox
     Friend WithEvents rbtnSplitPrint As RadCheckBox
     Friend WithEvents chkDepartmentRoute As RadCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

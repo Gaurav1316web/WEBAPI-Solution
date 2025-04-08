@@ -96,7 +96,7 @@ Public Class ClsRouteFreightDetails
         Try
 
             trans = clsDBFuncationality.GetTransactin()
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocType, "TSPL_ROUTE_FREIGHT_DETAILS", "Type", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocType, "TSPL_ROUTE_FREIGHT_DETAILS", "Type", trans)
             'clsDBFuncationality.ExecuteNonQuery("Delete From TSPL_ROUTE_FREIGHT_DETAILS where Type='" & DocType & "' and TransType='" & TransType & "'", trans)
             Dim dtCurrent As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
             For ii As Integer = 0 To arr.Count - 1
@@ -145,7 +145,8 @@ Public Class ClsRouteFreightDetails
 
                 clsCommon.ProgressBarPercentUpdate(((ii + 1) * 100 / (arr.Count + 1)), "Saving : " & clsCommon.myCstr(ii + 1) & "/" & clsCommon.myCstr(arr.Count) & "")
             Next
-            
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocType, "TSPL_ROUTE_FREIGHT_DETAILS", "Type", trans)
+
             Dim qry As String = "select Location_Code,ToLocation_Code ,City_Code,CapacityMT,Transport_Id,Effective_Date,Type,TransType, SUM(1) as Repeated from TSPL_ROUTE_FREIGHT_DETAILS group by Location_Code,ToLocation_Code ,City_Code,CapacityMT,Transport_Id,Effective_Date,Type,TransType  having SUM(1) > 1"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

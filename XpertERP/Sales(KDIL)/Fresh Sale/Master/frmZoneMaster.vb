@@ -98,6 +98,10 @@ Public Class FrmZoneMaster
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_ZONE_MASTER", "Zone_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_ZONE_MASTER", "Zone_Code", Nothing)
+
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "DELETE FROM TSPL_ZONE_MASTER WHERE Zone_Code='" + txtCode.Value + "'"
@@ -276,6 +280,18 @@ Public Class FrmZoneMaster
 
     Private Sub txtdesHindi_Enter(sender As Object, e As EventArgs) Handles txtdesHindi.Enter
         clsMccMaster.ToHindiInput()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Zone_Code", "TSPL_ZONE_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub Export_Click(sender As Object, e As EventArgs) Handles Export.Click

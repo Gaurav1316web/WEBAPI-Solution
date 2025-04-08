@@ -64,6 +64,7 @@ Partial Class FrmSectionStageMapping
         Me.btnEXDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnEXUser = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -99,6 +100,7 @@ Partial Class FrmSectionStageMapping
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -117,6 +119,7 @@ Partial Class FrmSectionStageMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -391,6 +394,7 @@ Partial Class FrmSectionStageMapping
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -399,6 +403,7 @@ Partial Class FrmSectionStageMapping
         Me.gv1.Size = New System.Drawing.Size(631, 226)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadGroupBox1
         '
@@ -447,12 +452,14 @@ Partial Class FrmSectionStageMapping
         Me.gv_user.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_user.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_user.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_user.MyExportFilePath = ""
         Me.gv_user.MyStopExport = False
         Me.gv_user.Name = "gv_user"
         Me.gv_user.ShowGroupPanel = False
         Me.gv_user.ShowHeaderCellButtons = True
         Me.gv_user.Size = New System.Drawing.Size(334, 165)
         Me.gv_user.TabIndex = 0
+        Me.gv_user.VarID = ""
         '
         'Panel1
         '
@@ -571,12 +578,14 @@ Partial Class FrmSectionStageMapping
         Me.RadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.RadGridView1.MasterTemplate.ShowHeaderCellButtons = True
         Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.RadGridView1.MyExportFilePath = ""
         Me.RadGridView1.MyStopExport = False
         Me.RadGridView1.Name = "RadGridView1"
         Me.RadGridView1.ShowGroupPanel = False
         Me.RadGridView1.ShowHeaderCellButtons = True
         Me.RadGridView1.Size = New System.Drawing.Size(334, 165)
         Me.RadGridView1.TabIndex = 0
+        Me.RadGridView1.VarID = ""
         '
         'btnEXDetail
         '
@@ -593,6 +602,16 @@ Partial Class FrmSectionStageMapping
         Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnEXDetail, Me.btnEXUser})
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(155, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmSectionStageMapping
         '
@@ -644,6 +663,7 @@ Partial Class FrmSectionStageMapping
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -689,5 +709,6 @@ Partial Class FrmSectionStageMapping
     Friend WithEvents rdmenufile As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnexportExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnimportExcel As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 

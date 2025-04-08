@@ -3232,4 +3232,16 @@ Public Class frmBOM
             End If
         End If
     End Sub
+
+    Private Sub btnHistory1_Click(sender As Object, e As EventArgs) Handles btnHistory1.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "BOM_CODE", "TSPL_PP_BOM_HEAD", "TSPL_PP_BOM_ITEM_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

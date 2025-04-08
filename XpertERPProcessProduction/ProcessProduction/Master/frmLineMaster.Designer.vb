@@ -37,11 +37,12 @@ Partial Class FrmLineMaster
         Me.fndLine = New common.UserControls.txtNavigator()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,6 +60,7 @@ Partial Class FrmLineMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +88,7 @@ Partial Class FrmLineMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -275,15 +278,22 @@ Partial Class FrmLineMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(527, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Export"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Import"
         '
         'btnClose
         '
@@ -315,19 +325,15 @@ Partial Class FrmLineMaster
         Me.btnDelete.TabIndex = 17
         Me.btnDelete.Text = "Delete"
         '
-        'RadMenuItem1
+        'btnHistory
         '
-        Me.RadMenuItem1.AccessibleDescription = "Export"
-        Me.RadMenuItem1.AccessibleName = "Export"
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Export"
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Import"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(142, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 19
+        Me.btnHistory.Text = "History"
         '
         'FrmLineMaster
         '
@@ -359,6 +365,7 @@ Partial Class FrmLineMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -382,5 +389,6 @@ Partial Class FrmLineMaster
     Friend WithEvents fndLine As common.UserControls.txtNavigator
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As RadButton
 End Class
 
