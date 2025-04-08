@@ -7726,9 +7726,9 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
             Dim dblDamageAmt As Double = (dblDamageQty * dblRate)
             Dim dblAmt As Double = dblReturnAmt + dblDamageAmt ''+ dblFAmt
             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0 Then
-                gv1.Rows(IntRowNo).Cells(colAmt).Value = dblAmt ' Math.Round(dblAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colReturnAmt).Value = dblReturnAmt 'Math.Round(dblReturnAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colDamageAmt).Value = dblDamageAmt ' Math.Round(dblDamageAmt, 2)
+                gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2) 'dblAmt 
+                gv1.Rows(IntRowNo).Cells(colReturnAmt).Value = Math.Round(dblReturnAmt, 2) 'dblReturnAmt 
+                gv1.Rows(IntRowNo).Cells(colDamageAmt).Value = Math.Round(dblDamageAmt, 2) 'dblDamageAmt 
             Else
                 dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)
             End If
