@@ -605,6 +605,12 @@
     <Compile Include="Report\rptInvoiceDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptItemAndShiftWiseSaleSummaryReport.Designer.vb">
+      <DependentUpon>rptItemAndShiftWiseSaleSummaryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptItemAndShiftWiseSaleSummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptMilkSupplySaleReport.Designer.vb">
       <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>
     </Compile>
@@ -1337,6 +1343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptItemAndShiftWiseSaleSummaryReport.resx">
+      <DependentUpon>rptItemAndShiftWiseSaleSummaryReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptMilkSupplySaleReport.resx">
       <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>

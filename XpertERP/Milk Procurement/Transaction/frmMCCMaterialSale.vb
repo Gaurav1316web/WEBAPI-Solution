@@ -3486,7 +3486,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Total_Comm_Amt = lblCommAmt.Text
                 obj.Invoice_Type = ddlInvoiceType.SelectedValue
                 obj.Price_Code = txtPriceCode.Text
-                obj.HeadDisc_Per = txtDiscPer.Text
+                obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 If obj.HeadDisc_Per > 0 Then

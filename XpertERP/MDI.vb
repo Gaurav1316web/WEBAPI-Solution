@@ -9285,6 +9285,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptCustItemWiseSaleReport
                         frm = New rptCustItemWiseSaleReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport
+                        frm = New rptItemAndShiftWiseSaleSummaryReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.SaleIncentiveMaster
                         frm = New frmSaleIncentiveMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
