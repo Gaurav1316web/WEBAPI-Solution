@@ -32,7 +32,6 @@ Public Class clsVSPMapping
 
     Public Function SaveData(ByVal obj As clsVSPMapping, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_VSP_MAPPING", "Code", "TSPL_VSP_MAPPING_MCC", "Code", "TSPL_VSP_MAPPING_VSP", "Code", trans)
 
             Dim qry As String = "delete from TSPL_VSP_MAPPING_MCC where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -68,6 +67,8 @@ Public Class clsVSPMapping
             End If
             clsVSPMappingMCC.SaveData(obj.Code, obj.ArrMCC, trans)
             clsVSPMappingVSP.SaveData(obj.Code, obj.ArrVSP, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_VSP_MAPPING", "Code", "TSPL_VSP_MAPPING_MCC", "Code", "TSPL_VSP_MAPPING_VSP", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -78,6 +79,8 @@ Public Class clsVSPMapping
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_MAPPING", "Code", "TSPL_VSP_MAPPING_MCC", "Code", "TSPL_VSP_MAPPING_VSP", "Code", tran)
+
             qry = "Delete from TSPL_VSP_MAPPING_MCC where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -183,6 +186,8 @@ Public Class clsVSPMapping
 
             Dim qry As String = "Update TSPL_VSP_MAPPING set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VSP_MAPPING", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

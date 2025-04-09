@@ -425,8 +425,9 @@ Public Class clsfrmTankerMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TANKER_MASTER", OMInsertOrUpdate.Update, " TSPL_TANKER_MASTER.Tanker_No='" + obj.tankerno + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.tankerno), "TSPL_TANKER_MASTER", "Tanker_No", trans)
             clsTankerChamberDetail.SaveData(obj.tankerno, obj.arrChamber, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.tankerno), "TSPL_TANKER_MASTER", "Tanker_No", "TSPL_TANKER_CHAMBER_DETAIL", "Tanker_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

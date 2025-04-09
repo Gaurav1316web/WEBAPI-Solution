@@ -33,7 +33,7 @@ Public Class clsMPIncetive
 
     Public Function SaveData(ByVal obj As clsMPIncetive, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MP_INCETIVE", "Code", "TSPL_MP_INCETIVE_MCC", "Code", "TSPL_MP_INCETIVE_VLC", "Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MP_INCETIVE", "Code", "TSPL_MP_INCETIVE_MCC", "Code", "TSPL_MP_INCETIVE_VLC", "Code", trans)
 
             Dim qry As String = "delete from TSPL_MP_INCETIVE_MCC where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -80,6 +80,8 @@ Public Class clsMPIncetive
             clsMPIncetiveVLC.SaveData(obj.Code, obj.ArrVSP, trans)
             'clsMPIncetiveMP.SaveData(obj.Code, obj.ArrMP, trans)
             clsMPIncetiveDetail.SaveData(obj.Start_Date, obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MP_INCETIVE", "Code", "TSPL_MP_INCETIVE_DETAIL", "code", "TSPL_MP_INCETIVE_MCC", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -108,6 +110,8 @@ Public Class clsMPIncetive
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MP_INCETIVE", "Code", "TSPL_MP_INCETIVE_DETAIL", "Code", Nothing)
+
             qry = "Delete from TSPL_MP_INCETIVE_MCC where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -228,6 +232,8 @@ Public Class clsMPIncetive
 
             Dim qry As String = "Update TSPL_MP_INCETIVE set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MP_INCETIVE", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

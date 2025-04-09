@@ -58,6 +58,7 @@ Partial Class frmVSPMapping
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -91,6 +92,7 @@ Partial Class frmVSPMapping
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +111,7 @@ Partial Class frmVSPMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdates)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -371,7 +374,7 @@ Partial Class frmVSPMapping
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(3, 182)
         Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.Size = New System.Drawing.Size(52, 18)
         Me.MyLabel15.TabIndex = 367
         Me.MyLabel15.Text = "Secretary"
         '
@@ -587,7 +590,7 @@ Partial Class frmVSPMapping
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox2.HeaderText = "VSP Details"
+        Me.RadGroupBox2.HeaderText = "Secretary Details"
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
@@ -611,6 +614,7 @@ Partial Class frmVSPMapping
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -619,6 +623,7 @@ Partial Class frmVSPMapping
         Me.gv1.Size = New System.Drawing.Size(769, 158)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnPost
         '
@@ -664,6 +669,15 @@ Partial Class frmVSPMapping
         Me.rdbtndelete.Size = New System.Drawing.Size(66, 21)
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(648, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 111
+        Me.btnHistory.Text = "History"
         '
         'frmVSPMapping
         '
@@ -712,6 +726,7 @@ Partial Class frmVSPMapping
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -751,4 +766,5 @@ Partial Class frmVSPMapping
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btnHistory As RadButton
 End Class

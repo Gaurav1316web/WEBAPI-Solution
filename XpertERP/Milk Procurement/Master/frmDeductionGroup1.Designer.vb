@@ -24,39 +24,41 @@ Partial Class FrmDeductionGroup1
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmDeductionGroup1))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.lblName = New common.Controls.MyLabel()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnDeduction = New common.Controls.MyRadioButton()
+        Me.rbtnAddition = New common.Controls.MyRadioButton()
+        Me.rbtnNA = New common.Controls.MyRadioButton()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.txtName = New common.Controls.MyTextBox()
-        Me.lblName = New common.Controls.MyLabel()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmIMport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.rbtnDeduction = New common.Controls.MyRadioButton()
-        Me.rbtnAddition = New common.Controls.MyRadioButton()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.rbtnNA = New common.Controls.MyRadioButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,12 +81,99 @@ Partial Class FrmDeductionGroup1
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(480, 142)
         Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(30, 64)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel1.TabIndex = 69
+        Me.MyLabel1.Text = "Type"
+        '
+        'txtName
+        '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
+        Me.txtName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
+        Me.txtName.Location = New System.Drawing.Point(101, 38)
+        Me.txtName.MaxLength = 100
+        Me.txtName.MendatroryField = True
+        Me.txtName.MyLinkLable1 = Me.lblName
+        Me.txtName.MyLinkLable2 = Nothing
+        Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
+        Me.txtName.Size = New System.Drawing.Size(353, 18)
+        Me.txtName.TabIndex = 65
+        '
+        'lblName
+        '
+        Me.lblName.FieldName = Nothing
+        Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblName.Location = New System.Drawing.Point(30, 35)
+        Me.lblName.Name = "lblName"
+        Me.lblName.Size = New System.Drawing.Size(63, 16)
+        Me.lblName.TabIndex = 66
+        Me.lblName.Text = "Description"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnDeduction)
+        Me.GroupBox1.Controls.Add(Me.rbtnAddition)
+        Me.GroupBox1.Controls.Add(Me.rbtnNA)
+        Me.GroupBox1.Location = New System.Drawing.Point(101, 54)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(162, 36)
+        Me.GroupBox1.TabIndex = 68
+        Me.GroupBox1.TabStop = False
+        '
+        'rbtnDeduction
+        '
+        Me.rbtnDeduction.Location = New System.Drawing.Point(84, 13)
+        Me.rbtnDeduction.MyLinkLable1 = Nothing
+        Me.rbtnDeduction.MyLinkLable2 = Nothing
+        Me.rbtnDeduction.Name = "rbtnDeduction"
+        Me.rbtnDeduction.Size = New System.Drawing.Size(72, 18)
+        Me.rbtnDeduction.TabIndex = 1
+        Me.rbtnDeduction.Text = "Deduction"
+        '
+        'rbtnAddition
+        '
+        Me.rbtnAddition.Location = New System.Drawing.Point(7, 12)
+        Me.rbtnAddition.MyLinkLable1 = Nothing
+        Me.rbtnAddition.MyLinkLable2 = Nothing
+        Me.rbtnAddition.Name = "rbtnAddition"
+        Me.rbtnAddition.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnAddition.TabIndex = 0
+        Me.rbtnAddition.Text = "Addition"
+        '
+        'rbtnNA
+        '
+        Me.rbtnNA.Location = New System.Drawing.Point(55, 13)
+        Me.rbtnNA.MyLinkLable1 = Nothing
+        Me.rbtnNA.MyLinkLable2 = Nothing
+        Me.rbtnNA.Name = "rbtnNA"
+        Me.rbtnNA.Size = New System.Drawing.Size(36, 18)
+        Me.rbtnNA.TabIndex = 2
+        Me.rbtnNA.Text = "NA"
+        Me.rbtnNA.Visible = False
         '
         'fndCode
         '
@@ -122,66 +211,6 @@ Partial Class FrmDeductionGroup1
         Me.btnNew.TabIndex = 64
         Me.btnNew.Text = " "
         '
-        'txtName
-        '
-        Me.txtName.CalculationExpression = Nothing
-        Me.txtName.FieldCode = Nothing
-        Me.txtName.FieldDesc = Nothing
-        Me.txtName.FieldMaxLength = 0
-        Me.txtName.FieldName = Nothing
-        Me.txtName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtName.isCalculatedField = False
-        Me.txtName.IsSourceFromTable = False
-        Me.txtName.IsSourceFromValueList = False
-        Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(101, 38)
-        Me.txtName.MaxLength = 100
-        Me.txtName.MendatroryField = True
-        Me.txtName.MyLinkLable1 = Me.lblName
-        Me.txtName.MyLinkLable2 = Nothing
-        Me.txtName.Name = "txtName"
-        Me.txtName.ReferenceFieldDesc = Nothing
-        Me.txtName.ReferenceFieldName = Nothing
-        Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(353, 18)
-        Me.txtName.TabIndex = 65
-        '
-        'lblName
-        '
-        Me.lblName.FieldName = Nothing
-        Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(30, 35)
-        Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(63, 16)
-        Me.lblName.TabIndex = 66
-        Me.lblName.Text = "Description"
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(480, 20)
-        Me.RadMenu1.TabIndex = 2
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmIMport})
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "File"
-        '
-        'rmExport
-        '
-        Me.rmExport.Name = "rmExport"
-        Me.rmExport.Text = "Export"
-        '
-        'rmIMport
-        '
-        Me.rmIMport.AccessibleDescription = "RadMenuItem2"
-        Me.rmIMport.AccessibleName = "RadMenuItem2"
-        Me.rmIMport.Name = "rmIMport"
-        Me.rmIMport.Text = "Import"
-        '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -212,57 +241,41 @@ Partial Class FrmDeductionGroup1
         Me.btnClose.TabIndex = 70
         Me.btnClose.Text = "Close"
         '
-        'GroupBox1
+        'RadMenu1
         '
-        Me.GroupBox1.Controls.Add(Me.rbtnDeduction)
-        Me.GroupBox1.Controls.Add(Me.rbtnAddition)
-        Me.GroupBox1.Controls.Add(Me.rbtnNA)
-        Me.GroupBox1.Location = New System.Drawing.Point(101, 54)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(162, 36)
-        Me.GroupBox1.TabIndex = 68
-        Me.GroupBox1.TabStop = False
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(480, 20)
+        Me.RadMenu1.TabIndex = 2
         '
-        'rbtnDeduction
+        'RadMenuItem1
         '
-        Me.rbtnDeduction.Location = New System.Drawing.Point(84, 13)
-        Me.rbtnDeduction.MyLinkLable1 = Nothing
-        Me.rbtnDeduction.MyLinkLable2 = Nothing
-        Me.rbtnDeduction.Name = "rbtnDeduction"
-        Me.rbtnDeduction.Size = New System.Drawing.Size(72, 18)
-        Me.rbtnDeduction.TabIndex = 1
-        Me.rbtnDeduction.Text = "Deduction"
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmIMport})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "File"
         '
-        'rbtnAddition
+        'rmExport
         '
-        Me.rbtnAddition.Location = New System.Drawing.Point(7, 12)
-        Me.rbtnAddition.MyLinkLable1 = Nothing
-        Me.rbtnAddition.MyLinkLable2 = Nothing
-        Me.rbtnAddition.Name = "rbtnAddition"
-        Me.rbtnAddition.Size = New System.Drawing.Size(63, 18)
-        Me.rbtnAddition.TabIndex = 0
-        Me.rbtnAddition.Text = "Addition"
+        Me.rmExport.Name = "rmExport"
+        Me.rmExport.Text = "Export"
         '
-        'MyLabel1
+        'rmIMport
         '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(30, 64)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel1.TabIndex = 69
-        Me.MyLabel1.Text = "Type"
+        Me.rmIMport.AccessibleDescription = "RadMenuItem2"
+        Me.rmIMport.AccessibleName = "RadMenuItem2"
+        Me.rmIMport.Name = "rmIMport"
+        Me.rmIMport.Text = "Import"
         '
-        'rbtnNA
+        'btnHistory
         '
-        Me.rbtnNA.Location = New System.Drawing.Point(55, 13)
-        Me.rbtnNA.MyLinkLable1 = Nothing
-        Me.rbtnNA.MyLinkLable2 = Nothing
-        Me.rbtnNA.Name = "rbtnNA"
-        Me.rbtnNA.Size = New System.Drawing.Size(36, 18)
-        Me.rbtnNA.TabIndex = 2
-        Me.rbtnNA.Text = "NA"
-        Me.rbtnNA.Visible = False
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(335, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 25)
+        Me.btnHistory.TabIndex = 71
+        Me.btnHistory.Text = "History"
         '
         'FrmDeductionGroup1
         '
@@ -281,20 +294,21 @@ Partial Class FrmDeductionGroup1
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -318,5 +332,6 @@ Partial Class FrmDeductionGroup1
     Friend WithEvents rbtnDeduction As common.Controls.MyRadioButton
     Friend WithEvents rbtnAddition As common.Controls.MyRadioButton
     Friend WithEvents rbtnNA As common.Controls.MyRadioButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

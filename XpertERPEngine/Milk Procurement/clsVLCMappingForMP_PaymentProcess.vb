@@ -16,6 +16,8 @@ Public Class clsVLCMappingForMP_PaymentProcess
                 clsCommon.AddColumnsForChange(coll, "VLC_Code", strVLC)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS", OMInsertOrUpdate.Insert, "", trans)
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS", "MCC_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()

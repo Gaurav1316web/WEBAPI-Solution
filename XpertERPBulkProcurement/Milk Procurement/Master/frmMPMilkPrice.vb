@@ -107,6 +107,8 @@ Public Class frmMPMilkPrice
                 If Code <= 0 Then
                     Throw New Exception("Error in code generation")
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_MP_MILK_PRICE", "Code", trans)
+
                 '===============save BMC data======================================
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     For ii As Integer = 0 To txtMCC.arrValueMember.Count - 1
@@ -433,6 +435,8 @@ Public Class frmMPMilkPrice
 ,Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt") + "' 
 where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
                     clsDBFuncationality.ExecuteNonQuery(str)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_MP_MILK_PRICE", "code", Nothing)
+
                     clsCommon.MyMessageBoxShow(Me, "Successfully Posted.", Me.Text)
                     LoadData()
                     btnPost.Enabled = False
@@ -450,6 +454,8 @@ where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
                 If (myMessages.deleteConfirm()) Then
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
+                        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_MP_MILK_PRICE", "code", trans)
+
                         Dim qry As String = "Delete from TSPL_MP_MILK_PRICE where Code='" + txtDocNo.Value + "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         qry = "Delete from TSPL_MP_MILK_PRICE_BMC where Code='" + txtDocNo.Value + "'"
@@ -475,5 +481,17 @@ where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         Dim qry As String = "select '4.0' as [FAT/SNF],'23' as '8','28' as '8.1','30' as '8.2','32' as '8.3'union all select  '4.1','24','28','30','32' union all select  '4.2','26','28','30','32'"
         transportSql.ExporttoExcel(qry, Me)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "code", "TSPL_MP_MILK_PRICE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

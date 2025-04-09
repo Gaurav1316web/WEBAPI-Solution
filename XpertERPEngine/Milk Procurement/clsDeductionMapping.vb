@@ -61,6 +61,8 @@ Public Class clsDeductionMappingHead
             Dim objtrVLC As New clsDeductionMappingVLC
             objtrVLC.SaveData(obj.Doc_Code, obj.ArrVLC, trans)
             objtrVLC = Nothing
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", "TSPL_DEDUCTION_MAPPING_MCC", "Doc_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -140,7 +142,8 @@ Public Class clsDeductionMappingHead
 
             Dim qry As String = "Update TSPL_DEDUCTION_MAPPING_HEAD set Post_Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Doc_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-         
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -160,6 +163,8 @@ Public Class clsDeductionMappingHead
                 If (obj.Post_Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted")
                 End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", "TSPL_DEDUCTION_MAPPING_MCC", "Doc_Code", trans)
+
                 Dim qry As String = "delete from TSPL_DEDUCTION_MAPPING_DETAIL where Doc_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_DEDUCTION_MAPPING_VLC where Doc_Code='" + obj.Doc_Code + "'"

@@ -57,6 +57,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -95,6 +96,7 @@ Partial Class frmOwnBMCGainLossRate
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -123,6 +125,7 @@ Partial Class frmOwnBMCGainLossRate
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -176,7 +179,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLossSNFPer.TabIndex = 1100
         Me.txtLossSNFPer.Text = "0"
         Me.txtLossSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLossSNFPer.Value = 0R
+        Me.txtLossSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -215,7 +218,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLossFATPer.TabIndex = 1098
         Me.txtLossFATPer.Text = "0"
         Me.txtLossFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLossFATPer.Value = 0R
+        Me.txtLossFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
@@ -254,7 +257,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLSnf.TabIndex = 1094
         Me.txtLSnf.Text = "0"
         Me.txtLSnf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLSnf.Value = 0R
+        Me.txtLSnf.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -293,7 +296,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLFat.TabIndex = 1093
         Me.txtLFat.Text = "0"
         Me.txtLFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLFat.Value = 0R
+        Me.txtLFat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -359,7 +362,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtGainSNFPer.TabIndex = 1096
         Me.txtGainSNFPer.Text = "0"
         Me.txtGainSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGainSNFPer.Value = 0R
+        Me.txtGainSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -398,7 +401,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtGainFATPer.TabIndex = 1094
         Me.txtGainFATPer.Text = "0"
         Me.txtGainFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGainFATPer.Value = 0R
+        Me.txtGainFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -437,7 +440,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtSNF.TabIndex = 1092
         Me.txtSNF.Text = "0"
         Me.txtSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNF.Value = 0R
+        Me.txtSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -476,7 +479,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtFat.TabIndex = 1090
         Me.txtFat.Text = "0"
         Me.txtFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFat.Value = 0R
+        Me.txtFat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -715,6 +718,15 @@ Partial Class frmOwnBMCGainLossRate
         Me.btnSave.TabIndex = 1
         Me.btnSave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(497, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 24)
+        Me.btnHistory.TabIndex = 113
+        Me.btnHistory.Text = "History"
+        '
         'frmOwnBMCGainLossRate
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -769,6 +781,7 @@ Partial Class frmOwnBMCGainLossRate
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -809,4 +822,5 @@ Partial Class frmOwnBMCGainLossRate
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtGainFATPer As common.MyNumBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class

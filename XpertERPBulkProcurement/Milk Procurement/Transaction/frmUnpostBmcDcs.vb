@@ -285,6 +285,8 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
                 End If
                 Qry = "Update TSPL_MILK_COLLECTION_BMCDCS set Status = 0 where PK_ID  in(" + PKIDNO + ")"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, PKIDNO, "TSPL_MILK_COLLECTION_BMCDCS", "PK_ID", trans)
+
                 trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly ", Me.Text)
             Else
@@ -310,4 +312,6 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
+
+
 End Class

@@ -66,6 +66,7 @@ Partial Class FrmBulkRoutMaster
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -104,6 +105,7 @@ Partial Class FrmBulkRoutMaster
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -187,6 +189,7 @@ Partial Class FrmBulkRoutMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtndelete)
@@ -464,7 +467,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtTollAmount.TabIndex = 12138
         Me.txtTollAmount.Text = "0"
         Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTollAmount.Value = 0R
+        Me.txtTollAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -600,7 +603,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtWeight.TabIndex = 1443
         Me.txtWeight.Text = "0"
         Me.txtWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtWeight.Value = 0R
+        Me.txtWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -685,7 +688,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtRate.TabIndex = 1436
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0R
+        Me.txtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -722,7 +725,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtDistance.TabIndex = 1435
         Me.txtDistance.Text = "0"
         Me.txtDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistance.Value = 0R
+        Me.txtDistance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -785,6 +788,15 @@ Partial Class FrmBulkRoutMaster
         Me.rdbtndelete.TabIndex = 3
         Me.rdbtndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(592, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
+        '
         'FrmBulkRoutMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -837,6 +849,7 @@ Partial Class FrmBulkRoutMaster
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -886,5 +899,6 @@ Partial Class FrmBulkRoutMaster
     Friend WithEvents txtScheduleTimeM As common.Controls.MyDateTimePicker
     Friend WithEvents txtScheduleTime As common.Controls.MyDateTimePicker
     Friend WithEvents lblScheduleTime As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 
