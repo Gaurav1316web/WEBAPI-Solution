@@ -243,12 +243,25 @@ Public Class FrmDeductionGroup1
         End If
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCode.Value, "Ded_Code", "TSPL_DEDUCTION_GROUP")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub DeleteData()
         Try
             If clsCommon.myLen(fndCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
             If clsCommon.MyMessageBoxShow("are you sure? do you want to delete this Code ('" + fndCode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_GROUP", "Ded_Code", Nothing)
 
                 Dim qry As String = "DELETE FROM TSPL_DEDUCTION_GROUP WHERE Ded_Code='" + fndCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)

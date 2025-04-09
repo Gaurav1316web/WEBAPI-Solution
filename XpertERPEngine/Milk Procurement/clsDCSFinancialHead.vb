@@ -45,6 +45,8 @@ Public Class clsDCSFinancialHead
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FINANCIAL_HEAD", OMInsertOrUpdate.Update, "TSPL_DCS_FINANCIAL_HEAD.Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_FINANCIAL_HEAD", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -55,6 +57,8 @@ Public Class clsDCSFinancialHead
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_FINANCIAL_HEAD", "Code", tran)
+
             qry = "Delete from TSPL_DCS_FINANCIAL_HEAD where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
             tran.Commit()

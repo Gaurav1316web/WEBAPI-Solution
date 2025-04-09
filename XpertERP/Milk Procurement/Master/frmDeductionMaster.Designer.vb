@@ -30,6 +30,7 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtDeductionType = New common.UserControls.txtFinder()
+        Me.lblDeductionType = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtNameHindi = New common.Controls.MyTextBox()
         Me.lblName = New common.Controls.MyLabel()
@@ -77,12 +78,13 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.lblDeductionType = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,7 +128,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -194,6 +196,7 @@ Partial Class FrmDeductionMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -236,6 +239,18 @@ Partial Class FrmDeductionMaster
         Me.txtDeductionType.Size = New System.Drawing.Size(228, 18)
         Me.txtDeductionType.TabIndex = 625
         Me.txtDeductionType.Value = ""
+        '
+        'lblDeductionType
+        '
+        Me.lblDeductionType.AutoSize = False
+        Me.lblDeductionType.BorderVisible = True
+        Me.lblDeductionType.FieldName = Nothing
+        Me.lblDeductionType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDeductionType.Location = New System.Drawing.Point(345, 114)
+        Me.lblDeductionType.Name = "lblDeductionType"
+        Me.lblDeductionType.Size = New System.Drawing.Size(266, 18)
+        Me.lblDeductionType.TabIndex = 626
+        Me.lblDeductionType.TextWrap = False
         '
         'MyLabel1
         '
@@ -338,7 +353,7 @@ Partial Class FrmDeductionMaster
         Me.txtSeqNo.TabIndex = 90
         Me.txtSeqNo.Text = "0"
         Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeqNo.Value = 0R
+        Me.txtSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -774,17 +789,15 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
-        'lblDeductionType
+        'btnHistory
         '
-        Me.lblDeductionType.AutoSize = False
-        Me.lblDeductionType.BorderVisible = True
-        Me.lblDeductionType.FieldName = Nothing
-        Me.lblDeductionType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDeductionType.Location = New System.Drawing.Point(345, 114)
-        Me.lblDeductionType.Name = "lblDeductionType"
-        Me.lblDeductionType.Size = New System.Drawing.Size(266, 18)
-        Me.lblDeductionType.TabIndex = 626
-        Me.lblDeductionType.TextWrap = False
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(554, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 74
+        Me.btnHistory.Text = "History"
         '
         'FrmDeductionMaster
         '
@@ -805,6 +818,7 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -849,7 +863,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -910,5 +924,6 @@ Partial Class FrmDeductionMaster
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDeductionType As common.UserControls.txtFinder
     Friend WithEvents lblDeductionType As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -39,6 +39,7 @@ Public Class clsDeductionGroup
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEDUCTION_GROUP", OMInsertOrUpdate.Update, "TSPL_DEDUCTION_GROUP.Ded_Code='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DEDUCTION_GROUP", "Ded_Code", Nothing)
 
         Catch err As Exception
             Throw New Exception(err.Message)

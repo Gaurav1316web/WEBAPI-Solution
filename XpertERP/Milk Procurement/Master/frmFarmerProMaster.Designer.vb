@@ -53,6 +53,7 @@ Partial Class frmFarmerProMaster
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -85,6 +86,7 @@ Partial Class frmFarmerProMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -103,6 +105,7 @@ Partial Class frmFarmerProMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEndDate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -200,7 +203,7 @@ Partial Class frmFarmerProMaster
         Me.txtFatRange.TabIndex = 1084
         Me.txtFatRange.Text = "0"
         Me.txtFatRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatRange.Value = 0R
+        Me.txtFatRange.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtFatRange.Visible = False
         '
         'MyLabel1
@@ -493,6 +496,7 @@ Partial Class frmFarmerProMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -501,6 +505,7 @@ Partial Class frmFarmerProMaster
         Me.gv1.Size = New System.Drawing.Size(616, 225)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnEndDate
         '
@@ -546,6 +551,15 @@ Partial Class frmFarmerProMaster
         Me.btnDelete.Size = New System.Drawing.Size(66, 21)
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(500, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 112
+        Me.btnHistory.Text = "History"
         '
         'frmFarmerProMaster
         '
@@ -593,6 +607,7 @@ Partial Class frmFarmerProMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -628,4 +643,5 @@ Partial Class frmFarmerProMaster
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents btnEndDate As RadButton
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class

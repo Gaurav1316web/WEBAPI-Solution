@@ -47,9 +47,10 @@ Public Class clsMilkRejectType
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_REJECT_TYPE", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MILK_REJECT_TYPE", "Code", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_REJECT_TYPE", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MILK_REJECT_TYPE", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -106,6 +107,9 @@ Public Class clsMilkRejectType
         Try
             qry = "select top 1 Reject_Type from tspl_milk_reject_detail where Reject_Type='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_REJECT_TYPE", "Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_REJECT_TYPE", "Code", tran)
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Reject Type - " + strCode + " is used in milk reject so can not delete it.")
             End If

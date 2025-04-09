@@ -108,6 +108,7 @@ Partial Class FrmTankerMaster
         Me.txtChamborNo = New common.MyNumBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
@@ -201,6 +202,7 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtChamborNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -233,6 +235,7 @@ Partial Class FrmTankerMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -381,7 +384,7 @@ Partial Class FrmTankerMaster
         Me.txtProvMinQty.TabIndex = 20
         Me.txtProvMinQty.Text = "0"
         Me.txtProvMinQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtProvMinQty.Value = 0R
+        Me.txtProvMinQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel16
         '
@@ -453,7 +456,7 @@ Partial Class FrmTankerMaster
         Me.txtstorage.TabIndex = 9
         Me.txtstorage.Text = "0"
         Me.txtstorage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtstorage.Value = 0R
+        Me.txtstorage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'ddlStorageCapacityDescription
         '
@@ -544,7 +547,7 @@ Partial Class FrmTankerMaster
         Me.txtMRPDRent.TabIndex = 92
         Me.txtMRPDRent.Text = "0"
         Me.txtMRPDRent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDRent.Value = 0R
+        Me.txtMRPDRent.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -603,7 +606,7 @@ Partial Class FrmTankerMaster
         Me.txtMRPDAverage.TabIndex = 2
         Me.txtMRPDAverage.Text = "0"
         Me.txtMRPDAverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDAverage.Value = 0R
+        Me.txtMRPDAverage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel20
         '
@@ -641,7 +644,7 @@ Partial Class FrmTankerMaster
         Me.txtMRPDDieselRate.TabIndex = 3
         Me.txtMRPDDieselRate.Text = "0"
         Me.txtMRPDDieselRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDDieselRate.Value = 0R
+        Me.txtMRPDDieselRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'gv
         '
@@ -653,6 +656,7 @@ Partial Class FrmTankerMaster
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
@@ -774,7 +778,7 @@ Partial Class FrmTankerMaster
         Me.txtRentalAmt.TabIndex = 25
         Me.txtRentalAmt.Text = "0"
         Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRentalAmt.Value = 0R
+        Me.txtRentalAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel15
         '
@@ -848,7 +852,7 @@ Partial Class FrmTankerMaster
         Me.txtchrg.TabIndex = 2
         Me.txtchrg.Text = "0"
         Me.txtchrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchrg.Value = 0R
+        Me.txtchrg.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -886,7 +890,7 @@ Partial Class FrmTankerMaster
         Me.txtavgkm.TabIndex = 4
         Me.txtavgkm.Text = "0"
         Me.txtavgkm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtavgkm.Value = 0R
+        Me.txtavgkm.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
@@ -924,7 +928,7 @@ Partial Class FrmTankerMaster
         Me.txtdiesel.TabIndex = 6
         Me.txtdiesel.Text = "0"
         Me.txtdiesel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdiesel.Value = 0R
+        Me.txtdiesel.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GroupBox2
         '
@@ -974,7 +978,7 @@ Partial Class FrmTankerMaster
         Me.txt_km.TabIndex = 21
         Me.txt_km.Text = "0"
         Me.txt_km.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_km.Value = 0R
+        Me.txt_km.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GroupBox1
         '
@@ -1066,7 +1070,7 @@ Partial Class FrmTankerMaster
         Me.txt_ltr.TabIndex = 11
         Me.txt_ltr.Text = "0"
         Me.txt_ltr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_ltr.Value = 0R
+        Me.txt_ltr.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtdesc
         '
@@ -1337,6 +1341,7 @@ Partial Class FrmTankerMaster
         Me.gvChamber.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChamber.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvChamber.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvChamber.MyExportFilePath = ""
         Me.gvChamber.MyStopExport = False
         Me.gvChamber.Name = "gvChamber"
         Me.gvChamber.ShowHeaderCellButtons = True
@@ -1400,7 +1405,7 @@ Partial Class FrmTankerMaster
         Me.txtChamborNo.TabIndex = 115
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0R
+        Me.txtChamborNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage2
         '
@@ -1418,6 +1423,16 @@ Partial Class FrmTankerMaster
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(774, 428)
         Me.UcAttachment1.TabIndex = 2
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(667, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 17
+        Me.btnHistory.Text = "History"
         '
         'btnclose
         '
@@ -1475,7 +1490,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_day.TabIndex = 14
         Me.txtrental_day.Text = "0"
         Me.txtrental_day.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_day.Value = 0R
+        Me.txtrental_day.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtrental_day.Visible = False
         '
         'MyLabel13
@@ -1518,7 +1533,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_week.TabIndex = 16
         Me.txtrental_week.Text = "0"
         Me.txtrental_week.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_week.Value = 0R
+        Me.txtrental_week.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtrental_week.Visible = False
         '
         'MyLabel11
@@ -1557,7 +1572,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_month.TabIndex = 18
         Me.txtrental_month.Text = "0"
         Me.txtrental_month.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_month.Value = 0R
+        Me.txtrental_month.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txt_ltr_kg
         '
@@ -1585,7 +1600,7 @@ Partial Class FrmTankerMaster
         Me.txt_ltr_kg.TabIndex = 9
         Me.txt_ltr_kg.Text = "0"
         Me.txt_ltr_kg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_ltr_kg.Value = 0R
+        Me.txt_ltr_kg.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txt_ltr_kg.Visible = False
         '
         'MyLabel7
@@ -1717,6 +1732,7 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtChamborNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1824,5 +1840,6 @@ Partial Class FrmTankerMaster
     Friend WithEvents txtProvMinQty As common.MyNumBox
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents chkInactive As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

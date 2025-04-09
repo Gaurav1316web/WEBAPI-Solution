@@ -153,6 +153,8 @@ Public Class frmDCSSupervisorTagging
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtmcccode.Value, "TSPL_VLC_Supervisor_Tagging", "mcc_code", trans)
+
             qry = "delete from TSPL_VLC_Supervisor_Tagging where mcc_code='" + txtmcccode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -511,5 +513,17 @@ Public Class frmDCSSupervisorTagging
             End Try
         End If
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtmcccode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtmcccode.Value, "MCC_Code", "TSPL_VLC_Supervisor_Tagging")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

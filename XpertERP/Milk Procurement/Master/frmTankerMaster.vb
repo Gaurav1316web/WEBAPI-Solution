@@ -630,6 +630,7 @@ Public Class FrmTankerMaster
                 trans.Commit()
                 Return
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndNo.Value, "TSPL_TANKER_MASTER", "Tanker_No", trans)
 
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_TANKER_CHAMBER_DETAIL where Tanker_No='" + fndNo.Value + "'", trans)
 
@@ -1444,5 +1445,17 @@ Public Class FrmTankerMaster
             txtMRPDAverage.MendatroryField = False
             txtMRPDDieselRate.MendatroryField = False
         End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndNo.Value, "Tanker_No", "TSPL_TANKER_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

@@ -32,7 +32,7 @@ Public Class clsCapping
 
     Public Function SaveData(ByVal obj As clsCapping, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", trans)
 
             Dim qry As String = "delete from TSPL_CAPPING_MCC where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -70,6 +70,8 @@ Public Class clsCapping
             End If
             clsCappingMCC.SaveData(obj.Code, obj.ArrMCC, trans)
             clsCappingVSP.SaveData(obj.Code, obj.ArrVSP, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", "TSPL_CAPPING_VSP", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -98,6 +100,8 @@ Public Class clsCapping
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", "TSPL_CAPPING_VSP", "Code", tran)
+
             qry = "Delete from TSPL_CAPPING_VSP where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -203,6 +207,8 @@ Public Class clsCapping
 
             Dim qry As String = "Update TSPL_CAPPING set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
