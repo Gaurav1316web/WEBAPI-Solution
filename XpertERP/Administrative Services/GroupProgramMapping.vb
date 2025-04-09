@@ -400,7 +400,7 @@ Public Class GroupProgramMapping
 
                 Dim result As Boolean = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, "")
                 'HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Transfer_No", Nothing)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", Nothing)
 
             Next
             If txtDashBoardMult.arrValueMember IsNot Nothing AndAlso txtDashBoardMult.arrValueMember.Count > 0 Then

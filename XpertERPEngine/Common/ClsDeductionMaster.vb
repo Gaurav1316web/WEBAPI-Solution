@@ -212,6 +212,8 @@ Public Class ClsDeductionMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEDUCTION_MASTER", OMInsertOrUpdate.Update, "TSPL_DEDUCTION_MASTER.Code='" + obj.Code + "' ", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DEDUCTION_MASTER", "Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

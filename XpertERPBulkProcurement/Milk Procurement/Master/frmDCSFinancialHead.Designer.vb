@@ -39,6 +39,7 @@ Partial Class frmDCSFinancialHead
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,6 +58,7 @@ Partial Class frmDCSFinancialHead
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -88,6 +90,7 @@ Partial Class frmDCSFinancialHead
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -168,7 +171,7 @@ Partial Class frmDCSFinancialHead
         Me.txtSNO.TabIndex = 1087
         Me.txtSNO.Text = "0"
         Me.txtSNO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNO.Value = 0R
+        Me.txtSNO.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -316,6 +319,15 @@ Partial Class frmDCSFinancialHead
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(497, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmDCSFinancialHead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -348,6 +360,7 @@ Partial Class frmDCSFinancialHead
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -370,4 +383,5 @@ Partial Class frmDCSFinancialHead
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents RadLabel24 As common.Controls.MyLabel
     Friend WithEvents txtParentCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class

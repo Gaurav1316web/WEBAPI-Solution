@@ -138,6 +138,8 @@ Public Class FrmGroupOfDeduction
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Try
             If (clsCommon.myLen(fndDedGrp.Value) > 0) Then
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndDedGrp.Value, "TSPL_MCC_GROUP_OF_DEDUCTION", "Ded_Code", Nothing)
+
                 Dim qry As String = "delete from TSPL_MCC_GROUP_OF_DEDUCTION where Ded_Code='" + fndDedGrp.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
                 clsCommon.MyMessageBoxShow(Me, "Delete Successfuly")
@@ -162,5 +164,17 @@ Public Class FrmGroupOfDeduction
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndDedGrp.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndDedGrp.Value, "Ded_Code", "TSPL_MCC_GROUP_OF_DEDUCTION")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

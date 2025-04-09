@@ -30,6 +30,8 @@ Public Class ClsGroupOfDeduction1
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_GROUP_OF_DEDUCTION", OMInsertOrUpdate.Insert, "", trans)
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DedCode, "TSPL_MCC_GROUP_OF_DEDUCTION", "Ded_Code", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

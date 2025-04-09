@@ -32,7 +32,6 @@ Public Class clsFarmerPro
 
     Public Function SaveData(ByVal obj As clsFarmerPro, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_FARMER_PRO", "Code", "TSPL_FARMER_PRO_MCC", "Code", "TSPL_FARMER_PRO_VSP", "Code", trans)
 
             Dim qry As String = "delete from TSPL_FARMER_PRO_MCC where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -72,6 +71,8 @@ Public Class clsFarmerPro
             End If
             clsFarmerProMCC.SaveData(obj.Code, obj.ArrMCC, trans)
             clsFarmerProVSP.SaveData(obj.Code, obj.ArrVSP, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_FARMER_PRO", "Code", "TSPL_FARMER_PRO_MCC", "Code", "TSPL_FARMER_PRO_VSP", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -100,6 +101,8 @@ Public Class clsFarmerPro
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_FARMER_PRO", "Code", "TSPL_FARMER_PRO_MCC", "Code", "TSPL_FARMER_PRO_VSP", "Code", tran)
+
             qry = "Delete from TSPL_FARMER_PRO_MCC where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -207,6 +210,8 @@ Public Class clsFarmerPro
 
             Dim qry As String = "Update TSPL_FARMER_PRO set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_FARMER_PRO", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

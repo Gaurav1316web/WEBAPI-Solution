@@ -4101,6 +4101,10 @@ Public Class frmTankerTransporterMaster
         End Try
     End Sub
 
+    Private Sub fndvendorNo_Load_1(sender As Object, e As EventArgs) Handles fndvendorNo.Load
+
+    End Sub
+
     Private Sub chkBulkProcurement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkBulkProcurement.ToggleStateChanged
         If chkBulkProcurement.Checked = True Then
             RadPageViewPage8.Item.Visibility = ElementVisibility.Visible

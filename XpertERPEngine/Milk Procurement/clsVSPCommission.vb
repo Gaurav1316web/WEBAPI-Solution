@@ -34,9 +34,10 @@ Public Class clsVSPCommission
                 clsCommon.AddColumnsForChange(coll, "Commission_Code", obj.Commission_Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_COMMISSION_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Commission_Code, "TSPL_VSP_COMMISSION_MASTER", "Commission_Code", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_COMMISSION_MASTER", OMInsertOrUpdate.Update, "Commission_Code='" + obj.Commission_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Commission_Code, "TSPL_VSP_COMMISSION_MASTER", "Commission_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -83,7 +84,10 @@ Public Class clsVSPCommission
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
+
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_COMMISSION_MASTER", "Commission_Code", Nothing)
+
             qry = "Delete from TSPL_VSP_COMMISSION_MASTER where TSPL_VSP_COMMISSION_MASTER.Commission_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

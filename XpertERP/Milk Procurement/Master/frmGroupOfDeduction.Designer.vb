@@ -22,15 +22,16 @@ Partial Class FrmGroupOfDeduction
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.GBDedGrp = New System.Windows.Forms.GroupBox
-        Me.fndDedGrp = New common.UserControls.txtFinder
-        Me.GBMCC = New Telerik.WinControls.UI.RadGroupBox
-        Me.cbgMCC = New common.MyCheckBoxGrid
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GBDedGrp = New System.Windows.Forms.GroupBox()
+        Me.fndDedGrp = New common.UserControls.txtFinder()
+        Me.GBMCC = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cbgMCC = New common.MyCheckBoxGrid()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -41,6 +42,7 @@ Partial Class FrmGroupOfDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -60,6 +62,7 @@ Partial Class FrmGroupOfDeduction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -80,6 +83,15 @@ Partial Class FrmGroupOfDeduction
         '
         'fndDedGrp
         '
+        Me.fndDedGrp.CalculationExpression = Nothing
+        Me.fndDedGrp.FieldCode = Nothing
+        Me.fndDedGrp.FieldDesc = Nothing
+        Me.fndDedGrp.FieldMaxLength = 0
+        Me.fndDedGrp.FieldName = Nothing
+        Me.fndDedGrp.isCalculatedField = False
+        Me.fndDedGrp.IsSourceFromTable = False
+        Me.fndDedGrp.IsSourceFromValueList = False
+        Me.fndDedGrp.IsUnique = False
         Me.fndDedGrp.Location = New System.Drawing.Point(11, 21)
         Me.fndDedGrp.MendatroryField = False
         Me.fndDedGrp.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -88,6 +100,9 @@ Partial Class FrmGroupOfDeduction
         Me.fndDedGrp.MyReadOnly = False
         Me.fndDedGrp.MyShowMasterFormButton = False
         Me.fndDedGrp.Name = "fndDedGrp"
+        Me.fndDedGrp.ReferenceFieldDesc = Nothing
+        Me.fndDedGrp.ReferenceFieldName = Nothing
+        Me.fndDedGrp.ReferenceTableName = Nothing
         Me.fndDedGrp.Size = New System.Drawing.Size(177, 19)
         Me.fndDedGrp.TabIndex = 28
         Me.fndDedGrp.Value = ""
@@ -154,6 +169,15 @@ Partial Class FrmGroupOfDeduction
         Me.btnClose.TabIndex = 35
         Me.btnClose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(479, 13)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 19)
+        Me.btnHistory.TabIndex = 40
+        Me.btnHistory.Text = "History"
+        '
         'FrmGroupOfDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -176,6 +200,7 @@ Partial Class FrmGroupOfDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -189,5 +214,6 @@ Partial Class FrmGroupOfDeduction
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

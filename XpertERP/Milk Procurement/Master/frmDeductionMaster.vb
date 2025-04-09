@@ -316,6 +316,7 @@ Public Class FrmDeductionMaster
                 Throw New Exception("Code not found to delete")
             End If
             If clsCommon.MyMessageBoxShow(Me, "are you sure? do you want to delete this Code ('" + fndCode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_MASTER", "Code", Nothing)
 
                 Dim qry As String = "DELETE FROM TSPL_DEDUCTION_MASTER WHERE Code='" + fndCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
@@ -506,5 +507,17 @@ Public Class FrmDeductionMaster
         txtDeductionType.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductionType.Value, "Document_No", isButtonClicked)
         lblDeductionType.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductionType.Value + "' ")
 
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndCode.Value, "Code", "TSPL_DEDUCTION_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class
