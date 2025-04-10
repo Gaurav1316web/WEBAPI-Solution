@@ -848,7 +848,7 @@ Public Class frmEmployeeSavingsMapping
             ds_attachment = clsEmployeeSavingsMappingHead.GetDocumentByte(strDocumentCode, strTRCode)
             filename = clsCommon.myCstr(ds_attachment.Rows(0)("FileName"))
             Dim blob As Byte() = ds_attachment.Rows(0)("FileData")
-            file_path = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            file_path = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
             If dir.Exists = False Then
                 dir.Create()

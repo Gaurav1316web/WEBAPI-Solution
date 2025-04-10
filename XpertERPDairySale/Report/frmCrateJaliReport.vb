@@ -1780,7 +1780,7 @@ Public Class FrmCrateJaliReport
             If exporter = EnumExportTo.Excel Then
                 clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, clsCommon.myCstr(StrReportName), True)
             Else
-                Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+                Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
                 Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
                 If IsExists = False Then
                     System.IO.Directory.CreateDirectory(forlderName)

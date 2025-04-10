@@ -603,7 +603,7 @@ Public Class FrmVlcDataUploadar
             If txtBrowse.Text.Contains(" ") Then
                 Throw New Exception("Please Remove Blank space of your folder becuase it is having Blank Space")
             End If
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)

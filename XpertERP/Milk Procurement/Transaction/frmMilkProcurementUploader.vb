@@ -1223,7 +1223,7 @@ ExitLOOP:
 
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             If Not System.IO.Directory.Exists(forlderName) Then
                 System.IO.Directory.CreateDirectory(forlderName)
             End If
