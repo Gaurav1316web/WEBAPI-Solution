@@ -247,7 +247,7 @@ Public Class frmBulkPurchaseUploader
     Private Sub btnExportInvalid_Click(sender As Object, e As EventArgs) Handles btnExportInvalid.Click
         If rdbAgainstBulkprocurement.IsChecked Then
             Gv1.Columns(colIsValidated).FilterDescriptor = New FilterDescriptor("ProductName", FilterOperator.IsEqualTo, False)
-            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
             If Not System.IO.Directory.Exists(dirName) Then
                 System.IO.Directory.CreateDirectory(dirName)
@@ -258,7 +258,7 @@ Public Class frmBulkPurchaseUploader
 
         ElseIf rdbAgainstBulkSale.IsChecked Then
             Gv1.Columns(colIsValidated).FilterDescriptor = New FilterDescriptor("ProductName", FilterOperator.IsEqualTo, False)
-            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
             If Not System.IO.Directory.Exists(dirName) Then
                 System.IO.Directory.CreateDirectory(dirName)
@@ -268,7 +268,7 @@ Public Class frmBulkPurchaseUploader
             Process.Start(dirName & "\InvalidBulkSaleUploderData.xlsx")
         Else
             Gv1.Columns(colIsValidated).FilterDescriptor = New FilterDescriptor("ProductName", FilterOperator.IsEqualTo, False)
-            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
             If Not System.IO.Directory.Exists(dirName) Then
                 System.IO.Directory.CreateDirectory(dirName)

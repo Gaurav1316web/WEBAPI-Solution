@@ -3554,7 +3554,7 @@ Public Class rptGSTR
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then

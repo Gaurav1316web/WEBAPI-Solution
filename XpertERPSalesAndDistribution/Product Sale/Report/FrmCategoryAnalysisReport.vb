@@ -539,7 +539,7 @@ Public Class FrmCategoryAnalysisReport
 
             Dim rowsPerSheet As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuickExport, clsFixedParameterCode.MaxRowsForQuickExport, Nothing))
 
-            Dim FilePath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim FilePath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(FilePath)
             If Not IsExists Then
                 System.IO.Directory.CreateDirectory(FilePath)
