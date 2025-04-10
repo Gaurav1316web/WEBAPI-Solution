@@ -22,6 +22,7 @@ Partial Class FrmMCCFarmerMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblVLCName = New common.Controls.MyLabel()
@@ -39,10 +40,10 @@ Partial Class FrmMCCFarmerMapping
         Me.TxtFinder1 = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,10 +62,10 @@ Partial Class FrmMCCFarmerMapping
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -131,7 +132,6 @@ Partial Class FrmMCCFarmerMapping
         Me.lblVLCName.Name = "lblVLCName"
         Me.lblVLCName.Size = New System.Drawing.Size(205, 18)
         Me.lblVLCName.TabIndex = 165
-        Me.lblVLCName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVLCName.TextWrap = False
         '
         'fndVLCCode
@@ -166,7 +166,7 @@ Partial Class FrmMCCFarmerMapping
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.Location = New System.Drawing.Point(14, 64)
         Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel10.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel10.TabIndex = 163
         Me.MyLabel10.Text = "DCS Code"
         '
@@ -180,7 +180,6 @@ Partial Class FrmMCCFarmerMapping
         Me.lblRouteName.Name = "lblRouteName"
         Me.lblRouteName.Size = New System.Drawing.Size(205, 18)
         Me.lblRouteName.TabIndex = 162
-        Me.lblRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRouteName.TextWrap = False
         '
         'fndRouteCode
@@ -229,7 +228,6 @@ Partial Class FrmMCCFarmerMapping
         Me.lblMCCName.Name = "lblMCCName"
         Me.lblMCCName.Size = New System.Drawing.Size(205, 18)
         Me.lblMCCName.TabIndex = 149
-        Me.lblMCCName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblMCCName.TextWrap = False
         '
         'FndMCC
@@ -304,7 +302,6 @@ Partial Class FrmMCCFarmerMapping
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(205, 18)
         Me.MyLabel2.TabIndex = 149
-        Me.MyLabel2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.MyLabel2.TextWrap = False
         '
         'TxtFinder1
@@ -353,19 +350,32 @@ Partial Class FrmMCCFarmerMapping
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1118, 220)
         Me.gv1.TabIndex = 6
-        Me.gv1.Text = "gv1"
+        Me.gv1.VarID = ""
+        '
+        'btnUnSelect
+        '
+        Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnSelect.Location = New System.Drawing.Point(180, 9)
+        Me.btnUnSelect.Name = "btnUnSelect"
+        Me.btnUnSelect.Size = New System.Drawing.Size(80, 23)
+        Me.btnUnSelect.TabIndex = 25
+        Me.btnUnSelect.Text = "Select All"
         '
         'btnReset
         '
@@ -391,15 +401,6 @@ Partial Class FrmMCCFarmerMapping
         Me.btnSave.Size = New System.Drawing.Size(80, 23)
         Me.btnSave.TabIndex = 10
         Me.btnSave.Text = "Save"
-        '
-        'btnUnSelect
-        '
-        Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnSelect.Location = New System.Drawing.Point(177, 9)
-        Me.btnUnSelect.Name = "btnUnSelect"
-        Me.btnUnSelect.Size = New System.Drawing.Size(80, 23)
-        Me.btnUnSelect.TabIndex = 25
-        Me.btnUnSelect.Text = "Select All"
         '
         'FrmMCCFarmerMapping
         '
@@ -432,10 +433,10 @@ Partial Class FrmMCCFarmerMapping
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

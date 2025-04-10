@@ -54,6 +54,7 @@ Public Class ClsVlcTargetMaster
             End If
 
             Dim qry As String
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vlc_Target_Detail", "DOCument_CODE", trans)
 
 
             qry = "delete from TSPL_Vlc_Target_Detail where DOCument_CODE ='" + strCode + "'"
@@ -253,7 +254,10 @@ Public Class ClsVlcTargetMaster
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vlc_Target_Detail", OMInsertOrUpdate.Update, "TSPL_Vlc_Target_Detail.Document_Code='" + obj.DOC_CODE + "' and vlc_code='" & obj.VLC_Code & "'  " & IIf(obj.MP_Code = "", "", " and MP_Code='" & obj.MP_Code & "'") & " ", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_Vlc_Target_Detail", "Document_Code", trans)
+
             Next
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -278,6 +282,8 @@ Public Class ClsVlcTargetMaster
 
                 Dim qry As String = "Update TSPL_Vlc_Target_Detail set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DOCument_CODE ='" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Vlc_Target_Detail", "Document_Code", Nothing)
+
                 Exit For
             Next
             'trans.Commit()

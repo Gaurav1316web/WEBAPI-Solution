@@ -103,9 +103,10 @@ Public Class ClsOpenMCCShift
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OPEN_MCC_SHIFT", OMInsertOrUpdate.Update, "TSPL_OPEN_MCC_SHIFT.MCC_SHIFT_CODE='" + obj.MCC_SHIFT_CODE + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_SHIFT_CODE, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", trans)
 
             IsSaved = IsSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.MCC_SHIFT_CODE, obj.arrCustomFields, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_SHIFT_CODE, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

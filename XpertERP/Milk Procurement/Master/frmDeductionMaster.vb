@@ -316,7 +316,7 @@ Public Class FrmDeductionMaster
                 Throw New Exception("Code not found to delete")
             End If
             If clsCommon.MyMessageBoxShow(Me, "are you sure? do you want to delete this Code ('" + fndCode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_MASTER", "Code", Nothing)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_MASTER", "Code", Nothing)
 
                 Dim qry As String = "DELETE FROM TSPL_DEDUCTION_MASTER WHERE Code='" + fndCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)

@@ -80,7 +80,10 @@ Public Class clsVSPIncentiveTagging
                     coll = New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "VENDOR_CODE", Code.VSP_CODE)
                     clsCommon.AddColumnsForChange(coll, "INCENTIVE_CODE", Code.INCENTIVE_CODE)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_INCENTIVE", OMInsertOrUpdate.Insert, "", trans)                   
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_INCENTIVE", OMInsertOrUpdate.Insert, "", trans)
+
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, "TSPL_VSP_INCENTIVE_Detail", "Doc_Code", trans)
+
                 Next Code
 
             End If
