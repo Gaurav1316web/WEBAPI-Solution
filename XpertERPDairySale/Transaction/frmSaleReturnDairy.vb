@@ -7092,11 +7092,16 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
         End If
     End Function
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
-        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue(Me, "Document not found to Print", Me.Text)
-        Else
-            funPrint(txtDocNo.Value)
-        End If
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                myMessages.blankValue(Me, "Document not found to Print", Me.Text)
+            Else
+                funPrint(txtDocNo.Value)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
@@ -7126,205 +7131,944 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         Return dt
     End Function
+    '    Public Sub funPrint(ByVal StrCode As String, Optional ByVal IsPDF As Boolean = False)
+    '        Try
+    '            'Dim colsTaxRateType As String = GetColumnsForTaxRateType(GetTaxRateTypeDT(StrCode))
+
+    '            'Dim Qry As String = "  select TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc , TSPL_SD_SALE_RETURN_HEAD.Remarks ,  TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
+    '            'Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
+    '            'Qry += " convert(varchar(15),TSPL_SD_SALE_RETURN_HEAD.Document_Date,106) as Document_Date, TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
+    '            'Qry += " TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_RETURN_HEAD .Terms_Code as termscode ,TSPL_SD_SALE_RETURN_HEAD .Ref_No as ref_no ,"
+    '            'Qry += " TSPL_SD_SALE_RETURN_HEAD .Comments as comments ,  TSPL_SD_SALE_RETURN_HEAD .Discount_Amt as dis_amt,TSPL_SD_SALE_RETURN_DETAIL .Disc_Amt  as dis_amt1,"
+    '            'Qry += " TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SALE_RETURN_HEAD .Total_Amt as Total_amount,"
+    '            'Qry += " TSPL_SD_SALE_RETURN_HEAD.Discount_Base as bfrdisc_amount,  "
+    '            'Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax1_amt,0) as txt1amt,  "
+    '            'Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax2_amt,0) as txt2amt,  "
+    '            'Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax3_amt,0) as txt3amt,  "
+    '            'Qry += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax4_amt,0) as txt4amt,  "
+    '            'Qry += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax5_amt,0) as txt5amt,  "
+    '            'Qry += " tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax6_amt,0) as txt6amt,  "
+    '            'Qry += " tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax7_amt,0) as txt7amt,  "
+    '            'Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax8_amt,0) as txt8amt,   "
+    '            'Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax9_amt,0) as txt9amt,  "
+    '            'Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SALE_RETURN_HEAD. TAX1_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate, "
+    '            'Qry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
+    '            'Qry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost,TSPL_SD_SALE_RETURN_DETAIL.amount as amount,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
+    '            'Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " & _
+    '            '       " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " & _
+    '            '       " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" & _
+    '            '       " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " & _
+    '            '       " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " & _
+    '            '       " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, " & _
+    '            '       " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
+    '            'Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  "
+
+    '            'If UOMAtDiarySaleReturn = True Then
+    '            '    Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.ActualQty as qty,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM as uom "
+    '            'Else
+    '            '    Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom "
+    '            'End If
+
+    '            'Qry += " from TSPL_SD_SALE_RETURN_DETAIL  "
+    '            'Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
+    '            'Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_HEAD.tax1  "
+    '            'Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_HEAD.tax2  "
+    '            'Qry += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .TAX3  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_HEAD .tax4  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .tax5  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX6  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX7  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX8  "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX9 "
+    '            'Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX10     "
+    '            'Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.comp_code  "
+    '            'Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_RETURN_HEAD.Customer_Code   "
+    '            'Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
+    '            'Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State"
+    '            'Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
+    '            'Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
+    '            'Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
+    '            '       " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " & _
+    '            '       " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " & _
+    '            '       " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
+    '            '       " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " & _
+    '            '       " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " & _
+    '            '       " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
+    '            'Qry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + StrCode + "'"
+
+    '            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+
+    '            'If dt.Rows.Count > 0 Then
+    '            '    SetItemWiseTax(dt, StrCode)
+    '            '    frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
+    '            'End If
+
+    '            '---------sanjay------------
+    '            Dim colsTaxRateType As String = GetColumnsForTaxRateType(GetTaxRateTypeDT(StrCode))
+    '            Dim IsMandiTax As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
+    '            Dim DateOfEInvoiceImplementation As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DateOfEInvoiceImplementation, clsFixedParameterCode.DateOfEInvoiceImplementation, Nothing))
+    '            'Add Is_Cancelled Ticket No- ALF/16/05/18-000064
+    '            Dim Qry As String = "  select cast(TSPL_SD_SALE_RETURN_HEAD.BarCode_Img as image) As BarCode_Img,isnull (TSPL_SD_SALE_RETURN_HEAD.IRN_No,'') as IRN_No,isnull (TSPL_SD_SALE_RETURN_HEAD.Ack_No,'') as Ack_No,case when len(isnull (TSPL_SD_SALE_RETURN_HEAD.Ack_No,'')) > 0 then convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Ack_Date,103) else ''  end as Ack_Date , case when TSPL_SD_SALE_RETURN_HEAD.Is_Taxable=1 and isnull(TSPL_SD_SALE_RETURN_HEAD.EInvoice_Type,'')='BB' AND convert(date ,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date ,'" + clsCommon.myCstr(DateOfEInvoiceImplementation) + "',103) then 1 else 0 end as  IsEInvoiceApply," &
+    '                " TSPL_SD_SALE_RETURN_HEAD.Is_Cancelled,isnull(TSPL_ITEM_MASTER.Is_Batch_Item,0) as Is_Batch_Item," &
+    '               "TSPL_ITEM_MASTER.HSN_Code,FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo,FromLocation.State as from_StateName,STATEMASTER_CUSTOMER.GST_STATE_CODE as Cust_GstStateCode,STATEMASTER_CUSTOMER.STATE_CODE AS Cust_StateName,STATEMASTER_CUSTOMER.STATE_NAME as Customer_StateName,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt ,0) as DTax2_Amt," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt ,0) as DTax4_Amt," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt ,0) as DTax6_Amt," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt ,0) as DTax8_Amt," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt ,0) as DTax10_Amt," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate,0) as DTax2_Rate," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,0) as DTax4_Rate," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,0) as DTax6_Rate," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,0) as DTax8_Rate," &
+    '"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,0) as DTax10_Rate" &
+    '                ",TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc , TSPL_SD_SALE_RETURN_HEAD.Remarks , case when TSPL_SD_SALE_RETURN_HEAD.Return_Type='C' then 'Cancel' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='I' then 'Inventory' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='D' then 'Damaged' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='P' then 'Price' end as ReturnStatus,  TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
+    '            Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
+    '            Qry += " convert(varchar(15),TSPL_SD_SALE_RETURN_HEAD.Document_Date,106) as Document_Date, TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
+    '            Qry += " TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_RETURN_HEAD .Terms_Code as termscode ,TSPL_SD_SALE_RETURN_HEAD .Ref_No as ref_no ,"
+    '            Qry += " TSPL_SD_SALE_RETURN_HEAD .Comments as comments ,  TSPL_SD_SALE_RETURN_HEAD .Discount_Amt as dis_amt,TSPL_SD_SALE_RETURN_DETAIL .Disc_Amt  as dis_amt1,"
+    '            Qry += " TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SALE_RETURN_HEAD .Total_Amt as Total_amount,"
+    '            Qry += " TSPL_SD_SALE_RETURN_HEAD.Discount_Base as bfrdisc_amount,  "
+    '            Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax1_amt,0) as txt1amt,  "
+    '            Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax2_amt,0) as txt2amt,  "
+    '            Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax3_amt,0) as txt3amt,  "
+    '            Qry += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax4_amt,0) as txt4amt,  "
+    '            Qry += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax5_amt,0) as txt5amt,  "
+    '            Qry += " tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax6_amt,0) as txt6amt,  "
+    '            Qry += " tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax7_amt,0) as txt7amt,  "
+    '            Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax8_amt,0) as txt8amt,   "
+    '            Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax9_amt,0) as txt9amt,  "
+    '            Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SALE_RETURN_HEAD. TAX1_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate, "
+    '            Qry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
+    '            Qry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type "
+
+    '            If UOMAtDiarySaleReturn = True Then
+    '                Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.ActualQty as qty,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM as uom "
+    '            Else
+    '                Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom "
+    '            End If
+    '            'sanjay Ticket no-ALF/07/06/19-000106 as per Ranjana Mam
+    '            ' TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost
+    '            'Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt as itemcost"
+    '            Qry += ",case when isnull(TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt,0)=0 then isnull(TSPL_SD_SALE_RETURN_DETAIL.item_cost,0) else isnull(TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt,0) end as itemcost"
+    '            Qry += ",TSPL_SD_SALE_RETURN_DETAIL.amount as amount,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
+    '            Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " &
+    '                   " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " &
+    '                   " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" &
+    '                   " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " &
+    '                   " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
+    '                   " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, TSPL_SD_SALE_RETURN_DETAIL.unit_code as UOM, " &
+    '                   " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
+    '            Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  from TSPL_SD_SALE_RETURN_DETAIL  "
+    '            Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
+    '            Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_HEAD.tax1  "
+    '            Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_HEAD.tax2  "
+    '            Qry += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .TAX3  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_HEAD .tax4  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .tax5  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX6  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX7  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX8  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX9 "
+    '            Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX10     "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1 "
+    '            Qry += " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SALE_RETURN_DETAIL.tax2 "
+    '            Qry += " left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .TAX3  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SD_SALE_RETURN_DETAIL .tax4 "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .tax5 "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX6  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX7  "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX8 "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX9 "
+    '            Qry += " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX10 "
+    '            Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.comp_code  "
+    '            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_RETURN_HEAD.Customer_Code   "
+    '            Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
+    '            Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State"
+    '            Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
+    '            Qry += " left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
+    '            Qry += " left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
+    '            Qry += " left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State  "
+    '            Qry += " left join TSPL_STATE_MASTER as  ToState on ToState.State_Code=ToLocation.State  "
+    '            Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State "
+    '            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
+    '            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+    '                   " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " &
+    '                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " &
+    '                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+    '                   " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " &
+    '                   " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " &
+    '                   " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
+    '            Qry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + StrCode + "'"
+
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+
+    '            If dt.Rows.Count > 0 Then
+    '                SetItemWiseTax(dt, StrCode)
+    '                Dim frmCRV As New frmCrystalReportViewer()
+    '                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
+    '                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("from_StateName")), clsCommon.myCstr(dt.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
+    '                        If IsMandiTax > 0 Then
+    '                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+    '                        Else
+    '                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+    '                        End If
+    '                    Else
+    '                        If IsMandiTax > 0 Then
+    '                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+    '                        Else
+    '                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+    '                        End If
+    '                    End If
+    '                Else
+    '                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
+    '                End If
+    '                frmCRV = Nothing
+    '            End If
+    '            '---------sanjay------------
+    '        Catch ex As Exception
+    '            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        End Try
+    '    End Sub
     Public Sub funPrint(ByVal StrCode As String, Optional ByVal IsPDF As Boolean = False)
         Try
-            'Dim colsTaxRateType As String = GetColumnsForTaxRateType(GetTaxRateTypeDT(StrCode))
-
-            'Dim Qry As String = "  select TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc , TSPL_SD_SALE_RETURN_HEAD.Remarks ,  TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
-            'Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
-            'Qry += " convert(varchar(15),TSPL_SD_SALE_RETURN_HEAD.Document_Date,106) as Document_Date, TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
-            'Qry += " TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_RETURN_HEAD .Terms_Code as termscode ,TSPL_SD_SALE_RETURN_HEAD .Ref_No as ref_no ,"
-            'Qry += " TSPL_SD_SALE_RETURN_HEAD .Comments as comments ,  TSPL_SD_SALE_RETURN_HEAD .Discount_Amt as dis_amt,TSPL_SD_SALE_RETURN_DETAIL .Disc_Amt  as dis_amt1,"
-            'Qry += " TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SALE_RETURN_HEAD .Total_Amt as Total_amount,"
-            'Qry += " TSPL_SD_SALE_RETURN_HEAD.Discount_Base as bfrdisc_amount,  "
-            'Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax1_amt,0) as txt1amt,  "
-            'Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax2_amt,0) as txt2amt,  "
-            'Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax3_amt,0) as txt3amt,  "
-            'Qry += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax4_amt,0) as txt4amt,  "
-            'Qry += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax5_amt,0) as txt5amt,  "
-            'Qry += " tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax6_amt,0) as txt6amt,  "
-            'Qry += " tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax7_amt,0) as txt7amt,  "
-            'Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax8_amt,0) as txt8amt,   "
-            'Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax9_amt,0) as txt9amt,  "
-            'Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SALE_RETURN_HEAD. TAX1_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate, "
-            'Qry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
-            'Qry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost,TSPL_SD_SALE_RETURN_DETAIL.amount as amount,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
-            'Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " & _
-            '       " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " & _
-            '       " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" & _
-            '       " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " & _
-            '       " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " & _
-            '       " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, " & _
-            '       " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
-            'Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  "
-
-            'If UOMAtDiarySaleReturn = True Then
-            '    Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.ActualQty as qty,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM as uom "
-            'Else
-            '    Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom "
-            'End If
-
-            'Qry += " from TSPL_SD_SALE_RETURN_DETAIL  "
-            'Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
-            'Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_HEAD.tax1  "
-            'Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_HEAD.tax2  "
-            'Qry += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .TAX3  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_HEAD .tax4  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .tax5  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX6  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX7  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX8  "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX9 "
-            'Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX10     "
-            'Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.comp_code  "
-            'Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_RETURN_HEAD.Customer_Code   "
-            'Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
-            'Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State"
-            'Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
-            'Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
-            'Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-            '       " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " & _
-            '       " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " & _
-            '       " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-            '       " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " & _
-            '       " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " & _
-            '       " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
-            'Qry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + StrCode + "'"
-
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
-            'If dt.Rows.Count > 0 Then
-            '    SetItemWiseTax(dt, StrCode)
-            '    frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
-            'End If
-
-            '---------sanjay------------
-            Dim colsTaxRateType As String = GetColumnsForTaxRateType(GetTaxRateTypeDT(StrCode))
-            Dim IsMandiTax As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
-            Dim DateOfEInvoiceImplementation As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DateOfEInvoiceImplementation, clsFixedParameterCode.DateOfEInvoiceImplementation, Nothing))
-            'Add Is_Cancelled Ticket No- ALF/16/05/18-000064
-            Dim Qry As String = "  select cast(TSPL_SD_SALE_RETURN_HEAD.BarCode_Img as image) As BarCode_Img,isnull (TSPL_SD_SALE_RETURN_HEAD.IRN_No,'') as IRN_No,isnull (TSPL_SD_SALE_RETURN_HEAD.Ack_No,'') as Ack_No,case when len(isnull (TSPL_SD_SALE_RETURN_HEAD.Ack_No,'')) > 0 then convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Ack_Date,103) else ''  end as Ack_Date , case when TSPL_SD_SALE_RETURN_HEAD.Is_Taxable=1 and isnull(TSPL_SD_SALE_RETURN_HEAD.EInvoice_Type,'')='BB' AND convert(date ,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date ,'" + clsCommon.myCstr(DateOfEInvoiceImplementation) + "',103) then 1 else 0 end as  IsEInvoiceApply," &
-                " TSPL_SD_SALE_RETURN_HEAD.Is_Cancelled,isnull(TSPL_ITEM_MASTER.Is_Batch_Item,0) as Is_Batch_Item," &
-               "TSPL_ITEM_MASTER.HSN_Code,FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo,FromLocation.State as from_StateName,STATEMASTER_CUSTOMER.GST_STATE_CODE as Cust_GstStateCode,STATEMASTER_CUSTOMER.STATE_CODE AS Cust_StateName,STATEMASTER_CUSTOMER.STATE_NAME as Customer_StateName,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt ,0) as DTax2_Amt," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt ,0) as DTax4_Amt," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt ,0) as DTax6_Amt," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt ,0) as DTax8_Amt," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt ,0) as DTax10_Amt," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate,0) as DTax2_Rate," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,0) as DTax4_Rate," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,0) as DTax6_Rate," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,0) as DTax8_Rate," &
-"isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,0) as DTax10_Rate" &
-                ",TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc , TSPL_SD_SALE_RETURN_HEAD.Remarks , case when TSPL_SD_SALE_RETURN_HEAD.Return_Type='C' then 'Cancel' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='I' then 'Inventory' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='D' then 'Damaged' when TSPL_SD_SALE_RETURN_HEAD.Return_Type='P' then 'Price' end as ReturnStatus,  TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
-            Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
-            Qry += " convert(varchar(15),TSPL_SD_SALE_RETURN_HEAD.Document_Date,106) as Document_Date, TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
-            Qry += " TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_RETURN_HEAD .Terms_Code as termscode ,TSPL_SD_SALE_RETURN_HEAD .Ref_No as ref_no ,"
-            Qry += " TSPL_SD_SALE_RETURN_HEAD .Comments as comments ,  TSPL_SD_SALE_RETURN_HEAD .Discount_Amt as dis_amt,TSPL_SD_SALE_RETURN_DETAIL .Disc_Amt  as dis_amt1,"
-            Qry += " TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SALE_RETURN_HEAD .Total_Amt as Total_amount,"
-            Qry += " TSPL_SD_SALE_RETURN_HEAD.Discount_Base as bfrdisc_amount,  "
-            Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax1_amt,0) as txt1amt,  "
-            Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax2_amt,0) as txt2amt,  "
-            Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax3_amt,0) as txt3amt,  "
-            Qry += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax4_amt,0) as txt4amt,  "
-            Qry += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax5_amt,0) as txt5amt,  "
-            Qry += " tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax6_amt,0) as txt6amt,  "
-            Qry += " tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax7_amt,0) as txt7amt,  "
-            Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax8_amt,0) as txt8amt,   "
-            Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax9_amt,0) as txt9amt,  "
-            Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SALE_RETURN_HEAD. TAX1_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate, "
-            Qry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
-            Qry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type "
-
-            If UOMAtDiarySaleReturn = True Then
-                Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.ActualQty as qty,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM as uom "
-            Else
-                Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom "
-            End If
-            'sanjay Ticket no-ALF/07/06/19-000106 as per Ranjana Mam
-            ' TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost
-            'Qry += " ,TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt as itemcost"
-            Qry += ",case when isnull(TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt,0)=0 then isnull(TSPL_SD_SALE_RETURN_DETAIL.item_cost,0) else isnull(TSPL_SD_SALE_RETURN_DETAIL.Actualconvamt,0) end as itemcost"
-            Qry += ",TSPL_SD_SALE_RETURN_DETAIL.amount as amount,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
-            Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " &
-                   " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " &
-                   " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" &
-                   " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " &
-                   " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
-                   " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, TSPL_SD_SALE_RETURN_DETAIL.unit_code as UOM, " &
-                   " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
-            Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  from TSPL_SD_SALE_RETURN_DETAIL  "
-            Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
-            Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_HEAD.tax1  "
-            Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_HEAD.tax2  "
-            Qry += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .TAX3  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_HEAD .tax4  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD .tax5  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX6  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX7  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX8  "
-            Qry += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX9 "
-            Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX10     "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1 "
-            Qry += " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SALE_RETURN_DETAIL.tax2 "
-            Qry += " left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .TAX3  "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SD_SALE_RETURN_DETAIL .tax4 "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .tax5 "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX6  "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX7  "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX8 "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX9 "
-            Qry += " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX10 "
-            Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.comp_code  "
-            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_RETURN_HEAD.Customer_Code   "
-            Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
-            Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State"
-            Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
-            Qry += " left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
-            Qry += " left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
-            Qry += " left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State  "
-            Qry += " left join TSPL_STATE_MASTER as  ToState on ToState.State_Code=ToLocation.State  "
-            Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State "
-            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
-            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
-                   " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " &
-                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " &
-                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
-                   " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " &
-                   " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " &
-                   " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
-            Qry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + StrCode + "'"
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
-            If dt.Rows.Count > 0 Then
-                SetItemWiseTax(dt, StrCode)
+            If clsCommon.myLen(StrCode) > 0 Then
+                Dim Qry As String = "select 
+  '' As Report_Status, 
+  Final.* 
+from 
+  (
+    select 
+      Main_Final.*, 
+      TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO, 
+      TSPL_COMPANY_MASTER.Logo_Img, 
+      1 As CopyType, 
+      TSPL_COMPANY_MASTER.GSTReg_No As SellerGST, 
+      TSPL_COMPANY_MASTER.Pan_No, 
+      Rate_Default As RateLtr 
+    from 
+      (
+        select 
+          final.*, 
+          tbl_Brand.Brand, 
+          tbl_Brand.BRANDDESC, 
+          Item_Desc + '   ' + isnull('HSN ' + HSN_Code, '') as Particulars 
+        From 
+          (
+            select 
+              TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate, 
+              --case when TSPL_BOOKING_MATSER.Is_CashSale = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms else 'CREDIT' END AS PaymentTerms, 
+              --TSPL_BOOKING_MATSER.Is_Distributor, 
+              --TSPL_BOOKING_MATSER.Is_BPL, 
+              --TSPL_BOOKING_MATSER.Is_CashSale, 
+              --TSPL_BOOKING_MATSER.Is_DCS, 
+              --TSPL_BOOKING_MATSER.Booking_Type, 
+              TSPL_COMPANY_MASTER.CST_LST, 
+              (
+                Case When TSPL_SD_SALE_RETURN_HEAD.Invoice_Type = 'T' Then cast(
+                  TSPL_SD_SALE_RETURN_HEAD.BarCode_Img as image
+                ) End
+              ) as BarCode_Img, 
+              TSPL_SD_SALE_RETURN_HEAD.VehicleNo as Manual_VehicleNo, 
+              TSPL_SD_SALE_RETURN_HEAD.Payment_Terms, 
+              --TSPL_SD_SALE_RETURN_HEAD.ReceiverName, 
+              TSPL_SD_SALE_RETURN_HEAD.Security_TotalAmt, 
+              --convert(
+              --  varchar(12), 
+              --  TSPL_SD_SALE_INVOICE_HEAD.Supply_Date, 
+              --  103
+              --) Supply_Date, 
+              --case when TSPL_SD_SALE_INVOICE_HEAD.Shift_Type = 'AM' then 'Morning' else 'Evening' end as Shift_Type, 
+              Case when tspl_item_master.Is_FreshItem = 1 then (
+                (
+                  TSPL_SD_SALE_RETURN_DETAIL.ActualReturnQty * isnull(
+                    TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
+                    1
+                  )
+                ) / coalesce(ITEMDETAIL3.LTR, 1)
+              ) when tspl_item_master.Is_Ambient = 1 then (
+                (
+                  TSPL_SD_SALE_RETURN_DETAIL.Qty * isnull(
+                    TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
+                    1
+                  )
+                ) / coalesce(ITEMDETAIL3.kg, 1)
+              ) end as QTY_LTRKG, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX1 as ITAX1, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX1_RATE AS ITAX1_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt as ITAX1_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX2 as ITAX2, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX2_RATE AS ITAX2_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt as ITAX2_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX3 AS ITAX3, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate AS ITAX3_Rate, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt as ITAX3_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX4 AS ITAX4, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX4_RATE AS ITAX4_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt as ITAX4_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX5 as ITAX5, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX5_RATE AS ITAX5_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt as ITAX5_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX6 as ITAX6, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX6_RATE AS ITAX6_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt as ITAX6_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX7 AS ITAX7, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate AS ITAX7_Rate, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt as ITAX7_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX8 AS ITAX8, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX8_RATE AS ITAX8_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt as ITAX8_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX9 AS ITAX9, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate AS ITAX9_Rate, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt as ITAX9_Amt, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX10 AS ITAX10, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX10_RATE AS ITAX10_RATE, 
+              TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt as ITAX10_Amt, 
+              (
+                Case When TSPL_SD_SALE_RETURN_HEAD.Invoice_Type = 'T' Then 'IRN : ' + TSPL_SD_SALE_RETURN_HEAD.IRN_No End
+              ) As IRN_No,  
+              Zone_Code, 
+              ITEMDETAIL1.Conversion_Factor As CF, 
+              TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor, 
+              TSPL_SD_SALE_RETURN_HEAD.EInvoice_Type, 
+              0 as LeakageDeduction_Freshsale, 
+              0 as LeakageDeduction, 
+              case when TSPL_ITEM_PRICE_MASTER.Price_Comp1 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount1, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp2 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount2, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp3 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount3, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp4 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount4, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp5 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount5, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp6 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount6, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp7 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount7, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp8 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount8, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp9 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount9, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp10 = 'SCM' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount10, 
+                0
+              ) end as SCM, 
+              case when TSPL_ITEM_PRICE_MASTER.Price_Comp1 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount1, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp2 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount2, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp3 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount3, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp4 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount4, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp5 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount5, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp6 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount6, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp7 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount7, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp8 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount8, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp9 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount9, 
+                0
+              ) when TSPL_ITEM_PRICE_MASTER.Price_Comp10 = 'DIS-MARGIN' then isnull(
+                TSPL_SD_SALE_RETURN_DETAIL.Price_Amount10, 
+                0
+              ) end as DIS_MARGIN, 
+              TSPL_LOCATION_MASTER.Location_Desc, 
+              TSPL_LOCATION_MASTER.Loc_Short_Name, 
+              TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin, 
+              (
+                case when isnull(TSPL_LOCATION_MASTER.Phone1, '')<> '' then TSPL_LOCATION_MASTER.Phone1 when isnull(TSPL_LOCATION_MASTER.Phone2, '')<> '' then + ', ' + TSPL_LOCATION_MASTER.Phone2 end
+              ) as Loc_Phone, 
+              TSPL_LOCATION_MASTER.Email as Loc_Eamil, 
+              '' as Loc_Website, 
+              TSPL_COMPANY_MASTER.ISO_No, 
+              TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as Invoice_No, 
+              convert(
+                varchar(12), 
+                TSPL_SD_SALE_INVOICE_HEAD.Document_date, 
+                103
+              ) as Invoice_Date, 
+              customer_city_master.city_name as Cust_City, 
+              '' as Against_Shipment_No, 
+              CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, 
+              '' as Electronic_Ref_No, 
+              Tspl_customer_master.gstno as CustGSTNo, 
+              TSPL_STATE_MASTER.gst_state_code, 
+              tspl_location_master.gstno as LocGstNo, 
+              '' as EWayBillNo, 
+              '' as EWayBillDate, 
+              TSPL_ITEM_MASTER.HSN_Code, 
+              TSPL_SD_SALE_RETURN_HEAD.Remarks as InvRemarks, 
+              '' as Delivery_Code, 
+              ITEMDETAIL.Conversion_factor, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  case when TSPL_SD_SALE_RETURN_DETAIL.Qty > 0 then case when coalesce(ITEMDETAIL.Conversion_factor, 0)= 0 then 0 else convert(
+                    Decimal(18, 2), 
+                    TSPL_SD_SALE_RETURN_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor / coalesce(ITEMDETAIL.Conversion_factor, 1)
+                  ) end else 0 end
+                ) end
+              ) as QTY_Box, 
+              TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Sale_Invoice_No, 
+              Case When ISNULL(
+                TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code, 
+                ''
+              )<> '' Then TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code WHEN ISNULL(
+                TSPL_SD_SALE_Return_HEAD.VehicleNo, 
+                ''
+              )<> '' Then TSPL_VEHICLE_MASTER.Number Else TSPL_SD_SALE_RETURN_HEAD.vehicleNo End as vehicleNo, 
+              Convert(
+                varchar, TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 
+                103
+              ) as Sale_Invoice_Date, 
+              TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount, 
+              TSPL_LOCATION_MASTER.Add1 as Loc_ADd1, 
+              TSPL_LOCATION_MASTER.Add2 as LOC_ADD2, 
+              TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, 
+              TSPL_STATE_MASTER.State_Name as LocationState, 
+              case when ISNULL(TSPL_LOCATION_MASTER.Phone1, '')= '(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end + Case When ISNULL(TSPL_LOCATION_MASTER.Phone2, '')<> '(+__)__________' Then ', ' + TSPL_LOCATION_MASTER.Phone2 Else '' End as LOCPhone, 
+              TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO, 
+              TSPL_SD_SALE_RETURN_HEAD.Document_Code, 
+              convert(
+                varchar, TSPL_SD_SALE_RETURN_HEAD.Document_Date, 
+                103
+              ) as Document_Date, 
+              TSPL_SD_SALE_RETURN_HEAD.Description, 
+              '' as Lorry_No, 
+              TSPL_ITEM_MASTER.Sku_Seq, 
+              CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then TSPL_SD_SALE_RETURN_DETAIL.Item_Code + ' -Scheme' else TSPL_SD_SALE_RETURN_DETAIL.Item_Code end as Item_Code, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  TSPL_SD_SALE_RETURN_DETAIL.Line_No
+                ) end
+              ) as Line_No, 
+              CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then TSPL_ITEM_MASTER.Item_Desc + ' -Scheme' else TSPL_ITEM_MASTER.Item_Desc end as Item_Desc, 
+              TSPL_SD_SALE_RETURN_DETAIL.Crate as QtyCrates, 
+              ITEMDETAIL2.Conversion_Factor As ConvFactInCrate, 
+              CEILING(
+                (
+                  TSPL_SD_SALE_RETURN_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor
+                )/ ITEMDETAIL2.Conversion_Factor
+              ) As ConvQtyInCrate, 
+              TSPL_SD_SALE_RETURN_DETAIL.Unit_code, 
+              convert(
+                Decimal(18, 2), 
+                TSPL_SD_SALE_RETURN_DETAIL.Qty
+              ) as Qty_Default, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  convert(
+                    Decimal(18, 2), 
+                    case when TSPL_SD_SALE_RETURN_DETAIL.Qty > 0 then convert(
+                      DECIMAL(18, 5), 
+                      (
+                        case when TSPL_SD_SALE_RETURN_DETAIL.Sampling = 1 then 0 else TSPL_SD_SALE_RETURN_DETAIL.Amount end
+                      )/ (
+                        TSPL_SD_SALE_RETURN_DETAIL.Qty
+                      )
+                    ) else 0 end
+                  )
+                ) end
+              ) as Rate_Default, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  convert(
+                    Decimal(18, 2), 
+                    TSPL_SD_SALE_RETURN_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor
+                  )
+                ) end
+              ) as QtyPCS, 
+              coalesce(
+                case when TSPL_SD_SALE_RETURN_DETAIL.Sampling = 1 then 0 else SUB_QTY end, 
+                0
+              ) as free_qty, 
+              TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item as FreeSchemeInLitres, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  case when TSPL_SD_SALE_RETURN_DETAIL.Qty > 0 then convert(
+                    DECIMAL(18, 5), 
+                    (
+                      case when TSPL_SD_SALE_RETURN_DETAIL.Sampling = 1 then 0 else TSPL_SD_SALE_RETURN_DETAIL.Amount end
+                    )/ (
+                      TSPL_SD_SALE_RETURN_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor
+                    )
+                  ) else 0 end
+                ) end
+              ) as RatePerPcs, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  (
+                    case when TSPL_SD_SALE_RETURN_DETAIL.Sampling = 1 then 0 else TSPL_SD_SALE_RETURN_DETAIL.TAX1_Base_Amt end
+                  )
+                ) end
+              ) as valueInRs, 
+              '' as comp_add2, 
+              '' as comp_add3, 
+              TSPL_COMPANY_MASTER.Phone1 as CompPhone, 
+              (
+                CASE when TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'Y' then 0 else (
+                  coalesce(
+                    TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount, 
+                    0
+                  )
+                ) end
+              ) as Cash_Scheme_Amount, 
+              isnull(schemeInCrates, 0) as schemeInCrates, 
+              '' GrandTotalCrates, 
+              TSPL_COMPANY_MASTER.Comp_Code, 
+              TSPL_COMPANY_MASTER.Comp_Name, 
+              TSPL_COMPANY_MASTER.Add1 as comp_add1, 
+              TSPL_COMPANY_MASTER.Fax as comp_Fax, 
+              TSPL_COMPANY_MASTER.Email as comp_Email, 
+              TSPL_COMPANY_MASTER.Tin_No as comp_tinNo, 
+              TSPL_SD_SALE_RETURN_HEAD.Customer_Code as cust_Code, 
+              TSPL_CUSTOMER_MASTER.Customer_Name, 
+              TSPL_CUSTOMER_MASTER.Add1 as cust_add1, 
+              TSPL_CUSTOMER_MASTER.Add2 as cust_add2, 
+              TSPL_CUSTOMER_MASTER.Add3 cust_add3, 
+              case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1, '')= '(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end + Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2, '')<> '(+__)__________' Then ', ' + TSPL_CUSTOMER_MASTER.Phone2 Else '' End as CustPhone, 
+              TSPL_CUSTOMER_MASTER.Fax as cust_fax, 
+              TSPL_CUSTOMER_MASTER.State as Cust_state, 
+              CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename, 
+              TSPL_CUSTOMER_MASTER.Email as cust_Email, 
+              TSPL_CUSTOMER_MASTER.WebSite as cust_website, 
+              TSPL_CUSTOMER_MASTER.pan as Customer_Pan, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.Ack_No, 
+                'NA'
+              ) AS Ack_No, 
+              TSPL_SD_SALE_RETURN_HEAD.Ack_Date, 
+              TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type As TaxableNonTaxable, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX1, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX1
+              ) as TaxType1, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt, 
+                0.00
+              ) As TAX1_Amt, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX1_Rate, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt as TAX1Amt, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX2
+              ) as TaxType2, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX2, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt, 
+                0.00
+              ) As TAX2_Amt, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt as TAX2Amt, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX3
+              ) as TaxType3, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX3, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt, 
+                0.00
+              ) As TAX3_Amt, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt as TAX3Amt, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX4
+              ) as TaxType4, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX4, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt, 
+                0.00
+              ) As TAX4_Amt, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt as TAX4Amt, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX5
+              ) as TaxType5, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX5, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX5_Amt, 
+                0.00
+              ) As TAX5_Amt, 
+              (
+                select 
+                  type 
+                from 
+                  TSPL_TAX_MASTER 
+                where 
+                  Tax_Code = TSPL_SD_SALE_RETURN_HEAD.TAX6
+              ) as TaxType6, 
+              TSPL_SD_SALE_RETURN_HEAD.TAX6, 
+              IsNull(
+                TSPL_SD_SALE_RETURN_HEAD.TAX6_Amt, 
+                0.00
+              ) As TAX6_Amt, 
+              TSPL_SD_SALE_Return_HEAD.Route_No, 
+              TSPL_SD_SALE_Return_HEAD.Route_Desc, 
+              TSPL_SD_SALE_Return_HEAD.Distributor_Commission_TotalAmt, 
+              TSPL_SD_SALE_Return_HEAD.Transporter_Commission_TotalAmt, 
+              --isnull(
+              --  TSPL_SD_SALE_INVOICE_HEAD.Against_booking_no, 
+              --  ''
+              --)
+			  '' as Against_Delivery_Code, 
+              TabBatch.Batch_No as batchNO, 
+              TabBatch.BATCH_QTY AS Batchqty, 
+              Case when TSPL_CUSTOMER_MASTER.Credit_Customer = 'Y' THEN 'CREDIT' else '' end as Credit_Customer, 
+              TSPL_SHIP_TO_LOCATION.Ship_To_Code, 
+              TSPL_SHIP_TO_LOCATION.Ship_To_Desc, 
+              TSPL_SHIP_TO_LOCATION.Ship_Address, 
+              TSPL_SHIP_TO_LOCATION.Ship_City, 
+              TSPL_SHIP_TO_LOCATION.Ship_State, 
+              Convert(
+                Varchar, TSPL_SHIP_TO_LOCATION.Ship_Pin_Code
+              ) Ship_Pin_Code, 
+              TSPL_SHIP_TO_LOCATION.Ship_PAN, 
+              TSPL_SHIP_TO_LOCATION.Ship_GSTNO,
+              --IsNull(
+              --  TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt, 
+              --  0
+              --)
+			  0 as  Booth_Security_Amt 
+            from 
+              TSPL_SD_SALE_RETURN_DETAIL 
+              LEFT OUTER JOIN TSPL_SD_SALE_RETURN_HEAD ON TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE 
+              left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No 
+              --left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE 
+              --and TSPL_SD_SALE_INVOICE_DETAIL.Line_No = TSPL_SD_SALE_RETURN_DETAIL.Line_No 
+              --left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SALE_INVOICE_HEAD.Against_Booking_No 
+              left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_RETURN_DETAIL.ActualUOM 
+              LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              left join (
+                select 
+                  Conversion_factor, 
+                  TSPL_ITEM_UOM_DETAIL.Item_code 
+                from 
+                  TSPL_ITEM_UOM_DETAIL 
+                where 
+                  UOM_code = 'BOX'
+              ) as ITEMDETAIL on ITEMDETAIL.Item_code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              left join (
+                select 
+                  Conversion_factor, 
+                  TSPL_ITEM_UOM_DETAIL.Item_code 
+                from 
+                  TSPL_ITEM_UOM_DETAIL 
+                where 
+                  UOM_code in (
+                    select 
+                      case when Is_FreshItem = 1 then 'LTR' else 'KG' end 
+                    from 
+                      TSPL_ITEM_MASTER 
+                    where 
+                      Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code
+                  )
+              ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              left join (
+                SELECT 
+                  * 
+                FROM 
+                  (
+                    select 
+                      item_code, 
+                      uom_code, 
+                      conversion_factor 
+                    from 
+                      TSPL_ITEM_UOM_DETAIL
+                  ) I PIVOT (
+                    Max(conversion_factor) FOR uom_code IN ([KG], [LTR])
+                  ) P
+              ) ITEMDETAIL3 ON TSPL_SD_SALE_RETURN_DETAIL.Item_Code = ITEMDETAIL3.item_code 
+              left join (
+                select 
+                  Conversion_factor, 
+                  TSPL_ITEM_UOM_DETAIL.Item_code 
+                from 
+                  TSPL_ITEM_UOM_DETAIL 
+                where 
+                  ITEM_Code = TSPL_ITEM_UOM_DETAIL.Item_Code 
+                  And UOM_code = 'Crate'
+              ) as ITEMDETAIL2 on ITEMDETAIL2.Item_code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.Comp_Code 
+              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
+              left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location 
+              LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
+              left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
+              left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
+              Left Outer Join (
+                select 
+                  Ship_To_Code, 
+                  Ship_To_Desc, 
+                  Ship_To_Type_Desc, 
+                  (
+                    TSPL_SHIP_TO_LOCATION.Add1 + ' ' + TSPL_SHIP_TO_LOCATION.Add2 + ' ' + TSPL_SHIP_TO_LOCATION.Add3 + ' ' + TSPL_SHIP_TO_LOCATION.Add4
+                  ) As Ship_Address, 
+                  TSPL_CITY_MASTER.City_Name As Ship_City, 
+                  TSPL_STATE_MASTER.STATE_NAME As Ship_State, 
+                  Pin_Code As Ship_Pin_Code, 
+                  PAN As Ship_PAN, 
+                  GSTNO As Ship_GSTNO 
+                from 
+                  TSPL_SHIP_TO_LOCATION 
+                  Left Outer Join TSPL_CITY_MASTER On TSPL_CITY_MASTER.City_Code = TSPL_SHIP_TO_LOCATION.City_Code 
+                  Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE = TSPL_SHIP_TO_LOCATION.State
+              ) As TSPL_SHIP_TO_LOCATION ON TSPL_SHIP_TO_LOCATION.Ship_To_Code = TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location 
+              LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.pk_id = TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_PKID Full 
+              join (
+                select 
+                  DOCUMENT_CODE, 
+                  Item_Code as Scheme_Item_Code, 
+                  SUM(Qty) AS SUB_QTY, 
+                  SUM(Crate) AS schemeInCrates 
+                from 
+                  TSPL_SD_SALE_RETURN_DETAIL as inn 
+                where 
+                  DOCUMENT_CODE in ('" + StrCode + "') 
+                  and inn.Scheme_Item = 'Y' 
+                group by 
+                  DOCUMENT_CODE, 
+                  Item_Code
+              ) TSPL_SD_SALE_RETURN_DETAIL_Sub on TSPL_SD_SALE_RETURN_DETAIL_sub.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE 
+              and TSPL_SD_SALE_RETURN_DETAIL_sub.Scheme_Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code 
+              left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_SALE_RETURN_DETAIL.Price_code 
+              and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_SALE_RETURN_DETAIL.Location 
+              and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+              and len(
+                isnull(
+                  TSPL_SD_SALE_RETURN_DETAIL.Price_code, 
+                  ''
+                )
+              )> 0 
+              left outer join (
+                select 
+                  Document_Code, 
+                  Parent_Line_No, 
+                  STRING_AGG(
+                    Batch_No, 
+                    CHAR(10)
+                  ) as Batch_No, 
+                  STRING_AGG(
+                    Qty, 
+                    CHAR(10)
+                  ) as Batch_Qty 
+                from 
+                  (
+                    SELECT 
+                      Document_Code, 
+                      Batch_No, 
+                      Qty, 
+                      Parent_Line_No 
+                    FROM 
+                      TSPL_BATCH_ITEM 
+                    WHERE 
+                      TSPL_BATCH_ITEM.Document_Type = 'PS-SR'
+                  ) x 
+                group by 
+                  Document_Code, 
+                  Parent_Line_No
+              ) TabBatch On TabBatch.Document_Code = TSPL_SD_SALE_RETURN_HEAD.Document_Code 
+              And TabBatch.Parent_Line_No = TSPL_SD_SALE_RETURN_DETAIL.Line_No 
+            where 
+              2 = 2 
+              And TSPL_SD_SALE_RETURN_HEAD.Document_Code in ('" + StrCode + "') 
+              And exists (
+                select 
+                  1 
+                from 
+                  (
+                    select 
+                      TSPL_SD_SALE_RETURN_DETAIL.Item_Code, 
+                      TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE, 
+                      TSPL_SD_SALE_RETURN_DETAIL.Line_No 
+                    from 
+                      TSPL_SD_SALE_RETURN_DETAIL 
+                      Left OUTER JOIN TSPL_SD_SALE_RETURN_HEAD ON TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE 
+                      Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                      And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_RETURN_DETAIL.Unit_code 
+                      Left OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                      Left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.Comp_Code 
+                      Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
+                      Left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location 
+                      Left OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State Full 
+                      Join(
+                        select 
+                          DOCUMENT_CODE, 
+                          Item_Code As Scheme_Item_Code, 
+                          SUM(Qty) As SUB_QTY, 
+                          SUM(Crate) AS schemeInCrates 
+                        From 
+                          TSPL_SD_SALE_RETURN_DETAIL As inn 
+                        Where 
+                          DOCUMENT_CODE In ('" + StrCode + "') 
+                          And inn.Scheme_Item = 'Y' 
+                        group by 
+                          DOCUMENT_CODE, 
+                          Item_Code
+                      ) TSPL_SD_SALE_RETURN_DETAIL_Sub on TSPL_SD_SALE_RETURN_DETAIL_sub.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE 
+                      and TSPL_SD_SALE_RETURN_DETAIL_sub.Scheme_Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                    where 
+                      2 = 2 
+                      And TSPL_SD_SALE_RETURN_HEAD.Document_Code In ('" + StrCode + "') 
+                      And TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item = 'N'
+                  ) xx 
+                where 
+                  xx.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.item_CODE 
+                  And xx.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+              )
+          ) as final 
+          Left outer join (
+            Select 
+              Item_Code, 
+              max([CATEGORY RM]) As [CATEGORY RM], 
+              max([BRAND]) As [BRAND], 
+              max([SUB BRAND]) As [SUB BRAND], 
+              max([DESCRP]) As [DESCRP], 
+              max([PACK]) As [PACK], 
+              max([PACK SIZE]) As [PACK SIZE], 
+              max([CATEGORY OT]) As [CATEGORY OT], 
+              max([CATEGORY FA]) As [CATEGORY FA], 
+              max([P TYPE]) As [P TYPE], 
+              max([L TYPE]) As [L TYPE], 
+              max([JW]) As [JW], 
+              max([SCRAP]) As [SCRAP], 
+              max([CATEGORY RMDESC]) As [CATEGORY RMDESC], 
+              max([BRANDDESC]) As [BRANDDESC], 
+              max([SUB BRANDDESC]) As [SUB BRANDDESC], 
+              max([DESCRPDESC]) As [DESCRPDESC], 
+              max([PACKDESC]) As [PACKDESC], 
+              max([PACK SIZEDESC]) As [PACK SIZEDESC], 
+              max([CATEGORY OTDESC]) As [CATEGORY OTDESC], 
+              max([CATEGORY FADESC]) As [CATEGORY FADESC], 
+              max([P TYPEDESC]) As [P TYPEDESC], 
+              max([L TYPEDESC]) As [L TYPEDESC], 
+              max([JWDESC]) As [JWDESC], 
+              max([SCRAPDESC]) As [SCRAPDESC] 
+            from 
+              (
+                Select 
+                  * 
+                from 
+                  (
+                    Select 
+                      TSPL_ITEM_MASTER.Item_Code, 
+                      TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, 
+                      TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code + 'DESC' as Item_Category_CodeDesc, 
+                      TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values, 
+                      TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc 
+                    From 
+                      TSPL_ITEM_MASTER 
+                      Left outer join TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code 
+                      Left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE = TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code 
+                      And TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE = TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values 
+                    where 
+                      2 = 3
+                  ) xx Pivot(
+                    max(Item_Cagetory_Values) For Item_Category_Code In (
+                      [CATEGORY RM], [BRAND], [SUB BRAND], 
+                      [DESCRP], [PACK], [PACK SIZE], [CATEGORY OT], 
+                      [CATEGORY FA], [P TYPE], [L TYPE], [JW], 
+                      [SCRAP]
+                    )
+                  ) Pivt Pivot (
+                    max(Category_Value_Desc) For Item_Category_CodeDesc In (
+                      [CATEGORY RMDESC], [BRANDDESC], [SUB BRANDDESC], 
+                      [DESCRPDESC], [PACKDESC], [PACK SIZEDESC], 
+                      [CATEGORY OTDESC], [CATEGORY FADESC], 
+                      [P TYPEDESC], [L TYPEDESC], [JWDESC], 
+                      [SCRAPDESC]
+                    )
+                  ) Pivt1
+              ) xxx 
+            group by 
+              Item_Code
+          ) as tbl_Brand on tbl_Brand.Item_Code = final.item_Code
+      ) AS Main_Final 
+      left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code
+  ) Final"
                 Dim frmCRV As New frmCrystalReportViewer()
-                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
-                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("from_StateName")), clsCommon.myCstr(dt.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                        If IsMandiTax > 0 Then
-                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
-                        Else
-                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
-                        End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+                    If dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
-                        If IsMandiTax > 0 Then
-                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
-                        Else
-                            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
-                        End If
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxableInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     End If
-                Else
-                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBHR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceSWM1", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'Else
+                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'End If
+                    frmCRV = Nothing
+                    Else
+                    Throw New Exception("Data Not Found!")
                 End If
-                frmCRV = Nothing
+
             End If
-            '---------sanjay------------
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Function SetItemWiseTax(ByVal dtAfterModify As DataTable, ByVal strShipFrm As String) As DataTable
         dtAfterModify.Columns.Add("TAX1_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX1_Rate2", GetType(Double))
