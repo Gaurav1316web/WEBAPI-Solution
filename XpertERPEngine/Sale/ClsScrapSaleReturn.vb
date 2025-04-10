@@ -1063,6 +1063,7 @@ left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =tspl_scrapsale_head_re
         objCustInv.Account_Set = clsDBFuncationality.getSingleValue(qry, trans)
         ''objCustInv.Order_No
         objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Loc_Code, trans)
+        objCustInv.Location_Code_Prefix = obj.Loc_Code
         objCustInv.On_Hold = 0
         objCustInv.Remarks = obj.Description
         objCustInv.Description = obj.Description

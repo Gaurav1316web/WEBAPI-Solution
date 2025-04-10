@@ -2667,7 +2667,7 @@ Public Class clsMCCMaterialSale
         If clsERPFuncationality.GetQRCodeStatus(strDate) = True AndAlso EnableDynamicQRCodeForB2CInvoice = True AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EInvoice_Type from  TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" + strCode + "'")), "BC") = CompairStringResult.Equal Then
             isShowQRcode = 1
         End If
-        Dim Qry As String = "select *, valueInRs/((Qty * ConversionFactor)/cf) As RateLtr from (  select  (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select  (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
 ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
         If isCancel Then
             Qry += " 'Cancelled' As Report_Status,"

@@ -988,6 +988,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                 objCust.Customer_Code = obj.cust_Code
                 objCust.Customer_Name = obj.cust_Name
                 objCust.loc_code = obj.LocationAR
+                objCust.Location_Code_Prefix = obj.Loc_Code
                 objCust.Posting_Date = obj.posting_Date
                 objCust.Account_Set = clsDBFuncationality.getSingleValue("select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.cust_Code + "'", trans)
                 If clsCommon.CompairString(obj.Doc_Type, "J") = CompairStringResult.Equal Then
