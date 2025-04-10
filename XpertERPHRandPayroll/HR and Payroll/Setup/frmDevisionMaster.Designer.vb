@@ -50,6 +50,7 @@ Partial Class frmDevisionMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtlocationName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,6 +70,7 @@ Partial Class frmDevisionMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,17 +99,30 @@ Partial Class frmDevisionMaster
         '
         'txtlocationName
         '
+        Me.txtlocationName.CalculationExpression = Nothing
+        Me.txtlocationName.FieldCode = Nothing
+        Me.txtlocationName.FieldDesc = Nothing
+        Me.txtlocationName.FieldMaxLength = 0
+        Me.txtlocationName.FieldName = Nothing
+        Me.txtlocationName.isCalculatedField = False
+        Me.txtlocationName.IsSourceFromTable = False
+        Me.txtlocationName.IsSourceFromValueList = False
+        Me.txtlocationName.IsUnique = False
         Me.txtlocationName.Location = New System.Drawing.Point(255, 91)
         Me.txtlocationName.MaxLength = 50
         Me.txtlocationName.MendatroryField = True
         Me.txtlocationName.MyLinkLable1 = Me.RadLabel3
         Me.txtlocationName.MyLinkLable2 = Nothing
         Me.txtlocationName.Name = "txtlocationName"
+        Me.txtlocationName.ReferenceFieldDesc = Nothing
+        Me.txtlocationName.ReferenceFieldName = Nothing
+        Me.txtlocationName.ReferenceTableName = Nothing
         Me.txtlocationName.Size = New System.Drawing.Size(197, 20)
         Me.txtlocationName.TabIndex = 23
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(10, 69)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
@@ -117,6 +132,15 @@ Partial Class frmDevisionMaster
         'fndLocationCode
         '
         Me.fndLocationCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.fndLocationCode.CalculationExpression = Nothing
+        Me.fndLocationCode.FieldCode = Nothing
+        Me.fndLocationCode.FieldDesc = Nothing
+        Me.fndLocationCode.FieldMaxLength = 0
+        Me.fndLocationCode.FieldName = Nothing
+        Me.fndLocationCode.isCalculatedField = False
+        Me.fndLocationCode.IsSourceFromTable = False
+        Me.fndLocationCode.IsSourceFromValueList = False
+        Me.fndLocationCode.IsUnique = False
         Me.fndLocationCode.Location = New System.Drawing.Point(93, 90)
         Me.fndLocationCode.MendatroryField = True
         Me.fndLocationCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -125,12 +149,16 @@ Partial Class frmDevisionMaster
         Me.fndLocationCode.MyReadOnly = False
         Me.fndLocationCode.MyShowMasterFormButton = False
         Me.fndLocationCode.Name = "fndLocationCode"
+        Me.fndLocationCode.ReferenceFieldDesc = Nothing
+        Me.fndLocationCode.ReferenceFieldName = Nothing
+        Me.fndLocationCode.ReferenceTableName = Nothing
         Me.fndLocationCode.Size = New System.Drawing.Size(156, 20)
         Me.fndLocationCode.TabIndex = 22
         Me.fndLocationCode.Value = ""
         '
         'lblLocation
         '
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Location = New System.Drawing.Point(12, 91)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 18)
@@ -139,17 +167,30 @@ Partial Class frmDevisionMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(93, 68)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.RadLabel3
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(359, 20)
         Me.txtDescription.TabIndex = 3
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Location = New System.Drawing.Point(12, 89)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(2, 2)
@@ -175,17 +216,30 @@ Partial Class frmDevisionMaster
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
         Me.txtName.Location = New System.Drawing.Point(93, 45)
         Me.txtName.MaxLength = 50
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.RadLabel2
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(359, 20)
         Me.txtName.TabIndex = 2
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(10, 46)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(79, 18)
@@ -194,6 +248,7 @@ Partial Class frmDevisionMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(93, 22)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -209,6 +264,7 @@ Partial Class frmDevisionMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(10, 23)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -250,22 +306,16 @@ Partial Class frmDevisionMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -285,6 +335,7 @@ Partial Class frmDevisionMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -299,36 +350,38 @@ Partial Class frmDevisionMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(387, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmDevisionMaster
         '
@@ -363,6 +416,7 @@ Partial Class frmDevisionMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -392,5 +446,6 @@ Partial Class frmDevisionMaster
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtlocationName As common.Controls.MyTextBox
     Friend WithEvents fndLocationCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

@@ -33,6 +33,7 @@ Public Class clsLeaveMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_MASTER", "LEAVE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + strCode + "'"
@@ -111,6 +112,7 @@ Public Class clsLeaveMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_MASTER", OMInsertOrUpdate.Update, "LEAVE_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_LEAVE_MASTER", "LEAVE_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

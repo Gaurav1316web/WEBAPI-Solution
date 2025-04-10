@@ -46,6 +46,8 @@ Public Class clsRevenueVillageMaster
                 clsCommon.AddColumnsForChange(coll, "REVENUE_VILLAGE_CODE", obj.code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REVENUE_VILLAGE_MASTER", OMInsertOrUpdate.Insert, "")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_REVENUE_VILLAGE_MASTER", "REVENUE_VILLAGE_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

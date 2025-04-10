@@ -258,6 +258,18 @@ Public Class FrmPaymentMode
         Me.Controls.Remove(gv)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_Payment_MODE")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         Dim str As String
         str = "select  Code as [Code],Name As [Description]  from TSPL_Payment_MODE "

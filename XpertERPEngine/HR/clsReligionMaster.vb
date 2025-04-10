@@ -28,6 +28,7 @@ Public Class clsReligionMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RELIGION_MASTER", "RELIGION_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_RELIGION_MASTER where RELIGION_CODE ='" + strCode + "'"
@@ -97,6 +98,8 @@ Public Class clsReligionMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RELIGION_MASTER", OMInsertOrUpdate.Update, "RELIGION_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_RELIGION_MASTER", "RELIGION_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

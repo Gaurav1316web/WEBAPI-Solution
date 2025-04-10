@@ -476,6 +476,8 @@ Public Class FrmVillageMaster
             If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete Village villcode " + fndcode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return False
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcode.Value, "TSPL_VILLAGE_MASTER", "Village_code", trans)
+
             qry = "delete from TSPL_VILLAGE_MASTER where village_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -568,5 +570,17 @@ Public Class FrmVillageMaster
 
     Private Sub txtCowInMilk_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtCowInMilk.Validating, txtBuffaloInMilk.Validating, txtBuffaloDry.Validating, txtCowDry.Validating
         txtTotalAnimals.Text = clsCommon.myCstr(txtCowInMilk.Value + txtBuffaloInMilk.Value + txtBuffaloDry.Value + txtCowDry.Value)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "village_code", "TSPL_VILLAGE_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

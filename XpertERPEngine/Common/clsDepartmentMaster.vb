@@ -35,6 +35,7 @@ Public Class clsDepartmentMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Department Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPARTMENT_MASTER", "DEPARTMENT_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + strCode + "'"
@@ -111,6 +112,8 @@ Public Class clsDepartmentMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEPARTMENT_MASTER", OMInsertOrUpdate.Update, "DEPARTMENT_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DEPARTMENT_MASTER", "DEPARTMENT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

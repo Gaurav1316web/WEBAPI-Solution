@@ -25,29 +25,30 @@ Partial Class frmConveyanceRateMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConveyanceRateMaster))
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.lblOT_RATE = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtName = New common.Controls.MyTextBox
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.txtConveyanceRate = New common.MyNumBox
-        Me.cboConvType = New common.Controls.MyComboBox
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.txtDistLimit = New common.MyNumBox
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.lblOT_RATE = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtDistLimit = New common.MyNumBox()
+        Me.txtConveyanceRate = New common.MyNumBox()
+        Me.cboConvType = New common.Controls.MyComboBox()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOT_RATE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,15 +62,17 @@ Partial Class frmConveyanceRateMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtDistLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtConveyanceRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboConvType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDistLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(21, 93)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(92, 18)
@@ -79,6 +82,7 @@ Partial Class frmConveyanceRateMaster
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Location = New System.Drawing.Point(21, 73)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(94, 18)
@@ -87,6 +91,7 @@ Partial Class frmConveyanceRateMaster
         '
         'lblOT_RATE
         '
+        Me.lblOT_RATE.FieldName = Nothing
         Me.lblOT_RATE.Location = New System.Drawing.Point(21, 116)
         Me.lblOT_RATE.Name = "lblOT_RATE"
         Me.lblOT_RATE.Size = New System.Drawing.Size(76, 18)
@@ -104,17 +109,30 @@ Partial Class frmConveyanceRateMaster
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
         Me.txtName.Location = New System.Drawing.Point(129, 50)
         Me.txtName.MaxLength = 50
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.RadLabel2
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(381, 20)
         Me.txtName.TabIndex = 2
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(21, 51)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(63, 18)
@@ -123,6 +141,7 @@ Partial Class frmConveyanceRateMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(129, 25)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -138,6 +157,7 @@ Partial Class frmConveyanceRateMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(21, 26)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -179,27 +199,18 @@ Partial Class frmConveyanceRateMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -227,6 +238,7 @@ Partial Class frmConveyanceRateMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -234,34 +246,86 @@ Partial Class frmConveyanceRateMaster
         Me.SplitContainer1.SplitterDistance = 185
         Me.SplitContainer1.TabIndex = 0
         '
+        'txtDistLimit
+        '
+        Me.txtDistLimit.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtDistLimit.CalculationExpression = Nothing
+        Me.txtDistLimit.DecimalPlaces = 2
+        Me.txtDistLimit.FieldCode = Nothing
+        Me.txtDistLimit.FieldDesc = Nothing
+        Me.txtDistLimit.FieldMaxLength = 0
+        Me.txtDistLimit.FieldName = Nothing
+        Me.txtDistLimit.isCalculatedField = False
+        Me.txtDistLimit.IsSourceFromTable = False
+        Me.txtDistLimit.IsSourceFromValueList = False
+        Me.txtDistLimit.IsUnique = False
+        Me.txtDistLimit.Location = New System.Drawing.Point(129, 116)
+        Me.txtDistLimit.MaxLength = 6
+        Me.txtDistLimit.MendatroryField = True
+        Me.txtDistLimit.MyLinkLable1 = Nothing
+        Me.txtDistLimit.MyLinkLable2 = Nothing
+        Me.txtDistLimit.Name = "txtDistLimit"
+        Me.txtDistLimit.ReferenceFieldDesc = Nothing
+        Me.txtDistLimit.ReferenceFieldName = Nothing
+        Me.txtDistLimit.ReferenceTableName = Nothing
+        Me.txtDistLimit.Size = New System.Drawing.Size(194, 20)
+        Me.txtDistLimit.TabIndex = 30
+        Me.txtDistLimit.Text = "0"
+        Me.txtDistLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtDistLimit.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'txtConveyanceRate
         '
         Me.txtConveyanceRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtConveyanceRate.CalculationExpression = Nothing
         Me.txtConveyanceRate.DecimalPlaces = 2
+        Me.txtConveyanceRate.FieldCode = Nothing
+        Me.txtConveyanceRate.FieldDesc = Nothing
+        Me.txtConveyanceRate.FieldMaxLength = 0
+        Me.txtConveyanceRate.FieldName = Nothing
+        Me.txtConveyanceRate.isCalculatedField = False
+        Me.txtConveyanceRate.IsSourceFromTable = False
+        Me.txtConveyanceRate.IsSourceFromValueList = False
+        Me.txtConveyanceRate.IsUnique = False
         Me.txtConveyanceRate.Location = New System.Drawing.Point(129, 93)
         Me.txtConveyanceRate.MaxLength = 6
         Me.txtConveyanceRate.MendatroryField = True
         Me.txtConveyanceRate.MyLinkLable1 = Nothing
         Me.txtConveyanceRate.MyLinkLable2 = Nothing
         Me.txtConveyanceRate.Name = "txtConveyanceRate"
+        Me.txtConveyanceRate.ReferenceFieldDesc = Nothing
+        Me.txtConveyanceRate.ReferenceFieldName = Nothing
+        Me.txtConveyanceRate.ReferenceTableName = Nothing
         Me.txtConveyanceRate.Size = New System.Drawing.Size(194, 20)
         Me.txtConveyanceRate.TabIndex = 29
         Me.txtConveyanceRate.Text = "0"
         Me.txtConveyanceRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConveyanceRate.Value = 0
+        Me.txtConveyanceRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'cboConvType
         '
-        Me.cboConvType.AllowShowFocusCues = False
         Me.cboConvType.AutoCompleteDisplayMember = Nothing
         Me.cboConvType.AutoCompleteValueMember = Nothing
         Me.cboConvType.BackColor = System.Drawing.Color.Transparent
+        Me.cboConvType.CalculationExpression = Nothing
+        Me.cboConvType.DropDownAnimationEnabled = True
+        Me.cboConvType.FieldCode = Nothing
+        Me.cboConvType.FieldDesc = Nothing
+        Me.cboConvType.FieldMaxLength = 0
+        Me.cboConvType.FieldName = Nothing
         Me.cboConvType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboConvType.isCalculatedField = False
+        Me.cboConvType.IsSourceFromTable = False
+        Me.cboConvType.IsSourceFromValueList = False
+        Me.cboConvType.IsUnique = False
         Me.cboConvType.Location = New System.Drawing.Point(129, 73)
         Me.cboConvType.MendatroryField = False
         Me.cboConvType.MyLinkLable1 = Nothing
         Me.cboConvType.MyLinkLable2 = Nothing
         Me.cboConvType.Name = "cboConvType"
+        Me.cboConvType.ReferenceFieldDesc = Nothing
+        Me.cboConvType.ReferenceFieldName = Nothing
+        Me.cboConvType.ReferenceTableName = Nothing
         Me.cboConvType.Size = New System.Drawing.Size(194, 18)
         Me.cboConvType.TabIndex = 28
         '
@@ -272,56 +336,38 @@ Partial Class frmConveyanceRateMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(557, 20)
         Me.RadMenu2.TabIndex = 14
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
-        'txtDistLimit
+        'btnHistory
         '
-        Me.txtDistLimit.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtDistLimit.DecimalPlaces = 2
-        Me.txtDistLimit.Location = New System.Drawing.Point(129, 116)
-        Me.txtDistLimit.MaxLength = 6
-        Me.txtDistLimit.MendatroryField = True
-        Me.txtDistLimit.MyLinkLable1 = Nothing
-        Me.txtDistLimit.MyLinkLable2 = Nothing
-        Me.txtDistLimit.Name = "txtDistLimit"
-        Me.txtDistLimit.Size = New System.Drawing.Size(194, 20)
-        Me.txtDistLimit.TabIndex = 30
-        Me.txtDistLimit.Text = "0"
-        Me.txtDistLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistLimit.Value = 0
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(414, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmConveyanceRateMaster
         '
@@ -349,10 +395,11 @@ Partial Class frmConveyanceRateMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtDistLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtConveyanceRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboConvType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDistLimit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -380,5 +427,6 @@ Partial Class frmConveyanceRateMaster
     Friend WithEvents cboConvType As common.Controls.MyComboBox
     Friend WithEvents txtConveyanceRate As common.MyNumBox
     Friend WithEvents txtDistLimit As common.MyNumBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

@@ -31,6 +31,7 @@ Public Class clsDocumentMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DOCUMENT_MASTER", "DOCUMENT_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_DOCUMENT_MASTER where DOCUMENT_CODE ='" + strCode + "'"
@@ -102,6 +103,8 @@ Public Class clsDocumentMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCUMENT_MASTER", OMInsertOrUpdate.Update, "DOCUMENT_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DOCUMENT_MASTER", "DOCUMENT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

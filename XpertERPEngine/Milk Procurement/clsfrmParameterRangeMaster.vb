@@ -646,6 +646,8 @@ Public Class clsfrmVillageMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VILLAGE_MASTER", OMInsertOrUpdate.Update, " TSPL_VILLAGE_MASTER.Village_code='" + obj.villcode + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.villcode, "TSPL_VILLAGE_MASTER", "Village_code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

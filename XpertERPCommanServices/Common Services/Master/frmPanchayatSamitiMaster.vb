@@ -94,6 +94,7 @@ Public Class frmPanchayatSamitiMaster
                 clsCommon.MyMessageBoxShow(Me, "Please Select Panchayat Samiti Code For Deletion", Me.Text)
                 Return
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_PANCHAYAT_SAMITI_MASTER", "PANCHAYAT_SAMITI_CODE", Nothing)
 
             Dim qry As String = "SELECT Count(*) FROM TSPL_PANCHAYAT_SAMITI_MASTER where PANCHAYAT_SAMITI_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
@@ -261,4 +262,15 @@ Public Class frmPanchayatSamitiMaster
         Me.Controls.Remove(gv)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "PANCHAYAT_SAMITI_CODE", "TSPL_PANCHAYAT_SAMITI_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

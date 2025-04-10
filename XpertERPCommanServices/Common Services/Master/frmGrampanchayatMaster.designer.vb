@@ -25,10 +25,12 @@ Partial Class frmGrampanchayatMaster
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGrampanchayatMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Grampanchayat_name_hindi = New common.Controls.MyLabel()
+        Me.txtNameHindi = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
@@ -38,24 +40,24 @@ Partial Class frmGrampanchayatMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.txtNameHindi = New common.Controls.MyTextBox()
-        Me.Grampanchayat_name_hindi = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +77,7 @@ Partial Class frmGrampanchayatMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -100,6 +103,47 @@ Partial Class frmGrampanchayatMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(530, 97)
         Me.RadGroupBox1.TabIndex = 12
         Me.RadGroupBox1.Text = " "
+        '
+        'Grampanchayat_name_hindi
+        '
+        Me.Grampanchayat_name_hindi.FieldName = Nothing
+        Me.Grampanchayat_name_hindi.Location = New System.Drawing.Point(13, 73)
+        Me.Grampanchayat_name_hindi.Name = "Grampanchayat_name_hindi"
+        Me.Grampanchayat_name_hindi.Size = New System.Drawing.Size(147, 18)
+        Me.Grampanchayat_name_hindi.TabIndex = 19
+        Me.Grampanchayat_name_hindi.Text = "Grampanchayat Name Hindi"
+        '
+        'txtNameHindi
+        '
+        Me.txtNameHindi.CalculationExpression = Nothing
+        Me.txtNameHindi.FieldCode = Nothing
+        Me.txtNameHindi.FieldDesc = Nothing
+        Me.txtNameHindi.FieldMaxLength = 0
+        Me.txtNameHindi.FieldName = Nothing
+        Me.txtNameHindi.isCalculatedField = False
+        Me.txtNameHindi.IsSourceFromTable = False
+        Me.txtNameHindi.IsSourceFromValueList = False
+        Me.txtNameHindi.IsUnique = False
+        Me.txtNameHindi.Location = New System.Drawing.Point(166, 71)
+        Me.txtNameHindi.MaxLength = 100
+        Me.txtNameHindi.MendatroryField = True
+        Me.txtNameHindi.MyLinkLable1 = Me.RadLabel2
+        Me.txtNameHindi.MyLinkLable2 = Nothing
+        Me.txtNameHindi.Name = "txtNameHindi"
+        Me.txtNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtNameHindi.ReferenceFieldName = Nothing
+        Me.txtNameHindi.ReferenceTableName = Nothing
+        Me.txtNameHindi.Size = New System.Drawing.Size(337, 20)
+        Me.txtNameHindi.TabIndex = 18
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(12, 47)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(118, 18)
+        Me.RadLabel2.TabIndex = 1
+        Me.RadLabel2.Text = "Grampanchayat Name"
         '
         'RadButton1
         '
@@ -141,15 +185,6 @@ Partial Class frmGrampanchayatMaster
         Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(337, 20)
         Me.txtName.TabIndex = 2
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(12, 47)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(118, 18)
-        Me.RadLabel2.TabIndex = 1
-        Me.RadLabel2.Text = "Grampanchayat Name"
         '
         'txtCode
         '
@@ -235,37 +270,16 @@ Partial Class frmGrampanchayatMaster
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
-        'txtNameHindi
+        'btnHistory
         '
-        Me.txtNameHindi.CalculationExpression = Nothing
-        Me.txtNameHindi.FieldCode = Nothing
-        Me.txtNameHindi.FieldDesc = Nothing
-        Me.txtNameHindi.FieldMaxLength = 0
-        Me.txtNameHindi.FieldName = Nothing
-        Me.txtNameHindi.isCalculatedField = False
-        Me.txtNameHindi.IsSourceFromTable = False
-        Me.txtNameHindi.IsSourceFromValueList = False
-        Me.txtNameHindi.IsUnique = False
-        Me.txtNameHindi.Location = New System.Drawing.Point(166, 71)
-        Me.txtNameHindi.MaxLength = 100
-        Me.txtNameHindi.MendatroryField = True
-        Me.txtNameHindi.MyLinkLable1 = Me.RadLabel2
-        Me.txtNameHindi.MyLinkLable2 = Nothing
-        Me.txtNameHindi.Name = "txtNameHindi"
-        Me.txtNameHindi.ReferenceFieldDesc = Nothing
-        Me.txtNameHindi.ReferenceFieldName = Nothing
-        Me.txtNameHindi.ReferenceTableName = Nothing
-        Me.txtNameHindi.Size = New System.Drawing.Size(337, 20)
-        Me.txtNameHindi.TabIndex = 18
-        '
-        'Grampanchayat_name_hindi
-        '
-        Me.Grampanchayat_name_hindi.FieldName = Nothing
-        Me.Grampanchayat_name_hindi.Location = New System.Drawing.Point(13, 73)
-        Me.Grampanchayat_name_hindi.Name = "Grampanchayat_name_hindi"
-        Me.Grampanchayat_name_hindi.Size = New System.Drawing.Size(147, 18)
-        Me.Grampanchayat_name_hindi.TabIndex = 19
-        Me.Grampanchayat_name_hindi.Text = "Grampanchayat Name Hindi"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(400, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmGrampanchayatMaster
         '
@@ -287,17 +301,18 @@ Partial Class frmGrampanchayatMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -319,5 +334,6 @@ Partial Class frmGrampanchayatMaster
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents Grampanchayat_name_hindi As common.Controls.MyLabel
     Friend WithEvents txtNameHindi As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

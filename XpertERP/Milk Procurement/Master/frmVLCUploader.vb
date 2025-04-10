@@ -283,6 +283,7 @@ Public Class FrmVLCUploader
 
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
                 Next
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvlc.Value, "TSPL_VLC_UPLOADER_MASTER", "vlc_code", trans)
 
                 clsCommon.ProgressBarHide()
                 UcAttachment1.SaveData(fndvlc.Value)

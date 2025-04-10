@@ -29,6 +29,7 @@ Public Class clsLanguageMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LANGUAGE_MASTER", "LANGUAGE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LANGUAGE_MASTER where LANGUAGE_CODE ='" + strCode + "'"
@@ -102,6 +103,7 @@ Public Class clsLanguageMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LANGUAGE_MASTER", OMInsertOrUpdate.Update, "LANGUAGE_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_LANGUAGE_MASTER", "LANGUAGE_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

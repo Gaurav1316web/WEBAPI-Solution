@@ -31,6 +31,8 @@ Public Class clsHRRSlab
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_HRR_RULE_MASTER", "HRR_CODE", "TSPL_HRR_DETAIL", "HRR_CODE", trans)
+
             Dim qry As String
             qry = "delete from TSPL_HRR_DETAIL where HRR_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -116,7 +118,10 @@ Public Class clsHRRSlab
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HRR_RULE_MASTER", OMInsertOrUpdate.Update, "HRR_CODE='" + obj.HRR_CODE + "'", trans)
             End If
+
             clsHRRSlabDetails.SaveData(obj.HRR_CODE, obj.ObjList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HRR_CODE, "TSPL_HRR_RULE_MASTER", "HRR_CODE", "TSPL_HRR_DETAIL", "HRR_CODE", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
