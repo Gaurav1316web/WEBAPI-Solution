@@ -66,6 +66,7 @@ Partial Class FrmVlcTargetMaster
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.BtnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -105,6 +106,7 @@ Partial Class FrmVlcTargetMaster
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,7 @@ Partial Class FrmVlcTargetMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnSelect)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -148,7 +151,7 @@ Partial Class FrmVlcTargetMaster
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(908, 483)
@@ -162,7 +165,7 @@ Partial Class FrmVlcTargetMaster
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox2.HeaderText = "VLC Target Detail"
+        Me.RadGroupBox2.HeaderText = "DCS Target Detail"
         Me.RadGroupBox2.Location = New System.Drawing.Point(3, 172)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
@@ -182,12 +185,14 @@ Partial Class FrmVlcTargetMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(879, 278)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -228,7 +233,7 @@ Partial Class FrmVlcTargetMaster
         Me.RadGroupBox1.Controls.Add(Me.lblDocDate)
         Me.RadGroupBox1.Controls.Add(Me.DtpDocDate)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox1.HeaderText = "VLC Target Head"
+        Me.RadGroupBox1.HeaderText = "DCS Target Head"
         Me.RadGroupBox1.Location = New System.Drawing.Point(8, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
@@ -242,7 +247,7 @@ Partial Class FrmVlcTargetMaster
         Me.lblVSP.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblVSP.Location = New System.Drawing.Point(430, 120)
         Me.lblVSP.Name = "lblVSP"
-        Me.lblVSP.Size = New System.Drawing.Size(59, 16)
+        Me.lblVSP.Size = New System.Drawing.Size(85, 16)
         Me.lblVSP.TabIndex = 428
         Me.lblVSP.Text = "Secretary Code"
         '
@@ -262,7 +267,7 @@ Partial Class FrmVlcTargetMaster
         Me.lblVLC.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblVLC.Location = New System.Drawing.Point(13, 120)
         Me.lblVLC.Name = "lblVLC"
-        Me.lblVLC.Size = New System.Drawing.Size(58, 16)
+        Me.lblVLC.Size = New System.Drawing.Size(60, 16)
         Me.lblVLC.TabIndex = 426
         Me.lblVLC.Text = "DCS Code"
         '
@@ -690,6 +695,16 @@ Partial Class FrmVlcTargetMaster
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(779, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmVlcTargetMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -743,6 +758,7 @@ Partial Class FrmVlcTargetMaster
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -790,5 +806,6 @@ Partial Class FrmVlcTargetMaster
     Friend WithEvents fndVLCCode As common.UserControls.txtFinder
     Friend WithEvents fndVLCName As common.Controls.MyLabel
     Friend WithEvents chkMP As common.Controls.MyCheckBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

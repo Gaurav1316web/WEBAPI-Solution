@@ -3074,6 +3074,8 @@ Public Class clsMachineIntegration
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MACHINE_INTEGRATION", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MACHINE_INTEGRATION", "Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
