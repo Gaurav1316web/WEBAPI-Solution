@@ -1887,6 +1887,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             ''objCustInv.Order_No
             objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
+            objCustInv.Location_Code_Prefix = obj.Bill_To_Location
             objCustInv.On_Hold = 0
             objCustInv.Remarks = obj.Remarks
             objCustInv.Description = obj.Description
