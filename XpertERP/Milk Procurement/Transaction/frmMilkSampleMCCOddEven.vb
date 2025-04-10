@@ -2671,7 +2671,7 @@ Public Class frmMilkSampleMCCOddEven
                     If OpenFileDialog.FileName.Contains(" ") Then
                         Throw New Exception("Please Remove Blank space of your folder becuase it is having Blank Space")
                     End If
-                    Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+                    Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
                     Dim strOPFile As String = forlderName + "\BSPV.CSV"
                     If File.Exists(strOPFile) Then
                         File.Delete(strOPFile)

@@ -1167,7 +1167,6 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
             _currUserName = Value
-            clsCommon.CurrUserName = Value
         End Set
     End Property
 

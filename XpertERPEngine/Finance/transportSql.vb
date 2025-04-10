@@ -37,7 +37,7 @@ Public Module transportSql
 
 
     Public Function OpenExporttoExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
         Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
             System.IO.Directory.CreateDirectory(forlderName)
@@ -143,7 +143,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                 sql = sql & " Order by " + OrderByClaus
             End If
             ''************* Filter Block End
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -229,7 +229,7 @@ xxx:
 
     Public Function ExporttoExcel(ByVal dt As DataTable, ByVal frm As RadForm) As Boolean
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -313,7 +313,7 @@ xxx:
         End If
         sql = frmFilter.qry
         ''************* Filter Block End
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
         Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
             System.IO.Directory.CreateDirectory(forlderName)
@@ -423,7 +423,7 @@ xxx:
         End If
         sql = frmFilter.qry
         ''************* Filter Block End
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
         Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
             System.IO.Directory.CreateDirectory(forlderName)
@@ -523,7 +523,7 @@ xxx:
         '    '    End If
         '    'End If
         'End If
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
         Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
             System.IO.Directory.CreateDirectory(forlderName)
@@ -949,7 +949,7 @@ xxx:
         '        End If
         '    End If
         'End If
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
         Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
         If IsExists = False Then
             System.IO.Directory.CreateDirectory(forlderName)
@@ -2192,7 +2192,7 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
             sql = frmFilter.qry
             ''************* Filter Block End
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -2303,7 +2303,7 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
             sql = frmFilter.qry
             ''************* Filter Block End
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -2401,7 +2401,7 @@ a:          Dim frmFilter As New frmFilterToExport()
 
     Public Function ExporttoExcelWithoutFilter(ByVal sql As String, ByVal whrClaus As String, ByVal OrderByClaus As String, ByVal frm As RadForm, Optional Display_Firstrow As Boolean = False) As Boolean
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -2571,7 +2571,7 @@ xxx:
         Dim subPath As String = ""
         Dim ReportPath As String = ""
         Dim NetworkSubPath As String = ""
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
         If clsCommon.CompairString(Server.Substring(0, IIf(Server.Contains("\"), Server.IndexOf("\"), Server.Length)), Environment.MachineName, False) <> CompairStringResult.Equal Then
             subPath = "\\" + Server.Substring(0, IIf(Server.Contains("\"), Server.IndexOf("\"), Server.Length)) + "\ERPTempFolder"

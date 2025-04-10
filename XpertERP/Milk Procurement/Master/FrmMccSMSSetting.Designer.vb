@@ -22,24 +22,28 @@ Partial Class FrmMccSMSSetting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.cboModuleName = New common.Controls.MyComboBox
-        Me.lblModuleName = New Telerik.WinControls.UI.RadLabel
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.LblMccName = New common.Controls.MyLabel
-        Me.lblMCCCode = New common.Controls.MyLabel
-        Me.fndMCCCode = New common.UserControls.txtFinder
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.LblMccName = New common.Controls.MyLabel()
+        Me.lblMCCCode = New common.Controls.MyLabel()
+        Me.fndMCCCode = New common.UserControls.txtFinder()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.cboModuleName = New common.Controls.MyComboBox()
+        Me.lblModuleName = New Telerik.WinControls.UI.RadLabel()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModuleName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblModuleName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -48,8 +52,7 @@ Partial Class FrmMccSMSSetting
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -68,6 +71,7 @@ Partial Class FrmMccSMSSetting
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -100,6 +104,52 @@ Partial Class FrmMccSMSSetting
         Me.SplitContainer2.SplitterDistance = 43
         Me.SplitContainer2.TabIndex = 0
         '
+        'LblMccName
+        '
+        Me.LblMccName.AutoSize = False
+        Me.LblMccName.BorderVisible = True
+        Me.LblMccName.FieldName = Nothing
+        Me.LblMccName.Location = New System.Drawing.Point(548, 14)
+        Me.LblMccName.Name = "LblMccName"
+        Me.LblMccName.Size = New System.Drawing.Size(197, 19)
+        Me.LblMccName.TabIndex = 1025
+        '
+        'lblMCCCode
+        '
+        Me.lblMCCCode.FieldName = Nothing
+        Me.lblMCCCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblMCCCode.Location = New System.Drawing.Point(322, 14)
+        Me.lblMCCCode.Name = "lblMCCCode"
+        Me.lblMCCCode.Size = New System.Drawing.Size(49, 18)
+        Me.lblMCCCode.TabIndex = 1024
+        Me.lblMCCCode.Text = "Location"
+        '
+        'fndMCCCode
+        '
+        Me.fndMCCCode.CalculationExpression = Nothing
+        Me.fndMCCCode.FieldCode = Nothing
+        Me.fndMCCCode.FieldDesc = Nothing
+        Me.fndMCCCode.FieldMaxLength = 0
+        Me.fndMCCCode.FieldName = Nothing
+        Me.fndMCCCode.isCalculatedField = False
+        Me.fndMCCCode.IsSourceFromTable = False
+        Me.fndMCCCode.IsSourceFromValueList = False
+        Me.fndMCCCode.IsUnique = False
+        Me.fndMCCCode.Location = New System.Drawing.Point(423, 14)
+        Me.fndMCCCode.MendatroryField = True
+        Me.fndMCCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndMCCCode.MyLinkLable1 = Me.lblMCCCode
+        Me.fndMCCCode.MyLinkLable2 = Nothing
+        Me.fndMCCCode.MyReadOnly = False
+        Me.fndMCCCode.MyShowMasterFormButton = False
+        Me.fndMCCCode.Name = "fndMCCCode"
+        Me.fndMCCCode.ReferenceFieldDesc = Nothing
+        Me.fndMCCCode.ReferenceFieldName = Nothing
+        Me.fndMCCCode.ReferenceTableName = Nothing
+        Me.fndMCCCode.Size = New System.Drawing.Size(119, 19)
+        Me.fndMCCCode.TabIndex = 1023
+        Me.fndMCCCode.Value = ""
+        '
         'btnnew
         '
         Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
@@ -111,16 +161,28 @@ Partial Class FrmMccSMSSetting
         '
         'cboModuleName
         '
-        Me.cboModuleName.AllowShowFocusCues = False
         Me.cboModuleName.AutoCompleteDisplayMember = Nothing
         Me.cboModuleName.AutoCompleteValueMember = Nothing
         Me.cboModuleName.BackColor = System.Drawing.Color.Transparent
+        Me.cboModuleName.CalculationExpression = Nothing
+        Me.cboModuleName.DropDownAnimationEnabled = True
+        Me.cboModuleName.FieldCode = Nothing
+        Me.cboModuleName.FieldDesc = Nothing
+        Me.cboModuleName.FieldMaxLength = 0
+        Me.cboModuleName.FieldName = Nothing
         Me.cboModuleName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboModuleName.isCalculatedField = False
+        Me.cboModuleName.IsSourceFromTable = False
+        Me.cboModuleName.IsSourceFromValueList = False
+        Me.cboModuleName.IsUnique = False
         Me.cboModuleName.Location = New System.Drawing.Point(108, 15)
         Me.cboModuleName.MendatroryField = False
         Me.cboModuleName.MyLinkLable1 = Nothing
         Me.cboModuleName.MyLinkLable2 = Nothing
         Me.cboModuleName.Name = "cboModuleName"
+        Me.cboModuleName.ReferenceFieldDesc = Nothing
+        Me.cboModuleName.ReferenceFieldName = Nothing
+        Me.cboModuleName.ReferenceTableName = Nothing
         Me.cboModuleName.Size = New System.Drawing.Size(180, 18)
         Me.cboModuleName.TabIndex = 1
         '
@@ -136,10 +198,19 @@ Partial Class FrmMccSMSSetting
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1021, 339)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "gv1"
+        Me.gv1.VarID = ""
         '
         'btnSave
         '
@@ -168,38 +239,14 @@ Partial Class FrmMccSMSSetting
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
-        'LblMccName
+        'btnHistory
         '
-        Me.LblMccName.AutoSize = False
-        Me.LblMccName.BorderVisible = True
-        Me.LblMccName.Location = New System.Drawing.Point(548, 14)
-        Me.LblMccName.Name = "LblMccName"
-        Me.LblMccName.Size = New System.Drawing.Size(197, 19)
-        Me.LblMccName.TabIndex = 1025
-        Me.LblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblMCCCode
-        '
-        Me.lblMCCCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblMCCCode.Location = New System.Drawing.Point(322, 14)
-        Me.lblMCCCode.Name = "lblMCCCode"
-        Me.lblMCCCode.Size = New System.Drawing.Size(49, 18)
-        Me.lblMCCCode.TabIndex = 1024
-        Me.lblMCCCode.Text = "Location"
-        '
-        'fndMCCCode
-        '
-        Me.fndMCCCode.Location = New System.Drawing.Point(423, 14)
-        Me.fndMCCCode.MendatroryField = True
-        Me.fndMCCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndMCCCode.MyLinkLable1 = Me.lblMCCCode
-        Me.fndMCCCode.MyLinkLable2 = Nothing
-        Me.fndMCCCode.MyReadOnly = False
-        Me.fndMCCCode.MyShowMasterFormButton = False
-        Me.fndMCCCode.Name = "fndMCCCode"
-        Me.fndMCCCode.Size = New System.Drawing.Size(119, 19)
-        Me.fndMCCCode.TabIndex = 1023
-        Me.fndMCCCode.Value = ""
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(201, 15)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(85, 19)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'FrmMccSMSSetting
         '
@@ -221,6 +268,8 @@ Partial Class FrmMccSMSSetting
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModuleName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblModuleName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -229,8 +278,7 @@ Partial Class FrmMccSMSSetting
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -247,5 +295,6 @@ Partial Class FrmMccSMSSetting
     Friend WithEvents LblMccName As common.Controls.MyLabel
     Friend WithEvents lblMCCCode As common.Controls.MyLabel
     Friend WithEvents fndMCCCode As common.UserControls.txtFinder
+    Friend WithEvents btnHistory As RadButton
 End Class
 

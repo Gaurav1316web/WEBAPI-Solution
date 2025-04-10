@@ -36,6 +36,8 @@ Partial Class FrmPriceChartUploader
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel18 = New common.Controls.MyLabel()
@@ -91,6 +93,7 @@ Partial Class FrmPriceChartUploader
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.Pg_Charge = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCharges = New common.UserControls.MyRadGridView()
+        Me.btnVLCAddHist = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdates = New Telerik.WinControls.UI.RadButton()
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.BtnSaveCharge = New Telerik.WinControls.UI.RadButton()
@@ -100,7 +103,7 @@ Partial Class FrmPriceChartUploader
         Me.ExportSelectedCode = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnshow = New Telerik.WinControls.UI.RadButton()
-        Me.btnVLCAddHist = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -159,13 +162,14 @@ Partial Class FrmPriceChartUploader
         Me.Pg_Charge.SuspendLayout()
         CType(Me.gvCharges, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCharges.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -184,6 +188,7 @@ Partial Class FrmPriceChartUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnVLCAddHist)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdates)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPost)
@@ -367,6 +372,7 @@ Partial Class FrmPriceChartUploader
         Me.cboDockCollectionMilkType.AutoCompleteDisplayMember = Nothing
         Me.cboDockCollectionMilkType.AutoCompleteValueMember = Nothing
         Me.cboDockCollectionMilkType.CalculationExpression = Nothing
+        Me.cboDockCollectionMilkType.DropDownAnimationEnabled = True
         Me.cboDockCollectionMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDockCollectionMilkType.FieldCode = Nothing
         Me.cboDockCollectionMilkType.FieldDesc = Nothing
@@ -504,6 +510,7 @@ Partial Class FrmPriceChartUploader
         Me.CmbShift.AutoCompleteDisplayMember = Nothing
         Me.CmbShift.AutoCompleteValueMember = Nothing
         Me.CmbShift.CalculationExpression = Nothing
+        Me.CmbShift.DropDownAnimationEnabled = True
         Me.CmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbShift.FieldCode = Nothing
         Me.CmbShift.FieldDesc = Nothing
@@ -581,6 +588,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbaxis.AutoCompleteDisplayMember = Nothing
         Me.cmbaxis.AutoCompleteValueMember = Nothing
         Me.cmbaxis.CalculationExpression = Nothing
+        Me.cmbaxis.DropDownAnimationEnabled = True
         Me.cmbaxis.FieldCode = Nothing
         Me.cmbaxis.FieldDesc = Nothing
         Me.cmbaxis.FieldMaxLength = 0
@@ -623,6 +631,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbmatrix.AutoCompleteDisplayMember = Nothing
         Me.cmbmatrix.AutoCompleteValueMember = Nothing
         Me.cmbmatrix.CalculationExpression = Nothing
+        Me.cmbmatrix.DropDownAnimationEnabled = True
         Me.cmbmatrix.FieldCode = Nothing
         Me.cmbmatrix.FieldDesc = Nothing
         Me.cmbmatrix.FieldMaxLength = 0
@@ -705,7 +714,7 @@ Partial Class FrmPriceChartUploader
         Me.txtsnf.TabIndex = 21
         Me.txtsnf.Text = "0"
         Me.txtsnf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnf.Value = 0R
+        Me.txtsnf.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtfat
         '
@@ -733,7 +742,7 @@ Partial Class FrmPriceChartUploader
         Me.txtfat.TabIndex = 20
         Me.txtfat.Text = "0"
         Me.txtfat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfat.Value = 0R
+        Me.txtfat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -760,6 +769,7 @@ Partial Class FrmPriceChartUploader
         Me.CmbStandardRate.AutoCompleteDisplayMember = Nothing
         Me.CmbStandardRate.AutoCompleteValueMember = Nothing
         Me.CmbStandardRate.CalculationExpression = Nothing
+        Me.CmbStandardRate.DropDownAnimationEnabled = True
         Me.CmbStandardRate.FieldCode = Nothing
         Me.CmbStandardRate.FieldDesc = Nothing
         Me.CmbStandardRate.FieldMaxLength = 0
@@ -796,6 +806,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbrate.AutoCompleteDisplayMember = Nothing
         Me.cmbrate.AutoCompleteValueMember = Nothing
         Me.cmbrate.CalculationExpression = Nothing
+        Me.cmbrate.DropDownAnimationEnabled = True
         Me.cmbrate.FieldCode = Nothing
         Me.cmbrate.FieldDesc = Nothing
         Me.cmbrate.FieldMaxLength = 0
@@ -842,6 +853,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbratetype.AutoCompleteDisplayMember = Nothing
         Me.cmbratetype.AutoCompleteValueMember = Nothing
         Me.cmbratetype.CalculationExpression = Nothing
+        Me.cmbratetype.DropDownAnimationEnabled = True
         Me.cmbratetype.FieldCode = Nothing
         Me.cmbratetype.FieldDesc = Nothing
         Me.cmbratetype.FieldMaxLength = 0
@@ -959,7 +971,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindRate.TabIndex = 24
         Me.TxtFindRate.Text = "0"
         Me.TxtFindRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindRate.Value = 0R
+        Me.TxtFindRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -996,7 +1008,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindSNF.TabIndex = 21
         Me.TxtFindSNF.Text = "0"
         Me.TxtFindSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindSNF.Value = 0R
+        Me.TxtFindSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFindFAT
         '
@@ -1023,7 +1035,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindFAT.TabIndex = 20
         Me.TxtFindFAT.Text = "0"
         Me.TxtFindFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindFAT.Value = 0R
+        Me.TxtFindFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -1056,7 +1068,6 @@ Partial Class FrmPriceChartUploader
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1277, 309)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1073,18 +1084,22 @@ Partial Class FrmPriceChartUploader
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowColumnReorder = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1256, 261)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1126,7 +1141,11 @@ Partial Class FrmPriceChartUploader
         '
         Me.gvCharges.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gvCharges.MasterTemplate.AllowDeleteRow = False
+        Me.gvCharges.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCharges.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCharges.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCharges.MyExportFilePath = ""
+        Me.gvCharges.MyStopExport = False
         Me.gvCharges.Name = "gvCharges"
         Me.gvCharges.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCharges.ShowGroupPanel = False
@@ -1134,7 +1153,16 @@ Partial Class FrmPriceChartUploader
         Me.gvCharges.Size = New System.Drawing.Size(1048, 261)
         Me.gvCharges.TabIndex = 2
         Me.gvCharges.TabStop = False
-        Me.gvCharges.Text = "RadGridView1"
+        Me.gvCharges.VarID = ""
+        '
+        'btnVLCAddHist
+        '
+        Me.btnVLCAddHist.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnVLCAddHist.Location = New System.Drawing.Point(1067, 6)
+        Me.btnVLCAddHist.Name = "btnVLCAddHist"
+        Me.btnVLCAddHist.Size = New System.Drawing.Size(127, 20)
+        Me.btnVLCAddHist.TabIndex = 6
+        Me.btnVLCAddHist.Text = "Add More VLC History"
         '
         'btnUpdates
         '
@@ -1175,24 +1203,18 @@ Partial Class FrmPriceChartUploader
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
         'ExportSelectedCode
         '
-        Me.ExportSelectedCode.AccessibleDescription = "Export Selected Code"
-        Me.ExportSelectedCode.AccessibleName = "Export Selected Code"
         Me.ExportSelectedCode.Image = Global.ERP.My.Resources.Resources.MSE
         Me.ExportSelectedCode.Name = "ExportSelectedCode"
         Me.ExportSelectedCode.Text = "Export Selected Code"
@@ -1216,14 +1238,14 @@ Partial Class FrmPriceChartUploader
         Me.btnshow.Text = "&Show"
         Me.btnshow.Visible = False
         '
-        'btnVLCAddHist
+        'btnHistory
         '
-        Me.btnVLCAddHist.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnVLCAddHist.Location = New System.Drawing.Point(1067, 6)
-        Me.btnVLCAddHist.Name = "btnVLCAddHist"
-        Me.btnVLCAddHist.Size = New System.Drawing.Size(127, 20)
-        Me.btnVLCAddHist.TabIndex = 6
-        Me.btnVLCAddHist.Text = "Add More VLC History"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(514, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(128, 20)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
         '
         'FrmPriceChartUploader
         '
@@ -1298,13 +1320,14 @@ Partial Class FrmPriceChartUploader
         Me.Pg_Charge.ResumeLayout(False)
         CType(Me.gvCharges.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCharges, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1375,5 +1398,6 @@ Partial Class FrmPriceChartUploader
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents txtInactiveFrom As common.Controls.MyDateTimePicker
     Friend WithEvents btnVLCAddHist As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

@@ -614,7 +614,7 @@ Public Class clsEMailHead
                                     For Each drAtt As DataRow In dtAtt.Rows
                                         Dim filename As String = clsCommon.myCstr(drAtt("FileName"))
                                         Dim blob As Byte() = CType(drAtt("FileData"), Byte())
-                                        Dim file_path As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+                                        Dim file_path As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
                                         Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
                                         If dir.Exists = False Then
                                             dir.Create()

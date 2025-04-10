@@ -43,6 +43,7 @@ Public Class clsIncentiveMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_INCENTIVE_MASTER_HEAD", "INCENTIVE_CODE", "TSPL_INCENTIVE_DETAIL", "INCENTIVE_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_INCENTIVE_DETAIL where INCENTIVE_CODE ='" + strCode + "'"
@@ -178,6 +179,8 @@ Public Class clsIncentiveMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INCENTIVE_MASTER_HEAD", OMInsertOrUpdate.Update, "TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE='" + obj.INCENTIVE_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsIncentiveMasterDetail.SaveData(obj.INCENTIVE_CODE, objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCENTIVE_CODE, "TSPL_INCENTIVE_MASTER_HEAD", "INCENTIVE_CODE", "TSPL_INCENTIVE_DETAIL", "INCENTIVE_CODE", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
