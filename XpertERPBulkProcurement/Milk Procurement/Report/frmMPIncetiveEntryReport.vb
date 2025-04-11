@@ -248,7 +248,7 @@ where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + cls
             ElseIf rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
                 strColumnForTotal = "MCC_Code"
                 Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No,xx.DocumentCode, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,max(JA_acc)Jan_Aadhar_Account_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([Jan Aadhar Verified]) as Jan_Aadhar_No_Verified,max([JA_bankBranch]) as [JA_bankBranch], max ([JA_bankName]) as [JA_bankName], max ([JA_ifsc]) as [JA_ifsc], max ([JA_caste]) as [JA_caste], max ([JA_categoryDescEng]) as [JA_categoryDescEng], max ([JA_disability]) as [JA_disability], max ([JA_disabilityPercentage]) as [JA_disabilityPercentage], max ([JA_disabilityType]) as [JA_disabilityType],
-max ([JA_dlNo]) as [JA_dlNo], max ([JA_dob]) as [JA_dob], max ([JA_eid]) as [JA_eid], max ([JA_email]) as [JA_email], max ([JA_enrId]) as [JA_enrId], max ([JA_fnameEng]) as [JA_fnameEng], max ([JA_fnameHnd]) as [JA_fnameHnd], max ([JA_gender]) as [JA_gender], max ([JA_income]) as [JA_income], max ([JA_isorphan]) as [JA_isorphan], max ([JA_isStateGovtEmp]) as [JA_isStateGovtEmp], max ([JA_jan_mid]) as [JA_jan_mid], max ([JA_janaadhaarId]) as [JA_janaadhaarId], max ([JA_maritalStatus]) as [JA_maritalStatus], max ([JA_micr]) as [JA_micr], max ([JA_mobile]) as [JA_mobile], max ([JA_nameEng]) as [JA_nameEng], max ([JA_nameHnd]) as [JA_nameHnd], max ([JA_occupation]) as [JA_occupation], max ([JA_relationTyp]) as [JA_relationTyp], max ([JA_panNo]) as [JA_panNo], max ([JA_passport]) as [JA_passport], max ([JA_qualification]) as [JA_qualification], max ([JA_snameEng]) as [JA_snameEng], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_voterId]) as [JA_voterId], max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(BankStateCode) as [Bank State],sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
+max ([JA_dlNo]) as [JA_dlNo], max ([JA_dob]) as [JA_dob], max ([JA_eid]) as [JA_eid], max ([JA_email]) as [JA_email], max ([JA_enrId]) as [JA_enrId], max ([JA_fnameEng]) as [JA_fnameEng], max ([JA_fnameHnd]) as [JA_fnameHnd], max ([JA_gender]) as [JA_gender], max ([JA_income]) as [JA_income], max ([JA_isorphan]) as [JA_isorphan], max ([JA_isStateGovtEmp]) as [JA_isStateGovtEmp], max ([JA_jan_mid]) as [JA_jan_mid], max ([JA_janaadhaarId]) as [JA_janaadhaarId], max ([JA_maritalStatus]) as [JA_maritalStatus], max ([JA_micr]) as [JA_micr], max ([JA_mobile]) as [JA_mobile], max ([JA_nameEng]) as [JA_nameEng], max ([JA_nameHnd]) as [JA_nameHnd], max ([JA_occupation]) as [JA_occupation], max ([JA_relationTyp]) as [JA_relationTyp], max ([JA_panNo]) as [JA_panNo], max ([JA_passport]) as [JA_passport], max ([JA_qualification]) as [JA_qualification], max ([JA_snameEng]) as [JA_snameEng], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_voterId]) as [JA_voterId], max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(BankStateCode) as [Bank State],sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,SUM(Payable_Amount) as Original_Payable_Amount  ,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
                            ,sum(Mineral_Mixture_Qty) as Mineral_Mixture_Qty,sum(Mineral_Mixture_Amount) as Mineral_Mixture_Amount,sum(Pashu_Aahar_Qty) as Pashu_Aahar_Qty,sum(Pashu_Aahar_Amount) as Pashu_Aahar_Amount,sum(Rahat_Kampekat_Feed_Qty) as Rahat_Kampekat_Feed_Qty,sum(Rahat_Kampekat_Feed_Amount) as Rahat_Kampekat_Feed_Amount,sum(Sailej_Qty) as Sailej_Qty,sum(Sailej_Amount) as Sailej_Amount, "
 
                 If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
@@ -524,8 +524,8 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("Payee_Joint_Name").HeaderText = "MP Name"
             Gv1.Columns("Payee_Joint_Name").IsVisible = True
 
-            Gv1.Columns("Jan_Aadhar_No_Verified").HeaderText = "Jan Aadhar Verified"
-            Gv1.Columns("Jan_Aadhar_No_Verified").IsVisible = True
+            'Gv1.Columns("Jan_Aadhar_No_Verified").HeaderText = "Jan Aadhar Verified"
+            'Gv1.Columns("Jan_Aadhar_No_Verified").IsVisible = True
             '======================================
             Gv1.Columns("District Code").HeaderText = "District Code"
             Gv1.Columns("District Code").IsVisible = False
@@ -585,8 +585,8 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("Payee_Joint_Account_No").HeaderText = "A/C No"
             Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
 
-            Gv1.Columns("Bank State").HeaderText = "Bank State"
-            Gv1.Columns("Bank State").IsVisible = True
+            'Gv1.Columns("Bank State").HeaderText = "Bank State"
+            'Gv1.Columns("Bank State").IsVisible = True
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
@@ -742,6 +742,9 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = False
+
+            Gv1.Columns("Original_Payable_Amount").HeaderText = "Original Amount"
+            Gv1.Columns("Original_Payable_Amount").IsVisible = False
 
             Gv1.Columns("Quantity").IsVisible = False
 
@@ -918,6 +921,7 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
                 Gv1.Columns("Sailej_Amount").IsVisible = True
                 Gv1.Columns("Total_Amount").IsVisible = True
                 Gv1.Columns("Payable_Amount").IsVisible = True
+                Gv1.Columns("Original_Payable_Amount").IsVisible = False
                 Gv1.Columns("Quantity").IsVisible = True
             End If
             Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -925,6 +929,8 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             summaryRowItem.Add(item1)
             Dim item2 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("Original_Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
 
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.AutoExpandGroups = True
@@ -1046,6 +1052,9 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = False
 
+            Gv1.Columns("Original_Payable_Amount").HeaderText = "Original Amount"
+            Gv1.Columns("Original_Payable_Amount").IsVisible = False
+
             Gv1.Columns("Quantity").IsVisible = False
 
 
@@ -1118,6 +1127,8 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             summaryRowItem.Add(item1)
             Dim item2 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("Original_Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
 
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.AutoExpandGroups = True
