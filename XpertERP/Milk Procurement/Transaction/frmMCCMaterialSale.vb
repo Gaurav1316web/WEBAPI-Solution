@@ -3486,7 +3486,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Total_Comm_Amt = lblCommAmt.Text
                 obj.Invoice_Type = ddlInvoiceType.SelectedValue
                 obj.Price_Code = txtPriceCode.Text
-                obj.HeadDisc_Per = txtDiscPer.Text
+                obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 If obj.HeadDisc_Per > 0 Then
@@ -8554,12 +8554,10 @@ a:          End If
             txtRateAmt.Enabled = True
             txtRatePer.Enabled = False
             txtRatePer.Text = 0
-            txtRateAmt.Text = 0
         Else
             txtRateAmt.Enabled = False
             txtRatePer.Enabled = True
             txtRatePer.Text = 0
-            txtRateAmt.Text = 0
         End If
     End Sub
     Private Sub txtRateAmt_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRateAmt.Leave
@@ -8575,9 +8573,9 @@ a:          End If
                 clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
-                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                txtRateAmt.Text = 0
             ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
-                txtRatePer.Text = clsCommon.myCdbl(lblTotRAmt.Text) / clsCommon.myCdbl(txtRateAmt.Text)
+                txtRatePer.Text = 0
             End If
             If chkRateDiffAmt.IsChecked Then
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then

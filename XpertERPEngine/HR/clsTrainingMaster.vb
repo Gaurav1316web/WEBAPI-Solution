@@ -42,6 +42,8 @@ Public Class clsTrainingMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "" & obj.tb_Name & " ", OMInsertOrUpdate.Update, " Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, obj.tb_Name, "Code", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception
@@ -57,6 +59,8 @@ Public Class clsTrainingMaster
     Public Function DeleteData(ByVal strcode As String, ByVal str_tb_name As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, str_tb_name, "code", trans)
+
             If (clsCommon.myLen(strcode) >= 0) Then
                 Dim qry As String = "delete from " & str_tb_name & " where code='" + strcode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

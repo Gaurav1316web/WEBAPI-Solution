@@ -46,6 +46,8 @@ Public Class clsGrampanchayatMaster
                 clsCommon.AddColumnsForChange(coll, "GRAMPANCHAYAT_CODE", obj.code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GRAMPANCHAYAT_MASTER", OMInsertOrUpdate.Insert, "")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_GRAMPANCHAYAT_MASTER", "GRAMPANCHAYAT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

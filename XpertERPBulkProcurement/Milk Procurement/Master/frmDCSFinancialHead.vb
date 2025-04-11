@@ -244,4 +244,16 @@ Public Class frmDCSFinancialHead
     Private Sub cboType_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboType.Validating
         LoadSubType()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_DCS_FINANCIAL_HEAD")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -25,7 +25,7 @@ Partial Class frmStateMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStateMaster))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkIsDefault = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
@@ -175,7 +175,7 @@ Partial Class frmStateMaster
         Me.txtGSTStateCode.TabIndex = 306
         Me.txtGSTStateCode.Text = "0"
         Me.txtGSTStateCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGSTStateCode.Value = 0R
+        Me.txtGSTStateCode.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -411,7 +411,8 @@ Partial Class frmStateMaster
         Me.GV.MasterTemplate.AllowDragToGroup = False
         Me.GV.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GV.MasterTemplate.ShowHeaderCellButtons = True
-        Me.GV.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GV.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GV.MyExportFilePath = ""
         Me.GV.MyStopExport = False
         Me.GV.Name = "GV"
         Me.GV.ShowHeaderCellButtons = True
@@ -463,7 +464,7 @@ Partial Class frmStateMaster
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnHistory.Location = New System.Drawing.Point(230, 4)
+        Me.btnHistory.Location = New System.Drawing.Point(387, 6)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(68, 18)
         Me.btnHistory.TabIndex = 3

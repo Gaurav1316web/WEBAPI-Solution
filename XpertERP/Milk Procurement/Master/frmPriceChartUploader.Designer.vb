@@ -36,15 +36,36 @@ Partial Class FrmPriceChartUploader
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Pg_Charge = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnVLCAddHist = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdates = New Telerik.WinControls.UI.RadButton()
+        Me.BtnPost = New Telerik.WinControls.UI.RadButton()
+        Me.BtnSaveCharge = New Telerik.WinControls.UI.RadButton()
+        Me.btnexcel = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportSelectedCode = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnshow = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtInactiveFrom = New common.Controls.MyDateTimePicker()
         Me.txtCreatedDate = New common.Controls.MyDateTimePicker()
         Me.lblvandorno = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -54,7 +75,6 @@ Partial Class FrmPriceChartUploader
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtCircularNo = New common.Controls.MyTextBox()
         Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.CmbShift = New common.Controls.MyComboBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -63,7 +83,6 @@ Partial Class FrmPriceChartUploader
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.cmbmatrix = New common.Controls.MyComboBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtsnf = New common.MyNumBox()
         Me.txtfat = New common.MyNumBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -76,50 +95,52 @@ Partial Class FrmPriceChartUploader
         Me.cmbratetype = New common.Controls.MyComboBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtdate = New common.Controls.MyDateTimePicker()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.BtnGo = New Telerik.WinControls.UI.RadButton()
         Me.TxtFindRate = New common.MyNumBox()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.TxtFindSNF = New common.MyNumBox()
         Me.TxtFindFAT = New common.MyNumBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.Pg_Charge = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCharges = New common.UserControls.MyRadGridView()
-        Me.btnUpdates = New Telerik.WinControls.UI.RadButton()
-        Me.BtnPost = New Telerik.WinControls.UI.RadButton()
-        Me.BtnSaveCharge = New Telerik.WinControls.UI.RadButton()
-        Me.btnexcel = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnexport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnimport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ExportSelectedCode = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnshow = New Telerik.WinControls.UI.RadButton()
-        Me.btnVLCAddHist = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        Me.RadPageViewPage2.SuspendLayout()
+        Me.Pg_Charge.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnshow, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInactiveFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCircularNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,8 +148,6 @@ Partial Class FrmPriceChartUploader
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtsnf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -141,31 +160,16 @@ Partial Class FrmPriceChartUploader
         CType(Me.cmbratetype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtFindRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtFindSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtFindFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        Me.Pg_Charge.SuspendLayout()
         CType(Me.gvCharges, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCharges.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnshow, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -184,6 +188,7 @@ Partial Class FrmPriceChartUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnVLCAddHist)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdates)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPost)
@@ -247,6 +252,203 @@ Partial Class FrmPriceChartUploader
         Me.SplitContainer2.Size = New System.Drawing.Size(1279, 467)
         Me.SplitContainer2.SplitterDistance = 152
         Me.SplitContainer2.TabIndex = 9
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(287, 51)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 7
+        '
+        'btnUpdate
+        '
+        Me.btnUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdate.Location = New System.Drawing.Point(903, 75)
+        Me.btnUpdate.Name = "btnUpdate"
+        Me.btnUpdate.Size = New System.Drawing.Size(71, 20)
+        Me.btnUpdate.TabIndex = 338
+        Me.btnUpdate.Text = "Update"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtsnf)
+        Me.RadGroupBox1.Controls.Add(Me.txtfat)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox1.Controls.Add(Me.CmbStandardRate)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBox1.Controls.Add(Me.cmbrate)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox1.Enabled = False
+        Me.RadGroupBox1.HeaderText = "Price Code Details"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(220, 4)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(649, 45)
+        Me.RadGroupBox1.TabIndex = 12
+        Me.RadGroupBox1.Text = "Price Code Details"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.BtnGo)
+        Me.RadGroupBox4.Controls.Add(Me.TxtFindRate)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel13)
+        Me.RadGroupBox4.Controls.Add(Me.TxtFindSNF)
+        Me.RadGroupBox4.Controls.Add(Me.TxtFindFAT)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel11)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel12)
+        Me.RadGroupBox4.HeaderAlignment = Telerik.WinControls.UI.HeaderAlignment.Center
+        Me.RadGroupBox4.HeaderText = "Find Rate"
+        Me.RadGroupBox4.HeaderTextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RadGroupBox4.Location = New System.Drawing.Point(730, 93)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(331, 55)
+        Me.RadGroupBox4.TabIndex = 19
+        Me.RadGroupBox4.Text = "Find Rate"
+        '
+        'BtnGo
+        '
+        Me.BtnGo.Location = New System.Drawing.Point(217, 32)
+        Me.BtnGo.Name = "BtnGo"
+        Me.BtnGo.Size = New System.Drawing.Size(88, 20)
+        Me.BtnGo.TabIndex = 26
+        Me.BtnGo.Text = "&Show"
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.Pg_Charge)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1277, 309)
+        Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.gv)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(73.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1256, 265)
+        Me.RadPageViewPage1.Text = "View Screen"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1048, 261)
+        Me.RadPageViewPage2.Text = "Attachment"
+        '
+        'Pg_Charge
+        '
+        Me.Pg_Charge.Controls.Add(Me.gvCharges)
+        Me.Pg_Charge.ItemSize = New System.Drawing.SizeF(80.0!, 24.0!)
+        Me.Pg_Charge.Location = New System.Drawing.Point(10, 37)
+        Me.Pg_Charge.Name = "Pg_Charge"
+        Me.Pg_Charge.Size = New System.Drawing.Size(1048, 261)
+        Me.Pg_Charge.Text = "Charge Detail"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(514, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(128, 20)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
+        '
+        'btnVLCAddHist
+        '
+        Me.btnVLCAddHist.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnVLCAddHist.Location = New System.Drawing.Point(1067, 6)
+        Me.btnVLCAddHist.Name = "btnVLCAddHist"
+        Me.btnVLCAddHist.Size = New System.Drawing.Size(127, 20)
+        Me.btnVLCAddHist.TabIndex = 6
+        Me.btnVLCAddHist.Text = "Add More VLC History"
+        '
+        'btnUpdates
+        '
+        Me.btnUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdates.Location = New System.Drawing.Point(380, 6)
+        Me.btnUpdates.Name = "btnUpdates"
+        Me.btnUpdates.Size = New System.Drawing.Size(128, 20)
+        Me.btnUpdates.TabIndex = 5
+        Me.btnUpdates.Text = "Add More VLC"
+        '
+        'BtnPost
+        '
+        Me.BtnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnPost.Location = New System.Drawing.Point(303, 6)
+        Me.BtnPost.Name = "BtnPost"
+        Me.BtnPost.Size = New System.Drawing.Size(73, 20)
+        Me.BtnPost.TabIndex = 2
+        Me.BtnPost.Text = "&Post"
+        '
+        'BtnSaveCharge
+        '
+        Me.BtnSaveCharge.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnSaveCharge.Location = New System.Drawing.Point(91, 6)
+        Me.BtnSaveCharge.Name = "BtnSaveCharge"
+        Me.BtnSaveCharge.Size = New System.Drawing.Size(128, 20)
+        Me.BtnSaveCharge.TabIndex = 4
+        Me.BtnSaveCharge.Text = "&Save Charge Detail"
+        '
+        'btnexcel
+        '
+        Me.btnexcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnexcel.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport, Me.ExportSelectedCode})
+        Me.btnexcel.Location = New System.Drawing.Point(5, 6)
+        Me.btnexcel.Name = "btnexcel"
+        Me.btnexcel.Size = New System.Drawing.Size(80, 20)
+        Me.btnexcel.TabIndex = 0
+        Me.btnexcel.Text = "Excel"
+        '
+        'btnexport
+        '
+        Me.btnexport.Image = Global.ERP.My.Resources.Resources.MSE
+        Me.btnexport.Name = "btnexport"
+        Me.btnexport.Text = "Export"
+        '
+        'btnimport
+        '
+        Me.btnimport.Image = Global.ERP.My.Resources.Resources.MSE
+        Me.btnimport.Name = "btnimport"
+        Me.btnimport.Text = "Import"
+        '
+        'ExportSelectedCode
+        '
+        Me.ExportSelectedCode.Image = Global.ERP.My.Resources.Resources.MSE
+        Me.ExportSelectedCode.Name = "ExportSelectedCode"
+        Me.ExportSelectedCode.Text = "Export Selected Code"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(1200, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(73, 20)
+        Me.btnclose.TabIndex = 3
+        Me.btnclose.Text = "&Close"
+        '
+        'btnshow
+        '
+        Me.btnshow.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnshow.Location = New System.Drawing.Point(224, 6)
+        Me.btnshow.Name = "btnshow"
+        Me.btnshow.Size = New System.Drawing.Size(73, 20)
+        Me.btnshow.TabIndex = 1
+        Me.btnshow.Text = "&Show"
+        Me.btnshow.Visible = False
         '
         'MyLabel18
         '
@@ -352,21 +554,12 @@ Partial Class FrmPriceChartUploader
         Me.txtDocNo.TabIndex = 6
         Me.txtDocNo.Value = ""
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(287, 51)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
-        Me.btnAddNew.TabIndex = 7
-        '
         'cboDockCollectionMilkType
         '
         Me.cboDockCollectionMilkType.AutoCompleteDisplayMember = Nothing
         Me.cboDockCollectionMilkType.AutoCompleteValueMember = Nothing
         Me.cboDockCollectionMilkType.CalculationExpression = Nothing
+        Me.cboDockCollectionMilkType.DropDownAnimationEnabled = True
         Me.cboDockCollectionMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDockCollectionMilkType.FieldCode = Nothing
         Me.cboDockCollectionMilkType.FieldDesc = Nothing
@@ -490,20 +683,12 @@ Partial Class FrmPriceChartUploader
         Me.MyLabel14.TabIndex = 23
         Me.MyLabel14.Text = "Circular No"
         '
-        'btnUpdate
-        '
-        Me.btnUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdate.Location = New System.Drawing.Point(903, 75)
-        Me.btnUpdate.Name = "btnUpdate"
-        Me.btnUpdate.Size = New System.Drawing.Size(71, 20)
-        Me.btnUpdate.TabIndex = 338
-        Me.btnUpdate.Text = "Update"
-        '
         'CmbShift
         '
         Me.CmbShift.AutoCompleteDisplayMember = Nothing
         Me.CmbShift.AutoCompleteValueMember = Nothing
         Me.CmbShift.CalculationExpression = Nothing
+        Me.CmbShift.DropDownAnimationEnabled = True
         Me.CmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbShift.FieldCode = Nothing
         Me.CmbShift.FieldDesc = Nothing
@@ -581,6 +766,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbaxis.AutoCompleteDisplayMember = Nothing
         Me.cmbaxis.AutoCompleteValueMember = Nothing
         Me.cmbaxis.CalculationExpression = Nothing
+        Me.cmbaxis.DropDownAnimationEnabled = True
         Me.cmbaxis.FieldCode = Nothing
         Me.cmbaxis.FieldDesc = Nothing
         Me.cmbaxis.FieldMaxLength = 0
@@ -623,6 +809,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbmatrix.AutoCompleteDisplayMember = Nothing
         Me.cmbmatrix.AutoCompleteValueMember = Nothing
         Me.cmbmatrix.CalculationExpression = Nothing
+        Me.cmbmatrix.DropDownAnimationEnabled = True
         Me.cmbmatrix.FieldCode = Nothing
         Me.cmbmatrix.FieldDesc = Nothing
         Me.cmbmatrix.FieldMaxLength = 0
@@ -660,25 +847,6 @@ Partial Class FrmPriceChartUploader
         Me.MyLabel4.Text = "Matrix Type"
         Me.MyLabel4.Visible = False
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtsnf)
-        Me.RadGroupBox1.Controls.Add(Me.txtfat)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel8)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel9)
-        Me.RadGroupBox1.Controls.Add(Me.CmbStandardRate)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel7)
-        Me.RadGroupBox1.Controls.Add(Me.cmbrate)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
-        Me.RadGroupBox1.Enabled = False
-        Me.RadGroupBox1.HeaderText = "Price Code Details"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(220, 4)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(649, 45)
-        Me.RadGroupBox1.TabIndex = 12
-        Me.RadGroupBox1.Text = "Price Code Details"
-        '
         'txtsnf
         '
         Me.txtsnf.BackColor = System.Drawing.Color.LightGoldenrodYellow
@@ -705,7 +873,7 @@ Partial Class FrmPriceChartUploader
         Me.txtsnf.TabIndex = 21
         Me.txtsnf.Text = "0"
         Me.txtsnf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnf.Value = 0R
+        Me.txtsnf.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtfat
         '
@@ -733,7 +901,7 @@ Partial Class FrmPriceChartUploader
         Me.txtfat.TabIndex = 20
         Me.txtfat.Text = "0"
         Me.txtfat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfat.Value = 0R
+        Me.txtfat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -760,6 +928,7 @@ Partial Class FrmPriceChartUploader
         Me.CmbStandardRate.AutoCompleteDisplayMember = Nothing
         Me.CmbStandardRate.AutoCompleteValueMember = Nothing
         Me.CmbStandardRate.CalculationExpression = Nothing
+        Me.CmbStandardRate.DropDownAnimationEnabled = True
         Me.CmbStandardRate.FieldCode = Nothing
         Me.CmbStandardRate.FieldDesc = Nothing
         Me.CmbStandardRate.FieldMaxLength = 0
@@ -796,6 +965,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbrate.AutoCompleteDisplayMember = Nothing
         Me.cmbrate.AutoCompleteValueMember = Nothing
         Me.cmbrate.CalculationExpression = Nothing
+        Me.cmbrate.DropDownAnimationEnabled = True
         Me.cmbrate.FieldCode = Nothing
         Me.cmbrate.FieldDesc = Nothing
         Me.cmbrate.FieldMaxLength = 0
@@ -842,6 +1012,7 @@ Partial Class FrmPriceChartUploader
         Me.cmbratetype.AutoCompleteDisplayMember = Nothing
         Me.cmbratetype.AutoCompleteValueMember = Nothing
         Me.cmbratetype.CalculationExpression = Nothing
+        Me.cmbratetype.DropDownAnimationEnabled = True
         Me.cmbratetype.FieldCode = Nothing
         Me.cmbratetype.FieldDesc = Nothing
         Me.cmbratetype.FieldMaxLength = 0
@@ -907,33 +1078,6 @@ Partial Class FrmPriceChartUploader
         Me.txtdate.Text = "28/05/2014"
         Me.txtdate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
         '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.BtnGo)
-        Me.RadGroupBox4.Controls.Add(Me.TxtFindRate)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel13)
-        Me.RadGroupBox4.Controls.Add(Me.TxtFindSNF)
-        Me.RadGroupBox4.Controls.Add(Me.TxtFindFAT)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel11)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel12)
-        Me.RadGroupBox4.HeaderAlignment = Telerik.WinControls.UI.HeaderAlignment.Center
-        Me.RadGroupBox4.HeaderText = "Find Rate"
-        Me.RadGroupBox4.HeaderTextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RadGroupBox4.Location = New System.Drawing.Point(730, 93)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(331, 55)
-        Me.RadGroupBox4.TabIndex = 19
-        Me.RadGroupBox4.Text = "Find Rate"
-        '
-        'BtnGo
-        '
-        Me.BtnGo.Location = New System.Drawing.Point(217, 32)
-        Me.BtnGo.Name = "BtnGo"
-        Me.BtnGo.Size = New System.Drawing.Size(88, 20)
-        Me.BtnGo.TabIndex = 26
-        Me.BtnGo.Text = "&Show"
-        '
         'TxtFindRate
         '
         Me.TxtFindRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
@@ -959,7 +1103,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindRate.TabIndex = 24
         Me.TxtFindRate.Text = "0"
         Me.TxtFindRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindRate.Value = 0R
+        Me.TxtFindRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -996,7 +1140,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindSNF.TabIndex = 21
         Me.TxtFindSNF.Text = "0"
         Me.TxtFindSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindSNF.Value = 0R
+        Me.TxtFindSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFindFAT
         '
@@ -1023,7 +1167,7 @@ Partial Class FrmPriceChartUploader
         Me.TxtFindFAT.TabIndex = 20
         Me.TxtFindFAT.Text = "0"
         Me.TxtFindFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindFAT.Value = 0R
+        Me.TxtFindFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -1045,55 +1189,27 @@ Partial Class FrmPriceChartUploader
         Me.MyLabel12.TabIndex = 22
         Me.MyLabel12.Text = "SNF"
         '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.Pg_Charge)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1277, 309)
-        Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.gv)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1256, 261)
-        Me.RadPageViewPage1.Text = "View Screen"
-        '
         'gv
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowColumnReorder = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(1256, 261)
+        Me.gv.Size = New System.Drawing.Size(1256, 265)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1048, 261)
-        Me.RadPageViewPage2.Text = "Attachment"
+        Me.gv.VarID = ""
         '
         'UcAttachment1
         '
@@ -1102,15 +1218,6 @@ Partial Class FrmPriceChartUploader
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(1048, 261)
         Me.UcAttachment1.TabIndex = 2
-        '
-        'Pg_Charge
-        '
-        Me.Pg_Charge.Controls.Add(Me.gvCharges)
-        Me.Pg_Charge.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
-        Me.Pg_Charge.Location = New System.Drawing.Point(10, 37)
-        Me.Pg_Charge.Name = "Pg_Charge"
-        Me.Pg_Charge.Size = New System.Drawing.Size(1048, 261)
-        Me.Pg_Charge.Text = "Charge Detail"
         '
         'gvCharges
         '
@@ -1126,7 +1233,11 @@ Partial Class FrmPriceChartUploader
         '
         Me.gvCharges.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gvCharges.MasterTemplate.AllowDeleteRow = False
+        Me.gvCharges.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCharges.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCharges.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCharges.MyExportFilePath = ""
+        Me.gvCharges.MyStopExport = False
         Me.gvCharges.Name = "gvCharges"
         Me.gvCharges.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCharges.ShowGroupPanel = False
@@ -1134,96 +1245,7 @@ Partial Class FrmPriceChartUploader
         Me.gvCharges.Size = New System.Drawing.Size(1048, 261)
         Me.gvCharges.TabIndex = 2
         Me.gvCharges.TabStop = False
-        Me.gvCharges.Text = "RadGridView1"
-        '
-        'btnUpdates
-        '
-        Me.btnUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdates.Location = New System.Drawing.Point(380, 6)
-        Me.btnUpdates.Name = "btnUpdates"
-        Me.btnUpdates.Size = New System.Drawing.Size(128, 20)
-        Me.btnUpdates.TabIndex = 5
-        Me.btnUpdates.Text = "Add More VLC"
-        '
-        'BtnPost
-        '
-        Me.BtnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnPost.Location = New System.Drawing.Point(303, 6)
-        Me.BtnPost.Name = "BtnPost"
-        Me.BtnPost.Size = New System.Drawing.Size(73, 20)
-        Me.BtnPost.TabIndex = 2
-        Me.BtnPost.Text = "&Post"
-        '
-        'BtnSaveCharge
-        '
-        Me.BtnSaveCharge.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnSaveCharge.Location = New System.Drawing.Point(91, 6)
-        Me.BtnSaveCharge.Name = "BtnSaveCharge"
-        Me.BtnSaveCharge.Size = New System.Drawing.Size(128, 20)
-        Me.BtnSaveCharge.TabIndex = 4
-        Me.BtnSaveCharge.Text = "&Save Charge Detail"
-        '
-        'btnexcel
-        '
-        Me.btnexcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnexcel.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport, Me.ExportSelectedCode})
-        Me.btnexcel.Location = New System.Drawing.Point(5, 6)
-        Me.btnexcel.Name = "btnexcel"
-        Me.btnexcel.Size = New System.Drawing.Size(80, 20)
-        Me.btnexcel.TabIndex = 0
-        Me.btnexcel.Text = "Excel"
-        '
-        'btnexport
-        '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
-        Me.btnexport.Image = Global.ERP.My.Resources.Resources.MSE
-        Me.btnexport.Name = "btnexport"
-        Me.btnexport.Text = "Export"
-        '
-        'btnimport
-        '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
-        Me.btnimport.Image = Global.ERP.My.Resources.Resources.MSE
-        Me.btnimport.Name = "btnimport"
-        Me.btnimport.Text = "Import"
-        '
-        'ExportSelectedCode
-        '
-        Me.ExportSelectedCode.AccessibleDescription = "Export Selected Code"
-        Me.ExportSelectedCode.AccessibleName = "Export Selected Code"
-        Me.ExportSelectedCode.Image = Global.ERP.My.Resources.Resources.MSE
-        Me.ExportSelectedCode.Name = "ExportSelectedCode"
-        Me.ExportSelectedCode.Text = "Export Selected Code"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(1200, 6)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(73, 20)
-        Me.btnclose.TabIndex = 3
-        Me.btnclose.Text = "&Close"
-        '
-        'btnshow
-        '
-        Me.btnshow.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnshow.Location = New System.Drawing.Point(224, 6)
-        Me.btnshow.Name = "btnshow"
-        Me.btnshow.Size = New System.Drawing.Size(73, 20)
-        Me.btnshow.TabIndex = 1
-        Me.btnshow.Text = "&Show"
-        Me.btnshow.Visible = False
-        '
-        'btnVLCAddHist
-        '
-        Me.btnVLCAddHist.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnVLCAddHist.Location = New System.Drawing.Point(1067, 6)
-        Me.btnVLCAddHist.Name = "btnVLCAddHist"
-        Me.btnVLCAddHist.Size = New System.Drawing.Size(127, 20)
-        Me.btnVLCAddHist.TabIndex = 6
-        Me.btnVLCAddHist.Text = "Add More VLC History"
+        Me.gvCharges.VarID = ""
         '
         'FrmPriceChartUploader
         '
@@ -1244,19 +1266,39 @@ Partial Class FrmPriceChartUploader
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.Pg_Charge.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnshow, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInactiveFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCircularNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1264,9 +1306,6 @@ Partial Class FrmPriceChartUploader
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
         CType(Me.txtsnf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1279,32 +1318,16 @@ Partial Class FrmPriceChartUploader
         CType(Me.cmbratetype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtFindRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtFindSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtFindFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        Me.Pg_Charge.ResumeLayout(False)
         CType(Me.gvCharges.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCharges, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdates, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnSaveCharge, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnexcel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnshow, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnVLCAddHist, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1375,5 +1398,6 @@ Partial Class FrmPriceChartUploader
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents txtInactiveFrom As common.Controls.MyDateTimePicker
     Friend WithEvents btnVLCAddHist As RadButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

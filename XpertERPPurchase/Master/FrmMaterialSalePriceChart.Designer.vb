@@ -22,6 +22,7 @@ Partial Class FrmMaterialSalePriceChart
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -52,6 +53,7 @@ Partial Class FrmMaterialSalePriceChart
         Me.btnrefresh = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnshow = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -84,6 +86,7 @@ Partial Class FrmMaterialSalePriceChart
         CType(Me.btnrefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +105,7 @@ Partial Class FrmMaterialSalePriceChart
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnexcel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnrefresh)
@@ -377,7 +381,6 @@ Partial Class FrmMaterialSalePriceChart
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(740, 215)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -394,18 +397,22 @@ Partial Class FrmMaterialSalePriceChart
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowColumnReorder = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(719, 167)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -445,16 +452,12 @@ Partial Class FrmMaterialSalePriceChart
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Image = Global.XpertERPPurchase.My.Resources.Resources.MSE
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Image = Global.XpertERPPurchase.My.Resources.Resources.MSE
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
@@ -486,6 +489,15 @@ Partial Class FrmMaterialSalePriceChart
         Me.btnshow.TabIndex = 1
         Me.btnshow.Text = "&Show"
         Me.btnshow.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(584, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'FrmMaterialSalePriceChart
         '
@@ -534,6 +546,7 @@ Partial Class FrmMaterialSalePriceChart
         CType(Me.btnrefresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -569,5 +582,6 @@ Partial Class FrmMaterialSalePriceChart
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents ChkCustomerSelect As common.Controls.MyRadioButton
     Friend WithEvents ChkCustomerAll As common.Controls.MyRadioButton
+    Friend WithEvents btnHistory As RadButton
 End Class
 

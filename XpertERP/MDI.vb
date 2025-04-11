@@ -389,7 +389,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.86") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.88") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -2813,26 +2813,65 @@ Public Class MDI
         End If
     End Sub
 
+    ' Recursive function to find matching node
+    Public Function FindNode(nodes As RadTreeNodeCollection) As RadTreeNode
+        Dim targetText As String = clsCommon.myCstr(cboMenu.SelectedText)
+        Dim targetFormID As String = clsCommon.myCstr(cboMenu.SelectedValue)
+        For Each node As RadTreeNode In nodes
+            If node.Text = targetText AndAlso node.Value IsNot Nothing AndAlso node.Value.ToString() = targetFormID Then
+                Return node
+            End If
+            Dim childMatch As RadTreeNode = FindNode(node.Nodes)
+            If childMatch IsNot Nothing Then Return childMatch
+        Next
+        Return Nothing
+    End Function
 
     Private Sub cboMenu_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles cboMenu.KeyDown
-        Try
+        'Try
+        '    If clsCommon.myLen(clsCommon.myCstr(cboMenu.SelectedValue)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(cboMenu.Text)) > 0 Then
+        '        If e.KeyCode = Keys.Enter Then
+        '            ShowForm(clsCommon.myCstr(cboMenu.SelectedValue), clsCommon.myCstr(cboMenu.SelectedText), True)
+        '            RTV2.CollapseAll()
+        '            RTV2.Nodes(0).Expand()
+        '            Try
+        '                RTV2.SelectedNode = RTV2.Nodes(0)
+        '                RTV2.SelectedNode = RTV2.Find(cboMenu.SelectedText)
+        '                RTV2.SelectedNode.Expand()
+        '            Catch ex As Exception
+        '            End Try
+        '        End If
+        '    Else
+        '        cboMenu.SelectedIndex = 0
+        '    End If
 
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        'End Try
+        Try
             If clsCommon.myLen(clsCommon.myCstr(cboMenu.SelectedValue)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(cboMenu.Text)) > 0 Then
                 If e.KeyCode = Keys.Enter Then
                     ShowForm(clsCommon.myCstr(cboMenu.SelectedValue), clsCommon.myCstr(cboMenu.SelectedText), True)
                     RTV2.CollapseAll()
                     RTV2.Nodes(0).Expand()
                     Try
-                        RTV2.SelectedNode = RTV2.Nodes(0)
-                        RTV2.SelectedNode = RTV2.Find(cboMenu.SelectedText)
-                        RTV2.SelectedNode.Expand()
+                        Dim foundNode As RadTreeNode = Nothing
+                        foundNode = FindNode(RTV2.Nodes)
+                        If foundNode IsNot Nothing Then
+                            RTV2.SelectedNode = foundNode
+                            foundNode.Expand()
+                            Dim parent As RadTreeNode = foundNode.Parent
+                            While parent IsNot Nothing
+                                parent.Expand()
+                                parent = parent.Parent
+                            End While
+                        End If
                     Catch ex As Exception
                     End Try
                 End If
             Else
                 cboMenu.SelectedIndex = 0
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -9287,6 +9326,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptCustItemWiseSaleReport
                         frm = New rptCustItemWiseSaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport
+                        frm = New rptItemAndShiftWiseSaleSummaryReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.SaleIncentiveMaster
                         frm = New frmSaleIncentiveMaster()

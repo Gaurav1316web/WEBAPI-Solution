@@ -23,16 +23,16 @@ Partial Class frmMPMilkPrice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -68,6 +68,7 @@ Partial Class frmMPMilkPrice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -105,6 +106,7 @@ Partial Class frmMPMilkPrice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,7 @@ Partial Class frmMPMilkPrice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -221,7 +224,7 @@ Partial Class frmMPMilkPrice
         Me.TxtFindRate.TabIndex = 31
         Me.TxtFindRate.Text = "0"
         Me.TxtFindRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindRate.Value = 0R
+        Me.TxtFindRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -258,7 +261,7 @@ Partial Class frmMPMilkPrice
         Me.TxtFindSNF.TabIndex = 28
         Me.TxtFindSNF.Text = "0"
         Me.TxtFindSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindSNF.Value = 0R
+        Me.TxtFindSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFindFAT
         '
@@ -285,7 +288,7 @@ Partial Class frmMPMilkPrice
         Me.TxtFindFAT.TabIndex = 27
         Me.TxtFindFAT.Text = "0"
         Me.TxtFindFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFindFAT.Value = 0R
+        Me.TxtFindFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -380,12 +383,12 @@ Partial Class frmMPMilkPrice
         Me.cmbaxis.IsSourceFromTable = False
         Me.cmbaxis.IsSourceFromValueList = False
         Me.cmbaxis.IsUnique = False
-        RadListDataItem1.Text = "None"
-        RadListDataItem2.Text = "Single"
-        RadListDataItem3.Text = "Double"
-        Me.cmbaxis.Items.Add(RadListDataItem1)
-        Me.cmbaxis.Items.Add(RadListDataItem2)
-        Me.cmbaxis.Items.Add(RadListDataItem3)
+        RadListDataItem10.Text = "None"
+        RadListDataItem11.Text = "Single"
+        RadListDataItem12.Text = "Double"
+        Me.cmbaxis.Items.Add(RadListDataItem10)
+        Me.cmbaxis.Items.Add(RadListDataItem11)
+        Me.cmbaxis.Items.Add(RadListDataItem12)
         Me.cmbaxis.Location = New System.Drawing.Point(234, 80)
         Me.cmbaxis.MendatroryField = False
         Me.cmbaxis.MyLinkLable1 = Me.MyLabel3
@@ -423,12 +426,12 @@ Partial Class frmMPMilkPrice
         Me.cmbmatrix.IsSourceFromTable = False
         Me.cmbmatrix.IsSourceFromValueList = False
         Me.cmbmatrix.IsUnique = False
-        RadListDataItem4.Text = "None"
-        RadListDataItem5.Text = "6.5/9.0"
-        RadListDataItem6.Text = "4.0/8.5"
-        Me.cmbmatrix.Items.Add(RadListDataItem4)
-        Me.cmbmatrix.Items.Add(RadListDataItem5)
-        Me.cmbmatrix.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "None"
+        RadListDataItem2.Text = "6.5/9.0"
+        RadListDataItem3.Text = "4.0/8.5"
+        Me.cmbmatrix.Items.Add(RadListDataItem1)
+        Me.cmbmatrix.Items.Add(RadListDataItem2)
+        Me.cmbmatrix.Items.Add(RadListDataItem3)
         Me.cmbmatrix.Location = New System.Drawing.Point(404, 80)
         Me.cmbmatrix.MendatroryField = False
         Me.cmbmatrix.MyLinkLable1 = Me.MyLabel4
@@ -567,12 +570,12 @@ Partial Class frmMPMilkPrice
         Me.CmbShift.IsSourceFromTable = False
         Me.CmbShift.IsSourceFromValueList = False
         Me.CmbShift.IsUnique = False
-        RadListDataItem7.Text = "None"
-        RadListDataItem8.Text = "Declared Rate"
-        RadListDataItem9.Text = "Effective Rate"
-        Me.CmbShift.Items.Add(RadListDataItem7)
-        Me.CmbShift.Items.Add(RadListDataItem8)
-        Me.CmbShift.Items.Add(RadListDataItem9)
+        RadListDataItem4.Text = "None"
+        RadListDataItem5.Text = "Declared Rate"
+        RadListDataItem6.Text = "Effective Rate"
+        Me.CmbShift.Items.Add(RadListDataItem4)
+        Me.CmbShift.Items.Add(RadListDataItem5)
+        Me.CmbShift.Items.Add(RadListDataItem6)
         Me.CmbShift.Location = New System.Drawing.Point(508, 10)
         Me.CmbShift.MendatroryField = False
         Me.CmbShift.MyLinkLable1 = Me.MyLabel10
@@ -645,7 +648,7 @@ Partial Class frmMPMilkPrice
         Me.gvViewScreen.MasterTemplate.AllowDragToGroup = False
         Me.gvViewScreen.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvViewScreen.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvViewScreen.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvViewScreen.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvViewScreen.Name = "gvViewScreen"
         Me.gvViewScreen.ShowHeaderCellButtons = True
         Me.gvViewScreen.Size = New System.Drawing.Size(920, 356)
@@ -691,6 +694,14 @@ Partial Class frmMPMilkPrice
         Me.btnPost.Size = New System.Drawing.Size(86, 24)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Location = New System.Drawing.Point(740, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(86, 24)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
         '
         'frmMPMilkPrice
         '
@@ -743,6 +754,7 @@ Partial Class frmMPMilkPrice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -783,5 +795,6 @@ Partial Class frmMPMilkPrice
     Friend WithEvents btnImport As RadButton
     Friend WithEvents btnExport As RadButton
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnHistory As RadButton
 End Class
 

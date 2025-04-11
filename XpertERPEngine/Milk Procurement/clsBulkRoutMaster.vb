@@ -70,11 +70,12 @@ Public Class clsBulkRoutMaster
                 clsCommon.AddColumnsForChange(coll, "ROUTE_NO", obj.ROUTE_NO)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_ROUTE_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ROUTE_NO, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_ROUTE_MASTER", OMInsertOrUpdate.Update, "ROUTE_NO='" + obj.ROUTE_NO + "'", trans)
             End If
 
             clsBulkRoutMasterMCC.SaveData(obj.ROUTE_NO, obj.arrMCC, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ROUTE_NO, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", "TSPL_BULK_ROUTE_MASTER_MCC", "ROUTE_NO", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -138,6 +139,8 @@ Public Class clsBulkRoutMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", Nothing)
+
             qry = "Delete from TSPL_BULK_ROUTE_MASTER where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

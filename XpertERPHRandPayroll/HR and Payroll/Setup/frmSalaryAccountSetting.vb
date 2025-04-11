@@ -296,9 +296,21 @@ Public Class frmSalaryAccountSetting
         lblESIPayableAccDesc.Text = clsGLAccount.GetName(fndESIPayableAcc.Value)
     End Sub
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "ACCOUNT_SET_CODE", "TSPL_PAYROLL_ACCOUNTSETS")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub fndOthrPayable__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndOthrPayable._MYValidating
         fndOthrPayable.Value = clsGLAccount.getFinder("", fndOthrPayable.Value, isButtonClicked)
         lblOthrPayableDesc.Text = clsGLAccount.GetName(fndOthrPayable.Value)
     End Sub
-    
+
 End Class

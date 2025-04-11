@@ -425,8 +425,9 @@ Public Class clsfrmTankerMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TANKER_MASTER", OMInsertOrUpdate.Update, " TSPL_TANKER_MASTER.Tanker_No='" + obj.tankerno + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.tankerno), "TSPL_TANKER_MASTER", "Tanker_No", trans)
             clsTankerChamberDetail.SaveData(obj.tankerno, obj.arrChamber, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.tankerno), "TSPL_TANKER_MASTER", "Tanker_No", "TSPL_TANKER_CHAMBER_DETAIL", "Tanker_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -645,6 +646,8 @@ Public Class clsfrmVillageMaster
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VILLAGE_MASTER", OMInsertOrUpdate.Update, " TSPL_VILLAGE_MASTER.Village_code='" + obj.villcode + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.villcode, "TSPL_VILLAGE_MASTER", "Village_code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

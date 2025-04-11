@@ -3574,6 +3574,7 @@ select Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NO
                                 objVendorInvHead.Vendor_Invoice_No = ""
                                 objVendorInvHead.Invoice_Type = "AP"
                                 objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                                objVendorInvHead.Location_Code_Prefix = objHead.MCC_CODE
                                 objVendorInvHead.loc_code = clsLocation.GetSegmentCode(objHead.MCC_CODE, trans)
                                 objVendorInvHead.Description = "AP Credit Note For DCS Addition"
                                 objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))

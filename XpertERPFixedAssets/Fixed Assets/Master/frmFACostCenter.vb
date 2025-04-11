@@ -135,6 +135,10 @@ Public Class FrmFACostCenter
                 Throw New Exception(" CostCenter Code not found to delete")
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_FA_COST_CENTER_MASTER", "CostCenter_Code", Nothing)
+
+
+
             If clsCommon.MyMessageBoxShow(Me, "Do you want to delete Cost Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "delete from TSPL_FA_COST_CENTER_MASTER where CostCenter_Code='" + txtCode.Value + "'"
@@ -172,6 +176,18 @@ Public Class FrmFACostCenter
 
     Private Sub fnddesig__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         LoadData(txtCode.Value, NavType)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "CostCenter_Code", "TSPL_FA_COST_CENTER_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub fnddesig__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating

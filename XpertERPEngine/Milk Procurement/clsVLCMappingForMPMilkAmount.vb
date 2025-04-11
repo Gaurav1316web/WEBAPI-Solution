@@ -16,6 +16,8 @@ Public Class clsVLCMappingForMPMilkAmount
                 clsCommon.AddColumnsForChange(coll, "VLC_Code", strVLC)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT", OMInsertOrUpdate.Insert, "", trans)
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT", "MCC_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -27,6 +29,8 @@ Public Class clsVLCMappingForMPMilkAmount
     Public Shared Function DeleteData(ByVal strMCC As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT", "MCC_Code", trans)
+
             Dim qry As String = "Delete from TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT where MCC_Code='" + strMCC + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()

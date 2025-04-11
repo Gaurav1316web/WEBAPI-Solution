@@ -40,6 +40,7 @@ Public Class clsBranchMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BRANCH_MASTER", "BRANCH_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_BRANCH_MASTER where BRANCH_CODE ='" + strCode + "'"
@@ -137,6 +138,7 @@ Public Class clsBranchMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BRANCH_MASTER", OMInsertOrUpdate.Update, "BRANCH_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BRANCH_MASTER", "BRANCH_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -50,6 +50,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,6 +75,7 @@ Partial Class FrmVSPIncentiveTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,6 +94,7 @@ Partial Class FrmVSPIncentiveTagging
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -209,7 +212,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(9, 102)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel1.Size = New System.Drawing.Size(82, 18)
         Me.MyLabel1.TabIndex = 384
         Me.MyLabel1.Text = "Secretary Code"
         Me.MyLabel1.Visible = False
@@ -337,6 +340,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -344,6 +348,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(679, 293)
         Me.gv.TabIndex = 4
+        Me.gv.VarID = ""
         '
         'btnExport
         '
@@ -406,6 +411,15 @@ Partial Class FrmVSPIncentiveTagging
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(533, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 23)
+        Me.btnHistory.TabIndex = 135
+        Me.btnHistory.Text = "History"
+        '
         'FrmVSPIncentiveTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -444,6 +458,7 @@ Partial Class FrmVSPIncentiveTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -476,5 +491,6 @@ Partial Class FrmVSPIncentiveTagging
     Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents btnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents btnHistory As RadButton
 End Class
 

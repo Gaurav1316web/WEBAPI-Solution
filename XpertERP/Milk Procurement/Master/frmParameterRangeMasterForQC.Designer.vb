@@ -22,8 +22,8 @@ Partial Class frmParameterRangeMasterForQC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmParameterRangeMasterForQC))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -33,10 +33,17 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnUpdateDeduction = New Telerik.WinControls.UI.RadButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -56,7 +63,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtQcStatus = New common.Controls.MyTextBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.btnUpdateDeduction = New Telerik.WinControls.UI.RadButton()
         Me.txtUpperRange = New common.MyNumBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtLowerRange = New common.MyNumBox()
@@ -70,14 +76,8 @@ Partial Class frmParameterRangeMasterForQC
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.fndParameterCode = New common.UserControls.txtFinder()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnDedMethodFixed = New common.Controls.MyRadioButton()
         Me.rbtnDedMethodRatio = New common.Controls.MyRadioButton()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,10 +90,17 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.btnUpdateDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,7 +119,6 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtQcStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtUpperRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLowerRange, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,14 +131,8 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.txtDeductionLRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnDedMethodFixed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDedMethodRatio, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -223,10 +223,10 @@ Partial Class frmParameterRangeMasterForQC
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(768, 425)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(768, 429)
         Me.RadPageViewPage1.Text = "Detail"
         '
         'RadGroupBox1
@@ -238,9 +238,123 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(3, 18, 3, 3)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(768, 425)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(768, 429)
         Me.RadGroupBox1.TabIndex = 18
         Me.RadGroupBox1.Text = "Parameter Range Detail"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(768, 425)
+        Me.RadPageViewPage2.Text = "Attachment"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel16)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDescription)
+        Me.RadPageViewPage3.Controls.Add(Me.txtParameterMapping)
+        Me.RadPageViewPage3.Controls.Add(Me.btnUpdateDeduction)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio3)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel14)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange3)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel12)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange3)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel10)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio2)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel13)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange2)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel11)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange2)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel9)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel5)
+        Me.RadPageViewPage3.Controls.Add(Me.txtQcStatus)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage3.Controls.Add(Me.txtUpperRange)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel4)
+        Me.RadPageViewPage3.Controls.Add(Me.txtLowerRange)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage3.Controls.Add(Me.lblParamDesc)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel2)
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel8)
+        Me.RadPageViewPage3.Controls.Add(Me.fndParameterCode)
+        Me.RadPageViewPage3.Controls.Add(Me.GroupBox1)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(104.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(768, 425)
+        Me.RadPageViewPage3.Text = "Update Deduction"
+        '
+        'btnUpdateDeduction
+        '
+        Me.btnUpdateDeduction.Location = New System.Drawing.Point(371, 389)
+        Me.btnUpdateDeduction.Name = "btnUpdateDeduction"
+        Me.btnUpdateDeduction.Size = New System.Drawing.Size(125, 21)
+        Me.btnUpdateDeduction.TabIndex = 7
+        Me.btnUpdateDeduction.Text = "Update Deduction"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnDedMethodFixed)
+        Me.GroupBox1.Controls.Add(Me.rbtnDedMethodRatio)
+        Me.GroupBox1.Location = New System.Drawing.Point(119, 162)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(247, 31)
+        Me.GroupBox1.TabIndex = 346
+        Me.GroupBox1.TabStop = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(633, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 7
+        Me.btnHistory.Text = "History"
+        '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.Location = New System.Drawing.Point(179, 6)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(14, 21)
+        Me.btnNew.TabIndex = 6
+        Me.btnNew.Text = " "
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(717, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(78, 21)
+        Me.btnclose.TabIndex = 5
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(95, 6)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(78, 21)
+        Me.btndelete.TabIndex = 4
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(11, 6)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(78, 21)
+        Me.btnsave.TabIndex = 3
+        Me.btnsave.Text = "Save"
         '
         'gv
         '
@@ -252,23 +366,14 @@ Partial Class frmParameterRangeMasterForQC
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(762, 404)
+        Me.gv.Size = New System.Drawing.Size(762, 408)
         Me.gv.TabIndex = 0
         Me.gv.VarID = ""
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(768, 425)
-        Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
         '
@@ -277,48 +382,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(768, 425)
         Me.UcAttachment1.TabIndex = 2
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel16)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDescription)
-        Me.RadPageViewPage3.Controls.Add(Me.txtParameterMapping)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel15)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio3)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange3)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange3)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio2)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange2)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange2)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel14)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel13)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel12)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel11)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel10)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel9)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel5)
-        Me.RadPageViewPage3.Controls.Add(Me.txtQcStatus)
-        Me.RadPageViewPage3.Controls.Add(Me.btnUpdateDeduction)
-        Me.RadPageViewPage3.Controls.Add(Me.txtUpperRange)
-        Me.RadPageViewPage3.Controls.Add(Me.txtLowerRange)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel6)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel4)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel1)
-        Me.RadPageViewPage3.Controls.Add(Me.lblParamDesc)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionURange)
-        Me.RadPageViewPage3.Controls.Add(Me.txtDeductionLRange)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel7)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel3)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel2)
-        Me.RadPageViewPage3.Controls.Add(Me.MyLabel8)
-        Me.RadPageViewPage3.Controls.Add(Me.fndParameterCode)
-        Me.RadPageViewPage3.Controls.Add(Me.GroupBox1)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(768, 425)
-        Me.RadPageViewPage3.Text = "Update Deduction"
         '
         'MyLabel16
         '
@@ -651,14 +714,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.MyLabel6.TabIndex = 341
         Me.MyLabel6.Text = "Qc Status"
         '
-        'btnUpdateDeduction
-        '
-        Me.btnUpdateDeduction.Location = New System.Drawing.Point(371, 389)
-        Me.btnUpdateDeduction.Name = "btnUpdateDeduction"
-        Me.btnUpdateDeduction.Size = New System.Drawing.Size(125, 21)
-        Me.btnUpdateDeduction.TabIndex = 7
-        Me.btnUpdateDeduction.Text = "Update Deduction"
-        '
         'txtUpperRange
         '
         Me.txtUpperRange.BackColor = System.Drawing.Color.White
@@ -897,16 +952,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.fndParameterCode.TabIndex = 174
         Me.fndParameterCode.Value = ""
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.rbtnDedMethodFixed)
-        Me.GroupBox1.Controls.Add(Me.rbtnDedMethodRatio)
-        Me.GroupBox1.Location = New System.Drawing.Point(119, 162)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(247, 31)
-        Me.GroupBox1.TabIndex = 346
-        Me.GroupBox1.TabStop = False
-        '
         'rbtnDedMethodFixed
         '
         Me.rbtnDedMethodFixed.Location = New System.Drawing.Point(126, 11)
@@ -929,51 +974,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.rbtnDedMethodRatio.TabIndex = 0
         Me.rbtnDedMethodRatio.Text = "Ratio"
         Me.rbtnDedMethodRatio.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(179, 6)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 21)
-        Me.btnNew.TabIndex = 6
-        Me.btnNew.Text = " "
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(717, 6)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(78, 21)
-        Me.btnclose.TabIndex = 5
-        Me.btnclose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(95, 6)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(78, 21)
-        Me.btndelete.TabIndex = 4
-        Me.btndelete.Text = "Delete"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Location = New System.Drawing.Point(11, 6)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(78, 21)
-        Me.btnsave.TabIndex = 3
-        Me.btnsave.Text = "Save"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(633, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
-        Me.btnHistory.TabIndex = 7
-        Me.btnHistory.Text = "History"
         '
         'frmParameterRangeMasterForQC
         '
@@ -1000,11 +1000,19 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.btnUpdateDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1023,7 +1031,6 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtQcStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtUpperRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLowerRange, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1036,15 +1043,8 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.txtDeductionLRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
         CType(Me.rbtnDedMethodFixed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDedMethodRatio, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

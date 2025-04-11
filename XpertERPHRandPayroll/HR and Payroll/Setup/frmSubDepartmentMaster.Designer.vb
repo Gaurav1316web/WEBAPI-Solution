@@ -25,26 +25,27 @@ Partial Class frmSubDepartmentMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSubDepartmentMaster))
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lblMainDeptDesc = New common.Controls.MyLabel
-        Me.fndDeptCode = New common.UserControls.txtFinder
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblMainDeptDesc = New common.Controls.MyLabel()
+        Me.fndDeptCode = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,22 +59,36 @@ Partial Class frmSubDepartmentMaster
         CType(Me.lblMainDeptDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(146, 50)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.RadLabel3
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(371, 20)
         Me.txtDescription.TabIndex = 3
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(12, 50)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
@@ -91,6 +106,7 @@ Partial Class frmSubDepartmentMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(146, 25)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -106,6 +122,7 @@ Partial Class frmSubDepartmentMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(12, 26)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -147,27 +164,18 @@ Partial Class frmSubDepartmentMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -192,6 +200,7 @@ Partial Class frmSubDepartmentMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -203,15 +212,24 @@ Partial Class frmSubDepartmentMaster
         '
         Me.lblMainDeptDesc.AutoSize = False
         Me.lblMainDeptDesc.BorderVisible = True
+        Me.lblMainDeptDesc.FieldName = Nothing
         Me.lblMainDeptDesc.Location = New System.Drawing.Point(323, 75)
         Me.lblMainDeptDesc.Name = "lblMainDeptDesc"
         Me.lblMainDeptDesc.Size = New System.Drawing.Size(194, 19)
         Me.lblMainDeptDesc.TabIndex = 35
-        Me.lblMainDeptDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblMainDeptDesc.TextWrap = False
         '
         'fndDeptCode
         '
+        Me.fndDeptCode.CalculationExpression = Nothing
+        Me.fndDeptCode.FieldCode = Nothing
+        Me.fndDeptCode.FieldDesc = Nothing
+        Me.fndDeptCode.FieldMaxLength = 0
+        Me.fndDeptCode.FieldName = Nothing
+        Me.fndDeptCode.isCalculatedField = False
+        Me.fndDeptCode.IsSourceFromTable = False
+        Me.fndDeptCode.IsSourceFromValueList = False
+        Me.fndDeptCode.IsUnique = False
         Me.fndDeptCode.Location = New System.Drawing.Point(146, 75)
         Me.fndDeptCode.MendatroryField = True
         Me.fndDeptCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -220,12 +238,16 @@ Partial Class frmSubDepartmentMaster
         Me.fndDeptCode.MyReadOnly = False
         Me.fndDeptCode.MyShowMasterFormButton = False
         Me.fndDeptCode.Name = "fndDeptCode"
+        Me.fndDeptCode.ReferenceFieldDesc = Nothing
+        Me.fndDeptCode.ReferenceFieldName = Nothing
+        Me.fndDeptCode.ReferenceTableName = Nothing
         Me.fndDeptCode.Size = New System.Drawing.Size(171, 19)
         Me.fndDeptCode.TabIndex = 34
         Me.fndDeptCode.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Location = New System.Drawing.Point(12, 76)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(94, 18)
@@ -239,40 +261,38 @@ Partial Class frmSubDepartmentMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(388, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmSubDepartmentMaster
         '
@@ -300,6 +320,7 @@ Partial Class frmSubDepartmentMaster
         CType(Me.lblMainDeptDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -324,5 +345,6 @@ Partial Class frmSubDepartmentMaster
     Friend WithEvents lblMainDeptDesc As common.Controls.MyLabel
     Friend WithEvents fndDeptCode As common.UserControls.txtFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

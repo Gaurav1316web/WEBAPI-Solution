@@ -570,6 +570,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         txtTotReceivedQty.Text = clsCommon.myCstr(Math.Round((TotEveningQty + TotMorningQty), 3, MidpointRounding.AwayFromZero))
         txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), 2, MidpointRounding.AwayFromZero))
         txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), 2, MidpointRounding.AwayFromZero))
+
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
             txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 2, MidpointRounding.AwayFromZero)
             Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
@@ -582,8 +583,8 @@ Public Class frmMilkCollectionDCSMultipleDays
             txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.AwayFromZero)
         End If
         txtTotPendingQty.Text = clsCommon.myCstr(Math.Round((txtTotEnteredQty.Value - (TotEveningQty + TotMorningQty)), 3, MidpointRounding.AwayFromZero))
-        txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - (TotEveningFATKG + TotMorningFATKG)), 2, MidpointRounding.AwayFromZero))
-        txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - (TotEveningSNFKG + TotMorningSNFKG)), 2, MidpointRounding.AwayFromZero))
+        txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - clsCommon.myCDecimal(txtTotReceivedFAT.Text)), 2, MidpointRounding.AwayFromZero))
+        txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - clsCommon.myCDecimal(txtTotReceivedSNF.Text)), 2, MidpointRounding.AwayFromZero))
 
         txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingFAT.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.AwayFromZero)
         txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingSNF.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.AwayFromZero)

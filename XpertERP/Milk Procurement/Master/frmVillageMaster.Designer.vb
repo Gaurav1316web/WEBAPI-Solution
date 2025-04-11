@@ -100,6 +100,7 @@ Partial Class FrmVillageMaster
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.txtadd2 = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -176,6 +177,7 @@ Partial Class FrmVillageMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtadd2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -195,6 +197,7 @@ Partial Class FrmVillageMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -699,7 +702,7 @@ Partial Class FrmVillageMaster
         Me.txtExpectedMilkPerDayBuffalo.TabIndex = 9
         Me.txtExpectedMilkPerDayBuffalo.Text = "0"
         Me.txtExpectedMilkPerDayBuffalo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtExpectedMilkPerDayBuffalo.Value = 0R
+        Me.txtExpectedMilkPerDayBuffalo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel23
         '
@@ -734,7 +737,7 @@ Partial Class FrmVillageMaster
         Me.txtExpectedMilkPerDayCow.TabIndex = 8
         Me.txtExpectedMilkPerDayCow.Text = "0"
         Me.txtExpectedMilkPerDayCow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtExpectedMilkPerDayCow.Value = 0R
+        Me.txtExpectedMilkPerDayCow.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -769,7 +772,7 @@ Partial Class FrmVillageMaster
         Me.txtMarketableSurplusPerDayBuffalo.TabIndex = 7
         Me.txtMarketableSurplusPerDayBuffalo.Text = "0"
         Me.txtMarketableSurplusPerDayBuffalo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMarketableSurplusPerDayBuffalo.Value = 0R
+        Me.txtMarketableSurplusPerDayBuffalo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel19
         '
@@ -804,7 +807,7 @@ Partial Class FrmVillageMaster
         Me.txtMarketableSurplusPerDayCow.TabIndex = 6
         Me.txtMarketableSurplusPerDayCow.Text = "0"
         Me.txtMarketableSurplusPerDayCow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMarketableSurplusPerDayCow.Value = 0R
+        Me.txtMarketableSurplusPerDayCow.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel20
         '
@@ -839,7 +842,7 @@ Partial Class FrmVillageMaster
         Me.txtMilkProductionPerDayBuffalo.TabIndex = 5
         Me.txtMilkProductionPerDayBuffalo.Text = "0"
         Me.txtMilkProductionPerDayBuffalo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMilkProductionPerDayBuffalo.Value = 0R
+        Me.txtMilkProductionPerDayBuffalo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -874,7 +877,7 @@ Partial Class FrmVillageMaster
         Me.txtMilkProductionPerDayCow.TabIndex = 4
         Me.txtMilkProductionPerDayCow.Text = "0"
         Me.txtMilkProductionPerDayCow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMilkProductionPerDayCow.Value = 0R
+        Me.txtMilkProductionPerDayCow.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel22
         '
@@ -909,7 +912,7 @@ Partial Class FrmVillageMaster
         Me.txtBuffaloDry.TabIndex = 3
         Me.txtBuffaloDry.Text = "0"
         Me.txtBuffaloDry.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuffaloDry.Value = 0R
+        Me.txtBuffaloDry.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel18
         '
@@ -944,7 +947,7 @@ Partial Class FrmVillageMaster
         Me.txtCowDry.TabIndex = 2
         Me.txtCowDry.Text = "0"
         Me.txtCowDry.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowDry.Value = 0R
+        Me.txtCowDry.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -979,7 +982,7 @@ Partial Class FrmVillageMaster
         Me.txtBuffaloInMilk.TabIndex = 1
         Me.txtBuffaloInMilk.Text = "0"
         Me.txtBuffaloInMilk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuffaloInMilk.Value = 0R
+        Me.txtBuffaloInMilk.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel16
         '
@@ -1014,7 +1017,7 @@ Partial Class FrmVillageMaster
         Me.txtCowInMilk.TabIndex = 0
         Me.txtCowInMilk.Text = "0"
         Me.txtCowInMilk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowInMilk.Value = 0R
+        Me.txtCowInMilk.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel15
         '
@@ -1090,7 +1093,7 @@ Partial Class FrmVillageMaster
         Me.txtDistanceFromMCC.TabIndex = 10
         Me.txtDistanceFromMCC.Text = "0"
         Me.txtDistanceFromMCC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistanceFromMCC.Value = 0R
+        Me.txtDistanceFromMCC.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel14
         '
@@ -1187,7 +1190,7 @@ Partial Class FrmVillageMaster
         Me.txtDistanceFromCenter.TabIndex = 7
         Me.txtDistanceFromCenter.Text = "0"
         Me.txtDistanceFromCenter.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistanceFromCenter.Value = 0R
+        Me.txtDistanceFromCenter.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -1284,7 +1287,7 @@ Partial Class FrmVillageMaster
         Me.TxtTotalVoting.TabIndex = 4
         Me.TxtTotalVoting.Text = "0"
         Me.TxtTotalVoting.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalVoting.Value = 0R
+        Me.TxtTotalVoting.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -1350,7 +1353,7 @@ Partial Class FrmVillageMaster
         Me.txtTotalPopulation.TabIndex = 2
         Me.txtTotalPopulation.Text = "0"
         Me.txtTotalPopulation.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalPopulation.Value = 0R
+        Me.txtTotalPopulation.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -1422,6 +1425,15 @@ Partial Class FrmVillageMaster
         Me.MyLabel2.TabIndex = 13
         Me.MyLabel2.Text = "Address2"
         Me.MyLabel2.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(333, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 14
+        Me.btnHistory.Text = "History"
         '
         'FrmVillageMaster
         '
@@ -1516,6 +1528,7 @@ Partial Class FrmVillageMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtadd2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1598,5 +1611,6 @@ Partial Class FrmVillageMaster
     Friend WithEvents MyLabel25 As common.Controls.MyLabel
     Friend WithEvents txtTotalAnimals As common.Controls.MyLabel
     Friend WithEvents MyLabel26 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

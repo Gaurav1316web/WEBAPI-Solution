@@ -220,6 +220,8 @@ Public Class FrmMccSMSSetting
     End Sub
 
     Sub DeleteData()
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(cboModuleName.SelectedValue), "TSPL_MCC_MAIL_SMS_Setting", "Program_Code", Nothing)
+
         For Each grow As GridViewRowInfo In gv1.Rows
             Dim qry As String = "delete from TSPL_MCC_MAIL_SMS_Setting where program_code='" + clsCommon.myCstr(cboModuleName.SelectedValue) + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -1030,4 +1032,16 @@ Public Class FrmMccSMSSetting
         Throw New NotImplementedException
     End Function
 
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myCstr(cboModuleName.SelectedValue) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(cboModuleName.SelectedValue), "Program_Code", "TSPL_MCC_MAIL_SMS_Setting")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
 End Class

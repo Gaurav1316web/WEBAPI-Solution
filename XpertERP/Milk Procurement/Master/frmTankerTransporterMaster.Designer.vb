@@ -2080,7 +2080,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtMinimumQtyRequired.TabIndex = 21
         Me.TxtMinimumQtyRequired.Text = "0"
         Me.TxtMinimumQtyRequired.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtMinimumQtyRequired.Value = 0R
+        Me.TxtMinimumQtyRequired.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -2455,6 +2455,7 @@ Partial Class frmTankerTransporterMaster
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
         Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdTax.MyExportFilePath = ""
         Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2462,6 +2463,7 @@ Partial Class frmTankerTransporterMaster
         Me.grdTax.Size = New System.Drawing.Size(684, 95)
         Me.grdTax.TabIndex = 1
         Me.grdTax.TabStop = False
+        Me.grdTax.VarID = ""
         '
         'RadLabel35
         '
@@ -2595,7 +2597,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtaccno.TabIndex = 119
         Me.txtaccno.Text = "0"
         Me.txtaccno.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtaccno.Value = 0R
+        Me.txtaccno.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel55
         '
@@ -2691,11 +2693,13 @@ Partial Class frmTankerTransporterMaster
         Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCheque.MyExportFilePath = ""
         Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
         Me.gvCheque.Size = New System.Drawing.Size(766, 142)
         Me.gvCheque.TabIndex = 3
+        Me.gvCheque.VarID = ""
         '
         'cmbBlankCheque
         '
@@ -2811,7 +2815,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtTotalAmount.TabIndex = 103
         Me.TxtTotalAmount.Text = "0"
         Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalAmount.Value = 0R
+        Me.TxtTotalAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GrpSecurity
         '
@@ -2853,7 +2857,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtSecurityDeductedAmount.TabIndex = 105
         Me.txtSecurityDeductedAmount.Text = "0"
         Me.txtSecurityDeductedAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSecurityDeductedAmount.Value = 0R
+        Me.txtSecurityDeductedAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel48
         '
@@ -2891,7 +2895,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtSecurityAmount.TabIndex = 103
         Me.TxtSecurityAmount.Text = "0"
         Me.TxtSecurityAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSecurityAmount.Value = 0R
+        Me.TxtSecurityAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtbranchcode
         '
@@ -3200,11 +3204,13 @@ Partial Class frmTankerTransporterMaster
         Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.GVPaymentEntry.MyExportFilePath = ""
         Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(838, 529)
         Me.GVPaymentEntry.TabIndex = 4
+        Me.GVPaymentEntry.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -3760,7 +3766,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtGSTStateCode.TabIndex = 307
         Me.txtGSTStateCode.Text = "0"
         Me.txtGSTStateCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGSTStateCode.Value = 0R
+        Me.txtGSTStateCode.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage8
         '
@@ -3781,11 +3787,13 @@ Partial Class frmTankerTransporterMaster
         Me.gvTankerDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTankerDetails.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTankerDetails.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTankerDetails.MyExportFilePath = ""
         Me.gvTankerDetails.MyStopExport = False
         Me.gvTankerDetails.Name = "gvTankerDetails"
         Me.gvTankerDetails.ShowHeaderCellButtons = True
         Me.gvTankerDetails.Size = New System.Drawing.Size(838, 501)
         Me.gvTankerDetails.TabIndex = 4
+        Me.gvTankerDetails.VarID = ""
         '
         'txtifcicode
         '

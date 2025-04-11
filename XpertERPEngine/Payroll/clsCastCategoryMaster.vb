@@ -30,6 +30,7 @@ Public Class clsCastCategoryMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAST_CATEGORY_MASTER", "CAST_CATEGORY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_CAST_CATEGORY_MASTER where CAST_CATEGORY_CODE ='" + strCode + "'"
@@ -103,6 +104,7 @@ Public Class clsCastCategoryMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAST_CATEGORY_MASTER", OMInsertOrUpdate.Update, "CAST_CATEGORY_CODE='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAST_CATEGORY_MASTER", "CAST_CATEGORY_CODE", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

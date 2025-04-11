@@ -94,6 +94,7 @@ Public Class frmGrampanchayatMaster
                 clsCommon.MyMessageBoxShow(Me, "Please Select Grampanchayat Code For Deletion", Me.Text)
                 Return
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_GRAMPANCHAYAT_MASTER", "GRAMPANCHAYAT_CODE", Nothing)
 
             Dim qry As String = "SELECT Count(*) FROM TSPL_GRAMPANCHAYAT_MASTER where GRAMPANCHAYAT_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
@@ -259,5 +260,17 @@ Public Class frmGrampanchayatMaster
 
         End If
         Me.Controls.Remove(gv)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "GRAMPANCHAYAT_CODE", "TSPL_GRAMPANCHAYAT_MASTER")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 End Class

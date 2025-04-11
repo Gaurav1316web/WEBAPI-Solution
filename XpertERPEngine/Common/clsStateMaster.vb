@@ -45,7 +45,7 @@ Public Class clsStateMaster
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_STATE_MASTER", "state_code", "TSPL_STATE_MASTER_DETAIL", "state_code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_STATE_MASTER where STATE_CODE ='" + strCode + "'"

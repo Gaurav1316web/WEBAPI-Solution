@@ -661,7 +661,7 @@ Public Class clsDSSalesReturnHead
             "TSPL_SD_SALE_RETURN_DETAIL.Price_code,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Per,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Amt, " &
             "TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,TSPL_SD_SALE_RETURN_DETAIL.Item_Weight,TSPL_SD_SALE_RETURN_DETAIL.Price_Date, " &
             "TSPL_SD_SALE_RETURN_DETAIL.Bin_No,TSPL_SD_SALE_RETURN_DETAIL.vendor_code,TSPL_SD_SALE_RETURN_DETAIL.vendor_desc,TSPL_SD_SALE_RETURN_DETAIL.PrincipleCode,TSPL_SD_SALE_RETURN_DETAIL.PrincipleDesc,TSPL_SD_SALE_RETURN_DETAIL.TotalItem_Weight,TSPL_SD_SALE_RETURN_DETAIL.Conv_Factor,TSPL_SD_SALE_RETURN_DETAIL.Purchase_Cost,TSPL_SD_SALE_RETURN_DETAIL.OrgRate,  " &
-            "TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPer,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_RETURN_DETAIL.Markup_On,TSPL_SD_SALE_RETURN_DETAIL.Markup_Percent,TSPL_SD_SALE_RETURN_DETAIL.Landing_Cost,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscAmt,TSPL_SD_SALE_RETURN_DETAIL.CustDiscPer,TSPL_SD_SALE_RETURN_DETAIL.CasdDiscScheme_Code,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM,TSPL_SD_SALE_RETURN_DETAIL.ActualQty,TSPL_SD_SALE_RETURN_DETAIL.ActualConvAmt,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_PKID,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_Rate,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_Amt,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_RETURN_DETAIL.Security_Rate,TSPL_SD_SALE_RETURN_DETAIL.Security_Amt,TSPL_SD_SALE_RETURN_DETAIL.Transporter "
+            "TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPer,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_RETURN_DETAIL.Markup_On,TSPL_SD_SALE_RETURN_DETAIL.Markup_Percent,TSPL_SD_SALE_RETURN_DETAIL.Landing_Cost,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscAmt,TSPL_SD_SALE_RETURN_DETAIL.CustDiscPer,TSPL_SD_SALE_RETURN_DETAIL.CasdDiscScheme_Code,TSPL_SD_SALE_RETURN_DETAIL.ActualUOM,TSPL_SD_SALE_RETURN_DETAIL.ActualQty,TSPL_SD_SALE_RETURN_DETAIL.ActualConvAmt,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_PKID,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_Rate,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SALE_RETURN_DETAIL.Distributor_Commission_Amt,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_RETURN_DETAIL.Security_Rate,TSPL_SD_SALE_RETURN_DETAIL.Security_Amt,TSPL_SD_SALE_RETURN_DETAIL.Transporter,TSPL_SD_SALE_RETURN_DETAIL.Price_with_tax "
             qry += " FROM TSPL_SD_SALE_RETURN_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code"
@@ -693,6 +693,7 @@ Public Class clsDSSalesReturnHead
                     objTr.RATE_UOM = clsCommon.myCstr(dr("RATE_UOM"))
                     objTr.Item_Group = clsCommon.myCstr(dr("Item_Group"))
                     objTr.TAX_PAID = clsCommon.myCstr(dr("TAX_PAID"))
+                    objTr.Price_with_tax = clsCommon.myCdbl(dr("Price_with_tax"))
 
                     objTr.OrgUnit_code = clsCommon.myCstr(dr("OrgUnit_code"))
                     objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
@@ -1527,6 +1528,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" & strDocNo & "'"
         objCustInv.Account_Set = clsDBFuncationality.getSingleValue(qry, trans)
         ''objCustInv.Order_No
         objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
+        objCustInv.Location_Code_Prefix = obj.Bill_To_Location
         objCustInv.On_Hold = 0
         objCustInv.Remarks = obj.Remarks
         objCustInv.Description = obj.Description
@@ -1705,7 +1707,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" & strDocNo & "'"
                     objCustInvTR.Amount = objTr.Return_Amount
                     objCustInvTR.Discount_Per = objTr.Disc_Per
                     objCustInvTR.Discount = objTr.Disc_Amt
-                    objCustInvTR.Amount_less_Discount = (objTr.Return_Amount - objTr.Total_Disc_Amt)
+                    objCustInvTR.Amount_less_Discount = objTr.Amt_Less_Discount
                     objCustInvTR.TAX1 = objTr.TAX1
                     objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
                     objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
@@ -2213,6 +2215,7 @@ Public Class clsDSSalesReturnDetail
     Public Total_MRP_Amt As Double = 0
     Public Total_Basic_Amt As Double = 0
     Public Total_Disc_Amt As Double = 0
+    Public Price_with_tax As Double = 0
     Public Cust_Discount As Double = 0
     Public Total_Cust_Discount As Double = 0
     Public Price_Amount1 As Double = 0
@@ -2429,6 +2432,7 @@ Public Class clsDSSalesReturnDetail
                 clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
                 clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter, True)
+                clsCommon.AddColumnsForChange(coll, "Price_with_tax", obj.Price_with_tax, True)
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)

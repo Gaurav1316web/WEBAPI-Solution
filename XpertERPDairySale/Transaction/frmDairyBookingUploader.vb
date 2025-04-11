@@ -247,7 +247,7 @@ Public Class frmDairyBookingUploader
     Private Sub btnExportInvalid_Click(sender As Object, e As EventArgs) Handles btnExportInvalid.Click
         If rdbAgainstCashIndent.IsChecked Or rdbAgainstCardIndent.IsChecked Then
             Gv1.Columns(colIsValidated).FilterDescriptor = New FilterDescriptor("ProductName", FilterOperator.IsEqualTo, False)
-            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUser + "\Downloads"
+            Dim dirName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
 
             If Not System.IO.Directory.Exists(dirName) Then
                 System.IO.Directory.CreateDirectory(dirName)

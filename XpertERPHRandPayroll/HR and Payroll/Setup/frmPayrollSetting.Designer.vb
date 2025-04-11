@@ -24,12 +24,19 @@ Partial Class frmPayrollSetting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPayrollSetting))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblempcode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.pageGeneral = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.RTimeTo = New Telerik.WinControls.UI.RadTimePicker()
+        Me.RtimeFrom = New Telerik.WinControls.UI.RadTimePicker()
         Me.txtGratuityPeriod = New common.MyNumBox()
         Me.lblGratuityPeriod = New common.Controls.MyLabel()
         Me.txtStatutoryDLWorkingHours = New common.MyNumBox()
@@ -81,10 +88,7 @@ Partial Class frmPayrollSetting
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.RtimeFrom = New Telerik.WinControls.UI.RadTimePicker()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.RTimeTo = New Telerik.WinControls.UI.RadTimePicker()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -92,6 +96,10 @@ Partial Class frmPayrollSetting
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RTimeTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RtimeFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGratuityPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGratuityPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStatutoryDLWorkingHours, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -149,10 +157,7 @@ Partial Class frmPayrollSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RtimeFrom, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RTimeTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -174,6 +179,7 @@ Partial Class frmPayrollSetting
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbSetDefault)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -222,7 +228,6 @@ Partial Class frmPayrollSetting
         Me.RadPageView1.SelectedPage = Me.pageGeneral
         Me.RadPageView1.Size = New System.Drawing.Size(970, 505)
         Me.RadPageView1.TabIndex = 232
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageGeneral
@@ -272,6 +277,48 @@ Partial Class frmPayrollSetting
         Me.pageGeneral.Size = New System.Drawing.Size(949, 457)
         Me.pageGeneral.Text = "General"
         '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(372, 210)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(104, 16)
+        Me.MyLabel6.TabIndex = 236
+        Me.MyLabel6.Text = "First Half (To Time)"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(372, 184)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(117, 16)
+        Me.MyLabel5.TabIndex = 234
+        Me.MyLabel5.Text = "First Half (From Time)"
+        '
+        'RTimeTo
+        '
+        Me.RTimeTo.Location = New System.Drawing.Point(581, 207)
+        Me.RTimeTo.MaxValue = New Date(9999, 12, 31, 23, 59, 59, 0)
+        Me.RTimeTo.MinValue = New Date(CType(0, Long))
+        Me.RTimeTo.Name = "RTimeTo"
+        Me.RTimeTo.Size = New System.Drawing.Size(122, 20)
+        Me.RTimeTo.TabIndex = 235
+        Me.RTimeTo.TabStop = False
+        Me.RTimeTo.Value = New Date(2018, 7, 27, 10, 52, 3, 714)
+        '
+        'RtimeFrom
+        '
+        Me.RtimeFrom.Location = New System.Drawing.Point(581, 181)
+        Me.RtimeFrom.MaxValue = New Date(9999, 12, 31, 23, 59, 59, 0)
+        Me.RtimeFrom.MinValue = New Date(CType(0, Long))
+        Me.RtimeFrom.Name = "RtimeFrom"
+        Me.RtimeFrom.Size = New System.Drawing.Size(122, 20)
+        Me.RtimeFrom.TabIndex = 233
+        Me.RtimeFrom.TabStop = False
+        Me.RtimeFrom.Value = New Date(2018, 7, 27, 10, 52, 3, 714)
+        '
         'txtGratuityPeriod
         '
         Me.txtGratuityPeriod.BackColor = System.Drawing.Color.LightGoldenrodYellow
@@ -298,7 +345,7 @@ Partial Class frmPayrollSetting
         Me.txtGratuityPeriod.TabIndex = 231
         Me.txtGratuityPeriod.Text = "0"
         Me.txtGratuityPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGratuityPeriod.Value = 0.0R
+        Me.txtGratuityPeriod.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblGratuityPeriod
         '
@@ -336,7 +383,7 @@ Partial Class frmPayrollSetting
         Me.txtStatutoryDLWorkingHours.TabIndex = 229
         Me.txtStatutoryDLWorkingHours.Text = "0"
         Me.txtStatutoryDLWorkingHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStatutoryDLWorkingHours.Value = 0.0R
+        Me.txtStatutoryDLWorkingHours.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel3
         '
@@ -438,7 +485,7 @@ Partial Class frmPayrollSetting
         Me.txtStatutoryWK_WH.TabIndex = 227
         Me.txtStatutoryWK_WH.Text = "0"
         Me.txtStatutoryWK_WH.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStatutoryWK_WH.Value = 0.0R
+        Me.txtStatutoryWK_WH.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -493,7 +540,6 @@ Partial Class frmPayrollSetting
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(354, 19)
         Me.lblLocationDesc.TabIndex = 201
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkAutoAttendance
         '
@@ -529,7 +575,7 @@ Partial Class frmPayrollSetting
         Me.txtEarlyArrivalMintOT.TabIndex = 225
         Me.txtEarlyArrivalMintOT.Text = "0"
         Me.txtEarlyArrivalMintOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEarlyArrivalMintOT.Value = 0.0R
+        Me.txtEarlyArrivalMintOT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -577,7 +623,7 @@ Partial Class frmPayrollSetting
         Me.txtMinHoursHFDay.TabIndex = 205
         Me.txtMinHoursHFDay.Text = "0"
         Me.txtMinHoursHFDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinHoursHFDay.Value = 0.0R
+        Me.txtMinHoursHFDay.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtIntervalMinutes
         '
@@ -605,7 +651,7 @@ Partial Class frmPayrollSetting
         Me.txtIntervalMinutes.TabIndex = 223
         Me.txtIntervalMinutes.Text = "0"
         Me.txtIntervalMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtIntervalMinutes.Value = 0.0R
+        Me.txtIntervalMinutes.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -653,7 +699,7 @@ Partial Class frmPayrollSetting
         Me.txtMinHoursOT.TabIndex = 207
         Me.txtMinHoursOT.Text = "0"
         Me.txtMinHoursOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinHoursOT.Value = 0.0R
+        Me.txtMinHoursOT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtMinimumPdaysWKOff
         '
@@ -681,7 +727,7 @@ Partial Class frmPayrollSetting
         Me.txtMinimumPdaysWKOff.TabIndex = 221
         Me.txtMinimumPdaysWKOff.Text = "0"
         Me.txtMinimumPdaysWKOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinimumPdaysWKOff.Value = 0.0R
+        Me.txtMinimumPdaysWKOff.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel20
         '
@@ -729,7 +775,7 @@ Partial Class frmPayrollSetting
         Me.txtMaximumHoursOT.TabIndex = 209
         Me.txtMaximumHoursOT.Text = "0"
         Me.txtMaximumHoursOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaximumHoursOT.Value = 0.0R
+        Me.txtMaximumHoursOT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtWorkingHours
         '
@@ -757,7 +803,7 @@ Partial Class frmPayrollSetting
         Me.txtWorkingHours.TabIndex = 219
         Me.txtWorkingHours.Text = "0"
         Me.txtWorkingHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtWorkingHours.Value = 0.0R
+        Me.txtWorkingHours.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel19
         '
@@ -805,7 +851,7 @@ Partial Class frmPayrollSetting
         Me.txtMaximumMintLateComming.TabIndex = 212
         Me.txtMaximumMintLateComming.Text = "0"
         Me.txtMaximumMintLateComming.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaximumMintLateComming.Value = 0.0R
+        Me.txtMaximumMintLateComming.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel16
         '
@@ -843,7 +889,7 @@ Partial Class frmPayrollSetting
         Me.txtNoSLForHFDay.TabIndex = 216
         Me.txtNoSLForHFDay.Text = "0"
         Me.txtNoSLForHFDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoSLForHFDay.Value = 0.0R
+        Me.txtNoSLForHFDay.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -881,7 +927,7 @@ Partial Class frmPayrollSetting
         Me.txtNoLcommingSL.TabIndex = 214
         Me.txtNoLcommingSL.Text = "0"
         Me.txtNoLcommingSL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoLcommingSL.Value = 0.0R
+        Me.txtNoLcommingSL.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'pageCTC
         '
@@ -922,13 +968,17 @@ Partial Class frmPayrollSetting
         Me.gvCTC.MasterTemplate.AllowDeleteRow = False
         Me.gvCTC.MasterTemplate.AutoGenerateColumns = False
         Me.gvCTC.MasterTemplate.EnableGrouping = False
+        Me.gvCTC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCTC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCTC.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCTC.MyExportFilePath = ""
+        Me.gvCTC.MyStopExport = False
         Me.gvCTC.Name = "gvCTC"
         Me.gvCTC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCTC.ShowHeaderCellButtons = True
         Me.gvCTC.Size = New System.Drawing.Size(832, 343)
         Me.gvCTC.TabIndex = 5
-        Me.gvCTC.Text = "RadGridView1"
+        Me.gvCTC.VarID = ""
         '
         'pageGross
         '
@@ -969,13 +1019,17 @@ Partial Class frmPayrollSetting
         Me.gvGross.MasterTemplate.AllowDeleteRow = False
         Me.gvGross.MasterTemplate.AutoGenerateColumns = False
         Me.gvGross.MasterTemplate.EnableGrouping = False
+        Me.gvGross.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvGross.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvGross.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvGross.MyExportFilePath = ""
+        Me.gvGross.MyStopExport = False
         Me.gvGross.Name = "gvGross"
         Me.gvGross.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvGross.ShowHeaderCellButtons = True
         Me.gvGross.Size = New System.Drawing.Size(832, 343)
         Me.gvGross.TabIndex = 5
-        Me.gvGross.Text = "RadGridView1"
+        Me.gvGross.VarID = ""
         '
         'pageInHand
         '
@@ -1016,13 +1070,17 @@ Partial Class frmPayrollSetting
         Me.gvInHand.MasterTemplate.AllowDeleteRow = False
         Me.gvInHand.MasterTemplate.AutoGenerateColumns = False
         Me.gvInHand.MasterTemplate.EnableGrouping = False
+        Me.gvInHand.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInHand.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvInHand.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInHand.MyExportFilePath = ""
+        Me.gvInHand.MyStopExport = False
         Me.gvInHand.Name = "gvInHand"
         Me.gvInHand.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvInHand.ShowHeaderCellButtons = True
         Me.gvInHand.Size = New System.Drawing.Size(832, 343)
         Me.gvInHand.TabIndex = 5
-        Me.gvInHand.Text = "RadGridView1"
+        Me.gvInHand.VarID = ""
         '
         'btnNew
         '
@@ -1073,49 +1131,15 @@ Partial Class frmPayrollSetting
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'RtimeFrom
+        'btnHistory
         '
-        Me.RtimeFrom.Location = New System.Drawing.Point(581, 181)
-        Me.RtimeFrom.MaxValue = New Date(9999, 12, 31, 23, 59, 59, 0)
-        Me.RtimeFrom.MinValue = New Date(CType(0, Long))
-        Me.RtimeFrom.Name = "RtimeFrom"
-        Me.RtimeFrom.Size = New System.Drawing.Size(122, 20)
-        Me.RtimeFrom.TabIndex = 233
-        Me.RtimeFrom.TabStop = False
-        Me.RtimeFrom.Text = "RadTimePicker1"
-        Me.RtimeFrom.Value = New Date(2018, 7, 27, 10, 52, 3, 714)
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(372, 184)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(117, 16)
-        Me.MyLabel5.TabIndex = 234
-        Me.MyLabel5.Text = "First Half (From Time)"
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(372, 210)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(104, 16)
-        Me.MyLabel6.TabIndex = 236
-        Me.MyLabel6.Text = "First Half (To Time)"
-        '
-        'RTimeTo
-        '
-        Me.RTimeTo.Location = New System.Drawing.Point(581, 207)
-        Me.RTimeTo.MaxValue = New Date(9999, 12, 31, 23, 59, 59, 0)
-        Me.RTimeTo.MinValue = New Date(CType(0, Long))
-        Me.RTimeTo.Name = "RTimeTo"
-        Me.RTimeTo.Size = New System.Drawing.Size(122, 20)
-        Me.RTimeTo.TabIndex = 235
-        Me.RTimeTo.TabStop = False
-        Me.RTimeTo.Text = "RadTimePicker2"
-        Me.RTimeTo.Value = New Date(2018, 7, 27, 10, 52, 3, 714)
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(840, 13)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 4
+        Me.btnHistory.Text = "History"
         '
         'frmPayrollSetting
         '
@@ -1138,6 +1162,10 @@ Partial Class frmPayrollSetting
         Me.RadPageView1.ResumeLayout(False)
         Me.pageGeneral.ResumeLayout(False)
         Me.pageGeneral.PerformLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RTimeTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RtimeFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGratuityPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGratuityPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtStatutoryDLWorkingHours, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1196,10 +1224,7 @@ Partial Class frmPayrollSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RtimeFrom, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RTimeTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1264,4 +1289,5 @@ Partial Class frmPayrollSetting
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents RTimeTo As Telerik.WinControls.UI.RadTimePicker
     Friend WithEvents RtimeFrom As Telerik.WinControls.UI.RadTimePicker
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class

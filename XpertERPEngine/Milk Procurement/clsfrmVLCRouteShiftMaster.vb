@@ -70,6 +70,7 @@ Public Class clsfrmVLCRouteShiftMaster
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_ROUTE_SHIFT_MASTER", OMInsertOrUpdate.Update, " TSPL_VLC_ROUTE_SHIFT_MASTER.doc_no='" + strCode + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VLC_ROUTE_SHIFT_MASTER", "doc_no", trans)
 
                     '----------------new route and village updates in vlc master---------------------------------
                     If clsCommon.myLen(obj.newroutecode) > 0 Then

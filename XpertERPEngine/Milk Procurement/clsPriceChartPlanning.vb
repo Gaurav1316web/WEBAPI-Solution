@@ -143,6 +143,7 @@ Public Class clsPriceChartPlanning
             clsPriceChartPlanningMCC.SaveData(obj.Planning_Code, obj.arrMCC, trans)
             clsPriceChartPlanningVLC.SaveData(obj.Planning_Code, obj.arrVLC, trans)
             clsPriceChartPlanningTS.SaveData(obj.Planning_Code, obj.arrTS, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Planning_Code, "TSPL_PRICE_CHART_PLANNING", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_MCC", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_VLC", "Planning_Code", trans)
 
             clsPriceChartPlanningFATDed.SaveData(obj.Planning_Code, obj.arrFATDed, trans)
             clsPriceChartPlanningSNFDed.SaveData(obj.Planning_Code, obj.arrSNFDed, trans)
@@ -163,6 +164,8 @@ Public Class clsPriceChartPlanning
         Dim obj As clsPriceChartPlanning = clsPriceChartPlanning.GetData(strCode, NavigatorType.Current)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PRICE_CHART_PLANNING", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_MCC", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_VLC", "Planning_Code", trans)
+
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If

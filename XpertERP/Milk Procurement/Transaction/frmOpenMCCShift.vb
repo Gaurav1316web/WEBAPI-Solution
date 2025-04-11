@@ -478,7 +478,7 @@ Public Class FrmOpenMCCShift
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmOpenMCCShift, txtmccode.Value, dtpShiftDate.Value, Nothing)
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", Nothing)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_OPEN_MCC_SHIFT", "MCC_SHIFT_CODE", Nothing)
 
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"

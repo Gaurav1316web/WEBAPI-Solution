@@ -158,4 +158,16 @@ Public Class frmVLCMappingForMPAmount
         Me.Close()
         GC.Collect()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtMCC.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(txtMCC.Value, "MCC_Code", "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class

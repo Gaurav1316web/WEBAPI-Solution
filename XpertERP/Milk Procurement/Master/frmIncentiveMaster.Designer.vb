@@ -77,6 +77,7 @@ Partial Class frmIncentiveMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -112,6 +113,7 @@ Partial Class frmIncentiveMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -174,6 +176,7 @@ Partial Class frmIncentiveMaster
         Me.gvPP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPP.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPP.MyExportFilePath = ""
         Me.gvPP.MyStopExport = False
         Me.gvPP.Name = "gvPP"
         Me.gvPP.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -181,6 +184,7 @@ Partial Class frmIncentiveMaster
         Me.gvPP.Size = New System.Drawing.Size(829, 220)
         Me.gvPP.TabIndex = 1
         Me.gvPP.TabStop = False
+        Me.gvPP.VarID = ""
         '
         'SplitContainer1
         '
@@ -220,6 +224,7 @@ Partial Class frmIncentiveMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -746,6 +751,16 @@ Partial Class frmIncentiveMaster
         Me.BtnImport.Name = "BtnImport"
         Me.BtnImport.Text = "Import"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(155, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 22)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
+        '
         'frmIncentiveMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -795,6 +810,7 @@ Partial Class frmIncentiveMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -837,4 +853,5 @@ Partial Class frmIncentiveMaster
     Friend WithEvents BtnImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents ddlQtyType As common.Controls.MyComboBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class

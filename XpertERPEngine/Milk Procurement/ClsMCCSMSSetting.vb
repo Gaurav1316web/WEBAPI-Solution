@@ -36,7 +36,10 @@ Public Class ClsMCCSMSSetting
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
 
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_MAIL_SMS_Setting", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Program_Code, "TSPL_MCC_MAIL_SMS_Setting", "Program_Code", trans)
+
             Next
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

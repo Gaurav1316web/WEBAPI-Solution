@@ -648,8 +648,10 @@ Public Class clsDCSSupervisorTagging
 
 
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_Supervisor_Tagging", OMInsertOrUpdate.Insert, "", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrMcc, "TSPL_VLC_Supervisor_Tagging", "MCC_Code", trans)
 
                 Next
+
             End If
             trans.Commit()
             Return True

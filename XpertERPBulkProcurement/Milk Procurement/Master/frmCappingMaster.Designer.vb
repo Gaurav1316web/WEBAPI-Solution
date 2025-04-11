@@ -49,6 +49,7 @@ Partial Class frmCappingMaster
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,6 +76,7 @@ Partial Class frmCappingMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,6 +116,7 @@ Partial Class frmCappingMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEndDate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -129,7 +132,7 @@ Partial Class frmCappingMaster
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(9, 100)
         Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.Size = New System.Drawing.Size(52, 18)
         Me.MyLabel15.TabIndex = 1092
         Me.MyLabel15.Text = "Secretary"
         '
@@ -173,7 +176,7 @@ Partial Class frmCappingMaster
         Me.txtSNF.TabIndex = 1089
         Me.txtSNF.Text = "0"
         Me.txtSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNF.Value = 0R
+        Me.txtSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -222,7 +225,7 @@ Partial Class frmCappingMaster
         Me.txtFat.TabIndex = 1087
         Me.txtFat.Text = "0"
         Me.txtFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFat.Value = 0R
+        Me.txtFat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -492,6 +495,15 @@ Partial Class frmCappingMaster
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(497, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 112
+        Me.btnHistory.Text = "History"
+        '
         'frmCappingMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -532,6 +544,7 @@ Partial Class frmCappingMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -564,4 +577,5 @@ Partial Class frmCappingMaster
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents txtVSP As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnHistory As RadButton
 End Class

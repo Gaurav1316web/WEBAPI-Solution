@@ -988,6 +988,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                 objCust.Customer_Code = obj.cust_Code
                 objCust.Customer_Name = obj.cust_Name
                 objCust.loc_code = obj.LocationAR
+                objCust.Location_Code_Prefix = obj.Loc_Code
                 objCust.Posting_Date = obj.posting_Date
                 objCust.Account_Set = clsDBFuncationality.getSingleValue("select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.cust_Code + "'", trans)
                 If clsCommon.CompairString(obj.Doc_Type, "J") = CompairStringResult.Equal Then
@@ -1735,7 +1736,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                 Throw New Exception("IrnNo Generated,Can't Reverse The Document")
             End If
 
-            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SCRAPINVOICE_HEAD where invoice_No= '" + strInvoiceCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1'"
+            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SCRAPINVOICE_HEAD where invoice_No= '" + strInvoiceCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1' and Create_E_Invoice=1"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt.Rows.Count > 0 Then
                 Throw New Exception("Update IrnNo before Reversing The Document")

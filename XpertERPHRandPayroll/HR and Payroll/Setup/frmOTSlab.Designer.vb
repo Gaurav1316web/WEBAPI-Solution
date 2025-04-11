@@ -24,6 +24,7 @@ Partial Class frmOTSlab
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOTSlab))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -45,6 +46,7 @@ Partial Class frmOTSlab
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,6 +63,7 @@ Partial Class frmOTSlab
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -80,6 +83,7 @@ Partial Class frmOTSlab
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -94,7 +98,6 @@ Partial Class frmOTSlab
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(619, 20)
         Me.RadMenu1.TabIndex = 321
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -106,8 +109,6 @@ Partial Class frmOTSlab
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmHeadImport, Me.rmDetailImport})
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
@@ -128,8 +129,6 @@ Partial Class frmOTSlab
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmHeadExport, Me.rmDetailExport})
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
@@ -143,8 +142,6 @@ Partial Class frmOTSlab
         '
         'rmDetailExport
         '
-        Me.rmDetailExport.AccessibleDescription = "Detail"
-        Me.rmDetailExport.AccessibleName = "Detail"
         Me.rmDetailExport.Name = "rmDetailExport"
         Me.rmDetailExport.Text = "Detail"
         '
@@ -226,20 +223,25 @@ Partial Class frmOTSlab
         Me.gvOTSlab.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvOTSlab.Location = New System.Drawing.Point(6, 81)
         '
-        'gvOTSlab
+        '
         '
         Me.gvOTSlab.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvOTSlab.MasterTemplate.AllowAddNewRow = False
         Me.gvOTSlab.MasterTemplate.AutoGenerateColumns = False
         Me.gvOTSlab.MasterTemplate.EnableCustomFiltering = True
         Me.gvOTSlab.MasterTemplate.EnableGrouping = False
+        Me.gvOTSlab.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOTSlab.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOTSlab.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOTSlab.MyExportFilePath = ""
+        Me.gvOTSlab.MyStopExport = False
         Me.gvOTSlab.Name = "gvOTSlab"
         Me.gvOTSlab.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvOTSlab.ShowHeaderCellButtons = True
         Me.gvOTSlab.Size = New System.Drawing.Size(596, 310)
         Me.gvOTSlab.TabIndex = 4
         Me.gvOTSlab.TabStop = False
+        Me.gvOTSlab.VarID = ""
         '
         'lblItemCategoryCode
         '
@@ -307,6 +309,16 @@ Partial Class frmOTSlab
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(473, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'frmOTSlab
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -337,6 +349,7 @@ Partial Class frmOTSlab
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -361,4 +374,5 @@ Partial Class frmOTSlab
     Friend WithEvents rmDetailExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmHeadImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmDetailImport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
