@@ -1052,6 +1052,7 @@ Public Class clsPurchaseInvoiceHead
             ''---end
 
             objVendorInvHead.loc_code = obj.loc_code
+            objVendorInvHead.Location_Code_Prefix = obj.Bill_To_Location
             objVendorInvHead.PROJECT_ID = obj.PROJECT_ID
             objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.Vendor_Code + "'", trans))
             If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
