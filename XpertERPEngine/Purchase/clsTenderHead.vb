@@ -1005,6 +1005,7 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
 
             qry = "update tspl_tender_header set POSTED=0,Posting_Date=null where DocumentCode='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TENDER_HEADER", "DocumentCode", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
