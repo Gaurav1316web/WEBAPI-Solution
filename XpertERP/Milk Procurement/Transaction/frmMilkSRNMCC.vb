@@ -797,8 +797,10 @@ Public Class frmMilkSRNMCC
                     End If
 
                     clsCommon.ProgressBarShow()
-
-                    Dim counter_Index As Integer = 0
+                    Dim dtError As New DataTable
+                    dtError.Columns.Add("RowNo", GetType(Integer))
+                    dtError.Columns.Add("Error", GetType(String))
+                    Dim counter_Index As Integer = 1
                     For Each growImport As GridViewRowInfo In gvImport.Rows
                         Try
                             Dim dclQty As Decimal = 0
@@ -825,8 +827,12 @@ Public Class frmMilkSRNMCC
                             End If
                             clsMilkSRNMCC.Correction(clsCommon.myCstr(growImport.Cells("SRN No").Value), CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dclQty, strType, dclFAT, dclSNF, strVLCUploaderCode)
                         Catch ex As Exception
-                            clsCommon.ProgressBarHide()
-                            clsCommon.MyMessageBoxShow("Error at Row No : " + (clsCommon.myCstr(counter_Index + 1)) + Environment.NewLine + ex.Message, Me.Text)
+                            Dim dr As DataRow = dtError.NewRow()
+                            dr("RowNo") = counter_Index
+                            dr("Error") = ex.Message
+                            dtError.Rows.Add(dr)
+                            'clsCommon.ProgressBarHide()
+                            'clsCommon.MyMessageBoxShow("Error at Row No : " + (clsCommon.myCstr(counter_Index + 1)) + Environment.NewLine + ex.Message, Me.Text)
                         End Try
 #Region "Commented Code Remove after CLR Handle"
                         'Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1242,7 +1248,14 @@ Public Class frmMilkSRNMCC
                         clsCommon.ProgressBarUpdate("Total Receords Imported : " & counter_Index & " / " & gvImport.Rows.Count)
                     Next
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Task Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed !", Me.Text)
+                    If dtError IsNot Nothing AndAlso dtError.Rows.Count > 0 Then
+                        Dim ff As New FrmFreeGrid
+                        ff.ReportID = "Milk SRN"
+                        ff.Text = "Errors"
+                        ff.dt = dtError
+                        ff.ShowDialog()
+                    End If
                 Catch ex As Exception
                     Throw New Exception(ex.Message)
                 Finally
