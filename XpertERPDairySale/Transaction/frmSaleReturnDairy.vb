@@ -8840,12 +8840,12 @@ from
                     gv1.Rows(IntRowNo).Cells(colCashSchemeType).Value = Nothing
                 End If
             End If
-            Dim dblCashAmt As Double = gv1.Rows(IntRowNo).Cells(colCash_Amt).Value
+            Dim dblCashAmt As Decimal = gv1.Rows(IntRowNo).Cells(colCash_Amt).Value
             Dim strOrgUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
-            Dim dblBasicAmt As Double = dblQty * dblBasicRate
-            Dim dblReturnAmt As Double = (dblActualQty * dblBasicRate)
-            Dim dblDamageAmt As Double = (dblDamageQty * dblBasicRate)
-            Dim dblAmt As Double = dblReturnAmt + dblDamageAmt ''+ dblFAmt
+            Dim dblBasicAmt As Decimal = dblQty * dblBasicRate
+            Dim dblReturnAmt As Decimal = (dblActualQty * dblBasicRate)
+            Dim dblDamageAmt As Decimal = (dblDamageQty * dblBasicRate)
+            Dim dblAmt As Decimal = dblReturnAmt + dblDamageAmt ''+ dblFAmt
             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0 Then
                 gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2) 'dblAmt 
                 gv1.Rows(IntRowNo).Cells(colReturnAmt).Value = Math.Round(dblReturnAmt, 2) 'dblReturnAmt 
@@ -8862,15 +8862,15 @@ from
             End If
 
             GetDCDetails()
-            Dim dblTotalDCAmt As Double = 0
-            Dim dblTotalTCAmt As Double = 0
-            Dim dblTotTaxRate As Double = GetCurrentRowTotalTaxRate(IntRowNo)
-            Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+            Dim dblTotalDCAmt As Decimal = 0
+            Dim dblTotalTCAmt As Decimal = 0
+            Dim dblTotTaxRate As Decimal = GetCurrentRowTotalTaxRate(IntRowNo)
+            Dim dblDisPer As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             'Dim dblSCRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColSCRate).Value)
-            Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
+            Dim dblDisAmt As Decimal = (dblAmt * dblDisPer) / 100
             'Dim dblSCAmt As Double = dblAmt * (dblSCRate / 100)
             'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-            If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+            If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                 If Not ApplyCommissionRateWithTax Then
                     gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                 Else
@@ -8878,8 +8878,8 @@ from
                 End If
                 gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
                 gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
-                gv1.Rows(IntRowNo).Cells(ColTCAmt).Value = clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCRate).Value))
-                gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColSCRate).Value))
+                gv1.Rows(IntRowNo).Cells(ColTCAmt).Value = clsCommon.myCstr(clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColTCRate).Value))
+                gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = clsCommon.myCstr(clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColSCRate).Value))
                 dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
                 dblTotalTCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCAmt).Value)
                 If dblTotalDCAmt > 0 Then
@@ -8892,13 +8892,13 @@ from
 
             'Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             'Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
-            Dim dblHeadDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
-            Dim dblHeadPerDisAmt As Double = (dblAmt * dblHeadDisPer) / 100
+            Dim dblHeadDisPer As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
+            Dim dblHeadPerDisAmt As Decimal = (dblAmt * dblHeadDisPer) / 100
 
             Dim dblTotDiscAmt = dblheadDiscamt + dblHeadPerDisAmt + dblDisAmt + dblCashAmt
-            Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt - dblheadDiscamt - dblHeadPerDisAmt - dblCashAmt
-            Dim dblAbatementRate As Double = gv1.CurrentRow.Cells(colAbatementPer).Value
-            Dim dblAbatementAmt As Double = ((dblMRP * dblAbatementRate) / 100) * dblQty
+            Dim dblAmtAfterDis As Decimal = dblAmt - dblDisAmt - dblheadDiscamt - dblHeadPerDisAmt - dblCashAmt
+            Dim dblAbatementRate As Decimal = gv1.CurrentRow.Cells(colAbatementPer).Value
+            Dim dblAbatementAmt As Decimal = ((dblMRP * dblAbatementRate) / 100) * dblQty
 
             Dim dblTotalNonTabxableRate As Decimal = 0
             Dim dblTotalNonTabxableAmount As Decimal = 0
@@ -8947,14 +8947,14 @@ from
                 If rbtnTaxCalAutomatic.IsChecked Then
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
-                        Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
+                        Dim dblTaxRate As Double = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
                         Dim IsSurTax As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value)
                         Dim strSurTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value)
                         Dim IsTaxable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + Strii)).Value)
                         Dim IsExcisable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + Strii)).Value)
                         Dim IsTaxonBaseAmount As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsTaxOnBaseAmount + clsCommon.myCstr(ii)).Value)
-                        Dim dblBaseAmt As Double = 0
-                        Dim dblTaxAmt As Double = 0
+                        Dim dblBaseAmt As Decimal = 0
+                        Dim dblTaxAmt As Decimal = 0
                         'If IsSurTax Then
                         '    Dim dblSurTaxAmt As Double = GetCurrentRowSurTaxAmt(IntRowNo, ii, strSurTaxCode)
                         '    dblBaseAmt = dblSurTaxAmt

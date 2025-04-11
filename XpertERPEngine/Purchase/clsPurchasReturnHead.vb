@@ -920,6 +920,7 @@ Public Class clsPurchasReturnHead
                 objVendorInvHead.Vendor_Name = obj.Vendor_Name
                 objVendorInvHead.Vendor_Invoice_No = obj.Vendor_Invoice_No
                 objVendorInvHead.Vendor_Invoice_Date = clsCommon.GetPrintDate(obj.PR_Date, "dd/MM/yyyy")
+                objVendorInvHead.Location_Code_Prefix = obj.Bill_To_Location
                 objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
                 objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.Vendor_Code + "'", trans))
                 If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then

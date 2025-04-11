@@ -1501,13 +1501,13 @@ TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as ValDtlsTotInvVal, TSPL_SD_SALE_INVOICE_HE
 Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "' Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left Outer Join TSPL_LOCATION_MASTER as Bill_To_Location on Bill_To_Location.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location left Outer Join TSPL_SHIP_TO_LOCATION as Ship_To_Location on Ship_To_Location.Ship_To_Code = TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.document_code = TSPL_SD_SALE_INVOICE_head.document_code left outer join tspl_item_master on tspl_item_master.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_code left outer join TSPL_ADDITIONAL_CHARGES on TSPL_ADDITIONAL_CHARGES.CODE = TSPL_SD_SALE_INVOICE_DETAIL.Item_code left outer join TSPL_STATE_MASTER as BillToLocation_State_Master on BillToLocation_State_Master.STATE_CODE = Bill_To_Location.State left outer join TSPL_STATE_MASTER as Ship_To_Location_State_Master on Ship_To_Location_State_Master.STATE_CODE = Ship_To_Location.State left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE = TSPL_Customer_master.State left outer join tspl_city_master on tspl_city_master.city_code = TSPL_Customer_master.City_Code left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax2 left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax3 Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_SD_SALE_INVOICE_HEAD.Transport_Code 
                 where TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strDocNo & "'"
 
-                Dim isEwayBill As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsEwaybill from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" & strDocNo & "'", trans))
+                Dim isEwayBill As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsEwaybill from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" & strDocNo & "'", trans)) = 1, True, False)
 
                 Dim objResult As Object
                 If OnlyEWayBill Then
                     objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_EWAYBillOnly(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, GetIRNNo(strDocNo, trans))
                 Else
-                    objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, isEwayBill, trans)
+                    objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, isEwayBill)
                 End If
                 If objResult IsNot Nothing Then
                     If Not OnlyEWayBill Then
@@ -1521,7 +1521,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                         clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
-                    If IsEwaybill = 1 Then
+                    If isEwayBill Then
                         If objCommonVar.GenerateEWayBillWithEInvoice = True Then
                             Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
                             Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString

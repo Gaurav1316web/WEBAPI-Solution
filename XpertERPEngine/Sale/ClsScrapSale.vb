@@ -360,7 +360,7 @@ Public Class ClsScrapSaleHead
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", obj.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", obj.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Create_E_Invoice", obj.Create_E_Invoice)
-            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", IIf(obj.Inter_unit_sale, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", obj.Inter_unit_sale)
             clsCommon.AddColumnsForChange(coll, "Excisable", obj.Excisable)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             '============Add By Rohit on Apr,14-2015==============

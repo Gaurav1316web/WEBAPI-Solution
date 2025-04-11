@@ -301,6 +301,12 @@
     <Compile Include="Milk Procurement\Report\rptUnionBookingReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\YearlyBillReport.Designer.vb">
+      <DependentUpon>YearlyBillReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\YearlyBillReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
     </Compile>
@@ -1166,6 +1172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionMilkRegister.resx">
       <DependentUpon>rptUnionMilkRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\YearlyBillReport.resx">
+      <DependentUpon>YearlyBillReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
