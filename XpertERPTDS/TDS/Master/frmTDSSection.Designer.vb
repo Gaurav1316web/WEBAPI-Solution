@@ -45,6 +45,7 @@ Partial Class frmTDSSection
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbTDSSection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTDSSection.SuspendLayout()
@@ -62,6 +63,7 @@ Partial Class frmTDSSection
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -292,12 +294,23 @@ Partial Class frmTDSSection
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(577, 235)
         Me.SplitContainer1.SplitterDistance = 192
         Me.SplitContainer1.TabIndex = 2
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(400, 9)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
         '
         'frmTDSSection
         '
@@ -330,6 +343,7 @@ Partial Class frmTDSSection
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -355,5 +369,6 @@ Partial Class frmTDSSection
     Friend WithEvents lbldes As common.Controls.MyLabel
     Friend WithEvents fndTdsSectionNew As common.UserControls.txtNavigator
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

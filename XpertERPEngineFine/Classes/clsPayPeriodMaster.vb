@@ -43,6 +43,7 @@ Public Class clsPayPeriodMaster
                 Qry = "Update TSPL_PAYPERIOD_MASTER set POSTED = 0 where PAY_PERIOD_CODE='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", Nothing)
 
             trans.Commit()
         Catch ex As Exception
@@ -63,6 +64,8 @@ Public Class clsPayPeriodMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", Nothing)
+
             Dim qry As String
             qry = "delete from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -147,6 +150,8 @@ Public Class clsPayPeriodMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYPERIOD_MASTER", OMInsertOrUpdate.Update, "PAY_PERIOD_CODE='" + obj.Code + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

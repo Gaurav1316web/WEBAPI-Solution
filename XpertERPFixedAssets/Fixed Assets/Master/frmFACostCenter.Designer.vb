@@ -24,16 +24,17 @@ Partial Class FrmFACostCenter
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lbldesid = New common.Controls.MyLabel
-        Me.txtdes = New common.Controls.MyTextBox
-        Me.lbldes = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lbldesid = New common.Controls.MyLabel()
+        Me.txtdes = New common.Controls.MyTextBox()
+        Me.lbldes = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -46,6 +47,7 @@ Partial Class FrmFACostCenter
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -64,6 +66,7 @@ Partial Class FrmFACostCenter
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -90,6 +93,7 @@ Partial Class FrmFACostCenter
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(116, 11)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -105,6 +109,7 @@ Partial Class FrmFACostCenter
         '
         'lbldesid
         '
+        Me.lbldesid.FieldName = Nothing
         Me.lbldesid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldesid.Location = New System.Drawing.Point(13, 13)
         Me.lbldesid.Name = "lbldesid"
@@ -114,13 +119,25 @@ Partial Class FrmFACostCenter
         '
         'txtdes
         '
+        Me.txtdes.CalculationExpression = Nothing
+        Me.txtdes.FieldCode = Nothing
+        Me.txtdes.FieldDesc = Nothing
+        Me.txtdes.FieldMaxLength = 0
+        Me.txtdes.FieldName = Nothing
         Me.txtdes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdes.isCalculatedField = False
+        Me.txtdes.IsSourceFromTable = False
+        Me.txtdes.IsSourceFromValueList = False
+        Me.txtdes.IsUnique = False
         Me.txtdes.Location = New System.Drawing.Point(115, 36)
         Me.txtdes.MaxLength = 100
         Me.txtdes.MendatroryField = False
         Me.txtdes.MyLinkLable1 = Nothing
         Me.txtdes.MyLinkLable2 = Nothing
         Me.txtdes.Name = "txtdes"
+        Me.txtdes.ReferenceFieldDesc = Nothing
+        Me.txtdes.ReferenceFieldName = Nothing
+        Me.txtdes.ReferenceTableName = Nothing
         '
         '
         '
@@ -130,6 +147,7 @@ Partial Class FrmFACostCenter
         '
         'lbldes
         '
+        Me.lbldes.FieldName = Nothing
         Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldes.Location = New System.Drawing.Point(13, 36)
         Me.lbldes.Name = "lbldes"
@@ -175,6 +193,16 @@ Partial Class FrmFACostCenter
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(294, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmFACostCenter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -200,6 +228,7 @@ Partial Class FrmFACostCenter
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -214,5 +243,6 @@ Partial Class FrmFACostCenter
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

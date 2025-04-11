@@ -28,7 +28,7 @@ Public Class clsCountryMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COUNTRY_MASTER", "COUNTRY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_COUNTRY_MASTER where COUNTRY_CODE ='" + strCode + "'"

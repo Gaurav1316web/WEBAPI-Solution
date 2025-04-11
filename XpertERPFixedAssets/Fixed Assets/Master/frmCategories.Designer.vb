@@ -58,6 +58,7 @@ Partial Class FrmCategories
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -88,6 +89,7 @@ Partial Class FrmCategories
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -136,6 +138,7 @@ Partial Class FrmCategories
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -203,7 +206,7 @@ Partial Class FrmCategories
         Me.txtSeries1.TabIndex = 339
         Me.txtSeries1.Text = "0"
         Me.txtSeries1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeries1.Value = 0R
+        Me.txtSeries1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCategoryCOde
         '
@@ -329,7 +332,7 @@ Partial Class FrmCategories
         Me.txtNextAutoNo.TabIndex = 8
         Me.txtNextAutoNo.Text = "0"
         Me.txtNextAutoNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNextAutoNo.Value = 0R
+        Me.txtNextAutoNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtNextAutoNo.Visible = False
         '
         'lblLastMaintained
@@ -587,6 +590,15 @@ Partial Class FrmCategories
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(652, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmCategories
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -631,6 +643,7 @@ Partial Class FrmCategories
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -670,5 +683,6 @@ Partial Class FrmCategories
     Friend WithEvents txtGroup As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblSeries As common.Controls.MyLabel
     Friend WithEvents txtSeries1 As common.MyNumBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

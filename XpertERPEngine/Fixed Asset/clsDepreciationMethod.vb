@@ -44,6 +44,8 @@ Public Class clsDepreciationMethod
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEPRECIATION_METHOD", OMInsertOrUpdate.Update, "TSPL_DEPRECIATION_METHOD.Code='" + obj.Code + "'", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DEPRECIATION_METHOD", "Code", trans)
+
             Next
             If isSaved Then
                 trans.Commit()
@@ -86,6 +88,7 @@ Public Class clsDepreciationMethod
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPRECIATION_METHOD", "Code", Nothing)
 
         Dim qry As String = "delete from TSPL_DEPRECIATION_METHOD where Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)

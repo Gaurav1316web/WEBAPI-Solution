@@ -48,6 +48,8 @@ Partial Class frmBonusMaster
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtExGratia = New common.Controls.MyTextBox()
         Me.chkConsiderPayDays = New Telerik.WinControls.UI.RadCheckBox()
         Me.cboCalculationMethod = New common.Controls.MyComboBox()
         Me.RadLabel8 = New common.Controls.MyLabel()
@@ -56,8 +58,7 @@ Partial Class frmBonusMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtExGratia = New common.Controls.MyTextBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtBONUS_RATE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCOND_MAX_BONUS_PER_YEAR, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -79,12 +80,13 @@ Partial Class frmBonusMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboCalculationMethod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -409,12 +411,45 @@ Partial Class frmBonusMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(660, 453)
         Me.SplitContainer1.SplitterDistance = 422
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(15, 235)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(50, 18)
+        Me.MyLabel5.TabIndex = 29
+        Me.MyLabel5.Text = "Ex Gratia"
+        '
+        'txtExGratia
+        '
+        Me.txtExGratia.CalculationExpression = Nothing
+        Me.txtExGratia.FieldCode = Nothing
+        Me.txtExGratia.FieldDesc = Nothing
+        Me.txtExGratia.FieldMaxLength = 0
+        Me.txtExGratia.FieldName = Nothing
+        Me.txtExGratia.isCalculatedField = False
+        Me.txtExGratia.IsSourceFromTable = False
+        Me.txtExGratia.IsSourceFromValueList = False
+        Me.txtExGratia.IsUnique = False
+        Me.txtExGratia.Location = New System.Drawing.Point(280, 235)
+        Me.txtExGratia.MaxLength = 50
+        Me.txtExGratia.MendatroryField = False
+        Me.txtExGratia.MyLinkLable1 = Me.MyLabel1
+        Me.txtExGratia.MyLinkLable2 = Nothing
+        Me.txtExGratia.Name = "txtExGratia"
+        Me.txtExGratia.ReferenceFieldDesc = Nothing
+        Me.txtExGratia.ReferenceFieldName = Nothing
+        Me.txtExGratia.ReferenceTableName = Nothing
+        Me.txtExGratia.Size = New System.Drawing.Size(318, 20)
+        Me.txtExGratia.TabIndex = 6
         '
         'chkConsiderPayDays
         '
@@ -490,37 +525,16 @@ Partial Class frmBonusMaster
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'txtExGratia
+        'btnHistory
         '
-        Me.txtExGratia.CalculationExpression = Nothing
-        Me.txtExGratia.FieldCode = Nothing
-        Me.txtExGratia.FieldDesc = Nothing
-        Me.txtExGratia.FieldMaxLength = 0
-        Me.txtExGratia.FieldName = Nothing
-        Me.txtExGratia.isCalculatedField = False
-        Me.txtExGratia.IsSourceFromTable = False
-        Me.txtExGratia.IsSourceFromValueList = False
-        Me.txtExGratia.IsUnique = False
-        Me.txtExGratia.Location = New System.Drawing.Point(280, 235)
-        Me.txtExGratia.MaxLength = 50
-        Me.txtExGratia.MendatroryField = False
-        Me.txtExGratia.MyLinkLable1 = Me.MyLabel1
-        Me.txtExGratia.MyLinkLable2 = Nothing
-        Me.txtExGratia.Name = "txtExGratia"
-        Me.txtExGratia.ReferenceFieldDesc = Nothing
-        Me.txtExGratia.ReferenceFieldName = Nothing
-        Me.txtExGratia.ReferenceTableName = Nothing
-        Me.txtExGratia.Size = New System.Drawing.Size(318, 20)
-        Me.txtExGratia.TabIndex = 6
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(15, 235)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(50, 18)
-        Me.MyLabel5.TabIndex = 29
-        Me.MyLabel5.Text = "Ex Gratia"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(517, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmBonusMaster
         '
@@ -556,12 +570,13 @@ Partial Class frmBonusMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboCalculationMethod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -599,5 +614,6 @@ Partial Class frmBonusMaster
     Friend WithEvents chkConsiderPayDays As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtExGratia As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

@@ -25,34 +25,35 @@ Partial Class frmESIRulesMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmESIRulesMaster))
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.MyLabel6 = New common.Controls.MyLabel
-        Me.txtTOTALEARNING_MAX = New common.Controls.MyTextBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtEMPESI_PER = New common.Controls.MyTextBox
-        Me.lblShipmentTotal = New common.Controls.MyLabel
-        Me.txtCOESI_PER = New common.Controls.MyTextBox
-        Me.cboESIRound = New common.Controls.MyComboBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtAppDate = New common.Controls.MyDateTimePicker
-        Me.lblAppDate = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtTOTALEARNING_MAX = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtEMPESI_PER = New common.Controls.MyTextBox()
+        Me.lblShipmentTotal = New common.Controls.MyLabel()
+        Me.txtCOESI_PER = New common.Controls.MyTextBox()
+        Me.cboESIRound = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtAppDate = New common.Controls.MyDateTimePicker()
+        Me.lblAppDate = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +77,7 @@ Partial Class frmESIRulesMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,6 +109,7 @@ Partial Class frmESIRulesMaster
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Location = New System.Drawing.Point(368, 105)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(123, 18)
@@ -116,12 +119,24 @@ Partial Class frmESIRulesMaster
         'txtTOTALEARNING_MAX
         '
         Me.txtTOTALEARNING_MAX.AutoSize = False
+        Me.txtTOTALEARNING_MAX.CalculationExpression = Nothing
+        Me.txtTOTALEARNING_MAX.FieldCode = Nothing
+        Me.txtTOTALEARNING_MAX.FieldDesc = Nothing
+        Me.txtTOTALEARNING_MAX.FieldMaxLength = 0
+        Me.txtTOTALEARNING_MAX.FieldName = Nothing
+        Me.txtTOTALEARNING_MAX.isCalculatedField = False
+        Me.txtTOTALEARNING_MAX.IsSourceFromTable = False
+        Me.txtTOTALEARNING_MAX.IsSourceFromValueList = False
+        Me.txtTOTALEARNING_MAX.IsUnique = False
         Me.txtTOTALEARNING_MAX.Location = New System.Drawing.Point(497, 105)
         Me.txtTOTALEARNING_MAX.MendatroryField = False
         Me.txtTOTALEARNING_MAX.Multiline = True
         Me.txtTOTALEARNING_MAX.MyLinkLable1 = Me.MyLabel6
         Me.txtTOTALEARNING_MAX.MyLinkLable2 = Nothing
         Me.txtTOTALEARNING_MAX.Name = "txtTOTALEARNING_MAX"
+        Me.txtTOTALEARNING_MAX.ReferenceFieldDesc = Nothing
+        Me.txtTOTALEARNING_MAX.ReferenceFieldName = Nothing
+        Me.txtTOTALEARNING_MAX.ReferenceTableName = Nothing
         Me.txtTOTALEARNING_MAX.Size = New System.Drawing.Size(141, 18)
         Me.txtTOTALEARNING_MAX.TabIndex = 6
         Me.txtTOTALEARNING_MAX.Text = "0.0"
@@ -129,6 +144,7 @@ Partial Class frmESIRulesMaster
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(6, 105)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(120, 18)
@@ -138,12 +154,24 @@ Partial Class frmESIRulesMaster
         'txtEMPESI_PER
         '
         Me.txtEMPESI_PER.AutoSize = False
+        Me.txtEMPESI_PER.CalculationExpression = Nothing
+        Me.txtEMPESI_PER.FieldCode = Nothing
+        Me.txtEMPESI_PER.FieldDesc = Nothing
+        Me.txtEMPESI_PER.FieldMaxLength = 0
+        Me.txtEMPESI_PER.FieldName = Nothing
+        Me.txtEMPESI_PER.isCalculatedField = False
+        Me.txtEMPESI_PER.IsSourceFromTable = False
+        Me.txtEMPESI_PER.IsSourceFromValueList = False
+        Me.txtEMPESI_PER.IsUnique = False
         Me.txtEMPESI_PER.Location = New System.Drawing.Point(131, 105)
         Me.txtEMPESI_PER.MendatroryField = False
         Me.txtEMPESI_PER.Multiline = True
         Me.txtEMPESI_PER.MyLinkLable1 = Me.MyLabel2
         Me.txtEMPESI_PER.MyLinkLable2 = Nothing
         Me.txtEMPESI_PER.Name = "txtEMPESI_PER"
+        Me.txtEMPESI_PER.ReferenceFieldDesc = Nothing
+        Me.txtEMPESI_PER.ReferenceFieldName = Nothing
+        Me.txtEMPESI_PER.ReferenceTableName = Nothing
         Me.txtEMPESI_PER.Size = New System.Drawing.Size(221, 18)
         Me.txtEMPESI_PER.TabIndex = 5
         Me.txtEMPESI_PER.Text = "0.0"
@@ -151,6 +179,7 @@ Partial Class frmESIRulesMaster
         '
         'lblShipmentTotal
         '
+        Me.lblShipmentTotal.FieldName = Nothing
         Me.lblShipmentTotal.Location = New System.Drawing.Point(6, 80)
         Me.lblShipmentTotal.Name = "lblShipmentTotal"
         Me.lblShipmentTotal.Size = New System.Drawing.Size(119, 18)
@@ -160,12 +189,24 @@ Partial Class frmESIRulesMaster
         'txtCOESI_PER
         '
         Me.txtCOESI_PER.AutoSize = False
+        Me.txtCOESI_PER.CalculationExpression = Nothing
+        Me.txtCOESI_PER.FieldCode = Nothing
+        Me.txtCOESI_PER.FieldDesc = Nothing
+        Me.txtCOESI_PER.FieldMaxLength = 0
+        Me.txtCOESI_PER.FieldName = Nothing
+        Me.txtCOESI_PER.isCalculatedField = False
+        Me.txtCOESI_PER.IsSourceFromTable = False
+        Me.txtCOESI_PER.IsSourceFromValueList = False
+        Me.txtCOESI_PER.IsUnique = False
         Me.txtCOESI_PER.Location = New System.Drawing.Point(131, 80)
         Me.txtCOESI_PER.MendatroryField = False
         Me.txtCOESI_PER.Multiline = True
         Me.txtCOESI_PER.MyLinkLable1 = Me.lblShipmentTotal
         Me.txtCOESI_PER.MyLinkLable2 = Nothing
         Me.txtCOESI_PER.Name = "txtCOESI_PER"
+        Me.txtCOESI_PER.ReferenceFieldDesc = Nothing
+        Me.txtCOESI_PER.ReferenceFieldName = Nothing
+        Me.txtCOESI_PER.ReferenceTableName = Nothing
         Me.txtCOESI_PER.Size = New System.Drawing.Size(221, 18)
         Me.txtCOESI_PER.TabIndex = 3
         Me.txtCOESI_PER.Text = "0.0"
@@ -174,17 +215,31 @@ Partial Class frmESIRulesMaster
         'cboESIRound
         '
         Me.cboESIRound.BackColor = System.Drawing.Color.Transparent
+        Me.cboESIRound.CalculationExpression = Nothing
+        Me.cboESIRound.DropDownAnimationEnabled = True
+        Me.cboESIRound.FieldCode = Nothing
+        Me.cboESIRound.FieldDesc = Nothing
+        Me.cboESIRound.FieldMaxLength = 0
+        Me.cboESIRound.FieldName = Nothing
         Me.cboESIRound.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboESIRound.isCalculatedField = False
+        Me.cboESIRound.IsSourceFromTable = False
+        Me.cboESIRound.IsSourceFromValueList = False
+        Me.cboESIRound.IsUnique = False
         Me.cboESIRound.Location = New System.Drawing.Point(497, 80)
         Me.cboESIRound.MendatroryField = False
         Me.cboESIRound.MyLinkLable1 = Me.MyLabel1
         Me.cboESIRound.MyLinkLable2 = Nothing
         Me.cboESIRound.Name = "cboESIRound"
+        Me.cboESIRound.ReferenceFieldDesc = Nothing
+        Me.cboESIRound.ReferenceFieldName = Nothing
+        Me.cboESIRound.ReferenceTableName = Nothing
         Me.cboESIRound.Size = New System.Drawing.Size(141, 18)
         Me.cboESIRound.TabIndex = 4
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(368, 80)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(103, 18)
@@ -193,9 +248,18 @@ Partial Class frmESIRulesMaster
         '
         'txtAppDate
         '
+        Me.txtAppDate.CalculationExpression = Nothing
         Me.txtAppDate.CustomFormat = "dd/MMM/yyyy "
+        Me.txtAppDate.FieldCode = Nothing
+        Me.txtAppDate.FieldDesc = Nothing
+        Me.txtAppDate.FieldMaxLength = 0
+        Me.txtAppDate.FieldName = Nothing
         Me.txtAppDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAppDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtAppDate.isCalculatedField = False
+        Me.txtAppDate.IsSourceFromTable = False
+        Me.txtAppDate.IsSourceFromValueList = False
+        Me.txtAppDate.IsUnique = False
         Me.txtAppDate.Location = New System.Drawing.Point(131, 55)
         Me.txtAppDate.MendatroryField = False
         Me.txtAppDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -203,6 +267,9 @@ Partial Class frmESIRulesMaster
         Me.txtAppDate.MyLinkLable2 = Nothing
         Me.txtAppDate.Name = "txtAppDate"
         Me.txtAppDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAppDate.ReferenceFieldDesc = Nothing
+        Me.txtAppDate.ReferenceFieldName = Nothing
+        Me.txtAppDate.ReferenceTableName = Nothing
         Me.txtAppDate.Size = New System.Drawing.Size(221, 18)
         Me.txtAppDate.TabIndex = 2
         Me.txtAppDate.TabStop = False
@@ -211,6 +278,7 @@ Partial Class frmESIRulesMaster
         '
         'lblAppDate
         '
+        Me.lblAppDate.FieldName = Nothing
         Me.lblAppDate.Location = New System.Drawing.Point(4, 55)
         Me.lblAppDate.Name = "lblAppDate"
         Me.lblAppDate.Size = New System.Drawing.Size(91, 18)
@@ -219,6 +287,7 @@ Partial Class frmESIRulesMaster
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Location = New System.Drawing.Point(12, 89)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(2, 2)
@@ -244,6 +313,7 @@ Partial Class frmESIRulesMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(130, 22)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -259,6 +329,7 @@ Partial Class frmESIRulesMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(6, 23)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -300,27 +371,18 @@ Partial Class frmESIRulesMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -338,6 +400,7 @@ Partial Class frmESIRulesMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -352,40 +415,38 @@ Partial Class frmESIRulesMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(667, 20)
         Me.RadMenu2.TabIndex = 12
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(524, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmESIRulesMaster
         '
@@ -424,6 +485,7 @@ Partial Class frmESIRulesMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -456,5 +518,6 @@ Partial Class frmESIRulesMaster
     Friend WithEvents MenuItemImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemClose As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 
