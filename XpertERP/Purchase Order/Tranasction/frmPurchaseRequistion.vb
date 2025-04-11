@@ -1935,6 +1935,7 @@ Public Class frmPurchaseRequistion
 
                     qry = "update TSPL_REQUISITION_HEAD set Status=0,Posting_Date=null where Requisition_Id='" + txtReqNo.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtReqNo.Value, "TSPL_REQUISITION_HEAD", "Requisition_Id", Nothing)
 
                     qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + txtReqNo.Value + "' and trans_code='" + clsCommon.myCstr(MyBase.Form_ID) + "' and is_reverse=0"
                     clsDBFuncationality.ExecuteNonQuery(qry)

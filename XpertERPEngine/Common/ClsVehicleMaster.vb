@@ -63,7 +63,7 @@ Public Class ClsVehicleMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vehicle_MASTER", "Vehicle_Id", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_VEHICLE_MASTER where Vehicle_Id='" + strCode + "'"

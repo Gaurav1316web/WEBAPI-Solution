@@ -270,7 +270,7 @@ where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
 
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
             trans.Commit()
         Catch ex As Exception
         trans.Rollback()

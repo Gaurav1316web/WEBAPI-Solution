@@ -560,8 +560,9 @@ Public Class clsRequistionHead
             Else
                 qry = "Update TSPL_REQUISITION_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Requisition_Id='" + strDocNo + "'"
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Requisition_Id), "TSPL_REQUISITION_HEAD", "Requisition_Id", trans)
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Requisition_Id), "TSPL_REQUISITION_HEAD", "Requisition_Id", trans)
+
             '===Sanjeet(03/01/2017) for notifiaction====
             Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.mbtnPurchaseRequistion + "'", trans))
             If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then
