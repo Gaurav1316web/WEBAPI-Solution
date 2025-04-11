@@ -1736,7 +1736,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                 Throw New Exception("IrnNo Generated,Can't Reverse The Document")
             End If
 
-            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SCRAPINVOICE_HEAD where invoice_No= '" + strInvoiceCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1'"
+            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SCRAPINVOICE_HEAD where invoice_No= '" + strInvoiceCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1' and Create_E_Invoice=1"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt.Rows.Count > 0 Then
                 Throw New Exception("Update IrnNo before Reversing The Document")

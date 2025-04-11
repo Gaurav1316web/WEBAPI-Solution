@@ -188,7 +188,8 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Inter_unit_salechk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.lblSalesType = New common.Controls.MyLabel()
+        Me.cmbSaleType = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -340,7 +341,8 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -370,7 +372,7 @@ Partial Class frmScrapSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1126, 503)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1129, 503)
         Me.SplitContainer1.SplitterDistance = 471
         Me.SplitContainer1.TabIndex = 1
         '
@@ -388,7 +390,7 @@ Partial Class frmScrapSale
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1126, 471)
+        Me.RadPageView1.Size = New System.Drawing.Size(1129, 471)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -397,7 +399,8 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.Inter_unit_salechk)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSalesType)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbSaleType)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustGSTNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocGSTNo)
@@ -466,7 +469,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 425)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1108, 425)
         Me.RadPageViewPage1.Text = "Shipment"
         '
         'lblCustGSTNo
@@ -514,7 +517,7 @@ Partial Class frmScrapSale
         'chkEInvoice
         '
         Me.chkEInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEInvoice.Location = New System.Drawing.Point(873, 5)
+        Me.chkEInvoice.Location = New System.Drawing.Point(888, 5)
         Me.chkEInvoice.Name = "chkEInvoice"
         Me.chkEInvoice.Size = New System.Drawing.Size(64, 16)
         Me.chkEInvoice.TabIndex = 1479
@@ -538,7 +541,7 @@ Partial Class frmScrapSale
         Me.lblDocCreditLimit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDocCreditLimit.Location = New System.Drawing.Point(958, 91)
         Me.lblDocCreditLimit.Name = "lblDocCreditLimit"
-        Me.lblDocCreditLimit.Size = New System.Drawing.Size(113, 18)
+        Me.lblDocCreditLimit.Size = New System.Drawing.Size(146, 18)
         Me.lblDocCreditLimit.TabIndex = 1478
         Me.lblDocCreditLimit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -560,7 +563,7 @@ Partial Class frmScrapSale
         Me.lblTotalOutstansing.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalOutstansing.Location = New System.Drawing.Point(958, 111)
         Me.lblTotalOutstansing.Name = "lblTotalOutstansing"
-        Me.lblTotalOutstansing.Size = New System.Drawing.Size(113, 18)
+        Me.lblTotalOutstansing.Size = New System.Drawing.Size(146, 18)
         Me.lblTotalOutstansing.TabIndex = 1476
         Me.lblTotalOutstansing.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -647,7 +650,7 @@ Partial Class frmScrapSale
         Me.txtFreightDistance.TabIndex = 1473
         Me.txtFreightDistance.Text = "0"
         Me.txtFreightDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightDistance.Value = 0R
+        Me.txtFreightDistance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel59
         '
@@ -701,7 +704,7 @@ Partial Class frmScrapSale
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel3.Location = New System.Drawing.Point(999, 339)
+        Me.MyLabel3.Location = New System.Drawing.Point(1002, 339)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(102, 16)
         Me.MyLabel3.TabIndex = 1
@@ -763,7 +766,7 @@ Partial Class frmScrapSale
         Me.lblSecondryInvNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSecondryInvNo.FieldName = Nothing
         Me.lblSecondryInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSecondryInvNo.Location = New System.Drawing.Point(747, 409)
+        Me.lblSecondryInvNo.Location = New System.Drawing.Point(750, 409)
         Me.lblSecondryInvNo.Name = "lblSecondryInvNo"
         Me.lblSecondryInvNo.Size = New System.Drawing.Size(62, 16)
         Me.lblSecondryInvNo.TabIndex = 16
@@ -807,7 +810,7 @@ Partial Class frmScrapSale
         Me.dtppost.IsSourceFromTable = False
         Me.dtppost.IsSourceFromValueList = False
         Me.dtppost.IsUnique = False
-        Me.dtppost.Location = New System.Drawing.Point(957, 47)
+        Me.dtppost.Location = New System.Drawing.Point(957, 67)
         Me.dtppost.MendatroryField = False
         Me.dtppost.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtppost.MyLinkLable1 = Me.RadLabel6
@@ -828,7 +831,7 @@ Partial Class frmScrapSale
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(868, 49)
+        Me.RadLabel6.Location = New System.Drawing.Point(868, 69)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(85, 16)
         Me.RadLabel6.TabIndex = 24
@@ -979,7 +982,7 @@ Partial Class frmScrapSale
         Me.txtVatInvNo.BorderVisible = True
         Me.txtVatInvNo.FieldName = Nothing
         Me.txtVatInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVatInvNo.Location = New System.Drawing.Point(815, 403)
+        Me.txtVatInvNo.Location = New System.Drawing.Point(818, 403)
         Me.txtVatInvNo.Name = "txtVatInvNo"
         Me.txtVatInvNo.Size = New System.Drawing.Size(125, 18)
         Me.txtVatInvNo.TabIndex = 14
@@ -993,7 +996,7 @@ Partial Class frmScrapSale
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDocAmount.Location = New System.Drawing.Point(958, 131)
         Me.lblDocAmount.Name = "lblDocAmount"
-        Me.lblDocAmount.Size = New System.Drawing.Size(113, 18)
+        Me.lblDocAmount.Size = New System.Drawing.Size(146, 18)
         Me.lblDocAmount.TabIndex = 14
         Me.lblDocAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1204,7 +1207,7 @@ Partial Class frmScrapSale
         Me.dtpexp.IsSourceFromTable = False
         Me.dtpexp.IsSourceFromValueList = False
         Me.dtpexp.IsUnique = False
-        Me.dtpexp.Location = New System.Drawing.Point(957, 25)
+        Me.dtpexp.Location = New System.Drawing.Point(957, 45)
         Me.dtpexp.MendatroryField = False
         Me.dtpexp.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpexp.MyLinkLable1 = Me.RadLabel13
@@ -1225,7 +1228,7 @@ Partial Class frmScrapSale
         '
         Me.RadLabel13.FieldName = Nothing
         Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel13.Location = New System.Drawing.Point(851, 27)
+        Me.RadLabel13.Location = New System.Drawing.Point(851, 47)
         Me.RadLabel13.Name = "RadLabel13"
         Me.RadLabel13.Size = New System.Drawing.Size(107, 16)
         Me.RadLabel13.TabIndex = 20
@@ -1436,7 +1439,7 @@ Partial Class frmScrapSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 179)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1105, 162)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1108, 162)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1457,12 +1460,13 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1085, 132)
+        Me.gv1.Size = New System.Drawing.Size(1088, 132)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
@@ -1721,6 +1725,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1781,6 +1786,7 @@ Partial Class frmScrapSale
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MyExportFilePath = ""
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1921,7 +1927,7 @@ Partial Class frmScrapSale
         Me.txtTCSTaxRate.TabIndex = 1416
         Me.txtTCSTaxRate.Text = "0"
         Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtTCSTaxRate.Visible = False
         '
         'MyLabel39
@@ -1981,7 +1987,7 @@ Partial Class frmScrapSale
         Me.txttcstaxbaseamount.TabIndex = 1412
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnCancel
         '
@@ -2649,7 +2655,7 @@ Partial Class frmScrapSale
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1052, 3)
+        Me.btnClose.Location = New System.Drawing.Point(1055, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 5
@@ -2680,7 +2686,7 @@ Partial Class frmScrapSale
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Setting})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1126, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1129, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'Setting
@@ -2715,22 +2721,50 @@ Partial Class frmScrapSale
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1126, 503)
+        Me.Panel1.Size = New System.Drawing.Size(1129, 503)
         Me.Panel1.TabIndex = 3
         '
-        'Inter_unit_salechk
+        'lblSalesType
         '
-        Me.Inter_unit_salechk.Location = New System.Drawing.Point(945, 4)
-        Me.Inter_unit_salechk.Name = "Inter_unit_salechk"
-        Me.Inter_unit_salechk.Size = New System.Drawing.Size(91, 18)
-        Me.Inter_unit_salechk.TabIndex = 1484
-        Me.Inter_unit_salechk.Text = "Inter Unit Sale"
+        Me.lblSalesType.FieldName = Nothing
+        Me.lblSalesType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesType.Location = New System.Drawing.Point(889, 26)
+        Me.lblSalesType.Name = "lblSalesType"
+        Me.lblSalesType.Size = New System.Drawing.Size(63, 16)
+        Me.lblSalesType.TabIndex = 1484
+        Me.lblSalesType.Text = "Sales Type"
+        '
+        'cmbSaleType
+        '
+        Me.cmbSaleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbSaleType.AutoCompleteValueMember = Nothing
+        Me.cmbSaleType.CalculationExpression = Nothing
+        Me.cmbSaleType.DropDownAnimationEnabled = True
+        Me.cmbSaleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbSaleType.FieldCode = Nothing
+        Me.cmbSaleType.FieldDesc = Nothing
+        Me.cmbSaleType.FieldMaxLength = 0
+        Me.cmbSaleType.FieldName = Nothing
+        Me.cmbSaleType.isCalculatedField = False
+        Me.cmbSaleType.IsSourceFromTable = False
+        Me.cmbSaleType.IsSourceFromValueList = False
+        Me.cmbSaleType.IsUnique = False
+        Me.cmbSaleType.Location = New System.Drawing.Point(957, 23)
+        Me.cmbSaleType.MendatroryField = True
+        Me.cmbSaleType.MyLinkLable1 = Nothing
+        Me.cmbSaleType.MyLinkLable2 = Nothing
+        Me.cmbSaleType.Name = "cmbSaleType"
+        Me.cmbSaleType.ReferenceFieldDesc = Nothing
+        Me.cmbSaleType.ReferenceFieldName = Nothing
+        Me.cmbSaleType.ReferenceTableName = Nothing
+        Me.cmbSaleType.Size = New System.Drawing.Size(146, 20)
+        Me.cmbSaleType.TabIndex = 1485
         '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1126, 523)
+        Me.ClientSize = New System.Drawing.Size(1129, 523)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -2899,7 +2933,8 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.Inter_unit_salechk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3067,7 +3102,8 @@ Partial Class frmScrapSale
     Friend WithEvents lblLocGSTNo As common.Controls.MyLabel
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
-    Friend WithEvents Inter_unit_salechk As RadCheckBox
+    Friend WithEvents lblSalesType As common.Controls.MyLabel
+    Friend WithEvents cmbSaleType As common.Controls.MyComboBox
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 
