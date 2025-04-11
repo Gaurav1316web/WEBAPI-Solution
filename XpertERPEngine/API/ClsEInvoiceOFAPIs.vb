@@ -428,15 +428,9 @@ Public Class ClsEInvoiceOFAPIs
         Return objResult
     End Function
     Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
-        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, 0, trans, False)
+        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, trans, False)
     End Function
     Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal stopEWayBill As Boolean) As Object
-        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, 0, trans, stopEWayBill)
-    End Function
-    Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal isEwayBill As Integer, ByVal trans As SqlTransaction) As Object
-        Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, isEwayBill, trans, False)
-    End Function
-    Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal isEwayBill As Integer, ByVal trans As SqlTransaction, ByVal stopEWayBill As Boolean) As Object
         Dim httpRequest As HttpWebRequest = Nothing
         Dim httpResponse As HttpWebResponse = Nothing
         Dim objResult As Object = Nothing
@@ -622,23 +616,23 @@ Public Class ClsEInvoiceOFAPIs
                             objInvDetails.ValDtls.Add("TotInvVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsTotInvVal")), 2))
                             objInvDetails.ValDtls.Add("RndOffAmt", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsRndOffAmt")), 2))
                             'EwbDtls info
-                            If isEwayBill = 1 Then
-                                If objCommonVar.GenerateEWayBillWithEInvoice = True Then
-                                    If Not stopEWayBill Then
-                                        If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId"))) > 0 Then
-                                            objInvDetails.EwbDtls.Add("TransId", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId")))
-                                            objInvDetails.EwbDtls.Add("TransName", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransName")))
-                                        End If
-                                        'objInvDetails.EwbDtls.Add("Distance", Convert.ToInt32(dtDetails.Rows(0)("EwbDistance")))
-                                        objInvDetails.EwbDtls.Add("Distance", 0)
-                                        If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo"))) > 0 Then
-                                            objInvDetails.EwbDtls.Add("VehNo", clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo")))
-                                        End If
-                                        objInvDetails.EwbDtls.Add("VehType", "R")
-                                        objInvDetails.EwbDtls.Add("TransMode", "1")
+
+                            If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                                If Not stopEWayBill Then
+                                    If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId"))) > 0 Then
+                                        objInvDetails.EwbDtls.Add("TransId", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId")))
+                                        objInvDetails.EwbDtls.Add("TransName", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransName")))
                                     End If
+                                    'objInvDetails.EwbDtls.Add("Distance", Convert.ToInt32(dtDetails.Rows(0)("EwbDistance")))
+                                    objInvDetails.EwbDtls.Add("Distance", 0)
+                                    If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo"))) > 0 Then
+                                        objInvDetails.EwbDtls.Add("VehNo", clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo")))
+                                    End If
+                                    objInvDetails.EwbDtls.Add("VehType", "R")
+                                    objInvDetails.EwbDtls.Add("TransMode", "1")
                                 End If
                             End If
+
 
                             strInvoiceDetails = JsonConvert.SerializeObject(objInvDetails)
                             If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "CLEARTAX") = CompairStringResult.Equal Then
