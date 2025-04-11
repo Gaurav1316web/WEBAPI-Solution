@@ -2892,6 +2892,8 @@ Public Class FrmVendorService
         EInvoiceIRNNo.Text = ""
         EInvoiceQrCode.Text = ""
         EinvoiceBtnUpdate.Enabled = True
+        txtLocationPrefix.Value = ""
+        txtLocationPrefixName.Text = ""
 
         TxtVendorNo.Enabled = True
         TxtVendorNo.Value = ""
@@ -2949,6 +2951,13 @@ Public Class FrmVendorService
                     If WOBal < clsCommon.myCdbl(lblTotRAmt.Text) Then
                         Throw New Exception("Work Order Balance Amount : " & WOBal & " Invoice Document Total : " & clsCommon.myCdbl(lblTotRAmt.Text) & " ")
                     End If
+                End If
+            End If
+            If objCommonVar.ApplyLocationWisePrefix Then
+                If clsCommon.myLen(txtLocationPrefix.Value) <= 0 Then
+                    txtLocationPrefix.Focus()
+                    Throw New Exception("Please select Location")
+                    Return False
                 End If
             End If
             If btnSave.Text = "Update" Then
@@ -3188,6 +3197,7 @@ Public Class FrmVendorService
             If (AllowToSave()) Then
                 Dim obj As New clsVedorInvoiceHead()
                 obj.Invoice_Type = "VS"
+                obj.Location_Code_Prefix = txtLocationPrefix.Value
                 obj.Document_No = txtDocNo.Value
                 obj.Invoice_Entry_Date = txtDate.Value
                 obj.Vendor_Code = TxtVendorNo.Value
@@ -6419,4 +6429,23 @@ Public Class FrmVendorService
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Private Sub txtLocationPrefix__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPrefix._MYValidating
+        Try
+            Dim whrCls As String = " 1=1 "
+            Dim qry As String = " Select Location_Code as LocationCode,Location_Desc as Description from TSPL_LOCATION_MASTER "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrCls += " and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")  "
+            End If
+
+            txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationPrefix", qry, "LocationCode", "", txtLocationPrefix.Value, "LocationCode", isButtonClicked, "")
+            If clsCommon.myLen(clsCommon.myCstr(txtLocationPrefix.Value)) > 0 Then
+                txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+            Else
+                txtLocationPrefixName.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
