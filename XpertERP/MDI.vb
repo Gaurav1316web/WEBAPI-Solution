@@ -8610,6 +8610,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBMCMobileHistory
                         frm = New rptBMCMobileHistory
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.YearlyBillReport
+                        frm = New YearlyBillReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

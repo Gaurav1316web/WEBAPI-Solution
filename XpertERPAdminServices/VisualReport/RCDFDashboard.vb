@@ -1612,7 +1612,7 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and tspl_grn_head.IsSkipPurchaseQC=0 and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
+                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and tspl_grn_head.IsSkipPurchaseQC=0 and isnull ( TSPL_MRN_HEAD.NIR_QC,0)<>0  and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
 
                 dtQcPending = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -1635,7 +1635,7 @@ from TSPL_MRN_HEAD
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc "
+                sQuery += " and isnull ( TSPL_MRN_HEAD.NIR_QC,0)<>0  order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc "
                 dtQuality = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
