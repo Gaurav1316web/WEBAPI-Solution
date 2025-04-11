@@ -175,6 +175,7 @@ Public Class clsMilkPurchaseInvoiceHead
             '    objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Joblocation_Code, trans)
             'End If
             objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Loc_Code, trans)
+            objVendorInvHead.Location_Code_Prefix = obj.Loc_Code
 
             'objVendorInvHead.PROJECT_ID = 1 'obj.PROJECT_ID
             objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.vendor_code + "'", trans))

@@ -88,6 +88,7 @@ Public Class clsMilkPurchaseReturnHead
             objVendorInvHead.Vendor_Invoice_Date = clsCommon.myCDate(obj.Pur_Return_Date, "dd/MMM/yyyy")
 
             objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Loc_Code, trans)
+            objVendorInvHead.Location_Code_Prefix = obj.Loc_Code
 
             objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.vendor_code + "'", trans))
             If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
