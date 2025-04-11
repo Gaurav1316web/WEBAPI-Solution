@@ -26,6 +26,9 @@ Partial Class frmPFRulesMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPFRulesMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cboPFType = New common.Controls.MyComboBox()
+        Me.MyLabel19 = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.CboOCRound = New common.Controls.MyComboBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
@@ -83,11 +86,13 @@ Partial Class frmPFRulesMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.MyLabel19 = New common.Controls.MyLabel()
-        Me.cboPFType = New common.Controls.MyComboBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.CboOCRound, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,10 +147,7 @@ Partial Class frmPFRulesMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,6 +173,55 @@ Partial Class frmPFRulesMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(819, 452)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.cboPFType)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel19)
+        Me.RadGroupBox5.HeaderText = "PF Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(8, 352)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(802, 40)
+        Me.RadGroupBox5.TabIndex = 48
+        Me.RadGroupBox5.Text = "PF Type"
+        '
+        'cboPFType
+        '
+        Me.cboPFType.AutoCompleteDisplayMember = Nothing
+        Me.cboPFType.AutoCompleteValueMember = Nothing
+        Me.cboPFType.CalculationExpression = Nothing
+        Me.cboPFType.DropDownAnimationEnabled = True
+        Me.cboPFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboPFType.FieldCode = Nothing
+        Me.cboPFType.FieldDesc = Nothing
+        Me.cboPFType.FieldMaxLength = 0
+        Me.cboPFType.FieldName = Nothing
+        Me.cboPFType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboPFType.isCalculatedField = False
+        Me.cboPFType.IsSourceFromTable = False
+        Me.cboPFType.IsSourceFromValueList = False
+        Me.cboPFType.IsUnique = False
+        Me.cboPFType.Location = New System.Drawing.Point(231, 13)
+        Me.cboPFType.MendatroryField = False
+        Me.cboPFType.MyLinkLable1 = Nothing
+        Me.cboPFType.MyLinkLable2 = Nothing
+        Me.cboPFType.Name = "cboPFType"
+        Me.cboPFType.ReferenceFieldDesc = Nothing
+        Me.cboPFType.ReferenceFieldName = Nothing
+        Me.cboPFType.ReferenceTableName = Nothing
+        Me.cboPFType.Size = New System.Drawing.Size(142, 18)
+        Me.cboPFType.TabIndex = 49
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Location = New System.Drawing.Point(9, 16)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(97, 18)
+        Me.MyLabel19.TabIndex = 45
+        Me.MyLabel19.Text = "Employee PF Type"
         '
         'RadGroupBox4
         '
@@ -1001,6 +1052,7 @@ Partial Class frmPFRulesMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -1043,54 +1095,16 @@ Partial Class frmPFRulesMaster
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'RadGroupBox5
+        'btnHistory
         '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Controls.Add(Me.cboPFType)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel19)
-        Me.RadGroupBox5.HeaderText = "PF Type"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(8, 352)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(802, 40)
-        Me.RadGroupBox5.TabIndex = 48
-        Me.RadGroupBox5.Text = "PF Type"
-        '
-        'MyLabel19
-        '
-        Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Location = New System.Drawing.Point(9, 16)
-        Me.MyLabel19.Name = "MyLabel19"
-        Me.MyLabel19.Size = New System.Drawing.Size(97, 18)
-        Me.MyLabel19.TabIndex = 45
-        Me.MyLabel19.Text = "Employee PF Type"
-        '
-        'cboPFType
-        '
-        Me.cboPFType.AutoCompleteDisplayMember = Nothing
-        Me.cboPFType.AutoCompleteValueMember = Nothing
-        Me.cboPFType.CalculationExpression = Nothing
-        Me.cboPFType.DropDownAnimationEnabled = True
-        Me.cboPFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboPFType.FieldCode = Nothing
-        Me.cboPFType.FieldDesc = Nothing
-        Me.cboPFType.FieldMaxLength = 0
-        Me.cboPFType.FieldName = Nothing
-        Me.cboPFType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboPFType.isCalculatedField = False
-        Me.cboPFType.IsSourceFromTable = False
-        Me.cboPFType.IsSourceFromValueList = False
-        Me.cboPFType.IsUnique = False
-        Me.cboPFType.Location = New System.Drawing.Point(231, 13)
-        Me.cboPFType.MendatroryField = False
-        Me.cboPFType.MyLinkLable1 = Nothing
-        Me.cboPFType.MyLinkLable2 = Nothing
-        Me.cboPFType.Name = "cboPFType"
-        Me.cboPFType.ReferenceFieldDesc = Nothing
-        Me.cboPFType.ReferenceFieldName = Nothing
-        Me.cboPFType.ReferenceTableName = Nothing
-        Me.cboPFType.Size = New System.Drawing.Size(142, 18)
-        Me.cboPFType.TabIndex = 49
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(691, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmPFRulesMaster
         '
@@ -1107,6 +1121,11 @@ Partial Class frmPFRulesMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
@@ -1165,11 +1184,7 @@ Partial Class frmPFRulesMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1235,5 +1250,6 @@ Partial Class frmPFRulesMaster
     Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents MyLabel19 As common.Controls.MyLabel
     Friend WithEvents cboPFType As common.Controls.MyComboBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

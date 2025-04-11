@@ -70,6 +70,7 @@ Partial Class frmAssetBookMaster
         Me.txtDepMethod = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,6 +112,7 @@ Partial Class frmAssetBookMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -370,7 +372,7 @@ Partial Class frmAssetBookMaster
         Me.txtnetvalue.TabIndex = 236
         Me.txtnetvalue.Text = "0"
         Me.txtnetvalue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtnetvalue.Value = 0R
+        Me.txtnetvalue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNetValue
         '
@@ -407,7 +409,7 @@ Partial Class frmAssetBookMaster
         Me.txtSalvageRate.TabIndex = 234
         Me.txtSalvageRate.Text = "0"
         Me.txtSalvageRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageRate.Value = 0R
+        Me.txtSalvageRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -444,7 +446,7 @@ Partial Class frmAssetBookMaster
         Me.txtSalvageValue.TabIndex = 220
         Me.txtSalvageValue.Text = "0"
         Me.txtSalvageValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageValue.Value = 0R
+        Me.txtSalvageValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSourceValue
         '
@@ -471,7 +473,7 @@ Partial Class frmAssetBookMaster
         Me.txtSourceValue.TabIndex = 219
         Me.txtSourceValue.Text = "0"
         Me.txtSourceValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceValue.Value = 0R
+        Me.txtSourceValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSourceOrgValue
         '
@@ -498,7 +500,7 @@ Partial Class frmAssetBookMaster
         Me.txtSourceOrgValue.TabIndex = 218
         Me.txtSourceOrgValue.Text = "0"
         Me.txtSourceOrgValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceOrgValue.Value = 0R
+        Me.txtSourceOrgValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDepTaxRate
         '
@@ -525,7 +527,7 @@ Partial Class frmAssetBookMaster
         Me.txtDepTaxRate.TabIndex = 216
         Me.txtDepTaxRate.Text = "0"
         Me.txtDepTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepTaxRate.Value = 0R
+        Me.txtDepTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDepRate
         '
@@ -552,7 +554,7 @@ Partial Class frmAssetBookMaster
         Me.txtDepRate.TabIndex = 215
         Me.txtDepRate.Text = "0"
         Me.txtDepRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepRate.Value = 0R
+        Me.txtDepRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel12
         '
@@ -654,7 +656,7 @@ Partial Class frmAssetBookMaster
         Me.txtEstLife.TabIndex = 217
         Me.txtEstLife.Text = "0"
         Me.txtEstLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEstLife.Value = 0R
+        Me.txtEstLife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -850,12 +852,23 @@ Partial Class frmAssetBookMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Size = New System.Drawing.Size(702, 364)
         Me.SplitContainer1.SplitterDistance = 329
         Me.SplitContainer1.TabIndex = 4
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(553, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmAssetBookMaster
         '
@@ -912,6 +925,7 @@ Partial Class frmAssetBookMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -963,5 +977,6 @@ Partial Class frmAssetBookMaster
     Friend WithEvents txtDepMethod As common.UserControls.txtFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDescription As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

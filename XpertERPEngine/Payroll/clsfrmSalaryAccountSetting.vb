@@ -58,6 +58,7 @@ Public Class clsfrmSalaryAccountSetting
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYROLL_ACCOUNTSETS", OMInsertOrUpdate.Update, "TSPL_PAYROLL_ACCOUNTSETS.ACCOUNT_SET_CODE='" + obj.ACCOUNT_SET_CODE + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ACCOUNT_SET_CODE, "TSPL_PAYROLL_ACCOUNTSETS", "ACCOUNT_SET_CODE", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -126,6 +127,7 @@ Public Class clsfrmSalaryAccountSetting
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYROLL_ACCOUNTSETS", "ACCOUNT_SET_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_PAYROLL_ACCOUNTSETS where ACCOUNT_SET_CODE ='" + strCode + "'"
