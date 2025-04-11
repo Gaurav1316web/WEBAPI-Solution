@@ -31,6 +31,14 @@ Partial Class FrmParameterRangeMaster
         Me.btnimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.btnGO = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.lblProcType = New common.Controls.MyLabel()
         Me.ddlBulProcType = New common.Controls.MyComboBox()
         Me.lblSRNDate = New common.Controls.MyLabel()
@@ -41,16 +49,8 @@ Partial Class FrmParameterRangeMaster
         Me.lblVendorClass = New common.Controls.MyLabel()
         Me.cmbVendorClass = New common.Controls.MyComboBox()
         Me.txtMilktypeCode = New common.UserControls.txtFinder()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +62,16 @@ Partial Class FrmParameterRangeMaster
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProcType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlBulProcType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,18 +80,8 @@ Partial Class FrmParameterRangeMaster
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorClass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbVendorClass, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -192,6 +192,86 @@ Partial Class FrmParameterRangeMaster
         Me.btnGO.Size = New System.Drawing.Size(53, 18)
         Me.btnGO.TabIndex = 112
         Me.btnGO.Text = ">>"
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1122, 304)
+        Me.RadPageView1.TabIndex = 0
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1101, 260)
+        Me.RadPageViewPage1.Text = "Detail"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.gv)
+        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox1.HeaderText = "Parameter Range Detail"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(3, 18, 3, 3)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1101, 260)
+        Me.RadGroupBox1.TabIndex = 18
+        Me.RadGroupBox1.Text = "Parameter Range Detail"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(812, 316)
+        Me.RadPageViewPage2.Text = "Attachment"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(179, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(1050, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(78, 21)
+        Me.btnclose.TabIndex = 5
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(95, 6)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(78, 21)
+        Me.btndelete.TabIndex = 4
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(11, 6)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(78, 21)
+        Me.btnsave.TabIndex = 3
+        Me.btnsave.Text = "Save"
         '
         'lblProcType
         '
@@ -390,40 +470,6 @@ Partial Class FrmParameterRangeMaster
         Me.txtMilktypeCode.TabIndex = 280
         Me.txtMilktypeCode.Value = ""
         '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1122, 304)
-        Me.RadPageView1.TabIndex = 0
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1101, 256)
-        Me.RadPageViewPage1.Text = "Detail"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.gv)
-        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox1.HeaderText = "Parameter Range Detail"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(3, 18, 3, 3)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1101, 256)
-        Me.RadGroupBox1.TabIndex = 18
-        Me.RadGroupBox1.Text = "Parameter Range Detail"
-        '
         'gv
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
@@ -439,18 +485,9 @@ Partial Class FrmParameterRangeMaster
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(1095, 235)
+        Me.gv.Size = New System.Drawing.Size(1095, 239)
         Me.gv.TabIndex = 0
         Me.gv.VarID = ""
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(812, 316)
-        Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
         '
@@ -459,43 +496,6 @@ Partial Class FrmParameterRangeMaster
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(812, 316)
         Me.UcAttachment1.TabIndex = 2
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(179, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
-        Me.btnHistory.TabIndex = 6
-        Me.btnHistory.Text = "History"
-        Me.btnHistory.Visible = False
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(1050, 6)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(78, 21)
-        Me.btnclose.TabIndex = 5
-        Me.btnclose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(95, 6)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(78, 21)
-        Me.btndelete.TabIndex = 4
-        Me.btndelete.Text = "Delete"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Location = New System.Drawing.Point(11, 6)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(78, 21)
-        Me.btnsave.TabIndex = 3
-        Me.btnsave.Text = "Save"
         '
         'FrmParameterRangeMaster
         '
@@ -522,6 +522,16 @@ Partial Class FrmParameterRangeMaster
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblProcType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlBulProcType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSRNDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -530,18 +540,8 @@ Partial Class FrmParameterRangeMaster
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorClass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbVendorClass, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

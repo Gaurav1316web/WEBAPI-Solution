@@ -50,46 +50,18 @@ Partial Class frmInventorySetting
         Me.rbtnIsConsiderOutTypeDoc = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkNegativeStockInDairyProduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.gv_itemsettings = New common.UserControls.MyRadGridView()
         Me.chkCreateTransferFromBooking = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkGPAfterTransfer = New Telerik.WinControls.UI.RadCheckBox()
-        Me.fndProd_FatSnf_Base_Unit = New common.UserControls.txtFinder()
-        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.chkBomProductionProcess = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkCSACommision_Inv = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsMRPWiseBalance = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkAllowNegativeStock = New common.Controls.MyCheckBox()
-        Me.txtNegativeStock = New common.MyNumBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtProdQty_Decimal = New common.MyNumBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.gvLocation = New common.UserControls.MyRadGridView()
-        Me.chkAllowtoshowMilkTypeonAdjustmentEntry = New common.Controls.MyCheckBox()
         Me.chkthirdparty = New Telerik.WinControls.UI.RadCheckBox()
         Me.gbDocSeriesSetting = New System.Windows.Forms.GroupBox()
         Me.chkLocal_InterStateTransfer = New Telerik.WinControls.UI.RadCheckBox()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.cbgLocation = New common.UserControls.MyRadGridView()
         Me.chkTransferWithProductionSaleSeries = New Telerik.WinControls.UI.RadCheckBox()
-        Me.fndVehicle_Unit = New common.UserControls.txtFinder()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.chkTransferJEForLocationMapping = New common.Controls.MyCheckBox()
         Me.chkItemWithDifferntUnitConsiderAsOtherItem = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.txttradingGoods = New common.Controls.MyTextBox()
-        Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.txtOther = New common.Controls.MyTextBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.txtAsset = New common.Controls.MyTextBox()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtFinishedGoods = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtSemiFinishGoods = New common.Controls.MyTextBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtRawMaterial = New common.Controls.MyTextBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.ChkAllowtoeditCategorycodeinitemmaster = New common.Controls.MyCheckBox()
         Me.chkPrncpl_BOM = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkNlevel_Location = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkalwPGMCusMst = New Telerik.WinControls.UI.RadCheckBox()
@@ -105,15 +77,43 @@ Partial Class frmInventorySetting
         Me.chkAllowcostZero = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkAutoCreateSRNMRNOnPOPost = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsEnterQtyOnSRN = New Telerik.WinControls.UI.RadCheckBox()
-        Me.dgvclasss = New common.UserControls.MyRadGridView()
         Me.chkauto_item_nlevel = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.grpItemType = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvItemType = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.gv_itemsettings = New common.UserControls.MyRadGridView()
+        Me.fndProd_FatSnf_Base_Unit = New common.UserControls.txtFinder()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.chkAllowNegativeStock = New common.Controls.MyCheckBox()
+        Me.txtNegativeStock = New common.MyNumBox()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtProdQty_Decimal = New common.MyNumBox()
+        Me.gvLocation = New common.UserControls.MyRadGridView()
+        Me.chkAllowtoshowMilkTypeonAdjustmentEntry = New common.Controls.MyCheckBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.cbgLocation = New common.UserControls.MyRadGridView()
+        Me.fndVehicle_Unit = New common.UserControls.txtFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.chkTransferJEForLocationMapping = New common.Controls.MyCheckBox()
+        Me.txttradingGoods = New common.Controls.MyTextBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.txtOther = New common.Controls.MyTextBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtAsset = New common.Controls.MyTextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtFinishedGoods = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtSemiFinishGoods = New common.Controls.MyTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtRawMaterial = New common.Controls.MyTextBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.ChkAllowtoeditCategorycodeinitemmaster = New common.Controls.MyCheckBox()
+        Me.dgvclasss = New common.UserControls.MyRadGridView()
+        Me.gvItemType = New common.UserControls.MyRadGridView()
         CType(Me.chkallownegativeinventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkallowreceipts, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,47 +126,18 @@ Partial Class frmInventorySetting
         CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
-        CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCreateTransferFromBooking, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkGPAfterTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBomProductionProcess, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCSACommision_Inv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsMRPWiseBalance, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAllowNegativeStock, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNegativeStock, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtProdQty_Decimal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox4.SuspendLayout()
-        CType(Me.gvLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAllowtoshowMilkTypeonAdjustmentEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkthirdparty, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDocSeriesSetting.SuspendLayout()
         CType(Me.chkLocal_InterStateTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cbgLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cbgLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTransferWithProductionSaleSeries, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTransferJEForLocationMapping, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkItemWithDifferntUnitConsiderAsOtherItem, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
-        CType(Me.txttradingGoods, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtOther, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAsset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFinishedGoods, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSemiFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRawMaterial, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkAllowtoeditCategorycodeinitemmaster, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPrncpl_BOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNlevel_Location, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkalwPGMCusMst, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,8 +153,6 @@ Partial Class frmInventorySetting
         CType(Me.chkAllowcostZero, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAutoCreateSRNMRNOnPOPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsEnterQtyOnSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dgvclasss, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dgvclasss.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkauto_item_nlevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -194,9 +163,40 @@ Partial Class frmInventorySetting
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.grpItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpItemType.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAllowNegativeStock, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNegativeStock, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtProdQty_Decimal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAllowtoshowMilkTypeonAdjustmentEntry, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cbgLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cbgLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTransferJEForLocationMapping, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttradingGoods, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOther, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAsset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFinishedGoods, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSemiFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRawMaterial, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkAllowtoeditCategorycodeinitemmaster, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvclasss, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvclasss.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemType.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -370,6 +370,353 @@ Partial Class frmInventorySetting
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Item Settings"
         '
+        'chkCreateTransferFromBooking
+        '
+        Me.chkCreateTransferFromBooking.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkCreateTransferFromBooking.Location = New System.Drawing.Point(9, 267)
+        Me.chkCreateTransferFromBooking.Name = "chkCreateTransferFromBooking"
+        Me.chkCreateTransferFromBooking.Size = New System.Drawing.Size(178, 16)
+        Me.chkCreateTransferFromBooking.TabIndex = 47
+        Me.chkCreateTransferFromBooking.Text = "Create Transfer from GatePass"
+        '
+        'chkGPAfterTransfer
+        '
+        Me.chkGPAfterTransfer.Enabled = False
+        Me.chkGPAfterTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkGPAfterTransfer.Location = New System.Drawing.Point(9, 247)
+        Me.chkGPAfterTransfer.Name = "chkGPAfterTransfer"
+        Me.chkGPAfterTransfer.Size = New System.Drawing.Size(145, 16)
+        Me.chkGPAfterTransfer.TabIndex = 46
+        Me.chkGPAfterTransfer.Text = "Gate Pass After Transfer"
+        '
+        'chkBomProductionProcess
+        '
+        Me.chkBomProductionProcess.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBomProductionProcess.Location = New System.Drawing.Point(474, 278)
+        Me.chkBomProductionProcess.Name = "chkBomProductionProcess"
+        Me.chkBomProductionProcess.Size = New System.Drawing.Size(188, 16)
+        Me.chkBomProductionProcess.TabIndex = 23
+        Me.chkBomProductionProcess.Text = "Allow Process Production In ERP"
+        '
+        'chkCSACommision_Inv
+        '
+        Me.chkCSACommision_Inv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkCSACommision_Inv.Location = New System.Drawing.Point(474, 297)
+        Me.chkCSACommision_Inv.Name = "chkCSACommision_Inv"
+        Me.chkCSACommision_Inv.Size = New System.Drawing.Size(218, 16)
+        Me.chkCSACommision_Inv.TabIndex = 26
+        Me.chkCSACommision_Inv.Text = "Create AP Invoice For CSA Commision"
+        '
+        'chkIsMRPWiseBalance
+        '
+        Me.chkIsMRPWiseBalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsMRPWiseBalance.Location = New System.Drawing.Point(474, 314)
+        Me.chkIsMRPWiseBalance.Name = "chkIsMRPWiseBalance"
+        Me.chkIsMRPWiseBalance.Size = New System.Drawing.Size(130, 16)
+        Me.chkIsMRPWiseBalance.TabIndex = 34
+        Me.chkIsMRPWiseBalance.Text = "Is MRP Wise Balance"
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.gvLocation)
+        Me.GroupBox4.Location = New System.Drawing.Point(783, 300)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(260, 168)
+        Me.GroupBox4.TabIndex = 39
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "CSA Transfer(Non Excise) Series Setting [if checked then Stock Transfer Else CSA " &
+    "Transfer]"
+        '
+        'chkthirdparty
+        '
+        Me.chkthirdparty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkthirdparty.Location = New System.Drawing.Point(814, 141)
+        Me.chkthirdparty.Name = "chkthirdparty"
+        Me.chkthirdparty.Size = New System.Drawing.Size(196, 16)
+        Me.chkthirdparty.TabIndex = 19
+        Me.chkthirdparty.Text = "Allow Third Party Location On ERP"
+        '
+        'gbDocSeriesSetting
+        '
+        Me.gbDocSeriesSetting.Controls.Add(Me.chkLocal_InterStateTransfer)
+        Me.gbDocSeriesSetting.Controls.Add(Me.MyLabel9)
+        Me.gbDocSeriesSetting.Controls.Add(Me.MyLabel8)
+        Me.gbDocSeriesSetting.Controls.Add(Me.cbgLocation)
+        Me.gbDocSeriesSetting.Location = New System.Drawing.Point(5, 300)
+        Me.gbDocSeriesSetting.Name = "gbDocSeriesSetting"
+        Me.gbDocSeriesSetting.Size = New System.Drawing.Size(547, 213)
+        Me.gbDocSeriesSetting.TabIndex = 10
+        Me.gbDocSeriesSetting.TabStop = False
+        Me.gbDocSeriesSetting.Text = "Document Series Setting [Product Sale / Stock Transfer / CSA Transfer]"
+        '
+        'chkLocal_InterStateTransfer
+        '
+        Me.chkLocal_InterStateTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkLocal_InterStateTransfer.Location = New System.Drawing.Point(11, 49)
+        Me.chkLocal_InterStateTransfer.Name = "chkLocal_InterStateTransfer"
+        Me.chkLocal_InterStateTransfer.Size = New System.Drawing.Size(522, 16)
+        Me.chkLocal_InterStateTransfer.TabIndex = 36
+        Me.chkLocal_InterStateTransfer.Text = "different [Stock/CSA Transfer] series for Local/InterState, This will not be effe" &
+    "ctive if first check is On"
+        '
+        'chkTransferWithProductionSaleSeries
+        '
+        Me.chkTransferWithProductionSaleSeries.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkTransferWithProductionSaleSeries.Location = New System.Drawing.Point(474, 206)
+        Me.chkTransferWithProductionSaleSeries.Name = "chkTransferWithProductionSaleSeries"
+        Me.chkTransferWithProductionSaleSeries.Size = New System.Drawing.Size(283, 16)
+        Me.chkTransferWithProductionSaleSeries.TabIndex = 38
+        Me.chkTransferWithProductionSaleSeries.Text = "Create Transfer With Production Sale (Retail) Series"
+        '
+        'chkItemWithDifferntUnitConsiderAsOtherItem
+        '
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Location = New System.Drawing.Point(474, 244)
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Name = "chkItemWithDifferntUnitConsiderAsOtherItem"
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Size = New System.Drawing.Size(251, 16)
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.TabIndex = 33
+        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Text = "Item With Differnt Unit Consider as Other Item"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.txttradingGoods)
+        Me.GroupBox2.Controls.Add(Me.MyLabel11)
+        Me.GroupBox2.Controls.Add(Me.txtOther)
+        Me.GroupBox2.Controls.Add(Me.MyLabel5)
+        Me.GroupBox2.Controls.Add(Me.txtAsset)
+        Me.GroupBox2.Controls.Add(Me.MyLabel3)
+        Me.GroupBox2.Controls.Add(Me.txtFinishedGoods)
+        Me.GroupBox2.Controls.Add(Me.MyLabel2)
+        Me.GroupBox2.Controls.Add(Me.txtSemiFinishGoods)
+        Me.GroupBox2.Controls.Add(Me.MyLabel1)
+        Me.GroupBox2.Controls.Add(Me.txtRawMaterial)
+        Me.GroupBox2.Controls.Add(Me.MyLabel4)
+        Me.GroupBox2.Location = New System.Drawing.Point(582, 30)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(233, 144)
+        Me.GroupBox2.TabIndex = 32
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Item Master Couter"
+        Me.GroupBox2.Visible = False
+        '
+        'chkPrncpl_BOM
+        '
+        Me.chkPrncpl_BOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkPrncpl_BOM.Location = New System.Drawing.Point(814, 124)
+        Me.chkPrncpl_BOM.Name = "chkPrncpl_BOM"
+        Me.chkPrncpl_BOM.Size = New System.Drawing.Size(181, 16)
+        Me.chkPrncpl_BOM.TabIndex = 22
+        Me.chkPrncpl_BOM.Text = "Allow Principle Tagging At BOM"
+        '
+        'chkNlevel_Location
+        '
+        Me.chkNlevel_Location.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNlevel_Location.Location = New System.Drawing.Point(785, 182)
+        Me.chkNlevel_Location.Name = "chkNlevel_Location"
+        Me.chkNlevel_Location.Size = New System.Drawing.Size(236, 16)
+        Me.chkNlevel_Location.TabIndex = 21
+        Me.chkNlevel_Location.Text = "Allow N-Level Category At Location Master"
+        '
+        'chkalwPGMCusMst
+        '
+        Me.chkalwPGMCusMst.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkalwPGMCusMst.Location = New System.Drawing.Point(785, 217)
+        Me.chkalwPGMCusMst.Name = "chkalwPGMCusMst"
+        Me.chkalwPGMCusMst.Size = New System.Drawing.Size(245, 16)
+        Me.chkalwPGMCusMst.TabIndex = 18
+        Me.chkalwPGMCusMst.Text = "Allow Price Group Code At Customer Master"
+        '
+        'chkAllowTermsEditSales
+        '
+        Me.chkAllowTermsEditSales.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowTermsEditSales.Location = New System.Drawing.Point(814, 107)
+        Me.chkAllowTermsEditSales.Name = "chkAllowTermsEditSales"
+        Me.chkAllowTermsEditSales.Size = New System.Drawing.Size(173, 16)
+        Me.chkAllowTermsEditSales.TabIndex = 16
+        Me.chkAllowTermsEditSales.Text = "Allow Terms editable on Sales"
+        '
+        'chkAllowTermEditPurchase
+        '
+        Me.chkAllowTermEditPurchase.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowTermEditPurchase.Location = New System.Drawing.Point(785, 235)
+        Me.chkAllowTermEditPurchase.Name = "chkAllowTermEditPurchase"
+        Me.chkAllowTermEditPurchase.Size = New System.Drawing.Size(192, 16)
+        Me.chkAllowTermEditPurchase.TabIndex = 17
+        Me.chkAllowTermEditPurchase.Text = "Allow Terms editable on Purchase"
+        '
+        'chkAllowTermsEditMM
+        '
+        Me.chkAllowTermsEditMM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowTermsEditMM.Location = New System.Drawing.Point(785, 201)
+        Me.chkAllowTermsEditMM.Name = "chkAllowTermsEditMM"
+        Me.chkAllowTermsEditMM.Size = New System.Drawing.Size(254, 16)
+        Me.chkAllowTermsEditMM.TabIndex = 20
+        Me.chkAllowTermsEditMM.Text = "Allow Terms editable on Material Management"
+        '
+        'chkBatchMandatory
+        '
+        Me.chkBatchMandatory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBatchMandatory.Location = New System.Drawing.Point(242, 276)
+        Me.chkBatchMandatory.Name = "chkBatchMandatory"
+        Me.chkBatchMandatory.Size = New System.Drawing.Size(199, 16)
+        Me.chkBatchMandatory.TabIndex = 15
+        Me.chkBatchMandatory.Text = "Is Batch No , MFD ,EXD Mandatory"
+        '
+        'chkAllowchangeInvoiceType
+        '
+        Me.chkAllowchangeInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowchangeInvoiceType.Location = New System.Drawing.Point(9, 226)
+        Me.chkAllowchangeInvoiceType.Name = "chkAllowchangeInvoiceType"
+        Me.chkAllowchangeInvoiceType.Size = New System.Drawing.Size(208, 16)
+        Me.chkAllowchangeInvoiceType.TabIndex = 14
+        Me.chkAllowchangeInvoiceType.Text = "Allow Change Retail/tax Invoice Type"
+        '
+        'chkAutoScheme
+        '
+        Me.chkAutoScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAutoScheme.Location = New System.Drawing.Point(9, 205)
+        Me.chkAutoScheme.Name = "chkAutoScheme"
+        Me.chkAutoScheme.Size = New System.Drawing.Size(88, 16)
+        Me.chkAutoScheme.TabIndex = 12
+        Me.chkAutoScheme.Text = "Auto Scheme"
+        '
+        'chkMRPwithAbatement
+        '
+        Me.chkMRPwithAbatement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkMRPwithAbatement.Location = New System.Drawing.Point(242, 255)
+        Me.chkMRPwithAbatement.Name = "chkMRPwithAbatement"
+        Me.chkMRPwithAbatement.Size = New System.Drawing.Size(127, 16)
+        Me.chkMRPwithAbatement.TabIndex = 13
+        Me.chkMRPwithAbatement.Text = "MRP with Abatement"
+        '
+        'chkBackCalculation
+        '
+        Me.chkBackCalculation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBackCalculation.Location = New System.Drawing.Point(242, 235)
+        Me.chkBackCalculation.Name = "chkBackCalculation"
+        Me.chkBackCalculation.Size = New System.Drawing.Size(155, 16)
+        Me.chkBackCalculation.TabIndex = 11
+        Me.chkBackCalculation.Text = "Rate with Back Calculation"
+        '
+        'chknLevelCategory
+        '
+        Me.chknLevelCategory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chknLevelCategory.Location = New System.Drawing.Point(9, 186)
+        Me.chknLevelCategory.Name = "chknLevelCategory"
+        Me.chknLevelCategory.Size = New System.Drawing.Size(176, 16)
+        Me.chknLevelCategory.TabIndex = 10
+        Me.chknLevelCategory.Text = "Use n Level Category for Items"
+        '
+        'chkAllowcostZero
+        '
+        Me.chkAllowcostZero.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowcostZero.Location = New System.Drawing.Point(242, 218)
+        Me.chkAllowcostZero.Name = "chkAllowcostZero"
+        Me.chkAllowcostZero.Size = New System.Drawing.Size(229, 16)
+        Me.chkAllowcostZero.TabIndex = 8
+        Me.chkAllowcostZero.Text = "Allow Cost to Zero In Item Location Detail"
+        Me.chkAllowcostZero.Visible = False
+        '
+        'chkAutoCreateSRNMRNOnPOPost
+        '
+        Me.chkAutoCreateSRNMRNOnPOPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAutoCreateSRNMRNOnPOPost.Location = New System.Drawing.Point(242, 182)
+        Me.chkAutoCreateSRNMRNOnPOPost.Name = "chkAutoCreateSRNMRNOnPOPost"
+        Me.chkAutoCreateSRNMRNOnPOPost.Size = New System.Drawing.Size(221, 16)
+        Me.chkAutoCreateSRNMRNOnPOPost.TabIndex = 2
+        Me.chkAutoCreateSRNMRNOnPOPost.Text = "Auto Create GRN and MRN on PO Post"
+        '
+        'chkIsEnterQtyOnSRN
+        '
+        Me.chkIsEnterQtyOnSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEnterQtyOnSRN.Location = New System.Drawing.Point(242, 201)
+        Me.chkIsEnterQtyOnSRN.Name = "chkIsEnterQtyOnSRN"
+        Me.chkIsEnterQtyOnSRN.Size = New System.Drawing.Size(215, 16)
+        Me.chkIsEnterQtyOnSRN.TabIndex = 5
+        Me.chkIsEnterQtyOnSRN.Text = "Enter GRN and MRN Quantity on SRN"
+        '
+        'chkauto_item_nlevel
+        '
+        Me.chkauto_item_nlevel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkauto_item_nlevel.Location = New System.Drawing.Point(7, 4)
+        Me.chkauto_item_nlevel.Name = "chkauto_item_nlevel"
+        Me.chkauto_item_nlevel.Size = New System.Drawing.Size(195, 16)
+        Me.chkauto_item_nlevel.TabIndex = 24
+        Me.chkauto_item_nlevel.Text = "Is Generate Item Code By Coutner"
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1078, 551)
+        Me.SplitContainer1.SplitterDistance = 519
+        Me.SplitContainer1.TabIndex = 0
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.Size = New System.Drawing.Size(1078, 519)
+        Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.groupbox)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(94.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 471)
+        Me.RadPageViewPage1.Text = "General Settings"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.chkauto_item_nlevel)
+        Me.RadPageViewPage2.Controls.Add(Me.grpItemType)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(147.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 475)
+        Me.RadPageViewPage2.Text = "Item Prefix Counter Setting"
+        '
+        'grpItemType
+        '
+        Me.grpItemType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.grpItemType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.grpItemType.Controls.Add(Me.gvItemType)
+        Me.grpItemType.HeaderText = "Item Master Couter"
+        Me.grpItemType.Location = New System.Drawing.Point(2, 26)
+        Me.grpItemType.Name = "grpItemType"
+        Me.grpItemType.Size = New System.Drawing.Size(403, 449)
+        Me.grpItemType.TabIndex = 0
+        Me.grpItemType.Text = "Item Master Couter"
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
+        Me.RadMenu1.TabIndex = 1
+        '
         'gv_itemsettings
         '
         Me.gv_itemsettings.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -398,25 +745,6 @@ Partial Class frmInventorySetting
         Me.gv_itemsettings.TabIndex = 1
         Me.gv_itemsettings.TabStop = False
         Me.gv_itemsettings.VarID = ""
-        '
-        'chkCreateTransferFromBooking
-        '
-        Me.chkCreateTransferFromBooking.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCreateTransferFromBooking.Location = New System.Drawing.Point(9, 267)
-        Me.chkCreateTransferFromBooking.Name = "chkCreateTransferFromBooking"
-        Me.chkCreateTransferFromBooking.Size = New System.Drawing.Size(178, 16)
-        Me.chkCreateTransferFromBooking.TabIndex = 47
-        Me.chkCreateTransferFromBooking.Text = "Create Transfer from GatePass"
-        '
-        'chkGPAfterTransfer
-        '
-        Me.chkGPAfterTransfer.Enabled = False
-        Me.chkGPAfterTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkGPAfterTransfer.Location = New System.Drawing.Point(9, 247)
-        Me.chkGPAfterTransfer.Name = "chkGPAfterTransfer"
-        Me.chkGPAfterTransfer.Size = New System.Drawing.Size(145, 16)
-        Me.chkGPAfterTransfer.TabIndex = 46
-        Me.chkGPAfterTransfer.Text = "Gate Pass After Transfer"
         '
         'fndProd_FatSnf_Base_Unit
         '
@@ -452,33 +780,6 @@ Partial Class frmInventorySetting
         Me.MyLabel10.Size = New System.Drawing.Size(156, 18)
         Me.MyLabel10.TabIndex = 44
         Me.MyLabel10.Text = "Production FAT/SNF base unit"
-        '
-        'chkBomProductionProcess
-        '
-        Me.chkBomProductionProcess.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBomProductionProcess.Location = New System.Drawing.Point(474, 278)
-        Me.chkBomProductionProcess.Name = "chkBomProductionProcess"
-        Me.chkBomProductionProcess.Size = New System.Drawing.Size(188, 16)
-        Me.chkBomProductionProcess.TabIndex = 23
-        Me.chkBomProductionProcess.Text = "Allow Process Production In ERP"
-        '
-        'chkCSACommision_Inv
-        '
-        Me.chkCSACommision_Inv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCSACommision_Inv.Location = New System.Drawing.Point(474, 297)
-        Me.chkCSACommision_Inv.Name = "chkCSACommision_Inv"
-        Me.chkCSACommision_Inv.Size = New System.Drawing.Size(218, 16)
-        Me.chkCSACommision_Inv.TabIndex = 26
-        Me.chkCSACommision_Inv.Text = "Create AP Invoice For CSA Commision"
-        '
-        'chkIsMRPWiseBalance
-        '
-        Me.chkIsMRPWiseBalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsMRPWiseBalance.Location = New System.Drawing.Point(474, 314)
-        Me.chkIsMRPWiseBalance.Name = "chkIsMRPWiseBalance"
-        Me.chkIsMRPWiseBalance.Size = New System.Drawing.Size(130, 16)
-        Me.chkIsMRPWiseBalance.TabIndex = 34
-        Me.chkIsMRPWiseBalance.Text = "Is MRP Wise Balance"
         '
         'chkAllowNegativeStock
         '
@@ -552,17 +853,6 @@ Partial Class frmInventorySetting
         Me.txtProdQty_Decimal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtProdQty_Decimal.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.gvLocation)
-        Me.GroupBox4.Location = New System.Drawing.Point(783, 300)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(260, 168)
-        Me.GroupBox4.TabIndex = 39
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "CSA Transfer(Non Excise) Series Setting [if checked then Stock Transfer Else CSA " &
-    "Transfer]"
-        '
         'gvLocation
         '
         Me.gvLocation.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -602,38 +892,6 @@ Partial Class frmInventorySetting
         Me.chkAllowtoshowMilkTypeonAdjustmentEntry.TabIndex = 25
         Me.chkAllowtoshowMilkTypeonAdjustmentEntry.Tag1 = Nothing
         Me.chkAllowtoshowMilkTypeonAdjustmentEntry.Text = "Allow to show Milk Type on Adjustment Entry"
-        '
-        'chkthirdparty
-        '
-        Me.chkthirdparty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkthirdparty.Location = New System.Drawing.Point(814, 141)
-        Me.chkthirdparty.Name = "chkthirdparty"
-        Me.chkthirdparty.Size = New System.Drawing.Size(196, 16)
-        Me.chkthirdparty.TabIndex = 19
-        Me.chkthirdparty.Text = "Allow Third Party Location On ERP"
-        '
-        'gbDocSeriesSetting
-        '
-        Me.gbDocSeriesSetting.Controls.Add(Me.chkLocal_InterStateTransfer)
-        Me.gbDocSeriesSetting.Controls.Add(Me.MyLabel9)
-        Me.gbDocSeriesSetting.Controls.Add(Me.MyLabel8)
-        Me.gbDocSeriesSetting.Controls.Add(Me.cbgLocation)
-        Me.gbDocSeriesSetting.Location = New System.Drawing.Point(5, 300)
-        Me.gbDocSeriesSetting.Name = "gbDocSeriesSetting"
-        Me.gbDocSeriesSetting.Size = New System.Drawing.Size(547, 213)
-        Me.gbDocSeriesSetting.TabIndex = 10
-        Me.gbDocSeriesSetting.TabStop = False
-        Me.gbDocSeriesSetting.Text = "Document Series Setting [Product Sale / Stock Transfer / CSA Transfer]"
-        '
-        'chkLocal_InterStateTransfer
-        '
-        Me.chkLocal_InterStateTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkLocal_InterStateTransfer.Location = New System.Drawing.Point(11, 49)
-        Me.chkLocal_InterStateTransfer.Name = "chkLocal_InterStateTransfer"
-        Me.chkLocal_InterStateTransfer.Size = New System.Drawing.Size(522, 16)
-        Me.chkLocal_InterStateTransfer.TabIndex = 36
-        Me.chkLocal_InterStateTransfer.Text = "different [Stock/CSA Transfer] series for Local/InterState, This will not be effe" &
-    "ctive if first check is On"
         '
         'MyLabel9
         '
@@ -684,15 +942,6 @@ Partial Class frmInventorySetting
         Me.cbgLocation.TabStop = False
         Me.cbgLocation.VarID = ""
         '
-        'chkTransferWithProductionSaleSeries
-        '
-        Me.chkTransferWithProductionSaleSeries.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkTransferWithProductionSaleSeries.Location = New System.Drawing.Point(474, 206)
-        Me.chkTransferWithProductionSaleSeries.Name = "chkTransferWithProductionSaleSeries"
-        Me.chkTransferWithProductionSaleSeries.Size = New System.Drawing.Size(283, 16)
-        Me.chkTransferWithProductionSaleSeries.TabIndex = 38
-        Me.chkTransferWithProductionSaleSeries.Text = "Create Transfer With Production Sale (Retail) Series"
-        '
         'fndVehicle_Unit
         '
         Me.fndVehicle_Unit.CalculationExpression = Nothing
@@ -738,37 +987,6 @@ Partial Class frmInventorySetting
         Me.chkTransferJEForLocationMapping.TabIndex = 35
         Me.chkTransferJEForLocationMapping.Tag1 = Nothing
         Me.chkTransferJEForLocationMapping.Text = "Transfer Journal Entry by Location mapping"
-        '
-        'chkItemWithDifferntUnitConsiderAsOtherItem
-        '
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Location = New System.Drawing.Point(474, 244)
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Name = "chkItemWithDifferntUnitConsiderAsOtherItem"
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Size = New System.Drawing.Size(251, 16)
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.TabIndex = 33
-        Me.chkItemWithDifferntUnitConsiderAsOtherItem.Text = "Item With Differnt Unit Consider as Other Item"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.txttradingGoods)
-        Me.GroupBox2.Controls.Add(Me.MyLabel11)
-        Me.GroupBox2.Controls.Add(Me.txtOther)
-        Me.GroupBox2.Controls.Add(Me.MyLabel5)
-        Me.GroupBox2.Controls.Add(Me.txtAsset)
-        Me.GroupBox2.Controls.Add(Me.MyLabel3)
-        Me.GroupBox2.Controls.Add(Me.txtFinishedGoods)
-        Me.GroupBox2.Controls.Add(Me.MyLabel2)
-        Me.GroupBox2.Controls.Add(Me.txtSemiFinishGoods)
-        Me.GroupBox2.Controls.Add(Me.MyLabel1)
-        Me.GroupBox2.Controls.Add(Me.txtRawMaterial)
-        Me.GroupBox2.Controls.Add(Me.MyLabel4)
-        Me.GroupBox2.Location = New System.Drawing.Point(582, 30)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(233, 144)
-        Me.GroupBox2.TabIndex = 32
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Item Master Couter"
-        Me.GroupBox2.Visible = False
         '
         'txttradingGoods
         '
@@ -973,142 +1191,6 @@ Partial Class frmInventorySetting
         Me.ChkAllowtoeditCategorycodeinitemmaster.Tag1 = Nothing
         Me.ChkAllowtoeditCategorycodeinitemmaster.Text = "Allo to edit Category code in item master"
         '
-        'chkPrncpl_BOM
-        '
-        Me.chkPrncpl_BOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkPrncpl_BOM.Location = New System.Drawing.Point(814, 124)
-        Me.chkPrncpl_BOM.Name = "chkPrncpl_BOM"
-        Me.chkPrncpl_BOM.Size = New System.Drawing.Size(181, 16)
-        Me.chkPrncpl_BOM.TabIndex = 22
-        Me.chkPrncpl_BOM.Text = "Allow Principle Tagging At BOM"
-        '
-        'chkNlevel_Location
-        '
-        Me.chkNlevel_Location.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNlevel_Location.Location = New System.Drawing.Point(785, 182)
-        Me.chkNlevel_Location.Name = "chkNlevel_Location"
-        Me.chkNlevel_Location.Size = New System.Drawing.Size(236, 16)
-        Me.chkNlevel_Location.TabIndex = 21
-        Me.chkNlevel_Location.Text = "Allow N-Level Category At Location Master"
-        '
-        'chkalwPGMCusMst
-        '
-        Me.chkalwPGMCusMst.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkalwPGMCusMst.Location = New System.Drawing.Point(785, 217)
-        Me.chkalwPGMCusMst.Name = "chkalwPGMCusMst"
-        Me.chkalwPGMCusMst.Size = New System.Drawing.Size(245, 16)
-        Me.chkalwPGMCusMst.TabIndex = 18
-        Me.chkalwPGMCusMst.Text = "Allow Price Group Code At Customer Master"
-        '
-        'chkAllowTermsEditSales
-        '
-        Me.chkAllowTermsEditSales.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllowTermsEditSales.Location = New System.Drawing.Point(814, 107)
-        Me.chkAllowTermsEditSales.Name = "chkAllowTermsEditSales"
-        Me.chkAllowTermsEditSales.Size = New System.Drawing.Size(173, 16)
-        Me.chkAllowTermsEditSales.TabIndex = 16
-        Me.chkAllowTermsEditSales.Text = "Allow Terms editable on Sales"
-        '
-        'chkAllowTermEditPurchase
-        '
-        Me.chkAllowTermEditPurchase.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllowTermEditPurchase.Location = New System.Drawing.Point(785, 235)
-        Me.chkAllowTermEditPurchase.Name = "chkAllowTermEditPurchase"
-        Me.chkAllowTermEditPurchase.Size = New System.Drawing.Size(192, 16)
-        Me.chkAllowTermEditPurchase.TabIndex = 17
-        Me.chkAllowTermEditPurchase.Text = "Allow Terms editable on Purchase"
-        '
-        'chkAllowTermsEditMM
-        '
-        Me.chkAllowTermsEditMM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllowTermsEditMM.Location = New System.Drawing.Point(785, 201)
-        Me.chkAllowTermsEditMM.Name = "chkAllowTermsEditMM"
-        Me.chkAllowTermsEditMM.Size = New System.Drawing.Size(254, 16)
-        Me.chkAllowTermsEditMM.TabIndex = 20
-        Me.chkAllowTermsEditMM.Text = "Allow Terms editable on Material Management"
-        '
-        'chkBatchMandatory
-        '
-        Me.chkBatchMandatory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBatchMandatory.Location = New System.Drawing.Point(242, 276)
-        Me.chkBatchMandatory.Name = "chkBatchMandatory"
-        Me.chkBatchMandatory.Size = New System.Drawing.Size(199, 16)
-        Me.chkBatchMandatory.TabIndex = 15
-        Me.chkBatchMandatory.Text = "Is Batch No , MFD ,EXD Mandatory"
-        '
-        'chkAllowchangeInvoiceType
-        '
-        Me.chkAllowchangeInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllowchangeInvoiceType.Location = New System.Drawing.Point(9, 226)
-        Me.chkAllowchangeInvoiceType.Name = "chkAllowchangeInvoiceType"
-        Me.chkAllowchangeInvoiceType.Size = New System.Drawing.Size(208, 16)
-        Me.chkAllowchangeInvoiceType.TabIndex = 14
-        Me.chkAllowchangeInvoiceType.Text = "Allow Change Retail/tax Invoice Type"
-        '
-        'chkAutoScheme
-        '
-        Me.chkAutoScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAutoScheme.Location = New System.Drawing.Point(9, 205)
-        Me.chkAutoScheme.Name = "chkAutoScheme"
-        Me.chkAutoScheme.Size = New System.Drawing.Size(88, 16)
-        Me.chkAutoScheme.TabIndex = 12
-        Me.chkAutoScheme.Text = "Auto Scheme"
-        '
-        'chkMRPwithAbatement
-        '
-        Me.chkMRPwithAbatement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMRPwithAbatement.Location = New System.Drawing.Point(242, 255)
-        Me.chkMRPwithAbatement.Name = "chkMRPwithAbatement"
-        Me.chkMRPwithAbatement.Size = New System.Drawing.Size(127, 16)
-        Me.chkMRPwithAbatement.TabIndex = 13
-        Me.chkMRPwithAbatement.Text = "MRP with Abatement"
-        '
-        'chkBackCalculation
-        '
-        Me.chkBackCalculation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBackCalculation.Location = New System.Drawing.Point(242, 235)
-        Me.chkBackCalculation.Name = "chkBackCalculation"
-        Me.chkBackCalculation.Size = New System.Drawing.Size(155, 16)
-        Me.chkBackCalculation.TabIndex = 11
-        Me.chkBackCalculation.Text = "Rate with Back Calculation"
-        '
-        'chknLevelCategory
-        '
-        Me.chknLevelCategory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chknLevelCategory.Location = New System.Drawing.Point(9, 186)
-        Me.chknLevelCategory.Name = "chknLevelCategory"
-        Me.chknLevelCategory.Size = New System.Drawing.Size(176, 16)
-        Me.chknLevelCategory.TabIndex = 10
-        Me.chknLevelCategory.Text = "Use n Level Category for Items"
-        '
-        'chkAllowcostZero
-        '
-        Me.chkAllowcostZero.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllowcostZero.Location = New System.Drawing.Point(242, 218)
-        Me.chkAllowcostZero.Name = "chkAllowcostZero"
-        Me.chkAllowcostZero.Size = New System.Drawing.Size(229, 16)
-        Me.chkAllowcostZero.TabIndex = 8
-        Me.chkAllowcostZero.Text = "Allow Cost to Zero In Item Location Detail"
-        Me.chkAllowcostZero.Visible = False
-        '
-        'chkAutoCreateSRNMRNOnPOPost
-        '
-        Me.chkAutoCreateSRNMRNOnPOPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAutoCreateSRNMRNOnPOPost.Location = New System.Drawing.Point(242, 182)
-        Me.chkAutoCreateSRNMRNOnPOPost.Name = "chkAutoCreateSRNMRNOnPOPost"
-        Me.chkAutoCreateSRNMRNOnPOPost.Size = New System.Drawing.Size(221, 16)
-        Me.chkAutoCreateSRNMRNOnPOPost.TabIndex = 2
-        Me.chkAutoCreateSRNMRNOnPOPost.Text = "Auto Create GRN and MRN on PO Post"
-        '
-        'chkIsEnterQtyOnSRN
-        '
-        Me.chkIsEnterQtyOnSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEnterQtyOnSRN.Location = New System.Drawing.Point(242, 201)
-        Me.chkIsEnterQtyOnSRN.Name = "chkIsEnterQtyOnSRN"
-        Me.chkIsEnterQtyOnSRN.Size = New System.Drawing.Size(215, 16)
-        Me.chkIsEnterQtyOnSRN.TabIndex = 5
-        Me.chkIsEnterQtyOnSRN.Text = "Enter GRN and MRN Quantity on SRN"
-        '
         'dgvclasss
         '
         Me.dgvclasss.BackColor = System.Drawing.SystemColors.Control
@@ -1159,80 +1241,6 @@ Partial Class frmInventorySetting
         Me.dgvclasss.TabStop = False
         Me.dgvclasss.VarID = ""
         '
-        'chkauto_item_nlevel
-        '
-        Me.chkauto_item_nlevel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkauto_item_nlevel.Location = New System.Drawing.Point(7, 4)
-        Me.chkauto_item_nlevel.Name = "chkauto_item_nlevel"
-        Me.chkauto_item_nlevel.Size = New System.Drawing.Size(195, 16)
-        Me.chkauto_item_nlevel.TabIndex = 24
-        Me.chkauto_item_nlevel.Text = "Is Generate Item Code By Coutner"
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1078, 551)
-        Me.SplitContainer1.SplitterDistance = 519
-        Me.SplitContainer1.TabIndex = 0
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(1078, 519)
-        Me.RadPageView1.TabIndex = 1
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.groupbox)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(98.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 471)
-        Me.RadPageViewPage1.Text = "General Settings"
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.chkauto_item_nlevel)
-        Me.RadPageViewPage2.Controls.Add(Me.grpItemType)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(151.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 471)
-        Me.RadPageViewPage2.Text = "Item Prefix Counter Setting"
-        '
-        'grpItemType
-        '
-        Me.grpItemType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.grpItemType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.grpItemType.Controls.Add(Me.gvItemType)
-        Me.grpItemType.HeaderText = "Item Master Couter"
-        Me.grpItemType.Location = New System.Drawing.Point(2, 26)
-        Me.grpItemType.Name = "grpItemType"
-        Me.grpItemType.Size = New System.Drawing.Size(403, 445)
-        Me.grpItemType.TabIndex = 0
-        Me.grpItemType.Text = "Item Master Couter"
-        '
         'gvItemType
         '
         Me.gvItemType.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1275,18 +1283,10 @@ Partial Class frmInventorySetting
         Me.gvItemType.Name = "gvItemType"
         Me.gvItemType.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItemType.ShowHeaderCellButtons = True
-        Me.gvItemType.Size = New System.Drawing.Size(393, 427)
+        Me.gvItemType.Size = New System.Drawing.Size(393, 431)
         Me.gvItemType.TabIndex = 1
         Me.gvItemType.TabStop = False
         Me.gvItemType.VarID = ""
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
-        Me.RadMenu1.TabIndex = 1
         '
         'frmInventorySetting
         '
@@ -1315,49 +1315,20 @@ Partial Class frmInventorySetting
         CType(Me.rbtnIsConsiderOutTypeDoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNegativeStockInDairyProduction, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
-        CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCreateTransferFromBooking, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkGPAfterTransfer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBomProductionProcess, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCSACommision_Inv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsMRPWiseBalance, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAllowNegativeStock, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNegativeStock, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtProdQty_Decimal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox4.ResumeLayout(False)
-        CType(Me.gvLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAllowtoshowMilkTypeonAdjustmentEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkthirdparty, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDocSeriesSetting.ResumeLayout(False)
         Me.gbDocSeriesSetting.PerformLayout()
         CType(Me.chkLocal_InterStateTransfer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cbgLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cbgLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTransferWithProductionSaleSeries, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTransferJEForLocationMapping, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkItemWithDifferntUnitConsiderAsOtherItem, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        CType(Me.txttradingGoods, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtOther, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAsset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFinishedGoods, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSemiFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRawMaterial, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkAllowtoeditCategorycodeinitemmaster, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPrncpl_BOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNlevel_Location, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkalwPGMCusMst, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1373,8 +1344,6 @@ Partial Class frmInventorySetting
         CType(Me.chkAllowcostZero, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAutoCreateSRNMRNOnPOPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsEnterQtyOnSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dgvclasss.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dgvclasss, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkauto_item_nlevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -1386,9 +1355,40 @@ Partial Class frmInventorySetting
         Me.RadPageViewPage2.PerformLayout()
         CType(Me.grpItemType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpItemType.ResumeLayout(False)
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv_itemsettings.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv_itemsettings, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAllowNegativeStock, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNegativeStock, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtProdQty_Decimal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAllowtoshowMilkTypeonAdjustmentEntry, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cbgLocation.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cbgLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTransferJEForLocationMapping, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttradingGoods, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOther, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAsset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFinishedGoods, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSemiFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRawMaterial, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkAllowtoeditCategorycodeinitemmaster, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgvclasss.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgvclasss, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemType.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

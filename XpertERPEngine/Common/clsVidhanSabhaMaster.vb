@@ -46,6 +46,8 @@ Public Class clsVidhanSabhaMaster
                 clsCommon.AddColumnsForChange(coll, "VIDHAN_SABHA_CODE", obj.code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VIDHAN_SABHA_MASTER", OMInsertOrUpdate.Insert, "")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_VIDHAN_SABHA_MASTER", "VIDHAN_SABHA_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

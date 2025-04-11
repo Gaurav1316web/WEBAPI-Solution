@@ -55,10 +55,6 @@ Partial Class FrmPriceMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.pvItemPrice = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtPlanningCode = New common.Controls.MyTextBox()
-        Me.MyLabel22 = New common.Controls.MyLabel()
-        Me.lblType = New common.Controls.MyLabel()
-        Me.ddlType = New common.Controls.MyComboBox()
         Me.chkAuto = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnMapCommission = New Telerik.WinControls.UI.RadButton()
         Me.ChkActive = New Telerik.WinControls.UI.RadCheckBox()
@@ -66,94 +62,21 @@ Partial Class FrmPriceMaster
         Me.chkBackCalculation = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkWithoutTax = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkBackCalWithTAX = New Telerik.WinControls.UI.RadCheckBox()
-        Me.txtLocation = New common.UserControls.txtFinder()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.lblLocationDesc = New common.Controls.MyLabel()
-        Me.txtRemarks = New common.Controls.MyTextBox()
-        Me.txtItemCode = New common.UserControls.txtFinder()
-        Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtBasic = New common.MyNumBox()
-        Me.fndPriceCode = New common.UserControls.txtFinder()
-        Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.txtPriceCodeDesc = New common.Controls.MyLabel()
-        Me.RadLabel3 = New common.Controls.MyLabel()
-        Me.dtpStart = New common.Controls.MyDateTimePicker()
-        Me.RadLabel10 = New common.Controls.MyLabel()
-        Me.RadLabel5 = New common.Controls.MyLabel()
-        Me.RadLabel29 = New common.Controls.MyLabel()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.txtPriceId = New common.UserControls.txtNavigator()
-        Me.fnduom = New common.UserControls.txtFinder()
-        Me.dtpEnd = New common.Controls.MyDateTimePicker()
         Me.chkEnd = New Telerik.WinControls.UI.RadCheckBox()
-        Me.txtMRP = New common.MyNumBox()
-        Me.lblItemDesc = New common.Controls.MyLabel()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.grdPriceComp = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.lblPriceCompTotal = New common.Controls.MyLabel()
-        Me.RadLabel16 = New common.Controls.MyLabel()
-        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
-        Me.lblTotalItemPrice = New common.Controls.MyLabel()
-        Me.txtTotalItemPrice = New common.Controls.MyLabel()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.MyLabel19 = New common.Controls.MyLabel()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.lbllBasicRate = New common.Controls.MyLabel()
-        Me.lbllSellingPrice = New common.Controls.MyLabel()
-        Me.lbllTotalTax = New common.Controls.MyLabel()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.lbllMRP = New common.Controls.MyLabel()
-        Me.cbgUOM = New common.UserControls.MyRadGridView()
         Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.MyLabel21 = New common.Controls.MyLabel()
         Me.pvTax = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.ddlTaxMnpln = New common.Controls.MyComboBox()
-        Me.fndTaxGrp = New common.UserControls.txtFinder()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.grdTax = New common.UserControls.MyRadGridView()
-        Me.txtTaxGrp = New common.Controls.MyTextBox()
-        Me.RadLabel11 = New common.Controls.MyLabel()
         Me.pgAddFilter = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.pgAttachment = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer6 = New System.Windows.Forms.SplitContainer()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.lbllLandingCost = New common.Controls.MyLabel()
-        Me.lbllMarkupPercent = New common.Controls.MyLabel()
-        Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.lbllAbtAmt = New common.Controls.MyLabel()
-        Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.MyLabel18 = New common.Controls.MyLabel()
         Me.chkNoMRP = New Telerik.WinControls.UI.RadCheckBox()
-        Me.lbllAbtRate = New common.Controls.MyLabel()
-        Me.txtAbtRate = New common.MyNumBox()
-        Me.lblLandingCost = New common.Controls.MyLabel()
-        Me.txtLandingCost = New common.MyNumBox()
-        Me.txtAbtAmount = New common.MyNumBox()
-        Me.RadLabel8 = New common.Controls.MyLabel()
-        Me.RadLabel28 = New common.Controls.MyLabel()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtMarkupPercent = New common.MyNumBox()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.txtPurchaseCost = New common.MyNumBox()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.ddlBasicRateOn = New common.Controls.MyComboBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.ddlMarkup = New common.Controls.MyComboBox()
-        Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.ddlBasicRate = New common.Controls.MyComboBox()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.rbtnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -171,16 +94,89 @@ Partial Class FrmPriceMaster
         Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.txtPlanningCode = New common.Controls.MyTextBox()
+        Me.MyLabel22 = New common.Controls.MyLabel()
+        Me.lblType = New common.Controls.MyLabel()
+        Me.ddlType = New common.Controls.MyComboBox()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblLocationDesc = New common.Controls.MyLabel()
+        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.txtItemCode = New common.UserControls.txtFinder()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtBasic = New common.MyNumBox()
+        Me.fndPriceCode = New common.UserControls.txtFinder()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.txtPriceCodeDesc = New common.Controls.MyLabel()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.dtpStart = New common.Controls.MyDateTimePicker()
+        Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.RadLabel29 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtPriceId = New common.UserControls.txtNavigator()
+        Me.fnduom = New common.UserControls.txtFinder()
+        Me.dtpEnd = New common.Controls.MyDateTimePicker()
+        Me.txtMRP = New common.MyNumBox()
+        Me.lblItemDesc = New common.Controls.MyLabel()
+        Me.grdPriceComp = New common.UserControls.MyRadGridView()
+        Me.lblPriceCompTotal = New common.Controls.MyLabel()
+        Me.RadLabel16 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.lblTotalItemPrice = New common.Controls.MyLabel()
+        Me.txtTotalItemPrice = New common.Controls.MyLabel()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.lbllBasicRate = New common.Controls.MyLabel()
+        Me.lbllSellingPrice = New common.Controls.MyLabel()
+        Me.lbllTotalTax = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.lbllMRP = New common.Controls.MyLabel()
+        Me.cbgUOM = New common.UserControls.MyRadGridView()
+        Me.MyLabel21 = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.ddlTaxMnpln = New common.Controls.MyComboBox()
+        Me.fndTaxGrp = New common.UserControls.txtFinder()
+        Me.RadLabel12 = New common.Controls.MyLabel()
+        Me.grdTax = New common.UserControls.MyRadGridView()
+        Me.txtTaxGrp = New common.Controls.MyTextBox()
+        Me.RadLabel11 = New common.Controls.MyLabel()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lbllLandingCost = New common.Controls.MyLabel()
+        Me.lbllMarkupPercent = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.lbllAbtAmt = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.lbllAbtRate = New common.Controls.MyLabel()
+        Me.txtAbtRate = New common.MyNumBox()
+        Me.lblLandingCost = New common.Controls.MyLabel()
+        Me.txtLandingCost = New common.MyNumBox()
+        Me.txtAbtAmount = New common.MyNumBox()
+        Me.RadLabel8 = New common.Controls.MyLabel()
+        Me.RadLabel28 = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtMarkupPercent = New common.MyNumBox()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtPurchaseCost = New common.MyNumBox()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.ddlBasicRateOn = New common.Controls.MyComboBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.ddlMarkup = New common.Controls.MyComboBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.ddlBasicRate = New common.Controls.MyComboBox()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.pvItemPrice.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAuto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnMapCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkActive, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -190,6 +186,42 @@ Partial Class FrmPriceMaster
         CType(Me.chkBackCalculation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkWithoutTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBackCalWithTAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        Me.Panel2.SuspendLayout()
+        Me.SplitContainer5.Panel1.SuspendLayout()
+        Me.SplitContainer5.Panel2.SuspendLayout()
+        Me.SplitContainer5.SuspendLayout()
+        Me.Panel3.SuspendLayout()
+        Me.Panel4.SuspendLayout()
+        Me.pvTax.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        Me.pgAddFilter.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.pgAttachment.SuspendLayout()
+        Me.RadPageViewPage2.SuspendLayout()
+        Me.SplitContainer6.Panel1.SuspendLayout()
+        Me.SplitContainer6.SuspendLayout()
+        CType(Me.chkNoMRP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -203,27 +235,17 @@ Partial Class FrmPriceMaster
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkEnd, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMRP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
         CType(Me.grdPriceComp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grdPriceComp.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
         CType(Me.lblPriceCompTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer5.Panel1.SuspendLayout()
-        Me.SplitContainer5.Panel2.SuspendLayout()
-        Me.SplitContainer5.SuspendLayout()
         CType(Me.lblTotalItemPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotalItemPrice, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel3.SuspendLayout()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -235,27 +257,17 @@ Partial Class FrmPriceMaster
         CType(Me.lbllMRP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cbgUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cbgUOM.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel4.SuspendLayout()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pvTax.SuspendLayout()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlTaxMnpln, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
         CType(Me.grdTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grdTax.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTaxGrp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pgAddFilter.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pgAttachment.SuspendLayout()
-        Me.RadPageViewPage2.SuspendLayout()
-        Me.SplitContainer6.Panel1.SuspendLayout()
-        Me.SplitContainer6.SuspendLayout()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbllLandingCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbllMarkupPercent, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -263,7 +275,6 @@ Partial Class FrmPriceMaster
         CType(Me.lbllAbtAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNoMRP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbllAbtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAbtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLandingCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -281,17 +292,6 @@ Partial Class FrmPriceMaster
         CType(Me.ddlMarkup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlBasicRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -315,10 +315,10 @@ Partial Class FrmPriceMaster
         '
         Me.pvItemPrice.BackColor = System.Drawing.Color.Transparent
         Me.pvItemPrice.Controls.Add(Me.SplitContainer2)
-        Me.pvItemPrice.ItemSize = New System.Drawing.SizeF(66.0!, 28.0!)
-        Me.pvItemPrice.Location = New System.Drawing.Point(10, 37)
+        Me.pvItemPrice.ItemSize = New System.Drawing.SizeF(62.0!, 24.0!)
+        Me.pvItemPrice.Location = New System.Drawing.Point(10, 33)
         Me.pvItemPrice.Name = "pvItemPrice"
-        Me.pvItemPrice.Size = New System.Drawing.Size(1004, 375)
+        Me.pvItemPrice.Size = New System.Drawing.Size(1004, 379)
         Me.pvItemPrice.Text = "Item Price"
         '
         'SplitContainer2
@@ -367,82 +367,9 @@ Partial Class FrmPriceMaster
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1004, 375)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1004, 379)
         Me.SplitContainer2.SplitterDistance = 196
         Me.SplitContainer2.TabIndex = 0
-        '
-        'txtPlanningCode
-        '
-        Me.txtPlanningCode.CalculationExpression = Nothing
-        Me.txtPlanningCode.FieldCode = Nothing
-        Me.txtPlanningCode.FieldDesc = Nothing
-        Me.txtPlanningCode.FieldMaxLength = 0
-        Me.txtPlanningCode.FieldName = Nothing
-        Me.txtPlanningCode.isCalculatedField = False
-        Me.txtPlanningCode.IsSourceFromTable = False
-        Me.txtPlanningCode.IsSourceFromValueList = False
-        Me.txtPlanningCode.IsUnique = False
-        Me.txtPlanningCode.Location = New System.Drawing.Point(628, 138)
-        Me.txtPlanningCode.MendatroryField = False
-        Me.txtPlanningCode.MyLinkLable1 = Nothing
-        Me.txtPlanningCode.MyLinkLable2 = Nothing
-        Me.txtPlanningCode.Name = "txtPlanningCode"
-        Me.txtPlanningCode.ReadOnly = True
-        Me.txtPlanningCode.ReferenceFieldDesc = Nothing
-        Me.txtPlanningCode.ReferenceFieldName = Nothing
-        Me.txtPlanningCode.ReferenceTableName = Nothing
-        Me.txtPlanningCode.Size = New System.Drawing.Size(173, 20)
-        Me.txtPlanningCode.TabIndex = 47
-        '
-        'MyLabel22
-        '
-        Me.MyLabel22.BackColor = System.Drawing.Color.Transparent
-        Me.MyLabel22.FieldName = Nothing
-        Me.MyLabel22.Location = New System.Drawing.Point(543, 138)
-        Me.MyLabel22.Name = "MyLabel22"
-        Me.MyLabel22.Size = New System.Drawing.Size(79, 18)
-        Me.MyLabel22.TabIndex = 46
-        Me.MyLabel22.Text = "Planning Code"
-        '
-        'lblType
-        '
-        Me.lblType.FieldName = Nothing
-        Me.lblType.Location = New System.Drawing.Point(807, 116)
-        Me.lblType.Name = "lblType"
-        Me.lblType.Size = New System.Drawing.Size(30, 18)
-        Me.lblType.TabIndex = 44
-        Me.lblType.Text = "Type"
-        '
-        'ddlType
-        '
-        Me.ddlType.AutoCompleteDisplayMember = Nothing
-        Me.ddlType.AutoCompleteValueMember = Nothing
-        Me.ddlType.CalculationExpression = Nothing
-        Me.ddlType.DropDownAnimationEnabled = True
-        Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlType.FieldCode = Nothing
-        Me.ddlType.FieldDesc = Nothing
-        Me.ddlType.FieldMaxLength = 0
-        Me.ddlType.FieldName = Nothing
-        Me.ddlType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ddlType.isCalculatedField = False
-        Me.ddlType.IsSourceFromTable = False
-        Me.ddlType.IsSourceFromValueList = False
-        Me.ddlType.IsUnique = False
-        RadListDataItem1.Text = "Auto"
-        RadListDataItem2.Text = "Mannual"
-        Me.ddlType.Items.Add(RadListDataItem1)
-        Me.ddlType.Items.Add(RadListDataItem2)
-        Me.ddlType.Location = New System.Drawing.Point(840, 116)
-        Me.ddlType.MendatroryField = True
-        Me.ddlType.MyLinkLable1 = Me.lblType
-        Me.ddlType.MyLinkLable2 = Nothing
-        Me.ddlType.Name = "ddlType"
-        Me.ddlType.ReferenceFieldDesc = Nothing
-        Me.ddlType.ReferenceFieldName = Nothing
-        Me.ddlType.ReferenceTableName = Nothing
-        Me.ddlType.Size = New System.Drawing.Size(152, 18)
-        Me.ddlType.TabIndex = 45
         '
         'chkAuto
         '
@@ -519,6 +446,452 @@ Partial Class FrmPriceMaster
         Me.chkBackCalWithTAX.Size = New System.Drawing.Size(83, 18)
         Me.chkBackCalWithTAX.TabIndex = 1
         Me.chkBackCalWithTAX.Text = "Tax Inclusive"
+        '
+        'btnReset
+        '
+        Me.btnReset.BackColor = System.Drawing.Color.Transparent
+        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(344, 2)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(18, 19)
+        Me.btnReset.TabIndex = 2
+        Me.btnReset.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'chkEnd
+        '
+        Me.chkEnd.Location = New System.Drawing.Point(609, 2)
+        Me.chkEnd.Name = "chkEnd"
+        Me.chkEnd.Size = New System.Drawing.Size(66, 18)
+        Me.chkEnd.TabIndex = 5
+        Me.chkEnd.Text = "End Date"
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer3.IsSplitterFixed = True
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.grdPriceComp)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.Panel2)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer5)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1004, 179)
+        Me.SplitContainer3.SplitterDistance = 577
+        Me.SplitContainer3.TabIndex = 0
+        '
+        'Panel2
+        '
+        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.lblPriceCompTotal)
+        Me.Panel2.Controls.Add(Me.RadLabel16)
+        Me.Panel2.Controls.Add(Me.MyLabel7)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel2.Location = New System.Drawing.Point(0, 0)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(573, 21)
+        Me.Panel2.TabIndex = 0
+        '
+        'SplitContainer5
+        '
+        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer5.IsSplitterFixed = True
+        Me.SplitContainer5.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer5.Name = "SplitContainer5"
+        '
+        'SplitContainer5.Panel1
+        '
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lblTotalItemPrice)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.txtTotalItemPrice)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.Panel3)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel9)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel13)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllBasicRate)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllSellingPrice)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllTotalTax)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel12)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel16)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllMRP)
+        '
+        'SplitContainer5.Panel2
+        '
+        Me.SplitContainer5.Panel2.Controls.Add(Me.cbgUOM)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.Panel4)
+        Me.SplitContainer5.Size = New System.Drawing.Size(419, 175)
+        Me.SplitContainer5.SplitterDistance = 219
+        Me.SplitContainer5.TabIndex = 312
+        '
+        'Panel3
+        '
+        Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel3.Controls.Add(Me.MyLabel19)
+        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel3.Location = New System.Drawing.Point(0, 0)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(219, 18)
+        Me.Panel3.TabIndex = 17
+        '
+        'Panel4
+        '
+        Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel4.Controls.Add(Me.MyLabel21)
+        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel4.Location = New System.Drawing.Point(0, 0)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(196, 18)
+        Me.Panel4.TabIndex = 18
+        '
+        'pvTax
+        '
+        Me.pvTax.BackColor = System.Drawing.Color.Transparent
+        Me.pvTax.Controls.Add(Me.MyLabel15)
+        Me.pvTax.Controls.Add(Me.ddlTaxMnpln)
+        Me.pvTax.Controls.Add(Me.fndTaxGrp)
+        Me.pvTax.Controls.Add(Me.RadGroupBox3)
+        Me.pvTax.Controls.Add(Me.txtTaxGrp)
+        Me.pvTax.Controls.Add(Me.RadLabel11)
+        Me.pvTax.Controls.Add(Me.RadLabel12)
+        Me.pvTax.ItemSize = New System.Drawing.SizeF(40.0!, 24.0!)
+        Me.pvTax.Location = New System.Drawing.Point(10, 37)
+        Me.pvTax.Name = "pvTax"
+        Me.pvTax.Size = New System.Drawing.Size(1004, 375)
+        Me.pvTax.Text = "Taxes"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox3.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox3.Controls.Add(Me.grdTax)
+        Me.RadGroupBox3.HeaderText = "Price Components Detail"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(13, 75)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(988, 297)
+        Me.RadGroupBox3.TabIndex = 3
+        Me.RadGroupBox3.Text = "Price Components Detail"
+        '
+        'pgAddFilter
+        '
+        Me.pgAddFilter.Controls.Add(Me.gv1)
+        Me.pgAddFilter.Controls.Add(Me.Panel1)
+        Me.pgAddFilter.ItemSize = New System.Drawing.SizeF(83.0!, 24.0!)
+        Me.pgAddFilter.Location = New System.Drawing.Point(10, 37)
+        Me.pgAddFilter.Name = "pgAddFilter"
+        Me.pgAddFilter.Size = New System.Drawing.Size(1004, 375)
+        Me.pgAddFilter.Text = "Addition Filter"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.MyLabel1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel1.Location = New System.Drawing.Point(0, 352)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1004, 23)
+        Me.Panel1.TabIndex = 0
+        '
+        'pgAttachment
+        '
+        Me.pgAttachment.Controls.Add(Me.UcAttachment1)
+        Me.pgAttachment.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.pgAttachment.Location = New System.Drawing.Point(10, 37)
+        Me.pgAttachment.Name = "pgAttachment"
+        Me.pgAttachment.Size = New System.Drawing.Size(1004, 375)
+        Me.pgAttachment.Text = "Attachment"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer6)
+        Me.RadPageViewPage2.Enabled = False
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(94.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1004, 375)
+        Me.RadPageViewPage2.Text = "Non Used Fields"
+        '
+        'SplitContainer6
+        '
+        Me.SplitContainer6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer6.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer6.Name = "SplitContainer6"
+        Me.SplitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer6.Panel1
+        '
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllLandingCost)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllMarkupPercent)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel14)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllAbtAmt)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel20)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel18)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.chkNoMRP)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllAbtRate)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.txtAbtRate)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.lblLandingCost)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.txtLandingCost)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.txtAbtAmount)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.RadLabel8)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.RadLabel28)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.txtMarkupPercent)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel8)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.txtPurchaseCost)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel17)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlBasicRateOn)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel2)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlMarkup)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel10)
+        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlBasicRate)
+        Me.SplitContainer6.Size = New System.Drawing.Size(1004, 375)
+        Me.SplitContainer6.SplitterDistance = 334
+        Me.SplitContainer6.TabIndex = 0
+        '
+        'chkNoMRP
+        '
+        Me.chkNoMRP.Location = New System.Drawing.Point(34, 204)
+        Me.chkNoMRP.Name = "chkNoMRP"
+        Me.chkNoMRP.Size = New System.Drawing.Size(62, 18)
+        Me.chkNoMRP.TabIndex = 47
+        Me.chkNoMRP.Text = "No MRP"
+        '
+        'btnprint
+        '
+        Me.btnprint.AccessibleDescription = ""
+        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprint.BackColor = System.Drawing.Color.Transparent
+        Me.btnprint.Enabled = False
+        Me.btnprint.Location = New System.Drawing.Point(283, 4)
+        Me.btnprint.Name = "btnprint"
+        Me.btnprint.Size = New System.Drawing.Size(68, 18)
+        Me.btnprint.TabIndex = 2
+        Me.btnprint.Text = "Print"
+        '
+        'rbtnClose
+        '
+        Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rbtnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtnClose.Location = New System.Drawing.Point(954, 4)
+        Me.rbtnClose.Name = "rbtnClose"
+        Me.rbtnClose.Size = New System.Drawing.Size(68, 18)
+        Me.rbtnClose.TabIndex = 3
+        Me.rbtnClose.Text = "Close"
+        '
+        'btnDelete
+        '
+        Me.btnDelete.AccessibleDescription = ""
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.BackColor = System.Drawing.Color.Transparent
+        Me.btnDelete.Location = New System.Drawing.Point(73, 4)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
+        Me.btnDelete.TabIndex = 1
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.BackColor = System.Drawing.Color.Transparent
+        Me.btnSave.Location = New System.Drawing.Point(3, 4)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
+        'Filemenu
+        '
+        Me.Filemenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import, Me.RadMenuItem3})
+        Me.Filemenu.Name = "Filemenu"
+        Me.Filemenu.Text = "File"
+        '
+        'Export
+        '
+        Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportPriceCodewise, Me.ExportVendorCodeWise, Me.rmiBackCalculation})
+        Me.Export.Name = "Export"
+        Me.Export.Text = "Export"
+        '
+        'ExportPriceCodewise
+        '
+        Me.ExportPriceCodewise.Name = "ExportPriceCodewise"
+        Me.ExportPriceCodewise.Text = "Export Price Code Wise"
+        '
+        'ExportVendorCodeWise
+        '
+        Me.ExportVendorCodeWise.Name = "ExportVendorCodeWise"
+        Me.ExportVendorCodeWise.Text = "Export Vendor Code Wise"
+        '
+        'rmiBackCalculation
+        '
+        Me.rmiBackCalculation.Name = "rmiBackCalculation"
+        Me.rmiBackCalculation.Text = "Back Calculation"
+        '
+        'Import
+        '
+        Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiMRPWithBackCalculation})
+        Me.Import.Name = "Import"
+        Me.Import.Text = "Import"
+        '
+        'rmiMRPWithBackCalculation
+        '
+        Me.rmiMRPWithBackCalculation.Name = "rmiMRPWithBackCalculation"
+        Me.rmiMRPWithBackCalculation.Text = "Price Master @ MRP-Back Calculation"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Exit"
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnHistory)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnpost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnClose)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1025, 452)
+        Me.SplitContainer1.SplitterDistance = 423
+        Me.SplitContainer1.TabIndex = 0
+        '
+        'BtnHistory
+        '
+        Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnHistory.Location = New System.Drawing.Point(884, 4)
+        Me.BtnHistory.Name = "BtnHistory"
+        Me.BtnHistory.Size = New System.Drawing.Size(64, 18)
+        Me.BtnHistory.TabIndex = 52
+        Me.BtnHistory.Text = "History"
+        '
+        'btnUnpost
+        '
+        Me.btnUnpost.AccessibleDescription = ""
+        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnpost.BackColor = System.Drawing.Color.Transparent
+        Me.btnUnpost.Enabled = False
+        Me.btnUnpost.Location = New System.Drawing.Point(213, 4)
+        Me.btnUnpost.Name = "btnUnpost"
+        Me.btnUnpost.Size = New System.Drawing.Size(68, 18)
+        Me.btnUnpost.TabIndex = 5
+        Me.btnUnpost.Text = "Unpost"
+        Me.btnUnpost.Visible = False
+        '
+        'btnPost
+        '
+        Me.btnPost.AccessibleDescription = ""
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.BackColor = System.Drawing.Color.Transparent
+        Me.btnPost.Enabled = False
+        Me.btnPost.Location = New System.Drawing.Point(143, 4)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(68, 18)
+        Me.btnPost.TabIndex = 4
+        Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Filemenu})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
+        Me.RadMenu1.TabIndex = 1
+        '
+        'txtPlanningCode
+        '
+        Me.txtPlanningCode.CalculationExpression = Nothing
+        Me.txtPlanningCode.FieldCode = Nothing
+        Me.txtPlanningCode.FieldDesc = Nothing
+        Me.txtPlanningCode.FieldMaxLength = 0
+        Me.txtPlanningCode.FieldName = Nothing
+        Me.txtPlanningCode.isCalculatedField = False
+        Me.txtPlanningCode.IsSourceFromTable = False
+        Me.txtPlanningCode.IsSourceFromValueList = False
+        Me.txtPlanningCode.IsUnique = False
+        Me.txtPlanningCode.Location = New System.Drawing.Point(628, 138)
+        Me.txtPlanningCode.MendatroryField = False
+        Me.txtPlanningCode.MyLinkLable1 = Nothing
+        Me.txtPlanningCode.MyLinkLable2 = Nothing
+        Me.txtPlanningCode.Name = "txtPlanningCode"
+        Me.txtPlanningCode.ReadOnly = True
+        Me.txtPlanningCode.ReferenceFieldDesc = Nothing
+        Me.txtPlanningCode.ReferenceFieldName = Nothing
+        Me.txtPlanningCode.ReferenceTableName = Nothing
+        Me.txtPlanningCode.Size = New System.Drawing.Size(173, 20)
+        Me.txtPlanningCode.TabIndex = 47
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.BackColor = System.Drawing.Color.Transparent
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Location = New System.Drawing.Point(543, 138)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(79, 18)
+        Me.MyLabel22.TabIndex = 46
+        Me.MyLabel22.Text = "Planning Code"
+        '
+        'lblType
+        '
+        Me.lblType.FieldName = Nothing
+        Me.lblType.Location = New System.Drawing.Point(807, 116)
+        Me.lblType.Name = "lblType"
+        Me.lblType.Size = New System.Drawing.Size(30, 18)
+        Me.lblType.TabIndex = 44
+        Me.lblType.Text = "Type"
+        '
+        'ddlType
+        '
+        Me.ddlType.AutoCompleteDisplayMember = Nothing
+        Me.ddlType.AutoCompleteValueMember = Nothing
+        Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
+        Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlType.FieldCode = Nothing
+        Me.ddlType.FieldDesc = Nothing
+        Me.ddlType.FieldMaxLength = 0
+        Me.ddlType.FieldName = Nothing
+        Me.ddlType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlType.isCalculatedField = False
+        Me.ddlType.IsSourceFromTable = False
+        Me.ddlType.IsSourceFromValueList = False
+        Me.ddlType.IsUnique = False
+        RadListDataItem1.Text = "Auto"
+        RadListDataItem2.Text = "Mannual"
+        Me.ddlType.Items.Add(RadListDataItem1)
+        Me.ddlType.Items.Add(RadListDataItem2)
+        Me.ddlType.Location = New System.Drawing.Point(840, 116)
+        Me.ddlType.MendatroryField = True
+        Me.ddlType.MyLinkLable1 = Me.lblType
+        Me.ddlType.MyLinkLable2 = Nothing
+        Me.ddlType.Name = "ddlType"
+        Me.ddlType.ReferenceFieldDesc = Nothing
+        Me.ddlType.ReferenceFieldName = Nothing
+        Me.ddlType.ReferenceTableName = Nothing
+        Me.ddlType.Size = New System.Drawing.Size(152, 18)
+        Me.ddlType.TabIndex = 45
         '
         'txtLocation
         '
@@ -780,17 +1153,6 @@ Partial Class FrmPriceMaster
         Me.RadLabel29.TabIndex = 31
         Me.RadLabel29.Text = "MRP"
         '
-        'btnReset
-        '
-        Me.btnReset.BackColor = System.Drawing.Color.Transparent
-        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(344, 2)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(18, 19)
-        Me.btnReset.TabIndex = 2
-        Me.btnReset.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
@@ -871,14 +1233,6 @@ Partial Class FrmPriceMaster
         Me.dtpEnd.TabStop = False
         Me.dtpEnd.Value = New Date(1753, 1, 1, 0, 0, 0, 0)
         '
-        'chkEnd
-        '
-        Me.chkEnd.Location = New System.Drawing.Point(609, 2)
-        Me.chkEnd.Name = "chkEnd"
-        Me.chkEnd.Size = New System.Drawing.Size(66, 18)
-        Me.chkEnd.TabIndex = 5
-        Me.chkEnd.Text = "End Date"
-        '
         'txtMRP
         '
         Me.txtMRP.BackColor = System.Drawing.Color.White
@@ -916,27 +1270,6 @@ Partial Class FrmPriceMaster
         Me.lblItemDesc.Name = "lblItemDesc"
         Me.lblItemDesc.Size = New System.Drawing.Size(440, 18)
         Me.lblItemDesc.TabIndex = 15
-        '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer3.IsSplitterFixed = True
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.grdPriceComp)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.Panel2)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer5)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1004, 175)
-        Me.SplitContainer3.SplitterDistance = 577
-        Me.SplitContainer3.TabIndex = 0
         '
         'grdPriceComp
         '
@@ -999,22 +1332,10 @@ Partial Class FrmPriceMaster
         Me.grdPriceComp.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdPriceComp.ShowGroupPanel = False
         Me.grdPriceComp.ShowHeaderCellButtons = True
-        Me.grdPriceComp.Size = New System.Drawing.Size(573, 150)
+        Me.grdPriceComp.Size = New System.Drawing.Size(573, 154)
         Me.grdPriceComp.TabIndex = 1
         Me.grdPriceComp.TabStop = False
         Me.grdPriceComp.VarID = ""
-        '
-        'Panel2
-        '
-        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel2.Controls.Add(Me.lblPriceCompTotal)
-        Me.Panel2.Controls.Add(Me.RadLabel16)
-        Me.Panel2.Controls.Add(Me.MyLabel7)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel2.Location = New System.Drawing.Point(0, 0)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(573, 21)
-        Me.Panel2.TabIndex = 0
         '
         'lblPriceCompTotal
         '
@@ -1059,36 +1380,6 @@ Partial Class FrmPriceMaster
         Me.MyLabel7.Tag = "e"
         Me.MyLabel7.Text = "Price Code"
         '
-        'SplitContainer5
-        '
-        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer5.IsSplitterFixed = True
-        Me.SplitContainer5.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer5.Name = "SplitContainer5"
-        '
-        'SplitContainer5.Panel1
-        '
-        Me.SplitContainer5.Panel1.Controls.Add(Me.lblTotalItemPrice)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.txtTotalItemPrice)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.Panel3)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel9)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel13)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllBasicRate)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllSellingPrice)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllTotalTax)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel12)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.MyLabel16)
-        Me.SplitContainer5.Panel1.Controls.Add(Me.lbllMRP)
-        '
-        'SplitContainer5.Panel2
-        '
-        Me.SplitContainer5.Panel2.Controls.Add(Me.cbgUOM)
-        Me.SplitContainer5.Panel2.Controls.Add(Me.Panel4)
-        Me.SplitContainer5.Size = New System.Drawing.Size(419, 171)
-        Me.SplitContainer5.SplitterDistance = 219
-        Me.SplitContainer5.TabIndex = 312
-        '
         'lblTotalItemPrice
         '
         Me.lblTotalItemPrice.BackColor = System.Drawing.Color.Transparent
@@ -1110,16 +1401,6 @@ Partial Class FrmPriceMaster
         Me.txtTotalItemPrice.Size = New System.Drawing.Size(102, 17)
         Me.txtTotalItemPrice.TabIndex = 19
         Me.txtTotalItemPrice.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Panel3
-        '
-        Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel3.Controls.Add(Me.MyLabel19)
-        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel3.Location = New System.Drawing.Point(0, 0)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(219, 18)
-        Me.Panel3.TabIndex = 17
         '
         'MyLabel19
         '
@@ -1241,19 +1522,9 @@ Partial Class FrmPriceMaster
         Me.cbgUOM.Name = "cbgUOM"
         Me.cbgUOM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cbgUOM.ShowHeaderCellButtons = True
-        Me.cbgUOM.Size = New System.Drawing.Size(196, 153)
+        Me.cbgUOM.Size = New System.Drawing.Size(196, 157)
         Me.cbgUOM.TabIndex = 19
         Me.cbgUOM.VarID = ""
-        '
-        'Panel4
-        '
-        Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel4.Controls.Add(Me.MyLabel21)
-        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel4.Location = New System.Drawing.Point(0, 0)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(196, 18)
-        Me.Panel4.TabIndex = 18
         '
         'MyLabel21
         '
@@ -1264,22 +1535,6 @@ Partial Class FrmPriceMaster
         Me.MyLabel21.Size = New System.Drawing.Size(33, 18)
         Me.MyLabel21.TabIndex = 39
         Me.MyLabel21.Text = "UOM"
-        '
-        'pvTax
-        '
-        Me.pvTax.BackColor = System.Drawing.Color.Transparent
-        Me.pvTax.Controls.Add(Me.MyLabel15)
-        Me.pvTax.Controls.Add(Me.ddlTaxMnpln)
-        Me.pvTax.Controls.Add(Me.fndTaxGrp)
-        Me.pvTax.Controls.Add(Me.RadGroupBox3)
-        Me.pvTax.Controls.Add(Me.txtTaxGrp)
-        Me.pvTax.Controls.Add(Me.RadLabel11)
-        Me.pvTax.Controls.Add(Me.RadLabel12)
-        Me.pvTax.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
-        Me.pvTax.Location = New System.Drawing.Point(10, 37)
-        Me.pvTax.Name = "pvTax"
-        Me.pvTax.Size = New System.Drawing.Size(1004, 375)
-        Me.pvTax.Text = "Taxes"
         '
         'MyLabel15
         '
@@ -1360,21 +1615,6 @@ Partial Class FrmPriceMaster
         Me.RadLabel12.TabIndex = 5
         Me.RadLabel12.Tag = "e"
         Me.RadLabel12.Text = "Tax Group"
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadGroupBox3.BackColor = System.Drawing.Color.Transparent
-        Me.RadGroupBox3.Controls.Add(Me.grdTax)
-        Me.RadGroupBox3.HeaderText = "Price Components Detail"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(13, 75)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(988, 297)
-        Me.RadGroupBox3.TabIndex = 3
-        Me.RadGroupBox3.Text = "Price Components Detail"
         '
         'grdTax
         '
@@ -1481,16 +1721,6 @@ Partial Class FrmPriceMaster
         Me.RadLabel11.TabIndex = 4
         Me.RadLabel11.Text = "Description"
         '
-        'pgAddFilter
-        '
-        Me.pgAddFilter.Controls.Add(Me.gv1)
-        Me.pgAddFilter.Controls.Add(Me.Panel1)
-        Me.pgAddFilter.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
-        Me.pgAddFilter.Location = New System.Drawing.Point(10, 37)
-        Me.pgAddFilter.Name = "pgAddFilter"
-        Me.pgAddFilter.Size = New System.Drawing.Size(1004, 375)
-        Me.pgAddFilter.Text = "Addition Filter"
-        '
         'gv1
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1510,15 +1740,6 @@ Partial Class FrmPriceMaster
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
         '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.MyLabel1)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 352)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1004, 23)
-        Me.Panel1.TabIndex = 0
-        '
         'MyLabel1
         '
         Me.MyLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1531,15 +1752,6 @@ Partial Class FrmPriceMaster
         Me.MyLabel1.TabIndex = 40
         Me.MyLabel1.Text = "Double click to fill selected Price"
         '
-        'pgAttachment
-        '
-        Me.pgAttachment.Controls.Add(Me.UcAttachment1)
-        Me.pgAttachment.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.pgAttachment.Location = New System.Drawing.Point(10, 37)
-        Me.pgAttachment.Name = "pgAttachment"
-        Me.pgAttachment.Size = New System.Drawing.Size(1004, 375)
-        Me.pgAttachment.Text = "Attachment"
-        '
         'UcAttachment1
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1548,54 +1760,6 @@ Partial Class FrmPriceMaster
         Me.UcAttachment1.Size = New System.Drawing.Size(1004, 375)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage2.Enabled = False
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(98.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1004, 375)
-        Me.RadPageViewPage2.Text = "Non Used Fields"
-        '
-        'SplitContainer6
-        '
-        Me.SplitContainer6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer6.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer6.Name = "SplitContainer6"
-        Me.SplitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer6.Panel1
-        '
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel6)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllLandingCost)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllMarkupPercent)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel14)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllAbtAmt)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel20)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel18)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.chkNoMRP)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.lbllAbtRate)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.txtAbtRate)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.lblLandingCost)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.txtLandingCost)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.txtAbtAmount)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.RadLabel8)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.RadLabel28)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel3)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.txtMarkupPercent)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel8)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.txtPurchaseCost)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel17)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlBasicRateOn)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel2)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlMarkup)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.MyLabel10)
-        Me.SplitContainer6.Panel1.Controls.Add(Me.ddlBasicRate)
-        Me.SplitContainer6.Size = New System.Drawing.Size(1004, 375)
-        Me.SplitContainer6.SplitterDistance = 334
-        Me.SplitContainer6.TabIndex = 0
         '
         'MyLabel6
         '
@@ -1672,14 +1836,6 @@ Partial Class FrmPriceMaster
         Me.MyLabel18.Size = New System.Drawing.Size(87, 18)
         Me.MyLabel18.TabIndex = 8
         Me.MyLabel18.Text = "Abatement Rate"
-        '
-        'chkNoMRP
-        '
-        Me.chkNoMRP.Location = New System.Drawing.Point(34, 204)
-        Me.chkNoMRP.Name = "chkNoMRP"
-        Me.chkNoMRP.Size = New System.Drawing.Size(62, 18)
-        Me.chkNoMRP.TabIndex = 47
-        Me.chkNoMRP.Text = "No MRP"
         '
         'lbllAbtRate
         '
@@ -2001,162 +2157,6 @@ Partial Class FrmPriceMaster
         Me.ddlBasicRate.TabIndex = 32
         Me.ddlBasicRate.Text = "Auto"
         '
-        'btnprint
-        '
-        Me.btnprint.AccessibleDescription = ""
-        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnprint.BackColor = System.Drawing.Color.Transparent
-        Me.btnprint.Enabled = False
-        Me.btnprint.Location = New System.Drawing.Point(283, 4)
-        Me.btnprint.Name = "btnprint"
-        Me.btnprint.Size = New System.Drawing.Size(68, 18)
-        Me.btnprint.TabIndex = 2
-        Me.btnprint.Text = "Print"
-        '
-        'rbtnClose
-        '
-        Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rbtnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnClose.Location = New System.Drawing.Point(954, 4)
-        Me.rbtnClose.Name = "rbtnClose"
-        Me.rbtnClose.Size = New System.Drawing.Size(68, 18)
-        Me.rbtnClose.TabIndex = 3
-        Me.rbtnClose.Text = "Close"
-        '
-        'btnDelete
-        '
-        Me.btnDelete.AccessibleDescription = ""
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.BackColor = System.Drawing.Color.Transparent
-        Me.btnDelete.Location = New System.Drawing.Point(73, 4)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
-        Me.btnDelete.TabIndex = 1
-        Me.btnDelete.Text = "Delete"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.BackColor = System.Drawing.Color.Transparent
-        Me.btnSave.Location = New System.Drawing.Point(3, 4)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 18)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
-        '
-        'Filemenu
-        '
-        Me.Filemenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import, Me.RadMenuItem3})
-        Me.Filemenu.Name = "Filemenu"
-        Me.Filemenu.Text = "File"
-        '
-        'Export
-        '
-        Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportPriceCodewise, Me.ExportVendorCodeWise, Me.rmiBackCalculation})
-        Me.Export.Name = "Export"
-        Me.Export.Text = "Export"
-        '
-        'ExportPriceCodewise
-        '
-        Me.ExportPriceCodewise.Name = "ExportPriceCodewise"
-        Me.ExportPriceCodewise.Text = "Export Price Code Wise"
-        '
-        'ExportVendorCodeWise
-        '
-        Me.ExportVendorCodeWise.Name = "ExportVendorCodeWise"
-        Me.ExportVendorCodeWise.Text = "Export Vendor Code Wise"
-        '
-        'rmiBackCalculation
-        '
-        Me.rmiBackCalculation.Name = "rmiBackCalculation"
-        Me.rmiBackCalculation.Text = "Back Calculation"
-        '
-        'Import
-        '
-        Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiMRPWithBackCalculation})
-        Me.Import.Name = "Import"
-        Me.Import.Text = "Import"
-        '
-        'rmiMRPWithBackCalculation
-        '
-        Me.rmiMRPWithBackCalculation.Name = "rmiMRPWithBackCalculation"
-        Me.rmiMRPWithBackCalculation.Text = "Price Master @ MRP-Back Calculation"
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Exit"
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnHistory)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnpost)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.rbtnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1025, 452)
-        Me.SplitContainer1.SplitterDistance = 423
-        Me.SplitContainer1.TabIndex = 0
-        '
-        'BtnHistory
-        '
-        Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnHistory.Location = New System.Drawing.Point(884, 4)
-        Me.BtnHistory.Name = "BtnHistory"
-        Me.BtnHistory.Size = New System.Drawing.Size(64, 18)
-        Me.BtnHistory.TabIndex = 52
-        Me.BtnHistory.Text = "History"
-        '
-        'btnUnpost
-        '
-        Me.btnUnpost.AccessibleDescription = ""
-        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnpost.BackColor = System.Drawing.Color.Transparent
-        Me.btnUnpost.Enabled = False
-        Me.btnUnpost.Location = New System.Drawing.Point(213, 4)
-        Me.btnUnpost.Name = "btnUnpost"
-        Me.btnUnpost.Size = New System.Drawing.Size(68, 18)
-        Me.btnUnpost.TabIndex = 5
-        Me.btnUnpost.Text = "Unpost"
-        Me.btnUnpost.Visible = False
-        '
-        'btnPost
-        '
-        Me.btnPost.AccessibleDescription = ""
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.BackColor = System.Drawing.Color.Transparent
-        Me.btnPost.Enabled = False
-        Me.btnPost.Location = New System.Drawing.Point(143, 4)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(68, 18)
-        Me.btnPost.TabIndex = 4
-        Me.btnPost.Text = "Post"
-        Me.btnPost.Visible = False
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Filemenu})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
-        Me.RadMenu1.TabIndex = 1
-        '
         'FrmPriceMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2177,10 +2177,6 @@ Partial Class FrmPriceMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAuto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnMapCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkActive, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2192,6 +2188,49 @@ Partial Class FrmPriceMaster
         CType(Me.chkBackCalculation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkWithoutTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBackCalWithTAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkEnd, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
+        Me.SplitContainer5.Panel1.ResumeLayout(False)
+        Me.SplitContainer5.Panel1.PerformLayout()
+        Me.SplitContainer5.Panel2.ResumeLayout(False)
+        Me.SplitContainer5.ResumeLayout(False)
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
+        Me.Panel4.ResumeLayout(False)
+        Me.Panel4.PerformLayout()
+        Me.pvTax.ResumeLayout(False)
+        Me.pvTax.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.pgAddFilter.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        Me.pgAttachment.ResumeLayout(False)
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.SplitContainer6.Panel1.ResumeLayout(False)
+        Me.SplitContainer6.Panel1.PerformLayout()
+        Me.SplitContainer6.ResumeLayout(False)
+        CType(Me.chkNoMRP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPlanningCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2205,30 +2244,17 @@ Partial Class FrmPriceMaster
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpEnd, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkEnd, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMRP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
         CType(Me.grdPriceComp.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdPriceComp, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
         CType(Me.lblPriceCompTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer5.Panel1.ResumeLayout(False)
-        Me.SplitContainer5.Panel1.PerformLayout()
-        Me.SplitContainer5.Panel2.ResumeLayout(False)
-        Me.SplitContainer5.ResumeLayout(False)
         CType(Me.lblTotalItemPrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotalItemPrice, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel3.ResumeLayout(False)
-        Me.Panel3.PerformLayout()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2240,31 +2266,17 @@ Partial Class FrmPriceMaster
         CType(Me.lbllMRP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cbgUOM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cbgUOM, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel4.ResumeLayout(False)
-        Me.Panel4.PerformLayout()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pvTax.ResumeLayout(False)
-        Me.pvTax.PerformLayout()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlTaxMnpln, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
         CType(Me.grdTax.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTaxGrp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pgAddFilter.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pgAttachment.ResumeLayout(False)
-        Me.RadPageViewPage2.ResumeLayout(False)
-        Me.SplitContainer6.Panel1.ResumeLayout(False)
-        Me.SplitContainer6.Panel1.PerformLayout()
-        Me.SplitContainer6.ResumeLayout(False)
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbllLandingCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbllMarkupPercent, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2272,7 +2284,6 @@ Partial Class FrmPriceMaster
         CType(Me.lbllAbtAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNoMRP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbllAbtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAbtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLandingCost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2290,17 +2301,6 @@ Partial Class FrmPriceMaster
         CType(Me.ddlMarkup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlBasicRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

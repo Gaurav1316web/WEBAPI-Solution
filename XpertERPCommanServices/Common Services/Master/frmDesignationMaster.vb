@@ -239,7 +239,7 @@ Public Class frmDesignationMaster
             myMessages.insert()
             sQuery = "update tspl_designation_Master set Level_Code='" & clsCommon.myCstr(CmbLevelCode.SelectedValue) & "' where designation_id='" & fnddesig.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(sQuery)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fnddesig.Value, "tspl_designation_Master", "description", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fnddesig.Value, "tspl_designation_Master", "designation_id", Nothing)
             btnsave.Text = "Update"
             btndelete.Enabled = True
             'If userCode <> "ADMIN" Then

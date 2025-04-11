@@ -3782,6 +3782,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             objVendorInvHead.Vendor_Invoice_No = obj.VENDOR_INVOICE_NO
             objVendorInvHead.Invoice_Type = "AP"
             objVendorInvHead.Vendor_Invoice_Date = obj.DOC_DATE
+            objVendorInvHead.Location_Code_Prefix = obj.MCC_CODE
             objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.MCC_CODE, trans) 'obj.MCC_CODE
             objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.VSP_CODE + "'", trans))
             If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then

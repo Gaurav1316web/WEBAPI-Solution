@@ -26,43 +26,43 @@ Partial Class frmGazeReading
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblvandorno = New common.Controls.MyLabel()
-        Me.lblvendorname = New common.Controls.MyLabel()
-        Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
-        Me.txtCode = New common.UserControls.txtNavigator()
-        Me.txtCapacity = New common.MyNumBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.gv = New common.UserControls.MyRadGridView()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.lblvandorno = New common.Controls.MyLabel()
+        Me.lblvendorname = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.txtCapacity = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCapacity, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCapacity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,11 +115,83 @@ Partial Class frmGazeReading
         Me.RadPageViewPage3.Controls.Add(Me.txtCapacity)
         Me.RadPageViewPage3.Controls.Add(Me.gv)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel5)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(786, 397)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(786, 401)
         Me.RadPageViewPage3.Text = "Gaze"
+        '
+        'btnnew
+        '
+        Me.btnnew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnnew.Location = New System.Drawing.Point(370, 1)
+        Me.btnnew.Name = "btnnew"
+        Me.btnnew.Size = New System.Drawing.Size(20, 20)
+        Me.btnnew.TabIndex = 10
+        '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(786, 397)
+        Me.Attachments.Text = "Attachments"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(657, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
+        '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Location = New System.Drawing.Point(234, 5)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(73, 20)
+        Me.btnImport.TabIndex = 3
+        Me.btnImport.Text = "Import"
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Location = New System.Drawing.Point(158, 5)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(73, 20)
+        Me.btnExport.TabIndex = 2
+        Me.btnExport.Text = "Export"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(736, 5)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(73, 20)
+        Me.btnclose.TabIndex = 4
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(82, 5)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(73, 20)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(6, 5)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(73, 20)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
         '
         'lblvandorno
         '
@@ -164,15 +236,6 @@ Partial Class frmGazeReading
         Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(453, 18)
         Me.txtDesc.TabIndex = 2
-        '
-        'btnnew
-        '
-        Me.btnnew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnnew.Location = New System.Drawing.Point(370, 1)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(20, 20)
-        Me.btnnew.TabIndex = 10
         '
         'txtCode
         '
@@ -244,18 +307,9 @@ Partial Class frmGazeReading
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(785, 342)
+        Me.gv.Size = New System.Drawing.Size(785, 346)
         Me.gv.TabIndex = 6
         Me.gv.VarID = ""
-        '
-        'Attachments
-        '
-        Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 37)
-        Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(786, 397)
-        Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
         '
@@ -265,60 +319,6 @@ Partial Class frmGazeReading
         Me.UcAttachment1.Size = New System.Drawing.Size(786, 397)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
-        '
-        'btnImport
-        '
-        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnImport.Location = New System.Drawing.Point(234, 5)
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(73, 20)
-        Me.btnImport.TabIndex = 3
-        Me.btnImport.Text = "Import"
-        '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Location = New System.Drawing.Point(158, 5)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(73, 20)
-        Me.btnExport.TabIndex = 2
-        Me.btnExport.Text = "Export"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(736, 5)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(73, 20)
-        Me.btnclose.TabIndex = 4
-        Me.btnclose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(82, 5)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(73, 20)
-        Me.btndelete.TabIndex = 1
-        Me.btndelete.Text = "Delete"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Location = New System.Drawing.Point(6, 5)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(73, 20)
-        Me.btnsave.TabIndex = 0
-        Me.btnsave.Text = "Save"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(657, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
-        Me.btnHistory.TabIndex = 5
-        Me.btnHistory.Text = "History"
         '
         'frmGazeReading
         '
@@ -339,21 +339,21 @@ Partial Class frmGazeReading
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
-        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCapacity, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCapacity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

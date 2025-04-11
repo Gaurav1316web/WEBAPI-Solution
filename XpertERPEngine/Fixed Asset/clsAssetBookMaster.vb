@@ -77,6 +77,8 @@ Public Class clsAssetBookMaster
                     Else                                                                                '-----Update Entry-----
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FA_BOOK_MASTER", OMInsertOrUpdate.Update, "TSPL_FA_BOOK_MASTER.Book_Code = '" + obj.Book_Code + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Book_Code, "TSPL_FA_BOOK_MASTER", "Book_Code", trans)
+
                 Next
                 trans.Commit()
             End If
@@ -98,6 +100,8 @@ Public Class clsAssetBookMaster
         If (clsCommon.myLen(strGroupCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strGroupCode, "TSPL_FA_BOOK_MASTER", "Book_Code", Nothing)
+
         Dim qry As String = "delete from TSPL_FA_BOOK_MASTER where Book_Code='" + strGroupCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
 

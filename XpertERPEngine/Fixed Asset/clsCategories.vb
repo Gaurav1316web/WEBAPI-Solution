@@ -49,7 +49,10 @@ Public Class clsCategories
                     Else                                                                                '-----Update Entry-----
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_CATEGORY", OMInsertOrUpdate.Update, "TSPL_ASSET_CATEGORY.Category_Code='" + obj.Category_Code + "'", trans)
                     End If
+
                     clsAssetCategoryGroups.SaveData(obj, trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Category_Code, "TSPL_ASSET_CATEGORY", "Category_Code", "TSPL_ASSET_CATEGORY_GROUPS", "Category_Code", trans)
+
                 Next
                 trans.Commit()
             End If
@@ -64,6 +67,8 @@ Public Class clsCategories
         If (clsCommon.myLen(strCatCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCatCode, "TSPL_ASSET_CATEGORY", "Category_Code", Nothing)
+
         Dim qry As String = "delete from TSPL_ASSET_CATEGORY where Category_Code='" + strCatCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
 

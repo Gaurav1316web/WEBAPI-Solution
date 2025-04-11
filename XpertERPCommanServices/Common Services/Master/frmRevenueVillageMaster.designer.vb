@@ -25,10 +25,12 @@ Partial Class frmRevenueVillageMaster
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmRevenueVillageMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.revillnamehindi = New common.Controls.MyLabel()
+        Me.Textrevillnamehindi = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
@@ -38,24 +40,24 @@ Partial Class frmRevenueVillageMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.Textrevillnamehindi = New common.Controls.MyTextBox()
-        Me.revillnamehindi = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +77,7 @@ Partial Class frmRevenueVillageMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -100,6 +103,47 @@ Partial Class frmRevenueVillageMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(530, 97)
         Me.RadGroupBox1.TabIndex = 12
         Me.RadGroupBox1.Text = " "
+        '
+        'revillnamehindi
+        '
+        Me.revillnamehindi.FieldName = Nothing
+        Me.revillnamehindi.Location = New System.Drawing.Point(13, 73)
+        Me.revillnamehindi.Name = "revillnamehindi"
+        Me.revillnamehindi.Size = New System.Drawing.Size(148, 18)
+        Me.revillnamehindi.TabIndex = 19
+        Me.revillnamehindi.Text = "Revenue Village Name Hindi"
+        '
+        'Textrevillnamehindi
+        '
+        Me.Textrevillnamehindi.CalculationExpression = Nothing
+        Me.Textrevillnamehindi.FieldCode = Nothing
+        Me.Textrevillnamehindi.FieldDesc = Nothing
+        Me.Textrevillnamehindi.FieldMaxLength = 0
+        Me.Textrevillnamehindi.FieldName = Nothing
+        Me.Textrevillnamehindi.isCalculatedField = False
+        Me.Textrevillnamehindi.IsSourceFromTable = False
+        Me.Textrevillnamehindi.IsSourceFromValueList = False
+        Me.Textrevillnamehindi.IsUnique = False
+        Me.Textrevillnamehindi.Location = New System.Drawing.Point(170, 71)
+        Me.Textrevillnamehindi.MaxLength = 100
+        Me.Textrevillnamehindi.MendatroryField = True
+        Me.Textrevillnamehindi.MyLinkLable1 = Me.RadLabel2
+        Me.Textrevillnamehindi.MyLinkLable2 = Nothing
+        Me.Textrevillnamehindi.Name = "Textrevillnamehindi"
+        Me.Textrevillnamehindi.ReferenceFieldDesc = Nothing
+        Me.Textrevillnamehindi.ReferenceFieldName = Nothing
+        Me.Textrevillnamehindi.ReferenceTableName = Nothing
+        Me.Textrevillnamehindi.Size = New System.Drawing.Size(333, 20)
+        Me.Textrevillnamehindi.TabIndex = 18
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(13, 47)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(119, 18)
+        Me.RadLabel2.TabIndex = 1
+        Me.RadLabel2.Text = "Revenue Village Name"
         '
         'RadButton1
         '
@@ -141,15 +185,6 @@ Partial Class frmRevenueVillageMaster
         Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(333, 20)
         Me.txtName.TabIndex = 2
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(13, 47)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(119, 18)
-        Me.RadLabel2.TabIndex = 1
-        Me.RadLabel2.Text = "Revenue Village Name"
         '
         'txtCode
         '
@@ -235,37 +270,16 @@ Partial Class frmRevenueVillageMaster
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
-        'Textrevillnamehindi
+        'btnHistory
         '
-        Me.Textrevillnamehindi.CalculationExpression = Nothing
-        Me.Textrevillnamehindi.FieldCode = Nothing
-        Me.Textrevillnamehindi.FieldDesc = Nothing
-        Me.Textrevillnamehindi.FieldMaxLength = 0
-        Me.Textrevillnamehindi.FieldName = Nothing
-        Me.Textrevillnamehindi.isCalculatedField = False
-        Me.Textrevillnamehindi.IsSourceFromTable = False
-        Me.Textrevillnamehindi.IsSourceFromValueList = False
-        Me.Textrevillnamehindi.IsUnique = False
-        Me.Textrevillnamehindi.Location = New System.Drawing.Point(170, 71)
-        Me.Textrevillnamehindi.MaxLength = 100
-        Me.Textrevillnamehindi.MendatroryField = True
-        Me.Textrevillnamehindi.MyLinkLable1 = Me.RadLabel2
-        Me.Textrevillnamehindi.MyLinkLable2 = Nothing
-        Me.Textrevillnamehindi.Name = "Textrevillnamehindi"
-        Me.Textrevillnamehindi.ReferenceFieldDesc = Nothing
-        Me.Textrevillnamehindi.ReferenceFieldName = Nothing
-        Me.Textrevillnamehindi.ReferenceTableName = Nothing
-        Me.Textrevillnamehindi.Size = New System.Drawing.Size(333, 20)
-        Me.Textrevillnamehindi.TabIndex = 18
-        '
-        'revillnamehindi
-        '
-        Me.revillnamehindi.FieldName = Nothing
-        Me.revillnamehindi.Location = New System.Drawing.Point(13, 73)
-        Me.revillnamehindi.Name = "revillnamehindi"
-        Me.revillnamehindi.Size = New System.Drawing.Size(148, 18)
-        Me.revillnamehindi.TabIndex = 19
-        Me.revillnamehindi.Text = "Revenue Village Name Hindi"
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(405, 7)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(80, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
         '
         'frmRevenueVillageMaster
         '
@@ -287,17 +301,18 @@ Partial Class frmRevenueVillageMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -319,5 +334,6 @@ Partial Class frmRevenueVillageMaster
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents revillnamehindi As common.Controls.MyLabel
     Friend WithEvents Textrevillnamehindi As common.Controls.MyTextBox
+    Friend WithEvents btnHistory As RadButton
 End Class
 

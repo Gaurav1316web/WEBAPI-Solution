@@ -35,15 +35,7 @@ Partial Class FrmTransactionApproval
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnuSel = New Telerik.WinControls.UI.RadButton()
-        Me.lblScreenName = New common.Controls.MyLabel()
-        Me.ddApprovalType = New common.Controls.MyComboBox()
-        Me.lblDocumentDate = New common.Controls.MyLabel()
-        Me.lblApprovalType = New common.Controls.MyLabel()
-        Me.lblDocumentNo = New common.Controls.MyLabel()
-        Me.LblDocDate = New common.Controls.MyLabel()
-        Me.cmbScreenName = New common.Controls.MyComboBox()
-        Me.FndDocumnetNo = New common.UserControls.txtFinder()
-        Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnUnapprove = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnApprove = New Telerik.WinControls.UI.RadButton()
@@ -53,12 +45,20 @@ Partial Class FrmTransactionApproval
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.lblScreenName = New common.Controls.MyLabel()
+        Me.ddApprovalType = New common.Controls.MyComboBox()
+        Me.lblDocumentDate = New common.Controls.MyLabel()
+        Me.lblApprovalType = New common.Controls.MyLabel()
+        Me.lblDocumentNo = New common.Controls.MyLabel()
+        Me.LblDocDate = New common.Controls.MyLabel()
+        Me.cmbScreenName = New common.Controls.MyComboBox()
+        Me.FndDocumnetNo = New common.UserControls.txtFinder()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblQCDate = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblQCNo = New common.Controls.MyLabel()
         Me.GridQC = New common.UserControls.MyRadGridView()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,15 +69,7 @@ Partial Class FrmTransactionApproval
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnuSel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblScreenName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddApprovalType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblApprovalType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbScreenName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnapprove, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,13 +81,21 @@ Partial Class FrmTransactionApproval
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.lblScreenName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddApprovalType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblApprovalType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbScreenName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQCDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQCNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridQC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -119,8 +119,8 @@ Partial Class FrmTransactionApproval
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnApprove)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1136, 389)
-        Me.SplitContainer1.SplitterDistance = 347
+        Me.SplitContainer1.Size = New System.Drawing.Size(1136, 393)
+        Me.SplitContainer1.SplitterDistance = 351
         Me.SplitContainer1.TabIndex = 0
         '
         'SplitContainer2
@@ -139,7 +139,7 @@ Partial Class FrmTransactionApproval
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1136, 347)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1136, 351)
         Me.SplitContainer2.SplitterDistance = 107
         Me.SplitContainer2.TabIndex = 137
         '
@@ -184,6 +184,117 @@ Partial Class FrmTransactionApproval
         Me.btnuSel.TabIndex = 136
         Me.btnuSel.Text = "Unselect All"
         Me.btnuSel.Visible = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(219, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 139
+        Me.btnHistory.Text = "History"
+        '
+        'btnUnapprove
+        '
+        Me.btnUnapprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnapprove.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUnapprove.Location = New System.Drawing.Point(147, 10)
+        Me.btnUnapprove.Name = "btnUnapprove"
+        Me.btnUnapprove.Size = New System.Drawing.Size(66, 18)
+        Me.btnUnapprove.TabIndex = 138
+        Me.btnUnapprove.Text = "Unapprove"
+        Me.btnUnapprove.Visible = False
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(78, 10)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(66, 18)
+        Me.btnReset.TabIndex = 9
+        Me.btnReset.Text = "Reset"
+        '
+        'btnApprove
+        '
+        Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnApprove.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnApprove.Location = New System.Drawing.Point(8, 10)
+        Me.btnApprove.Name = "btnApprove"
+        Me.btnApprove.Size = New System.Drawing.Size(66, 18)
+        Me.btnApprove.TabIndex = 7
+        Me.btnApprove.Text = "Approve"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(1062, 10)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(66, 18)
+        Me.btnclose.TabIndex = 8
+        Me.btnclose.Text = "Close"
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1157, 437)
+        Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(44.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1136, 393)
+        Me.RadPageViewPage1.Text = "Level1"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(44.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1136, 389)
+        Me.RadPageViewPage2.Text = "Level2"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.SplitContainer3)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(60.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1136, 389)
+        Me.RadPageViewPage3.Text = "QC Detail"
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lblQCDate)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lblQCNo)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.GridQC)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1136, 389)
+        Me.SplitContainer3.SplitterDistance = 69
+        Me.SplitContainer3.TabIndex = 0
         '
         'lblScreenName
         '
@@ -337,114 +448,14 @@ Partial Class FrmTransactionApproval
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1136, 236)
+        Me.Gv1.Size = New System.Drawing.Size(1136, 240)
         Me.Gv1.TabIndex = 1
         Me.Gv1.VarID = ""
         Me.Gv1.Visible = False
-        '
-        'btnUnapprove
-        '
-        Me.btnUnapprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnapprove.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnapprove.Location = New System.Drawing.Point(147, 10)
-        Me.btnUnapprove.Name = "btnUnapprove"
-        Me.btnUnapprove.Size = New System.Drawing.Size(66, 18)
-        Me.btnUnapprove.TabIndex = 138
-        Me.btnUnapprove.Text = "Unapprove"
-        Me.btnUnapprove.Visible = False
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(78, 10)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(66, 18)
-        Me.btnReset.TabIndex = 9
-        Me.btnReset.Text = "Reset"
-        '
-        'btnApprove
-        '
-        Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnApprove.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnApprove.Location = New System.Drawing.Point(8, 10)
-        Me.btnApprove.Name = "btnApprove"
-        Me.btnApprove.Size = New System.Drawing.Size(66, 18)
-        Me.btnApprove.TabIndex = 7
-        Me.btnApprove.Text = "Approve"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(1062, 10)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(66, 18)
-        Me.btnclose.TabIndex = 8
-        Me.btnclose.Text = "Close"
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1157, 437)
-        Me.RadPageView1.TabIndex = 1
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(48.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1136, 389)
-        Me.RadPageViewPage1.Text = "Level1"
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(48.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1136, 389)
-        Me.RadPageViewPage2.Text = "Level2"
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(64.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1136, 389)
-        Me.RadPageViewPage3.Text = "QC Detail"
-        '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel3)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lblQCDate)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lblQCNo)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.GridQC)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1136, 389)
-        Me.SplitContainer3.SplitterDistance = 69
-        Me.SplitContainer3.TabIndex = 0
         '
         'MyLabel3
         '
@@ -500,6 +511,7 @@ Partial Class FrmTransactionApproval
         Me.GridQC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GridQC.MasterTemplate.ShowHeaderCellButtons = True
         Me.GridQC.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GridQC.MyExportFilePath = ""
         Me.GridQC.MyStopExport = False
         Me.GridQC.Name = "GridQC"
         Me.GridQC.ShowHeaderCellButtons = True
@@ -507,16 +519,6 @@ Partial Class FrmTransactionApproval
         Me.GridQC.TabIndex = 3
         Me.GridQC.VarID = ""
         Me.GridQC.Visible = False
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(219, 10)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
-        Me.btnHistory.TabIndex = 139
-        Me.btnHistory.Text = "History"
         '
         'FrmTransactionApproval
         '
@@ -541,15 +543,7 @@ Partial Class FrmTransactionApproval
         Me.RadGroupBox1.PerformLayout()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnuSel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblScreenName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddApprovalType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblApprovalType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbScreenName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnapprove, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).EndInit()
@@ -562,13 +556,21 @@ Partial Class FrmTransactionApproval
         Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.lblScreenName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddApprovalType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblApprovalType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbScreenName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQCDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQCNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridQC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridQC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

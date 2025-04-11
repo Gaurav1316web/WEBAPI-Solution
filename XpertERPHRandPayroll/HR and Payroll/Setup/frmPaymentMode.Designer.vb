@@ -41,6 +41,7 @@ Partial Class FrmPaymentMode
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -55,6 +56,7 @@ Partial Class FrmPaymentMode
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -71,6 +73,7 @@ Partial Class FrmPaymentMode
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -95,17 +98,30 @@ Partial Class FrmPaymentMode
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(90, 38)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = True
         Me.txtDescription.MyLinkLable1 = Me.MyLabel1
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(349, 20)
         Me.txtDescription.TabIndex = 24
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(6, 39)
         Me.MyLabel1.Name = "MyLabel1"
@@ -115,6 +131,7 @@ Partial Class FrmPaymentMode
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(-213, 67)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
@@ -123,6 +140,7 @@ Partial Class FrmPaymentMode
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.RadLabel1.Location = New System.Drawing.Point(-213, 16)
         Me.RadLabel1.Name = "RadLabel1"
@@ -141,6 +159,7 @@ Partial Class FrmPaymentMode
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(94, 11)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -156,6 +175,7 @@ Partial Class FrmPaymentMode
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.MyLabel2.Location = New System.Drawing.Point(7, 12)
         Me.MyLabel2.Name = "MyLabel2"
@@ -203,29 +223,33 @@ Partial Class FrmPaymentMode
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(456, 20)
         Me.RadMenu2.TabIndex = 11
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(302, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 29
+        Me.btnHistory.Text = "History"
         '
         'FrmPaymentMode
         '
@@ -255,6 +279,7 @@ Partial Class FrmPaymentMode
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -276,5 +301,6 @@ Partial Class FrmPaymentMode
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents rmiImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
 End Class
 

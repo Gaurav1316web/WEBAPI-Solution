@@ -22,7 +22,7 @@ Partial Class FrmVLCMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -83,6 +83,7 @@ Partial Class FrmVLCMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -134,6 +135,7 @@ Partial Class FrmVLCMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,6 +155,7 @@ Partial Class FrmVLCMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -547,7 +550,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(6, 108)
         Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel2.Size = New System.Drawing.Size(87, 16)
         Me.MyLabel2.TabIndex = 14
         Me.MyLabel2.Text = "Secretary Detail"
         '
@@ -626,7 +629,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel43.Location = New System.Drawing.Point(264, 153)
         Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel43.Size = New System.Drawing.Size(109, 16)
         Me.MyLabel43.TabIndex = 104
         Me.MyLabel43.Text = "DCS Uploader Code"
         '
@@ -660,7 +663,7 @@ Partial Class FrmVLCMaster
         Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblvandorno.Location = New System.Drawing.Point(6, 12)
         Me.lblvandorno.Name = "lblvandorno"
-        Me.lblvandorno.Size = New System.Drawing.Size(58, 16)
+        Me.lblvandorno.Size = New System.Drawing.Size(60, 16)
         Me.lblvandorno.TabIndex = 6
         Me.lblvandorno.Text = "DCS Code"
         '
@@ -684,12 +687,14 @@ Partial Class FrmVLCMaster
         '
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(587, 118)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'txtroutecode
         '
@@ -770,7 +775,7 @@ Partial Class FrmVLCMaster
         Me.lblvendorname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblvendorname.Location = New System.Drawing.Point(6, 37)
         Me.lblvendorname.Name = "lblvendorname"
-        Me.lblvendorname.Size = New System.Drawing.Size(62, 16)
+        Me.lblvendorname.Size = New System.Drawing.Size(63, 16)
         Me.lblvendorname.TabIndex = 9
         Me.lblvendorname.Text = "DCS Name"
         '
@@ -874,7 +879,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(6, 106)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel1.Size = New System.Drawing.Size(87, 16)
         Me.MyLabel1.TabIndex = 14
         Me.MyLabel1.Text = "Secretary Detail"
         '
@@ -975,6 +980,15 @@ Partial Class FrmVLCMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(544, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'FrmVLCMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1040,6 +1054,7 @@ Partial Class FrmVLCMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1104,5 +1119,6 @@ Partial Class FrmVLCMaster
     Friend WithEvents chkSuspense As RadCheckBox
     Friend WithEvents txtCowPriceDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents btnHistory As RadButton
 End Class
 

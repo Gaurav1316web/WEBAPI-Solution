@@ -35,6 +35,7 @@ Public Class clsConveyanceRateMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("CONV_RATE_CODE not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONVEYANCE_RATE_MASTER", "CONV_RATE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_CONVEYANCE_RATE_MASTER where CONV_RATE_CODE ='" + strCode + "'"
@@ -115,6 +116,7 @@ Public Class clsConveyanceRateMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CONVEYANCE_RATE_MASTER", OMInsertOrUpdate.Update, "CONV_RATE_CODE='" + obj.CONV_RATE_CODE + "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.CONV_RATE_CODE, "TSPL_CONVEYANCE_RATE_MASTER", "CONV_RATE_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

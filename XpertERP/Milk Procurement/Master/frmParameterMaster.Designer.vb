@@ -47,31 +47,31 @@ Partial Class FrmParameterMaster
         Me.chkMilkSample = New System.Windows.Forms.CheckBox()
         Me.ChkProduction = New System.Windows.Forms.CheckBox()
         Me.ChkMandatoryProdction = New System.Windows.Forms.CheckBox()
-        Me.lblparameterType = New common.Controls.MyLabel()
-        Me.ddlParametereType = New common.Controls.MyComboBox()
         Me.chkMilkGrade = New System.Windows.Forms.CheckBox()
         Me.ChkMccQC = New System.Windows.Forms.CheckBox()
         Me.chkBulkSale = New System.Windows.Forms.CheckBox()
+        Me.chkIsmandatory = New System.Windows.Forms.CheckBox()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.lblparameterType = New common.Controls.MyLabel()
+        Me.ddlParametereType = New common.Controls.MyComboBox()
         Me.cmbParamFor = New common.Controls.MyComboBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.chkIsmandatory = New System.Windows.Forms.CheckBox()
         Me.cbonature = New common.Controls.MyComboBox()
         Me.cmbtype = New common.Controls.MyComboBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblvandorno = New common.Controls.MyLabel()
         Me.txtdesc = New common.Controls.MyTextBox()
         Me.lblvendorname = New common.Controls.MyLabel()
-        Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.fndNo = New common.UserControls.txtNavigator()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -84,6 +84,13 @@ Partial Class FrmParameterMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblparameterType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlParametereType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbParamFor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,15 +102,8 @@ Partial Class FrmParameterMaster
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        Me.RadPageViewPage3.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -193,10 +193,10 @@ Partial Class FrmParameterMaster
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(648, 259)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(648, 263)
         Me.RadPageViewPage1.Text = "Detail"
         '
         'RadGroupBox1
@@ -227,7 +227,7 @@ Partial Class FrmParameterMaster
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(648, 259)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(648, 263)
         Me.RadGroupBox1.TabIndex = 0
         '
         'chkIsCanType
@@ -269,6 +269,109 @@ Partial Class FrmParameterMaster
         Me.ChkMandatoryProdction.TabIndex = 17
         Me.ChkMandatoryProdction.Text = "Mandatory in Production"
         Me.ChkMandatoryProdction.UseVisualStyleBackColor = True
+        '
+        'chkMilkGrade
+        '
+        Me.chkMilkGrade.AutoSize = True
+        Me.chkMilkGrade.Location = New System.Drawing.Point(296, 168)
+        Me.chkMilkGrade.Name = "chkMilkGrade"
+        Me.chkMilkGrade.Size = New System.Drawing.Size(102, 17)
+        Me.chkMilkGrade.TabIndex = 14
+        Me.chkMilkGrade.Text = "For Milk Grade"
+        Me.chkMilkGrade.UseVisualStyleBackColor = True
+        '
+        'ChkMccQC
+        '
+        Me.ChkMccQC.AutoSize = True
+        Me.ChkMccQC.Location = New System.Drawing.Point(196, 168)
+        Me.ChkMccQC.Name = "ChkMccQC"
+        Me.ChkMccQC.Size = New System.Drawing.Size(88, 17)
+        Me.ChkMccQC.TabIndex = 13
+        Me.ChkMccQC.Text = "For MCC QC"
+        Me.ChkMccQC.UseVisualStyleBackColor = True
+        '
+        'chkBulkSale
+        '
+        Me.chkBulkSale.AutoSize = True
+        Me.chkBulkSale.Location = New System.Drawing.Point(108, 168)
+        Me.chkBulkSale.Name = "chkBulkSale"
+        Me.chkBulkSale.Size = New System.Drawing.Size(72, 17)
+        Me.chkBulkSale.TabIndex = 12
+        Me.chkBulkSale.Text = "Bulk Sale"
+        Me.chkBulkSale.UseVisualStyleBackColor = True
+        '
+        'chkIsmandatory
+        '
+        Me.chkIsmandatory.AutoSize = True
+        Me.chkIsmandatory.Location = New System.Drawing.Point(13, 168)
+        Me.chkIsmandatory.Name = "chkIsmandatory"
+        Me.chkIsmandatory.Size = New System.Drawing.Size(93, 17)
+        Me.chkIsmandatory.TabIndex = 9
+        Me.chkIsmandatory.Text = "Is Mandatory"
+        Me.chkIsmandatory.UseVisualStyleBackColor = True
+        '
+        'btnnew
+        '
+        Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnnew.Location = New System.Drawing.Point(407, 13)
+        Me.btnnew.Name = "btnnew"
+        Me.btnnew.Size = New System.Drawing.Size(20, 21)
+        Me.btnnew.TabIndex = 2
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(465, 129)
+        Me.RadPageViewPage2.Text = "Attachment"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gv)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(83.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(648, 259)
+        Me.RadPageViewPage3.Text = "Parameter List"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(521, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(605, 5)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(78, 21)
+        Me.btnclose.TabIndex = 2
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(93, 5)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(78, 21)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(9, 5)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(78, 21)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
         '
         'lblparameterType
         '
@@ -313,36 +416,6 @@ Partial Class FrmParameterMaster
         Me.ddlParametereType.ReferenceTableName = Nothing
         Me.ddlParametereType.Size = New System.Drawing.Size(156, 20)
         Me.ddlParametereType.TabIndex = 16
-        '
-        'chkMilkGrade
-        '
-        Me.chkMilkGrade.AutoSize = True
-        Me.chkMilkGrade.Location = New System.Drawing.Point(296, 168)
-        Me.chkMilkGrade.Name = "chkMilkGrade"
-        Me.chkMilkGrade.Size = New System.Drawing.Size(102, 17)
-        Me.chkMilkGrade.TabIndex = 14
-        Me.chkMilkGrade.Text = "For Milk Grade"
-        Me.chkMilkGrade.UseVisualStyleBackColor = True
-        '
-        'ChkMccQC
-        '
-        Me.ChkMccQC.AutoSize = True
-        Me.ChkMccQC.Location = New System.Drawing.Point(196, 168)
-        Me.ChkMccQC.Name = "ChkMccQC"
-        Me.ChkMccQC.Size = New System.Drawing.Size(88, 17)
-        Me.ChkMccQC.TabIndex = 13
-        Me.ChkMccQC.Text = "For MCC QC"
-        Me.ChkMccQC.UseVisualStyleBackColor = True
-        '
-        'chkBulkSale
-        '
-        Me.chkBulkSale.AutoSize = True
-        Me.chkBulkSale.Location = New System.Drawing.Point(108, 168)
-        Me.chkBulkSale.Name = "chkBulkSale"
-        Me.chkBulkSale.Size = New System.Drawing.Size(72, 17)
-        Me.chkBulkSale.TabIndex = 12
-        Me.chkBulkSale.Text = "Bulk Sale"
-        Me.chkBulkSale.UseVisualStyleBackColor = True
         '
         'cmbParamFor
         '
@@ -395,16 +468,6 @@ Partial Class FrmParameterMaster
         Me.MyLabel1.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel1.TabIndex = 7
         Me.MyLabel1.Text = "Nature"
-        '
-        'chkIsmandatory
-        '
-        Me.chkIsmandatory.AutoSize = True
-        Me.chkIsmandatory.Location = New System.Drawing.Point(13, 168)
-        Me.chkIsmandatory.Name = "chkIsmandatory"
-        Me.chkIsmandatory.Size = New System.Drawing.Size(93, 17)
-        Me.chkIsmandatory.TabIndex = 9
-        Me.chkIsmandatory.Text = "Is Mandatory"
-        Me.chkIsmandatory.UseVisualStyleBackColor = True
         '
         'cbonature
         '
@@ -522,15 +585,6 @@ Partial Class FrmParameterMaster
         Me.lblvendorname.TabIndex = 3
         Me.lblvendorname.Text = "Description"
         '
-        'btnnew
-        '
-        Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnnew.Location = New System.Drawing.Point(407, 13)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(20, 21)
-        Me.btnnew.TabIndex = 2
-        '
         'fndNo
         '
         Me.fndNo.FieldName = Nothing
@@ -548,15 +602,6 @@ Partial Class FrmParameterMaster
         Me.fndNo.TabStop = False
         Me.fndNo.Value = ""
         '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(465, 129)
-        Me.RadPageViewPage2.Text = "Attachment"
-        '
         'UcAttachment1
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -564,15 +609,6 @@ Partial Class FrmParameterMaster
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(465, 129)
         Me.UcAttachment1.TabIndex = 1
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gv)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(648, 259)
-        Me.RadPageViewPage3.Text = "Parameter List"
         '
         'gv
         '
@@ -591,42 +627,6 @@ Partial Class FrmParameterMaster
         Me.gv.Size = New System.Drawing.Size(648, 259)
         Me.gv.TabIndex = 203
         Me.gv.VarID = ""
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(521, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
-        Me.btnHistory.TabIndex = 3
-        Me.btnHistory.Text = "History"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(605, 5)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(78, 21)
-        Me.btnclose.TabIndex = 2
-        Me.btnclose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(93, 5)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(78, 21)
-        Me.btndelete.TabIndex = 1
-        Me.btndelete.Text = "Delete"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Location = New System.Drawing.Point(9, 5)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(78, 21)
-        Me.btnsave.TabIndex = 0
-        Me.btnsave.Text = "Save"
         '
         'FrmParameterMaster
         '
@@ -654,6 +654,13 @@ Partial Class FrmParameterMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblparameterType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlParametereType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbParamFor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -665,15 +672,8 @@ Partial Class FrmParameterMaster
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        Me.RadPageViewPage3.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
