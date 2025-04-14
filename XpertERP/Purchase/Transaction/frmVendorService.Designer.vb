@@ -33,6 +33,9 @@ Partial Class FrmVendorService
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.RadLabel20 = New Telerik.WinControls.UI.RadLabel()
         Me.chkEInvoice = New common.Controls.MyCheckBox()
         Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -198,6 +201,8 @@ Partial Class FrmVendorService
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkEInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -396,6 +401,9 @@ Partial Class FrmVendorService
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtLocationPrefixName)
+        Me.RadPageViewPage1.Controls.Add(Me.txtLocationPrefix)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel20)
         Me.RadPageViewPage1.Controls.Add(Me.chkEInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.chkTDSProvision)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
@@ -454,6 +462,52 @@ Partial Class FrmVendorService
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1012, 384)
         Me.RadPageViewPage1.Text = "Document"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(767, 165)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(203, 18)
+        Me.txtLocationPrefixName.TabIndex = 12143
+        Me.txtLocationPrefixName.TextWrap = False
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(623, 166)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(142, 17)
+        Me.txtLocationPrefix.TabIndex = 12141
+        Me.txtLocationPrefix.Value = ""
+        '
+        'RadLabel20
+        '
+        Me.RadLabel20.Location = New System.Drawing.Point(562, 165)
+        Me.RadLabel20.Name = "RadLabel20"
+        Me.RadLabel20.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel20.TabIndex = 12142
+        Me.RadLabel20.Text = "Location"
         '
         'chkEInvoice
         '
@@ -571,7 +625,7 @@ Partial Class FrmVendorService
         Me.lblGstinNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblGstinNo.Location = New System.Drawing.Point(261, 5)
         Me.lblGstinNo.Name = "lblGstinNo"
-        Me.lblGstinNo.Size = New System.Drawing.Size(146, 19)
+        Me.lblGstinNo.Size = New System.Drawing.Size(146, 18)
         Me.lblGstinNo.TabIndex = 356
         Me.lblGstinNo.TextWrap = False
         '
@@ -603,7 +657,7 @@ Partial Class FrmVendorService
         Me.lblRegisterOrUnregister.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRegisterOrUnregister.Location = New System.Drawing.Point(51, 5)
         Me.lblRegisterOrUnregister.Name = "lblRegisterOrUnregister"
-        Me.lblRegisterOrUnregister.Size = New System.Drawing.Size(108, 19)
+        Me.lblRegisterOrUnregister.Size = New System.Drawing.Size(108, 18)
         Me.lblRegisterOrUnregister.TabIndex = 354
         Me.lblRegisterOrUnregister.TextWrap = False
         '
@@ -1043,6 +1097,7 @@ Partial Class FrmVendorService
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1809,6 +1864,7 @@ Partial Class FrmVendorService
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1862,6 +1918,7 @@ Partial Class FrmVendorService
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2056,7 +2113,7 @@ Partial Class FrmVendorService
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -2697,6 +2754,8 @@ Partial Class FrmVendorService
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkEInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3018,5 +3077,8 @@ Partial Class FrmVendorService
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents btnCancel As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
+    Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
+    Friend WithEvents RadLabel20 As RadLabel
 End Class
 

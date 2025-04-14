@@ -1753,6 +1753,10 @@ Public Class FrmUserMaster
         dt.Rows.Add("V", "VSP")
         dt.Rows.Add("Z", "Zone")
 
+        dt.Rows.Add("L", "Management All")
+        dt.Rows.Add("U", "Management Union")
+        dt.Rows.Add("C", "Management Cattel Feed")
+
         CboAppUserType.DataSource = dt
         CboAppUserType.ValueMember = "Code"
         CboAppUserType.DisplayMember = "Name"

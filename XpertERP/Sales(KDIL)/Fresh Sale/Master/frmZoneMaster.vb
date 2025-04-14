@@ -100,7 +100,7 @@ Public Class FrmZoneMaster
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_ZONE_MASTER", "Zone_Code", Nothing)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_ZONE_MASTER", "Zone_Code", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_ZONE_MASTER", "Zone_Code", Nothing)
 
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 

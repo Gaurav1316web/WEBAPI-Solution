@@ -3937,10 +3937,11 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                     docNo = clsCommon.myCstr(dr("PI_No"))
                     qry = "update TSPL_PI_HEAD set Status=0 where PI_No in ('" + docNo + "')"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, docNo, "TSPL_PI_HEAD", "PI_No", trans)
 
                     qry = "Delete from TSPL_PO_ADVANCE_ADJUSTMENT_KNOCKOFF where PI_No='" + docNo + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(docNo), "TSPL_PI_HEAD", "PI_No", trans)
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(docNo), "TSPL_PI_HEAD", "PI_No", trans)
                 Next
             End If
 
