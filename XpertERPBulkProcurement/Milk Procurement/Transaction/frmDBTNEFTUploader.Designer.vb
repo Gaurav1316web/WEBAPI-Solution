@@ -21,9 +21,10 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.chkDBTRevisePayment = New Telerik.WinControls.UI.RadCheckBox()
@@ -54,14 +55,19 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvItem = New common.UserControls.MyRadGridView()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvInvalid = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvHold = New common.UserControls.MyRadGridView()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.UcAttachment2 = New XpertERPEngine.ucAttachment()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnClrApproval = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintBankLetter = New Telerik.WinControls.UI.RadButton()
@@ -73,7 +79,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -106,15 +111,21 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvInvalid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvInvalid.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.gvHold, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvHold.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,7 +135,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -518,9 +528,9 @@ Partial Class frmDBTNEFTUploader
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(350, 8)
+        Me.btnReset.Location = New System.Drawing.Point(350, 7)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(21, 19)
+        Me.btnReset.Size = New System.Drawing.Size(21, 20)
         Me.btnReset.TabIndex = 8
         '
         'lblCode
@@ -553,11 +563,12 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.Attachments)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(860, 321)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -581,7 +592,8 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
@@ -593,6 +605,7 @@ Partial Class frmDBTNEFTUploader
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.gvItem)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel12)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
@@ -609,14 +622,29 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(839, 273)
+        Me.gvItem.Size = New System.Drawing.Size(839, 260)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
+        '
+        'RadLabel12
+        '
+        Me.RadLabel12.AutoSize = False
+        Me.RadLabel12.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(0, 260)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(839, 13)
+        Me.RadLabel12.TabIndex = 26
+        Me.RadLabel12.Text = "Double click to hold the payment"
+        Me.RadLabel12.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'RadPageViewPage2
         '
@@ -638,7 +666,8 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
@@ -664,6 +693,50 @@ Partial Class frmDBTNEFTUploader
         Me.RadButton1.Size = New System.Drawing.Size(137, 20)
         Me.RadButton1.TabIndex = 5
         Me.RadButton1.Text = "Export Invalid Data"
+        '
+        'RadPageViewPage4
+        '
+        Me.RadPageViewPage4.Controls.Add(Me.gvHold)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel5)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(40.0!, 28.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage4.Name = "RadPageViewPage4"
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage4.Text = "Hold"
+        '
+        'gvHold
+        '
+        Me.gvHold.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvHold.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvHold.MasterTemplate.AllowAddNewRow = False
+        Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvHold.MyExportFilePath = ""
+        Me.gvHold.MyStopExport = False
+        Me.gvHold.Name = "gvHold"
+        Me.gvHold.ShowHeaderCellButtons = True
+        Me.gvHold.Size = New System.Drawing.Size(839, 260)
+        Me.gvHold.TabIndex = 1
+        Me.gvHold.TabStop = False
+        Me.gvHold.VarID = ""
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.AutoSize = False
+        Me.MyLabel5.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel5.Location = New System.Drawing.Point(0, 260)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(839, 13)
+        Me.MyLabel5.TabIndex = 27
+        Me.MyLabel5.Text = "Double click to resume the payment"
+        Me.MyLabel5.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'Attachments
         '
@@ -709,6 +782,16 @@ Partial Class frmDBTNEFTUploader
         Me.UcAttachment1.Size = New System.Drawing.Size(839, 133)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(661, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(93, 22)
+        Me.btnHistory.TabIndex = 163
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'btnClrApproval
         '
@@ -807,16 +890,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(661, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(93, 22)
-        Me.btnHistory.TabIndex = 163
-        Me.btnHistory.Text = "History"
-        Me.btnHistory.Visible = False
-        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -862,15 +935,21 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvInvalid.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvInvalid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.gvHold.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvHold, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).EndInit()
@@ -880,7 +959,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -935,5 +1013,9 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents btnClrApproval As RadButton
     Friend WithEvents chkDBTRevisePayment As RadCheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadPageViewPage4 As RadPageViewPage
+    Friend WithEvents gvHold As common.UserControls.MyRadGridView
+    Friend WithEvents RadLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
 End Class
 

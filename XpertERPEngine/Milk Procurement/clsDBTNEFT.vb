@@ -16,6 +16,7 @@ Public Class clsDBTNEFT
     Public Posted_Date As Date? = Nothing
     Public arr As List(Of clsDBTNEFTDetail) = Nothing
     Public arrInvalid As List(Of clsDBTNEFTDetailInvalid) = Nothing
+    Public arrHold As List(Of clsDBTNEFTDetailHold) = Nothing
     Public arrVLC As ArrayList = Nothing
     Public arrMCC As ArrayList = Nothing
 #End Region
@@ -37,6 +38,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             qry = "delete from TSPL_DBT_NEFT_DETAIL where Document_Code='" & obj.Document_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DBT_NEFT_DETAIL_INVALID where Document_Code='" & obj.Document_Code & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DBT_NEFT_DETAIL_HOLD where Document_Code='" & obj.Document_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -62,7 +65,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             End If
             clsDBTNEFTDetail.saveData(obj.arr, obj.Document_Code, trans)
             clsDBTNEFTDetailInvalid.saveData(obj.arrInvalid, obj.Document_Code, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            clsDBTNEFTDetailHold.saveData(obj.arrHold, obj.Document_Code, trans)
+            SaveHistoryData(obj.Document_Code, trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -70,6 +74,11 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
         End Try
         Return True
     End Function
+
+    Private Shared Sub SaveHistoryData(document_Code As String, trans As SqlTransaction)
+        clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", "TSPL_DBT_NEFT_DETAIL_HOLD", "Document_Code", "", "", "", "", "", "", trans)
+    End Sub
+
     Public Shared Function SaveBankLetter(ByVal obj As clsDBTNEFT) As Boolean
         Dim trans As SqlTransaction = Nothing
         If SaveBankLetter(obj, trans) Then
@@ -84,7 +93,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Bank_Letter_Date", clsCommon.GetPrintDate(obj.Bank_Letter_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT.Document_Code='" + obj.Document_Code + "'", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            SaveHistoryData(obj.Document_Code, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -133,6 +142,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             obj.arrVLC = New ArrayList
             obj.arr = clsDBTNEFTDetail.getData(obj.Document_Code, trans, obj.arrMCC, obj.arrVLC)
             obj.arrInvalid = clsDBTNEFTDetailInvalid.getData(obj.Document_Code, trans, obj.arrMCC, obj.arrVLC)
+            obj.arrHold = clsDBTNEFTDetailHold.getData(obj.Document_Code, trans, obj.arrMCC, obj.arrVLC)
         End If
         Return obj
     End Function
@@ -165,12 +175,14 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
 
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            SaveHistoryData(strDocNo, trans)
 
             Dim qry As String = ""
             qry = "delete from TSPL_DBT_NEFT_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DBT_NEFT_DETAIL_INVALID where Document_Code='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DBT_NEFT_DETAIL_HOLD where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DBT_NEFT where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -217,7 +229,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            SaveHistoryData(obj.Document_Code, trans)
+
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
@@ -839,4 +852,97 @@ Public Class clsDBTNEFTRCDF
         Return True
     End Function
 
+End Class
+
+Public Class clsDBTNEFTDetailHold
+#Region "Variable"
+    Public PK_Id As Integer
+    Public Document_Code As String = Nothing
+    Public Against_MP_Incentive_TR As Integer
+    Public SNo As Integer
+    Public Rem_Account_No As String = Nothing
+    Public Rem_Name As String = Nothing
+    Public VLC_Uploader_Code As String = Nothing
+    Public MP_Uploader_Code As String = Nothing
+    Public Amount As Decimal = 0
+    Public MP_IFSC_No As String = Nothing
+    Public MP_Account_No As String = Nothing
+    Public MP_Bank As String = Nothing
+    Public MP_Mobile_No As String = Nothing
+    Public MP_Name As String = Nothing
+    Public Transaction As String = Nothing
+#End Region
+    Public Shared Function saveData(ByVal arrObj As List(Of clsDBTNEFTDetailHold), ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim coll As Hashtable
+            If arrObj IsNot Nothing Then
+                For Each obj As clsDBTNEFTDetailHold In arrObj
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "Against_MP_Incentive_TR", obj.Against_MP_Incentive_TR)
+                    clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+                    clsCommon.AddColumnsForChange(coll, "Rem_Account_No", obj.Rem_Account_No)
+                    clsCommon.AddColumnsForChange(coll, "Rem_Name", obj.Rem_Name)
+                    clsCommon.AddColumnsForChange(coll, "VLC_Uploader_Code", obj.VLC_Uploader_Code)
+                    clsCommon.AddColumnsForChange(coll, "MP_Uploader_Code", obj.MP_Uploader_Code)
+                    clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    clsCommon.AddColumnsForChange(coll, "MP_Mobile_No", obj.MP_Mobile_No)
+                    clsCommon.AddColumnsForChange(coll, "MP_IFSC_No", obj.MP_IFSC_No)
+                    clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
+                    clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
+                    clsCommon.AddColumnsForChange(coll, "[Transaction]", obj.Transaction)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_DETAIL_HOLD", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function getData(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByRef ArrMCC As ArrayList, ByRef ArrVLC As ArrayList) As List(Of clsDBTNEFTDetailHold)
+        Try
+
+            Dim arrObj As List(Of clsDBTNEFTDetailHold) = Nothing
+            Dim obj As clsDBTNEFTDetailHold = Nothing
+            Dim qry As String = "Select TSPL_DBT_NEFT_DETAIL_HOLD.*,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code
+from TSPL_DBT_NEFT_DETAIL_HOLD 
+Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL_HOLD.Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+where TSPL_DBT_NEFT_DETAIL_HOLD.Document_Code='" & strDocNo & "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                arrObj = New List(Of clsDBTNEFTDetailHold)
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    obj = New clsDBTNEFTDetailHold()
+                    obj.PK_Id = clsCommon.myCdbl(dt.Rows(i)("PK_Id"))
+                    obj.Document_Code = clsCommon.myCstr(dt.Rows(i)("Document_Code"))
+                    obj.Against_MP_Incentive_TR = clsCommon.myCdbl(dt.Rows(i)("Against_MP_Incentive_TR"))
+                    obj.SNo = i + 1
+                    obj.Rem_Account_No = clsCommon.myCstr(dt.Rows(i)("Rem_Account_No"))
+                    obj.Rem_Name = clsCommon.myCstr(dt.Rows(i)("Rem_Name"))
+                    obj.VLC_Uploader_Code = clsCommon.myCstr(dt.Rows(i)("VLC_Uploader_Code"))
+                    obj.MP_Uploader_Code = clsCommon.myCstr(dt.Rows(i)("MP_Uploader_Code"))
+                    obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
+                    obj.MP_IFSC_No = clsCommon.myCstr(dt.Rows(i)("MP_IFSC_No"))
+                    obj.MP_Account_No = clsCommon.myCstr(dt.Rows(i)("MP_Account_No"))
+                    obj.MP_Bank = clsCommon.myCstr(dt.Rows(i)("MP_Bank"))
+                    obj.MP_Mobile_No = clsCommon.myCstr(dt.Rows(i)("MP_Mobile_No"))
+                    obj.MP_Name = clsCommon.myCstr(dt.Rows(i)("MP_Name"))
+                    obj.Transaction = clsCommon.myCstr(dt.Rows(i)("Transaction"))
+                    arrObj.Add(obj)
+                    If Not ArrMCC.Contains(clsCommon.myCstr(dt.Rows(i)("MCC_Code"))) Then
+                        ArrMCC.Add(clsCommon.myCstr(dt.Rows(i)("MCC_Code")))
+                    End If
+                    If Not ArrVLC.Contains(clsCommon.myCstr(dt.Rows(i)("VLC_Code"))) Then
+                        ArrVLC.Add(clsCommon.myCstr(dt.Rows(i)("VLC_Code")))
+                    End If
+                Next
+            End If
+            Return arrObj
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
 End Class
