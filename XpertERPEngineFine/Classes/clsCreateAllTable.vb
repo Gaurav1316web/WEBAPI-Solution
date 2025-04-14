@@ -27516,6 +27516,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
             coll.Add("Create_E_Invoice", "integer not null default 0")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -33594,6 +33595,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Total_Outstanding", "decimal(18,2) null")
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Inter_unit_sale", "Integer default 0")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "

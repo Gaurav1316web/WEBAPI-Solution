@@ -135,6 +135,7 @@ Public Class scrapinvoicehead
     Public EInvoiceAckNo As String = Nothing
     Public EInvoiceAckDate As DateTime? = Nothing
     Public EInvoiceQRCode As String = Nothing
+    Public isEwaybill As Integer = 0
 #End Region
 
     Public Shared Function SaveDatainvoice(ByVal shipment As String, ByVal strScrapSaleInvoiceNo As String, ByVal trans As SqlTransaction, Optional ByVal strInvoiceType As String = "", Optional ByVal Arr As List(Of ClsScrapSaleDetail) = Nothing) As Boolean
@@ -162,6 +163,7 @@ Public Class scrapinvoicehead
             objin.expship_Date = obj.expship_Date
             objin.Loc_Code = obj.Loc_Code
             objin.Loc_Name = obj.Loc_Name
+            objin.isEwaybill = obj.IsEwaybill
             objin.ToLoc_Code = obj.ToLoc_Code
             objin.Specification = obj.Specification
             objin.CreateInvoice = obj.CreateInvoice
@@ -571,6 +573,7 @@ Public Class scrapinvoicehead
 
 
 
+            clsCommon.AddColumnsForChange(coll, "isEwaybill", objin.isEwaybill)
             clsCommon.AddColumnsForChange(coll, "shipment_No", objin.shipment_No)
             clsCommon.AddColumnsForChange(coll, "Doc_Type", objin.Doc_Type)
             clsCommon.AddColumnsForChange(coll, "Status", objin.Status)

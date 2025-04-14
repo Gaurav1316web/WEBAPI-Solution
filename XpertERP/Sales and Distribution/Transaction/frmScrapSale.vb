@@ -1954,6 +1954,7 @@ Public Class frmScrapSale
         chkBuyBack.Visible = True
         chkBuyBack.Checked = False
         btnPrint.Visible = True
+        'chkIsEwaybill.Checked = True
         ''------------------
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -1962,6 +1963,7 @@ Public Class frmScrapSale
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
         chkEInvoice.Checked = False
+        chkIsEwaybill.Checked = False
         'Inter_unit_salechk.Checked = False
     End Sub
 
@@ -2190,21 +2192,21 @@ Public Class frmScrapSale
             End If
         End If
 
-        'Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + fndcustNo.Value + "' "))
-        'If qrychk = 1 Then
-        '    If Inter_unit_salechk.Checked Then
-        '    Else
-        '        common.clsCommon.MyMessageBoxShow("Please check interunitSale checkbox")
-        '        Inter_unit_salechk.Focus()
-        '        Return False
-        '    End If
-        'Else
-        '    If Inter_unit_salechk.Checked Then
-        '        common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or uncheck interunit checkbox")
-        '        Inter_unit_salechk.Focus()
-        '        Return False
-        '    End If
-        'End If
+        Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + fndcustNo.Value + "' "))
+        If qrychk = 1 Then
+            If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
+            Else
+                common.clsCommon.MyMessageBoxShow("Please Select Sale Type inter Unit Sale")
+                cmbSaleType.Focus()
+                Return False
+            End If
+        Else
+            If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
+                common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or change Sale Type ")
+                cmbSaleType.Focus()
+                Return False
+            End If
+        End If
 
         'If Inter_unit_salechk.Checked Then
         '    ' Check if the vehicle number is empty
@@ -2337,7 +2339,7 @@ Public Class frmScrapSale
 
         dr = dt.NewRow()
         dr("Code") = "1"
-        dr("Name") = "intermediate Sale"
+        dr("Name") = "Inter Unit Sale"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
@@ -2520,6 +2522,7 @@ Public Class frmScrapSale
                 obj.ToLoc_Code = fndShipToLocation.Value
                 obj.Is_Taxable = chkTaxable.Checked
                 obj.IsBuyBack = chkBuyBack.Checked
+                obj.IsEwaybill = IIf(chkIsEwaybill.Checked, 1, 0)
                 If chkinvoice.Checked = True Then
                     obj.CreateInvoice = 1
                 Else
@@ -2528,7 +2531,7 @@ Public Class frmScrapSale
 
                 If clsCommon.CompairString(cmbSaleType.Text, "Normal Sale") = CompairStringResult.Equal Then
                     obj.Inter_unit_sale = 0
-                ElseIf clsCommon.CompairString(cmbSaleType.Text, "Intermediate Sale") = CompairStringResult.Equal Then
+                ElseIf clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
                     obj.Inter_unit_sale = 1
                 ElseIf clsCommon.CompairString(cmbSaleType.Text, "Scrap Sale") = CompairStringResult.Equal Then
                     obj.Inter_unit_sale = 2
@@ -2870,6 +2873,7 @@ Public Class frmScrapSale
                 Else
                     chkOnHold.Checked = False
                 End If
+                chkIsEwaybill.Checked = IIf(obj.IsEwaybill, True, False)
                 txtGWeighmentNo.Value = obj.Weighment_Code
                 lblInvoiceNo.Text = obj.strInvoiceNo
                 txtponumber.Text = obj.Po_No
@@ -2918,7 +2922,7 @@ Public Class frmScrapSale
                 End If
 
                 If obj.Inter_unit_sale = 1 Then
-                    cmbSaleType.Text = "Intermediate Sale"
+                    cmbSaleType.Text = "Inter Unit Sale"
                 ElseIf obj.Inter_unit_sale = 2 Then
                     cmbSaleType.Text = "Scrap Sale"
                 Else
@@ -6187,6 +6191,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 If objCommonVar.RCDFCFP Then
                     If Not isLoadData Then
                         chkEInvoice.Checked = True
+                        chkIsEwaybill.Checked = True
                     End If
                 End If
             Else
@@ -6195,6 +6200,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     isReset = True
                     If Not isLoadData Then
                         chkEInvoice.Checked = False
+                        chkIsEwaybill.Checked = False
                     End If
                 End If
             End If
@@ -6244,6 +6250,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         isReset = False
 
     End Sub
+
     Private Sub ShowRemarks()
         Try
             Dim Reason As String = ""
@@ -6261,5 +6268,8 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End Try
     End Sub
 
+    Private Sub chkEInvoice_(sender As Object, args As StateChangedEventArgs) Handles chkEInvoice.ToggleStateChanged
+
+    End Sub
 End Class
 
