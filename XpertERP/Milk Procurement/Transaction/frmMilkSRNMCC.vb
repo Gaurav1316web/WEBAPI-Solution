@@ -1251,7 +1251,7 @@ Public Class frmMilkSRNMCC
                     clsCommon.MyMessageBoxShow(Me, "Task Completed !", Me.Text)
                     If dtError IsNot Nothing AndAlso dtError.Rows.Count > 0 Then
                         Dim ff As New FrmFreeGrid
-                        ff.ReportID = "Milk SRN"
+                        ff.ReportID = Me.Form_ID
                         ff.Text = "Errors"
                         ff.dt = dtError
                         ff.ShowDialog()
