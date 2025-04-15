@@ -132,7 +132,7 @@ Partial Class FrmCompanyMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RpMobileDetail = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.btnClearLogo1 = New Telerik.WinControls.UI.RadButton()
@@ -171,6 +171,25 @@ Partial Class FrmCompanyMaster
         Me.btnBGClear = New Telerik.WinControls.UI.RadButton()
         Me.BGImage = New System.Windows.Forms.PictureBox()
         Me.btnBackgroundselect = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageMobile = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel26 = New common.Controls.MyLabel()
+        Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.MyLabel28 = New common.Controls.MyLabel()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.TXTCCP4 = New common.Controls.MyTextBox()
+        Me.TXTCCP3 = New common.Controls.MyTextBox()
+        Me.TXTCCN4 = New common.Controls.MyTextBox()
+        Me.TXTCCN3 = New common.Controls.MyTextBox()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.MyLabel22 = New common.Controls.MyLabel()
+        Me.TXTCCP2 = New common.Controls.MyTextBox()
+        Me.TXTCCP1 = New common.Controls.MyTextBox()
+        Me.TXTCCN2 = New common.Controls.MyTextBox()
+        Me.txtCCN1 = New common.Controls.MyTextBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -272,8 +291,8 @@ Partial Class FrmCompanyMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
+        CType(Me.RpMobileDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RpMobileDetail.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.btnClearLogo1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -314,6 +333,27 @@ Partial Class FrmCompanyMaster
         CType(Me.btnBGClear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BGImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBackgroundselect, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageMobile.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCP4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCP3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCN4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCN3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCP2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCP1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTCCN2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCCN1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -2121,25 +2161,26 @@ Partial Class FrmCompanyMaster
         Me.RadMenu1.Size = New System.Drawing.Size(830, 20)
         Me.RadMenu1.TabIndex = 1
         '
-        'RadPageView1
+        'RpMobileDetail
         '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(828, 557)
-        Me.RadPageView1.TabIndex = 0
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemFitMode = Telerik.WinControls.UI.StripViewItemFitMode.None
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage1)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage2)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage3)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage4)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage5)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage6)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageViewPage7)
+        Me.RpMobileDetail.Controls.Add(Me.RadPageMobile)
+        Me.RpMobileDetail.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RpMobileDetail.Location = New System.Drawing.Point(1, 1)
+        Me.RpMobileDetail.Name = "RpMobileDetail"
+        Me.RpMobileDetail.SelectedPage = Me.RadPageViewPage1
+        Me.RpMobileDetail.Size = New System.Drawing.Size(828, 557)
+        Me.RpMobileDetail.TabIndex = 0
+        CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
+        CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemFitMode = Telerik.WinControls.UI.StripViewItemFitMode.None
+        CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
         '
         'RadPageViewPage1
         '
@@ -2682,6 +2723,327 @@ Partial Class FrmCompanyMaster
         Me.btnBackgroundselect.TabIndex = 2
         Me.btnBackgroundselect.Text = "Select Background"
         '
+        'RadPageMobile
+        '
+        Me.RadPageMobile.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageMobile.Controls.Add(Me.RadGroupBox5)
+        Me.RadPageMobile.Enabled = False
+        Me.RadPageMobile.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
+        Me.RadPageMobile.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageMobile.Name = "RadPageMobile"
+        Me.RadPageMobile.Size = New System.Drawing.Size(807, 509)
+        Me.RadPageMobile.Text = "Mobile Detail"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel26)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel27)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel28)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel29)
+        Me.RadGroupBox4.Controls.Add(Me.TXTCCP4)
+        Me.RadGroupBox4.Controls.Add(Me.TXTCCP3)
+        Me.RadGroupBox4.Controls.Add(Me.TXTCCN4)
+        Me.RadGroupBox4.Controls.Add(Me.TXTCCN3)
+        Me.RadGroupBox4.HeaderText = "Saras Order"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(12, 119)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(538, 99)
+        Me.RadGroupBox4.TabIndex = 8
+        Me.RadGroupBox4.Text = "Saras Order"
+        '
+        'MyLabel26
+        '
+        Me.MyLabel26.FieldName = Nothing
+        Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel26.Location = New System.Drawing.Point(5, 60)
+        Me.MyLabel26.Name = "MyLabel26"
+        Me.MyLabel26.Size = New System.Drawing.Size(110, 16)
+        Me.MyLabel26.TabIndex = 1373
+        Me.MyLabel26.Text = "Customer Care No2."
+        '
+        'MyLabel27
+        '
+        Me.MyLabel27.FieldName = Nothing
+        Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel27.Location = New System.Drawing.Point(5, 28)
+        Me.MyLabel27.Name = "MyLabel27"
+        Me.MyLabel27.Size = New System.Drawing.Size(110, 16)
+        Me.MyLabel27.TabIndex = 1372
+        Me.MyLabel27.Text = "Customer Care No1."
+        '
+        'MyLabel28
+        '
+        Me.MyLabel28.FieldName = Nothing
+        Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel28.Location = New System.Drawing.Point(252, 59)
+        Me.MyLabel28.Name = "MyLabel28"
+        Me.MyLabel28.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel28.TabIndex = 1371
+        Me.MyLabel28.Text = "Customer Care Person 2"
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(252, 25)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel29.TabIndex = 1370
+        Me.MyLabel29.Text = "Customer Care Person 1"
+        '
+        'TXTCCP4
+        '
+        Me.TXTCCP4.CalculationExpression = Nothing
+        Me.TXTCCP4.FieldCode = Nothing
+        Me.TXTCCP4.FieldDesc = Nothing
+        Me.TXTCCP4.FieldMaxLength = 0
+        Me.TXTCCP4.FieldName = Nothing
+        Me.TXTCCP4.isCalculatedField = False
+        Me.TXTCCP4.IsSourceFromTable = False
+        Me.TXTCCP4.IsSourceFromValueList = False
+        Me.TXTCCP4.IsUnique = False
+        Me.TXTCCP4.Location = New System.Drawing.Point(398, 56)
+        Me.TXTCCP4.MaxLength = 50
+        Me.TXTCCP4.MendatroryField = False
+        Me.TXTCCP4.MyLinkLable1 = Nothing
+        Me.TXTCCP4.MyLinkLable2 = Nothing
+        Me.TXTCCP4.Name = "TXTCCP4"
+        Me.TXTCCP4.ReferenceFieldDesc = Nothing
+        Me.TXTCCP4.ReferenceFieldName = Nothing
+        Me.TXTCCP4.ReferenceTableName = Nothing
+        Me.TXTCCP4.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCP4.TabIndex = 1369
+        Me.TXTCCP4.TabStop = False
+        '
+        'TXTCCP3
+        '
+        Me.TXTCCP3.CalculationExpression = Nothing
+        Me.TXTCCP3.FieldCode = Nothing
+        Me.TXTCCP3.FieldDesc = Nothing
+        Me.TXTCCP3.FieldMaxLength = 0
+        Me.TXTCCP3.FieldName = Nothing
+        Me.TXTCCP3.isCalculatedField = False
+        Me.TXTCCP3.IsSourceFromTable = False
+        Me.TXTCCP3.IsSourceFromValueList = False
+        Me.TXTCCP3.IsUnique = False
+        Me.TXTCCP3.Location = New System.Drawing.Point(398, 21)
+        Me.TXTCCP3.MaxLength = 50
+        Me.TXTCCP3.MendatroryField = False
+        Me.TXTCCP3.MyLinkLable1 = Nothing
+        Me.TXTCCP3.MyLinkLable2 = Nothing
+        Me.TXTCCP3.Name = "TXTCCP3"
+        Me.TXTCCP3.ReferenceFieldDesc = Nothing
+        Me.TXTCCP3.ReferenceFieldName = Nothing
+        Me.TXTCCP3.ReferenceTableName = Nothing
+        Me.TXTCCP3.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCP3.TabIndex = 1368
+        Me.TXTCCP3.TabStop = False
+        '
+        'TXTCCN4
+        '
+        Me.TXTCCN4.CalculationExpression = Nothing
+        Me.TXTCCN4.FieldCode = Nothing
+        Me.TXTCCN4.FieldDesc = Nothing
+        Me.TXTCCN4.FieldMaxLength = 0
+        Me.TXTCCN4.FieldName = Nothing
+        Me.TXTCCN4.isCalculatedField = False
+        Me.TXTCCN4.IsSourceFromTable = False
+        Me.TXTCCN4.IsSourceFromValueList = False
+        Me.TXTCCN4.IsUnique = False
+        Me.TXTCCN4.Location = New System.Drawing.Point(115, 57)
+        Me.TXTCCN4.MaxLength = 50
+        Me.TXTCCN4.MendatroryField = False
+        Me.TXTCCN4.MyLinkLable1 = Nothing
+        Me.TXTCCN4.MyLinkLable2 = Nothing
+        Me.TXTCCN4.Name = "TXTCCN4"
+        Me.TXTCCN4.ReferenceFieldDesc = Nothing
+        Me.TXTCCN4.ReferenceFieldName = Nothing
+        Me.TXTCCN4.ReferenceTableName = Nothing
+        Me.TXTCCN4.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCN4.TabIndex = 1367
+        Me.TXTCCN4.TabStop = False
+        '
+        'TXTCCN3
+        '
+        Me.TXTCCN3.CalculationExpression = Nothing
+        Me.TXTCCN3.FieldCode = Nothing
+        Me.TXTCCN3.FieldDesc = Nothing
+        Me.TXTCCN3.FieldMaxLength = 0
+        Me.TXTCCN3.FieldName = Nothing
+        Me.TXTCCN3.isCalculatedField = False
+        Me.TXTCCN3.IsSourceFromTable = False
+        Me.TXTCCN3.IsSourceFromValueList = False
+        Me.TXTCCN3.IsUnique = False
+        Me.TXTCCN3.Location = New System.Drawing.Point(115, 24)
+        Me.TXTCCN3.MaxLength = 50
+        Me.TXTCCN3.MendatroryField = False
+        Me.TXTCCN3.MyLinkLable1 = Nothing
+        Me.TXTCCN3.MyLinkLable2 = Nothing
+        Me.TXTCCN3.Name = "TXTCCN3"
+        Me.TXTCCN3.ReferenceFieldDesc = Nothing
+        Me.TXTCCN3.ReferenceFieldName = Nothing
+        Me.TXTCCN3.ReferenceTableName = Nothing
+        Me.TXTCCN3.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCN3.TabIndex = 1366
+        Me.TXTCCN3.TabStop = False
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel25)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel24)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel23)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel22)
+        Me.RadGroupBox5.Controls.Add(Me.TXTCCP2)
+        Me.RadGroupBox5.Controls.Add(Me.TXTCCP1)
+        Me.RadGroupBox5.Controls.Add(Me.TXTCCN2)
+        Me.RadGroupBox5.Controls.Add(Me.txtCCN1)
+        Me.RadGroupBox5.HeaderText = "Saras Pro"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(12, 3)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(538, 99)
+        Me.RadGroupBox5.TabIndex = 7
+        Me.RadGroupBox5.Text = "Saras Pro"
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(5, 60)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(110, 16)
+        Me.MyLabel25.TabIndex = 1373
+        Me.MyLabel25.Text = "Customer Care No2."
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(5, 28)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(110, 16)
+        Me.MyLabel24.TabIndex = 1372
+        Me.MyLabel24.Text = "Customer Care No1."
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(252, 59)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel23.TabIndex = 1371
+        Me.MyLabel23.Text = "Customer Care Person 2"
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel22.Location = New System.Drawing.Point(252, 25)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel22.TabIndex = 1370
+        Me.MyLabel22.Text = "Customer Care Person 1"
+        '
+        'TXTCCP2
+        '
+        Me.TXTCCP2.CalculationExpression = Nothing
+        Me.TXTCCP2.FieldCode = Nothing
+        Me.TXTCCP2.FieldDesc = Nothing
+        Me.TXTCCP2.FieldMaxLength = 0
+        Me.TXTCCP2.FieldName = Nothing
+        Me.TXTCCP2.isCalculatedField = False
+        Me.TXTCCP2.IsSourceFromTable = False
+        Me.TXTCCP2.IsSourceFromValueList = False
+        Me.TXTCCP2.IsUnique = False
+        Me.TXTCCP2.Location = New System.Drawing.Point(398, 56)
+        Me.TXTCCP2.MaxLength = 50
+        Me.TXTCCP2.MendatroryField = False
+        Me.TXTCCP2.MyLinkLable1 = Nothing
+        Me.TXTCCP2.MyLinkLable2 = Nothing
+        Me.TXTCCP2.Name = "TXTCCP2"
+        Me.TXTCCP2.ReferenceFieldDesc = Nothing
+        Me.TXTCCP2.ReferenceFieldName = Nothing
+        Me.TXTCCP2.ReferenceTableName = Nothing
+        Me.TXTCCP2.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCP2.TabIndex = 1369
+        Me.TXTCCP2.TabStop = False
+        '
+        'TXTCCP1
+        '
+        Me.TXTCCP1.CalculationExpression = Nothing
+        Me.TXTCCP1.FieldCode = Nothing
+        Me.TXTCCP1.FieldDesc = Nothing
+        Me.TXTCCP1.FieldMaxLength = 0
+        Me.TXTCCP1.FieldName = Nothing
+        Me.TXTCCP1.isCalculatedField = False
+        Me.TXTCCP1.IsSourceFromTable = False
+        Me.TXTCCP1.IsSourceFromValueList = False
+        Me.TXTCCP1.IsUnique = False
+        Me.TXTCCP1.Location = New System.Drawing.Point(398, 21)
+        Me.TXTCCP1.MaxLength = 50
+        Me.TXTCCP1.MendatroryField = False
+        Me.TXTCCP1.MyLinkLable1 = Nothing
+        Me.TXTCCP1.MyLinkLable2 = Nothing
+        Me.TXTCCP1.Name = "TXTCCP1"
+        Me.TXTCCP1.ReferenceFieldDesc = Nothing
+        Me.TXTCCP1.ReferenceFieldName = Nothing
+        Me.TXTCCP1.ReferenceTableName = Nothing
+        Me.TXTCCP1.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCP1.TabIndex = 1368
+        Me.TXTCCP1.TabStop = False
+        '
+        'TXTCCN2
+        '
+        Me.TXTCCN2.CalculationExpression = Nothing
+        Me.TXTCCN2.FieldCode = Nothing
+        Me.TXTCCN2.FieldDesc = Nothing
+        Me.TXTCCN2.FieldMaxLength = 0
+        Me.TXTCCN2.FieldName = Nothing
+        Me.TXTCCN2.isCalculatedField = False
+        Me.TXTCCN2.IsSourceFromTable = False
+        Me.TXTCCN2.IsSourceFromValueList = False
+        Me.TXTCCN2.IsUnique = False
+        Me.TXTCCN2.Location = New System.Drawing.Point(115, 57)
+        Me.TXTCCN2.MaxLength = 50
+        Me.TXTCCN2.MendatroryField = False
+        Me.TXTCCN2.MyLinkLable1 = Nothing
+        Me.TXTCCN2.MyLinkLable2 = Nothing
+        Me.TXTCCN2.Name = "TXTCCN2"
+        Me.TXTCCN2.ReferenceFieldDesc = Nothing
+        Me.TXTCCN2.ReferenceFieldName = Nothing
+        Me.TXTCCN2.ReferenceTableName = Nothing
+        Me.TXTCCN2.Size = New System.Drawing.Size(113, 20)
+        Me.TXTCCN2.TabIndex = 1367
+        Me.TXTCCN2.TabStop = False
+        '
+        'txtCCN1
+        '
+        Me.txtCCN1.CalculationExpression = Nothing
+        Me.txtCCN1.FieldCode = Nothing
+        Me.txtCCN1.FieldDesc = Nothing
+        Me.txtCCN1.FieldMaxLength = 0
+        Me.txtCCN1.FieldName = Nothing
+        Me.txtCCN1.isCalculatedField = False
+        Me.txtCCN1.IsSourceFromTable = False
+        Me.txtCCN1.IsSourceFromValueList = False
+        Me.txtCCN1.IsUnique = False
+        Me.txtCCN1.Location = New System.Drawing.Point(115, 24)
+        Me.txtCCN1.MaxLength = 50
+        Me.txtCCN1.MendatroryField = False
+        Me.txtCCN1.MyLinkLable1 = Nothing
+        Me.txtCCN1.MyLinkLable2 = Nothing
+        Me.txtCCN1.Name = "txtCCN1"
+        Me.txtCCN1.ReferenceFieldDesc = Nothing
+        Me.txtCCN1.ReferenceFieldName = Nothing
+        Me.txtCCN1.ReferenceTableName = Nothing
+        Me.txtCCN1.Size = New System.Drawing.Size(113, 20)
+        Me.txtCCN1.TabIndex = 1366
+        Me.txtCCN1.TabStop = False
+        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
@@ -2697,7 +3059,7 @@ Partial Class FrmCompanyMaster
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RpMobileDetail)
         Me.SplitContainer1.Panel1.Padding = New System.Windows.Forms.Padding(1)
         '
         'SplitContainer1.Panel2
@@ -2714,7 +3076,7 @@ Partial Class FrmCompanyMaster
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(151, 4)
+        Me.btnHistory.Location = New System.Drawing.Point(149, 2)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(68, 18)
         Me.btnHistory.TabIndex = 3
@@ -2833,8 +3195,8 @@ Partial Class FrmCompanyMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
+        CType(Me.RpMobileDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RpMobileDetail.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.btnClearLogo1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2878,6 +3240,29 @@ Partial Class FrmCompanyMaster
         CType(Me.btnBGClear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BGImage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBackgroundselect, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageMobile.ResumeLayout(False)
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCP4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCP3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCN4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCN3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCP2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCP1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTCCN2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCCN1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -2912,7 +3297,7 @@ Partial Class FrmCompanyMaster
     Friend WithEvents chkCformRequiredTN As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents ddlModeofTransp As common.Controls.MyComboBox
     Friend WithEvents cboDataBase As common.Controls.MyComboBox
-    Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
+    Friend WithEvents RpMobileDetail As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
@@ -3034,5 +3419,24 @@ Partial Class FrmCompanyMaster
     Friend WithEvents txtISO_No As common.Controls.MyTextBox
     Friend WithEvents MyLabel21 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadPageMobile As RadPageViewPage
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents MyLabel23 As common.Controls.MyLabel
+    Friend WithEvents MyLabel22 As common.Controls.MyLabel
+    Friend WithEvents TXTCCP2 As common.Controls.MyTextBox
+    Friend WithEvents TXTCCP1 As common.Controls.MyTextBox
+    Friend WithEvents TXTCCN2 As common.Controls.MyTextBox
+    Friend WithEvents txtCCN1 As common.Controls.MyTextBox
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents MyLabel26 As common.Controls.MyLabel
+    Friend WithEvents MyLabel27 As common.Controls.MyLabel
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents TXTCCP4 As common.Controls.MyTextBox
+    Friend WithEvents TXTCCP3 As common.Controls.MyTextBox
+    Friend WithEvents TXTCCN4 As common.Controls.MyTextBox
+    Friend WithEvents TXTCCN3 As common.Controls.MyTextBox
 End Class
 

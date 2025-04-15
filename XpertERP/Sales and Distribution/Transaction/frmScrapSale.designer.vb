@@ -32,6 +32,8 @@ Partial Class frmScrapSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblSalesType = New common.Controls.MyLabel()
+        Me.cmbSaleType = New common.Controls.MyComboBox()
         Me.lblCustGSTNo = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.lblLocGSTNo = New common.Controls.MyLabel()
@@ -188,14 +190,15 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.lblSalesType = New common.Controls.MyLabel()
-        Me.cmbSaleType = New common.Controls.MyComboBox()
+        Me.chkIsEwaybill = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustGSTNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocGSTNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -341,8 +344,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -399,6 +401,7 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsEwaybill)
         Me.RadPageViewPage1.Controls.Add(Me.lblSalesType)
         Me.RadPageViewPage1.Controls.Add(Me.cmbSaleType)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustGSTNo)
@@ -471,6 +474,42 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1108, 425)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'lblSalesType
+        '
+        Me.lblSalesType.FieldName = Nothing
+        Me.lblSalesType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesType.Location = New System.Drawing.Point(889, 26)
+        Me.lblSalesType.Name = "lblSalesType"
+        Me.lblSalesType.Size = New System.Drawing.Size(63, 16)
+        Me.lblSalesType.TabIndex = 1484
+        Me.lblSalesType.Text = "Sales Type"
+        '
+        'cmbSaleType
+        '
+        Me.cmbSaleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbSaleType.AutoCompleteValueMember = Nothing
+        Me.cmbSaleType.CalculationExpression = Nothing
+        Me.cmbSaleType.DropDownAnimationEnabled = True
+        Me.cmbSaleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbSaleType.FieldCode = Nothing
+        Me.cmbSaleType.FieldDesc = Nothing
+        Me.cmbSaleType.FieldMaxLength = 0
+        Me.cmbSaleType.FieldName = Nothing
+        Me.cmbSaleType.isCalculatedField = False
+        Me.cmbSaleType.IsSourceFromTable = False
+        Me.cmbSaleType.IsSourceFromValueList = False
+        Me.cmbSaleType.IsUnique = False
+        Me.cmbSaleType.Location = New System.Drawing.Point(957, 23)
+        Me.cmbSaleType.MendatroryField = True
+        Me.cmbSaleType.MyLinkLable1 = Nothing
+        Me.cmbSaleType.MyLinkLable2 = Nothing
+        Me.cmbSaleType.Name = "cmbSaleType"
+        Me.cmbSaleType.ReferenceFieldDesc = Nothing
+        Me.cmbSaleType.ReferenceFieldName = Nothing
+        Me.cmbSaleType.ReferenceTableName = Nothing
+        Me.cmbSaleType.Size = New System.Drawing.Size(146, 20)
+        Me.cmbSaleType.TabIndex = 1485
         '
         'lblCustGSTNo
         '
@@ -2724,41 +2763,14 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1129, 503)
         Me.Panel1.TabIndex = 3
         '
-        'lblSalesType
+        'chkIsEwaybill
         '
-        Me.lblSalesType.FieldName = Nothing
-        Me.lblSalesType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesType.Location = New System.Drawing.Point(889, 26)
-        Me.lblSalesType.Name = "lblSalesType"
-        Me.lblSalesType.Size = New System.Drawing.Size(63, 16)
-        Me.lblSalesType.TabIndex = 1484
-        Me.lblSalesType.Text = "Sales Type"
-        '
-        'cmbSaleType
-        '
-        Me.cmbSaleType.AutoCompleteDisplayMember = Nothing
-        Me.cmbSaleType.AutoCompleteValueMember = Nothing
-        Me.cmbSaleType.CalculationExpression = Nothing
-        Me.cmbSaleType.DropDownAnimationEnabled = True
-        Me.cmbSaleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbSaleType.FieldCode = Nothing
-        Me.cmbSaleType.FieldDesc = Nothing
-        Me.cmbSaleType.FieldMaxLength = 0
-        Me.cmbSaleType.FieldName = Nothing
-        Me.cmbSaleType.isCalculatedField = False
-        Me.cmbSaleType.IsSourceFromTable = False
-        Me.cmbSaleType.IsSourceFromValueList = False
-        Me.cmbSaleType.IsUnique = False
-        Me.cmbSaleType.Location = New System.Drawing.Point(957, 23)
-        Me.cmbSaleType.MendatroryField = True
-        Me.cmbSaleType.MyLinkLable1 = Nothing
-        Me.cmbSaleType.MyLinkLable2 = Nothing
-        Me.cmbSaleType.Name = "cmbSaleType"
-        Me.cmbSaleType.ReferenceFieldDesc = Nothing
-        Me.cmbSaleType.ReferenceFieldName = Nothing
-        Me.cmbSaleType.ReferenceTableName = Nothing
-        Me.cmbSaleType.Size = New System.Drawing.Size(146, 20)
-        Me.cmbSaleType.TabIndex = 1485
+        Me.chkIsEwaybill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwaybill.Location = New System.Drawing.Point(957, 4)
+        Me.chkIsEwaybill.Name = "chkIsEwaybill"
+        Me.chkIsEwaybill.Size = New System.Drawing.Size(71, 16)
+        Me.chkIsEwaybill.TabIndex = 1486
+        Me.chkIsEwaybill.Text = "IsEwaybill"
         '
         'frmScrapSale
         '
@@ -2781,6 +2793,8 @@ Partial Class frmScrapSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustGSTNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocGSTNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2933,8 +2947,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3104,6 +3117,7 @@ Partial Class frmScrapSale
     Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
     Friend WithEvents lblSalesType As common.Controls.MyLabel
     Friend WithEvents cmbSaleType As common.Controls.MyComboBox
+    Friend WithEvents chkIsEwaybill As RadCheckBox
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 

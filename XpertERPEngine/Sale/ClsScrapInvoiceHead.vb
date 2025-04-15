@@ -134,6 +134,8 @@ Public Class ClsScrapInvoiceHead
     'Public ispost As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Arr As List(Of ClsScrapInvoiceDetail) = Nothing
     Public RoundOffAmount As Double = 0
+    Public isEwaybill As Integer = 0
+
 
 
 #End Region
@@ -202,6 +204,7 @@ Public Class ClsScrapInvoiceHead
             'clsCommon.AddColumnsForChange(coll, "CreateInvoice", obj.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "reff", obj.reff)
+            clsCommon.AddColumnsForChange(coll, "isEwaybill", obj.isEwaybill)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
             clsCommon.AddColumnsForChange(coll, "Tax_Desc", obj.Tax_Desc)
             clsCommon.AddColumnsForChange(coll, "Add_Amt", obj.Add_Amt)
@@ -342,7 +345,7 @@ Public Class ClsScrapInvoiceHead
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsScrapInvoiceHead
         Dim obj As ClsScrapInvoiceHead = Nothing
-        Dim qry As String = "SELECT TSPL_SCRAPINVOICE_HEAD.Is_Taxable,TSPL_SCRAPINVOICE_HEAD.Doc_Type,TSPL_SCRAPINVOICE_HEAD.Inter_Branch, TSPL_SCRAPINVOICE_HEAD.shipment_No,TSPL_SCRAPINVOICE_HEAD.shipment_Date,TSPL_SCRAPINVOICE_HEAD.cust_Code,TSPL_SCRAPINVOICE_HEAD.Po_No,TSPL_SCRAPINVOICE_HEAD.invoice_No,TSPL_SCRAPINVOICE_HEAD.cust_Name,TSPL_SCRAPINVOICE_HEAD.shipment_date,TSPL_SCRAPINVOICE_HEAD.posting_date,TSPL_SCRAPINVOICE_HEAD.expship_date,TSPL_SCRAPINVOICE_HEAD.Status,TSPL_SCRAPINVOICE_HEAD.CreateInvoice,TSPL_SCRAPINVOICE_HEAD.ispost,TSPL_SCRAPINVOICE_HEAD.Doc_Amt,TSPL_SCRAPINVOICE_HEAD.Description,TSPL_SCRAPINVOICE_HEAD.reff,TSPL_SCRAPINVOICE_HEAD.Tax_Group,TSPL_SCRAPINVOICE_HEAD.tax_desc,TSPL_SCRAPINVOICE_HEAD.loc_code,TSPL_SCRAPINVOICE_HEAD.loc_Name,TSPL_SCRAPINVOICE_HEAD.ToLoc_code,TSPL_SCRAPINVOICE_HEAD.TAX1,TSPL_SCRAPINVOICE_HEAD.TAX1_Rate,TSPL_SCRAPINVOICE_HEAD.TAX1_Amt,TSPL_SCRAPINVOICE_HEAD.TAX1_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX2,TSPL_SCRAPINVOICE_HEAD.TAX2_Rate,TSPL_SCRAPINVOICE_HEAD.TAX2_Amt,TSPL_SCRAPINVOICE_HEAD.TAX2_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX3,TSPL_SCRAPINVOICE_HEAD.TAX3_Rate,TSPL_SCRAPINVOICE_HEAD.TAX3_Amt,TSPL_SCRAPINVOICE_HEAD.TAX3_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX4,TSPL_SCRAPINVOICE_HEAD.TAX4_Rate,TSPL_SCRAPINVOICE_HEAD.TAX4_Amt,TSPL_SCRAPINVOICE_HEAD.TAX4_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX5,TSPL_SCRAPINVOICE_HEAD.TAX5_Rate,TSPL_SCRAPINVOICE_HEAD.TAX5_Amt,TSPL_SCRAPINVOICE_HEAD.TAX5_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX6,TSPL_SCRAPINVOICE_HEAD.TAX6_Rate,TSPL_SCRAPINVOICE_HEAD.TAX6_Amt,TSPL_SCRAPINVOICE_HEAD.TAX6_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX7,TSPL_SCRAPINVOICE_HEAD.TAX7_Rate,TSPL_SCRAPINVOICE_HEAD.TAX7_Amt,TSPL_SCRAPINVOICE_HEAD.TAX7_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX8,TSPL_SCRAPINVOICE_HEAD.TAX8_Rate,TSPL_SCRAPINVOICE_HEAD.TAX8_Amt,TSPL_SCRAPINVOICE_HEAD.TAX8_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX9,TSPL_SCRAPINVOICE_HEAD.TAX9_Rate,TSPL_SCRAPINVOICE_HEAD.TAX9_Amt,TSPL_SCRAPINVOICE_HEAD.TAX9_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX10,TSPL_SCRAPINVOICE_HEAD.TAX10_Rate,TSPL_SCRAPINVOICE_HEAD.TAX10_Amt,TSPL_SCRAPINVOICE_HEAD.TAX10_Base_Amt,TSPL_SCRAPINVOICE_HEAD.Add_Amt,TSPL_SCRAPINVOICE_HEAD.Before_add_Amt,TSPL_SCRAPINVOICE_HEAD.Discount_Base,TSPL_SCRAPINVOICE_HEAD.Discount_Amt,TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount,TSPL_SCRAPINVOICE_HEAD.Total_Tax_Amt,TSPL_SCRAPINVOICE_HEAD.ship_total_Amt,TSPL_SCRAPINVOICE_HEAD.Comp_Code,TSPL_SCRAPINVOICE_HEAD.Terms_Code,TSPL_SCRAPINVOICE_HEAD.Due_Date ,TSPL_SCRAPINVOICE_HEAD.AddCode1,TSPL_SCRAPINVOICE_HEAD.AddDesc1,TSPL_SCRAPINVOICE_HEAD.AddAmt1,TSPL_SCRAPINVOICE_HEAD.AddCode2,TSPL_SCRAPINVOICE_HEAD.AddDesc2,TSPL_SCRAPINVOICE_HEAD.AddAmt2,TSPL_SCRAPINVOICE_HEAD.AddCode3,TSPL_SCRAPINVOICE_HEAD.AddDesc3,TSPL_SCRAPINVOICE_HEAD.AddAmt3,TSPL_SCRAPINVOICE_HEAD.AddCode4,TSPL_SCRAPINVOICE_HEAD.AddDesc4,TSPL_SCRAPINVOICE_HEAD.AddAmt4,TSPL_SCRAPINVOICE_HEAD.AddCode5,TSPL_SCRAPINVOICE_HEAD.AddDesc5,TSPL_SCRAPINVOICE_HEAD.AddAmt5,TSPL_SCRAPINVOICE_HEAD.AddCode6,TSPL_SCRAPINVOICE_HEAD.AddDesc6,TSPL_SCRAPINVOICE_HEAD.AddAmt6,TSPL_SCRAPINVOICE_HEAD.AddCode7,TSPL_SCRAPINVOICE_HEAD.AddDesc7,TSPL_SCRAPINVOICE_HEAD.AddAmt7,TSPL_SCRAPINVOICE_HEAD.AddCode8,TSPL_SCRAPINVOICE_HEAD.AddDesc8,TSPL_SCRAPINVOICE_HEAD.AddAmt8,TSPL_SCRAPINVOICE_HEAD.AddCode9,TSPL_SCRAPINVOICE_HEAD.AddDesc9,TSPL_SCRAPINVOICE_HEAD.AddAmt9,TSPL_SCRAPINVOICE_HEAD.AddCode10,TSPL_SCRAPINVOICE_HEAD.AddDesc10,TSPL_SCRAPINVOICE_HEAD.AddAmt10,TSPL_SCRAPINVOICE_HEAD.Balance_Amt,TSPL_LOCATION_MASTER.Location_Desc as ToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SCRAPINVOICE_HEAD.RoundOffAmount,TSPL_SCRAPINVOICE_HEAD.IRN_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.QR_Code,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_SCRAPINVOICE_HEAD.EWayBillValidDate,TSPL_SCRAPINVOICE_HEAD.EWayBillRemarks FROM TSPL_SCRAPINVOICE_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.loc_code left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SCRAPINVOICE_HEAD.loc_code  left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SCRAPINVOICE_HEAD.Terms_Code where 2=2"
+        Dim qry As String = "SELECT TSPL_SCRAPINVOICE_HEAD.Is_Taxable,TSPL_SCRAPINVOICE_HEAD.Doc_Type,TSPL_SCRAPINVOICE_HEAD.Inter_Branch, TSPL_SCRAPINVOICE_HEAD.shipment_No,TSPL_SCRAPINVOICE_HEAD.shipment_Date,TSPL_SCRAPINVOICE_HEAD.cust_Code,TSPL_SCRAPINVOICE_HEAD.Po_No,TSPL_SCRAPINVOICE_HEAD.invoice_No,TSPL_SCRAPINVOICE_HEAD.cust_Name,TSPL_SCRAPINVOICE_HEAD.shipment_date,TSPL_SCRAPINVOICE_HEAD.posting_date,TSPL_SCRAPINVOICE_HEAD.expship_date,TSPL_SCRAPINVOICE_HEAD.Status,TSPL_SCRAPINVOICE_HEAD.CreateInvoice,TSPL_SCRAPINVOICE_HEAD.ispost,TSPL_SCRAPINVOICE_HEAD.Doc_Amt,TSPL_SCRAPINVOICE_HEAD.Description,TSPL_SCRAPINVOICE_HEAD.reff,TSPL_SCRAPINVOICE_HEAD.Tax_Group,TSPL_SCRAPINVOICE_HEAD.tax_desc,TSPL_SCRAPINVOICE_HEAD.loc_code,TSPL_SCRAPINVOICE_HEAD.loc_Name,TSPL_SCRAPINVOICE_HEAD.ToLoc_code,TSPL_SCRAPINVOICE_HEAD.TAX1,TSPL_SCRAPINVOICE_HEAD.TAX1_Rate,TSPL_SCRAPINVOICE_HEAD.TAX1_Amt,TSPL_SCRAPINVOICE_HEAD.TAX1_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX2,TSPL_SCRAPINVOICE_HEAD.TAX2_Rate,TSPL_SCRAPINVOICE_HEAD.TAX2_Amt,TSPL_SCRAPINVOICE_HEAD.TAX2_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX3,TSPL_SCRAPINVOICE_HEAD.TAX3_Rate,TSPL_SCRAPINVOICE_HEAD.TAX3_Amt,TSPL_SCRAPINVOICE_HEAD.TAX3_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX4,TSPL_SCRAPINVOICE_HEAD.TAX4_Rate,TSPL_SCRAPINVOICE_HEAD.TAX4_Amt,TSPL_SCRAPINVOICE_HEAD.TAX4_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX5,TSPL_SCRAPINVOICE_HEAD.TAX5_Rate,TSPL_SCRAPINVOICE_HEAD.TAX5_Amt,TSPL_SCRAPINVOICE_HEAD.TAX5_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX6,TSPL_SCRAPINVOICE_HEAD.TAX6_Rate,TSPL_SCRAPINVOICE_HEAD.TAX6_Amt,TSPL_SCRAPINVOICE_HEAD.TAX6_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX7,TSPL_SCRAPINVOICE_HEAD.TAX7_Rate,TSPL_SCRAPINVOICE_HEAD.TAX7_Amt,TSPL_SCRAPINVOICE_HEAD.TAX7_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX8,TSPL_SCRAPINVOICE_HEAD.TAX8_Rate,TSPL_SCRAPINVOICE_HEAD.TAX8_Amt,TSPL_SCRAPINVOICE_HEAD.TAX8_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX9,TSPL_SCRAPINVOICE_HEAD.TAX9_Rate,TSPL_SCRAPINVOICE_HEAD.TAX9_Amt,TSPL_SCRAPINVOICE_HEAD.TAX9_Base_Amt,TSPL_SCRAPINVOICE_HEAD.TAX10,TSPL_SCRAPINVOICE_HEAD.TAX10_Rate,TSPL_SCRAPINVOICE_HEAD.TAX10_Amt,TSPL_SCRAPINVOICE_HEAD.TAX10_Base_Amt,TSPL_SCRAPINVOICE_HEAD.Add_Amt,TSPL_SCRAPINVOICE_HEAD.Before_add_Amt,TSPL_SCRAPINVOICE_HEAD.Discount_Base,TSPL_SCRAPINVOICE_HEAD.Discount_Amt,TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount,TSPL_SCRAPINVOICE_HEAD.Total_Tax_Amt,TSPL_SCRAPINVOICE_HEAD.ship_total_Amt,TSPL_SCRAPINVOICE_HEAD.Comp_Code,TSPL_SCRAPINVOICE_HEAD.Terms_Code,TSPL_SCRAPINVOICE_HEAD.Due_Date ,TSPL_SCRAPINVOICE_HEAD.AddCode1,TSPL_SCRAPINVOICE_HEAD.AddDesc1,TSPL_SCRAPINVOICE_HEAD.AddAmt1,TSPL_SCRAPINVOICE_HEAD.AddCode2,TSPL_SCRAPINVOICE_HEAD.AddDesc2,TSPL_SCRAPINVOICE_HEAD.AddAmt2,TSPL_SCRAPINVOICE_HEAD.AddCode3,TSPL_SCRAPINVOICE_HEAD.AddDesc3,TSPL_SCRAPINVOICE_HEAD.AddAmt3,TSPL_SCRAPINVOICE_HEAD.AddCode4,TSPL_SCRAPINVOICE_HEAD.AddDesc4,TSPL_SCRAPINVOICE_HEAD.AddAmt4,TSPL_SCRAPINVOICE_HEAD.AddCode5,TSPL_SCRAPINVOICE_HEAD.AddDesc5,TSPL_SCRAPINVOICE_HEAD.AddAmt5,TSPL_SCRAPINVOICE_HEAD.AddCode6,TSPL_SCRAPINVOICE_HEAD.AddDesc6,TSPL_SCRAPINVOICE_HEAD.AddAmt6,TSPL_SCRAPINVOICE_HEAD.AddCode7,TSPL_SCRAPINVOICE_HEAD.AddDesc7,TSPL_SCRAPINVOICE_HEAD.AddAmt7,TSPL_SCRAPINVOICE_HEAD.AddCode8,TSPL_SCRAPINVOICE_HEAD.AddDesc8,TSPL_SCRAPINVOICE_HEAD.AddAmt8,TSPL_SCRAPINVOICE_HEAD.AddCode9,TSPL_SCRAPINVOICE_HEAD.AddDesc9,TSPL_SCRAPINVOICE_HEAD.AddAmt9,TSPL_SCRAPINVOICE_HEAD.AddCode10,TSPL_SCRAPINVOICE_HEAD.AddDesc10,TSPL_SCRAPINVOICE_HEAD.AddAmt10,TSPL_SCRAPINVOICE_HEAD.Balance_Amt,TSPL_LOCATION_MASTER.Location_Desc as ToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SCRAPINVOICE_HEAD.RoundOffAmount,TSPL_SCRAPINVOICE_HEAD.IRN_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.QR_Code,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_SCRAPINVOICE_HEAD.EWayBillValidDate,TSPL_SCRAPINVOICE_HEAD.EWayBillRemarks,TSPL_SCRAPINVOICE_HEAD.IsEwaybill FROM TSPL_SCRAPINVOICE_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.loc_code left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SCRAPINVOICE_HEAD.loc_code  left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SCRAPINVOICE_HEAD.Terms_Code where 2=2"
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_SCRAPINVOICE_HEAD.invoice_No = (select MIN(invoice_No) from TSPL_SCRAPINVOICE_HEAD)"
@@ -483,6 +486,7 @@ Public Class ClsScrapInvoiceHead
             obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
             obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
             obj.Due_Date = clsCommon.myCstr(dt.Rows(0)("Due_Date"))
+            obj.isEwaybill = clsCommon.myCdbl(dt.Rows(0)("isEwaybill"))
 
             obj.Doc_Type = clsCommon.myCstr(dt.Rows(0)("Doc_Type"))
 
@@ -567,7 +571,7 @@ Public Class ClsScrapInvoiceHead
 
     Public Shared Function GetDataShipment(ByVal strPONO As String) As ClsScrapInvoiceHead
         Dim obj As ClsScrapInvoiceHead = Nothing
-        Dim qry As String = "SELECT tspl_scrapsale_head.shipment_No,tspl_scrapsale_head.shipment_Date,tspl_scrapsale_head.cust_Code,tspl_scrapsale_head.Po_No,tspl_scrapsale_head.invoice_No,tspl_scrapsale_head.cust_Name,tspl_scrapsale_head.shipment_date,tspl_scrapsale_head.posting_date,tspl_scrapsale_head.expship_date,tspl_scrapsale_head.Status,tspl_scrapsale_head.CreateInvoice,tspl_scrapsale_head.ispost,tspl_scrapsale_head.Description,tspl_scrapsale_head.reff,tspl_scrapsale_head.Tax_Group,tspl_scrapsale_head.tax_desc,tspl_scrapsale_head.loc_code,tspl_scrapsale_head.loc_Name,tspl_scrapsale_head.ToLoc_code,tspl_scrapsale_head.TAX1,tspl_scrapsale_head.TAX1_Rate,tspl_scrapsale_head.TAX1_Amt,tspl_scrapsale_head.TAX1_Base_Amt,tspl_scrapsale_head.TAX2,tspl_scrapsale_head.TAX2_Rate,tspl_scrapsale_head.TAX2_Amt,tspl_scrapsale_head.TAX2_Base_Amt,tspl_scrapsale_head.TAX3,tspl_scrapsale_head.TAX3_Rate,tspl_scrapsale_head.TAX3_Amt,tspl_scrapsale_head.TAX3_Base_Amt,tspl_scrapsale_head.TAX4,tspl_scrapsale_head.TAX4_Rate,tspl_scrapsale_head.TAX4_Amt,tspl_scrapsale_head.TAX4_Base_Amt,tspl_scrapsale_head.TAX5,tspl_scrapsale_head.TAX5_Rate,tspl_scrapsale_head.TAX5_Amt,tspl_scrapsale_head.TAX5_Base_Amt,tspl_scrapsale_head.TAX6,tspl_scrapsale_head.TAX6_Rate,tspl_scrapsale_head.TAX6_Amt,tspl_scrapsale_head.TAX6_Base_Amt,tspl_scrapsale_head.TAX7,tspl_scrapsale_head.TAX7_Rate,tspl_scrapsale_head.TAX7_Amt,tspl_scrapsale_head.TAX7_Base_Amt,tspl_scrapsale_head.TAX8,tspl_scrapsale_head.TAX8_Rate,tspl_scrapsale_head.TAX8_Amt,tspl_scrapsale_head.TAX8_Base_Amt,tspl_scrapsale_head.TAX9,tspl_scrapsale_head.TAX9_Rate,tspl_scrapsale_head.TAX9_Amt,tspl_scrapsale_head.TAX9_Base_Amt,tspl_scrapsale_head.TAX10,tspl_scrapsale_head.TAX10_Rate,tspl_scrapsale_head.TAX10_Amt,tspl_scrapsale_head.TAX10_Base_Amt,tspl_scrapsale_head.Addcost,tspl_scrapsale_head.AddCostDesc,tspl_scrapsale_head.Add_Amt,tspl_scrapsale_head.Before_add_Amt,tspl_scrapsale_head.After_Add_Amt,tspl_scrapsale_head.Discount_Base,tspl_scrapsale_head.Discount_Amt,tspl_scrapsale_head.Amount_Less_Discount,tspl_scrapsale_head.Total_Tax_Amt,tspl_scrapsale_head.ship_total_Amt,tspl_scrapsale_head.Comp_Code,tspl_scrapsale_head.Terms_Code,tspl_scrapsale_head.Due_Date ,tspl_scrapsale_head.AddCode1,tspl_scrapsale_head.AddDesc1,tspl_scrapsale_head.AddAmt1,tspl_scrapsale_head.AddCode2,tspl_scrapsale_head.AddDesc2,tspl_scrapsale_head.AddAmt2,tspl_scrapsale_head.AddCode3,tspl_scrapsale_head.AddDesc3,tspl_scrapsale_head.AddAmt3,tspl_scrapsale_head.AddCode4,tspl_scrapsale_head.AddDesc4,tspl_scrapsale_head.AddAmt4,tspl_scrapsale_head.AddCode5,tspl_scrapsale_head.AddDesc5,tspl_scrapsale_head.AddAmt5,tspl_scrapsale_head.AddCode6,tspl_scrapsale_head.AddDesc6,tspl_scrapsale_head.AddAmt6,tspl_scrapsale_head.AddCode7,tspl_scrapsale_head.AddDesc7,tspl_scrapsale_head.AddAmt7,tspl_scrapsale_head.AddCode8,tspl_scrapsale_head.AddDesc8,tspl_scrapsale_head.AddAmt8,tspl_scrapsale_head.AddCode9,tspl_scrapsale_head.AddDesc9,tspl_scrapsale_head.AddAmt9,tspl_scrapsale_head.AddCode10,tspl_scrapsale_head.AddDesc10,tspl_scrapsale_head.AddAmt10,TSPL_LOCATION_MASTER.Location_Desc as ToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SCRAPINVOICE_HEAD.IRN_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.QR_Code,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_SCRAPINVOICE_HEAD.EWayBillValidDate,TSPL_SCRAPINVOICE_HEAD.EWayBillRemarks FROM tspl_scrapsale_head 
+        Dim qry As String = "SELECT tspl_scrapsale_head.shipment_No,tspl_scrapsale_head.shipment_Date,tspl_scrapsale_head.cust_Code,tspl_scrapsale_head.Po_No,tspl_scrapsale_head.invoice_No,tspl_scrapsale_head.cust_Name,tspl_scrapsale_head.shipment_date,tspl_scrapsale_head.posting_date,tspl_scrapsale_head.expship_date,tspl_scrapsale_head.Status,tspl_scrapsale_head.CreateInvoice,tspl_scrapsale_head.ispost,tspl_scrapsale_head.Description,tspl_scrapsale_head.reff,tspl_scrapsale_head.Tax_Group,tspl_scrapsale_head.tax_desc,tspl_scrapsale_head.loc_code,tspl_scrapsale_head.loc_Name,tspl_scrapsale_head.ToLoc_code,tspl_scrapsale_head.TAX1,tspl_scrapsale_head.TAX1_Rate,tspl_scrapsale_head.TAX1_Amt,tspl_scrapsale_head.TAX1_Base_Amt,tspl_scrapsale_head.TAX2,tspl_scrapsale_head.TAX2_Rate,tspl_scrapsale_head.TAX2_Amt,tspl_scrapsale_head.TAX2_Base_Amt,tspl_scrapsale_head.TAX3,tspl_scrapsale_head.TAX3_Rate,tspl_scrapsale_head.TAX3_Amt,tspl_scrapsale_head.TAX3_Base_Amt,tspl_scrapsale_head.TAX4,tspl_scrapsale_head.TAX4_Rate,tspl_scrapsale_head.TAX4_Amt,tspl_scrapsale_head.TAX4_Base_Amt,tspl_scrapsale_head.TAX5,tspl_scrapsale_head.TAX5_Rate,tspl_scrapsale_head.TAX5_Amt,tspl_scrapsale_head.TAX5_Base_Amt,tspl_scrapsale_head.TAX6,tspl_scrapsale_head.TAX6_Rate,tspl_scrapsale_head.TAX6_Amt,tspl_scrapsale_head.TAX6_Base_Amt,tspl_scrapsale_head.TAX7,tspl_scrapsale_head.TAX7_Rate,tspl_scrapsale_head.TAX7_Amt,tspl_scrapsale_head.TAX7_Base_Amt,tspl_scrapsale_head.TAX8,tspl_scrapsale_head.TAX8_Rate,tspl_scrapsale_head.TAX8_Amt,tspl_scrapsale_head.TAX8_Base_Amt,tspl_scrapsale_head.TAX9,tspl_scrapsale_head.TAX9_Rate,tspl_scrapsale_head.TAX9_Amt,tspl_scrapsale_head.TAX9_Base_Amt,tspl_scrapsale_head.TAX10,tspl_scrapsale_head.TAX10_Rate,tspl_scrapsale_head.TAX10_Amt,tspl_scrapsale_head.TAX10_Base_Amt,tspl_scrapsale_head.Addcost,tspl_scrapsale_head.AddCostDesc,tspl_scrapsale_head.Add_Amt,tspl_scrapsale_head.Before_add_Amt,tspl_scrapsale_head.After_Add_Amt,tspl_scrapsale_head.Discount_Base,tspl_scrapsale_head.Discount_Amt,tspl_scrapsale_head.Amount_Less_Discount,tspl_scrapsale_head.Total_Tax_Amt,tspl_scrapsale_head.ship_total_Amt,tspl_scrapsale_head.Comp_Code,tspl_scrapsale_head.Terms_Code,tspl_scrapsale_head.Due_Date ,tspl_scrapsale_head.AddCode1,tspl_scrapsale_head.AddDesc1,tspl_scrapsale_head.AddAmt1,tspl_scrapsale_head.AddCode2,tspl_scrapsale_head.AddDesc2,tspl_scrapsale_head.AddAmt2,tspl_scrapsale_head.AddCode3,tspl_scrapsale_head.AddDesc3,tspl_scrapsale_head.AddAmt3,tspl_scrapsale_head.AddCode4,tspl_scrapsale_head.AddDesc4,tspl_scrapsale_head.AddAmt4,tspl_scrapsale_head.AddCode5,tspl_scrapsale_head.AddDesc5,tspl_scrapsale_head.AddAmt5,tspl_scrapsale_head.AddCode6,tspl_scrapsale_head.AddDesc6,tspl_scrapsale_head.AddAmt6,tspl_scrapsale_head.AddCode7,tspl_scrapsale_head.AddDesc7,tspl_scrapsale_head.AddAmt7,tspl_scrapsale_head.AddCode8,tspl_scrapsale_head.AddDesc8,tspl_scrapsale_head.AddAmt8,tspl_scrapsale_head.AddCode9,tspl_scrapsale_head.AddDesc9,tspl_scrapsale_head.AddAmt9,tspl_scrapsale_head.AddCode10,tspl_scrapsale_head.AddDesc10,tspl_scrapsale_head.AddAmt10,TSPL_LOCATION_MASTER.Location_Desc as ToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SCRAPINVOICE_HEAD.IRN_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.QR_Code,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_SCRAPINVOICE_HEAD.EWayBillValidDate,TSPL_SCRAPINVOICE_HEAD.EWayBillRemarks,tspl_scrapsale_head.IsEwaybill FROM tspl_scrapsale_head 
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=tspl_scrapsale_head.loc_code 
 left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No
 left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=tspl_scrapsale_head.loc_code  
@@ -611,6 +615,7 @@ left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=tspl_scrapsale
             If Not IsDBNull(dt.Rows(0)("Ack_Date")) Then
                 obj.EInvoiceAckDate = clsCommon.myCDate(dt.Rows(0)("Ack_Date"))
             End If
+            obj.isEwaybill = clsCommon.myCdbl(dt.Rows(0)("isEwaybill"))
             obj.EInvoiceQRCode = clsCommon.myCstr(dt.Rows(0)("QR_COde"))
             obj.shipment_No = clsCommon.myCstr(dt.Rows(0)("shipment_No"))
             obj.invoice_No = clsCommon.myCstr(dt.Rows(0)("invoice_No"))
@@ -809,7 +814,7 @@ left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=tspl_scrapsale
         End Try
         Return True
     End Function
-    Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal stopEWayBill As Boolean) As Boolean
         Try
             Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -839,7 +844,7 @@ Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code  =TSPL_SCRA
 Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCRAPINVOICE_HEAD.Vehicle_Id
  where TSPL_SCRAPINVOICE_HEAD.invoice_No ='" & strDocNo & "'"
 
-                Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans)
+                Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, stopEWayBill)
                 If objResult IsNot Nothing Then
                     'assign to variable
                     Dim AckNo As String = objResult.SelectToken("AckNo").ToString
@@ -852,17 +857,20 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SCRAPINVOICE_HEAD", "TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strDocNo & "'", trans)
 
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then
-                        Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
-                        Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
-                        Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
-                        Dim Remarks As String = objResult.SelectToken("Remarks").ToString
-                        If clsCommon.myLen(EwbDt) > 0 Then
-                            EwbDt = clsCommon.GetPrintDate(EwbDt, "dd/MMM/yyyy hh:mm tt")
+                        If Not stopEWayBill Then
+                            Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
+                            Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
+                            Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
+                            Dim Remarks As String = objResult.SelectToken("Remarks").ToString
+                            If clsCommon.myLen(EwbDt) > 0 Then
+                                EwbDt = clsCommon.GetPrintDate(EwbDt, "dd/MMM/yyyy hh:mm tt")
+                            End If
+                            If clsCommon.myLen(EwbValidTill) > 0 Then
+                                EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
+                            End If
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where invoice_No ='" & strDocNo & "' ", trans)
                         End If
-                        If clsCommon.myLen(EwbValidTill) > 0 Then
-                            EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
-                        End If
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where invoice_No ='" & strDocNo & "' ", trans)
+
                     End If
 
                 Else
@@ -1239,10 +1247,18 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
             If Is_Create_E_Invoice = 1 Then
                 If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
-                    If ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans) = True Then
+                    If obj.isEwaybill = 1 Then
+                        If ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, False) = True Then
+                        Else
+                            Throw New Exception("Invalid JSON Value")
+                        End If
                     Else
-                        Throw New Exception("Invalid JSON Value")
+                        If ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, True) = True Then
+                        Else
+                            Throw New Exception("Invalid JSON Value")
+                        End If
                     End If
+
                     '    If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) > 0 Then
                     '        ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, False)
                     '        If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
@@ -1258,7 +1274,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                     '        End If
                     '    End If
                 End If
-            End If
+                End If
             ''------------------------------
         Catch ex As Exception
             Throw New Exception(ex.Message)

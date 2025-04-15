@@ -537,7 +537,16 @@ Public Class clsCreateAllTable
             coll.Add("Union_Contact_Person", "Varchar(30) null ")
             coll.Add("Union_Contact_PhoneNo", "Varchar(30) null ")
             coll.Add("ISO_No", "Varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_COMPANY_MASTER", coll)
+            coll.Add("PCCN1", "Varchar(30) null ")
+            coll.Add("PCCN2", "Varchar(30) null ")
+            coll.Add("PCCP1", "Varchar(50) null ")
+            coll.Add("PCCP2", "Varchar(50) null ")
+            coll.Add("OCCN1", "Varchar(30) null ")
+            coll.Add("OCCN2", "Varchar(30) null ")
+            coll.Add("OCCP1", "Varchar(50) null ")
+            coll.Add("OCCP2", "Varchar(50) null ")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_COMPANY_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COMPANY_MASTER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Str_Code", "varchar(12)  NOT NULL PRIMARY KEY")
@@ -27516,6 +27525,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
             coll.Add("Create_E_Invoice", "integer not null default 0")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -33600,6 +33610,7 @@ LL")
             coll.Add("Total_Outstanding", "decimal(18,2) null")
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Inter_unit_sale", "Integer default 0")
+            coll.Add("IsEwaybill", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
@@ -54590,6 +54601,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Lot_No", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "", True)
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL_INVALID", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL_HOLD", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "", True)
 
 
             coll = New Dictionary(Of String, String)()

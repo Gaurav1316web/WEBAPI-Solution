@@ -200,11 +200,14 @@ Public Class frmCustomerListRpt
                 qry += " max(TSPL_CUSTOMER_MASTER.Route_No) As [Route No]"
 
             End If
-            qry += ",max(TSPL_CUSTOMER_MASTER.Route_Desc) As [Route Description] ,max(TSPL_CUSTOMER_MASTER.Zone_Code) as [Zone Code],max(TSPL_ZONE_MASTER.Description) as [Zone Desc]  ,max(TSPL_CUSTOMER_MASTER.GSTNO) as GSTNO , max(TSPL_STATE_MASTER.GST_STATE_Code) as [GST STATE Code], max(TSPL_STATE_MASTER.STATE_NAME) as [State Name] , max(case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end) as Registered    FROM TSPL_CUSTOMER_MASTER  Left Outer JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Category_Code = TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Left Outer Join TSPL_CUSTOMER_MASTER as tabDistributor on tabDistributor.Cust_Code=TSPL_CUSTOMER_MASTER.Distributor_Code  LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No 
+            qry += ",max(TSPL_CUSTOMER_MASTER.Route_Desc) As [Route Description] ,max(TSPL_CUSTOMER_MASTER.Zone_Code) as [Zone Code],max(TSPL_ZONE_MASTER.Description) as [Zone Desc]  ,max(TSPL_CUSTOMER_MASTER.GSTNO) as GSTNO , max(TSPL_STATE_MASTER.GST_STATE_Code) as [GST STATE Code], max(TSPL_STATE_MASTER.STATE_NAME) as [State Name] , max(case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end) as Registered 
+	                   ,max(TSPL_VENDOR_MASTER.Latitude)Latitude,max(TSPL_VENDOR_MASTER.Longitude)Longitude
+                      FROM TSPL_CUSTOMER_MASTER  Left Outer JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Category_Code = TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Left Outer Join TSPL_CUSTOMER_MASTER as tabDistributor on tabDistributor.Cust_Code=TSPL_CUSTOMER_MASTER.Distributor_Code  LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No 
                        Left OUTER join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-                       left outer join TSPL_STATE_MASTER  on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code 
-                     Where 2=2 And TSPL_CUSTOMER_MASTER.IsDistributor='N' 
-            "
+                       left outer join TSPL_STATE_MASTER  on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State
+					  left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code 
+					   left outer join  TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Zone_Code=TSPL_ZONE_MASTER.Zone_Code
+					  Where 2=2 And TSPL_CUSTOMER_MASTER.IsDistributor='N' "
 
             If Not chkcustomerAll.IsChecked = True Then
                 qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" + (clsCommon.GetMulcallString(cbgcustomer.CheckedValue)) + ")"
@@ -357,6 +360,14 @@ Public Class frmCustomerListRpt
         gv.Columns("Security Amount").IsVisible = True
         gv.Columns("Security Amount").Width = 100
         gv.Columns("Security Amount").HeaderText = " Security Amount"
+
+        gv.Columns("Latitude").IsVisible = True
+        gv.Columns("Latitude").Width = 100
+        gv.Columns("Latitude").HeaderText = " Latitude"
+
+        gv.Columns("Longitude").IsVisible = True
+        gv.Columns("Longitude").Width = 100
+        gv.Columns("Longitude").HeaderText = " Longitude"
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
 
