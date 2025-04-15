@@ -133,6 +133,17 @@ Partial Class frmMccMaterialSaleReturn
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblTotalSubsidy = New common.Controls.MyLabel()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.lblGrossAmount = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkRateDiffAmt = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkRateDiffRate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.txtRateAmt = New common.MyNumBox()
+        Me.txtRatePer = New common.MyNumBox()
+        Me.lblTotalDisSubsidy = New common.Controls.MyLabel()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.lblRound_Off = New common.Controls.MyLabel()
         Me.txtRoundOff = New common.Controls.MyLabel()
@@ -165,6 +176,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.bntInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -188,7 +200,6 @@ Partial Class frmMccMaterialSaleReturn
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -291,6 +302,18 @@ Partial Class frmMccMaterialSaleReturn
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.lblTotalSubsidy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.chkRateDiffAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRateDiffRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRateAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalDisSubsidy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRound_Off, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRoundOff, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -323,6 +346,7 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.bntInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -338,7 +362,6 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -371,8 +394,8 @@ Partial Class frmMccMaterialSaleReturn
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(970, 460)
-        Me.SplitContainer1.SplitterDistance = 428
+        Me.SplitContainer1.Size = New System.Drawing.Size(970, 530)
+        Me.SplitContainer1.SplitterDistance = 498
         Me.SplitContainer1.TabIndex = 1
         '
         'RadPageView1
@@ -387,8 +410,8 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(970, 428)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.Size = New System.Drawing.Size(970, 498)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -874,6 +897,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1973,6 +1997,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2026,6 +2051,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2096,6 +2122,15 @@ Partial Class frmMccMaterialSaleReturn
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.lblTotalSubsidy)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel16)
+        Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel17)
+        Me.RadPageViewPage4.Controls.Add(Me.txtRateAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.txtRatePer)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTotalDisSubsidy)
         Me.RadPageViewPage4.Controls.Add(Me.btnReverseAndUnpost)
         Me.RadPageViewPage4.Controls.Add(Me.lblRound_Off)
         Me.RadPageViewPage4.Controls.Add(Me.txtRoundOff)
@@ -2124,14 +2159,167 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(949, 452)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'lblTotalSubsidy
+        '
+        Me.lblTotalSubsidy.AutoSize = False
+        Me.lblTotalSubsidy.BorderVisible = True
+        Me.lblTotalSubsidy.FieldName = Nothing
+        Me.lblTotalSubsidy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalSubsidy.Location = New System.Drawing.Point(369, 338)
+        Me.lblTotalSubsidy.Name = "lblTotalSubsidy"
+        Me.lblTotalSubsidy.Size = New System.Drawing.Size(110, 18)
+        Me.lblTotalSubsidy.TabIndex = 1436
+        Me.lblTotalSubsidy.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalSubsidy.Visible = False
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(120, 364)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel16.TabIndex = 1430
+        Me.MyLabel16.Text = "Gross Amount"
+        '
+        'lblGrossAmount
+        '
+        Me.lblGrossAmount.AutoSize = False
+        Me.lblGrossAmount.BorderVisible = True
+        Me.lblGrossAmount.FieldName = Nothing
+        Me.lblGrossAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGrossAmount.Location = New System.Drawing.Point(222, 363)
+        Me.lblGrossAmount.Name = "lblGrossAmount"
+        Me.lblGrossAmount.Size = New System.Drawing.Size(110, 18)
+        Me.lblGrossAmount.TabIndex = 1429
+        Me.lblGrossAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(132, 313)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(83, 18)
+        Me.MyLabel15.TabIndex = 1424
+        Me.MyLabel15.Text = "Rate Difference"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.chkRateDiffAmt)
+        Me.RadGroupBox4.Controls.Add(Me.chkRateDiffRate)
+        Me.RadGroupBox4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(222, 313)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(141, 21)
+        Me.RadGroupBox4.TabIndex = 1425
+        '
+        'chkRateDiffAmt
+        '
+        Me.chkRateDiffAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkRateDiffAmt.Location = New System.Drawing.Point(66, 2)
+        Me.chkRateDiffAmt.Name = "chkRateDiffAmt"
+        Me.chkRateDiffAmt.Size = New System.Drawing.Size(59, 16)
+        Me.chkRateDiffAmt.TabIndex = 1
+        Me.chkRateDiffAmt.Text = "Amount"
+        '
+        'chkRateDiffRate
+        '
+        Me.chkRateDiffRate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkRateDiffRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkRateDiffRate.Location = New System.Drawing.Point(15, 2)
+        Me.chkRateDiffRate.Name = "chkRateDiffRate"
+        Me.chkRateDiffRate.Size = New System.Drawing.Size(44, 16)
+        Me.chkRateDiffRate.TabIndex = 0
+        Me.chkRateDiffRate.Text = "Rate"
+        Me.chkRateDiffRate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Location = New System.Drawing.Point(264, 339)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(15, 18)
+        Me.MyLabel17.TabIndex = 1427
+        Me.MyLabel17.Text = "%"
+        '
+        'txtRateAmt
+        '
+        Me.txtRateAmt.BackColor = System.Drawing.Color.White
+        Me.txtRateAmt.CalculationExpression = Nothing
+        Me.txtRateAmt.DecimalPlaces = 5
+        Me.txtRateAmt.FieldCode = Nothing
+        Me.txtRateAmt.FieldDesc = Nothing
+        Me.txtRateAmt.FieldMaxLength = 0
+        Me.txtRateAmt.FieldName = Nothing
+        Me.txtRateAmt.isCalculatedField = False
+        Me.txtRateAmt.IsSourceFromTable = False
+        Me.txtRateAmt.IsSourceFromValueList = False
+        Me.txtRateAmt.IsUnique = False
+        Me.txtRateAmt.Location = New System.Drawing.Point(283, 337)
+        Me.txtRateAmt.MendatroryField = False
+        Me.txtRateAmt.MyLinkLable1 = Nothing
+        Me.txtRateAmt.MyLinkLable2 = Nothing
+        Me.txtRateAmt.Name = "txtRateAmt"
+        Me.txtRateAmt.ReferenceFieldDesc = Nothing
+        Me.txtRateAmt.ReferenceFieldName = Nothing
+        Me.txtRateAmt.ReferenceTableName = Nothing
+        Me.txtRateAmt.Size = New System.Drawing.Size(80, 20)
+        Me.txtRateAmt.TabIndex = 1428
+        Me.txtRateAmt.Text = "0"
+        Me.txtRateAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRateAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtRatePer
+        '
+        Me.txtRatePer.BackColor = System.Drawing.Color.White
+        Me.txtRatePer.CalculationExpression = Nothing
+        Me.txtRatePer.DecimalPlaces = 5
+        Me.txtRatePer.FieldCode = Nothing
+        Me.txtRatePer.FieldDesc = Nothing
+        Me.txtRatePer.FieldMaxLength = 0
+        Me.txtRatePer.FieldName = Nothing
+        Me.txtRatePer.isCalculatedField = False
+        Me.txtRatePer.IsSourceFromTable = False
+        Me.txtRatePer.IsSourceFromValueList = False
+        Me.txtRatePer.IsUnique = False
+        Me.txtRatePer.Location = New System.Drawing.Point(222, 337)
+        Me.txtRatePer.MendatroryField = False
+        Me.txtRatePer.MyLinkLable1 = Nothing
+        Me.txtRatePer.MyLinkLable2 = Nothing
+        Me.txtRatePer.Name = "txtRatePer"
+        Me.txtRatePer.ReferenceFieldDesc = Nothing
+        Me.txtRatePer.ReferenceFieldName = Nothing
+        Me.txtRatePer.ReferenceTableName = Nothing
+        Me.txtRatePer.Size = New System.Drawing.Size(39, 20)
+        Me.txtRatePer.TabIndex = 1426
+        Me.txtRatePer.Text = "0"
+        Me.txtRatePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRatePer.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'lblTotalDisSubsidy
+        '
+        Me.lblTotalDisSubsidy.AutoSize = False
+        Me.lblTotalDisSubsidy.BorderVisible = True
+        Me.lblTotalDisSubsidy.FieldName = Nothing
+        Me.lblTotalDisSubsidy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalDisSubsidy.Location = New System.Drawing.Point(365, 107)
+        Me.lblTotalDisSubsidy.Name = "lblTotalDisSubsidy"
+        Me.lblTotalDisSubsidy.Size = New System.Drawing.Size(110, 18)
+        Me.lblTotalDisSubsidy.TabIndex = 1423
+        Me.lblTotalDisSubsidy.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalDisSubsidy.Visible = False
         '
         'btnReverseAndUnpost
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(645, 189)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(645, 288)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(236, 18)
         Me.btnReverseAndUnpost.TabIndex = 1411
@@ -2211,7 +2399,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -2403,7 +2591,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.txtDiscAmt.TabIndex = 162
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0R
+        Me.txtDiscAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadLabel9
         '
@@ -2440,7 +2628,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.txtDiscPer.TabIndex = 160
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0R
+        Me.txtDiscPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadLabel27
         '
@@ -2541,6 +2729,16 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadLabel19.Size = New System.Drawing.Size(186, 16)
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
+        '
+        'btnHistory1
+        '
+        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory1.Location = New System.Drawing.Point(233, 6)
+        Me.btnHistory1.Name = "btnHistory1"
+        Me.btnHistory1.Size = New System.Drawing.Size(62, 22)
+        Me.btnHistory1.TabIndex = 10
+        Me.btnHistory1.Text = "History"
         '
         'btnShowInventory
         '
@@ -2716,7 +2914,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(970, 460)
+        Me.Panel1.Size = New System.Drawing.Size(970, 530)
         Me.Panel1.TabIndex = 4
         '
         'RadMenuItem2
@@ -2750,21 +2948,11 @@ Partial Class frmMccMaterialSaleReturn
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'btnHistory1
-        '
-        Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory1.Location = New System.Drawing.Point(233, 6)
-        Me.btnHistory1.Name = "btnHistory1"
-        Me.btnHistory1.Size = New System.Drawing.Size(62, 22)
-        Me.btnHistory1.TabIndex = 10
-        Me.btnHistory1.Text = "History"
-        '
         'frmMccMaterialSaleReturn
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(970, 480)
+        Me.ClientSize = New System.Drawing.Size(970, 550)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -2885,6 +3073,19 @@ Partial Class frmMccMaterialSaleReturn
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.lblTotalSubsidy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.chkRateDiffAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRateDiffRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRateAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalDisSubsidy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRound_Off, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRoundOff, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2919,6 +3120,7 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.bntInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2934,7 +3136,6 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3103,5 +3304,16 @@ Partial Class frmMccMaterialSaleReturn
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtSubLocation As common.UserControls.txtFinder
     Friend WithEvents btnHistory1 As RadButton
+    Friend WithEvents lblTotalDisSubsidy As common.Controls.MyLabel
+    Friend WithEvents lblTotalSubsidy As common.Controls.MyLabel
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents lblGrossAmount As common.Controls.MyLabel
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents chkRateDiffAmt As RadRadioButton
+    Friend WithEvents chkRateDiffRate As RadRadioButton
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents txtRateAmt As common.MyNumBox
+    Friend WithEvents txtRatePer As common.MyNumBox
 End Class
 
