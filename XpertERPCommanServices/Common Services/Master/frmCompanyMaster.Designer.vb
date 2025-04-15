@@ -2174,7 +2174,7 @@ Partial Class FrmCompanyMaster
         Me.RpMobileDetail.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RpMobileDetail.Location = New System.Drawing.Point(1, 1)
         Me.RpMobileDetail.Name = "RpMobileDetail"
-        Me.RpMobileDetail.SelectedPage = Me.RadPageViewPage1
+        Me.RpMobileDetail.SelectedPage = Me.RadPageMobile
         Me.RpMobileDetail.Size = New System.Drawing.Size(828, 557)
         Me.RpMobileDetail.TabIndex = 0
         CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2728,11 +2728,11 @@ Partial Class FrmCompanyMaster
         Me.RadPageMobile.Controls.Add(Me.RadGroupBox4)
         Me.RadPageMobile.Controls.Add(Me.RadGroupBox5)
         Me.RadPageMobile.Enabled = False
-        Me.RadPageMobile.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
+        Me.RadPageMobile.ItemSize = New System.Drawing.SizeF(122.0!, 28.0!)
         Me.RadPageMobile.Location = New System.Drawing.Point(10, 37)
         Me.RadPageMobile.Name = "RadPageMobile"
         Me.RadPageMobile.Size = New System.Drawing.Size(807, 509)
-        Me.RadPageMobile.Text = "Mobile Detail"
+        Me.RadPageMobile.Text = "Customer Care Detail"
         '
         'RadGroupBox4
         '
