@@ -8573,7 +8573,7 @@ a:          End If
                 clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
-                txtRateAmt.Text = 0
+                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
             ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
                 txtRatePer.Text = 0
             End If
@@ -8588,6 +8588,7 @@ a:          End If
                 '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
                 'End If
                 If MultiplySubsidyWithQuantity Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
                     lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
 
                 Else

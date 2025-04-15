@@ -15,6 +15,8 @@ Public Class frmMccMaterialSaleReturn
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Private StrSql As String
     Private blnBackCalculation As Boolean = False
+    Dim TotalItemQty As Decimal = 0
+    Private MultiplySubsidyWithQuantity As Boolean = False
     Private AllowChangeInvoiceType As Boolean = False
     Private IsBatchMFDEXDmandatory As Boolean = False
     Private PurchaseOneItemOneVendor As Boolean = False
@@ -275,6 +277,7 @@ Public Class frmMccMaterialSaleReturn
         SetMailRight()
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
+        MultiplySubsidyWithQuantity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
         blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
         PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
@@ -298,6 +301,17 @@ Public Class frmMccMaterialSaleReturn
         LoadBlankGridAC()
         AddNew()
         SetLength()
+        If MultiplySubsidyWithQuantity Then
+            txtRateAmt.Enabled = True
+            txtDiscAmt.Enabled = True
+            lblTotalSubsidy.Visible = True
+            lblTotalDisSubsidy.Visible = True
+        Else
+            txtRateAmt.Enabled = False
+            txtDiscAmt.Enabled = False
+            lblTotalSubsidy.Visible = False
+            lblTotalDisSubsidy.Visible = False
+        End If
         LoadReturnType()
         If clsCommon.myLen(strSRNno) > 0 Then
             LoadData(strSRNno, NavigatorType.Current)
@@ -3299,7 +3313,7 @@ Public Class frmMccMaterialSaleReturn
         Dim dblTotDisAmt As Double = 0
         Dim dblAmtAfterDis As Double = 0
         Dim dblTotLandedCost As Double = 0
-
+        TotalItemQty = 0
 
         Dim dblTaxBaseAmt1 As Double = 0
         Dim dblTaxBaseAmt2 As Double = 0
@@ -3358,7 +3372,7 @@ Public Class frmMccMaterialSaleReturn
                 dblTaxBaseAmt8 = dblTaxBaseAmt8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt8).Value)
                 dblTaxBaseAmt9 = dblTaxBaseAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt9).Value)
                 dblTaxBaseAmt10 = dblTaxBaseAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt10).Value)
-
+                TotalItemQty = TotalItemQty + clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                 dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
                 dblNetAmt = dblNetAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
 
@@ -3464,7 +3478,17 @@ Public Class frmMccMaterialSaleReturn
 
         lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt)
-        lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
+
+        If MultiplySubsidyWithQuantity Then
+            Dim AmtAfterDiscount As Decimal = lblAmtWithDiscount.Text
+            Dim InvAmt As Decimal = clsCommon.myCdbl(lblInvoiceDiscAmt.Text)
+            AmtAfterDiscount = AmtAfterDiscount - InvAmt
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(AmtAfterDiscount)
+            lblInvoiceDiscAmt.Text = lblTotalDisSubsidy.Text
+        Else
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
+            lblInvoiceDiscAmt.Text = dblHeadDisAmt + dblHeadDisPerAmt
+        End If
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
 
         lblAddCharges.Text = clsCommon.myFormat(dblACAmount)
@@ -3542,7 +3566,17 @@ Public Class frmMccMaterialSaleReturn
         End If
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
-
+        lblTotalSubsidy.Text = ""
+        If MultiplySubsidyWithQuantity Then
+            txtRateAmt.Enabled = True
+            txtDiscAmt.Enabled = True
+        Else
+            txtRateAmt.Enabled = False
+            txtDiscAmt.Enabled = False
+        End If
+        txtRateAmt.Text = 0
+        txtRatePer.Text = 0
+        lblGrossAmount.Text = ""
     End Sub
 
     Function AllowToSave() As Boolean
@@ -3773,14 +3807,28 @@ Public Class frmMccMaterialSaleReturn
                 obj.Price_Group_Code = txtPriceGroupCode.Text
                 'obj.HeadDisc_Per = txtDiscPer.Text
                 'obj.HeadDisc_Amt = txtDiscAmt.Text
-                obj.HeadDisc_Per = txtDiscPer.Text
+                obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
                 If obj.HeadDisc_Per > 0 Then
-                    obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
+                    If MultiplySubsidyWithQuantity Then
+                        obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
+                    Else
+                        obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
+                    End If
                     obj.HeadDisc_Amt = 0
                 Else
-                    obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
+                    If MultiplySubsidyWithQuantity Then
+                        obj.HeadDisc_Amt = txtDiscAmt.Text
+                    Else
+                        obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
+                    End If
                     obj.HeadDisc_PerAmt = 0
                 End If
+                obj.RateDiff_Per = txtRatePer.Text
+                obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
+                obj.Gross_Amount = lblGrossAmount.Text
+                obj.TotalSubsidyAmt = clsCommon.myCdbl(lblTotalSubsidy.Text)
+                obj.TotalSubsidyDisAmt = clsCommon.myCdbl(lblTotalDisSubsidy.Text)
+
                 obj.Invoice_Type = txtInvoiceType.Text
                 obj.Is_Taxable = chkTaxable.Checked
                 obj.Document_Code = txtDocNo.Value
@@ -4279,6 +4327,7 @@ Public Class frmMccMaterialSaleReturn
 
                 txtDiscPer.Text = obj.HeadDisc_Per
                 txtDiscAmt.Text = obj.HeadDisc_Amt
+
                 ddlReturnType.SelectedValue = obj.Return_Type
                 If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
                     txtDiscPer.Text = obj.HeadDisc_Per
@@ -4291,6 +4340,18 @@ Public Class frmMccMaterialSaleReturn
                         lblInvoiceDiscAmt.Text = obj.HeadDisc_PerAmt
                     End If
                 End If
+                If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                    txtRatePer.Text = obj.RateDiff_Per
+                    If clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                        txtRateAmt.Text = obj.RateDiff_Amt
+                        chkRateDiffAmt.IsChecked = True
+                    Else
+                        chkRateDiffRate.IsChecked = True
+                    End If
+                End If
+                lblTotalSubsidy.Text = obj.TotalSubsidyAmt
+                lblTotalDisSubsidy.Text = obj.TotalSubsidyDisAmt
+                lblGrossAmount.Text = clsCommon.myCdbl(obj.Gross_Amount)
                 If clsCommon.myLen(txtReqNo.Value) > 0 Then
                     txtTaxGroup.Enabled = False
                 End If
@@ -6304,7 +6365,7 @@ Public Class frmMccMaterialSaleReturn
                 gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
                 If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
 
-                    dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                    dblDiscountAmt = Math.Round(txtDiscAmt.Value * TotalItemQty, 2)
                     gro.Cells(colHeadDiscamt).Value = Math.Round((dblDiscountAmt), 2)
                 Else
                     gro.Cells(colHeadDiscamt).Value = 0
@@ -7226,5 +7287,60 @@ Public Class frmMccMaterialSaleReturn
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub chkRateDiffAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkRateDiffAmt.ToggleStateChanged, chkRateDiffRate.ToggleStateChanged
+        If chkRateDiffAmt.IsChecked Then
+            txtRateAmt.Enabled = True
+            txtRatePer.Enabled = False
+            txtRatePer.Text = 0
+        Else
+            txtRateAmt.Enabled = False
+            txtRatePer.Enabled = True
+            txtRatePer.Text = 0
+        End If
+    End Sub
+    Private Sub txtRateAmt_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRateAmt.Leave
+        CalculateRateDiffAmount()
+    End Sub
+    Private Sub txtRatePer_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRatePer.Leave
+        CalculateRateDiffAmount()
+    End Sub
+    Private Sub CalculateRateDiffAmount()
+        Try
+
+            If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
+                clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
+            End If
+            If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
+                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+            ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
+                txtRatePer.Text = 0
+            End If
+            If chkRateDiffAmt.IsChecked Then
+                If MultiplySubsidyWithQuantity Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+
+                Else
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                End If
+            Else
+                lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub txtDiscAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscAmt.KeyPress
+        lblTotalDisSubsidy.Text = clsCommon.myCdbl(txtDiscAmt.Text) * TotalItemQty
+    End Sub
+    Private Sub txtDiscPer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscPer.KeyPress
+        lblTotalDisSubsidy.Text = clsCommon.myRoundOFF(clsCommon.myCdbl(lblAmtWithDiscount.Text) * (clsCommon.myCdbl(txtDiscPer.Text) / 100), 2, 4)
+    End Sub
+    Private Sub txtRateAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRateAmt.KeyPress
+        lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
     End Sub
 End Class

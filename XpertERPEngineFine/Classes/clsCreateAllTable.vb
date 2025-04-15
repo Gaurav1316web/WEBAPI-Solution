@@ -32696,6 +32696,11 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
             coll.Add("Is_ManualTCS", "Integer Default 0")
+            coll.Add("Gross_Amount", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Per", "decimal(18, 2) NULL")
+            coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
+            coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             Try
@@ -32773,7 +32778,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Code", "varchar(50) NOT NULL")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("DamageQty", "decimal(18, 2) NULL")
-            coll.Add("Balance_Qty", "decimal(18, 2) NULL")
+            coll.Add("Balance_Qty", "decimal(18, 2) NU
+LL")
             coll.Add("Invoice_Code", "Varchar(30) null References TSPL_SD_SALE_INVOICE_HEAD(DOCUMENT_CODE)")
             coll.Add("Unit_code", "varchar(12) NULL")
             coll.Add("Location", "varchar(12) NOT NULL")
