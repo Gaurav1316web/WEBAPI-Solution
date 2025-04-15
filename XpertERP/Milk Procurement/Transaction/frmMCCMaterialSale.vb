@@ -8588,7 +8588,7 @@ a:          End If
                 '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
                 'End If
                 If MultiplySubsidyWithQuantity Then
-                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
                     lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
 
                 Else

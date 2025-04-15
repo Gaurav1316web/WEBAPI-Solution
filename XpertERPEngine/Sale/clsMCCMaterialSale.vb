@@ -1784,6 +1784,11 @@ Public Class clsMCCMaterialSale
         obj.HeadDisc_Per = objShipment.HeadDisc_Per
         obj.HeadDisc_Amt = objShipment.HeadDisc_Amt
         obj.HeadDisc_PerAmt = objShipment.HeadDisc_PerAmt
+        obj.RateDiff_Per = objShipment.RateDiff_Per
+        obj.RateDiff_Amt = objShipment.RateDiff_Amt
+        obj.Gross_Amount = objShipment.Gross_Amount
+        obj.TotalSubsidyAmt = objShipment.TotalSubsidyAmt
+        obj.TotalSubsidyDisAmt = objShipment.TotalSubsidyDisAmt
         obj.TotCashDiscAmt = objShipment.TotCashDiscAmt
         obj.Cust_PO_No = objShipment.Cust_PO_No
         ' obj.podate = objShipment.Podate

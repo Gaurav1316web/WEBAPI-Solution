@@ -32285,6 +32285,11 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Send_Email", "Integer Null")
             coll.Add("Send_SMS", "Integer Null")
             coll.Add("IsEwaybill", "Integer Null")
+            coll.Add("Gross_Amount", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Per", "decimal(18, 2) NULL")
+            coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
+            coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -32781,7 +32786,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             Catch ex As Exception
             End Try
 
-        coll = New Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SALE_RETURN_HEAD(DOCUMENT_CODE)")
             coll.Add("Line_No", "integer not null default 0")
             coll.Add("Row_Type", "varchar(10) NULL")

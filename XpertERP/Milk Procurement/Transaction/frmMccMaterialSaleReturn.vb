@@ -3808,6 +3808,9 @@ Public Class frmMccMaterialSaleReturn
                 'obj.HeadDisc_Per = txtDiscPer.Text
                 'obj.HeadDisc_Amt = txtDiscAmt.Text
                 obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
+                obj.Gross_Amount = lblGrossAmount.Text
+                obj.TotalSubsidyAmt = clsCommon.myCdbl(lblTotalSubsidy.Text)
+                obj.TotalSubsidyDisAmt = clsCommon.myCdbl(lblTotalDisSubsidy.Text)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -3825,10 +3828,6 @@ Public Class frmMccMaterialSaleReturn
                 End If
                 obj.RateDiff_Per = txtRatePer.Text
                 obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
-                obj.Gross_Amount = lblGrossAmount.Text
-                obj.TotalSubsidyAmt = clsCommon.myCdbl(lblTotalSubsidy.Text)
-                obj.TotalSubsidyDisAmt = clsCommon.myCdbl(lblTotalDisSubsidy.Text)
-
                 obj.Invoice_Type = txtInvoiceType.Text
                 obj.Is_Taxable = chkTaxable.Checked
                 obj.Document_Code = txtDocNo.Value
@@ -5579,6 +5578,25 @@ Public Class frmMccMaterialSaleReturn
                         End If
 
                     End If
+
+                    If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                        If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                            txtRatePer.Text = objOrderHead.RateDiff_Per
+                            If clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                                txtRateAmt.Text = objOrderHead.RateDiff_Amt
+                                chkRateDiffAmt.IsChecked = True
+                                '  lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_Amt
+                            Else
+                                chkRateDiffRate.IsChecked = True
+                                ' lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_PerAmt
+                            End If
+                        End If
+
+                    End If
+                    lblGrossAmount.Text = objOrderHead.Gross_Amount
+                    lblTotalDisSubsidy.Text = objOrderHead.TotalSubsidyDisAmt
+                    lblTotalSubsidy.Text = objOrderHead.TotalSubsidyAmt
+
                     LoadBlankGridAC()
                     If (clsCommon.myLen(objOrderHead.Add_Charge_Code1) > 0) Then
                         gvAC.Rows.AddNew()
@@ -7319,7 +7337,7 @@ Public Class frmMccMaterialSaleReturn
             End If
             If chkRateDiffAmt.IsChecked Then
                 If MultiplySubsidyWithQuantity Then
-                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
                     lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
 
                 Else
