@@ -4206,9 +4206,11 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
     Private Function GetNextvisibleColumn(gVTruckSheet As MyRadGridView, kk As Integer) As Integer
         Dim retValu As Integer = -1
         For ii As Integer = kk + 1 To gVTruckSheet.Columns.Count
-            If gVTruckSheet.Columns(ii).IsVisible Then
-                retValu = ii
-                Exit For
+            If ii <> gVTruckSheet.Columns.Count Then
+                If gVTruckSheet.Columns(ii).IsVisible Then
+                    retValu = ii
+                    Exit For
+                End If
             End If
         Next
         Return retValu
