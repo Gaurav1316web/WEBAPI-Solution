@@ -770,8 +770,8 @@ Public Class clsFixedParameterType
     Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const Hidedetaildate As String = "Hide Detail Date"
     Public Const DeleteTempData As String = "Delete Temp Data"
-    Public Const DeleteTempDataFromTime As String = "D T F"
-    Public Const DeleteTempDataToTime As String = "D T T"
+    Public Const DeleteTempDataFromTime As String = "Delete Temp Data From Time"
+    Public Const DeleteTempDataToTime As String = "Delete Temp Data To Time"
 
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
@@ -1728,8 +1728,8 @@ Public Class clsFixedParameterCode
     Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const Hidedetaildate As String = "Hide Detail Date"
     Public Const DeleteTempData As String = "Delete Temp Data"
-    Public Const DeleteTempDataFromTime As String = "D T F"
-    Public Const DeleteTempDataToTime As String = "D T T"
+    Public Const DeleteTempDataFromTime As String = "Delete Temp Data From Time"
+    Public Const DeleteTempDataToTime As String = "Delete Temp Data To Time"
 
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
@@ -2885,9 +2885,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, "0", "0:OFF;1:ON Upload File")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, "0", "0:OFF;1:ON Upload File")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, "30", "Define Penalty Days to Apply")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, "30", "Delete Temp Data From Time ")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, "", "Delete Temp Data From Time ")
 
-        InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, "30", "Delete Temp Data To Time Apply")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, "", "Delete Temp Data To Time Apply")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, "0.40", "Define Penalty Cost Value for Per Unit")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
