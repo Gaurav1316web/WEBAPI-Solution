@@ -29,7 +29,7 @@ Public Class MDI
     Dim DeleteTempData As Boolean = False
     Dim DeleteTempDataFromTime As DateTime
     Dim DeleteTempDataToTime As DateTime
-
+    Dim ImportExportDrive As String
 
     Public Shared blnShowAllMenu As Boolean = False
     Private isUtilityAdded As Boolean = False
@@ -1079,6 +1079,21 @@ Public Class MDI
             ' Console.WriteLine("Error accessing folder: " & ex.Message)
         End Try
     End Sub
+    Sub DeleteOldExportFiles(folderPath As String)
+        Try
+            ' Get all files in the folder
+            Dim files = Directory.GetFiles(folderPath)
+
+            For Each filePath As String In files
+                ' Check if the file is older than 24 hours compared to the reference time
+                File.Delete(filePath)
+                'Console.WriteLine("Deleted: " & filePath)
+            Next
+
+        Catch ex As Exception
+            ' Console.WriteLine("Error accessing folder: " & ex.Message)
+        End Try
+    End Sub
 
     Sub CheckAndLogin()
         Dim isLoginError As Boolean = False
@@ -1093,9 +1108,10 @@ Public Class MDI
             txtPassword.Focus()
             Exit Sub
         End If
-        DeleteTempDataFromTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
-        DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
-
+        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 AndAlso clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing)) > 0 Then
+            DeleteTempDataFromTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+            DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
+        End If
         Dim startTime As DateTime = DeleteTempDataFromTime
         Dim endTime As DateTime = DeleteTempDataToTime
 
@@ -1113,7 +1129,11 @@ Public Class MDI
         Dim qry As String = "select TSPL_USER_MASTER.password,TSPL_USER_MASTER.User_Code,TSPL_USER_MASTER.User_Name,TSPL_USER_MASTER.Level, ApprovalLevel,ExpiryDate,TSPL_USER_MASTER.IP_Address,TSPL_USER_MASTER.Login_Status,TSPL_USER_MASTER.Modify_Date,TSPL_USER_MASTER.InActive,TSPL_USER_MASTER.HR_Admin,TSPL_USER_MASTER.E_Mail from TSPL_USER_MASTER where TSPL_USER_MASTER.User_Code='" + txtUserName.Text + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
+        ' ImportExportDrive = objCommonVar.ImportExportDrive = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ImportExportDrive, clsFixedParameterCode.ImportExportDrive, Nothing))
 
+        'Dim exportdata As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Export"
+        'Dim importdata As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Import"
+        'DeleteOldExportFiles(exportdata)
 
 
         Dim strIpAdd As String = ""
