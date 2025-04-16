@@ -7,6 +7,8 @@ Public Class FrmUtility
     Inherits FrmMainTranScreen
     ''Check out richa 23/06/2020
 #Region "Variables"
+    Dim DeleteTempData As Boolean = False
+
     Public strFormId As String
     'Public strVendorCode As String = ""
     Dim objDocSeq As New clsDocumentSequence
@@ -119,6 +121,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub FrmUtility_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
 
         txtRetestingDate.Value = clsCommon.GETSERVERDATE()
         txtAddBatchExpiryDate.Value = txtRetestingDate.Value
