@@ -2,6 +2,8 @@
 Imports System.Data.SqlClient
 Imports common
 Imports System.IO
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
 
 Public Class frmSendSMSToDCS
 #Region "Variables"
@@ -13,6 +15,8 @@ Public Class frmSendSMSToDCS
     Private Sub frmSendSMSToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             txtDate.Value = clsCommon.GETSERVERDATE()
+            fromDate.Value = clsCommon.GETSERVERDATE()
+            ToDate.Value = clsCommon.GETSERVERDATE()
             txtQCDate.Value = clsCommon.GETSERVERDATE()
             txtTankerQCDate.Value = clsCommon.GETSERVERDATE()
             txtCrateEntryDate.Value = clsCommon.GETSERVERDATE()
@@ -764,6 +768,124 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
     Private Sub btnTankerQC_Click(sender As Object, e As EventArgs) Handles btnTankerQC.Click
         Try
             TankerPLorQCSMS("TANKERQCSMS", txtDateQC.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrintPdf_Click(sender As Object, e As EventArgs) Handles btnPrintPdf.Click
+        Try
+            If clsCommon.myLen(TxtDCS.Value) <= 0 Then
+                TxtDCS.Focus()
+                Throw New Exception("Please select " + TxtDCS.MyLinkLable1.Text)
+                Exit Sub
+            End If
+            Dim qry As String = Nothing
+            qry = "Select FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+                   and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)"
+            If clsCommon.myLen(TxtDCS.Value) > 0 Then
+                qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE = '" & TxtDCS.Value & "'"
+            End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim pdfPaths As New List(Of String)
+            Dim fileInfoList As New List(Of String)
+
+            For Each row As DataRow In dt.Rows
+                Dim Path As String = row("FILE_INFO").ToString()
+                If Not Path.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) Then
+                    Path &= ".pdf"
+                End If
+                ' Use filePath here
+                fileInfoList.Add(Path)
+            Next
+
+            Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
+            For Each fileBase In fileInfoList
+                Dim allFiles = Directory.GetFiles(basePath, "*.pdf", SearchOption.TopDirectoryOnly)
+                For Each filePath In allFiles
+                    Dim fileNameWithoutExtension As String = Path.GetFileNameWithoutExtension(filePath)
+
+                    If Not pdfPaths.Contains(filePath) Then
+                        pdfPaths.Add(filePath)
+                    End If
+
+                Next
+            Next
+
+            If pdfPaths.Count = 0 Then
+                MessageBox.Show("No matching PDF files found.")
+                Return
+            End If
+
+            Dim outputFolder As String = Path.Combine("C:\ERPTempFolder", "Merged_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            Directory.CreateDirectory(outputFolder)
+            Dim outputPdfPath As String = Path.Combine(outputFolder, "merged.pdf")
+            Dim outputFolders As String = Path.Combine("C:\ERPTempFolder", "Files_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            Directory.CreateDirectory(outputFolder)
+
+            Dim SQry As String = " Select Count(*)FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+                   and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)  and FILE_INFO is  null"
+            If clsCommon.myLen(TxtDCS.Value) > 0 Then
+                SQry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE = '" & TxtDCS.Value & "'"
+            End If
+            Dim NullCount As Decimal = clsDBFuncationality.getSingleValue(SQry)
+
+            Dim SQuery As String = " Select Count(*)FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+                   and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)  and FILE_INFO is not null"
+            If clsCommon.myLen(TxtDCS.Value) > 0 Then
+                SQuery += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE = '" & TxtDCS.Value & "'"
+            End If
+            Dim NotNullCount As Decimal = clsDBFuncationality.getSingleValue(SQuery)
+
+            If (common.clsCommon.MyMessageBoxShow(" Invoice Created:" & NotNullCount & "   Invoice Not Created: " & NullCount & "   Do you want to MergePDF", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                MergePdfFiles(pdfPaths, outputPdfPath)
+                clsCommon.MyMessageBoxShow(Me, "Merged PDF saved at:  " & outputPdfPath, Me.Text)
+            Else
+                SaveFilesIndividually(pdfPaths, outputFolders)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub MergePdfFiles(pdfFiles As List(Of String), outputFilePath As String)
+        Using stream As New FileStream(outputFilePath, FileMode.Create)
+            Dim document As New Document()
+            Dim pdfCopy As New PdfCopy(document, stream)
+            document.Open()
+
+            For Each file In pdfFiles
+                Using reader As New PdfReader(file)
+                    For pageNum As Integer = 1 To reader.NumberOfPages
+                        pdfCopy.AddPage(pdfCopy.GetImportedPage(reader, pageNum))
+                    Next
+                    pdfCopy.FreeReader(reader)
+                End Using
+            Next
+
+            document.Close()
+        End Using
+    End Sub
+    Private Sub SaveFilesIndividually(pdfPaths As List(Of String), destinationBasePath As String)
+        Dim outputFolder As String = Path.Combine(destinationBasePath, "Invoice")
+        Directory.CreateDirectory(outputFolder)
+
+        ' Copy each file
+        For Each filePath In pdfPaths
+            Dim fileName As String = Path.GetFileName(filePath)
+            Dim destinationPath As String = Path.Combine(outputFolder, fileName)
+
+            File.Copy(filePath, destinationPath, overwrite:=True)
+        Next
+
+        MessageBox.Show("All individual files copied to: " & outputFolder, "Done", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+    Private Sub TxtDCS__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDCS._MYValidating
+        Try
+            Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name,Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] from TSPL_VENDOR_MASTER  
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
+            TxtDCS.Value = clsCommon.ShowSelectForm("sensms@M", qry, "Code", "", TxtDCS.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
