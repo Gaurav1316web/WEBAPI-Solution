@@ -32,6 +32,10 @@ Partial Class frmScrapSaleReturn
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsEwaybill = New Telerik.WinControls.UI.RadCheckBox()
+        Me.lblSalesType = New common.Controls.MyLabel()
+        Me.cmbSaleType = New common.Controls.MyComboBox()
+        Me.chkEInvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
         Me.chkCncelPSR = New Telerik.WinControls.UI.RadCheckBox()
@@ -169,6 +173,10 @@ Partial Class frmScrapSaleReturn
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkEInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCncelPSR, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -331,7 +339,7 @@ Partial Class frmScrapSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
@@ -341,6 +349,10 @@ Partial Class frmScrapSaleReturn
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsEwaybill)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSalesType)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbSaleType)
+        Me.RadPageViewPage1.Controls.Add(Me.chkEInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.fndGateEntryNo)
         Me.RadPageViewPage1.Controls.Add(Me.chkCncelPSR)
@@ -407,6 +419,64 @@ Partial Class frmScrapSaleReturn
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'chkIsEwaybill
+        '
+        Me.chkIsEwaybill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwaybill.Location = New System.Drawing.Point(942, 8)
+        Me.chkIsEwaybill.Name = "chkIsEwaybill"
+        Me.chkIsEwaybill.Size = New System.Drawing.Size(71, 16)
+        Me.chkIsEwaybill.TabIndex = 1490
+        Me.chkIsEwaybill.Text = "IsEwaybill"
+        Me.chkIsEwaybill.Visible = False
+        '
+        'lblSalesType
+        '
+        Me.lblSalesType.FieldName = Nothing
+        Me.lblSalesType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesType.Location = New System.Drawing.Point(874, 30)
+        Me.lblSalesType.Name = "lblSalesType"
+        Me.lblSalesType.Size = New System.Drawing.Size(63, 16)
+        Me.lblSalesType.TabIndex = 1488
+        Me.lblSalesType.Text = "Sales Type"
+        Me.lblSalesType.Visible = False
+        '
+        'cmbSaleType
+        '
+        Me.cmbSaleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbSaleType.AutoCompleteValueMember = Nothing
+        Me.cmbSaleType.CalculationExpression = Nothing
+        Me.cmbSaleType.DropDownAnimationEnabled = True
+        Me.cmbSaleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbSaleType.FieldCode = Nothing
+        Me.cmbSaleType.FieldDesc = Nothing
+        Me.cmbSaleType.FieldMaxLength = 0
+        Me.cmbSaleType.FieldName = Nothing
+        Me.cmbSaleType.isCalculatedField = False
+        Me.cmbSaleType.IsSourceFromTable = False
+        Me.cmbSaleType.IsSourceFromValueList = False
+        Me.cmbSaleType.IsUnique = False
+        Me.cmbSaleType.Location = New System.Drawing.Point(942, 27)
+        Me.cmbSaleType.MendatroryField = True
+        Me.cmbSaleType.MyLinkLable1 = Nothing
+        Me.cmbSaleType.MyLinkLable2 = Nothing
+        Me.cmbSaleType.Name = "cmbSaleType"
+        Me.cmbSaleType.ReferenceFieldDesc = Nothing
+        Me.cmbSaleType.ReferenceFieldName = Nothing
+        Me.cmbSaleType.ReferenceTableName = Nothing
+        Me.cmbSaleType.Size = New System.Drawing.Size(126, 20)
+        Me.cmbSaleType.TabIndex = 1489
+        Me.cmbSaleType.Visible = False
+        '
+        'chkEInvoice
+        '
+        Me.chkEInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkEInvoice.Location = New System.Drawing.Point(873, 9)
+        Me.chkEInvoice.Name = "chkEInvoice"
+        Me.chkEInvoice.Size = New System.Drawing.Size(64, 16)
+        Me.chkEInvoice.TabIndex = 1487
+        Me.chkEInvoice.Text = "EInvoice"
+        Me.chkEInvoice.Visible = False
         '
         'MyLabel6
         '
@@ -1402,6 +1472,7 @@ Partial Class frmScrapSaleReturn
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1782,6 +1853,7 @@ Partial Class frmScrapSaleReturn
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1843,6 +1915,7 @@ Partial Class frmScrapSaleReturn
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MyExportFilePath = ""
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2332,6 +2405,10 @@ Partial Class frmScrapSaleReturn
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkEInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCncelPSR, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoice, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2596,5 +2673,9 @@ Partial Class frmScrapSaleReturn
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
+    Friend WithEvents chkIsEwaybill As RadCheckBox
+    Friend WithEvents lblSalesType As common.Controls.MyLabel
+    Friend WithEvents cmbSaleType As common.Controls.MyComboBox
+    Friend WithEvents chkEInvoice As RadCheckBox
 End Class
 

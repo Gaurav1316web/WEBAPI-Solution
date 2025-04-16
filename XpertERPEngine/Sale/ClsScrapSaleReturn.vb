@@ -140,6 +140,9 @@ Public Class ClsScrapSaleHeadReturn
     Public EWayBillDate As Date? = Nothing
     Public Electronic_Ref_No As String
     Public Is_Cancelled As Integer = 0
+    Public Inter_Unit_Sale As Integer = 0
+    Public IsEinvoice As Integer = 0
+    Public IsEwayBill As Integer = 0
     Public Gate_Entry_No As String = Nothing
 #End Region
 
@@ -307,6 +310,9 @@ Public Class ClsScrapSaleHeadReturn
 
             clsCommon.AddColumnsForChange(coll, "Total_Gross_Weight", obj.Total_Gross_Weight)
             clsCommon.AddColumnsForChange(coll, "Total_Net_Weight", obj.Total_Net_Weight)
+            clsCommon.AddColumnsForChange(coll, "Inter_Unit_Sale", obj.Inter_Unit_Sale)
+            clsCommon.AddColumnsForChange(coll, "IsEinvoice", obj.IsEinvoice)
+            clsCommon.AddColumnsForChange(coll, "IsEwayBill", obj.IsEwayBill)
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MM/yyyy"))
@@ -481,7 +487,7 @@ Public Class ClsScrapSaleHeadReturn
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal isAssetType As Boolean, ByVal strDocType As String) As ClsScrapSaleHeadReturn
         Dim obj As ClsScrapSaleHeadReturn = Nothing
         Dim qry As String = "SELECT  TSPL_SCRAPSALE_HEAD_Return.Gate_Entry_No,TSPL_SCRAPSALE_HEAD_Return.Document_No,TSPL_SCRAPSALE_HEAD_Return.Doc_Type, TSPL_SCRAPSALE_HEAD_Return.Inter_Branch, TSPL_SCRAPSALE_HEAD_Return.Invoice_Type,TSPL_SCRAPSALE_HEAD_Return.shipment_No,TSPL_SCRAPSALE_HEAD_Return.Return_ship_Date,TSPL_SCRAPSALE_HEAD_Return.cust_Code,TSPL_SCRAPSALE_HEAD_Return.Po_No,TSPL_SCRAPSALE_HEAD_Return.NRG_no,TSPL_SCRAPSALE_HEAD_Return.invoice_No,TSPL_SCRAPSALE_HEAD_Return.cust_Name,TSPL_SCRAPSALE_HEAD_Return.Return_ship_Date,TSPL_SCRAPSALE_HEAD_Return.posting_date,TSPL_SCRAPSALE_HEAD_Return.expship_date,TSPL_SCRAPSALE_HEAD_Return.Status,TSPL_SCRAPSALE_HEAD_Return.CreateInvoice,TSPL_SCRAPSALE_HEAD_Return.ispost,TSPL_SCRAPSALE_HEAD_Return.Is_ManualTCS,TSPL_SCRAPSALE_HEAD_Return.Description,TSPL_SCRAPSALE_HEAD_Return.reff,TSPL_SCRAPSALE_HEAD_Return.Tax_Group, TSPL_SCRAPSALE_HEAD_Return.tax_desc, TSPL_SCRAPSALE_HEAD_Return.loc_code, TSPL_SCRAPSALE_HEAD_Return.Vehicle_Id,TSPL_SCRAPSALE_HEAD_Return.loc_Name,TSPL_SCRAPSALE_HEAD_Return.ToLoc_code,TSPL_SCRAPSALE_HEAD_Return.TAX1,TSPL_SCRAPSALE_HEAD_Return.TAX1_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX1_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX1_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX2,TSPL_SCRAPSALE_HEAD_Return.TAX2_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX2_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX2_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX3,TSPL_SCRAPSALE_HEAD_Return.TAX3_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX3_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX3_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX4,TSPL_SCRAPSALE_HEAD_Return.TAX4_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX4_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX4_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX5,TSPL_SCRAPSALE_HEAD_Return.TAX5_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX5_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX5_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX6,TSPL_SCRAPSALE_HEAD_Return.TAX6_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX6_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX6_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX7,TSPL_SCRAPSALE_HEAD_Return.TAX7_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX7_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX7_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX8,TSPL_SCRAPSALE_HEAD_Return.TAX8_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX8_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX8_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX9,TSPL_SCRAPSALE_HEAD_Return.TAX9_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX9_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX9_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX10,TSPL_SCRAPSALE_HEAD_Return.TAX10_Rate,TSPL_SCRAPSALE_HEAD_Return.TAX10_Amt,TSPL_SCRAPSALE_HEAD_Return.TAX10_Base_Amt,TSPL_SCRAPSALE_HEAD_Return.Addcost,TSPL_SCRAPSALE_HEAD_Return.AddCostDesc,TSPL_SCRAPSALE_HEAD_Return.Add_Amt,TSPL_SCRAPSALE_HEAD_Return.Before_add_Amt,TSPL_SCRAPSALE_HEAD_Return.After_Add_Amt,TSPL_SCRAPSALE_HEAD_Return.Discount_Base,TSPL_SCRAPSALE_HEAD_Return.Discount_Amt,TSPL_SCRAPSALE_HEAD_Return.Amount_Less_Discount,TSPL_SCRAPSALE_HEAD_Return.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD_Return.ship_total_Amt,TSPL_SCRAPSALE_HEAD_Return.Doc_Amt,TSPL_SCRAPSALE_HEAD_Return.Comp_Code,TSPL_SCRAPSALE_HEAD_Return.Terms_Code,TSPL_SCRAPSALE_HEAD_Return.Due_Date ,TSPL_SCRAPSALE_HEAD_Return.AddCode1,TSPL_SCRAPSALE_HEAD_Return.AddDesc1,TSPL_SCRAPSALE_HEAD_Return.AddAmt1,TSPL_SCRAPSALE_HEAD_Return.AddCode2,TSPL_SCRAPSALE_HEAD_Return.AddDesc2,TSPL_SCRAPSALE_HEAD_Return.AddAmt2,TSPL_SCRAPSALE_HEAD_Return.AddCode3,TSPL_SCRAPSALE_HEAD_Return.AddDesc3,TSPL_SCRAPSALE_HEAD_Return.AddAmt3,TSPL_SCRAPSALE_HEAD_Return.AddCode4,TSPL_SCRAPSALE_HEAD_Return.AddDesc4,TSPL_SCRAPSALE_HEAD_Return.AddAmt4,TSPL_SCRAPSALE_HEAD_Return.AddCode5,TSPL_SCRAPSALE_HEAD_Return.AddDesc5,TSPL_SCRAPSALE_HEAD_Return.AddAmt5,TSPL_SCRAPSALE_HEAD_Return.AddCode6,TSPL_SCRAPSALE_HEAD_Return.AddDesc6,TSPL_SCRAPSALE_HEAD_Return.AddAmt6,TSPL_SCRAPSALE_HEAD_Return.AddCode7,TSPL_SCRAPSALE_HEAD_Return.AddDesc7,TSPL_SCRAPSALE_HEAD_Return.AddAmt7,TSPL_SCRAPSALE_HEAD_Return.AddCode8,TSPL_SCRAPSALE_HEAD_Return.AddDesc8,TSPL_SCRAPSALE_HEAD_Return.AddAmt8,TSPL_SCRAPSALE_HEAD_Return.AddCode9,TSPL_SCRAPSALE_HEAD_Return.AddDesc9,TSPL_SCRAPSALE_HEAD_Return.AddAmt9,TSPL_SCRAPSALE_HEAD_Return.AddCode10,TSPL_SCRAPSALE_HEAD_Return.AddDesc10,TSPL_SCRAPSALE_HEAD_Return.AddAmt10,TSPL_SCRAPSALE_HEAD_Return.Tax_Calculation_Type,TSPL_LOCATION_MASTER.Location_Desc as ToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SCRAPSALE_HEAD_Return.EXCISABLE, " &
-        "(select invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=TSPL_SCRAPSALE_HEAD_Return.shipment_No) as ScrapInvoiceNo,TSPL_SCRAPSALE_HEAD_Return.is_Asset_Type,Transport_code,Transporter_name,Vehicle_code,TSPL_SCRAPSALE_HEAD_Return.VAT_InvoiceNo,TSPL_SCRAPSALE_HEAD_Return.VatInvoice_Type,TSPL_SCRAPSALE_HEAD_Return.Is_Scrap,TSPL_SCRAPSALE_HEAD_Return.Is_CashSale,TSPL_SCRAPSALE_HEAD_Return.Total_Gross_Weight,TSPL_SCRAPSALE_HEAD_Return.Total_Net_Weight,TSPL_SCRAPSALE_HEAD_Return.RoundOffAmount,TSPL_SCRAPSALE_HEAD_Return.Is_Taxable,TSPL_SCRAPSALE_HEAD_Return.EWayBillNo,TSPL_SCRAPSALE_HEAD_Return.Electronic_Ref_No,TSPL_SCRAPSALE_HEAD_Return.EWayBillDate, TSPL_SCRAPSALE_HEAD_Return.Is_Cancelled FROM TSPL_SCRAPSALE_HEAD_Return left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_Return.loc_code  left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=Transport_code  left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SCRAPSALE_HEAD_Return.loc_code  left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SCRAPSALE_HEAD_Return.Terms_Code where 2=2"
+        "(select invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=TSPL_SCRAPSALE_HEAD_Return.shipment_No) as ScrapInvoiceNo,TSPL_SCRAPSALE_HEAD_Return.is_Asset_Type,Transport_code,Transporter_name,Vehicle_code,TSPL_SCRAPSALE_HEAD_Return.VAT_InvoiceNo,TSPL_SCRAPSALE_HEAD_Return.VatInvoice_Type,TSPL_SCRAPSALE_HEAD_Return.Is_Scrap,TSPL_SCRAPSALE_HEAD_Return.Is_CashSale,TSPL_SCRAPSALE_HEAD_Return.Total_Gross_Weight,TSPL_SCRAPSALE_HEAD_Return.Total_Net_Weight,TSPL_SCRAPSALE_HEAD_Return.RoundOffAmount,TSPL_SCRAPSALE_HEAD_Return.Is_Taxable,TSPL_SCRAPSALE_HEAD_Return.EWayBillNo,TSPL_SCRAPSALE_HEAD_Return.Electronic_Ref_No,TSPL_SCRAPSALE_HEAD_Return.EWayBillDate, TSPL_SCRAPSALE_HEAD_Return.Is_Cancelled,TSPL_SCRAPSALE_HEAD_Return.Inter_Unit_Sale,TSPL_SCRAPSALE_HEAD_Return.IsEinvoice,TSPL_SCRAPSALE_HEAD_Return.IsEwayBill FROM TSPL_SCRAPSALE_HEAD_Return left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_Return.loc_code  left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=Transport_code  left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SCRAPSALE_HEAD_Return.loc_code  left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SCRAPSALE_HEAD_Return.Terms_Code where 2=2"
         Dim whrCls As String = ""
 
         If isAssetType Then
@@ -547,6 +553,9 @@ Public Class ClsScrapSaleHeadReturn
             obj.doc_Amt = clsCommon.myCstr(dt.Rows(0)("Doc_Amt"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
             obj.Excisable = clsCommon.myCstr(dt.Rows(0)("EXCISABLE"))
+            obj.Inter_Unit_Sale = clsCommon.myCdbl(dt.Rows(0)("Inter_Unit_Sale"))
+            obj.IsEinvoice = clsCommon.myCdbl(dt.Rows(0)("IsEinvoice"))
+            obj.IsEwayBill = clsCommon.myCdbl(dt.Rows(0)("IsEwayBill"))
             obj.Inter_Branch = IIf(clsCommon.myCdbl(dt.Rows(0)("Inter_Branch")) = 1, True, False)
             obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
             obj.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX1_Rate"))
@@ -859,12 +868,15 @@ Public Class ClsScrapSaleHeadReturn
             'isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SCRAPINVOICE_HEAD", "invoice_No", obj.invoice_No, trans)
             ''richa agarwal 28 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
-                If ClsScrapSaleHeadReturn.EInvoice_Implementation(obj.Document_No, obj.Loc_Code, trans) = True Then
-                Else
-                    Throw New Exception("Invalid JSON Value")
+            If obj.IsEinvoice = 1 Then
+                If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
+                    If ClsScrapSaleHeadReturn.EInvoice_Implementation(obj.Document_No, obj.Loc_Code, trans) = True Then
+                    Else
+                        Throw New Exception("Invalid JSON Value")
+                    End If
                 End If
             End If
+
 
 
             qry = "Update TSPL_SCRAPSALE_HEAD_RETURN set ispost=1, Posting_Date='" + clsCommon.GetPrintDate(obj.shipment_Date, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',EInvoice_Type='" + ECustomerType + "'"

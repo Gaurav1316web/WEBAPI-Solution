@@ -33837,6 +33837,9 @@ LL")
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
             coll.Add("Is_ManualTCS", "Integer Default 0")
+            coll.Add("Inter_Unit_Sale", "Integer null")
+            coll.Add("IsEinvoice", "Integer null")
+            coll.Add("IsEwayBill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD_RETURN", coll, Nothing, True, True, "", "Document_No", "Return_ship_Date", True)
 
 
