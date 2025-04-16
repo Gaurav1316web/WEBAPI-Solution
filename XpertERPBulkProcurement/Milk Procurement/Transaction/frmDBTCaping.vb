@@ -70,6 +70,14 @@ Public Class frmDBTCaping
             CloseForm()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnclose.Enabled Then
             PostData()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
 
@@ -496,9 +504,7 @@ Public Class frmDBTCaping
             Dim qry As String = ""
             Dim msg As String = ""
             Dim dt As DataTable = Nothing
-
             If (myMessages.postConfirm()) Then
-
                 clsDBTCaping.PostData(txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
@@ -630,28 +636,7 @@ order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC
         End If
     End Sub
 
-    Private Sub btnReverse_Click(sender As Object, e As EventArgs)
-        Try
-            'If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-            '    '' REASON FOR DELETE 
-            '    Dim Reason As String = ""
-            '    Dim frm As New FrmFreeTxtBox1
-            '    frm.Text = "Remarks for Reverse"
-            '    frm.ShowDialog()
-            '    If clsCommon.myLen(frm.strRmks) <= 0 Then
-            '        Exit Sub
-            '    Else
-            '        Reason = frm.strRmks
-            '    End If
 
-            '    clsMilkCollectionMCC.ReverseAndUnpost(txtDocNo.Value)
-            '    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
-            '    LoadData(txtDocNo.Value, NavigatorType.Current)
-            'End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Private Sub gvItem_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gvItem.DoubleClick
         Try
@@ -684,6 +669,19 @@ order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC
             clsERPFuncationalityOLD.ShowTransHistoryData(txtDocumentNo.Value, "Document_Code", "TSPL_DBT_CAPING", "TSPL_DBT_CAPING_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsDBTCaping.ReverseAndUnpost(txtDocumentNo.Value) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully reversed and unposted", Me.Text)
+                    LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
