@@ -6420,7 +6420,7 @@ Public Class frmMccMaterialSaleReturn
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Try
             Dim arrTaxableAuth As New List(Of String)
-
+            Dim arrTaxableAuth1 As New List(Of String)
             Dim dblFAmt As Double = 0
 
 
@@ -6530,26 +6530,27 @@ Public Class frmMccMaterialSaleReturn
                             Dim dblSurTaxAmt As Double = GetCurrentRowSurTaxAmt(IntRowNo, ii, strSurTaxCode)
                             dblBaseAmt = dblSurTaxAmt
                         Else
-                            Dim dblOtherTaxAmt As Double = 0
-                            ''richa 21 Sep 2020 changes according to tax
-                            If Not IsTaxonBaseAmount Then
+                            Dim dblOtherTaxAmt As Decimal = 0
+                            ''richa 25   Sep 2020 changes according to tax
+                            If Not IsTaxonBaseAmount AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") <> CompairStringResult.Equal Then
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                            ElseIf Not IsTaxonBaseAmount AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth1)
                             End If
-                            ''If IsTaxable Then
-
-                            ''End If
-
-                            ''If IsExcisable Then
-                            ''    dblBaseAmt = (dblAssessableAmt + dblOtherTaxAmt)
-                            ''Else
-                            dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
-                            ''End If
+                            If strExcise = True AndAlso intMRPwithabatement = 1 AndAlso IsExcisable = True Then
+                                dblBaseAmt = (dblAbatementAmt + dblOtherTaxAmt)
+                            Else
+                                dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
+                            End If
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
-                        If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
+                        If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
+                        End If
+                        If (IsTaxable AndAlso Not arrTaxableAuth1.Contains(strTaxCode.ToUpper())) Then
+                            arrTaxableAuth1.Add(strTaxCode.ToUpper())
                         End If
                     Else
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing

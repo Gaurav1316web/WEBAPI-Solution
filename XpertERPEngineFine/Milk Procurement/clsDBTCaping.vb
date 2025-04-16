@@ -19,6 +19,7 @@ Public Class clsDBTCaping
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
     Public Shared Function SaveData(ByVal obj As clsDBTCaping, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
@@ -130,9 +131,10 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
             Dim qry As String = "Update TSPL_DBT_CAPING set Status=1 , Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -153,30 +155,32 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
     End Function
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            Throw New Exception("Not implemented")
-            'Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strDocNo, NavigatorType.Current, trans)
-            'If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-            '    clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
-            'End If
+            'Throw New Exception("Not implemented")
+            Dim obj As clsDBTCaping = clsDBTCaping.GetData(strDocNo, NavigatorType.Current, trans, "")
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            End If
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+            End If
+            Dim qry As String = "select TSPL_DBT_NEFT.Document_Code 
+from  TSPL_DCS_MP_INCENTIVE_RECO_HEAD 
+left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.From_Date=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date and TSPL_DBT_NEFT.To_Date=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To
+where TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code='" + obj.Reco_Code + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.myLen(dt.Rows(0)("Document_Code")) > 0 Then
+                    Throw New Exception("DBT NEFT No [" + dt.Rows(0)("Document_Code") + "] created you cant unpost current document")
+                End If
+            End If
 
-            'If Not obj.Status = ERPTransactionStatus.Approved Then
-            '    clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
-            'End If
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posting_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_CAPING", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
 
-            ''Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
-            ''select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocNo + "')"
-            ''Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            ''If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            ''    Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-            ''End If
-
-            'Dim coll As New Hashtable()
-            'clsCommon.AddColumnsForChange(coll, "Status", 0)
-            'clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            'clsCommon.AddColumnsForChange(coll, "Posting_Date", Nothing, True)
-            'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_CAPING", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_No + "'", trans)
-
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_CAPING", "Document_Code", "TSPL_DBT_CAPING_DETAIL", "Document_Code", "", "", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -258,6 +262,8 @@ where TSPL_DBT_CAPING_DETAIL.Document_Code='" + document_Code + "' " + whrcls
 
             qry = "Update TSPL_MP_MASTER set  DBT_Capping_Qty='" + clsCommon.myCstr(CappingQtyPerDay) + "' where MP_Code='" + clsCommon.myCstr(dt.Rows(0)("MP_Code")) + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dt.Rows(0)("MP_Code")), "TSPL_MP_MASTER", "MP_Code", trans)
 
 
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
