@@ -58,7 +58,7 @@ Public Class clsDemandBookingSale
                         For Each drDetail As DataRow In dtdetialold.Rows
                             Dim targetItemCode As String = clsCommon.myCstr(drDetail("Item_Code"))
                             'var Result = obj.Arr.Where(item >= item.Item_Code == targetItemCode).ToList();
-                            Dim Result = obj.Arr.Where(Function(item) item.Item_Code = targetItemCode).ToList()
+                            Dim Result = obj.Arr.Where(Function(item) item.Item_Code = targetItemCode AndAlso item.Cust_Code = items.Cust_Code).ToList()
                             If Result Is Nothing OrElse Result.Count <= 0 Then
                                 qry = " select * from  TSPL_DEMAND_BOOKING_DETAIL where TR_Code= '" + clsCommon.myCstr(drDetail("tr_code")) + "'"
                                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -2047,7 +2047,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                         'clsCommon.ProgressBarPercentUpdate((i * 100 / dt.Rows.Count), "Shuffled Booth No" + clsCommon.myCstr(drDtl("Cust_Code")) + ", to Route No" + clsCommon.myCstr(dtBooth.Rows(0)("Route_No")))
 
                                         clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Document_No='" + DemandDoc + "' where Document_No='" + clsCommon.myCstr(drDtl("Document_No")) + "' and Cust_Code='" + clsCommon.myCstr(drDtl("Cust_Code")) + "' and Item_Code='" + clsCommon.myCstr(drDtl("Item_Code")) + "' and Unit_code='" + clsCommon.myCstr(drDtl("Unit_code")) + "' and ShiftType='" + clsCommon.myCstr(drDtl("ShiftType")) + "'", trans)
-                                        Dim obj As clsDemandBookingSale = GetData(DemandDoc, NavigatorType.Current)
+                                        Dim obj As clsDemandBookingSale = GetData(DemandDoc, NavigatorType.Current, trans)
                                         SaveDemandHistoryData(obj, obj.Arr, "Shuffled Demand", "ERP", objCommonVar.CurrentUserCode, trans)
                                     Else
                                         'clsCommon.ProgressBarPercentUpdate((i * 100 / dt.Rows.Count), "Creating New Demand for Booth No" + clsCommon.myCstr(drDtl("Cust_Code")) + ", in Route No" + clsCommon.myCstr(dtBooth.Rows(0)("Route_No")))

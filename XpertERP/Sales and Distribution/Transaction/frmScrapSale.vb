@@ -340,6 +340,7 @@ Public Class frmScrapSale
         chkCashSale.Enabled = True
         chkScrapSale.Enabled = True
         chkBuyBack.Checked = False
+        cmbSaleType.Enabled = True
         dtpshipment.Value = clsCommon.GETSERVERDATE()
         dtppost.Text = clsCommon.GETSERVERDATE()
         dtpexp.Text = clsCommon.GETSERVERDATE()
@@ -2928,7 +2929,7 @@ Public Class frmScrapSale
                 Else
                     cmbSaleType.Text = "Normal Sale"
                 End If
-
+                cmbSaleType.Enabled = False
                 If obj.Excisable = "Y" Then
                     chkExcisable.Checked = True
                 Else
@@ -3567,88 +3568,94 @@ Public Class frmScrapSale
     End Function
 
     Private Sub fndcustNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcustNo._MYValidating
-        fndcustNo.Focus()
-        If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            Exit Sub
-        End If
+        If Not clsCommon.CompairString(cmbSaleType.Text, "Select") = CompairStringResult.Equal Then
+            fndcustNo.Focus()
+            If clsCommon.myLen(fndLocation.Value) <= 0 Then
+                Exit Sub
+            End If
 
 
 
-        Dim qry As String = "  select TSPL_customer_MASTER.cust_code as Code,TSPL_customer_MASTER.Customer_Name as Name,TSPL_customer_MASTER.Terms_Code as [Term Code] ,TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_customer_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code "
-        Dim WhrCls As String = "TSPL_TAX_GROUP_MASTER.Tax_Group_Type='s' and  TSPL_customer_MASTER.Status ='N'"
-        If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
-            WhrCls += " and TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in ('" + fndLocation.Value + "')"
-        End If
-        fndcustNo.Value = clsCommon.ShowSelectForm("CustmrMstrIFND", qry, "Code", WhrCls, fndcustNo.Value, "Code", isButtonClicked)
+            Dim qry As String = "  select TSPL_customer_MASTER.cust_code as Code,TSPL_customer_MASTER.Customer_Name as Name,TSPL_customer_MASTER.Terms_Code as [Term Code] ,TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_customer_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code "
+            Dim WhrCls As String = "TSPL_TAX_GROUP_MASTER.Tax_Group_Type='s' and  TSPL_customer_MASTER.Status ='N'"
+            If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
+                WhrCls += " and TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in ('" + fndLocation.Value + "')"
+            End If
+            fndcustNo.Value = clsCommon.ShowSelectForm("CustmrMstrIFND", qry, "Code", WhrCls, fndcustNo.Value, "Code", isButtonClicked)
 
-        qry = "  select TSPL_customer_MASTER.cust_code ,TSPL_customer_MASTER.Customer_Name ,TSPL_customer_MASTER.Terms_Code  ,TSPL_TERMS_MASTER.Terms_Desc  ,TSPL_customer_MASTER.Tax_Group ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_customer_MASTER.Inter_Branch,TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code where TSPL_customer_MASTER.cust_code='" + fndcustNo.Value + "' "
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-            txtcustdesc.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
-            txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
-            lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
-            txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
-            lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
-            lblCustGSTNo.Text = clsCommon.myCstr(dt.Rows(0)("GSTNO"))
-            chkInterBranch.Checked = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Inter_Branch"))) = CompairStringResult.Equal, True, False)
+            qry = "  select TSPL_customer_MASTER.cust_code ,TSPL_customer_MASTER.Customer_Name ,TSPL_customer_MASTER.Terms_Code  ,TSPL_TERMS_MASTER.Terms_Desc  ,TSPL_customer_MASTER.Tax_Group ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_customer_MASTER.Inter_Branch,TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code where TSPL_customer_MASTER.cust_code='" + fndcustNo.Value + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                txtcustdesc.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
+                txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
+                lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
+                txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
+                lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
+                lblCustGSTNo.Text = clsCommon.myCstr(dt.Rows(0)("GSTNO"))
+                chkInterBranch.Checked = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Inter_Branch"))) = CompairStringResult.Equal, True, False)
+            Else
+                txtcustdesc.Text = ""
+                lblCustGSTNo.Text = ""
+                txtTermCode.Value = ""
+                lblTermName.Text = ""
+                txtTaxGroup.Value = ""
+                lblTaxGrpName.Text = ""
+                chkInterBranch.Checked = False
+            End If
+
+            ' '========================Added by Preeti Gupta===========================
+            ' qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
+            '"TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
+            '"TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
+            '"FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(fndLocation.Value) + "'"
+            ' Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
+            ' Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
+            ' Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
+            ' If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
+            '     strExcise = True
+            ' Else
+            '     strExcise = False
+            ' End If
+            ' If clsCommon.myLen(fndcustNo.Value) > 0 Then
+            '     qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndcustNo.Value + "'"
+            '     dt = clsDBFuncationality.GetDataTable(qry)
+
+            '     'If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
+            '     '    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+            '     'Else
+            '     '    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+            '     'End If
+
+            '     'If clsCommon.myLen(txtPriceCode.Text) = 0 Then
+            '     '    txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
+            '     'End If
+            '     'txtVendorNo.Enabled = False
+
+            '     If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
+            '         txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
+            '         lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
+            '     Else
+            '         txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
+            '         lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+            '     End If
+
+            ' End If
+            '[===========================================================================
+
+            SetTax()
+            If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
+                fndcustNo.Value = ""
+                clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & fndLocation.Value)
+                Exit Sub
+            End If
+            'SetTaxDetails()
+            SetTermDetails()
+            CustomerOutstandingAmount(fndcustNo.Value, Nothing)
+            cmbSaleType.Enabled = False
         Else
-            txtcustdesc.Text = ""
-            lblCustGSTNo.Text = ""
-            txtTermCode.Value = ""
-            lblTermName.Text = ""
-            txtTaxGroup.Value = ""
-            lblTaxGrpName.Text = ""
-            chkInterBranch.Checked = False
+            clsCommon.MyMessageBoxShow(Me, "Please Select Sale Type" & fndLocation.Value)
+
         End If
-
-        ' '========================Added by Preeti Gupta===========================
-        ' qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-        '"TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-        '"TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
-        '"FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(fndLocation.Value) + "'"
-        ' Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
-        ' Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
-        ' Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
-        ' If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
-        '     strExcise = True
-        ' Else
-        '     strExcise = False
-        ' End If
-        ' If clsCommon.myLen(fndcustNo.Value) > 0 Then
-        '     qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndcustNo.Value + "'"
-        '     dt = clsDBFuncationality.GetDataTable(qry)
-
-        '     'If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
-        '     '    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
-        '     'Else
-        '     '    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
-        '     'End If
-
-        '     'If clsCommon.myLen(txtPriceCode.Text) = 0 Then
-        '     '    txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
-        '     'End If
-        '     'txtVendorNo.Enabled = False
-
-        '     If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
-        '         txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
-        '         lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
-        '     Else
-        '         txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
-        '         lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
-        '     End If
-
-        ' End If
-        '[===========================================================================
-
-        SetTax()
-        If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
-            fndcustNo.Value = ""
-            clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & fndLocation.Value)
-            Exit Sub
-        End If
-        'SetTaxDetails()
-        SetTermDetails()
-        CustomerOutstandingAmount(fndcustNo.Value, Nothing)
 
     End Sub
     Private Sub SetTax()
@@ -4018,25 +4025,33 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndLocation._MYValidating
+        If Not clsCommon.CompairString(cmbSaleType.Text, "Select") = CompairStringResult.Equal Then
+            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+            Dim WhrCls As String = " Location_Type='Physical' AND  Rejected_Type='N'"
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            fndLocation.Value = clsCommon.ShowSelectForm("LocTnMstrFND", qry, "Code", WhrCls, fndLocation.Value, "Code", isButtonClicked)
+            txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
+            lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
 
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical' AND  Rejected_Type='N'"
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-        fndLocation.Value = clsCommon.ShowSelectForm("LocTnMstrFND", qry, "Code", WhrCls, fndLocation.Value, "Code", isButtonClicked)
-        txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
-        lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
+            ''richa agarwal 19/03/2015
+            If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Excisable from tspl_location_master where Location_Code ='" & fndLocation.Value & "'"), "T") = CompairStringResult.Equal Then
+                ddlInvoiceType.SelectedValue = "E"
+            End If
+            cmbSaleType.Enabled = False
+            Try
+                SetTax()
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                cmbSaleType.Enabled = True
+            End Try
 
-        ''richa agarwal 19/03/2015
-        If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Excisable from tspl_location_master where Location_Code ='" & fndLocation.Value & "'"), "T") = CompairStringResult.Equal Then
-            ddlInvoiceType.SelectedValue = "E"
+        Else
+            clsCommon.MyMessageBoxShow(Me, "Please Select Sale Type", Me.Text)
+
         End If
-        Try
-            SetTax()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+
 
     End Sub
     Private Sub TxtVehicleCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtVehicleCode._MYValidating

@@ -26,6 +26,11 @@ Imports XpertERPSheed
 
 Public Class MDI
 #Region "Varaibles"
+    Dim DeleteTempData As Boolean = False
+    Dim DeleteTempDataFromTime As DateTime
+    Dim DeleteTempDataToTime As DateTime
+
+
     Public Shared blnShowAllMenu As Boolean = False
     Private isUtilityAdded As Boolean = False
     Private ArrImageList As New Dictionary(Of String, Integer)
@@ -127,6 +132,7 @@ Public Class MDI
     End Function
 
     Private Sub MDI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         If CheckConfigFile() Then
             RadButton18.Text = "Dashboard"
             LoadTheme()
@@ -152,6 +158,7 @@ Public Class MDI
             'If Not clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.UseControlMForHelp, clsFixedParameterCode.UseControlMForHelp, Nothing), "0") = CompairStringResult.Equal Then
             '    Label4.Text = "Press Ctrl+M For Help"
             'End If
+            DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
 
             SettSameUserCanNotloginmultipletimes = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SameuserCanNotloginmultipletimes, clsFixedParameterCode.SameuserCanNotloginmultipletimes, Nothing)) = 1)
             ShowNotificationInMDI = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNotificationInMDI, clsFixedParameterCode.ShowNotificationInMDI, Nothing))
@@ -192,6 +199,7 @@ Public Class MDI
             isAutoClosing = True
             Me.Close()
         End If
+        ' DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
 
     End Sub
     Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
@@ -1048,6 +1056,29 @@ Public Class MDI
             Exit Sub
         End If
     End Sub
+    Sub DeleteOldFiles(folderPath As String, referenceTime As DateTime)
+        Try
+            ' Get all files in the folder
+            Dim files = Directory.GetFiles(folderPath)
+
+            For Each filePath As String In files
+                Dim creationTime As DateTime = File.GetCreationTime(filePath)
+
+                ' Check if the file is older than 24 hours compared to the reference time
+                If (referenceTime - creationTime).TotalHours >= 24 Then
+                    Try
+                        File.Delete(filePath)
+                        'Console.WriteLine("Deleted: " & filePath)
+                    Catch ex As Exception
+                        'Console.WriteLine("Failed to delete: " & filePath & " - " & ex.Message)
+                    End Try
+                End If
+            Next
+
+        Catch ex As Exception
+            ' Console.WriteLine("Error accessing folder: " & ex.Message)
+        End Try
+    End Sub
 
     Sub CheckAndLogin()
         Dim isLoginError As Boolean = False
@@ -1062,7 +1093,21 @@ Public Class MDI
             txtPassword.Focus()
             Exit Sub
         End If
+        DeleteTempDataFromTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+        DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
 
+        Dim startTime As DateTime = DeleteTempDataFromTime
+        Dim endTime As DateTime = DeleteTempDataToTime
+
+        Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
+
+        If serverTime >= startTime AndAlso serverTime <= endTime Then
+
+            Dim folder As String = "C:\ERPTempFolder"
+            'Dim folder As String = "D:\backup"
+            Dim userTime As DateTime = DateTime.Now ' 
+            DeleteOldFiles(folder, userTime)
+        End If
         PasswordRules = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PasswordRules, clsFixedParameterCode.PasswordRules, Nothing)) = "1", True, False))
 
         Dim qry As String = "select TSPL_USER_MASTER.password,TSPL_USER_MASTER.User_Code,TSPL_USER_MASTER.User_Name,TSPL_USER_MASTER.Level, ApprovalLevel,ExpiryDate,TSPL_USER_MASTER.IP_Address,TSPL_USER_MASTER.Login_Status,TSPL_USER_MASTER.Modify_Date,TSPL_USER_MASTER.InActive,TSPL_USER_MASTER.HR_Admin,TSPL_USER_MASTER.E_Mail from TSPL_USER_MASTER where TSPL_USER_MASTER.User_Code='" + txtUserName.Text + "' "
@@ -1338,6 +1383,8 @@ Public Class MDI
             frmDefaultUserZone1.Location = New Point(Screen.PrimaryScreen.WorkingArea.Width - frmDefaultUserZone1.Width, Screen.PrimaryScreen.WorkingArea.Height - frmDefaultUserZone1.Height)
             frmDefaultUserZone1.ShowDialog()
         End If
+        'DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
+
         '==========================================
     End Sub
 

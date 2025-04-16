@@ -22,7 +22,6 @@ Partial Class FrmUtility
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -75,13 +74,13 @@ Partial Class FrmUtility
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnInsertDataInRetestingTable = New Telerik.WinControls.UI.RadButton()
         Me.txtRetestingDate = New common.Controls.MyDateTimePicker()
+        Me.RadButton271 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton356 = New Telerik.WinControls.UI.RadButton()
         Me.btnBankAdvice = New Telerik.WinControls.UI.RadButton()
         Me.UpdateVirtualCustomerAccount = New Telerik.WinControls.UI.RadButton()
         Me.RadButton348 = New Telerik.WinControls.UI.RadButton()
         Me.txtBlankTransDataDate = New common.Controls.MyDateTimePicker()
         Me.RadButton143 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton271 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton144 = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdateEInvoiceHead = New Telerik.WinControls.UI.RadButton()
         Me.RadButton234 = New Telerik.WinControls.UI.RadButton()
@@ -803,7 +802,7 @@ Partial Class FrmUtility
         Me.RadButton284 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer3 = New System.Windows.Forms.Timer()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -857,13 +856,13 @@ Partial Class FrmUtility
         Me.RadGroupBox4.SuspendLayout
         CType(Me.btnInsertDataInRetestingTable, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtRetestingDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).BeginInit
@@ -2123,6 +2122,14 @@ Partial Class FrmUtility
         Me.txtRetestingDate.Text = "13/06/2011"
         Me.txtRetestingDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
+        'RadButton271
+        '
+        Me.RadButton271.Location = New System.Drawing.Point(6, 483)
+        Me.RadButton271.Name = "RadButton271"
+        Me.RadButton271.Size = New System.Drawing.Size(312, 24)
+        Me.RadButton271.TabIndex = 73
+        Me.RadButton271.Text = "After Create Table"
+        '
         'RadButton356
         '
         Me.RadButton356.Location = New System.Drawing.Point(163, 344)
@@ -2193,14 +2200,6 @@ Partial Class FrmUtility
         Me.RadButton143.Size = New System.Drawing.Size(200, 24)
         Me.RadButton143.TabIndex = 41
         Me.RadButton143.Text = "Blank Transaction Data"
-        '
-        'RadButton271
-        '
-        Me.RadButton271.Location = New System.Drawing.Point(6, 483)
-        Me.RadButton271.Name = "RadButton271"
-        Me.RadButton271.Size = New System.Drawing.Size(312, 24)
-        Me.RadButton271.TabIndex = 73
-        Me.RadButton271.Text = "After Create Table"
         '
         'RadButton144
         '
@@ -10175,13 +10174,13 @@ Partial Class FrmUtility
         Me.RadGroupBox4.PerformLayout
         CType(Me.btnInsertDataInRetestingTable, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtRetestingDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnBankAdvice, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).EndInit
