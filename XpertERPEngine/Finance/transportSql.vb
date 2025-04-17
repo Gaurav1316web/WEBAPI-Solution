@@ -1423,6 +1423,548 @@ xxx:
         Return FileCount
     End Function
 
+    Public Function exportdataBoothSlipGNG(ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False, Optional ByVal BoothSlipFormat As Boolean = False) As Integer
+        Dim FileCount As Integer = 1
+        If AllCellsInString Then
+            MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
+        End If
+        'sanjay
+        If sname.Contains("/") Then
+            sname = sname.Replace("/", " ")
+        End If
+        If sname.Contains("\") Then
+            sname = sname.Replace("\", " ")
+        End If
+        'If UseFilePath = False And MultipleFiles = False Then
+        '    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportToDefineLocation, clsFixedParameterCode.ExportToDefineLocation, Nothing)) = 1 Then
+        '        UseFilePath = True
+        '        Dim sfd As SaveFileDialog = New SaveFileDialog()
+        '        sfd.FileName = sname
+        '        'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
+        '        sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+        '        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        '            flname = sfd.FileName
+        '            sname = flname.Substring(flname.LastIndexOf("\") + 1, flname.Length - flname.LastIndexOf("\") - 1)
+        '        Else
+        '            Return False
+        '        End If
+        '    End If
+        'End If
+        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+        If IsExists = False Then
+            System.IO.Directory.CreateDirectory(forlderName)
+        End If
+
+        If UseFilePath = False And MultipleFiles = False Then
+            Dim currTime As DateTime = DateTime.Now
+            sname = sname & clsCommon.GetPrintDate(currTime, "yyyyMMddhhmmss")
+            flname = forlderName & "\" & sname & ".xls"
+            sname = sname & ".xls"
+        End If
+        'sanjay
+
+        Try
+            '==========================Add isblanksheet Variable in Function to Save Blank Excel Sheet===================
+            If ((gv.Columns.Count = 0) Or (gv.ChildRows.Count = 0)) And isblanksheet = False Then
+                Return FileCount
+            End If
+            If fromRow <= 0 Then
+                fromRow = 1
+            End If
+            If ToRow <= 0 Then
+                ToRow = gv.Rows.Count
+            End If
+            '========================================================================================
+            '' check rows limit on work sheet
+
+            If MaxRowExport <= 0 Then
+                MaxRowExport = 1048576
+            End If
+            If gv.Rows.Count >= MaxRowExport And MultipleFiles = False Then
+                MultipleFiles = True
+                Dim FilePathRoot As String = System.IO.Path.GetDirectoryName(flname)
+                Dim fileName As String = System.IO.Path.GetFileName(flname)
+                Dim fileExtn As String = System.IO.Path.GetExtension(flname)
+                fileName = fileName.Replace(fileExtn, "")
+                flname = FilePathRoot & "\" & fileName
+                If System.IO.Directory.Exists(flname) = False Then
+                    System.IO.Directory.CreateDirectory(flname)
+                End If
+
+                'Dim tblArr() As DataTable
+                Dim tableCount = Math.Ceiling(gv.Rows.Count / MaxRowExport)
+                Dim Divisor = gv.Rows.Count / tableCount
+                '' for data boun through data reader
+                Dim fromCount As Integer = 1
+                Dim ToCount As Integer = gv.Rows.Count
+                FileCount = tableCount
+                For intLoop As Integer = 0 To tableCount - 1
+                    Dim file As String
+                    If intLoop = tableCount - 1 Then
+                        ToCount = gv.Rows.Count
+                        file = flname & "\" & fileName & intLoop + 1 & fileExtn
+                        sname = fileName & intLoop + 1 & fileExtn
+                        'IO.File.WriteAllLines(file, transportSql.ExportCSV(gv, (fromCount - 1), (ToCount - 1), AddHeader))
+                        exportdata(gv, file, sname, fromCount, ToCount, isblanksheet, arrHeader, ExportWithoutHeader, FormatCellofExcel, doubleheadershowninExcel, MultipleFiles, UseFilePath, manadatoryField)
+                        fromCount = fromCount + (MaxRowExport)
+                        common.clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(flname) & "\" & System.IO.Path.GetFileName(flname) & " in " & FileCount & " files.")
+                    Else
+                        ToCount = (fromCount + 0) + (MaxRowExport - 1)
+                        file = flname & "\" & fileName & intLoop + 1 & fileExtn
+                        sname = fileName & intLoop + 1 & fileExtn
+                        'IO.File.WriteAllLines(file, transportSql.ExportCSV(gv, (fromCount - 1), (ToCount - 1), AddHeader))
+                        exportdata(gv, file, sname, fromCount, ToCount, isblanksheet, arrHeader, ExportWithoutHeader, FormatCellofExcel, doubleheadershowninExcel, MultipleFiles, UseFilePath, manadatoryField)
+                        fromCount = (fromCount) + (MaxRowExport)
+                    End If
+                Next
+                Return FileCount
+                'Throw New Exception("Max row limit for worksheet in excel is 1048576")
+            End If
+            'Creating dataset to export
+            Dim dset As New DataSet
+            'add table to dataset
+            dset.Tables.Add()
+
+            'Do not remove column for master Export/Import
+            If Not (manadatoryField IsNot Nothing AndAlso manadatoryField.Count > 0) Then
+                Dim IndexList As List(Of String) = New List(Of String)
+
+                For i As Integer = 0 To gv.Columns.Count - 1
+                    If Not gv.Columns(i).IsVisible Then
+                        IndexList.Add(gv.Columns(i).Name)
+                    End If
+                Next
+
+                For i As Integer = 0 To IndexList.Count - 1
+                    gv.Columns.Remove(IndexList.Item(i).ToString())
+                Next
+            End If
+
+            clsCommon.ProgressBarPercentShow()
+            'add column to that table            
+            For i As Integer = 0 To gv.ColumnCount - 1
+                'dset.Tables(0).Columns.Add(gv.Columns(i).HeaderText)
+                dset.Tables(0).Columns.Add("Column" & (i + 1))
+                dset.Tables(0).Columns("Column" & (i + 1)).Caption = IIf(ExportWithoutHeader, "", gv.Columns(i).HeaderText)
+            Next
+            'add rows to the table
+            'dset.Tables(0).Rows(0).Delete()
+
+            Dim dr1 As DataRow
+
+
+            'For row = 0 To dt.Rows.Count - 1
+            '    For col = 0 To dt.Columns.Count - 1
+            '        rawData(row, col) = dt.Rows(row).ItemArray(col)
+            '    Next
+            '    clsCommon.ProgressBarPercentUpdate((row * 100) / dt.Rows.Count, " Exporting Record  " & row & "  Out of " & dt.Rows.Count)
+            'Next
+            Dim excel As New Microsoft.Office.Interop.Excel.Application
+            Dim wBook As Microsoft.Office.Interop.Excel.Workbook
+            Dim wSheet As Microsoft.Office.Interop.Excel.Worksheet
+
+            Dim GridCurrentRowIndex As Int64 = fromRow - 2
+            Dim GridLastSavedRowIndex As Int64 = fromRow - 2
+
+            wBook = excel.Workbooks.Add()
+
+            'sanjay for summary row
+            If MaxRowExport <> ToRow Then
+                If (gv.MasterTemplate.SummaryRowsBottom.Count > 0) Then
+                    ToRow = ToRow + 1
+                End If
+            End If
+            'sanjay for summary row
+
+            Dim rawData((ToRow - fromRow + 1), gv.Columns.Count - 1) As Object
+            wSheet = wBook.ActiveSheet()
+
+            If clsCommon.myLen(sname) > 31 Then
+                sname = sname.Substring(0, 31)
+            End If
+
+            'Dim dp As Object
+            ' dp = wBook.BuiltinDocumentProperties
+            'dp("Tags").Value = clsUserMgtCode.frmComplaintMaster
+
+            wSheet.Name = sname
+
+            Dim flag As Boolean = False
+            Dim colnum As Integer = -1
+            Dim PrevCol As Integer = -1
+            Dim isResteRawData As Boolean = True
+            Dim ColNums(0 To gv.Columns.Count - 1) As Integer
+            Dim MaxRowsToExport As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuickExport, clsFixedParameterCode.MaxRowsForQuickExport, Nothing))
+            Dim jk As Integer = 0
+
+            If BoothSlipFormat Then
+                For i As Integer = arrHeader.Count + 2 To gv.Rows.Count + arrHeader.Count + 1
+                    If i = arrHeader.Count + 2 Then
+                        wSheet.Rows(i).font.bold = True
+                        wSheet.Rows(i).font.size = 18
+                    Else
+                        wSheet.Rows(i).font.size = 18
+                    End If
+                Next
+            End If
+
+
+            For i As Integer = 0 To gv.Columns.Count - 1
+                jk += 1
+                ''richa agarwal 12jan BM00000008685
+                If AllCellsInString Then
+                    If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
+                        If gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
+                        Else
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
+                        End If
+                    ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
+                    ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4108 ' Center Align
+                    End If
+                    If BoothSlipFormat Then
+                        wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Borders.LineStyle = True
+                    End If
+                Else
+                    If FormatCellofExcel = False Then
+                        If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
+                        End If
+                    Else
+                        ''richa agarwal 08-jan-2015 format for excel sheet cell format @ as text,General as for General, 0 as numnber,0.00 as decimal against ticket no BM00000008659,BM00000008854
+                        If clsCommon.CompairString(gv.Columns(i).Name, "ColAcNo") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "ColPAYEEACNO") = CompairStringResult.Equal Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf clsCommon.CompairString(gv.Columns(i).Name, "colSCACNO") = CompairStringResult.Equal Or clsCommon.CompairString(gv.Columns(i).Name, "colBeniACNO") = CompairStringResult.Equal Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "General"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0.00"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "0"
+                        ElseIf TypeOf gv.Columns(i) Is GridViewDateTimeColumn Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "dd/mmm/yyyy"
+                        End If
+                        ''-------------------
+                    End If
+                End If
+            Next
+
+            Dim colIndex As Integer = 1
+            Dim rowIndex As Integer = 1
+
+            If Not IsNothing(arrHeader) Then
+                For Each Str As String In arrHeader
+                    If BoothSlipFormat Then
+                        Dim startCell As String = "A" & rowIndex.ToString()
+                        Dim endCell As String = ColumnIndexToColumnLetter(gv.Columns.Count) & rowIndex.ToString()
+                        Dim mergeRange As String = startCell & ":" & endCell
+                        If rowIndex = 1 Then
+                            excel.Cells(rowIndex, (gv.Columns.Count / 2)) = Str
+                            excel.Rows(rowIndex).Font.Size = 26
+                            excel.Rows(rowIndex).Font.Bold = True
+                            excel.Range(mergeRange).Merge()
+                            excel.Range(mergeRange).HorizontalAlignment = -4108 ' Center Align
+                        ElseIf rowIndex = 2 Then
+                            excel.Cells(rowIndex, (gv.Columns.Count / 2)) = Str
+                            excel.Rows(rowIndex).Font.Size = 18
+                            excel.Rows(rowIndex).Font.Bold = True
+                            excel.Range(mergeRange).Merge()
+                            excel.Range(mergeRange).HorizontalAlignment = -4108 ' Center Align
+                        Else
+                            excel.Cells(rowIndex, colIndex) = Str
+                        End If
+                    Else
+                        excel.Cells(rowIndex, colIndex) = Str
+                    End If
+                    rowIndex += 1
+                Next
+            End If
+
+            ''richa agarwal 09-feb-2016 to show double header in excel BM00000008811
+            If doubleheadershowninExcel = True Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view = gv.ViewDefinition
+                Dim j1 As Integer = 1
+                Dim k As Integer = 0
+                If view.ColumnGroups.Count > 0 Then
+                    Dim chartRange As Excel.Range
+                    For i As Integer = 0 To view.ColumnGroups.Count - 1
+                        excel.Cells(rowIndex, j1) = clsCommon.myCstr(view.ColumnGroups(i).Text)
+                        Dim l As Integer = 0
+                        For m As Integer = 0 To clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - 1
+                            'If view.ColumnGroups(i).Rows(0).ColumnNames(m).IsVisible = False Then ''TELERIK2015->2022
+                            '    l = l + 1
+                            'End If
+
+                            'If view.ColumnGroups(i).IsVisible = False Then ''TELERIK2015->2022
+                            If view.ViewTemplate.Columns.Contains(view.ColumnGroups(i).Rows(0).ColumnNames(m)) = False Then
+                                l = l + 1
+                            End If
+
+                        Next
+
+                        k = k + clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - l
+                        chartRange = wSheet.Range(wSheet.Cells(rowIndex, j1), wSheet.Cells(rowIndex, k))
+                        chartRange.Merge()
+                        chartRange.VerticalAlignment = 2
+                        chartRange.HorizontalAlignment = 3
+
+
+                        'j1 = clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).Columns.Count) + 1 - l
+                        j1 = j1 + clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - l
+                    Next
+
+                    rowIndex += 1
+                End If
+
+            End If
+            ''------------------------------------------
+            While isResteRawData
+                If (ToRow - fromRow + 1) <= MaxRowsToExport Then
+
+                    ReDim rawData((ToRow - fromRow), gv.Columns.Count - 1)
+                    GridCurrentRowIndex = fromRow - 1
+                    GridLastSavedRowIndex = ToRow - 1 ''gv.ChildRows.Count - 1
+                    isResteRawData = False
+                Else
+                    GridCurrentRowIndex = GridLastSavedRowIndex + 1
+                    If (GridLastSavedRowIndex + 1) + MaxRowsToExport < (ToRow) Then
+                        ReDim rawData(MaxRowsToExport - 1, gv.Columns.Count - 1)
+                        GridLastSavedRowIndex = (GridLastSavedRowIndex + (MaxRowsToExport))
+                        isResteRawData = True
+                    Else
+                        ReDim rawData((ToRow - fromRow) - (GridLastSavedRowIndex - fromRow + 1 - 1), gv.Columns.Count - 1)
+                        GridLastSavedRowIndex = ToRow - 1
+                        isResteRawData = False
+                    End If
+                    'GridLastSavedRowIndex = (GridLastSavedRowIndex + MaxRowsToExport)
+                End If
+                Dim RowDataRIndix As Integer = 0
+                For i As Integer = GridCurrentRowIndex To GridLastSavedRowIndex
+                    'gv.RowCount, gv.Columns.Count - 1
+                    dr1 = dset.Tables(0).NewRow
+                    clsCommon.ProgressBarPercentUpdate(((i - fromRow + 1 + 1) * 100) / (ToRow - fromRow + 1), " Exporting Record  " & (i - fromRow + 1 + 1) & "  Out of " & (ToRow - fromRow + 1))
+                    Try
+                        For j As Integer = 0 To gv.Columns.Count - 1
+                            dr1(j) = clsCommon.myCstr(gv.ChildRows(i).Cells(j).Value)
+                            rawData(RowDataRIndix, j) = dr1(j).ToString()
+                        Next
+                    Catch ex As Exception
+                        RowDataRIndix = RowDataRIndix + 1
+                        Exit For
+                    End Try
+                    dset.Tables(0).Rows.Add(dr1)
+                    RowDataRIndix = RowDataRIndix + 1
+                Next
+
+                'sanjay
+                Try
+                    If isResteRawData = False AndAlso MaxRowExport <> ToRow Then
+                        If (gv.MasterTemplate.SummaryRowsBottom.Count > 0) Then
+                            RowDataRIndix = RowDataRIndix - 1
+                            dr1 = dset.Tables(0).NewRow
+                            For ii As Integer = 0 To gv.MasterTemplate.SummaryRowsBottom(0).Count - 1
+                                Dim colName As String = gv.MasterTemplate.SummaryRowsBottom(0)(ii).Name
+                                If gv.Columns.Contains(colName) AndAlso gv.Columns(colName).IsVisible Then
+                                    Dim summaryItem As GridViewSummaryItem = gv.SummaryRowsBottom(0)(ii)
+
+                                    Dim summary As Object = Nothing
+
+                                    Try
+                                        summary = summaryItem.Evaluate(gv.MasterTemplate)
+                                    Catch ex As Exception
+                                    End Try
+                                    dr1(gv.Columns(colName).Index) = IIf(((summary = Nothing) Or (Single.NaN.Equals(summary))), DBNull.Value, clsCommon.myCstr(summary))
+                                    rawData(RowDataRIndix, gv.Columns(colName).Index) = clsCommon.myCstr(dr1(gv.Columns(colName).Index).ToString())
+                                End If
+                            Next
+
+                            dset.Tables(0).Rows.Add(dr1)
+                        End If
+                    End If
+                Catch ex As Exception
+                End Try
+                'sanjay
+
+                Try
+                    CType(wBook.Sheets("Sheet2"), Excel.Worksheet).Delete()
+                    CType(wBook.Sheets("Sheet3"), Excel.Worksheet).Delete()
+                Catch ex As Exception
+                End Try
+
+                Dim dt As System.Data.DataTable = dset.Tables(0)
+                Dim dc As System.Data.DataColumn
+                ' Dim dr As System.Data.DataRow
+                colIndex = 0
+                For Each dc In dt.Columns
+                    colIndex = colIndex + 1
+                    excel.Cells(rowIndex, colIndex) = dc.Caption
+                Next
+
+                Dim LastColumn As String = ColumnIndexToColumnLetter(dt.Columns.Count)
+                Dim Lastrow As Integer = dt.Rows.Count + 1 ''change
+
+                Dim row As Integer = 0
+                Dim col As Integer = 0
+                If Not isblanksheet Then
+                    wSheet.Range("A" & ((GridCurrentRowIndex - fromRow + 1) + rowIndex + 1), LastColumn & ((GridLastSavedRowIndex - fromRow + 1) + rowIndex + 1)).Value2 = rawData
+                End If
+                rawData = Nothing
+                dt = Nothing
+                ''new code by Panch Raj
+                dset.Tables(0).Rows.Clear()
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+                If (ToRow - fromRow + 1) - 1 > (GridLastSavedRowIndex - fromRow + 1) Then
+                    isResteRawData = True
+                Else
+                    isResteRawData = False
+                End If
+            End While
+
+            'Hide Group columns
+            If doubleheadershowninExcel = True Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view = gv.ViewDefinition
+                Dim j1 As Integer = 1
+                Dim k As Integer = 0
+                If view.ColumnGroups.Count > 0 Then
+                    'Dim chartRange As Excel.Range
+                    For i As Integer = 0 To view.ColumnGroups.Count - 1
+                        'excel.Cells(rowIndex, j1) = clsCommon.myCstr(view.ColumnGroups(i).Text)
+                        Dim l As Integer = 0
+                        For m As Integer = 0 To clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - 1
+                            'If view.ColumnGroups(i).Rows(0).Columns(m).IsVisible = False Then''TELERIK2015->2022
+                            'l = l + 1
+                            'End If
+                            'If view.ColumnGroups(i).IsVisible = False Then
+                            If view.ViewTemplate.Columns.Contains(view.ColumnGroups(i).Rows(0).ColumnNames(m)) = False Then
+                                l = l + 1
+                            End If
+                        Next
+
+                        k = k + clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - l
+                        'chartRange = wSheet.Range(wSheet.Cells(rowIndex, j1), wSheet.Cells(rowIndex, k))
+                        'chartRange.Merge()
+                        'chartRange.VerticalAlignment = 2
+                        'chartRange.HorizontalAlignment = 3
+                        If view.ColumnGroups(i).IsVisible = False Then
+                            'chartRange.EntireColumn.Hidden = True
+                            wSheet.Range(wSheet.Cells(rowIndex, j1), wSheet.Cells(rowIndex, k)).EntireColumn.Hidden = True
+                        End If
+
+                        'j1 = clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).Columns.Count) + 1 - l
+                        j1 = j1 + clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - l
+                    Next
+
+                    rowIndex += 1
+                End If
+
+            End If
+
+            clsCommon.ProgressBarPercentUpdate(100, "Wait Adjusting Columns Autofit ")
+
+            If doubleheadershowninExcel = False Then
+                wSheet.Columns.AutoFit()
+            End If
+
+            If AllCellsInString Then
+                wSheet.Columns.AutoFit()
+            End If
+
+
+
+
+
+            'Manadatory Field Coloring
+            If manadatoryField IsNot Nothing AndAlso manadatoryField.Count > 0 Then
+                For c As Integer = 0 To wSheet.Columns.Count - 1
+                    If clsCommon.myLen(wSheet.Cells(1, c + 1).value) <= 0 Then
+                        Exit For
+                    End If
+
+                    If isManadatory(wSheet.Cells(1, c + 1).value, manadatoryField) Then
+                        wSheet.Cells(1, c + 1).interior.color = RGB(Color.LightGoldenrodYellow.R, Color.LightGoldenrodYellow.G, Color.LightGoldenrodYellow.B)
+                    End If
+                Next
+
+                For i As Integer = 0 To gv.Columns.Count - 1
+                    If Not gv.Columns(i).IsVisible Then
+                        wSheet.Columns(i + 1).EntireColumn.Hidden = True
+                    End If
+                Next
+                'oWB.SaveAs(filePath)
+                'oWB.Close()
+                'oApp.Quit()
+
+            End If
+
+
+            Dim strFileName As String = flname
+            Dim blnFileOpen As Boolean = False
+            clsCommon.ProgressBarPercentUpdate(100, "Wait Saving Excel file in expected Format ")
+            Try
+                Dim fileTemp As System.IO.FileStream = System.IO.File.OpenWrite(strFileName)
+                fileTemp.Close()
+
+            Catch ex As Exception
+                blnFileOpen = False
+            End Try
+
+
+            If System.IO.File.Exists(strFileName) Then
+                System.IO.File.Delete(strFileName)
+            End If
+
+            clsCommon.ProgressBarPercentUpdate(100, "Wait Opening Excel file ")
+            wBook.SaveAs(strFileName)
+            wBook.Close(True)
+
+            clsCommon.ProgressBarPercentHide()
+            wBook = Nothing
+            wSheet = Nothing
+            excel.Quit()
+            excel = Nothing
+            rawData = Nothing
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            'sanjay
+            If MultipleFiles = False Then
+                If FileCount > 1 Then
+                    common.clsCommon.MyMessageBoxShow(gv, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(flname) & "\" & System.IO.Path.GetFileName(flname) & " in " & FileCount & " files.")
+                Else
+                    common.clsCommon.MyMessageBoxShow(gv, "Exported Successfully.")
+                    If clsCommon.myLen(gv.MyExportFilePath) <= 0 Then
+                        Process.Start(flname)
+                    Else
+                        gv.MyExportFilePath = flname
+                    End If
+                End If
+            End If
+            'sanjay
+
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return FileCount
+    End Function
+
+
     Public Function QuickExportToExcel(ByVal gv As RadGridView, ByVal flname As String, ByVal sname As String, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ByVal UseFilePath As Boolean = False) As Integer
         Try
             Return exportdata(gv, flname, sname, isblanksheet, arrHeader, False, False, False, UseFilePath)
