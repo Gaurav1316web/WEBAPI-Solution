@@ -251,7 +251,8 @@ Public Class clsGenratePaymentCycles
 
 
                             Dim coll As New Hashtable()
-                            clsCommon.AddColumnsForChange(coll, "Code", clsERPFuncationality.GetNextCode(tran, dtStartFiscalYear, clsDocType.Detail, clsDocTransactionType.Detail, ""))
+                            Dim strCode As String = clsERPFuncationality.GetNextCode(tran, dtStartFiscalYear, clsDocType.Detail, clsDocTransactionType.Detail, "")
+                            clsCommon.AddColumnsForChange(coll, "Code", strCode)
                             clsCommon.AddColumnsForChange(coll, "Name", ii)
                             clsCommon.AddColumnsForChange(coll, "Fiscal_Code", strFiscalYear)
                             clsCommon.AddColumnsForChange(coll, "MCC_Code", strMCC)
@@ -260,7 +261,7 @@ Public Class clsGenratePaymentCycles
                             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(tran), "dd/MMM/yyyy"))
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_CYCLE_GENERATED", OMInsertOrUpdate.Insert, "", tran)
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsERPFuncationality.GetNextCode(tran, dtStartFiscalYear, clsDocType.Detail, clsDocTransactionType.Detail, ""), "TSPL_PAYMENT_CYCLE_GENERATED", "Code", Nothing)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYMENT_CYCLE_GENERATED", "Code", tran)
 
                             ii += 1
                             dtStart = dtEnd.AddDays(1)

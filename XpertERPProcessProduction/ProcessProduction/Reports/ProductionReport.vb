@@ -33,7 +33,47 @@ Public Class ProductionReport
         Gv1.DataSource = Nothing
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
-        Me.Close()
+        'Dim DeleteTempDataFromTime As String = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+        Dim DeleteTempDataFromTime As String
+        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 Then
+            DeleteTempDataFromTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+            'DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
+        End If
+
+        Dim timeParts() As String = DeleteTempDataFromTime.Split("-"c)
+
+        If timeParts.Length = 2 Then
+            ' Trim the parts
+            Dim fromTimeStr As String = timeParts(0).Trim()
+            Dim toTimeStr As String = timeParts(1).Trim()
+
+            ' Get string lengths
+            Dim fromTimeLength As Integer = fromTimeStr.Length
+            Dim toTimeLength As Integer = toTimeStr.Length
+
+            ' Output
+            Console.WriteLine("From Time: " & fromTimeStr & " | Length: " & fromTimeLength)
+            Console.WriteLine("To Time: " & toTimeStr & " | Length: " & toTimeLength)
+
+            ' Validate length and convert to DateTime
+            If fromTimeLength = 11 AndAlso toTimeLength = 11 Then ' e.g., "07:00:00 AM" = 11 chars
+                Dim fromTime As DateTime = clsCommon.myCDate(fromTimeStr)
+                Dim toTime As DateTime = clsCommon.myCDate(toTimeStr)
+
+                ' Now you can use fromTime and toTime
+                If fromTime < toTime Then
+                    Console.WriteLine("Valid time range.")
+                End If
+            Else
+                Console.WriteLine("Invalid time format length.")
+            End If
+        Else
+            Console.WriteLine("Time range format is invalid.")
+        End If
+        'Else
+        '    Console.WriteLine("Time range string is empty or null.")
+        'End If
+        'Me.Close()
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
@@ -100,7 +140,7 @@ Public Class ProductionReport
             If Productionchk.IsChecked = True Then
                 qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag, "
             ElseIf RePrdntchk.IsChecked = True Then
-                qry += " (FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag,  "
+                qry += " ((TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty-(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) ) as qty_bag,  "
             ElseIf Prdncreallchk.IsChecked = True Then
                 qry += " (TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As qty_bag, "
             End If

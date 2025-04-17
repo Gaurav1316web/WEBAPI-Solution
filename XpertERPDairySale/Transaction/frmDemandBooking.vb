@@ -927,6 +927,21 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
                 If clsCommon.CompairString(txtRouteNo.Value, RouteNo) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        If rbtnEvening.IsChecked Then
+                            Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EveningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
+                            Dim CurrDateTime = clsCommon.GETSERVERDATE()
+                            If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
+                                Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
+                            End If
+                        Else
+                            Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select MorningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
+                            Dim CurrDateTime = clsCommon.GETSERVERDATE()
+                            If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
+                                Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
+                            End If
+                        End If
+                    End If
                     SaveData(0, False)
                 Else
                     Throw New Exception("You can't change route")
