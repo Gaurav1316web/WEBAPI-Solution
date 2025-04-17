@@ -1067,6 +1067,12 @@
     <Compile Include="Transaction\FrmProductDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmQuickDemand.Designer.vb">
+      <DependentUpon>frmQuickDemand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmQuickDemand.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmSaleInvoiceDairy.Designer.vb">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>
     </Compile>
@@ -1574,6 +1580,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmProductDispatch.resx">
       <DependentUpon>FrmProductDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmQuickDemand.resx">
+      <DependentUpon>frmQuickDemand.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmSaleInvoiceDairy.resx">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>

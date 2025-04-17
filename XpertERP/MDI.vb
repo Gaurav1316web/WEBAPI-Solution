@@ -9465,6 +9465,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemand_Sheet
                         frm = New frmDemand_Sheet()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmQuickDemand
+                        frm = New frmQuickDemand()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDCSDEmandBooking
                         frm = New frmDCSDemandBooking()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
