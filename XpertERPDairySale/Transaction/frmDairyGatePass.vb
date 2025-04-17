@@ -2697,6 +2697,32 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
 
 where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
 and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
+Union
+select Distinct '' as TR_Code,TSPL_CUSTOMER_MASTER.Cust_Code,
+IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,'' As Item_Code,'' As Short_Description
+,0 As Sku_Seq,0 As Qty,0 As ItemNetAmount,'' As Unit_code ,'' As ShiftType,
+   TSPL_ROUTE_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
+  0 as KG_QTY ,
+  0 as KG_QTY1,
+  0 as LTR_QTY,
+'' AS Product_Item,
+'' as Fresh_Item
+
+from TSPL_CUSTOMER_MASTER
+Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+Left Join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id
+LEFT Outer Join (Select Document_No,Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER 
+--Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='01-Apr-2024'
+Group By Document_No,Document_Date,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+Left Outer Join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No And TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+Left Join TSPL_SD_SHIPMENT_BOOKING_DETAIL ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_DEMAND_BOOKING_DETAIL.TR_Code  
+Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
+----left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code=I.item_code 
+
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' And 
+TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "'
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
 
@@ -2868,10 +2894,8 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                arrHeader.Add("Dairy GatePass Booth Slip")
-                arrHeader.Add("Transpoter Name: " + clsCommon.myCstr(txtDistributorName.Text) + "" + "     Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType)
-                arrHeader.Add("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "" + "     Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "" + "     Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text))
-
+                arrHeader.Add("Supply Chart")
+                arrHeader.Add("Transpoter : " + clsCommon.myCstr(txtDistributorName.Text) + "" + "     Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType + "   " + "Route :" + clsCommon.myCstr(txtRouteName.Text) + "    ")
 
                 'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
                 'arrHeader.Add(("Shift Type: " + ShiftType + "  "))
@@ -2913,7 +2937,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    transportSql.exportdata(Nothing, MyRadGridView1, "", "Dairy GatePass Booth Slip", 0, MyRadGridView1.Rows.Count, False, arrHeader, False, False, False, False, False, Nothing, True)
+                    transportSql.exportdataBoothSlipGNG(Nothing, MyRadGridView1, "", "Dairy GatePass Booth Slip", 0, MyRadGridView1.Rows.Count, False, arrHeader, False, False, False, False, False, Nothing, True, True)
                 Else
                     clsCommon.MyExportToExcelGrid("Dairy GatePass Booth Slip", MyRadGridView1, arrHeader, "Dairy GatePass Booth Slip")
                 End If

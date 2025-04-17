@@ -27,8 +27,8 @@ Imports XpertERPSheed
 Public Class MDI
 #Region "Varaibles"
     Dim DeleteTempData As Boolean = False
-    Dim DeleteTempDataFromTime As DateTime
-    Dim DeleteTempDataToTime As DateTime
+    Dim DeleteTempDataFromTime As String
+    'Dim DeleteTempDataToTime As DateTime
     Dim ImportExportDrive As String
 
     Public Shared blnShowAllMenu As Boolean = False
@@ -1108,21 +1108,21 @@ Public Class MDI
             txtPassword.Focus()
             Exit Sub
         End If
-        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 AndAlso clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing)) > 0 Then
-            DeleteTempDataFromTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
-            DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
+        Dim DeleteTempDataFromTime As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+        Dim timeParts() As String
+        If clsCommon.myLen(DeleteTempDataFromTime) > 0 Then
+            timeParts = DeleteTempDataFromTime.Split("-"c)
         End If
-        Dim startTime As DateTime = DeleteTempDataFromTime
-        Dim endTime As DateTime = DeleteTempDataToTime
-
-        Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
-
-        If serverTime >= startTime AndAlso serverTime <= endTime Then
-
-            Dim folder As String = "C:\ERPTempFolder"
-            'Dim folder As String = "D:\backup"
-            Dim userTime As DateTime = DateTime.Now ' 
-            DeleteOldFiles(folder, userTime)
+        If timeParts IsNot Nothing AndAlso timeParts.Count > 1 Then
+            Dim fromTime As DateTime = clsCommon.myCDate(timeParts(0).Trim())
+            Dim toTime As DateTime = clsCommon.myCDate(timeParts(1).Trim())
+            Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
+            If serverTime >= fromTime AndAlso serverTime <= toTime Then
+                Dim folder As String = "C:\ERPTempFolder"
+                'Dim folder As String = "D:\backup"
+                Dim userTime As DateTime = DateTime.Now ' 
+                DeleteOldFiles(folder, userTime)
+            End If
         End If
         PasswordRules = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PasswordRules, clsFixedParameterCode.PasswordRules, Nothing)) = "1", True, False))
 
@@ -8666,7 +8666,7 @@ Public Class MDI
                         frm = New RptDcsPaymentReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport
-                        frm = New RptYearlyMonthlyDcsCollectionReport
+                        frm = New rptYearlyMonthlyDcsCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
@@ -8766,7 +8766,7 @@ Public Class MDI
                         frm = New rptUnionMilkRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.latestPaymentProcess
-                        frm = New latestPaymentProcess
+                        frm = New LatestPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
@@ -10151,7 +10151,7 @@ Public Class MDI
                         frm = New rptTankerProfitLossReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptBmcTankerInOutReport
-                        frm = New rptBmcTankerInOutReport
+                        frm = New RptBmcTankerInOutReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionUtilityCost
                         frm = New frmProductionUtilityCost
