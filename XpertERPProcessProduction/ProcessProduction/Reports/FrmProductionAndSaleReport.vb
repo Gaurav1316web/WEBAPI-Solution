@@ -780,7 +780,7 @@ LEFT OUTER JOIN
                 'dtcurrent = fromDate.Value
                 'dtnext = toDate.Value
                 fDate = fromDate.Value
-                tDate = toDate.Value
+                tDate = ToDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 
 
@@ -965,9 +965,9 @@ LEFT OUTER JOIN
                     frmCRV = Nothing
                 Else
                     Gv1.Visible = True
-                    gv1.DataSource = dt2
-                    gv1.ReadOnly = True
-                    SetGridFormat(gv1)
+                    Gv1.DataSource = dt2
+                    Gv1.ReadOnly = True
+                    SetGridFormat(Gv1)
                     ReStoreGridLayout()
                     If rdbDaily.IsChecked = True Then
                         View()
@@ -977,7 +977,7 @@ LEFT OUTER JOIN
                 End If
             Else
                 common.clsCommon.MyMessageBoxShow("No Data Found")
-                gv1.DataSource = Nothing
+                Gv1.DataSource = Nothing
             End If
 
         Catch ex As Exception
@@ -1139,19 +1139,19 @@ LEFT OUTER JOIN
             VarID += "_W"
         End If
 
-        gv1.VarID = VarID
+        Gv1.VarID = VarID
 
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
         If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-            gv1.MasterTemplate.FilterDescriptors.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
             obj.ReportID = PageSetupReport_ID
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout = New MemoryStream()
-            gv1.SaveLayout(obj.GridLayout)
-            obj.GridColumns = gv1.ColumnCount
+            Gv1.SaveLayout(obj.GridLayout)
+            obj.GridColumns = Gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
                 common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
@@ -1170,13 +1170,13 @@ LEFT OUTER JOIN
             If clsCommon.myLen(PageSetupReport_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
                     Dim ii As Integer
-                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
-                        gv1.Columns(ii).IsVisible = False
-                        gv1.Columns(ii).VisibleInColumnChooser = True
+                    For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                        Gv1.Columns(ii).IsVisible = False
+                        Gv1.Columns(ii).VisibleInColumnChooser = True
                     Next
-                    gv1.LoadLayout(obj.GridLayout)
+                    Gv1.LoadLayout(obj.GridLayout)
                     obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 End If
             End If
@@ -1198,8 +1198,8 @@ LEFT OUTER JOIN
             arrHeader.Add("User : " + objCommonVar.CurrentUser)
             arrHeader.Add("Report Type : " + IIf(rdbDaily.IsChecked = True, "Daily", "Weekly"))
             If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                transportSql.QuickExportToExcel(gv1, "", StrReportName, , arrHeader)
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                transportSql.QuickExportToExcel(Gv1, "", StrReportName, , arrHeader)
                 'Else
                 'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 'clsCommon.MyExportToPDF(Label1.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
@@ -1256,7 +1256,7 @@ LEFT OUTER JOIN
                 doc.HeaderHeight = 100
                 doc.FooterHeight = 200
                 doc.Landscape = True
-                doc.AssociatedObject = gv1
+                doc.AssociatedObject = Gv1
                 doc.MiddleHeader = "RCDF : Weekly Production & Sale of Cattle Feed Plants:" + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
                 doc.HeaderFont = New Font("Verdana", 10, FontStyle.Bold)
                 doc.RightHeader = "MT"
@@ -1299,44 +1299,44 @@ LEFT OUTER JOIN
     End Sub
 
     Sub View()
-        If gv1.Rows.Count > 0 Then
+        If Gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             Dim groupRow0 = New GridViewColumnGroupRow()
             groupRow0.MinHeight = 30
             view.ColumnGroups(0).Rows.Add(groupRow0)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Location").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Capacity").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("NoofShift").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("SNo").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Location").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Capacity").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("NoofShift").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Production"))
             Dim groupRow1 = New GridViewColumnGroupRow()
             groupRow1.MinHeight = 30
             view.ColumnGroups(1).Rows.Add(groupRow1)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("ProdDailyQty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("ProdCumQty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("ProdDailyQty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("ProdCumQty").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Capacity Utilization"))
             Dim groupRow2 = New GridViewColumnGroupRow()
             groupRow2.MinHeight = 30
             view.ColumnGroups(2).Rows.Add(groupRow2)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUD").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUM").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUY").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("CUD").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("CUM").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("CUY").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Sale"))
             Dim groupRow3 = New GridViewColumnGroupRow()
             groupRow3.MinHeight = 30
             view.ColumnGroups(3).Rows.Add(groupRow3)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SaleDailyQty").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SaleCumQty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("SaleDailyQty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("SaleCumQty").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             Dim groupRow4 = New GridViewColumnGroupRow()
             groupRow4.MinHeight = 30
             view.ColumnGroups(4).Rows.Add(groupRow4)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("FGS").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("FGS").Name)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("PSO").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Breakdown"))
