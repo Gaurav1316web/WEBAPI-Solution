@@ -1108,43 +1108,16 @@ Public Class MDI
             txtPassword.Focus()
             Exit Sub
         End If
-        Dim DeleteTempDataFromTime As String
-        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 Then
-            DeleteTempDataFromTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
-            ' Dim DeleteTempDataToTime As String = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
+        Dim DeleteTempDataFromTime As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+        Dim timeParts() As String
+        If clsCommon.myLen(DeleteTempDataFromTime) > 0 Then
+            timeParts = DeleteTempDataFromTime.Split("-"c)
         End If
-        Dim timeParts() As String = DeleteTempDataFromTime.Split("-"c)
-        If timeParts.Length = 2 Then
-            ' Trim the parts
-            Dim fromTimeStr As String = timeParts(0).Trim()
-            Dim toTimeStr As String = timeParts(1).Trim()
-
-            ' Get string lengths
-            Dim fromTimeLength As Integer = fromTimeStr.Length
-            Dim toTimeLength As Integer = toTimeStr.Length
-
-            ' Output
-            Console.WriteLine("From Time: " & fromTimeStr & " | Length: " & fromTimeLength)
-            Console.WriteLine("To Time: " & toTimeStr & " | Length: " & toTimeLength)
-
-            ' Validate length and convert to DateTime
-            'If fromTimeLength = 11 AndAlso toTimeLength = 11 Then ' e.g., "07:00:00 AM" = 11 chars
-            Dim fromTime As DateTime = clsCommon.myCDate(fromTimeStr)
-            Dim toTime As DateTime = clsCommon.myCDate(toTimeStr)
-
-            ' Now you can use fromTime and toTime
-            'If fromTime < toTime Then
-            '    Console.WriteLine("Valid time range.")
-
-
-
-            ' Dim startTime As String = DeleteTempDataFromTime
-            ' Dim endTime As DateTime = DeleteTempDataToTime
-
+        If timeParts IsNot Nothing AndAlso timeParts.Count > 1 Then
+            Dim fromTime As DateTime = clsCommon.myCDate(timeParts(0).Trim())
+            Dim toTime As DateTime = clsCommon.myCDate(timeParts(1).Trim())
             Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
-
-            If serverTime >= fromTime AndAlso serverTime <= toTimeStr Then
-
+            If serverTime >= fromTime AndAlso serverTime <= toTime Then
                 Dim folder As String = "C:\ERPTempFolder"
                 'Dim folder As String = "D:\backup"
                 Dim userTime As DateTime = DateTime.Now ' 
@@ -8693,7 +8666,7 @@ Public Class MDI
                         frm = New RptDcsPaymentReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport
-                        frm = New RptYearlyMonthlyDcsCollectionReport
+                        frm = New rptYearlyMonthlyDcsCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
@@ -8793,7 +8766,7 @@ Public Class MDI
                         frm = New rptUnionMilkRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.latestPaymentProcess
-                        frm = New latestPaymentProcess
+                        frm = New LatestPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
@@ -10175,7 +10148,7 @@ Public Class MDI
                         frm = New rptTankerProfitLossReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptBmcTankerInOutReport
-                        frm = New rptBmcTankerInOutReport
+                        frm = New RptBmcTankerInOutReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionUtilityCost
                         frm = New frmProductionUtilityCost
