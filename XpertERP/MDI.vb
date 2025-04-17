@@ -27,8 +27,8 @@ Imports XpertERPSheed
 Public Class MDI
 #Region "Varaibles"
     Dim DeleteTempData As Boolean = False
-    Dim DeleteTempDataFromTime As DateTime
-    Dim DeleteTempDataToTime As DateTime
+    Dim DeleteTempDataFromTime As String
+    'Dim DeleteTempDataToTime As DateTime
     Dim ImportExportDrive As String
 
     Public Shared blnShowAllMenu As Boolean = False
@@ -1108,21 +1108,48 @@ Public Class MDI
             txtPassword.Focus()
             Exit Sub
         End If
-        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 AndAlso clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing)) > 0 Then
-            DeleteTempDataFromTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
-            DeleteTempDataToTime = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
+        Dim DeleteTempDataFromTime As String
+        If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing)) > 0 Then
+            DeleteTempDataFromTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, Nothing))
+            ' Dim DeleteTempDataToTime As String = clsCommon.myCDate(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempDataToTime, clsFixedParameterCode.DeleteTempDataToTime, Nothing))
         End If
-        Dim startTime As DateTime = DeleteTempDataFromTime
-        Dim endTime As DateTime = DeleteTempDataToTime
+        Dim timeParts() As String = DeleteTempDataFromTime.Split("-"c)
+        If timeParts.Length = 2 Then
+            ' Trim the parts
+            Dim fromTimeStr As String = timeParts(0).Trim()
+            Dim toTimeStr As String = timeParts(1).Trim()
 
-        Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
+            ' Get string lengths
+            Dim fromTimeLength As Integer = fromTimeStr.Length
+            Dim toTimeLength As Integer = toTimeStr.Length
 
-        If serverTime >= startTime AndAlso serverTime <= endTime Then
+            ' Output
+            Console.WriteLine("From Time: " & fromTimeStr & " | Length: " & fromTimeLength)
+            Console.WriteLine("To Time: " & toTimeStr & " | Length: " & toTimeLength)
 
-            Dim folder As String = "C:\ERPTempFolder"
-            'Dim folder As String = "D:\backup"
-            Dim userTime As DateTime = DateTime.Now ' 
-            DeleteOldFiles(folder, userTime)
+            ' Validate length and convert to DateTime
+            'If fromTimeLength = 11 AndAlso toTimeLength = 11 Then ' e.g., "07:00:00 AM" = 11 chars
+            Dim fromTime As DateTime = clsCommon.myCDate(fromTimeStr)
+            Dim toTime As DateTime = clsCommon.myCDate(toTimeStr)
+
+            ' Now you can use fromTime and toTime
+            'If fromTime < toTime Then
+            '    Console.WriteLine("Valid time range.")
+
+
+
+            ' Dim startTime As String = DeleteTempDataFromTime
+            ' Dim endTime As DateTime = DeleteTempDataToTime
+
+            Dim serverTime As DateTime = clsCommon.myCDate(clsCommon.GETSERVERDATE())
+
+            If serverTime >= fromTime AndAlso serverTime <= toTimeStr Then
+
+                Dim folder As String = "C:\ERPTempFolder"
+                'Dim folder As String = "D:\backup"
+                Dim userTime As DateTime = DateTime.Now ' 
+                DeleteOldFiles(folder, userTime)
+            End If
         End If
         PasswordRules = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PasswordRules, clsFixedParameterCode.PasswordRules, Nothing)) = "1", True, False))
 
