@@ -88,10 +88,10 @@ Public Class rptBMCTankerTesting
         Try
             Dim qry As String = ""
             If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
-                qry = "SELECT convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo ,TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code,
+                qry = "SELECT  convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo ,TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code,
                 TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No , TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty
-,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,1)) as FAT 
-,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,1)) as SNF,'' as CLR,
+,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,2)) as FAT 
+,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,2)) as SNF,'' as CLR,
 TSPL_MILK_COLLECTION_MCC_DETAIL.Temp , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF  ,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC.Route_Code as Route ,TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_Qty as Corr_Qty,  TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_FAT as Correction_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_SNF as Correction_SNF , '' as Corr_CLR
 FROM TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No =TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
