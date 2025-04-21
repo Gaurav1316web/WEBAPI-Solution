@@ -102,9 +102,9 @@ Public Class ProductionReport
                 'End If
             End If
             If rdbPosted.IsChecked = True Then
-                Status1 = "  TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
+                Status1 = "  and TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
             ElseIf rdbUnposted.IsChecked = True Then
-                Status1 = "  TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
+                Status1 = " and TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
             ElseIf rdbAll.IsChecked = True Then
 
             End If
@@ -152,7 +152,7 @@ Public Class ProductionReport
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
                                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry += " where " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
+            qry += " where 2=2  " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
             qry += " )Tab1
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & itemNames1 & ")  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
