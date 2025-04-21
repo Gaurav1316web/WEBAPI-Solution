@@ -223,6 +223,7 @@ Public Class clsFixedParameterType
     Public Const DoNotCreateAdjustmentonMilkTransferInGL = "DoNotCreateAdjustmentonMilkTransferInGL"
     Public Const Donotshowtrasnfertransactionsbydefault = "Do not show trasnfer transactions by default"
     Public Const AllowManualItemPriceOnMCCSale = "AllowManualItemPriceOnMCCSale"
+    Public Const ExcludeKKFAndMandiForDCS = "Exclude KKF And Mandi For DCS"
     Public Const DonotAllowtoChangeUOMinDairyBookingCustomer = "DonotAllowtoChangeUOMinDairyBookingCustomer"
     Public Const AutoPopulateItemCodeOnDairyBooking = "AutoPopulateItemCodeOnDairyBooking"
     Public Const ItemwiseCorrectionFactoronQC = "ItemwiseCorrectionFactoronQC"
@@ -1597,6 +1598,7 @@ Public Class clsFixedParameterCode
     Public Const DoNotCreateAdjustmentonMilkTransferInGL = "DoNotCreateAdjustmentonMilkTransferInGL"
     Public Const Donotshowtrasnfertransactionsbydefault = "Do not show trasnfer transactions by default"
     Public Const AllowManualItemPriceOnMCCSale = "AllowManualItemPriceOnMCCSale"
+    Public Const ExcludeKKFAndMandiForDCS = "Exclude KKF And Mandi For DCS"
     Public Const DonotAllowtoChangeUOMinDairyBookingCustomer = "DonotAllowtoChangeUOMinDairyBookingCustomer"
     Public Const AutoPopulateItemCodeOnDairyBooking = "AutoPopulateItemCodeOnDairyBooking"
     Public Const ItemwiseCorrectionFactoronQC = "ItemwiseCorrectionFactoronQC"
@@ -3147,6 +3149,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DoNotCreateAdjustmentonMilkTransferInGL, clsFixedParameterCode.DoNotCreateAdjustmentonMilkTransferInGL, "0", "0-OFF;1-Adjustment not created on Milk transfer In posting.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Donotshowtrasnfertransactionsbydefault, clsFixedParameterCode.Donotshowtrasnfertransactionsbydefault, "1", "0-OFF;1-Do not show transfer transactions by default on Mis Sale Register/ Sale Register Detail")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowManualItemPriceOnMCCSale, clsFixedParameterCode.AllowManualItemPriceOnMCCSale, "0", "0-OFF;1-Allow Manual Item Price On MCC Material Sale")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, "0", "0-OFF;1-Exclude KKF And Mandi For DCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DonotAllowtoChangeUOMinDairyBookingCustomer, clsFixedParameterCode.DonotAllowtoChangeUOMinDairyBookingCustomer, "0", "0-OFF;1-DonotAllowtoChangeUOMinDairyBookingCustomer")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoPopulateItemCodeOnDairyBooking, clsFixedParameterCode.AutoPopulateItemCodeOnDairyBooking, "0", "0-OFF;1-AutoPopulateItemCodeOnDairyBooking")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GateEntryChamberwisewithManualTankerEntry, clsFixedParameterCode.GateEntryChamberwisewithManualTankerEntry, "0", "0-OFF;1-On Option will appear on Dairy Dispatch.")
@@ -4840,6 +4843,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MISSaleRegister, clsFixedParameterType.Donotshowtrasnfertransactionsbydefault, clsFixedParameterCode.Donotshowtrasnfertransactionsbydefault, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptSaleRegisterDetail, clsFixedParameterType.Donotshowtrasnfertransactionsbydefault, clsFixedParameterCode.Donotshowtrasnfertransactionsbydefault, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AllowManualItemPriceOnMCCSale, clsFixedParameterCode.AllowManualItemPriceOnMCCSale, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, EnumControlType.CheckBox)
         'KUNAL > DATE : 11-JAN-2016 > MPD > REQ No. : MPDREQ000017 
         InsertDefaultValue(clsUserMgtCode.FrmDispatchFreshSale, clsFixedParameterType.AllowDispatchChecklistOnProductDispatch, clsFixedParameterCode.AllowDispatchChecklistOnProductDispatch, EnumControlType.CheckBox)
         'STUTI > MPD 
