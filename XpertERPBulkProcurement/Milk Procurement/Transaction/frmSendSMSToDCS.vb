@@ -18,6 +18,7 @@ Public Class frmSendSMSToDCS
             fromDate.Value = clsCommon.GETSERVERDATE()
             ToDate.Value = clsCommon.GETSERVERDATE()
             txtQCDate.Value = clsCommon.GETSERVERDATE()
+            DCSDate.Value = clsCommon.GETSERVERDATE()
             txtTankerQCDate.Value = clsCommon.GETSERVERDATE()
             txtCrateEntryDate.Value = clsCommon.GETSERVERDATE()
             txtTankerQCDateException.Value = clsCommon.GETSERVERDATE()
@@ -886,6 +887,133 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
             Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name,Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] from TSPL_VENDOR_MASTER  
                                   left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
             TxtDCS.Value = clsCommon.ShowSelectForm("sensms@M", qry, "Code", "", TxtDCS.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtDocument__My_Click(sender As Object, e As EventArgs) Handles TxtDocument._My_Click
+        Try
+            Dim qry As String = "select * from (
+select Document_No,max(Document_Date) as Document_Date,max(Description) as Description,max(BMC) as BMC,max(BMC_Code) as BMC_Code,max(BMC_Name) as BMC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(Tanker_No) as Tanker_No,max(Vehicle_No) as Vehicle_No,max(Status) as Status from (
+select TSPL_MILK_COLLECTION_DCS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS.Status=1 then 'Posted' else 'Pending' end as Status 
+from TSPL_MILK_COLLECTION_DCS 
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No 
+left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_MCC.Route_Code 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+)xx group by xx.Document_No
+)xxx where convert(date,Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(DCSDate.Value, "dd/MMM/yyyy") + "',103)"
+            TxtDocument.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "Route@", qry, "Document_No", "", TxtDocument.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub BtnDcsPrint_Click(sender As Object, e As EventArgs) Handles BtnDcsPrint.Click
+        Try
+            Dim Itemqry As String = ""
+            Dim DocumentNo As String = Nothing
+            Dim itemNames1 As String = Nothing
+            Itemqry = " Select Document_No from TSPL_MILK_COLLECTION_DCS where convert(date,Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(DCSDate.Value, "dd/MMM/yyyy") + "',103) "
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    If i = 0 Then
+                        itemNames1 += "'" + clsCommon.myCstr(dtitemName.Rows(i)("Document_No")) + "' "
+                    Else
+                        itemNames1 += ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Document_No")) + "' "
+                    End If
+                Next
+            End If
+            If TxtDocument.arrValueMember IsNot Nothing AndAlso TxtDocument.arrValueMember.Count > 0 Then
+                DocumentNo = clsCommon.GetMulcallString(TxtDocument.arrValueMember)
+            Else
+                DocumentNo += itemNames1
+            End If
+
+            Dim objmultprintdcs As New frmMilkCollectionDCS
+            'Dim qry As String = objmultprintdcs.DCSTruckSheetPrint(clsCommon.GetMulcallString(TxtDocument.arrValueMember), DCSDate.Value)
+            Dim qry As String = objmultprintdcs.DCSTruckSheetPrint(DocumentNo, DCSDate.Value)
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Dim dv As New DataView(dt)
+                dv.RowFilter = " OwnBMC=0 "
+                Dim dtFinal As DataTable = dv.ToTable()
+                If dtFinal Is Nothing OrElse dtFinal.Rows.Count <= 0 Then
+                    Dim dr As DataRow = dtFinal.NewRow
+                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
+                    dr("Comp_Name") = dt.Rows(0)("Comp_Name")
+                    dr("Add1") = dt.Rows(0)("Add1")
+                    dr("Add2") = dt.Rows(0)("Add2")
+                    dr("Add3") = dt.Rows(0)("Add3")
+                    dr("City_Code") = dt.Rows(0)("City_Code")
+                    dr("State") = dt.Rows(0)("State")
+                    dr("Pincode") = dt.Rows(0)("Pincode")
+                    dr("GSTReg_No") = dt.Rows(0)("GSTReg_No")
+                    dr("GSTINNo") = dt.Rows(0)("GSTINNo")
+                    dr("CINNo") = dt.Rows(0)("CINNo")
+                    dr("Phone1") = dt.Rows(0)("Phone1")
+                    dr("Phone2") = dt.Rows(0)("Phone2")
+                    dr("Logo_Img") = dt.Rows(0)("Logo_Img")
+                    dr("Logo_Img2") = dt.Rows(0)("Logo_Img2")
+                    dr("Pan_No") = dt.Rows(0)("Pan_No")
+                    dr("Email") = dt.Rows(0)("Email")
+                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
+                    dr("Document_No") = dt.Rows(0)("Document_No")
+                    dr("Document_Date") = dt.Rows(0)("Document_Date")
+                    dr("Route_Code") = dt.Rows(0)("Route_Code")
+                    dr("ROUTE_NAME") = dt.Rows(0)("ROUTE_NAME")
+                    dr("Vehicle_No") = dt.Rows(0)("Vehicle_No")
+                    dr("Tanker_No") = dt.Rows(0)("Tanker_No")
+                    dr("MCC_Code") = dt.Rows(0)("MCC_Code")
+                    dr("MCC_NAME") = dt.Rows(0)("MCC_NAME")
+                    dr("Mcc_Code_VLC_Uploader") = dt.Rows(0)("Mcc_Code_VLC_Uploader")
+                    dtFinal.Rows.Add(dr)
+
+                End If
+                dtFinal.Columns.Add("OWN_VLC_Code_VLC_Uploader", GetType(String))
+                dtFinal.Columns.Add("OWN_Evening_Qty", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_FAT", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_SNF", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_FATKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Evening_SNFKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_Qty", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_FAT", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_SNF", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_FATKG", GetType(Decimal))
+                dtFinal.Columns.Add("OWN_Morning_SNFKG", GetType(Decimal))
+
+                Dim dvOwn As New DataView(dt)
+                dvOwn.RowFilter = " OwnBMC=1 "
+                Dim dtOwn As DataTable = dvOwn.ToTable()
+                If dtOwn IsNot Nothing AndAlso dtOwn.Rows.Count > 0 Then
+                    For ii As Integer = 0 To dtFinal.Rows.Count - 1
+                        dtFinal.Rows(ii)("OWN_VLC_Code_VLC_Uploader") = dtOwn.Rows(0)("VLC_Code_VLC_Uploader")
+                        dtFinal.Rows(ii)("OWN_Evening_Qty") = dtOwn.Rows(0)("Evening_Qty")
+                        dtFinal.Rows(ii)("OWN_Evening_FAT") = dtOwn.Rows(0)("Evening_FAT")
+                        dtFinal.Rows(ii)("OWN_Evening_SNF") = dtOwn.Rows(0)("Evening_SNF")
+                        dtFinal.Rows(ii)("OWN_Evening_FATKG") = dtOwn.Rows(0)("Evening_FATKG")
+                        dtFinal.Rows(ii)("OWN_Evening_SNFKG") = dtOwn.Rows(0)("Evening_SNFKG")
+                        dtFinal.Rows(ii)("OWN_Morning_Qty") = dtOwn.Rows(0)("Morning_Qty")
+                        dtFinal.Rows(ii)("OWN_Morning_FAT") = dtOwn.Rows(0)("Morning_FAT")
+                        dtFinal.Rows(ii)("OWN_Morning_FATKG") = dtOwn.Rows(0)("Morning_FATKG")
+                        dtFinal.Rows(ii)("OWN_Morning_SNF") = dtOwn.Rows(0)("Morning_SNF")
+                        dtFinal.Rows(ii)("OWN_Morning_SNFKG") = dtOwn.Rows(0)("Morning_SNFKG")
+                    Next
+                End If
+                dtFinal.AcceptChanges()
+
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtFinal, "rptDCSTrackSheet_JPR", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            Else
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            End If
+
+            frmCRV = Nothing
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
