@@ -24512,8 +24512,16 @@ Public Class clsCreateAllTable
             coll.Add("Gaze_Qty", "Decimal(18,2) null")
             coll.Add("Milk_Not_Picked", "int Null")
             coll.Add("Required_Retesting", "int Null")
+            coll.Add("Retesting_By", "varchar(12)  NULL")
+            coll.Add("Retesting_Date", "Datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
+            'Try
+            '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_By varchar(12) NULL")
+            '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_Date Datetime NULL")
 
+            'Catch ex As Exception
+
+            'End Try
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 qry = "CREATE UNIQUE INDEX Unique_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC_DETAIL (Against_Multiple_Days) WHERE Against_Multiple_Days IS NOT NULL;"
                 clsDBFuncationality.ExecuteNonQuery(qry)

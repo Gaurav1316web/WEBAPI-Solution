@@ -447,6 +447,9 @@ Public Class clsMilkCollectionMCCDetail
     Public Against_Multiple_Days As Integer
     Public REF_PK_ID_BMCDCS_TRIP As Integer
     Public Against_Multiple_Days_Merge_Day_Detail As Integer
+    Public Retesting_By As String
+    Public Retesting_date As String
+    Public Retesting_On As String
 
 
 
@@ -487,6 +490,8 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                 clsCommon.AddColumnsForChange(coll, "Sample_No", obj.Sample_No)
                 clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code)
+                clsCommon.AddColumnsForChange(coll, "Retesting_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Retesting_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
                     obj.Milk_Type = "Good" ''To Handle Case sensitivity
                 End If
@@ -518,6 +523,8 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+
+
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                     clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
