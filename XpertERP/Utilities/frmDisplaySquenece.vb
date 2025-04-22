@@ -69,7 +69,7 @@ Public Class frmDisplaySquenece
 
     End Sub
 
-       Sub LoadBlankGrid()
+    Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
 
@@ -142,18 +142,18 @@ Public Class frmDisplaySquenece
     ''-------------------------------------------------------------------
 
     Private Sub btnShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShow.Click
-       If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
-            ShowData()         
-       ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
+            ShowData()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 Throw New Exception("Please select Route")
                 txtRouteNo.Focus()
             End If
-            
+
             If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-                ShowData()   
+                ShowData()
             End If
-                   
+
         End If
     End Sub
 
@@ -221,14 +221,14 @@ Public Class frmDisplaySquenece
         End If
     End Sub
 
-     
-       Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         txtRouteNo.Value = ""
         lblRouteDesc.Text = ""
         IsInsieLoadData = False
         gv1.DataSource = Nothing
     End Sub
-   
+
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Try
             Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"

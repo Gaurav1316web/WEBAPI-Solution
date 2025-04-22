@@ -15120,6 +15120,9 @@ Public Class clsCreateAllTable
             coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("Split_Print", "Varchar(15) NULL")
             coll.Add("CFP_Unit", "int null default 0")
+            coll.Add("Display_SeqM", "decimal (18,2) NULL")
+            coll.Add("Display_SeqE", "decimal (18,2) NULL")
+
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)

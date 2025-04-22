@@ -81,6 +81,9 @@ Partial Class frmCustomer
         Me.BtnImportCrateOpening = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmMultiRouteImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiCustomerDisplaySeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiDefaultSeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiMorningseq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.EveningSeq = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuCust_Besic_Profile = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuItem_disc_details = New Telerik.WinControls.UI.RadMenuItem()
@@ -91,6 +94,9 @@ Partial Class frmCustomer
         Me.BtnExportCrateOpening = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmMultiRoute = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiexCustDispSeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExportDefaultSeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExportMorningSeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExportEveningSeq = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -769,8 +775,24 @@ Partial Class frmCustomer
         '
         'rmiCustomerDisplaySeq
         '
+        Me.rmiCustomerDisplaySeq.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiDefaultSeq, Me.rmiMorningseq, Me.EveningSeq})
         Me.rmiCustomerDisplaySeq.Name = "rmiCustomerDisplaySeq"
         Me.rmiCustomerDisplaySeq.Text = "Customer Display Sequence"
+        '
+        'rmiDefaultSeq
+        '
+        Me.rmiDefaultSeq.Name = "rmiDefaultSeq"
+        Me.rmiDefaultSeq.Text = "Default Sequence"
+        '
+        'rmiMorningseq
+        '
+        Me.rmiMorningseq.Name = "rmiMorningseq"
+        Me.rmiMorningseq.Text = "Morning Sequence"
+        '
+        'EveningSeq
+        '
+        Me.EveningSeq.Name = "EveningSeq"
+        Me.EveningSeq.Text = "Evening Sequence"
         '
         'RadMenuItem4
         '
@@ -827,8 +849,24 @@ Partial Class frmCustomer
         '
         'rmiexCustDispSeq
         '
+        Me.rmiexCustDispSeq.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExportDefaultSeq, Me.rmiExportMorningSeq, Me.rmiExportEveningSeq})
         Me.rmiexCustDispSeq.Name = "rmiexCustDispSeq"
         Me.rmiexCustDispSeq.Text = "Customer Display Sequence"
+        '
+        'rmiExportDefaultSeq
+        '
+        Me.rmiExportDefaultSeq.Name = "rmiExportDefaultSeq"
+        Me.rmiExportDefaultSeq.Text = "Default Sequence"
+        '
+        'rmiExportMorningSeq
+        '
+        Me.rmiExportMorningSeq.Name = "rmiExportMorningSeq"
+        Me.rmiExportMorningSeq.Text = "Morning Sequence"
+        '
+        'rmiExportEveningSeq
+        '
+        Me.rmiExportEveningSeq.Name = "rmiExportEveningSeq"
+        Me.rmiExportEveningSeq.Text = "Evening Sequence"
         '
         'RadMenuItem2
         '
@@ -7173,5 +7211,11 @@ Partial Class frmCustomer
     Friend WithEvents cmbSplitPrint As common.Controls.MyComboBox
     Friend WithEvents MyLabel47 As common.Controls.MyLabel
     Friend WithEvents CFP_Unitchk As RadCheckBox
+    Friend WithEvents rmiDefaultSeq As RadMenuItem
+    Friend WithEvents rmiMorningseq As RadMenuItem
+    Friend WithEvents EveningSeq As RadMenuItem
+    Friend WithEvents rmiExportDefaultSeq As RadMenuItem
+    Friend WithEvents rmiExportMorningSeq As RadMenuItem
+    Friend WithEvents rmiExportEveningSeq As RadMenuItem
 End Class
 
