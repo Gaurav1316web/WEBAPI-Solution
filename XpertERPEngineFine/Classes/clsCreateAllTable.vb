@@ -15131,7 +15131,10 @@ Public Class clsCreateAllTable
             End Try
             Try
                 clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Virtual_AC_No ON TSPL_CUSTOMER_MASTER (Virtual_AC_No) WHERE Virtual_AC_No IS NOT NULL;")
-
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Split_Print='Auto 1' where Split_Print='Part 1'")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Split_Print='Auto 2' where Split_Print='Part 2'")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Split_Print='Auto 3' where Split_Print='Part 3'")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Split_Print='Auto 4' where Split_Print='Part 4'")
             Catch ex As Exception
 
             End Try
