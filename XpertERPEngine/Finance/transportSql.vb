@@ -37,17 +37,19 @@ Public Module transportSql
 
 
     Public Function OpenExporttoExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
-        Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
-        Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
-        If IsExists = False Then
-            System.IO.Directory.CreateDirectory(forlderName)
+        Dim path As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+        If Not System.IO.Directory.Exists(path) Then
+            System.IO.Directory.CreateDirectory(path)
         End If
-        Dim sfd As SaveFileDialog = New SaveFileDialog()
-        Dim path As String
-        sfd.FileName = frm.Text
-        sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
+        path += "\" + frm.Text + ".xls"
+        If Not System.IO.File.Exists(path) Then
+            System.IO.File.Delete(path)
+        End If
+        'Dim sfd As SaveFileDialog = New SaveFileDialog()
+        'sfd.FileName = frm.Text
+        'sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
         'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-        path = forlderName
+        'path = forlderName
         'Else
         '    Return False
         'End If
