@@ -65,7 +65,15 @@ Public Class clsMilkCollectionMCC
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
-
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Update"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Return False
+                Else
+                    Reason = frm.strRmks
+                End If
                 ' HistoryUpdate(obj.Document_No, trans)
             End If
             'Dim objTr As New clsMilkCollectionMCCDetail()
@@ -118,7 +126,7 @@ Public Class clsMilkCollectionMCC
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
             End If
             Dim isCorrection As Integer = 0
-            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection)
+            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection, False)
             HistoryUpdate(obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -461,7 +469,7 @@ Public Class clsMilkCollectionMCCDetail
         Try
             Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC where Document_No='" + strDocNo + "'", trans))
             Dim isCorrection As Integer = 0
-            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, False)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -470,10 +478,10 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, isNewEntry)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -482,7 +490,19 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
+
+        If isNewEntry = False Then
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Return False
+            Else
+                Reason = frm.strRmks
+            End If
+        End If
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
