@@ -137,8 +137,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
-	                                 WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE  convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert (date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert (date, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
 
                 qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),price_CodeNon,Location
@@ -156,8 +156,8 @@ Public Class rptSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code
-	                                 WHERE TSPL_SCRAPSALE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SCRAPSALE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE Convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code)XX Group by XX.Location,xx.Document_Date,xx.price_CodeNon "
 
@@ -176,8 +176,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'   
-                                     and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')"
+	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)   
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')"
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location)XX group by xx.Location,xx.Document_Date,
                              xx.price_CodeNon )Tab1
@@ -204,8 +204,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
 
                 qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,Location
@@ -223,8 +223,8 @@ Public Class rptSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
-	                                 WHERE TSPL_SCRAPINVOICE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'
-                                     and  TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SCRAPINVOICE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPINVOICE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code)XX Group by XX.Location,xx.Document_Date,xx.price_CodeNon "
 
@@ -243,8 +243,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'   
-                                     and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')"
+	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)   
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')"
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
 									 
@@ -269,9 +269,9 @@ Public Class rptSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
-	                                 WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " "
-                qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
+	                                 WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
+                qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
                 If rdbStockTransfer.IsChecked = True Then
                     qry += "" + Stocktransferdispatch + ""
                 End If
@@ -290,10 +290,10 @@ Public Class rptSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code
-	                                 WHERE TSPL_SCRAPSALE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SCRAPSALE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+	                                 WHERE convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
-                qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + " "
+                qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale=0 "
                 If rdbStockTransfer.IsChecked = True Then
                     qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =1 "
                 End If
@@ -321,9 +321,9 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " "
-                qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+	                                 WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
+                qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
                 If rdbStockTransfer.IsChecked = True Then
                     qry += "" + stocktransferinvoice + ""
                 End If
@@ -342,8 +342,8 @@ Public Class rptSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
-	                                 WHERE TSPL_SCRAPINVOICE_HEAD.shipment_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+	                                 WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPINVOICE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1
@@ -368,8 +368,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_RETURN_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  
-                                     and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
@@ -392,8 +392,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
 						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
-	                                 WHERE TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                     qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
                              TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location 
@@ -411,8 +411,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
                              TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location 
@@ -435,8 +435,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+	                                 WHERE convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
                              TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location 
@@ -454,8 +454,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')  "
+	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "')  "
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
                              TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location 
@@ -478,8 +478,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
 						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
-	                                 WHERE TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " "
+	                                 WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " " + Stocktransferdispatch + " "
                     If rdbStockTransfer.IsChecked = True Then
                         qry += "" + Stocktransferdispatch + ""
@@ -505,8 +505,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " "
+	                                 WHERE convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " " + stocktransferinvoice + " "
                     If rdbStockTransfer.IsChecked = True Then
                         qry += "" + stocktransferinvoice + ""
@@ -532,8 +532,8 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
 						      		 left outer join TSPL_SD_SALE_RETURN_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
-	                                 WHERE TSPL_SD_SALE_RETURN_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
-                                     and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " "
+	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
                              TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location )Tab1
