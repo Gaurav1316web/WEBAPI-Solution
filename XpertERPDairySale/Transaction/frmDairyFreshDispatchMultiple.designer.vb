@@ -23,7 +23,7 @@ Partial Class frmDairyFreshDispatchMultiple
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -42,8 +42,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
-        Me.lblToDate = New common.Controls.MyLabel()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.lblFromDate = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
@@ -59,6 +57,8 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -77,8 +77,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.rgbItemType.SuspendLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,6 +84,7 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -161,6 +160,8 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRoute)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRoute)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblTotalCrate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtTotalCrateQty)
@@ -170,8 +171,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblToDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtToDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblFromDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromDate)
         '
@@ -184,7 +183,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(207, 54)
+        Me.btnGo.Location = New System.Drawing.Point(670, 33)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(181, 18)
         Me.btnGo.TabIndex = 1452
@@ -194,7 +193,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         Me.lblTotalCrate.FieldName = Nothing
         Me.lblTotalCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalCrate.Location = New System.Drawing.Point(9, 54)
+        Me.lblTotalCrate.Location = New System.Drawing.Point(660, 10)
         Me.lblTotalCrate.Name = "lblTotalCrate"
         Me.lblTotalCrate.Size = New System.Drawing.Size(83, 16)
         Me.lblTotalCrate.TabIndex = 1450
@@ -212,7 +211,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtTotalCrateQty.IsSourceFromTable = False
         Me.txtTotalCrateQty.IsSourceFromValueList = False
         Me.txtTotalCrateQty.IsUnique = False
-        Me.txtTotalCrateQty.Location = New System.Drawing.Point(97, 53)
+        Me.txtTotalCrateQty.Location = New System.Drawing.Point(748, 9)
         Me.txtTotalCrateQty.MaxLength = 50
         Me.txtTotalCrateQty.MendatroryField = False
         Me.txtTotalCrateQty.Modified = True
@@ -231,7 +230,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(388, 8)
+        Me.btnAddNew.Location = New System.Drawing.Point(202, 6)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 58
@@ -353,55 +352,15 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.lblLocation.TabIndex = 55
         Me.lblLocation.Text = "Location"
         '
-        'lblToDate
-        '
-        Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblToDate.Location = New System.Drawing.Point(202, 10)
-        Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(46, 16)
-        Me.lblToDate.TabIndex = 51
-        Me.lblToDate.Text = "To Date"
-        '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(267, 9)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Me.lblToDate
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(121, 18)
-        Me.txtToDate.TabIndex = 52
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "13/06/2011"
-        Me.txtToDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
-        '
         'lblFromDate
         '
         Me.lblFromDate.FieldName = Nothing
         Me.lblFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFromDate.Location = New System.Drawing.Point(10, 9)
         Me.lblFromDate.Name = "lblFromDate"
-        Me.lblFromDate.Size = New System.Drawing.Size(60, 16)
+        Me.lblFromDate.Size = New System.Drawing.Size(30, 16)
         Me.lblFromDate.TabIndex = 49
-        Me.lblFromDate.Text = "From Date"
+        Me.lblFromDate.Text = "Date"
         '
         'txtFromDate
         '
@@ -440,7 +399,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(882, 304)
         Me.gv1.TabIndex = 0
@@ -524,6 +483,29 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(10, 52)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
+        Me.lblRoute.TabIndex = 1522
+        Me.lblRoute.Text = "Route"
+        '
+        'txtRoute
+        '
+        Me.txtRoute.arrDispalyMember = Nothing
+        Me.txtRoute.arrValueMember = Nothing
+        Me.txtRoute.Location = New System.Drawing.Point(75, 51)
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.lblRoute
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyNullText = "All"
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.Size = New System.Drawing.Size(312, 20)
+        Me.txtRoute.TabIndex = 1521
+        '
         'frmDairyFreshDispatchMultiple
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -559,8 +541,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.rgbItemType.PerformLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -568,6 +548,7 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -592,8 +573,6 @@ Partial Class frmDairyFreshDispatchMultiple
     Friend WithEvents Panel1 As Panel
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents gv1 As RadGridView
-    Friend WithEvents lblToDate As common.Controls.MyLabel
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblFromDate As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblLocationDesc As common.Controls.MyLabel
@@ -609,5 +588,7 @@ Partial Class frmDairyFreshDispatchMultiple
     Friend WithEvents lblTotalCrate As common.Controls.MyLabel
     Friend WithEvents txtTotalCrateQty As common.Controls.MyTextBox
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents lblRoute As common.Controls.MyLabel
+    Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
 End Class
 

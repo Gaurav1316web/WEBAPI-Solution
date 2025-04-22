@@ -641,37 +641,147 @@ Public Class frmShipmentDairy
         btnPrintsvl.Enabled = False
         SplitContainer5.Panel2.Visible = False
         'CreateTable()
-        If clsCommon.myLen(LocationCode) > 0 Then
-            txtBillToLocation.Value = LocationCode
-            txtRouteNo.Value = routeno
+        'If clsCommon.myLen(LocationCode) > 0 Then
+        '    txtBillToLocation.Value = LocationCode
+        '    txtRouteNo.Value = routeno
 
-        End If
-        If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
-            txtSupplyDate.Value = Supplydate
-            txtDate.Value = Supplydate
-        End If
-        If clsCommon.CompairString(Shifttype, "Morning") = CompairStringResult.Equal Then
-            cmbShift.SelectedValue = "AM"
-        ElseIf clsCommon.CompairString(Shifttype, "Evening") = CompairStringResult.Equal Then
-            cmbShift.SelectedValue = "PM"
-        End If
-        If clsCommon.CompairString(IsTaxable, "0") = CompairStringResult.Equal Then
-            cmbDisItemType.SelectedValue = "NT"
-            GetRouteNO(False)
-            btnSave_Click(btnSave, New EventArgs())
-        ElseIf clsCommon.CompairString(IsTaxable, "1") = CompairStringResult.Equal Then
-            cmbDisItemType.SelectedValue = "T"
-            GetRouteNO(False)
-            btnSave_Click(btnSave, New EventArgs())
-        End If
-        If IsAutoClose Then
-            Me.Close()
-        End If
+        'End If
+        'If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
+        '    txtSupplyDate.Value = Supplydate
+        '    txtDate.Value = Supplydate
+        'End If
+        'If clsCommon.CompairString(Shifttype, "Morning") = CompairStringResult.Equal Then
+        '    cmbShift.SelectedValue = "AM"
+        'ElseIf clsCommon.CompairString(Shifttype, "Evening") = CompairStringResult.Equal Then
+        '    cmbShift.SelectedValue = "PM"
+        'End If
+        'If clsCommon.CompairString(IsTaxable, "0") = CompairStringResult.Equal Then
+        '    cmbDisItemType.SelectedValue = "NT"
+        '    GetRouteNO(False)
+        '    btnSave_Click(btnSave, New EventArgs())
+        'ElseIf clsCommon.CompairString(IsTaxable, "1") = CompairStringResult.Equal Then
+        '    cmbDisItemType.SelectedValue = "T"
+        '    GetRouteNO(False)
+        '    btnSave_Click(btnSave, New EventArgs())
+        'End If
+        'If IsAutoClose Then
+        '    Me.Close()
+        'End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             chkRoundoff.Visible = True
         Else
             chkRoundoff.Visible = False
         End If
+    End Sub
+    Public Sub LoadSettings()
+        ApplyBoothSecurity = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, Nothing)) = 1, True, False)
+        SettDistributorWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, Nothing)) = 1)
+        CreateFreshInvoiceOnDispatchSave = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateFreshInvoiceOnDispatchSave, clsFixedParameterCode.CreateFreshInvoiceOnDispatchSave, Nothing))
+        CreateCommonDairyDispatchforFreshAmbient = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateCommonDairyDispatchforFreshAmbient, clsFixedParameterCode.CreateCommonDairyDispatchforFreshAmbient, Nothing))
+        EnableCustomerPODetailonDairyBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableCustomerPODetailonDairyBooking, clsFixedParameterCode.EnableCustomerPODetailonDairyBooking, Nothing))
+        ShowMulMRPOfSameItemOnDairyBookingCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMulMRPOfSameItemOnDairyBookingCustomer, clsFixedParameterCode.ShowMulMRPOfSameItemOnDairyBookingCustomer, Nothing)) = 1, True, False)
+        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+        AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
+        checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, Nothing)) = "1", True, False)
+        EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
+        StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
+        ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+        AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
+        DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
+        AllowManualCrateForDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)) = 1, True, False)
+        SetUserMgmtNew()
+        SetMailRight()
+        CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
+        strVehicleCapacityUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.VehicleCapacityUnit & "'"))
+        ItemMRPEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemMRPEditableOnSales & "'")) = 0, False, True)
+        AutoScheme = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
+        ShowSchemeItemRate = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowSchemeItemRateonDairyDispatch, clsFixedParameterCode.ShowSchemeItemRateonDairyDispatch, Nothing)) = 1)
+        ShowSchemeItemRateTaxable = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowSchemeItemRateonDairyDispatchTaxable, clsFixedParameterCode.ShowSchemeItemRateonDairyDispatchTaxable, Nothing)) = 1)
+        SeparateDairyDispatchTaxableNonTaxable = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDairyDispatchTaxableNonTaxable, clsFixedParameterCode.SeparateDairyDispatchTaxableNonTaxable, Nothing))
+        RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        ShowPrintDisAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowPrintDiscountInDairyDispatchForGopaljee, clsFixedParameterCode.ShowPrintDiscountInDairyDispatchForGopaljee, Nothing)) = 1, True, False)
+        IncreaseCrateQtyOnFiftyPercent = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IncreaseCrateQtyOnFiftyPercent, clsFixedParameterCode.IncreaseCrateQtyOnFiftyPercent, Nothing)) = 1, True, False)
+        blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
+        PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
+        intMRPwithabatement = clsDBFuncationality.getSingleValue("select IsMRPwithAbatement from TSPL_INV_PARAMETERS")
+        IsBatchMFDEXDmandatory = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsBatchNo_MFD_EXD_Mandatory from TSPL_inv_parameters")) = 0, False, True)
+        AllowChangeInvoiceType = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Allow_Change_InvoiceType from TSPL_inv_parameters")) = 0, False, True)
+        isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
+        AllowManualVehicleOnDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualvehicleOnDairyBooking, clsFixedParameterCode.AllowManualvehicleOnDairyBooking, Nothing)) = 1, True, False)
+        ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
+        ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
+        ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
+        DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
+        OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
+        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
+        ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
+        FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
+        EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
+        ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 1, True, False)
+        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+        AutoSchemeOnTotalDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, Nothing)) = 1, True, False)
+
+        dtpChallan.Value = clsCommon.GETSERVERDATE
+        dtpInvoice.Value = dtpChallan.Value
+        txtFdate.Value = dtpChallan.Value
+        txtToDate.Value = dtpChallan.Value
+        LoadBlankGrid(Nothing)
+        LoadBlankGridTax(Nothing)
+        LoadItemType()
+        LoadVehicleType()
+        LoadInvoiceType()
+        LoadBlankGridAC(Nothing)
+        LoadPaymentTerms()
+        LoadDispatchTerms()
+        AddNew()
+        SetLength()
+        SetMultiCurrencyVisibility()
+        '' End of MultiCurrency
+        EnableManualCrateonTaxableDairyDispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableManualCrateonTaxableDairyDispatch, clsFixedParameterCode.EnableManualCrateonTaxableDairyDispatch, Nothing))
+        AutoCalculateCAN = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoCalculateCANOnDairyDispatch & "'")) = 0, 0, 1)
+        AllowCrateCanPhysicalStock = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, Nothing))
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        intDispatchfromDelivery = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DairyDispatchFromDO from TSPL_LOCATION_MASTER where Location_Code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")) = 0, 0, 1)
+        AutoCalculateCrate = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoCalculateCrateOnDairyDispatch & "'")) = 0, 0, 1)
+        ShowShipToPartyInDairyDispatch = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
+
+    End Sub
+    Public Shared Sub ProcessShipment(routeno As String, locationCode As String, supplyDate As Date?, shiftType As String, isTaxable As String, ByVal IsAutoClose As Boolean, ByRef obj As frmShipmentDairy)
+        Try
+            obj.LoadSettings()
+            obj.LoadDOItemType()
+            obj.LoadShiftType()
+            obj.IsAutoClose = IsAutoClose
+
+            If clsCommon.myLen(locationCode) > 0 Then
+                obj.txtBillToLocation.Value = locationCode
+                obj.txtRouteNo.Value = routeno
+
+            End If
+            If supplyDate IsNot Nothing AndAlso clsCommon.myLen(supplyDate) > 0 Then
+                obj.txtSupplyDate.Value = supplyDate
+                obj.txtDate.Value = supplyDate
+            End If
+            If clsCommon.CompairString(shiftType, "Morning") = CompairStringResult.Equal Then
+                obj.cmbShift.SelectedValue = "AM"
+            ElseIf clsCommon.CompairString(shiftType, "Evening") = CompairStringResult.Equal Then
+                obj.cmbShift.SelectedValue = "PM"
+            End If
+            If clsCommon.CompairString(isTaxable, "0") = CompairStringResult.Equal Then
+                obj.cmbDisItemType.SelectedValue = "NT"
+                obj.GetRouteNO(False)
+                obj.btnSave_Click(obj.btnSave, New EventArgs())
+            ElseIf clsCommon.CompairString(isTaxable, "1") = CompairStringResult.Equal Then
+                obj.cmbDisItemType.SelectedValue = "T"
+                obj.GetRouteNO(False)
+                obj.btnSave_Click(obj.btnSave, New EventArgs())
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     'Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
@@ -830,9 +940,10 @@ Public Class frmShipmentDairy
         dr("Code") = "NT"
         dr("Name") = "Non Taxable"
         dt.Rows.Add(dr)
-        cmbDisItemType.DataSource = dt
         cmbDisItemType.ValueMember = "Code"
         cmbDisItemType.DisplayMember = "Name"
+        cmbDisItemType.DataSource = dt
+
     End Sub
     Sub LoadShiftType()
         Dim dt As DataTable = New DataTable()
@@ -850,9 +961,10 @@ Public Class frmShipmentDairy
         dr("Code") = "PM"
         dr("Name") = "Evening"
         dt.Rows.Add(dr)
-        cmbShift.DataSource = dt
         cmbShift.ValueMember = "Code"
         cmbShift.DisplayMember = "Name"
+        cmbShift.DataSource = dt
+
     End Sub
     Sub LoadPaymentTerms()
         Dim dt As DataTable = New DataTable()
