@@ -492,17 +492,17 @@ Public Class clsMilkCollectionMCCDetail
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
 
-        If isNewEntry = False Then
-            Dim Reason As String = ""
-            Dim frm As New FrmFreeTxtBox1
-            frm.Text = "Remarks for Update"
-            frm.ShowDialog()
-            If clsCommon.myLen(frm.strRmks) <= 0 Then
-                Return False
-            Else
-                Reason = frm.strRmks
-            End If
-        End If
+        'If isNewEntry = False Then
+        '    Dim Reason As String = ""
+        '    Dim frm As New FrmFreeTxtBox1
+        '    frm.Text = "Remarks for Update"
+        '    frm.ShowDialog()
+        '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '        Return False
+        '    Else
+        '        Reason = frm.strRmks
+        '    End If
+        'End If
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()

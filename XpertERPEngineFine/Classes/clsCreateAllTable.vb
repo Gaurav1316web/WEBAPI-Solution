@@ -15896,7 +15896,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_Code", "VARCHAR(12)  NULL REFERENCES TSPL_TDS_DEDUCTION_HEAD(Deduction_Code)")
             coll.Add("IsCreateAPInvoice", "BIT NOT NULL DEFAULT 0")
             coll.Add("MaximumHRA", "decimal(18, 2) not null default 0.00")
-            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BANK_TRANSFER", coll, "", True, False, "", "PAY_HEAD_CODE", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PAYHEAD_MASTER", coll, "", True, False, "", "PAY_HEAD_CODE", "", True)
 
 
             coll = New Dictionary(Of String, String)()
