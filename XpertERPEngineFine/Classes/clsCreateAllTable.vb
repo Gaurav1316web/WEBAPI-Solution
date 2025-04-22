@@ -54747,13 +54747,23 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_DBT_NEFT_DETAIL (PK_Id) ")
             coll.Add("Bank_Response", "Varchar(100) NOT null")
             coll.Add("Created_Date", "Datetime NOT NULL")
-            coll.Add("JA_Request_ID", "Varchar(30) NOT null")
-            coll.Add("JA_CMSG", "Varchar(200) NOT null")
-            coll.Add("JA_Is_Saved", "Varchar(1) NOT null")
-            coll.Add("JA_Msg", "Varchar(100) NOT null")
+            coll.Add("JA_Request_ID", "Varchar(30) null")
+            coll.Add("JA_CMSG", "Varchar(200) null")
+            coll.Add("JA_Is_Saved", "Varchar(1) null")
+            coll.Add("JA_Msg", "Varchar(100) null")
             coll.Add("JA_Created_Date", "Datetime NULL")
-            coll.Add("JA_Created_By", "Varchar(12) NOT null")
+            coll.Add("JA_Created_By", "Varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_BANK_RESPONSE", coll, "", False, False, "", "", "")
+            qry = "alter table TSPL_DBT_NEFT_BANK_RESPONSE alter column JA_Request_ID varchar(30) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DBT_NEFT_BANK_RESPONSE alter column JA_CMSG varchar(200) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DBT_NEFT_BANK_RESPONSE alter column JA_Is_Saved varchar(1) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DBT_NEFT_BANK_RESPONSE alter column JA_Msg varchar(100) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DBT_NEFT_BANK_RESPONSE alter column JA_Created_By varchar(12) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
