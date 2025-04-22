@@ -1366,7 +1366,7 @@ Public Class frmCustomer
             ''richa VIJ/01/10/19-000004
             obj.Booking_Type = IIf(cmbBookingType.Text = "Select", "", cmbBookingType.Text)
             obj.Customer_Category = IIf(cmbCustomerCategory.Text = "Select", "", cmbCustomerCategory.Text)
-            obj.Split_Print = IIf(cmbSplitPrint.Text = "Select", "", cmbSplitPrint.Text)
+            obj.Split_Print = IIf(cmbSplitPrint.Text = "Main", "", cmbSplitPrint.Text)
             ''============================
             'Dim Other_For_Pan As Integer = 0
             If ChkOther.Checked = True Then
@@ -2256,7 +2256,7 @@ Public Class frmCustomer
                     cmbCustomerCategory.Text = myDr("Customer_Category").ToString()
                 End If
                 If clsCommon.myLen(myDr("Split_Print").ToString()) <= 0 Then
-                    cmbSplitPrint.Text = "Select"
+                    cmbSplitPrint.Text = "Main"
                 Else
                     cmbSplitPrint.Text = myDr("Split_Print").ToString()
                 End If
@@ -2693,7 +2693,7 @@ Public Class frmCustomer
         'MultiRouteCode.arrValueMember = Nothing
         cmbBookingType.Text = "Select"
         cmbCustomerCategory.Text = "Select"
-        cmbSplitPrint.Text = "Select"
+        cmbSplitPrint.Text = "Main"
         VisibleMultRoute()
         TxtBankName.Text = ""
         TxtIFSCCode.Text = ""

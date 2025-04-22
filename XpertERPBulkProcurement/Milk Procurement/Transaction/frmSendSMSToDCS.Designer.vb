@@ -27,6 +27,15 @@ Partial Class frmSendSMSToDCS
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.TxtDCS = New common.UserControls.txtFinder()
+        Me.btnPrintPdf = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtMultQCTanker = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -69,18 +78,25 @@ Partial Class frmSendSMSToDCS
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnPrintPdf = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.TxtDCS = New common.UserControls.txtFinder()
-        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.TxtDocument = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.DCSDate = New common.Controls.MyDateTimePicker()
+        Me.BtnDcsPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox8.SuspendLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintPdf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -123,16 +139,12 @@ Partial Class frmSendSMSToDCS
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.btnPrintPdf, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox8.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox9.SuspendLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DCSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnDcsPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -146,6 +158,7 @@ Partial Class frmSendSMSToDCS
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox9)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox7)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
@@ -157,9 +170,128 @@ Partial Class frmSendSMSToDCS
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(816, 376)
-        Me.SplitContainer1.SplitterDistance = 334
+        Me.SplitContainer1.Size = New System.Drawing.Size(816, 462)
+        Me.SplitContainer1.SplitterDistance = 424
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.RadGroupBox8)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel12)
+        Me.RadGroupBox7.Controls.Add(Me.TxtDCS)
+        Me.RadGroupBox7.Controls.Add(Me.btnPrintPdf)
+        Me.RadGroupBox7.HeaderText = "MILK BILL"
+        Me.RadGroupBox7.Location = New System.Drawing.Point(415, 59)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(397, 98)
+        Me.RadGroupBox7.TabIndex = 284
+        Me.RadGroupBox7.Text = "MILK BILL"
+        '
+        'RadGroupBox8
+        '
+        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox8.Controls.Add(Me.RadLabel2)
+        Me.RadGroupBox8.Controls.Add(Me.RadLabel1)
+        Me.RadGroupBox8.Controls.Add(Me.ToDate)
+        Me.RadGroupBox8.Controls.Add(Me.fromDate)
+        Me.RadGroupBox8.HeaderText = ""
+        Me.RadGroupBox8.Location = New System.Drawing.Point(8, 15)
+        Me.RadGroupBox8.Name = "RadGroupBox8"
+        Me.RadGroupBox8.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox8.Size = New System.Drawing.Size(301, 27)
+        Me.RadGroupBox8.TabIndex = 425
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(166, 5)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(19, 18)
+        Me.RadLabel2.TabIndex = 3
+        Me.RadLabel2.Text = "To"
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(5, 5)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
+        Me.RadLabel1.TabIndex = 2
+        Me.RadLabel1.Text = "From"
+        '
+        'ToDate
+        '
+        Me.ToDate.CustomFormat = "dd/MM/yyyy"
+        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.ToDate.Location = New System.Drawing.Point(193, 4)
+        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Name = "ToDate"
+        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Size = New System.Drawing.Size(91, 20)
+        Me.ToDate.TabIndex = 1
+        Me.ToDate.TabStop = False
+        Me.ToDate.Text = "24/10/2011"
+        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'fromDate
+        '
+        Me.fromDate.CustomFormat = "dd/MM/yyyy"
+        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromDate.Location = New System.Drawing.Point(44, 4)
+        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Size = New System.Drawing.Size(90, 20)
+        Me.fromDate.TabIndex = 0
+        Me.fromDate.TabStop = False
+        Me.fromDate.Text = "24/10/2011"
+        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 47)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel12.TabIndex = 297
+        Me.MyLabel12.Text = "DCS"
+        '
+        'TxtDCS
+        '
+        Me.TxtDCS.CalculationExpression = Nothing
+        Me.TxtDCS.FieldCode = Nothing
+        Me.TxtDCS.FieldDesc = Nothing
+        Me.TxtDCS.FieldMaxLength = 0
+        Me.TxtDCS.FieldName = Nothing
+        Me.TxtDCS.isCalculatedField = False
+        Me.TxtDCS.IsSourceFromTable = False
+        Me.TxtDCS.IsSourceFromValueList = False
+        Me.TxtDCS.IsUnique = False
+        Me.TxtDCS.Location = New System.Drawing.Point(41, 45)
+        Me.TxtDCS.MendatroryField = True
+        Me.TxtDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDCS.MyLinkLable1 = Me.MyLabel12
+        Me.TxtDCS.MyLinkLable2 = Nothing
+        Me.TxtDCS.MyReadOnly = False
+        Me.TxtDCS.MyShowMasterFormButton = False
+        Me.TxtDCS.Name = "TxtDCS"
+        Me.TxtDCS.ReferenceFieldDesc = Nothing
+        Me.TxtDCS.ReferenceFieldName = Nothing
+        Me.TxtDCS.ReferenceTableName = Nothing
+        Me.TxtDCS.Size = New System.Drawing.Size(228, 19)
+        Me.TxtDCS.TabIndex = 296
+        Me.TxtDCS.Value = ""
+        '
+        'btnPrintPdf
+        '
+        Me.btnPrintPdf.Location = New System.Drawing.Point(13, 71)
+        Me.btnPrintPdf.Name = "btnPrintPdf"
+        Me.btnPrintPdf.Size = New System.Drawing.Size(85, 20)
+        Me.btnPrintPdf.TabIndex = 289
+        Me.btnPrintPdf.Text = "Print"
+        Me.btnPrintPdf.TextWrap = True
         '
         'RadGroupBox6
         '
@@ -796,136 +928,104 @@ Partial Class frmSendSMSToDCS
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(736, 14)
+        Me.btnClose.Location = New System.Drawing.Point(736, 10)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 20)
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         '
-        'RadGroupBox7
+        'RadGroupBox9
         '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.RadGroupBox8)
-        Me.RadGroupBox7.Controls.Add(Me.MyLabel12)
-        Me.RadGroupBox7.Controls.Add(Me.TxtDCS)
-        Me.RadGroupBox7.Controls.Add(Me.btnPrintPdf)
-        Me.RadGroupBox7.HeaderText = "MILK BILL"
-        Me.RadGroupBox7.Location = New System.Drawing.Point(415, 59)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(397, 98)
-        Me.RadGroupBox7.TabIndex = 284
-        Me.RadGroupBox7.Text = "MILK BILL"
+        Me.RadGroupBox9.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox9.Controls.Add(Me.TxtDocument)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel13)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel14)
+        Me.RadGroupBox9.Controls.Add(Me.DCSDate)
+        Me.RadGroupBox9.Controls.Add(Me.BtnDcsPrint)
+        Me.RadGroupBox9.HeaderText = "DCS TRUCK SHEET"
+        Me.RadGroupBox9.Location = New System.Drawing.Point(12, 314)
+        Me.RadGroupBox9.Name = "RadGroupBox9"
+        Me.RadGroupBox9.Size = New System.Drawing.Size(419, 71)
+        Me.RadGroupBox9.TabIndex = 285
+        Me.RadGroupBox9.Text = "DCS TRUCK SHEET"
         '
-        'btnPrintPdf
+        'TxtDocument
         '
-        Me.btnPrintPdf.Location = New System.Drawing.Point(13, 71)
-        Me.btnPrintPdf.Name = "btnPrintPdf"
-        Me.btnPrintPdf.Size = New System.Drawing.Size(85, 20)
-        Me.btnPrintPdf.TabIndex = 289
-        Me.btnPrintPdf.Text = "Print"
-        Me.btnPrintPdf.TextWrap = True
+        Me.TxtDocument.arrDispalyMember = Nothing
+        Me.TxtDocument.arrValueMember = Nothing
+        Me.TxtDocument.Location = New System.Drawing.Point(66, 38)
+        Me.TxtDocument.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDocument.MyLinkLable1 = Nothing
+        Me.TxtDocument.MyLinkLable2 = Nothing
+        Me.TxtDocument.MyNullText = "Please select..."
+        Me.TxtDocument.Name = "TxtDocument"
+        Me.TxtDocument.Size = New System.Drawing.Size(261, 19)
+        Me.TxtDocument.TabIndex = 387
         '
-        'MyLabel12
+        'MyLabel13
         '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 47)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(27, 18)
-        Me.MyLabel12.TabIndex = 297
-        Me.MyLabel12.Text = "DCS"
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel13.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel13.TabIndex = 295
+        Me.MyLabel13.Text = "Document"
         '
-        'TxtDCS
+        'MyLabel14
         '
-        Me.TxtDCS.CalculationExpression = Nothing
-        Me.TxtDCS.FieldCode = Nothing
-        Me.TxtDCS.FieldDesc = Nothing
-        Me.TxtDCS.FieldMaxLength = 0
-        Me.TxtDCS.FieldName = Nothing
-        Me.TxtDCS.isCalculatedField = False
-        Me.TxtDCS.IsSourceFromTable = False
-        Me.TxtDCS.IsSourceFromValueList = False
-        Me.TxtDCS.IsUnique = False
-        Me.TxtDCS.Location = New System.Drawing.Point(41, 45)
-        Me.TxtDCS.MendatroryField = True
-        Me.TxtDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtDCS.MyLinkLable1 = Me.MyLabel12
-        Me.TxtDCS.MyLinkLable2 = Nothing
-        Me.TxtDCS.MyReadOnly = False
-        Me.TxtDCS.MyShowMasterFormButton = False
-        Me.TxtDCS.Name = "TxtDCS"
-        Me.TxtDCS.ReferenceFieldDesc = Nothing
-        Me.TxtDCS.ReferenceFieldName = Nothing
-        Me.TxtDCS.ReferenceTableName = Nothing
-        Me.TxtDCS.Size = New System.Drawing.Size(228, 19)
-        Me.TxtDCS.TabIndex = 296
-        Me.TxtDCS.Value = ""
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel14.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel14.TabIndex = 293
+        Me.MyLabel14.Text = "Date"
         '
-        'RadGroupBox8
+        'DCSDate
         '
-        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox8.Controls.Add(Me.RadLabel2)
-        Me.RadGroupBox8.Controls.Add(Me.RadLabel1)
-        Me.RadGroupBox8.Controls.Add(Me.ToDate)
-        Me.RadGroupBox8.Controls.Add(Me.fromDate)
-        Me.RadGroupBox8.HeaderText = ""
-        Me.RadGroupBox8.Location = New System.Drawing.Point(8, 15)
-        Me.RadGroupBox8.Name = "RadGroupBox8"
-        Me.RadGroupBox8.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox8.Size = New System.Drawing.Size(301, 27)
-        Me.RadGroupBox8.TabIndex = 425
+        Me.DCSDate.CalculationExpression = Nothing
+        Me.DCSDate.CustomFormat = "dd/MM/yyyy"
+        Me.DCSDate.FieldCode = Nothing
+        Me.DCSDate.FieldDesc = Nothing
+        Me.DCSDate.FieldMaxLength = 0
+        Me.DCSDate.FieldName = Nothing
+        Me.DCSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DCSDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DCSDate.isCalculatedField = False
+        Me.DCSDate.IsSourceFromTable = False
+        Me.DCSDate.IsSourceFromValueList = False
+        Me.DCSDate.IsUnique = False
+        Me.DCSDate.Location = New System.Drawing.Point(66, 17)
+        Me.DCSDate.MendatroryField = True
+        Me.DCSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DCSDate.MyLinkLable1 = Me.MyLabel14
+        Me.DCSDate.MyLinkLable2 = Nothing
+        Me.DCSDate.Name = "DCSDate"
+        Me.DCSDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DCSDate.ReferenceFieldDesc = Nothing
+        Me.DCSDate.ReferenceFieldName = Nothing
+        Me.DCSDate.ReferenceTableName = Nothing
+        Me.DCSDate.Size = New System.Drawing.Size(83, 18)
+        Me.DCSDate.TabIndex = 290
+        Me.DCSDate.TabStop = False
+        Me.DCSDate.Text = "13/06/2011"
+        Me.DCSDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'RadLabel2
+        'BtnDcsPrint
         '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(166, 5)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(19, 18)
-        Me.RadLabel2.TabIndex = 3
-        Me.RadLabel2.Text = "To"
-        '
-        'RadLabel1
-        '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(5, 5)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
-        Me.RadLabel1.TabIndex = 2
-        Me.RadLabel1.Text = "From"
-        '
-        'ToDate
-        '
-        Me.ToDate.CustomFormat = "dd/MM/yyyy"
-        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.ToDate.Location = New System.Drawing.Point(193, 4)
-        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Name = "ToDate"
-        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Size = New System.Drawing.Size(91, 20)
-        Me.ToDate.TabIndex = 1
-        Me.ToDate.TabStop = False
-        Me.ToDate.Text = "24/10/2011"
-        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
-        'fromDate
-        '
-        Me.fromDate.CustomFormat = "dd/MM/yyyy"
-        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.fromDate.Location = New System.Drawing.Point(44, 4)
-        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Name = "fromDate"
-        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Size = New System.Drawing.Size(90, 20)
-        Me.fromDate.TabIndex = 0
-        Me.fromDate.TabStop = False
-        Me.fromDate.Text = "24/10/2011"
-        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        Me.BtnDcsPrint.Location = New System.Drawing.Point(329, 37)
+        Me.BtnDcsPrint.Name = "BtnDcsPrint"
+        Me.BtnDcsPrint.Size = New System.Drawing.Size(85, 20)
+        Me.BtnDcsPrint.TabIndex = 289
+        Me.BtnDcsPrint.Text = "Print"
+        Me.BtnDcsPrint.TextWrap = True
         '
         'frmSendSMSToDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(816, 376)
+        Me.ClientSize = New System.Drawing.Size(816, 462)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmSendSMSToDCS"
         '
@@ -936,6 +1036,18 @@ Partial Class frmSendSMSToDCS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox8.ResumeLayout(False)
+        Me.RadGroupBox8.PerformLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintPdf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -984,18 +1096,13 @@ Partial Class frmSendSMSToDCS
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.btnPrintPdf, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox8.ResumeLayout(False)
-        Me.RadGroupBox8.PerformLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox9.ResumeLayout(False)
+        Me.RadGroupBox9.PerformLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DCSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnDcsPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1053,4 +1160,10 @@ Partial Class frmSendSMSToDCS
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents ToDate As RadDateTimePicker
     Friend WithEvents fromDate As RadDateTimePicker
+    Friend WithEvents RadGroupBox9 As RadGroupBox
+    Friend WithEvents TxtDocument As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents DCSDate As common.Controls.MyDateTimePicker
+    Friend WithEvents BtnDcsPrint As RadButton
 End Class

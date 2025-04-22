@@ -18,6 +18,7 @@ Public Class frmMCCMaterialSale
     Private StrSql As String
     Private AutoScheme As Boolean = False
     Private MultiplySubsidyWithQuantity As Boolean = False
+    Private ExcludeKKFAndMandiForDCS As Boolean = False
     Private attachQry As String = ""
     Private blnBackCalculation As Boolean = False
     Private AllowChangeInvoiceType As Boolean = False
@@ -268,6 +269,7 @@ Public Class frmMCCMaterialSale
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         AutoScheme = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
         MultiplySubsidyWithQuantity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
+        ExcludeKKFAndMandiForDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, Nothing))
         blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
         PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
         intMRPwithabatement = clsDBFuncationality.getSingleValue("select IsMRPwithAbatement from TSPL_INV_PARAMETERS")
@@ -6623,6 +6625,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 Dim Strii As String = clsCommon.myCstr(ii)
                 If rbtnTaxCalAutomatic.IsChecked Then
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value)
+                    Dim strTaxType As String = clsDBFuncationality.getSingleValue(" select Type from TSPL_TAX_MASTER where Tax_Code = '" + strTaxCode + "'")
                     If clsCommon.myLen(strTaxCode) > 0 Then
                         Dim dblTaxRate As Decimal = 0
                         If clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
@@ -6632,7 +6635,13 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                                 dblTaxRate = 0
                             End If
                         Else
-                            dblTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
+                            Dim FormType As String = clsDBFuncationality.getSingleValue("select CUSTOMER_FORM_TYPE from TSPL_CUSTOMER_MASTER where  cust_code = '" + txtVendorNo.Value + "' ")
+                            If ExcludeKKFAndMandiForDCS AndAlso clsCommon.CompairString(FormType, "VSP") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(strTaxType, "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(strTaxType, "M") = CompairStringResult.Equal) Then
+                                dblTaxRate = 0
+                            Else
+                                dblTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
+                            End If
+
                         End If
                         Dim IsSurTax As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value)
                         Dim strSurTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value)

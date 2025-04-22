@@ -1079,21 +1079,21 @@ Public Class MDI
             ' Console.WriteLine("Error accessing folder: " & ex.Message)
         End Try
     End Sub
-    Sub DeleteOldExportFiles(folderPath As String)
-        Try
-            ' Get all files in the folder
-            Dim files = Directory.GetFiles(folderPath)
+    ''Sub DeleteOldExportFiles(folderPath As String)
+    ''    Try
+    ''        ' Get all files in the folder
+    ''        Dim files = Directory.GetFiles(folderPath)
 
-            For Each filePath As String In files
-                ' Check if the file is older than 24 hours compared to the reference time
-                File.Delete(filePath)
-                'Console.WriteLine("Deleted: " & filePath)
-            Next
+    ''        For Each filePath As String In files
+    ''            ' Check if the file is older than 24 hours compared to the reference time
+    ''            File.Delete(filePath)
+    ''            'Console.WriteLine("Deleted: " & filePath)
+    ''        Next
 
-        Catch ex As Exception
-            ' Console.WriteLine("Error accessing folder: " & ex.Message)
-        End Try
-    End Sub
+    ''    Catch ex As Exception
+    ''        ' Console.WriteLine("Error accessing folder: " & ex.Message)
+    ''    End Try
+    ''End Sub
 
     Sub CheckAndLogin()
         Dim isLoginError As Boolean = False
@@ -1403,9 +1403,61 @@ Public Class MDI
             frmDefaultUserZone1.Location = New Point(Screen.PrimaryScreen.WorkingArea.Width - frmDefaultUserZone1.Width, Screen.PrimaryScreen.WorkingArea.Height - frmDefaultUserZone1.Height)
             frmDefaultUserZone1.ShowDialog()
         End If
-        'DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
-
+        Dim folder1 As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+        Dim folder2 As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Temps"
+        Dim folder3 As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Uplpads"
+        Dim userTime1 As DateTime = DateTime.Now ' 
+        DeleteOldDownloadsFiles(folder1, userTime1)
+        DeleteOldTempsFiles(folder2, userTime1)
+        DeleteOldUploadsFiles(folder3, userTime1)
         '==========================================
+    End Sub
+    Sub DeleteOldDownloadsFiles(folderPath As String, referenceTime As DateTime)
+        Try
+            Dim files = Directory.GetFiles(folderPath)
+
+            For Each filePath As String In files
+                Dim creationTime As DateTime = File.GetCreationTime(filePath)
+
+                If (referenceTime - creationTime).TotalHours >= 24 Then
+                    Try
+                        File.Delete(filePath)
+                    Catch ex As Exception
+                    End Try
+                End If
+            Next
+        Catch ex As Exception
+        End Try
+    End Sub
+    Sub DeleteOldTempsFiles(folderPath As String, referenceTime As DateTime)
+        Try
+            Dim files = Directory.GetFiles(folderPath)
+            For Each filePath As String In files
+                Dim creationTime As DateTime = File.GetCreationTime(filePath)
+                If (referenceTime - creationTime).TotalHours >= 24 Then
+                    Try
+                        File.Delete(filePath)
+                    Catch ex As Exception
+                    End Try
+                End If
+            Next
+        Catch ex As Exception
+        End Try
+    End Sub
+    Sub DeleteOldUploadsFiles(folderPath As String, referenceTime As DateTime)
+        Try
+            Dim files = Directory.GetFiles(folderPath)
+            For Each filePath As String In files
+                Dim creationTime As DateTime = File.GetCreationTime(filePath)
+                If (referenceTime - creationTime).TotalHours >= 24 Then
+                    Try
+                        File.Delete(filePath)
+                    Catch ex As Exception
+                    End Try
+                End If
+            Next
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Function LastDayOfMonth(aDate As DateTime) As Date

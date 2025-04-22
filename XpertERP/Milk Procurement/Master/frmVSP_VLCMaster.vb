@@ -1671,7 +1671,7 @@ Public Class frmVSP_VLCMaster
             updateMultipleIncentive(fndvendorNo.Value, trans)
 
 
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where CUSTOMER_FORM_TYPE='VSP' and cust_code='" + fndvendorNo.Value + "'", trans)) > 0 Then
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where  cust_code='" + fndvendorNo.Value + "'", trans)) > 0 Then
                 If CreateCustomer(False, trans) = False Then
                     Exit Sub
                 End If

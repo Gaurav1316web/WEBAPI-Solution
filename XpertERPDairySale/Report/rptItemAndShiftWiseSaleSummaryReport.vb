@@ -174,7 +174,7 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 If txtRoute.arrValueMember IsNot Nothing Then
                     arrHeader.Add("Route Code : " & clsCommon.GetMulcallString(txtRoute.arrValueMember) & "   Route Name :" & clsCommon.GetMulcallString(txtRoute.arrDispalyMember) & "")
                 End If
-                transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+                clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If

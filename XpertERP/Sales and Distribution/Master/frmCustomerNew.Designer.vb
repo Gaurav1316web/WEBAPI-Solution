@@ -4090,11 +4090,11 @@ Partial Class frmCustomer
         Me.cmbSplitPrint.IsSourceFromTable = False
         Me.cmbSplitPrint.IsSourceFromValueList = False
         Me.cmbSplitPrint.IsUnique = False
-        RadListDataItem11.Text = "Select"
-        RadListDataItem12.Text = "Part 1"
-        RadListDataItem13.Text = "Part 2"
-        RadListDataItem14.Text = "Part 3"
-        RadListDataItem15.Text = "Part 4"
+        RadListDataItem11.Text = "Main"
+        RadListDataItem12.Text = "Auto 1"
+        RadListDataItem13.Text = "Auto 2"
+        RadListDataItem14.Text = "Auto 3"
+        RadListDataItem15.Text = "Auto 4"
         Me.cmbSplitPrint.Items.Add(RadListDataItem11)
         Me.cmbSplitPrint.Items.Add(RadListDataItem12)
         Me.cmbSplitPrint.Items.Add(RadListDataItem13)
