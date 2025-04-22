@@ -825,7 +825,7 @@ Public Class frmMilkSRNMCC
                             ElseIf CorrTypeSRNVLC Then
                                 strVLCUploaderCode = clsCommon.myCstr(growImport.Cells("VLC").Value)
                             End If
-                            clsMilkSRNMCC.Correction(clsCommon.myCstr(growImport.Cells("SRN No").Value), CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dclQty, strType, dclFAT, dclSNF, strVLCUploaderCode)
+                            clsMilkSRNMCC.Correction(clsCommon.myCstr(growImport.Cells("SRN No").Value), CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dclQty, strType, dclFAT, dclSNF, strVLCUploaderCode, isNewEntry)
                         Catch ex As Exception
                             Dim dr As DataRow = dtError.NewRow()
                             dr("RowNo") = counter_Index
