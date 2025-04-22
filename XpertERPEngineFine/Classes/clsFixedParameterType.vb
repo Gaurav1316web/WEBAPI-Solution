@@ -1324,6 +1324,7 @@ Public Class clsFixedParameterType
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
+    Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
 End Class
 Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
@@ -2797,6 +2798,7 @@ Public Class clsFixedParameterCode
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
+    Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4439,6 +4441,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, "0", "0:Off, 1:On;")
 
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6280,5 +6283,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue("ASDS", clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, EnumControlType.NumericBox)
         InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, EnumControlType.CheckBox)
     End Sub
 End Class
