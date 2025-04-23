@@ -337,6 +337,7 @@ Public Class clsUnclearedDocumentHead
             Next
             qry = "Update TSPL_Uncleared_Doc_Head set Status=1,Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

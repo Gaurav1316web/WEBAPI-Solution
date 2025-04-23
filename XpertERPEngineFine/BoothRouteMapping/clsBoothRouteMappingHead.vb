@@ -34,7 +34,7 @@ Public Class clsBoothRouteMappingHead
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
             clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Datedeletedata", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
 
             If isNewEntry Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.BoothRouteMapping, "", "")
@@ -139,6 +139,8 @@ Public Class clsBoothRouteMappingHead
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BOOTH_ROUTE_MAPPING_HEAD", "Document_No", "TSPL_BOOTH_ROUTE_MAPPING_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BOOTH_ROUTE_MAPPING_HEAD", "Document_No", "TSPL_BOOTH_ROUTE_MAPPING_DETAIL", "Document_No", trans)
 
             Dim isPosted As Integer = 0
             isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_BOOTH_ROUTE_MAPPING_HEAD where Document_No = '" & strCode & "' and Posted=1", trans)
@@ -194,6 +196,7 @@ Public Class clsBoothRouteMappingHead
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BOOTH_ROUTE_MAPPING_HEAD", OMInsertOrUpdate.Update, "Document_No='" + clsCommon.myCstr(obj.Document_No) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BOOTH_ROUTE_MAPPING_HEAD", "Document_No", trans)
 
         Catch ex As Exception
 
