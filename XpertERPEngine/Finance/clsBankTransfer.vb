@@ -23,6 +23,8 @@ Public Class clsBankTransfer
                 Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")
                 Dim qry As String = "UPDATE TSPL_BANK_TRANSFER SET POST = 'P' WHERE TRANSFER_NO = '" + +"'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, BnkTrnsfrNo, "TSPL_ADJUSTMENT_VOUCHER", "ADJUSTMENT_CODE", trans)
+
                 trans.Commit()
             End If
 

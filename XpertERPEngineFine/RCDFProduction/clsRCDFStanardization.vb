@@ -235,9 +235,12 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProcessProductionStandardization, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
 
             End If
-            HistoryUpdate(strCode, trans)
+
             Dim qry As String = "update TSPL_RCDF_STD set Posted='1',Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            'HistoryUpdate(strCode, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RCDF_STD", "Doc_Code", trans)
+
             'PostInventoryMovementANDJE(Form_Id, strCode, arrLoc, trans, VoucherNo)
         Catch ex As Exception
             Throw New Exception("Production Stdardization No [" + strCode + "]" + ex.Message)

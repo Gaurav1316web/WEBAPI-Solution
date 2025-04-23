@@ -99,7 +99,7 @@ Public Class clsQualityCheck
                     Throw New Exception("QC No is in use")
                 End If
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", "TSPL_Quality_Chember_Details", "QC_No", trans)
             Qry = "Update tspl_quality_check set isPosted = 0,Posting_Date=null where QC_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_quality_check", "QC_No", trans)

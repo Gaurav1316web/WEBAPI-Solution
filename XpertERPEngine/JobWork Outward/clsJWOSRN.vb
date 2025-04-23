@@ -81,10 +81,11 @@ Public Class clsJWOSRNHead
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_SRN_HEAD", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", "TSPL_JWO_SRN_DETAIL", "DOCUMENT_NO", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_JWO_SRN_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsJWOSRNDetail.saveData(obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", "TSPL_JWO_SRN_DETAIL", "DOCUMENT_NO", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -1068,6 +1069,8 @@ Public Class clsJWOSRNHead
             If clsCommon.myLen(strReturnNo) > 0 Then
                 Throw New Exception("Cannot Reverse SRN No - " + StrDocNo + " .JWO SRN Return- " + strReturnNo + " is created")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrDocNo, "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", trans)
+
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Reference_Document  in ('JWO-SRN-JLO','JWO-SRN-JLI') and Document_No='" + StrDocNo + "') and Source_Code='JW-SR')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Reference_Document  in ('JWO-SRN-JLO','JWO-SRN-JLI') and Document_No='" + StrDocNo + "') and Source_Code='JW-SR'"
@@ -1094,7 +1097,6 @@ Public Class clsJWOSRNHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "update TSPL_JWO_SRN_HEAD set Posted=0,Posted_Date=null where Document_No='" + StrDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrDocNo, "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

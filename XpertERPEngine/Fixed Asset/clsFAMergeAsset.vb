@@ -513,6 +513,7 @@ Public Class clsFAMergeHead
 
             qry = "Update TSPL_ACQUISITION_HEAD set Status=1, Post_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Acquisition_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -170,6 +170,8 @@ Public Class clsAdjustmentVoucher
 
             Dim qry As String = "Update TSPL_ADJUSTMENT_VOUCHER set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where ADJUSTMENT_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ADJUSTMENT_VOUCHER", "ADJUSTMENT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

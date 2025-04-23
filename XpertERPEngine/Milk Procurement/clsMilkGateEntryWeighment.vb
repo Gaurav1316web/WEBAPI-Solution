@@ -188,9 +188,10 @@ Public Class clsMilkGateEntryWeighment
             If (obj.GW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Gross Weight Already Post on :" + clsCommon.GetPrintDate(obj.GW_Posted_Date, "dd/MM/yyyy"))
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_WEIGHTMENT set GW_Status=1, GW_Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',GW_Posted_By='" + objCommonVar.CurrentUserCode + "' where Weighment_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -221,9 +222,10 @@ Public Class clsMilkGateEntryWeighment
             If (obj.TW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Tare Weight Already Post on :" + clsCommon.GetPrintDate(obj.TW_Posted_Date, "dd/MM/yyyy"))
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_WEIGHTMENT set TW_Status=1, TW_Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',TW_Posted_By='" + objCommonVar.CurrentUserCode + "' where Weighment_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
