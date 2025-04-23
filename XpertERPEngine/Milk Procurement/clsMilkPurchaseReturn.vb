@@ -542,11 +542,12 @@ Public Class clsMilkPurchaseReturnHead
 
 
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", "TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL", "Pur_Return_No", trans)
 
 
             qry = "Update TSPL_Bulk_MILK_PURCHASE_RETURN_HEAD set isPosted=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy") + "' where Pur_Return_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_MILK_PURCHASE_RETURN_HEAD", "Pur_Return_No", trans)
+
             If isTransLocallyInitiatted Then
                 If isSaved Then
                     trans.Commit()

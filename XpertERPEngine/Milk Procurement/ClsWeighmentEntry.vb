@@ -277,7 +277,6 @@ Public Class ClsWeighmentEntry
             End If
             Dim obj As ClsWeighmentEntry = ClsWeighmentEntry.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmWeighmentEntry, obj.Location_Code, obj.Weighment_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_No) <= 0) Then
@@ -288,6 +287,8 @@ Public Class ClsWeighmentEntry
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
             " where Weighment_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_WEIGHMENT_DETAIL_BULKSALE", "Weighment_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
