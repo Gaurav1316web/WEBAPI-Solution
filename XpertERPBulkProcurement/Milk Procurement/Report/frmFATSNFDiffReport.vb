@@ -44,6 +44,10 @@ Public Class frmFATSNFDiffReport
     End Sub
     Sub Print(ByVal isPrint As Boolean)
         Try
+            Dim strDecimalPlaces As String = "2"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                strDecimalPlaces = "3"
+            End If
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -63,9 +67,9 @@ Public Class frmFATSNFDiffReport
             Dim BaseQry As String = clsMilkCollectionDCS.GetBaseQueryFATSNFGainLoss(txtFromDate.Value, txtToDate.Value, txtMCC.arrValueMember)
             Dim Qry As String = ""
             If rbtnDetails.IsChecked Then
-                Qry = " select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],Document_Date,sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,sum(MCCQty)-sum(DCSQty) as [Diff Qty],CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX   group by MCC_Code ,Document_Date order by MCC_NAME,Document_Date  "
+                Qry = " select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],Document_Date,sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,sum(MCCQty)-sum(DCSQty) as [Diff Qty],CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX   group by MCC_Code ,Document_Date order by MCC_NAME,Document_Date  "
             ElseIf rbtnMCCWise.IsChecked Then
-                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
+                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
                 If SettCalculateFATSNFLossByCycleWise Then
                     Qry = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
 ,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
@@ -167,7 +171,13 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
         End If
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = 4 To Gv1.Columns.Count - 2
-            summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal AndAlso Gv1.Columns(ii).HeaderText.Contains("KG") Then
+                summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:n3}", GridAggregateFunction.Sum))
+            Else
+                summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            End If
+
+
         Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

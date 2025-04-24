@@ -531,6 +531,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleMCCMilkProcurementSetup As String = "SMMPROCSetup"
     Public Const SubModuleMCCMilkProcurementTransaction As String = "SMCPROCTRAN"
     Public Const SubModuleMCCMilkProcurementReport As String = "SMMPROCRPT"
+    Public Const SubModuleMCCMilkProcurementBMCReport As String = "SMMPROCBCRPT"
 
 
     'Public Const SubModuleBULKMilkProcurementSetup As String = "SMBPROCSetup"

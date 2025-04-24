@@ -1790,7 +1790,7 @@ Public Class ProgramCodeNew
         '===sanjeet(21/11/2016)====================
 
         'InsertDefaultValue(clsUserMgtCode.FrmTruckSheetRouteWiseRpt, "Truck Sheet Route Wise", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementBMCReport, "BMC Report", "1.17.04", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
 
         '23/11/2016
         'InsertDefaultValue(clsUserMgtCode.FrmMccWeightDifferenceRpt, "Weight Difference Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
