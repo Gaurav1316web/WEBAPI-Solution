@@ -478,7 +478,7 @@ Public Class clsPurchaseOrderHead
             End If
             Dim qry As String = ""
             If isMakeAbandomentNo Then
-                clsPurchaseOrderHeadHist.SaveDataForHistory(obj.PurchaseOrder_No, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
+                ' clsPurchaseOrderHeadHist.SaveDataForHistory(obj.PurchaseOrder_No, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
                 qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='PO-ODR' and Document_Code in ( '" + obj.PurchaseOrder_No + "')"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

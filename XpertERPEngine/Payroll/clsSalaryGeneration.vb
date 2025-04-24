@@ -713,6 +713,7 @@ Public Class clsSalaryGeneration
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", Nothing)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

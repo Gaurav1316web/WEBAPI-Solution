@@ -458,7 +458,7 @@ Public Class clsBillOfMaterial
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Code not found to Post")
             End If
-            HistoryData(strDocNo, trans)
+            'HistoryData(strDocNo, trans)
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim obj As clsBillOfMaterial = clsBillOfMaterial.GetData(strDocNo, NavigatorType.Current, trans)
 
@@ -471,7 +471,7 @@ Public Class clsBillOfMaterial
 
             Dim qry As String = "Update TSPL_MF_BOM_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where BOM_CODE ='" + strDocNo + "' and trans_type='BOM'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            HistoryData(strDocNo, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

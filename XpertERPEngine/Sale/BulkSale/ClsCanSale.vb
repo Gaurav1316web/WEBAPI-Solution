@@ -839,12 +839,13 @@ Public Class ClsCanSaleDispatch
             End If
             CreateInventoryMovement(obj, trans, settTankerDispatchAvgFATSNFPer)
             CreateJournalEntry(obj.Document_No, arrLoc, trans, "")
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_DISPATCH_HEAD", "Document_No", "TSPL_CANSALE_DISPATCH_DETAIL", "Document_No", trans)
 
             Dim qry = "Update TSPL_CANSALE_DISPATCH_HEAD set Posted=1, " &
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "'  " &
             " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CANSALE_DISPATCH_HEAD", "Document_No", trans)
+
             If settTankerDispatchAvgFATSNFPer Then
                 ''Becuase FAT,SNF Changed when inventory hits.
                 obj = ClsCanSaleDispatch.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
@@ -2006,7 +2007,6 @@ Public Class ClsCanSaleInvoice
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_INVOICE_HEAD", "Document_No", "TSPL_CANSALE_INVOICE_DETAIL", "Document_No", trans)
 
 
             createARInvoice(obj, "", "", trans)
@@ -2015,6 +2015,8 @@ Public Class ClsCanSaleInvoice
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " &
             " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CANSALE_INVOICE_HEAD", "Document_No", "TSPL_CANSALE_INVOICE_DETAIL", "Document_No", trans)
+
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)

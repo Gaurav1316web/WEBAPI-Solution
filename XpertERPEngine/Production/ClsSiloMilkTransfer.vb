@@ -262,9 +262,10 @@ Public Class ClsSiloMilkTransfer
             CreateJE_JobWork(obj, trans)
             ''-----
 
-            HistoryUpdate(obj.Document_Code, trans)
             Dim qry1 As String = " update TSPL_SILO_MILK_TRANSFER_HEAD  set Posted='1' ,Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+            HistoryUpdate(obj.Document_Code, trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())
         End Try
@@ -637,9 +638,10 @@ Public Class ClsSiloMilkTransfer
             CreateJE(obj, trans)
             ''-----
 
-            HistoryUpdate(obj.Document_Code, trans)
             Dim qry1 As String = " update TSPL_SILO_MILK_TRANSFER_HEAD  set Posted='1' ,Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+            HistoryUpdate(obj.Document_Code, trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())
         End Try

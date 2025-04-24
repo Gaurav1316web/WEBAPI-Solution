@@ -196,12 +196,12 @@ Public Class clsProcessProductionReturn
                 Throw New Exception("Already Post on :" + obj.POSTING_DATE)
             End If
             Dim qry As String = ""
-            HistoryUpdate(strDocNo, trans)
+
             UpdateBatchItem(obj.PROD_ENTRY_CODE, obj.PROD_RETURN_CODE, NavigatorType.Current, objforLocation.strLocationCode, trans)
             UpdateInventoryMovement("PP-PR", strDocNo, trans)
             qry = "Update TSPL_PP_PRODUCTION_RETURN set POSTED=1, POSTING_DATE ='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where PROD_RETURN_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            HistoryUpdate(strDocNo, trans)
             '================================= Ticket No : BHA/03/08/18-000386 =================================================
             ''Journal Entry  
             qry = " select TSPL_JOURNAL_DETAILS.Account_code,-1*TSPL_JOURNAL_DETAILS.Amount as Amount from TSPL_JOURNAL_DETAILS " & _

@@ -209,8 +209,9 @@ Public Class ClsMaterialQuotationHead
 
                 Dim qry As String = "Update TSPL_SCRAP_QUOTATION_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Code='" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", trans)
 
-                trans.Commit()
+            trans.Commit()
 
             Catch ex As Exception
                 trans.Rollback()
@@ -523,6 +524,7 @@ Public Class ClsMaterialQuotationOrderHead
 
             Dim qry As String = "Update TSPL_SCRAP_QUOTATION_ORDER_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", trans)
 
             trans.Commit()
 
@@ -862,6 +864,7 @@ Public Class ClsMaterialQuotationComparisonHead
 
             Dim qry As String = "Update TSPL_SCRAP_QUOTATION_COMPARISON_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD", "Code", trans)
 
             trans.Commit()
 

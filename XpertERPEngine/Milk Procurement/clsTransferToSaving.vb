@@ -261,6 +261,8 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + objTr.Vendor_Code + "'"
         CreateAPInvoiceHeader(obj, trans)
         qry = "Update TSPL_TRANSFER_TO_SAVING set Posted_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy hh:mm:ss tt") + "',Status=1 ,Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TRANSFER_TO_SAVING", "Document_No", trans)
+
         Return True
     End Function
 

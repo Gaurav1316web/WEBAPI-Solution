@@ -62,6 +62,7 @@ Public Class clsTranspoterDeductionHeader
             End If
 
             clsTranspoterDeductionDetails.SaveData(obj.DEDUCTION_CODE, obj.ArrDeductionDetails, obj.DEDUCTION_DATE, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DEDUCTION_CODE, "TSPL_TRANSPOTER_DEDUCTION_HEADER", "DEDUCTION_CODE", "TSPL_TRANSPOTER_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
 
 
         Catch err As Exception
@@ -110,6 +111,9 @@ Public Class clsTranspoterDeductionHeader
             Else
                 Throw New Exception("Document not found to delete.")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDeductionCode, "TSPL_TRANSPOTER_DEDUCTION_HEADER", "DEDUCTION_CODE", "TSPL_TRANSPOTER_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDeductionCode, "TSPL_TRANSPOTER_DEDUCTION_HEADER", "DEDUCTION_CODE", "TSPL_TRANSPOTER_DEDUCTION_DETAIL", "DEDUCTION_CODE", trans)
+
             clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_TRANSPOTER_DEDUCTION_DETAIL WHERE DEDUCTION_CODE ='" + obj.DEDUCTION_CODE + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_TRANSPOTER_DEDUCTION_HEADER WHERE DEDUCTION_CODE ='" + obj.DEDUCTION_CODE + "'", trans)
             'clsDBFuncationality.ExecuteNonQuery("DELETE from TSPL_SALES_INCENTIVE_SLAB WHERE DEDUCTION_CODE ='" + obj.DEDUCTION_CODE + "'", trans)
@@ -155,6 +159,7 @@ Public Class clsTranspoterDeductionHeader
             End If
             Dim strQry As String = " update TSPL_TRANSPOTER_DEDUCTION_HEADER set Status='1', Post_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' , Post_By = '" + objCommonVar.CurrentUserCode + "' where DEDUCTION_CODE='" & strDeductionNo & "' "
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDeductionNo, "TSPL_TRANSPOTER_DEDUCTION_HEADER", "DEDUCTION_CODE", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

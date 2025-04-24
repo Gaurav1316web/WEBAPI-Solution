@@ -101,6 +101,8 @@ Public Class clsGateOutt
             End If
             Dim qry As String = "Update tspl_purchase_gateout set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_purchase_gateout", "Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

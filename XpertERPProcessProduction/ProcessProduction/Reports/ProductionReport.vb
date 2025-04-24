@@ -133,27 +133,39 @@ Public Class ProductionReport
             qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
-                          FROM
-                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],
+                          FROM ( Select max(Add1)Add1,max(Add4)Add4,max(Location_Desc)Location_Desc,[Item Code],max(ITEM_DESCRIPTION)ITEM_DESCRIPTION,
+                               LOCATION_CODE,max(PROD_DATE)PROD_DATE,shiftcode "
+                        If Productionchk.IsChecked = True Then
+                qry += " ,Sum(qty_bag1) as qty_bag "
+            ElseIf RePrdntchk.IsChecked = True Then
+                qry += " ,Sum(qty_bag3) as qty_bag  "
+            ElseIf Prdncreallchk.IsChecked = True Then
+                qry += " ,Sum(qty_bag1+qty_bag2) as qty_bag "
+            End If
+            qry += "  from (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],
                                    TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION, "
 
-            If Productionchk.IsChecked = True Then
-                qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag, "
-            ElseIf RePrdntchk.IsChecked = True Then
-                qry += " ((TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty-(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) ) as qty_bag,  "
-            ElseIf Prdncreallchk.IsChecked = True Then
-                qry += " (TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As qty_bag, "
-            End If
+            'If Productionchk.IsChecked = True Then
+            '    qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag, "
+            'ElseIf RePrdntchk.IsChecked = True Then
+            '    qry += " ((TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty-(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) ) as qty_bag,  "
+            'ElseIf Prdncreallchk.IsChecked = True Then
+            '    qry += " (TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty) As qty_bag, "
+            'End If
 
-            qry += "TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+            qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag1,
+					isnull(TSPL_SPP_PRODUCTION_ENTRY.Reprocess_H_Qty,0) as qty_bag2,
+					((TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty-(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) ) as qty_bag3,
+                    TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
 								   left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                    left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
 								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
                                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry += " where 2=2  " + Status1 + " " + FG + " " + SFG + " " + FGSFG + ""
-            qry += " )Tab1
+            qry += " where 2=2  " + Status1 + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
+                     and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE<= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'"
+            qry += " )Tab1 group by LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & itemNames1 & ")  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
             If clsCommon.myLen(qry) > 0 Then

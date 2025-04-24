@@ -1055,19 +1055,19 @@ Public Class clsGRNHead
             End If
             '================================================================================
 
-            If Is_Auto_Generate_MRN  Then
+            If Is_Auto_Generate_MRN Then
                 GenerateMRN(obj, trans)
             End If
 
             qry = "Update TSPL_GRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where GRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GRN_HEAD", "GRN_No", trans)
 
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS(obj, trans)
             End If
 
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GRN_HEAD", "GRN_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

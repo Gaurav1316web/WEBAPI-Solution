@@ -281,6 +281,8 @@ Public Class clsGateEntrySale
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
             " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GATEENTRY_SALE", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

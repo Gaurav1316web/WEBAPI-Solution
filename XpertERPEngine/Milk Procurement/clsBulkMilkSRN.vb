@@ -309,6 +309,8 @@ Public Class clsBulkMilkSRN
                         ' added by priti on GKD/08/06/18-000148
                         qry = "Update tspl_bulk_milk_srn set isApproved=1,Approved_Rate=" & obj.BasicRate & "  where  srn_no='" & obj.SRN_NO & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_NO, "tspl_bulk_milk_srn", "srn_no", trans)
+
                     End If
                 End If
 

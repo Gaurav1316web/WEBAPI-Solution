@@ -293,6 +293,7 @@ Public Class clsProvisionEntry
 
             qry = " update tspl_provision_entry set isPosted='1',Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where Doc_no='" & strDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_provision_entry", "Doc_no", trans)
 
             qry = "Update TSPL_GATEPASS_master_ProductSale set Provision_No='" & obj.Doc_No & "' where GPCode='" + obj.Ref_Doc_No + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

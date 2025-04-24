@@ -1366,7 +1366,7 @@ Public Class frmCustomer
             ''richa VIJ/01/10/19-000004
             obj.Booking_Type = IIf(cmbBookingType.Text = "Select", "", cmbBookingType.Text)
             obj.Customer_Category = IIf(cmbCustomerCategory.Text = "Select", "", cmbCustomerCategory.Text)
-            obj.Split_Print = IIf(cmbSplitPrint.Text = "Select", "", cmbSplitPrint.Text)
+            obj.Split_Print = IIf(cmbSplitPrint.Text = "Main", "", cmbSplitPrint.Text)
             ''============================
             'Dim Other_For_Pan As Integer = 0
             If ChkOther.Checked = True Then
@@ -2256,7 +2256,7 @@ Public Class frmCustomer
                     cmbCustomerCategory.Text = myDr("Customer_Category").ToString()
                 End If
                 If clsCommon.myLen(myDr("Split_Print").ToString()) <= 0 Then
-                    cmbSplitPrint.Text = "Select"
+                    cmbSplitPrint.Text = "Main"
                 Else
                     cmbSplitPrint.Text = myDr("Split_Print").ToString()
                 End If
@@ -2693,7 +2693,7 @@ Public Class frmCustomer
         'MultiRouteCode.arrValueMember = Nothing
         cmbBookingType.Text = "Select"
         cmbCustomerCategory.Text = "Select"
-        cmbSplitPrint.Text = "Select"
+        cmbSplitPrint.Text = "Main"
         VisibleMultRoute()
         TxtBankName.Text = ""
         TxtIFSCCode.Text = ""
@@ -5891,49 +5891,8 @@ Public Class frmCustomer
         TxtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, TxtLocation.Value, "Code", isButtonClicked)
         lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + TxtLocation.Value + "'"))
     End Sub
-    Private Sub rmiCustomerDisplaySeq_Click(sender As Object, e As EventArgs) Handles rmiCustomerDisplaySeq.Click
-        Try
-            Dim gv As New UserControls.MyRadGridView
-            Me.Controls.Add(gv)
-            If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
-                clsCommon.ProgressBarPercentShow()
-                Try
-                    Dim i As Integer = 1
-                    For Each grow As GridViewRowInfo In gv.Rows
-                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Getting Record List " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
 
-                        Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
-                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
-                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
-                            clsDBFuncationality.ExecuteNonQuery(StrQry)
-                        End If
-                        i += 1
-                    Next
-                    clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
-                Catch ex As Exception
-                    clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                End Try
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
-            End If
-            Me.Controls.Remove(gv)
-        Catch ex As Exception
-            clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    Private Sub rmiexCustDispSeq_Click(sender As Object, e As EventArgs) Handles rmiexCustDispSeq.Click
-        Try
-            Dim str As String = "select Cust_Code as [Customer Code],Display_Seq as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
-            ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
-            ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
-            transportSql.ExporttoExcel(str, "", Me)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+
     Private Sub txtPriceCodeFOR__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPriceCodeFOR._MYValidating
         Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description], TSPL_ITEM_PRICE_MASTER.Tax_group as [Tax Group] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
         Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
@@ -5982,6 +5941,138 @@ Public Class frmCustomer
             Dim WhrCls As String = " Status='A' "
             txtIRouteCode.Value = clsCommon.ShowSelectForm("IROUTeNOFND", qry, "Route_No", WhrCls, txtIRouteCode.Value, "", isButtonClicked)
         Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub rmiDefaultSeq_Click(sender As Object, e As EventArgs) Handles rmiDefaultSeq.Click
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    Dim i As Integer = 1
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Getting Record List " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+
+                        Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(StrQry)
+                        End If
+                        i += 1
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiMorningseq_Click(sender As Object, e As EventArgs) Handles rmiMorningseq.Click
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    Dim i As Integer = 1
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Getting Record List " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+
+                        Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_SeqM='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(StrQry)
+                        End If
+                        i += 1
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub EveningSeq_Click(sender As Object, e As EventArgs) Handles EveningSeq.Click
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    Dim i As Integer = 1
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Getting Record List " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+
+                        Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_SeqE='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(StrQry)
+                        End If
+                        i += 1
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub rmiExportDefaultSeq_Click(sender As Object, e As EventArgs) Handles rmiExportDefaultSeq.Click
+        Try
+            Dim str As String = "select Cust_Code as [Customer Code],Display_Seq as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
+            ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
+            ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+            transportSql.ExporttoExcel(str, "", Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub rmiExportMorningSeq_Click(sender As Object, e As EventArgs) Handles rmiExportMorningSeq.Click
+        Try
+            Dim str As String = "select Cust_Code as [Customer Code],Display_SeqM as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
+            ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
+            ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+            transportSql.ExporttoExcel(str, "", Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub rmiExportEveningSeq_Click(sender As Object, e As EventArgs) Handles rmiExportEveningSeq.Click
+        Try
+            Dim str As String = "select Cust_Code as [Customer Code],Display_SeqE as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
+            ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
+            ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+            transportSql.ExporttoExcel(str, "", Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

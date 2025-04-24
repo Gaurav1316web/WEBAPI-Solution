@@ -131,7 +131,6 @@ Public Class ClsEmpIncrement
             If (obj Is Nothing OrElse clsCommon.myLen(obj.INCREMENT_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", Nothing)
 
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -143,6 +142,8 @@ Public Class ClsEmpIncrement
             
             Dim qry As String = "Update TSPL_EMPLOYEE_INCREMENT_HEAD set POSTED = '1',EMP_SAL_CODE_NEW='" & objSal.EMP_SAL_CODE & "', Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where INCREMENT_CODE ='" + strDocNo + "'"
             IsSaved = IsSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", Nothing)
+
             trans.Commit()
         Catch ex As Exception
             Throw New Exception(ex.Message)

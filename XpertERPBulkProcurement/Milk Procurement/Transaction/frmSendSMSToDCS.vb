@@ -885,8 +885,9 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
     Private Sub TxtDCS__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDCS._MYValidating
         Try
             Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name,Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] from TSPL_VENDOR_MASTER  
-                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
-            TxtDCS.Value = clsCommon.ShowSelectForm("sensms@M", qry, "Code", "", TxtDCS.Value, "Code", isButtonClicked)
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code  "
+            Dim WhrCls As String = "  Form_Type='VSP' and 2=2 "
+            TxtDCS.Value = clsCommon.ShowSelectForm("DCSCode", qry, "Code", WhrCls, TxtDCS.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

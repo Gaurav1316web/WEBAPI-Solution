@@ -120,10 +120,11 @@ Public Class clsBankAdvise
             End If
             'Dim strDaterange As String = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd") + " - " + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd MMM yyyy")
             'CreateEmailContent(clsCommon.myCstr(dt.Rows(0)("Doc_No")), strDaterange, tran)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", tran)
 
             Qry = "Update TSPL_BANK_ADVISE Set Status=1 where  Document_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", tran)
+
             tran.Commit()
         Catch ex As Exception
             tran.Rollback()

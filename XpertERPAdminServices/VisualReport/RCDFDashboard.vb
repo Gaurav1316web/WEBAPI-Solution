@@ -1603,16 +1603,19 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
         Try
             If dtQcPending Is Nothing OrElse dtQcPending.Rows.Count <= 0 Then
                 Dim sQuery As String = "
-                select  TSPL_MRN_DETAIL.Location,count(*) as 'QC Pending' from TSPL_MRN_HEAD 
-                left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
-				left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
-                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
-                where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1
+                select  TSPL_MRN_HEAD.Bill_To_Location,count(*) 'QC Pending' from TSPL_MRN_HEAD 
+                LEFT OUTER JOIN TSPL_MRN_DETAIL ON TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No 
+                left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+                LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
+                LEFT OUTER JOIN TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
+                where Against_GRN NOT IN (SELECT Gate_Entry_No FROM TSPL_QC_CHECK_HEAD)  AND TSPL_GRN_HEAD.IsCancel=0
+                AND (TSPL_GRN_HEAD.VisualQCStatus<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>3) and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1 
+                and ((tspl_mrn_head.NIR_QC=1  AND TSPL_NIR_QC.Status =1 and TSPL_NIR_QC.QC_Status=1) or tspl_mrn_head.NIR_QC=0) and TSPL_GRN_HEAD.IsSkipPurchaseQC=0
                 "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
-                    sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
+                    sQuery += " AND TSPL_MRN_HEAD.Bill_To_Location= '" + txtLocation.Value + "' "
                 End If
-                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and tspl_grn_head.IsSkipPurchaseQC=0 and isnull ( TSPL_MRN_HEAD.NIR_QC,0)<>0  and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
+                sQuery += " group by TSPL_MRN_HEAD.Bill_To_Location "
 
                 dtQcPending = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -1623,19 +1626,21 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
 
         Try
             If dtQuality Is Nothing OrElse dtQuality.Rows.Count <= 0 Then
-                Dim sQuery As String = " select  ROW_NUMBER() OVER (ORDER BY TSPL_GRN_HEAD.Bill_To_Location) AS 'S.NO',TSPL_GRN_HEAD.Ref_No,TSPL_MRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description as 'ITEM_DESC',TSPL_MRN_HEAD.VehicleNo ,'Pending' as 'QCstatus','' as 'DEDPer'
-from TSPL_MRN_HEAD 
-                left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
-				left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
-                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
-                where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1               
-                AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM') 
-                AND tspl_grn_head.IsSkipPurchaseQC=0 
-                and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>=  convert(date, '01-apr-2023', 103)"
+                Dim sQuery As String = " select  ROW_NUMBER() OVER (ORDER BY TSPL_GRN_HEAD.Bill_To_Location) AS 'S.NO',TSPL_GRN_HEAD.Ref_No,
+                                        TSPL_MRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description as 'ITEM_DESC',TSPL_MRN_HEAD.VehicleNo ,
+                                        'Pending' as 'QCstatus','' as 'DEDPer'
+                from TSPL_MRN_HEAD 
+                LEFT OUTER JOIN TSPL_MRN_DETAIL ON TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No 
+                left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+                LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
+                LEFT OUTER JOIN TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
+                where  Against_GRN NOT IN (SELECT Gate_Entry_No FROM TSPL_QC_CHECK_HEAD)  AND TSPL_GRN_HEAD.IsCancel=0
+                AND (TSPL_GRN_HEAD.VisualQCStatus<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>3) and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1 
+                and ((tspl_mrn_head.NIR_QC=1  AND TSPL_NIR_QC.Status =1 and TSPL_NIR_QC.QC_Status=1) or tspl_mrn_head.NIR_QC=0) and TSPL_GRN_HEAD.IsSkipPurchaseQC=0 "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
-                    sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
+                    sQuery += " AND TSPL_MRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
-                sQuery += " and isnull ( TSPL_MRN_HEAD.NIR_QC,0)<>0  order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc "
+                'sQuery += " and isnull ( TSPL_MRN_HEAD.NIR_QC,0)<>0  order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc "
                 dtQuality = clsDBFuncationality.GetDataTable(sQuery)
             End If
 

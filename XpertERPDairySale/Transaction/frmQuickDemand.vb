@@ -52,7 +52,8 @@ Public Class frmQuickDemand
         LoadShiftType()
         AddNew()
         SetUserMgmtNew()
-        txtDate.Value = clsCommon.GETSERVERDATE()
+        btnSave.Visible = False
+        'txtDate.Value = clsCommon.GETSERVERDATE()
         'LoadData(txtDate.Value, cmbShift.SelectedValue, objCommonVar.CurrentUserCode, True)
         isInsideLoadData = False
     End Sub
@@ -61,7 +62,7 @@ Public Class frmQuickDemand
         gv1.Rows.Clear()
         gv1.Columns.Clear()
         gv1.DataSource = Nothing
-        gv1.Rows.AddNew()
+
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -162,6 +163,7 @@ Public Class frmQuickDemand
         repoCrate.PinPosition = PinnedColumnPosition.Right
         gv1.MasterTemplate.Columns.Add(repoCrate)
         gv1.BestFitColumns()
+        gv1.Rows.AddNew()
     End Sub
     Sub AddNew()
         LoadBlankGrid()
@@ -211,6 +213,15 @@ Public Class frmQuickDemand
                         gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colSetZero).Value = 1
                         GetBoothDetail()
+                        Dim qry As String = "select top 1 TSPL_DEMAND_BOOKING_MASTER.Document_No from TSPL_DEMAND_BOOKING_MASTER 
+where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + cmbShift.Text + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value) + "' and tspl_demand_booking_master.posted=1 and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0"
+                        Dim isDemandPosted As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                        Dim cust As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value)
+                        If clsCommon.myLen(isDemandPosted) > 0 Then
+
+                            Throw New Exception("Demand Already Posted for Route_No Code [" + clsCommon.myCstr(cust) + "]")
+
+                        End If
                         FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
 
                         'GenerateLineNo()
@@ -219,10 +230,10 @@ Public Class frmQuickDemand
                     If e.Column.Name = colSetZero Then
                         UpdateCurrentRow(gv1.CurrentRow.Index)
                     End If
-                    If e.Column.Index >= 4 AndAlso gv1.Rows.Count > 0 Then
-                        UpdateCurrentRow(gv1.CurrentRow.Index)
-                        'UpdateColumnTotal()
-                    End If
+                    'If e.Column.Index >= 4 AndAlso gv1.Rows.Count > 0 Then
+                    '    UpdateCurrentRow(gv1.CurrentRow.Index)
+                    '    'UpdateColumnTotal()
+                    'End If
                     isCellValueChangedOpen = False
                 End If
                 isInsideLoadData = False
@@ -231,6 +242,8 @@ Public Class frmQuickDemand
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
+            LoadBlankGrid()
+            SetGridFocus()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -265,7 +278,7 @@ Public Class frmQuickDemand
                 Next
             Next
         Else
-            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
+            If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colCustCode).Value)) > 0 Then
                 'Dim obj As New clsDemandSheet()
                 'obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
                 'obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
@@ -281,6 +294,22 @@ Public Class frmQuickDemand
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
                             'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+                            Dim cellValue As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
+                                    If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                        gv1.Rows(IntRowNo).Cells(dblcolumns).Value = ""
+                                        clsCommon.MyMessageBoxShow(Me, "Decimal values are not allowed.", Me.Text)
+                                        Exit Sub
+                                    End If
+                                Else
+                                    If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                        gv1.Rows(IntRowNo).Cells(dblcolumns).Value = ""
+                                        clsCommon.MyMessageBoxShow(Me, "Should be in multiple of 0.5", Me.Text)
+                                        Exit Sub
+                                    End If
+                                End If
+                            End If
                             obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                             Try
                                 Dim status As Boolean = obj.SaveData(obj)
@@ -512,9 +541,10 @@ Public Class frmQuickDemand
     End Sub
     Sub SetGridFocus()
         If gv1.CurrentCell IsNot Nothing Then
+
             Dim setNxtRow As Boolean = False
-            Dim k As Integer = gv1.CurrentColumn.Index
-            Dim r As Integer = 0
+                Dim k As Integer = gv1.CurrentColumn.Index
+                Dim r As Integer = 0
             If gv1.CurrentCell.ColumnInfo.Name = colCustCode Then
                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colCustPhone Then
@@ -522,44 +552,58 @@ Public Class frmQuickDemand
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colSetZero Then
                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
 
+
             ElseIf k >= 5 AndAlso k < gv1.Columns.Count - 2 Then
-                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 4)).Tag, ItemValueClass)
-                k = k - 3
-                r = k
-                If obj1 IsNot Nothing Then
-                    If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso r <= gv1.Columns.Count - 5 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
-                        If gv1.CurrentCell.ColumnInfo.Name = colItemCode + clsCommon.myCstr(k - 1) Then
-                            Dim obj2 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(r)).Tag, ItemValueClass)
-                            If obj2 IsNot Nothing Then
-                                gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(r))
-                                Exit Sub
+                If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(gv1.CurrentRow.Index).Cells(colCustCode).Value)) > 0 Then
+                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 4)).Tag, ItemValueClass)
+                    k = k - 3
+                        r = k
+                        If obj1 IsNot Nothing Then
+                            If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso r <= gv1.Columns.Count - 5 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
+                                If gv1.CurrentCell.ColumnInfo.Name = colItemCode + clsCommon.myCstr(k - 1) Then
+                                    Dim obj2 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(r)).Tag, ItemValueClass)
+                                    If obj2 IsNot Nothing Then
+                                        gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(r))
+                                        Exit Sub
+                                    Else
+                                        setNxtRow = True
+                                    End If
+                                End If
                             Else
                                 setNxtRow = True
                             End If
                         End If
-                    Else
-                        setNxtRow = True
-                    End If
-                End If
-                If setNxtRow Then
-                    SetDemandBooking(clsCommon.myCstr(gv1.Rows(gv1.CurrentRow.Index).Cells(colCustCode).Value), txtDate.Value, cmbShift.Text, gv1.CurrentRow.Index)
+                        If setNxtRow Then
+                            'SetDemandBooking(clsCommon.myCstr(gv1.Rows(gv1.CurrentRow.Index).Cells(colCustCode).Value), txtDate.Value, cmbShift.Text, gv1.CurrentRow.Index)
 
-                    If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
-                        gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
-                    End If
-                    gv1.CurrentColumn = gv1.Columns(colCustCode)
-                    'GvRowFridge()
+                            If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
+                                gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
+                            End If
+                            gv1.CurrentColumn = gv1.Columns(colCustCode)
+                            'GvRowFridge()
+                        End If
+
+                    Else
+                    clsCommon.MyMessageBoxShow(Me, "Please select Booth")
+                    LoadBlankGrid()
                 End If
+
             Else
-                SetDemandBooking(clsCommon.myCstr(gv1.Rows(gv1.CurrentRow.Index).Cells(colCustCode).Value), txtDate.Value, cmbShift.Text, gv1.CurrentRow.Index)
 
                 'FridgeCurrentRow(gv1.CurrentRow.Index)
                 If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
                     gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
                 End If
+                UpdateCurrentRow(gv1.CurrentRow.Index - 1)
+                SetDemandBooking(clsCommon.myCstr(gv1.Rows(gv1.CurrentRow.Index - 1).Cells(colCustCode).Value), txtDate.Value, cmbShift.Text, gv1.CurrentRow.Index-1)
+
                 gv1.CurrentColumn = gv1.Columns(colCustCode)
+                End If
+
+
             End If
-        End If
+
+
     End Sub
     Public Sub SetDemandBooking(ByVal strCustCode As String, ByVal DemandData As DateTime, ByVal strShiftType As String, ByVal intRow As Integer)
         Try

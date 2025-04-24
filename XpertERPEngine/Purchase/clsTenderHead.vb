@@ -312,6 +312,7 @@ where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_te
 
             Dim qry As String = "Update tspl_tender_header set Posted=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DocumentCode='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_tender_header", "DocumentCode", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

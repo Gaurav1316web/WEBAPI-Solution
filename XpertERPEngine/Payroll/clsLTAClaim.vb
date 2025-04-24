@@ -148,10 +148,11 @@ Public Class clsLTAClaim
             If (isCheckForPosted AndAlso obj.POSTED = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", Nothing)
 
             Dim qry As String = "Update TSPL_LTA_Claim_Head set POSTED=1, Posting_Date='" + strPostDate + "', Modified_Date='" + strPostDate + "', Modified_By='" + objCommonVar.CurrentUserCode + "' where LTA_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

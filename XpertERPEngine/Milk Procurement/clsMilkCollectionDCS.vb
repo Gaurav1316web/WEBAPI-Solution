@@ -12,6 +12,7 @@ Public Class clsMilkCollectionDCS
     Public Posting_Date As DateTime? = Nothing
     Public Arr As List(Of clsMilkCollectionDCSDetail) = Nothing
     Public ArrMCC As List(Of clsMilkCollectionDCSMCCDetail) = Nothing
+    Public Remark As String
 #End Region
 
     Public Function SaveData(ByVal obj As clsMilkCollectionDCS, ByVal isNewEntry As Boolean) As Boolean
@@ -31,6 +32,18 @@ Public Class clsMilkCollectionDCS
             'If isNewEntry = False Then
             '    HistoryUpdate(obj.Document_No, trans)
             'End If
+            Dim Reason As String = ""
+
+            If isNewEntry = False Then
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Update"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Return False
+                Else
+                    Reason = frm.strRmks
+                End If
+            End If
             Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
@@ -48,6 +61,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
+            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
@@ -219,6 +233,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "operation_type", "Post")
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", trans)
 
             qry = "select Against_Milk_Collection_DCS_Detail,sum(1) as Repeted
 from (
@@ -558,7 +573,7 @@ where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strCode + "' and ISNULL(T
                         qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1,Suspence_VLC_Code=VLC_Code where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, trans, "")
+                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, trans, "", False)
                     Next
                 Else
                     Throw New Exception("No data found for Suspence DCS")

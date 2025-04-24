@@ -623,9 +623,10 @@ Public Class clsProcessProductionStandardization
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProcessProductionStandardization, clsCommon.myCstr(dt.Rows(0)("Loaction_Code")), clsCommon.myCDate(dt.Rows(0)("Standardization_Date")), trans)
 
             End If
-            HistoryUpdate(strCode, trans)
+
             Dim qry As String = "update TSPL_PP_STANDARDIZATION_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where comp_code='" + objCommonVar.CurrentCompanyCode + "' and Standardization_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            HistoryUpdate(strCode, trans)
             PostInventoryMovementANDJE(Form_Id, strCode, arrLoc, trans, VoucherNo)
 
             '== Notification regarding

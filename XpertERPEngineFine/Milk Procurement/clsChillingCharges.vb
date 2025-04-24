@@ -94,6 +94,10 @@ Public Class clsChillingCharges
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", tran)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", tran)
+
             qry = "Delete from TSPL_CHILLING_CHARGES_SLAB where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -178,6 +182,8 @@ Public Class clsChillingCharges
 
             Dim qry As String = "Update TSPL_CHILLING_CHARGES set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CHILLING_CHARGES", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -270,6 +276,8 @@ Public Class clsChillingChargesSlab
                     clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCDecimal(obj.Rate))
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CHILLING_CHARGES_SLAB", OMInsertOrUpdate.Insert, "", trans)
                 Next
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CHILLING_CHARGES", "Code", trans)
+
             End If
         Catch err As Exception
             Throw New Exception(err.Message)

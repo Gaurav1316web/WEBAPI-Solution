@@ -36,13 +36,13 @@ Public Class clsMilkCollectionMCCMulipleDays
 
         Try
 
-            If isNewEntry = False Then
-                If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
-                    Throw New Exception("Posted Document [" + obj.Document_No + "]")
-                End If
+            'If isNewEntry = False Then
+            '    If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
+            '        Throw New Exception("Posted Document [" + obj.Document_No + "]")
+            '    End If
 
-                HistoryUpdate(obj.Document_No, trans)
-            End If
+            '    HistoryUpdate(obj.Document_No, trans)
+            'End If
             Dim Mcccode As String = "select Mcc_code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL  where  Document_No ='" + obj.Document_No + "'"
             Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCCMultipleDays, Mcccode, obj.Document_Date, trans)
@@ -273,6 +273,7 @@ where 2=2"
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
+            HistoryUpdate(obj.Document_No, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

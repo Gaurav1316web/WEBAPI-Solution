@@ -153,6 +153,7 @@ Public Class ClsNotification
             clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NOTIFICATIONS", OMInsertOrUpdate.Update, "Document_No='" + clsCommon.myCstr(obj.Code) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_NOTIFICATIONS", "Document_No", trans)
 
         Catch ex As Exception
 

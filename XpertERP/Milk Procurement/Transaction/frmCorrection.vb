@@ -482,7 +482,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                 End If
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
-                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), isNewEntry)
                     tran.Commit()
                 Catch ex As Exception
                     tran.Rollback()
@@ -941,7 +941,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                                     If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
-                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, isNewEntry)
                                     Else
                                         Dim coll As New Hashtable()
                                         clsCommon.AddColumnsForChange(coll, "Qty", Qty)
@@ -1047,7 +1047,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                                     If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
-                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, isNewEntry)
                                     Else
                                         Dim coll As New Hashtable()
                                         clsCommon.AddColumnsForChange(coll, "Qty", Qty)
@@ -1316,7 +1316,8 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
 
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
-                clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, tran, isCorrection)
+
+                clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, tran, isCorrection, isNewEntry)
                 clsMilkCollectionMCC.HistoryUpdate(lblBMCDocNo.Text, tran)
                 If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, tran)) = 1) Then
                     qry = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL  where Against_Milk_Collection_MCC_Detail=" + lblBMCDetailNo.Text + ""
@@ -1640,7 +1641,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
 
                         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                         Try
-                            clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True, tran, isCorrection)
+                            clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True, tran, isCorrection, False)
                             clsMilkCollectionMCC.HistoryUpdate(clsCommon.myCstr(grow.Cells("Document_No").Value), tran)
 
                             If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, tran)) = 1) Then

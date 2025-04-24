@@ -10,6 +10,7 @@ Public Class frmDemandBooking
     Dim isIndent As Boolean = False
     Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
+    Dim SeprateMorningEveningSequence As Boolean = False
     Dim SetDefaultShiftTime As String = ""
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Public Shared LockUnlock As Integer = 0
@@ -125,6 +126,7 @@ Public Class frmDemandBooking
             SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
             ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
             ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
+            SeprateMorningEveningSequence = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, Nothing)) = 1, True, False)
             CrateHisTable()
             AddNew()
             SetUserMgmtNew()
@@ -928,19 +930,22 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
                 If clsCommon.CompairString(txtRouteNo.Value, RouteNo) = CompairStringResult.Equal Then
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        If rbtnEvening.IsChecked Then
-                            Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EveningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
-                            Dim CurrDateTime = clsCommon.GETSERVERDATE()
-                            If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
-                                Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
-                            End If
-                        Else
-                            Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select MorningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
-                            Dim CurrDateTime = clsCommon.GETSERVERDATE()
-                            If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
-                                Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
+                        If Not chkIndividualCustomer.Checked Then
+                            If rbtnEvening.IsChecked Then
+                                Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EveningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
+                                Dim CurrDateTime = clsCommon.GETSERVERDATE()
+                                If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
+                                    Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
+                                End If
+                            Else
+                                Dim dutofTime As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select MorningCutOff_Time from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"))
+                                Dim CurrDateTime = clsCommon.GETSERVERDATE()
+                                If CurrDateTime.TimeOfDay < dutofTime.TimeOfDay Then
+                                    Throw New Exception("Update allow after Cutoff time [" + clsCommon.myCstr(dutofTime.TimeOfDay) + "]")
+                                End If
                             End If
                         End If
+
                     End If
                     SaveData(0, False)
                 Else
@@ -1880,24 +1885,72 @@ where Document_No='" + BRM_DocNO + "' and TSPL_CUSTOMER_MASTER.Status='N')
                  group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code order by Serial_No "
                 End If
             Else
-                qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
+                qry = "select cust_code,Customer_name,"
+                If SeprateMorningEveningSequence Then
+                    If rbtnEvening.IsChecked Then
+                        qry += " display_seqE "
+                    ElseIf rbtnMorning.IsChecked Then
+                        qry += " display_seqM "
+                    End If
+                Else
+                    qry += " display_seq "
+                End If
+                qry += " From TSPL_CUSTOMER_MASTER Where route_no ='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
                 If chkIndividualCustomer.Checked = True Then
                     qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
                 End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     qry += "  and IsDistributor='N'"
                 End If
+
                 ' qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
                 If isLoadData Then
                     qry += "union 
-select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,TSPL_CUSTOMER_MASTER.display_seq from TSPL_DEMAND_BOOKING_MASTER 
+select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,"
+                    If SeprateMorningEveningSequence Then
+                        If rbtnEvening.IsChecked Then
+                            qry += " TSPL_CUSTOMER_MASTER.display_seqE "
+                        ElseIf rbtnMorning.IsChecked Then
+                            qry += " TSPL_CUSTOMER_MASTER.display_seqM "
+                        End If
+                    Else
+                        qry += " TSPL_CUSTOMER_MASTER.display_seq "
+                    End If
+                    qry += "from TSPL_DEMAND_BOOKING_MASTER 
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
-group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
-                    MainQry += "select X.* from (" + qry + " )X order by isnull(X.display_seq,0)"
+group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code"
+                    If SeprateMorningEveningSequence Then
+                        If rbtnEvening.IsChecked Then
+                            qry += " ,TSPL_CUSTOMER_MASTER.display_seqE "
+                        ElseIf rbtnMorning.IsChecked Then
+                            qry += " ,TSPL_CUSTOMER_MASTER.display_seqM "
+                        End If
+                    Else
+                        qry += " ,TSPL_CUSTOMER_MASTER.display_seq "
+                    End If
+                    MainQry += "select X.* from (" + qry + " )X "
+                    If SeprateMorningEveningSequence Then
+                        If rbtnEvening.IsChecked Then
+                            MainQry += " order by isnull(X.display_seqE,0) "
+                        ElseIf rbtnMorning.IsChecked Then
+                            MainQry += " order by isnull(X.display_seqM,0) "
+                        End If
+                    Else
+                        MainQry += " order by isnull(X.display_seq,0) "
+                    End If
                 Else
-                    MainQry = qry + " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+                    MainQry = qry '+ " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+                    If SeprateMorningEveningSequence Then
+                        If rbtnEvening.IsChecked Then
+                            MainQry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seqE,0) "
+                        ElseIf rbtnMorning.IsChecked Then
+                            MainQry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seqM,0) "
+                        End If
+                    Else
+                        MainQry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+                    End If
                 End If
                 If Not SeparateDemandMilkandProduct Then
                     LoadBlankGrid()
@@ -3146,6 +3199,7 @@ left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL
                 Else
                     qry += " where TSPL_ROUTE_MASTER.Route_No ='" & txtRouteNo.Value & "'"
                 End If
+
             End If
 
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)

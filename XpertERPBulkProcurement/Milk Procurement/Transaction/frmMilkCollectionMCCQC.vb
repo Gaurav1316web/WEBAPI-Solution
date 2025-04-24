@@ -492,7 +492,7 @@ Public Class frmMilkCollectionMCCQC
             'Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO.], 'gadota' as [BMC Name]," &
             '   " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
             Dim qry As String = "Select convert(varchar, Document_Date,103) as [DATE], ROW_NUMBER() OVER (ORDER BY Document_Date) as [S NO],
- TSPL_MILK_COLLECTION_MCC_DETAIL.SNo  AS  [NO.],TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_MILK_COLLECTION_MCC.Route_Code as  [R.NO.],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader+'-'+cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as varchar) as [DCS],cast(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as varchar) as FAT,cast(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as varchar) as SNF,'' as  [CLR],'' as [ACIDITY],'' as [REMARKS],'' [Retesting(Y/N)]
+ TSPL_MILK_COLLECTION_MCC_DETAIL.SNo  AS  [NO.],TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_MILK_COLLECTION_MCC.Route_Code as  [R.NO.],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader+'-'+cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as varchar) as [DCS],cast(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as varchar) as FAT,cast(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as varchar) as SNF,'' as  [CLR],'' as [ACIDITY],TSPL_MILK_COLLECTION_MCC_DETAIL.Remark as [REMARKS],'' [Retesting(Y/N)]
  from  TSPL_MILK_COLLECTION_MCC_DETAIL
  left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
  left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  

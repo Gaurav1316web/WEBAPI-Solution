@@ -143,13 +143,15 @@ where 2=2 "
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", "TSPL_DCS_FINANCIAL_ENTRY_DETAIL", "Document_Code", trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
             Dim qry As String = "Update TSPL_DCS_FINANCIAL_ENTRY set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_FINANCIAL_ENTRY", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

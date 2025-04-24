@@ -343,9 +343,10 @@ Public Class clsProductionEntryFinalQCHead
 
 
         If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RequiredFinalQCofProductionEntry, clsFixedParameterCode.RequiredFinalQCofProductionEntry, trans)) > 0) Then
-            HistoryUpdate(strDocNo, trans)
+
             Dim qry As String = "Update TSPL_PE_FINALQC_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where QC_Code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            HistoryUpdate(strDocNo, trans)
             clsProductionEntryFinalQCConsumption.SaveRM(obj.QC_Code, arrloc, trans)
             clsProductionEntryFinalQCConsumption.UpdateInventoryMovement(Form_Id, obj.QC_Code, arrloc, trans)
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, trans)) > 0 Then

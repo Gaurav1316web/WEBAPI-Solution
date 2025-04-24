@@ -56,7 +56,7 @@ Public Class clsSetPOSchedule
             trans.Commit()
 
             'If Not isNewEntry Then
-            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
             'End If
 
         Catch err As Exception

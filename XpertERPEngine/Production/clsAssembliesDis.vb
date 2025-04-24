@@ -246,9 +246,9 @@ Public Class clsAssembliesDis
 
         UpdateInventoryMovement(strDocNo, trans)
         JournalEntryWIP(trans, strDocNo, strVoucherNo)
-        HistoryUpdate(strDocNo, trans)
         Dim qry As String = "Update TSPL_PROD_ASSEMBLIES set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where CODE ='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        HistoryUpdate(strDocNo, trans)
 
         'Catch ex As Exception
 

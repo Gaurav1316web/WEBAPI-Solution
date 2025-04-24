@@ -140,12 +140,13 @@ Public Class clsDBTNEFTReject
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
             Dim qry As String = "Update TSPL_DBT_NEFT_REJECT set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

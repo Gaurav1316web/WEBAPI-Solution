@@ -176,10 +176,10 @@ Public Class clsReimbursementDetails
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMP_REIMBURSEMENT", OMInsertOrUpdate.Update, "TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_CODE='" + obj.REIMBURSEMENT_CODE + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.REIMBURSEMENT_CODE, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
 
 
             isSaved = isSaved AndAlso clsReimbursementPayHeadDetails.SaveData(obj.REIMBURSEMENT_CODE, objList, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.REIMBURSEMENT_CODE, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", "TSPL_EMPREIMBURSEMENT_DETAIL", "REIMBURSEMENT_CODE", trans)
 
             If isSaved Then
                 trans.Commit()
@@ -208,6 +208,8 @@ Public Class clsReimbursementDetails
 
             Dim qry As String = "Update TSPL_EMP_REIMBURSEMENT set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where REIMBURSEMENT_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_EMP_REIMBURSEMENT", "REIMBURSEMENT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

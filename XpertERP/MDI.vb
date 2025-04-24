@@ -397,7 +397,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.88") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.89") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -9519,6 +9519,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmQuickDemand
                         frm = New frmQuickDemand()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmLeakedSaleReturn
+                        frm = New frmLeakedSaleReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDCSDEmandBooking
                         frm = New frmDCSDemandBooking()

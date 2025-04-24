@@ -2758,7 +2758,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Else
             chkTPT.Checked = False
         End If
-        chkisTCS.Checked = True
+        chkisTCS.Checked = False
+        chkisTCS.Visible = False
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
         lblCancelStatus.Text = ""

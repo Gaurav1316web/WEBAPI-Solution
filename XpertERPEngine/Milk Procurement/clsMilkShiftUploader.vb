@@ -279,6 +279,8 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
 
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
@@ -336,6 +338,8 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             clsCommon.AddColumnsForChange(coll, "Approve_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Approve_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SHIFT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -379,6 +383,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SHIFT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", trans)
 
         Catch ex As Exception
 

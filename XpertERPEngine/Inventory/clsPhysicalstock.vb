@@ -301,9 +301,10 @@ Public Class clsPhysicalstock
 
                 qry = "Update TSPL_PHYSICAL_STOCK Set Is_Posted=1, Posted_Date ='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Physical_No ='" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", trans)
+
                 Exit For
             Next
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", trans)
 
             'Batch Inventory
             Dim strInvColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_BATCH_ITEM", trans)

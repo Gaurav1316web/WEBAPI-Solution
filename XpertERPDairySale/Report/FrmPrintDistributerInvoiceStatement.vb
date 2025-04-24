@@ -1420,9 +1420,20 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                     Dim objEmailH As New clsEMailHead()
                     objEmailH.arrEMail = New List(Of String)()
                     If rbtnInvoiceWise.Checked Then
+                        Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+
                         objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
 
                         objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
@@ -1434,14 +1445,27 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                        Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                         '------------------------code for attchament-------------------------------------
                         strRptPath = ""
                         strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True, False, True)
                     Else
+                        Dim strCustGrp As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "'"))
+
                         objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerGroup, strCustGrp)
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+
                         objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
@@ -1450,7 +1474,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "'")))
+                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, strCustGrp)
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                         '------------------------code for attchament-------------------------------------

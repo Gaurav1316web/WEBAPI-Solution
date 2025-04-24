@@ -989,6 +989,12 @@
     <Compile Include="Transaction\frmLeakageReplacementUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmLeakedSaleReturn.Designer.vb">
+      <DependentUpon>frmLeakedSaleReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmLeakedSaleReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmNotepadFileMatching.Designer.vb">
       <DependentUpon>frmNotepadFileMatching.vb</DependentUpon>
     </Compile>
@@ -1541,6 +1547,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmLeakageReplacementUploader.resx">
       <DependentUpon>frmLeakageReplacementUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmLeakedSaleReturn.resx">
+      <DependentUpon>frmLeakedSaleReturn.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmNotepadFileMatching.resx">
       <DependentUpon>frmNotepadFileMatching.vb</DependentUpon>

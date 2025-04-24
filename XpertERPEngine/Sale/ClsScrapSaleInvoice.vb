@@ -18,6 +18,7 @@ Public Class scrapinvoicehead
     Public ToLoc_Code As String = Nothing
     Public CreateInvoice As String = Nothing
     Public Create_E_Invoice As String = Nothing
+    Public Inter_unit_sale As String = Nothing
     Public Description As String = Nothing
     Public reff As String = Nothing
     Public Tax_Group As String = Nothing
@@ -168,6 +169,7 @@ Public Class scrapinvoicehead
             objin.Specification = obj.Specification
             objin.CreateInvoice = obj.CreateInvoice
             objin.Create_E_Invoice = obj.Create_E_Invoice
+            objin.Inter_unit_sale = obj.Inter_unit_sale
             objin.Description = obj.Description
             objin.reff = obj.reff
             objin.Tax_Group = obj.Tax_Group
@@ -589,6 +591,7 @@ Public Class scrapinvoicehead
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", objin.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", objin.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Create_E_Invoice", objin.Create_E_Invoice)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", objin.Inter_unit_sale)
             clsCommon.AddColumnsForChange(coll, "Description", objin.Description)
             clsCommon.AddColumnsForChange(coll, "reff", objin.reff)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", objin.Tax_Group)
@@ -1344,6 +1347,7 @@ Public Class scrapinvoicehead
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", objin.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", objin.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Create_E_Invoice", objin.Create_E_Invoice)
+            clsCommon.AddColumnsForChange(coll, "Inter_unit_sale", objin.Inter_unit_sale)
             clsCommon.AddColumnsForChange(coll, "Description", objin.Description)
             clsCommon.AddColumnsForChange(coll, "reff", objin.reff)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", objin.Tax_Group)

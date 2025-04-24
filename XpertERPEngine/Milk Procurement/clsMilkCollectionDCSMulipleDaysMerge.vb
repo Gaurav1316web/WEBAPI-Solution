@@ -283,6 +283,8 @@ where 2=2"
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", trans)
+
             'Throw New Exception("Balwinder Singh Premi")
             trans.Commit()
         Catch ex As Exception
