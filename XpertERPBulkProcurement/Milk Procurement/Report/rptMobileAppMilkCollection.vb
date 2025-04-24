@@ -686,15 +686,15 @@ Public Class rptMobileAppMilkCollection
         Try
             Dim PK_ID As Integer = clsCommon.myCstr(Gv1.CurrentRow.Cells("PK_ID").Value)
             Dim dt As DataTable = LoadHistoryData(PK_ID)
-            If dt.Rows.Count > 0 And dt IsNot Nothing Then
-                Dim ff As New FrmFreeGrid
-                ff.ReportID = MyBase.Form_ID
-                ff.Text = Me.Text
-                ff.dt = dt
-                ff.ShowDialog()
-            Else
-                Throw New Exception("No history found.")
-            End If
+                If dt.Rows.Count > 0 And dt IsNot Nothing Then
+                    Dim ff As New FrmFreeGrid
+                    ff.ReportID = MyBase.Form_ID
+                    ff.Text = Me.Text
+                    ff.dt = dt
+                    ff.ShowDialog()
+                Else
+                    Throw New Exception("No history found.")
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
