@@ -83,7 +83,7 @@ Public Class RptTentativeSalary
             dt = clsDBFuncationality.GetDataTable(FinalQry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.HRPayroll, dt, "rptTentativeSalary", "Tentative Salary", Nothing)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "rptTentativeSalary", "Tentative Salary", Nothing)
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             End If

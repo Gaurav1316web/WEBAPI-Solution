@@ -830,11 +830,11 @@ Public Class FrmOtherPartySale1
         Else
             If rdbWithoutVehicle.IsChecked = True Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "" & strReport & "", "Other Party Sales Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "" & strReport & "", "Other Party Sales Report")
                 ''FrmSalerReport.funreport(strSql, "" & strReport & "", "Other Party Sales Report")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "" & strReport & "", "Other Party Sales Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "" & strReport & "", "Other Party Sales Report")
                 ''FrmSalerReport.funreport(strSql, "" & strReport & "", "Other Party Sales Report")
             End If
 

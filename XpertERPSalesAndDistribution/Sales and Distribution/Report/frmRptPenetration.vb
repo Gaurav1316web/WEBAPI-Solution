@@ -498,15 +498,15 @@ Public Class frmRptPenetration
                 If rbtnSKUWise.IsChecked Then
                     'qry += "order by SalesManCode,Route_No,ICode"
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationSKU", Me.Text)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationSKU", Me.Text)
                 ElseIf rbtnPackWise.IsChecked Then
                     ' qry += "order by SalesManCode,Route_No,ICodePack"
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationPack", Me.Text)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationPack", Me.Text)
                 ElseIf rbtnFlavourWise.IsChecked Then
                     ' qry += "order by SalesManCode,Route_No,ICodeFlavour"
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationFlavour", Me.Text)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "rptPenetrationFlavour", Me.Text)
                 End If
             End If
 

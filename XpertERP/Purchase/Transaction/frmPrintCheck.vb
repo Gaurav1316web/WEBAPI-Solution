@@ -217,7 +217,7 @@ Public Class frmPrintCheck
                 '' changed by Panch Raj as per discussion with Amit Sir.
                 'NewSalesReportViewer.funreport(dt, Me.txtBankCode.Text, "Print Check")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "CheckPrintDemo", "Print Check")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "CheckPrintDemo", "Print Check")
                 frmCRV = Nothing
             End If
             'If MsgBox("Have you done Check Printing ?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then

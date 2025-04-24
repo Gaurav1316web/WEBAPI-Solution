@@ -299,7 +299,7 @@ Public Class frmSaleOrderDetail
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             ElseIf IsPrint = Exporter.Print Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleOrderDetail", "Sale Order Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSaleOrderDetail", "Sale Order Report")
                 frmCRV = Nothing
             ElseIf IsPrint = Exporter.Excel Then
                 transportSql.ExporttoExcel(qry, Me)

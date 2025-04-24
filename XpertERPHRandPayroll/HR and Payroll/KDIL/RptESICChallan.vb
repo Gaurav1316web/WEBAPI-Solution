@@ -172,7 +172,7 @@ Public Class RptESICChallan
             dtgv = clsDBFuncationality.GetDataTable(FinalQry)
             If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptESICChallan", "ESIC Challan Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptESICChallan", "ESIC Challan Report")
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If

@@ -1864,7 +1864,7 @@ Public Class frmBOM
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptPPBOMPrint", "Bill Of Material")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptPPBOMPrint", "Bill Of Material")
                 frmCRV = Nothing
                 'ProductionReportViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")
                 'PurchaseOrderViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")

@@ -471,7 +471,7 @@ Public Class FrmProvisionalSalesRoutewise
                 frmcrystal.funExcelForamtReport(CrystalReportFolder.SalesReport, strQuery, "" & strReportName & "", "Provisional Sale Detail Report ")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
             End If
 
         ElseIf rdbDetail.IsChecked = True Then
@@ -487,7 +487,7 @@ Public Class FrmProvisionalSalesRoutewise
             If chkExcelOption.Checked = True Then
                 frmcrystal.funExcelForamtReport(CrystalReportFolder.SalesReport, strQuery, "" & strReportName & "", "Provisional Sale Detail Report ")
             Else
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
             End If
 
         ElseIf rdbHierwise.IsChecked = True Then
@@ -504,7 +504,7 @@ Public Class FrmProvisionalSalesRoutewise
                 frmcrystal.funExcelForamtReport(CrystalReportFolder.SalesReport, strQuery, "" & strReportName & "", "Provisional Sale Detail Report ")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
             End If
         ElseIf rdbRoutewise.IsChecked = True Then
                 If ddlType.Text = "Both" Then
@@ -520,7 +520,7 @@ Public Class FrmProvisionalSalesRoutewise
                 frmcrystal.funExcelForamtReport(CrystalReportFolder.SalesReport, strQuery, "" & strReportName & "", "Provisional Sale Detail Report ")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "" & strReportName & "", "Provisional Sale Detail Report ")
             End If
             End If
     End Sub

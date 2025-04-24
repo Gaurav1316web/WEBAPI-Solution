@@ -213,21 +213,21 @@ Public Class rptDailyStatementReport
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnDistributorWise.IsChecked Then
                     If rbtnMilkType.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorWiseDetailcreditMilk", "Daily Statement Distributor Wise Milk", "rptsubDailyStatementDepartSale")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorWiseDetailcreditMilk", "Daily Statement Distributor Wise Milk", "rptsubDailyStatementDepartSale")
                     ElseIf rbtnProduct.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorWiseDetailcreditProduct", "Daily Statement Distributor Wise Product", "rptsubDailyStatementDepartSale")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorWiseDetailcreditProduct", "Daily Statement Distributor Wise Product", "rptsubDailyStatementDepartSale")
                     End If
                 ElseIf rbtnDisRouteWise.IsChecked Then
                     If rbtnMilkType.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorRouteWiseDetailcreditMilk", "Daily Statement Distributor and Route Wise Milk", "rptsubDailyStatementDepartSale")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorRouteWiseDetailcreditMilk", "Daily Statement Distributor and Route Wise Milk", "rptsubDailyStatementDepartSale")
                     ElseIf rbtnProduct.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorRouteWiseDetailcreditProduct", "Daily Statement Distributor and Route Wise Product", "rptsubDailyStatementDepartSale")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementDistributorRouteWiseDetailcreditProduct", "Daily Statement Distributor and Route Wise Product", "rptsubDailyStatementDepartSale")
                     End If
                 ElseIf rbtnRouteWise.IsChecked Then
                     If rbtnMilkType.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementRouteAndDistributorWiseDetailCredit", "", "rptDepartmentSummary")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementRouteAndDistributorWiseDetailCredit", "", "rptDepartmentSummary")
                     ElseIf rbtnProduct.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementRouteWiseDetailcreditProduct", "", "rptsubDailyStatementDepartSale")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtDepartmentSale, "crptDailyStatementRouteWiseDetailcreditProduct", "", "rptsubDailyStatementDepartSale")
 
                     End If
                 End If
@@ -279,9 +279,9 @@ Public Class rptDailyStatementReport
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnDistributorWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)

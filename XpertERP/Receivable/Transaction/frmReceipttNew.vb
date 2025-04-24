@@ -4548,11 +4548,11 @@ Public Class FrmReceipttNew
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If arr.Contains("CGST") OrElse arr.Contains("SGST") Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
                     ElseIf arr.Contains("UGST") Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
                     ElseIf arr.Contains("IGST") Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
                     End If
 
                     'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Customer_State")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
@@ -4569,7 +4569,8 @@ Public Class FrmReceipttNew
                     frmCRV = Nothing
                 End If
             Else
-                Frmreceiptvoucher2.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
+                Dim frm As New Frmreceiptvoucher2(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
+                frm.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -280,7 +280,7 @@ Public Class FrmResignationLetter
 
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREMResignationLetter", "Resignation Letter")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HumanResource, dt, "rptHREMResignationLetter", "Resignation Letter")
 
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)

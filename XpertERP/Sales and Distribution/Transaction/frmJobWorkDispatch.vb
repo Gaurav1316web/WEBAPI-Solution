@@ -3820,7 +3820,7 @@ Public Class frmJobWorkDispatch
                 Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt3.Rows.Count > 0 Then
                     'If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") <> CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptJobWorkDispatch", "Tax Invoice", clsCommon.myCDate(dt3.Rows(0)("shipment_Date")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptJobWorkDispatch", "Tax Invoice", clsCommon.myCDate(dt3.Rows(0)("shipment_Date")))
                     'End If
                 End If
                 'Dim query As String = "SELECT CM.Comp_Name,L.Loc_Short_Name,COMP_ADDRESS=(CM.Add1+' '+CM.Add2+' '+CM.Add3+' '+CM.State),Loc_Address=(L.Add1+' '+L.Add2+' '+L.Add3+' '+L.Add4+' '+L.State), L.City_Code,L.State,L.Pin_Code AS Location_Pincode,COMP_PIN=('PIN '+CM.Pincode+' CORP ID NO :-'+CM.CINNo),(case when len(CM.TinNo_Issue_Date)>0 then CM.Tin_No + ' DT ' +CONVERT(VARCHAR(15),CM.TinNo_Issue_Date,103) ELSE CM.Tin_No END )AS Tin_No ,CONVERT(VARCHAR(15),CM.TinNo_Issue_Date,103)AS TinNo_Issue_Date ,CM.CST_LST,CM.CINNo, (case when len(CM.PanNo_Issue_Date)>0 then CM.Pan_No + ' DT ' +CONVERT(VARCHAR(15),CM.PanNo_Issue_Date,103) ELSE CM.Pan_No END )AS Pan_No,CONVERT(VARCHAR(15),CM.PanNo_Issue_Date,103) AS PanNo_Issue_Date ,CM.Phone1,CM.Pincode,CM.Email,CM.Tcan_No AS WebSite, " & _
@@ -3867,7 +3867,7 @@ Public Class frmJobWorkDispatch
                 dtDocdate = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select TSPL_SCRAPINVOICE_HEAD.shipment_Date from TSPL_SCRAPINVOICE_HEAD where shipment_no='" + txtDocNo.Value + "' "), "dd/MMM/yyyy")
                 Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt3.Rows.Count > 0 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptJobworkDispatchChalan", "Dispatch Chalan", clsCommon.myCDate(dt3.Rows(0)("shipment_Date")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptJobworkDispatchChalan", "Dispatch Chalan", clsCommon.myCDate(dt3.Rows(0)("shipment_Date")))
                 End If
 
             Else
@@ -3941,18 +3941,18 @@ Public Class frmJobWorkDispatch
                             SetItemWiseTax(dt, InvoiceNo)
                             If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Excisable")), "Y") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
                                 Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
                                 End If
                             Else
                                 If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Then
-                                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
+                                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
                                     'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                                 End If
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
                         End If
                     End If
                 Else
@@ -4483,12 +4483,12 @@ Public Class frmJobWorkDispatch
                 Next
 
                 If isCGST = True AndAlso isSGST = True Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchSGST_CGST", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchSGST_CGST", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
                 ElseIf isIGST = True Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchIGST", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchIGST", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
                     'ElseIf isExcisable = True Then
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchExcisable", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptJobworkDispatchExcisable", "Job Work Dispatch", clsCommon.myCDate(dt.Rows(0)("Chalan_Date")), "rptCompanyAddress.rpt", "MMM.rpt", Nothing, )
                 End If
             End If
 

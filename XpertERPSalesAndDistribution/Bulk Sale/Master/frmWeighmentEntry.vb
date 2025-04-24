@@ -891,7 +891,7 @@ Public Class FrmWeighmentEntry
             "  where TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No ='" + fndWeighmentcode.Value + "'"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt1.Rows.Count > 0 Then
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt1, "crptWeighmetBulkSale", "Tanker Weighment Slip")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, "crptWeighmetBulkSale", "Tanker Weighment Slip")
         End If
     End Sub
 End Class

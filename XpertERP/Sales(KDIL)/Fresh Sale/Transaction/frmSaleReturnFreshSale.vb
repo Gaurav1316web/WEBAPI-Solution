@@ -5749,7 +5749,7 @@ Public Class frmSaleReturnFreshSale
                 SetItemWiseTax(dt, StrCode)
                 'KwalitySalesReportViewer.funreport(dt, "crptSaleReturn", "Sales Return")
                 Dim frmCRV As New frmCrystalReportViewer()
-                StrPDFPath = frmCRV.funsubreportWithdt(IsPDF, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
+                StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             End If
 
@@ -6001,7 +6001,7 @@ Public Class frmSaleReturnFreshSale
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

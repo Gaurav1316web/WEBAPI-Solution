@@ -230,7 +230,7 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptSavingBalanceReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptSavingBalanceReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

@@ -532,7 +532,7 @@ Public Class FrmGateOut
                      "g.Doc_Type [Doc Type],G.snf_Per,g.fat_per,g.MIKL_TYPE_CODE,G.Gate_Entry_Type,G.Seal_Status,G.TotalQty_In_Kg ,CM.Chamber_Desc,tspl_item_master.HSN_Code as HSNCode,CM.UOM, CM.Chamber_Qty,CM.snf_Per as snf_Per_CM, CM.fat_per as fat_per_CM , CM.Line_No,C.Logo_img from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE   LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=CM.item_code  where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateOutMilkProc", "Milk Procurement Bulk Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateOutMilkProc", "Milk Procurement Bulk Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
 
                 Else
 
@@ -541,7 +541,7 @@ Public Class FrmGateOut
                     qry = " select  'Out' as PrintType,COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc,g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , g.Vendor_Code [Vendor Code] , g.Vendor_Desc [Vendor Name] , CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], g.Item_Code [Item Code] , g.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , g.Doc_Type [Doc Type]  from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
                     'Remove Doc Type Condition  Ticket No- ERO/09/05/18-000301
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dtpStartDateTime.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dtpStartDateTime.Value))
                 End If
                 frmCRV = Nothing
             End If
@@ -605,9 +605,9 @@ Public Class FrmGateOut
                 qry = " select  O.Tanker_No  , isnull(o.Doc_No ,'') [Gate-Out No] , O.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address],c.Logo_Img2,O.DriverName,z.MCC_NAME as AllocateToName from TSPL_Gate_Out O LEFT JOIN TSPL_COMPANY_MASTER C on O.comp_code = c.Comp_Code LEFT JOIN (select MCC_Code,mcc_name from TSPL_MCC_MASTER union all select TSPL_LOCATION_MASTER.Location_Code ,TSPL_LOCATION_MASTER.Location_Desc  from TSPL_LOCATION_MASTER)z on z.MCC_Code=O.AllocateToMCC where O.Doc_No in ('" + fndDocNo.Value + "')"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateOutAllocatePrint", "Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateOutAllocatePrint", "Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
 
-                    frmCRV = Nothing
+                frmCRV = Nothing
                 End If
         Catch ex As Exception
             RadMessageBox.Show(ex.Message, Me.Text)

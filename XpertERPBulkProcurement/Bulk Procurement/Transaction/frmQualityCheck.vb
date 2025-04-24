@@ -2678,7 +2678,7 @@ Public Class FrmQualityCheck
                 End If
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMCCMilkReceiptSlip", "Milk Transfer In")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMCCMilkReceiptSlip", "Milk Transfer In")
                     frmCRV = Nothing
                 End If
             Else
@@ -2746,7 +2746,7 @@ Public Class FrmQualityCheck
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check", clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check", clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")))
                     frmCRV = Nothing
                 End If
             End If

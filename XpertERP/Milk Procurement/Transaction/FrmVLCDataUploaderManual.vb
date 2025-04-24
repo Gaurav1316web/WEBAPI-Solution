@@ -881,7 +881,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptVillageData", "Village Data")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptVillageData", "Village Data")
                 frmCRV = Nothing
             End If
 

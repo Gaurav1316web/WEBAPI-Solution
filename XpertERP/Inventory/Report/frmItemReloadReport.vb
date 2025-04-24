@@ -241,7 +241,7 @@ Public Class FrmItemReloadReport
             dt = clsItemReorderLevel.GetDataAll("UDL", clsCommon.GetMulcallStringWithComma(txtItemType.arrValueMember).Replace(",", "','"), Nothing, Categorytype, Categoryvalues, isapply, clsCommon.GetMulcallStringWithComma(tst_multiitemcode.arrValueMember).Replace(",", "','"), clsCommon.GetMulcallStringWithComma(tst_multilocation.arrValueMember).Replace(",", "','"))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
@@ -267,7 +267,7 @@ Public Class FrmItemReloadReport
             dt = clsItemReorderLevel.GetDataAll(clsCommon.GetMulcallStringWithComma(txtItemType.arrValueMember).Replace(",", "','"), Nothing, Categorytype, Categoryvalues, isapply, clsCommon.GetMulcallStringWithComma(tst_multiitemcode.arrValueMember).Replace(",", "','"), clsCommon.GetMulcallStringWithComma(tst_multilocation.arrValueMember).Replace(",", "','"))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)

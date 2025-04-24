@@ -40,7 +40,7 @@ Public Class RptBOILetterReport
             Dim dtFinal As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptBOILetter", "BOI Letter Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptBOILetter", "BOI Letter Report")
         Catch ex As Exception
 
         End Try

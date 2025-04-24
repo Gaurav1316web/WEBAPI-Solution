@@ -464,10 +464,10 @@ Public Class FrmSecondarySales
             Else
                 If rdbSummary.IsChecked = True Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSecondarySaleSummary", "Secondary Sale Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSecondarySaleSummary", "Secondary Sale Report")
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSecondarySaleDetail", "Secondary Sale Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSecondarySaleDetail", "Secondary Sale Report")
                 End If
             End If
 

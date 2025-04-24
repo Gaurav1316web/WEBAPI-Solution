@@ -143,9 +143,9 @@ Public Class frmRptFormOfGuarntee
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rdbGuarntee.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptGuarnteeForm-E", "Guarantee Form - E")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptGuarnteeForm-E", "Guarantee Form - E")
                 ElseIf rdbWarranty.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptWarrantyForm", "Warrranty Form")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptWarrantyForm", "Warrranty Form")
                 End If
                 frmCRV = Nothing
             Else

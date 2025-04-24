@@ -251,7 +251,7 @@ Public Class rptDCSCredit
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDcsCredit", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptDcsCredit", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

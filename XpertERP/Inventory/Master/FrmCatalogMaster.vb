@@ -479,7 +479,7 @@ Public Class FrmCatalogMaster
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptCatalogReport", "Catalog Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptCatalogReport", "Catalog Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

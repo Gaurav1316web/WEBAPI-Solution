@@ -683,7 +683,7 @@ Public Class FrmWarehouseBreakage
             qry += ",TSPL_WH_BREAKAGE_HEAD.Created_By as [Created By] ,TSPL_WH_BREAKAGE_HEAD.Modified_By as [Modified By] from tspl_wh_breakage_head left outer join tspl_wh_breakage_detail on tspl_wh_breakage_head.Document_No=tspl_wh_breakage_detail.Document_No left outer join TSPL_LOCATION_MASTER on tspl_wh_breakage_head.Loc_code= TSPL_LOCATION_MASTER.Location_Code left outer join TSPL_COMPANY_MASTER on tspl_wh_breakage_head.comp_code=TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_ITEM_MASTER on TSPL_WH_BREAKAGE_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code where TSPL_WH_BREAKAGE_HEAD.Document_No='" + strAdjustmentNo + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptWareHouseBreakage", "Ware Houes Breakage")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptWareHouseBreakage", "Ware Houes Breakage")
             frmCRV = Nothing
         Catch ex As Exception
             RadMessageBox.Show(Me, ex.Message, Me.Text)

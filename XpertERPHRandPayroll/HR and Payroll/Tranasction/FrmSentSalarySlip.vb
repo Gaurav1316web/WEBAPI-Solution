@@ -691,9 +691,9 @@ Public Class FrmSentSalarySlip
                         Dim StrPDFPath As String = Nothing
                         Dim frmCRV As New frmCrystalReportViewer()
                         If Print = True Then
-                            StrPDFPath = frmCRV.funreport(True, CrystalReportFolder.HRPayroll, dtFinal, EnumTecxpertPaperSize.NA, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", Nothing)
+                            StrPDFPath = frmCRV.funreport(MyBase.Form_ID, True, CrystalReportFolder.HRPayroll, dtFinal, EnumTecxpertPaperSize.NA, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", Nothing)
                         Else
-                            StrPDFPath = frmCRV.funreport(True, CrystalReportFolder.HRPayroll, dtFinal, EnumTecxpertPaperSize.NA, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report", Nothing)
+                            StrPDFPath = frmCRV.funreport(MyBase.Form_ID, True, CrystalReportFolder.HRPayroll, dtFinal, EnumTecxpertPaperSize.NA, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report", Nothing)
                         End If
                         arrTo = New List(Of String)
                         arrTo.Add(clsCommon.myCstr(dtt.Rows(I).Item("Email")))

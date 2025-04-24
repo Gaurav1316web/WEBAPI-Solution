@@ -207,10 +207,10 @@ Public Class FrmItemCommissionReport
 
         If chkSummary.IsChecked = True Then
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemCommissionSummary", "Item Commission Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemCommissionSummary", "Item Commission Report")
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemCommissionDetail", "Item Commission Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemCommissionDetail", "Item Commission Report")
         End If
 
     End Sub

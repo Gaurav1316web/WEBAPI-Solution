@@ -398,7 +398,7 @@ Public Class rptPerformanceReport
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "rptPerformanceReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "rptPerformanceReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")

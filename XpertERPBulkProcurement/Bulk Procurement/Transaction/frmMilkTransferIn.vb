@@ -1391,7 +1391,7 @@ Public Class FrmMilkTransferIn
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)

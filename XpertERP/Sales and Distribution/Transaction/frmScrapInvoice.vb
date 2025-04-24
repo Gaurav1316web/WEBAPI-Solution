@@ -5,7 +5,7 @@ Imports System.Data.SqlClient
 
 
 Public Class frmScrapInvoice
-
+    Inherits FrmMainTranScreen
 
 #Region "Variables"
     Private isCellValueChangedOpenAdd As Boolean = False
@@ -3662,7 +3662,7 @@ Public Class frmScrapInvoice
 
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
             frmCRV = Nothing
         Else
             common.clsCommon.MyMessageBoxShow(Me, "Please select one Invoice", Me.Text)

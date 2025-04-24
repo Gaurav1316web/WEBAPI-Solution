@@ -190,7 +190,7 @@ Public Class frmEmpWiseReturnableReport
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report")
+        frmCRV.funreport("frmEmpWiseReturnableReport", CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report")
         frmCRV = Nothing
     End Sub
 

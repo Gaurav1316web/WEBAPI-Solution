@@ -745,11 +745,11 @@ Public Class FrmCostCenterAnalysisRpt
         If RefreshData() Then
             Dim frmCRV As New frmCrystalReportViewer()
             If listType.Text = "Dept+Employee" Then
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis", "Cost Centre Analysis Report @ Dept+Employee")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis", "Cost Centre Analysis Report @ Dept+Employee")
             ElseIf listType.Text = "Vehicle" Or listType.Text = "Visi" Or listType.Text = "Machine" Then
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis@Vehicle", "Cost Centre Analysis Report @ Vehicle")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis@Vehicle", "Cost Centre Analysis Report @ Vehicle")
             ElseIf listType.Text = "Account+Location" Then
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis@Ac&Loc", "Cost Centre Analysis Report @ Account+Location")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, DtMain, "crptCostCentreAnalysis@Ac&Loc", "Cost Centre Analysis Report @ Account+Location")
             End If
             frmCRV = Nothing
         End If

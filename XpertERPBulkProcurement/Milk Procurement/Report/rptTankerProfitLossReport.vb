@@ -212,11 +212,11 @@ Public Class rptTankerProfitLossReport
                 Gv1.BestFitColumns()
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
                 End If
                 If print2 = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLossPrint2", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLossPrint2", "ProfitLoss", "SubTankerProfitLoss.rpt")
                 End If
             Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

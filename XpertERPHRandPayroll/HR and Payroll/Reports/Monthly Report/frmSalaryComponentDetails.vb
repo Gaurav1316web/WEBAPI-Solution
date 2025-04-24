@@ -106,7 +106,7 @@ Public Class frmSalaryComponentDetails
 
                 dtFinal = clsDBFuncationality.GetDataTable(Qry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpSalaryComponentDetails", "Salary Component Details")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpSalaryComponentDetails", "Salary Component Details")
 
             End If
         Catch ex As Exception

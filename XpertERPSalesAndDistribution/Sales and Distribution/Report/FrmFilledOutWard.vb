@@ -325,17 +325,17 @@ Public Class FrmFilledOutWard
                     If rdbDetail.IsChecked = True Then
 
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt1, "FillOutwardDetailCrossTab", " Fill Outward Detail Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt1, "FillOutwardDetailCrossTab", " Fill Outward Detail Report")
                     ElseIf rdbSummary.IsChecked = True Then
 
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt1, "FillOutwardSummaryCrossTab", " Fill Outward Summary Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt1, "FillOutwardSummaryCrossTab", " Fill Outward Summary Report")
                     ElseIf rdbRoutewise.IsChecked = True Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt1, "FillOutwardRouteCrossTab", " Fill Outward Routewise Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt1, "FillOutwardRouteCrossTab", " Fill Outward Routewise Report")
                     ElseIf rdbHierwise.IsChecked = True Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt1, "FillOutwardHierCrossTab", " Fill Outward Hierarchywise Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt1, "FillOutwardHierCrossTab", " Fill Outward Hierarchywise Report")
                     End If
 
 

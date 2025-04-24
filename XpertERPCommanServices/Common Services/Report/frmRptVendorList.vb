@@ -33,7 +33,7 @@ Public Class FrmRptVendorList
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim FRMcrys As New frmCrystalReportViewer
-        FRMcrys.funreport(CrystalReportFolder.PurchaseOrder, dt, "VendorList", "FrmRptVendorList")
+        FRMcrys.funreport(clsUserMgtCode.frmRptVendorList, CrystalReportFolder.PurchaseOrder, dt, "VendorList", "FrmRptVendorList")
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         Print()

@@ -5036,7 +5036,7 @@ Public Class frmSNServiceInvoice
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, strDocNo)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptServiceTaxInvoice", "Service Tax Invoice")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptServiceTaxInvoice", "Service Tax Invoice")
                 frmCRV = Nothing
             End If
 
@@ -5314,7 +5314,7 @@ Public Class frmSNServiceInvoice
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -87,7 +87,7 @@ Public Class frmAttendedDaysReport
             Dim dtFinal As DataTable
             dtFinal = clsDBFuncationality.GetDataTable(Qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpAttendedDaysReport", "Attended Days Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpAttendedDaysReport", "Attended Days Report")
 
 
         Catch ex As Exception

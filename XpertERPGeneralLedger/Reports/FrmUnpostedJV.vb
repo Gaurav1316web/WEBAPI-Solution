@@ -94,7 +94,7 @@ Public Class FrmUnpostedJV
                 ' dt = clsDBFuncationality.GetDataTable(qry)
                 If isPrint = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "Unposted JV", "Unposted JV")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "Unposted JV", "Unposted JV")
                     frmCRV = Nothing
                 Else
                     gv1.DataSource = Nothing

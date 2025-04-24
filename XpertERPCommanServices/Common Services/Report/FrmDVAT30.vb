@@ -266,7 +266,7 @@ Public Class FrmDVAT30
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frm As New frmCrystalReportViewer
-                frm.funreport(CrystalReportFolder.CommonServices, dt, "RptDVAT30", "DVAT-30")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "RptDVAT30", "DVAT-30")
             End If
 
         Catch ex As Exception

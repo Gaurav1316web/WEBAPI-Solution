@@ -793,7 +793,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShortSupplyPenalty", "Short Supply Penalty", Nothing)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ShortSupplyPenalty", "Short Supply Penalty", Nothing)
                 frmCRV = Nothing
             Else
                 Throw New Exception("Data Not Found !")

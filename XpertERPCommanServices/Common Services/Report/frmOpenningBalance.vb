@@ -141,7 +141,7 @@ Public Class FrmOpenningBalance
                 If IsPrint Then
 
                     Dim FRMcrys As New frmCrystalReportViewer
-                    FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptOpeningBalance", "Opening Balance Report")
+                    FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptOpeningBalance", "Opening Balance Report")
                 End If
             Else
                 Throw New Exception("No data found.")

@@ -321,7 +321,7 @@ Public Class FrmCFormReport
 
             ElseIf IsPrint = Exporter.Print Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.CommonServices, dt, "crptCForm", "C-Form Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptCForm", "C-Form Report")
                 frmCRV = Nothing
             ElseIf IsPrint = Exporter.Excel Then
                 Dim arrHeader As List(Of String) = New List(Of String)()

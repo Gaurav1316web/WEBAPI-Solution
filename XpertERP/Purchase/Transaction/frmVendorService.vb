@@ -4484,7 +4484,7 @@ Public Class FrmVendorService
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -4582,7 +4582,7 @@ Public Class FrmVendorService
             Next
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "crptVendorServiceCharge", "Vendor Service Charge")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "crptVendorServiceCharge", "Vendor Service Charge")
                 frmCRV = Nothing
             End If
 
@@ -5524,7 +5524,7 @@ Public Class FrmVendorService
         " left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By " &
        " where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" + txtDocNo.Value + "' order by Detail_Line_No  "
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(qry), "rptjvprint1", "Journal Voucher Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(qry), "rptjvprint1", "Journal Voucher Report")
         frmCRV = Nothing
     End Sub
     Sub PrintJVData()
@@ -5534,6 +5534,7 @@ Public Class FrmVendorService
         'Dim Arr As New ArrayList
         'Arr.Add(txtDocNo.Value)
         'frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
+        Dim frmJournalEntry As New frmJournalEntry(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
         If SettingCostCenterlevel Then
             frmJournalEntry.PrintDataAll("", txtDocNo.Value, True)
         Else
@@ -5755,9 +5756,9 @@ Public Class FrmVendorService
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Invoice_Date"))) Then
                     If clsCommon.CompairString(strReportType, "NT") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.Purchase, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptVendorServiceCharge _NonTaxable", "Bill of Supply", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptVendorServiceCharge _NonTaxable", "Bill of Supply", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.Purchase, dt, "RptVSCTaxInvoiceUnRegisterVendor", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")))
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "RptVSCTaxInvoiceUnRegisterVendor", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")))
                     End If
                     'If clsCommon.CompairString(strReportType, "L") = CompairStringResult.Equal Then
                     '    If clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Vendor_IS_GST_UT")), 1) = CompairStringResult.Equal Then

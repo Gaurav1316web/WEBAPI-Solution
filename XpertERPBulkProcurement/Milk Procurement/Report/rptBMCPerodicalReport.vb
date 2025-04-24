@@ -246,7 +246,7 @@ from  " & Environment.NewLine & ""
                 Gv1.BestFitColumns()
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBMCPeriodicalReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCPeriodicalReport", "")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

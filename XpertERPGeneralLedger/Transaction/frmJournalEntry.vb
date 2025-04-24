@@ -546,7 +546,7 @@ Public Class frmJournalEntry
                   "  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code   left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_JOURNAL_DETAILS.Cost_Centre_Code " &
                   " left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=TSPL_JOURNAL_DETAILS.Hirerachy_Code where TSPL_JOURNAL_MASTER.Voucher_No = '" + fndVoucher.Value + "'  order by Detail_Line_No "
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
             frmCRV = Nothing
         End If
     End Sub
@@ -613,11 +613,11 @@ Public Class frmJournalEntry
 
 
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
             frmCRV = Nothing
         End If
     End Sub
-    Public Shared Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String)
+    Public Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String)
         Dim _Cond As String = ""
         If clsCommon.myLen(StrCode) > 0 Then
             _Cond = " TSPL_JOURNAL_MASTER.Voucher_No = '" + StrCode + "'"
@@ -643,10 +643,11 @@ Public Class frmJournalEntry
                   " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Remarks) VI  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " &
                   " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where " & _Cond & "  order by Detail_Line_No "
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
         frmCRV = Nothing
     End Sub
-    Public Shared Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String, ByVal isHierarchyLevel As Boolean)
+    Public Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String, ByVal isHierarchyLevel As Boolean)
         Dim _Cond As String = ""
         If clsCommon.myLen(StrCode) > 0 Then
             _Cond = " TSPL_JOURNAL_MASTER.Voucher_No = '" + StrCode + "'"
@@ -672,7 +673,7 @@ Public Class frmJournalEntry
                   " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Remarks) VI  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " &
                   " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where " & _Cond & "  order by Detail_Line_No "
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher_Hierarchy", "Journal Voucher Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher_Hierarchy", "Journal Voucher Report")
         frmCRV = Nothing
     End Sub
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDrillDown.Click

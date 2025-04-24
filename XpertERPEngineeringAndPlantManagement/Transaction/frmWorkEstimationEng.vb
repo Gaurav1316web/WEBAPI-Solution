@@ -2523,9 +2523,9 @@ Public Class frmWorkEstimationEng
             Next
             Dim frmCRV As New frmCrystalReportViewer()
             If no = 0 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
             End If
             frmCRV = Nothing
         End If

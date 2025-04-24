@@ -76,7 +76,7 @@ Public Class frmForm10PF
             Dim dtFinal As DataTable
             dtFinal = clsDBFuncationality.GetDataTable(Qry)
             Dim frmcrsytal As New frmCrystalReportViewer()
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpForm10PF", "Form 10(PF)")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpForm10PF", "Form 10(PF)")
 
 
         Catch ex As Exception

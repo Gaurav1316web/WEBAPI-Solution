@@ -165,7 +165,7 @@ Public Class RptPFForm12A_revised_
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryBase)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptPFForm12A(Revised)", "PF Form 12(A)")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptPFForm12A(Revised)", "PF Form 12(A)")
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
@@ -439,7 +439,7 @@ Public Class RptPFForm12A_revised_
             dtgv = clsDBFuncationality.GetDataTable(Qry)
             If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFForm12A(Revised)", "PF Form 12(A)")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFForm12A(Revised)", "PF Form 12(A)")
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If

@@ -307,36 +307,36 @@ Public Class frmRptTrialBalanceNew
         Dim frmCRV As New frmCrystalReportViewer()
         If clsCommon.CompairString(cbgSrcCode.Text, "Trial Balance") = CompairStringResult.Equal Then
             If chkRollupWise.Checked Then
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceRP", "Trial Balance")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceRP", "Trial Balance")
             Else
 
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalance", "Trial Balance")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalance", "Trial Balance")
             End If
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Subledger Trial Balance") = CompairStringResult.Equal Then
             If chkRollupWise.Checked Then
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceSubLdgRP", "Trial Balance")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceSubLdgRP", "Trial Balance")
             Else
-                frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceSubLdg", "Trial Balance")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceSubLdg", "Trial Balance")
             End If
 
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Period Trial Balance") = CompairStringResult.Equal Then
             If chkShowOPBal.Checked Then
                 If chkRollupWise.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodRP", "Periodical Trial Balance")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodRP", "Periodical Trial Balance")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriod", "Periodical Trial Balance")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriod", "Periodical Trial Balance")
                 End If
             Else
                 If chkRollupWise.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodOPBalRP", "Periodical Trial Balance")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodOPBalRP", "Periodical Trial Balance")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodOPBal", "Periodical Trial Balance")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalancePeriodOPBal", "Periodical Trial Balance")
                 End If
             End If
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Basic Trial Balance") = CompairStringResult.Equal Then
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceBasic", "Trial Balance")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceBasic", "Trial Balance")
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Account Wise") = CompairStringResult.Equal Then
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceAccountWise", "Account Wise Trial Balance")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptTrialBalanceAccountWise", "Account Wise Trial Balance")
         End If
         frmCRV = Nothing
     End Sub

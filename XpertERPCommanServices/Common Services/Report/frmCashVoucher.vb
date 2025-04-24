@@ -102,7 +102,7 @@ Public Class FrmCashVoucher
             Else
 
                 Dim FRMcrys As New frmCrystalReportViewer
-                FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher")
+                FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher")
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)

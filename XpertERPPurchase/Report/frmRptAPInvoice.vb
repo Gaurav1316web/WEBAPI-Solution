@@ -206,7 +206,7 @@ Public Class frmRptAPInvoice
         End If
     End Sub
 
-    Public Shared Sub PrintData(ByVal FromDate As String, ByVal ToDate As String, ByVal isDocSelect As Boolean, ByVal ArrDoc As ArrayList, ByVal isVendorSelect As Boolean, ByVal ArrVendor As ArrayList)
+    Public Sub PrintData(ByVal FromDate As String, ByVal ToDate As String, ByVal isDocSelect As Boolean, ByVal ArrDoc As ArrayList, ByVal isVendorSelect As Boolean, ByVal ArrVendor As ArrayList)
 
         If isDocSelect AndAlso ArrDoc.Count <= 0 Then
             common.clsCommon.MyMessageBoxShow("Please select at least one Document")
@@ -216,24 +216,24 @@ Public Class frmRptAPInvoice
             Return
         End If
 
-        Dim qry As String = "select  Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when len(ISNULL(TSPL_VENDOR_INVOICE_HEAD.Posting_Date,''))>0 then 'Posted' else 'Pending' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType    from (" & _
-        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('D') then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end as DrAmt,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC where TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" & _
-        " union all" & _
-        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code as ACCode,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc as ACName,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') then TSPL_VENDOR_INVOICE_DETAIL.Amount else 0 end as DrAmt,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') then TSPL_VENDOR_INVOICE_DETAIL.Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_DETAIL " & _
+        Dim qry As String = "select  Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when len(ISNULL(TSPL_VENDOR_INVOICE_HEAD.Posting_Date,''))>0 then 'Posted' else 'Pending' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType    from (" &
+        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('D') then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end as DrAmt,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC where TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" &
+        " union all" &
+        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code as ACCode,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc as ACName,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') then TSPL_VENDOR_INVOICE_DETAIL.Amount else 0 end as DrAmt,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') then TSPL_VENDOR_INVOICE_DETAIL.Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_DETAIL " &
         " left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No where TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')"
 
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            qry += " union all" & _
+            qry += " union all" &
                 " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.TAX" + strii + "_GLAC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.TAX" + strii + "_Amt else 0 end as DrAmt,case when Document_Type in('D') then TSPL_VENDOR_INVOICE_HEAD.TAX" + strii + "_Amt else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.TAX" + strii + "_GLAC where TSPL_VENDOR_INVOICE_HEAD.TAX" + strii + "_Amt>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')"
         Next
-        qry += " union all" & _
-        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Discount_GL_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('D') then TSPL_VENDOR_INVOICE_HEAD.Discount_Amount else 0 end as DrAmt,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.Discount_Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Discount_GL_AC where TSPL_VENDOR_INVOICE_HEAD.Discount_Amount>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" & _
-        " union all " & _
-        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount else 0 end as DrAmt,case when Document_Type in ('D') then TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC where TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" & _
-        " union all " & _
-        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_REMITTANCE.Branch_GL_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') then TSPL_REMITTANCE.Actual_Total_TDS else 0 end as DrAmt,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') then TSPL_REMITTANCE.Actual_Total_TDS else 0 end as CrAmt from TSPL_REMITTANCE left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE.Branch_GL_AC left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_REMITTANCE.Document_No where TSPL_REMITTANCE.Actual_Total_TDS>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" & _
-        " )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By" & _
+        qry += " union all" &
+        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Discount_GL_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('D') then TSPL_VENDOR_INVOICE_HEAD.Discount_Amount else 0 end as DrAmt,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.Discount_Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Discount_GL_AC where TSPL_VENDOR_INVOICE_HEAD.Discount_Amount>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" &
+        " union all " &
+        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when Document_Type in('I','C') then TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount else 0 end as DrAmt,case when Document_Type in ('D') then TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount else 0 end as CrAmt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC where TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" &
+        " union all " &
+        " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_REMITTANCE.Branch_GL_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') then TSPL_REMITTANCE.Actual_Total_TDS else 0 end as DrAmt,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') then TSPL_REMITTANCE.Actual_Total_TDS else 0 end as CrAmt from TSPL_REMITTANCE left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE.Branch_GL_AC left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_REMITTANCE.Document_No where TSPL_REMITTANCE.Actual_Total_TDS>0 and TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D')" &
+        " )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By" &
         " left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By where 2=2 "
 
         If isDocSelect Then
@@ -247,11 +247,11 @@ Public Class frmRptAPInvoice
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.Purchase, dt, "rptAPInvoice", "AP Invoice")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "rptAPInvoice", "AP Invoice")
         frmCRV = Nothing
     End Sub
 
-    Public Shared Sub PrintData(ByVal FromDate As String, ByVal ToDate As String, ByVal isDocSelect As Boolean, ByVal ArrDoc As ArrayList, ByVal isVendorSelect As Boolean, ByVal ArrVendor As ArrayList, ByVal isLocationselect As Boolean, ByVal Arrlocation As ArrayList)
+    Public Sub PrintData(ByVal FromDate As String, ByVal ToDate As String, ByVal isDocSelect As Boolean, ByVal ArrDoc As ArrayList, ByVal isVendorSelect As Boolean, ByVal ArrVendor As ArrayList, ByVal isLocationselect As Boolean, ByVal Arrlocation As ArrayList)
         Try
             Dim LocCode As String = ""
             Dim Vendor As String = ""
@@ -281,8 +281,8 @@ Public Class frmRptAPInvoice
 
             'done by priti KDI/05/07/18-000390 for updating vendor name from master
             Dim qryForAddChagesOfFirstRow As String = " + case when TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 then TSPL_VENDOR_INVOICE_HEAD.Total_Add_Charge else 0 end"
-            Dim qry As String = "select  '" + FromDate + "' as FromDate,'" + ToDate + "' as ToDate, '" + LocCode + "' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'" + Vendor + "' as Vendor,'" + DocNo + "'as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,Cost_Centre_Code ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType " & _
-            " , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription  from (" & _
+            Dim qry As String = "select  '" + FromDate + "' as FromDate,'" + ToDate + "' as ToDate, '" + LocCode + "' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'" + Vendor + "' as Vendor,'" + DocNo + "'as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,Cost_Centre_Code ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType " &
+            " , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription  from (" &
             " select  TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Control_AC as ACCode,TSPL_GL_ACCOUNTS.Description as ACName,"
             qry += "     (case when Document_Type in('D') and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 then TSPL_VENDOR_INVOICE_HEAD.Document_Total else case when Document_Type in('I','C') and TSPL_VENDOR_INVOICE_HEAD.Document_Total<0 then -1*(TSPL_VENDOR_INVOICE_HEAD.Document_Total) else 0 end end"
             qry += " + case when Document_Type in('D') and TSPL_VENDOR_INVOICE_HEAD.TAX1_Amt<0 then -1*TSPL_VENDOR_INVOICE_HEAD.TAX1_Amt else 0 end "
@@ -313,36 +313,36 @@ Public Class frmRptAPInvoice
             'qry += " select RefDocNo,RefDocType ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code as ACCode,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc as ACName,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end )as DrAmt,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end) as CrAmt from TSPL_VENDOR_INVOICE_DETAIL " & _
             '" left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No  left outer join TSPL_GL_ACCOUNTS  on TSPL_GL_ACCOUNTS.Account_Code =TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code where TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D') and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= '' "
 
-            qry += " select RefDocNo,RefDocType ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code as ACCode, " & _
-            "TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc as ACName,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and " & _
-            "TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else " & _
-            "(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and " & _
-            "TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end )  " & _
-            " +  (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then " & _
-            "case when TaxM1.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt " & _
-            "when TaxM2.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt " & _
-            "when TaxM3.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt " & _
-            "when TaxM4.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt " & _
-            "when TaxM5.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt " & _
-            "when TaxM6.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt " & _
-            "when TaxM7.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt " & _
-            "when TaxM8.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt " & _
-            "when TaxM9.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt " & _
-            "when TaxM10.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt else 0 end  else 0 end )as DrAmt,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end) as CrAmt,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code  from TSPL_VENDOR_INVOICE_DETAIL " & _
-            " left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No   " & _
-            "left outer join TSPL_GL_ACCOUNTS  on TSPL_GL_ACCOUNTS.Account_Code =TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code " & _
-            "left outer join TSPL_TAX_MASTER as TaxM1 on TaxM1.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX1 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM2 on TaxM2.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX2 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM3 on TaxM3.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX3 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM4 on TaxM4.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX4 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM5 on TaxM5.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX5 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM6 on TaxM6.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX6 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM7 on TaxM7.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX7 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM8 on TaxM8.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX8 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM9 on TaxM9.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX9 " & _
-             "left outer join TSPL_TAX_MASTER as TaxM10 on TaxM10.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX10  " & _
-             "left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code " & _
-            "left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code " & _
+            qry += " select RefDocNo,RefDocType ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code as ACCode, " &
+            "TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc as ACName,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and " &
+            "TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else " &
+            "(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and " &
+            "TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end )  " &
+            " +  (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then " &
+            "case when TaxM1.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt " &
+            "when TaxM2.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt " &
+            "when TaxM3.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt " &
+            "when TaxM4.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt " &
+            "when TaxM5.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt " &
+            "when TaxM6.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt " &
+            "when TaxM7.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt " &
+            "when TaxM8.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt " &
+            "when TaxM9.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt " &
+            "when TaxM10.Tax_Recoverable= 'N' then TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt else 0 end  else 0 end )as DrAmt,(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('D') and TSPL_VENDOR_INVOICE_DETAIL.Amount>0 then TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + " else (case when TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C') and TSPL_VENDOR_INVOICE_DETAIL.Amount<0 then -1*(TSPL_VENDOR_INVOICE_DETAIL.Amount" + qryForAddChagesOfFirstRow + ") else 0 end) end) as CrAmt,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code  from TSPL_VENDOR_INVOICE_DETAIL " &
+            " left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No   " &
+            "left outer join TSPL_GL_ACCOUNTS  on TSPL_GL_ACCOUNTS.Account_Code =TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code " &
+            "left outer join TSPL_TAX_MASTER as TaxM1 on TaxM1.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX1 " &
+             "left outer join TSPL_TAX_MASTER as TaxM2 on TaxM2.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX2 " &
+             "left outer join TSPL_TAX_MASTER as TaxM3 on TaxM3.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX3 " &
+             "left outer join TSPL_TAX_MASTER as TaxM4 on TaxM4.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX4 " &
+             "left outer join TSPL_TAX_MASTER as TaxM5 on TaxM5.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX5 " &
+             "left outer join TSPL_TAX_MASTER as TaxM6 on TaxM6.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX6 " &
+             "left outer join TSPL_TAX_MASTER as TaxM7 on TaxM7.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX7 " &
+             "left outer join TSPL_TAX_MASTER as TaxM8 on TaxM8.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX8 " &
+             "left outer join TSPL_TAX_MASTER as TaxM9 on TaxM9.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX9 " &
+             "left outer join TSPL_TAX_MASTER as TaxM10 on TaxM10.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL.TAX10  " &
+             "left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code " &
+            "left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code " &
             " where TSPL_VENDOR_INVOICE_HEAD.Document_Type in('I','C','D') and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= '' "
 
             If Arrlocation IsNot Nothing AndAlso Arrlocation.Count > 0 Then
@@ -401,7 +401,7 @@ Public Class frmRptAPInvoice
             Dim qry1 As String = "select  TSPL_ITEM_MASTER.HSN_Code, TSPL_SRN_DETAIL.Item_Code ,TSPL_SRN_DETAIL.Item_Desc,TSPL_VENDOR_INVOICE_HEAD .Description ,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType   from TSPL_SRN_DETAIL left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_SRN_DETAIL .SRN_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SRN_DETAIL.Item_Code       where RefDocType ='S'and TSPL_VENDOR_INVOICE_HEAD .Document_No in(" + clsCommon.GetMulcallString(ArrDoc) + ") and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= ''  "
             Dim strInvoiceEntryDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date from TSPL_VENDOR_INVOICE_HEAD where TSPL_VENDOR_INVOICE_HEAD.Document_No=  '" + DocNo + "' "))
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(strInvoiceEntryDate))
+            frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(strInvoiceEntryDate))
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)

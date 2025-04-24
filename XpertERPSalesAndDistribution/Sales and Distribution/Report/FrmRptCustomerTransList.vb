@@ -450,11 +450,11 @@ Public Class FrmRptCustomerTransList
                     If blnRefresh = False Then
                         If ChkSummary.Checked = True Then
                             Dim frmcrystal As New frmCrystalReportViewer()
-                            frmcrystal.funreport(CrystalReportFolder.Purchase, dtMain, "CustomerTransListLandScapeSummary", "Customer Transaction List (Summary)")
-                        Else
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "CustomerTransListLandScapeSummary", "Customer Transaction List (Summary)")
+                Else
                             Dim frmcrystal As New frmCrystalReportViewer()
-                            frmcrystal.funreport(CrystalReportFolder.Purchase, dtMain, "CustomerTransListLandScape", "Customer Transaction List")
-                        End If
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "CustomerTransListLandScape", "Customer Transaction List")
+                End If
                     End If
 
                     RadPageView1.SelectedPage = RadPageViewPage2

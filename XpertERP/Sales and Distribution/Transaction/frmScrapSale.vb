@@ -5003,12 +5003,12 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     ElseIf clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                         If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                             If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             Else
-                                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             End If
                         Else
-                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                         End If
                         ' Else
                         'frmCrystalReportViewer.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
@@ -5218,9 +5218,9 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                         '    Else
                                         '        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         If ischallan = True Then
-                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
-                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
 
                                         'End If
@@ -5228,10 +5228,10 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
                                     Else
                                         If ischallan = False Then
-                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
                                             'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
                                     End If
                                     'Else

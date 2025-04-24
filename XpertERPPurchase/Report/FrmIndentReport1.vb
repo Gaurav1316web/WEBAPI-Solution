@@ -146,7 +146,7 @@ Public Class FrmIndentReport
                                     " group by Code,ICode having SUM(Chk)>0 and 2=2  order by Code,ICode"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IndentReport", "Pending Indent Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IndentReport", "Pending Indent Report")
             ElseIf RdbtnBasedOnSrn.IsChecked = True Then
                 Dim CompanyQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,(ISNULL(tspl_company_Master.ADD1,'') + case when len(RTRIM(ISNULL(tspl_company_Master.Add2,'')))>0 then +', '+tspl_company_Master.Add2 else '' end+ case when LEN(RTRIM(IsNull(tspl_company_Master.ADD3,'')))>0 then + ', '+tspl_company_Master.ADD3 else '' end + case when len(RTRIM(ISNULL(tspl_company_Master.City_Code,'')))>0 then  + ', '+tspl_company_Master.City_Code else '' end + case when len(RTRIM(ISNULL(tspl_company_Master.State,'')))>0 then  + ', '+tspl_company_Master.State else '' end ) as CompanyAddress from TSPL_COMPANY_MASTER where Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
                 Dim dtCompany As DataTable = clsDBFuncationality.GetDataTable(CompanyQry)
@@ -168,7 +168,7 @@ Public Class FrmIndentReport
                 qryBasedSrn += " and convert(date,TSPL_REQUISITION_HEAD.Requisition_Date ,103)>= convert(date,'" + FromDate + "',103) and convert(date,TSPL_REQUISITION_HEAD.Requisition_Date,103)<= convert(date,'" + ToDate + "',103)"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qryBasedSrn)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PendingBasedOnSrnIndentReport", "PendingBased On Srn IndentReport")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PendingBasedOnSrnIndentReport", "PendingBased On Srn IndentReport")
 
             End If
             frmCRV = Nothing

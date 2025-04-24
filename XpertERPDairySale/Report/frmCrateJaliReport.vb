@@ -2406,7 +2406,7 @@ ORDER BY xx.Sale_Invoice_Date ASC"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDepositCrateDetail", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptDepositCrateDetail", "")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -2461,7 +2461,7 @@ ORDER BY xx.Sale_Invoice_Date ASC"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptSupplyCrate", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptSupplyCrate", "")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -2551,7 +2551,7 @@ ORDER BY xx.Sale_Invoice_Date ASC"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptPartyWise", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptPartyWise", "")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

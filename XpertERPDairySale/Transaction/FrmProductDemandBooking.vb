@@ -1973,7 +1973,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
         End If
         Dim ArrRoute As ArrayList = New ArrayList
         ArrRoute.Add(txtRouteNo.Value)
-        clsProductDemandBookingSale.PrintDemandProductData(ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False, False, False)
+        clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False, False, False)
     End Sub
 
     Private Sub btnAssessment_Click(sender As Object, e As EventArgs) Handles btnAssessment.Click

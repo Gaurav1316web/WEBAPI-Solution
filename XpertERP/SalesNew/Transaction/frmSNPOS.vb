@@ -3443,7 +3443,7 @@ Public Class frmSNPOS
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSalePOSReport", "POS Report", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSalePOSReport", "POS Report", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 frmCRV = Nothing
             End If
 
@@ -3567,7 +3567,7 @@ Public Class frmSNPOS
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

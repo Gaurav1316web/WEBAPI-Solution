@@ -69,7 +69,7 @@ Public Class rptPerodicalDispatchReport
                 gv1.BestFitColumns()
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptRoutePeriodicalDispatchReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptRoutePeriodicalDispatchReport", "")
 
                 End If
 

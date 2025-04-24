@@ -1703,7 +1703,7 @@ Public Class FrmMakePayment
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptQuickBook", "Quick Book Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
                 frmCRV = Nothing
 
             End If

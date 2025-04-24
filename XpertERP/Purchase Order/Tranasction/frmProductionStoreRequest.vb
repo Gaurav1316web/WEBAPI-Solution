@@ -1710,7 +1710,7 @@ Public Class frmProductionStoreRequest
                      left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PP_REQUISITION_HEAD.Comp_Code
                      where TSPL_PP_REQUISITION_HEAD.Requisition_Id = '" + txtReqNo.Value + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ProductionStoreRequest", "Production Store Request", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ProductionStoreRequest", "Production Store Request", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
 
 
 

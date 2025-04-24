@@ -290,10 +290,10 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If objCommonVar.RCDFCFP Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReport", Label1.Text)
+                        frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReport", Label1.Text)
                     Else
                         If rdbERPStatusMilkUnion.Checked Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReportUnion", Label1.Text)
+                            frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReportUnion", Label1.Text)
                         End If
                     End If
                     frmCRV = Nothing
@@ -682,7 +682,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                 'frmCRV.funreport(CrystalReportFolder.PRODUCTION, dtSaleConsignee, "rptRMUnloadingReport", "")
                 'frmCRV = Nothing
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dtERPStatusreport, "rptERPStatusTrackingReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtERPStatusreport, "rptERPStatusTrackingReport", "")
                 'PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
                 frmCRV = Nothing
             Else

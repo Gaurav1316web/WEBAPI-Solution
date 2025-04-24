@@ -294,11 +294,11 @@ Public Class rptMilkAnalysis
             If isPrerint = True Then
                 If rbtn_Detail.Checked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "rptMilkAnalysis", "Milk Analysis")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "rptMilkAnalysis", "Milk Analysis")
                     frmCRV = Nothing
                 ElseIf rbtn_Summary.Checked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "rptDCSSummarByRange", "Milk Analysis Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "rptDCSSummarByRange", "Milk Analysis Summary")
                     frmCRV = Nothing
                 End If
             End If

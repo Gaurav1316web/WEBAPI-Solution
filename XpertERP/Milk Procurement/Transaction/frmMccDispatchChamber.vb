@@ -2240,7 +2240,7 @@ Public Class frmMccDispatchChamber
         'Show Driver,Chemist and MCC Incharge name  Ticket No- ERO/09/05/18-000301
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
+        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
         frmCRV = Nothing
     End Sub
 
@@ -3301,12 +3301,12 @@ Public Class frmMccDispatchChamber
             Dim strToStateCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select State  from TSPL_LOCATION_MASTER where location_Code = '" + clsCommon.myCstr(dt.Rows(0)("To_Location")) + "' "))
             If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dtpDateAndTime.Value)) Then
                 If clsCommon.CompairString(strFromStateCode, strToStateCode) = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
                 Else
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch_Bill_of_Supply", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch_Bill_of_Supply", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
                 End If
             Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
             End If
 
             'If clsCommon.CompairString(strFromStateCode, strToStateCode) = CompairStringResult.Equal Then

@@ -225,7 +225,7 @@ Public Class FrmDetailOfForm2A
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "DetailOfForm2A", "Detail Of Form2A")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "DetailOfForm2A", "Detail Of Form2A")
             End If
 
 

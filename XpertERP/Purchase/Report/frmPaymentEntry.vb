@@ -268,7 +268,7 @@ Public Class FrmPaymentEntry
                 Next
             Next
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.Purchase, dttemp, "PaymentEntryReport", "Payment Details")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dttemp, "PaymentEntryReport", "Payment Details")
             frmCRV = Nothing
             ' funReport(fromdate, todate, arrDocument, arrVendor)
         Catch ex As Exception
@@ -276,12 +276,12 @@ Public Class FrmPaymentEntry
         End Try
     End Sub
 
-    Public Shared Sub funReport(ByVal fromDate As String, ByVal toDate As String, ByVal ArrDocument As ArrayList, ByVal ArrVendor As ArrayList, ByVal ArrLocation As ArrayList)
+    Public Sub funReport(ByVal fromDate As String, ByVal toDate As String, ByVal ArrDocument As ArrayList, ByVal ArrVendor As ArrayList, ByVal ArrLocation As ArrayList)
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             Dim dt1 As DataTable
             ''richa KDI/11/07/18-000399, KDI/11/07/18-000398 pick vendor name from vendor master
-            Dim qry As String = "select TSPL_BANK_MASTER.Bank_Type, case when  TSPL_BANK_MASTER.Bank_Type = 'C' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD','RC') then 'Cash Payment Voucher'  when TSPL_BANK_MASTER.Bank_Type = 'B' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD','RC') then 'Bank Payment Voucher'  when  TSPL_BANK_MASTER.Bank_Type = 'C' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD') and TSPL_PAYMENT_HEADER.Payment_Type = 'RC' then 'Cash Receipt Voucher'  when TSPL_BANK_MASTER.Bank_Type = 'B' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD') and TSPL_PAYMENT_HEADER.Payment_Type = 'RC' then 'Bank Receipt Voucher' else '' end as HeadingVoucher, TSPL_PAYMENT_HEADER.TapalNo,TSPL_PAYMENT_HEADER.DateAndTime,Final.Payment_No as PaymentNo,Payment_Date as PaymentDate,TSPL_PAYMENT_HEADER.Vendor_Code,case when TSPL_VENDOR_MASTER.Vendor_Name = Remit_To then TSPL_PAYMENT_HEADER.Vendor_Code+' - '+TSPL_VENDOR_MASTER.Vendor_Name else case when len(isnull(TSPL_VENDOR_MASTER.Vendor_Name,''))>0 and len(isnull(Remit_To,''))>0 then TSPL_VENDOR_MASTER.Vendor_Name+' / '+Remit_To Else case When len(isnull(TSPL_PAYMENT_HEADER.Vendor_Code,''))>0 then TSPL_PAYMENT_HEADER.Vendor_Code+' - '+TSPL_VENDOR_MASTER.Vendor_Name  else TSPL_PAYMENT_HEADER.Vendor_Code+''+TSPL_VENDOR_MASTER.Vendor_Name+''+ Remit_To   end end end as VendorNameRemitTO,Cheque_No,convert(varchar,Cheque_Date,103) as Cheque_Date ,case when  TSPL_PAYMENT_HEADER.Payment_Code ='SETTLEMENT' then 'Settlement Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code ='Cheque' then 'Bank Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code ='Cash' then 'Cash Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code='PETTYCASH' THEN 'Petty Cash Payment Voucher'  " & _
+            Dim qry As String = "select TSPL_BANK_MASTER.Bank_Type, case when  TSPL_BANK_MASTER.Bank_Type = 'C' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD','RC') then 'Cash Payment Voucher'  when TSPL_BANK_MASTER.Bank_Type = 'B' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD','RC') then 'Bank Payment Voucher'  when  TSPL_BANK_MASTER.Bank_Type = 'C' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD') and TSPL_PAYMENT_HEADER.Payment_Type = 'RC' then 'Cash Receipt Voucher'  when TSPL_BANK_MASTER.Bank_Type = 'B' and TSPL_PAYMENT_HEADER.Payment_Type not in ( 'AD') and TSPL_PAYMENT_HEADER.Payment_Type = 'RC' then 'Bank Receipt Voucher' else '' end as HeadingVoucher, TSPL_PAYMENT_HEADER.TapalNo,TSPL_PAYMENT_HEADER.DateAndTime,Final.Payment_No as PaymentNo,Payment_Date as PaymentDate,TSPL_PAYMENT_HEADER.Vendor_Code,case when TSPL_VENDOR_MASTER.Vendor_Name = Remit_To then TSPL_PAYMENT_HEADER.Vendor_Code+' - '+TSPL_VENDOR_MASTER.Vendor_Name else case when len(isnull(TSPL_VENDOR_MASTER.Vendor_Name,''))>0 and len(isnull(Remit_To,''))>0 then TSPL_VENDOR_MASTER.Vendor_Name+' / '+Remit_To Else case When len(isnull(TSPL_PAYMENT_HEADER.Vendor_Code,''))>0 then TSPL_PAYMENT_HEADER.Vendor_Code+' - '+TSPL_VENDOR_MASTER.Vendor_Name  else TSPL_PAYMENT_HEADER.Vendor_Code+''+TSPL_VENDOR_MASTER.Vendor_Name+''+ Remit_To   end end end as VendorNameRemitTO,Cheque_No,convert(varchar,Cheque_Date,103) as Cheque_Date ,case when  TSPL_PAYMENT_HEADER.Payment_Code ='SETTLEMENT' then 'Settlement Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code ='Cheque' then 'Bank Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code ='Cash' then 'Cash Payment Voucher' else CASE WHEN TSPL_PAYMENT_HEADER.Payment_Code='PETTYCASH' THEN 'Petty Cash Payment Voucher'  " &
         " END END end end as [VoucherType], tspl_payment_header.Payment_Code,tspl_payment_header.BANK_CODE,TSPL_BANK_MASTER.DESCRIPTION as BankName, (select BANKACC from TSPL_BANK_MASTER where Bank_Code =tspl_payment_header.BANK_CODE) as Bank_acct,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master  where 1=1 "
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AddressOnPaymentVoucher, clsFixedParameterCode.AddressOnPaymentVoucherOnBankBasis, Nothing)) = 1 Then
                 qry = qry & " and Location_Code =(substring (TSPL_BANK_MASTER .BANKACC ,LEN(TSPL_BANK_MASTER .BANKACC)-2,3))and TSPL_LOCATION_MASTER .Location_Type ='Physical')as Compaddress1"
@@ -334,11 +334,11 @@ Public Class FrmPaymentEntry
             " from TSPL_PAYMENT_DETAIL " &
             " left outer join tspl_payment_header on tspl_payment_header.Payment_No=TSPL_PAYMENT_DETAIL.Payment_No " &
             " left outer join TSPL_SALE_INVOICE_HEAD on TSPL_PAYMENT_HEADER.Apply_To =TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No "
-            qry += " left outer join TSPL_SHIPMENT_MASTER on TSPL_SHIPMENT_MASTER.Shipment_No =TSPL_PAYMENT_HEADER.Apply_To      " & _
-            " left outer join TSPL_EMPLOYEE_MASTER as a on TSPL_SALE_INVOICE_HEAD.Salesman_Code = a.EMP_CODE   " & _
-            " left outer join TSPL_EMPLOYEE_MASTER as b   on   TSPL_SHIPMENT_MASTER.Salesman_Code =b.EMP_CODE " & _
-            " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_PAYMENT_DETAIL.Cost_Center_Fin_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code " & _
-            "left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_PAYMENT_DETAIL.Hirerachy_Level_Code=TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code " & _
+            qry += " left outer join TSPL_SHIPMENT_MASTER on TSPL_SHIPMENT_MASTER.Shipment_No =TSPL_PAYMENT_HEADER.Apply_To      " &
+            " left outer join TSPL_EMPLOYEE_MASTER as a on TSPL_SALE_INVOICE_HEAD.Salesman_Code = a.EMP_CODE   " &
+            " left outer join TSPL_EMPLOYEE_MASTER as b   on   TSPL_SHIPMENT_MASTER.Salesman_Code =b.EMP_CODE " &
+            " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_PAYMENT_DETAIL.Cost_Center_Fin_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code " &
+            "left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_PAYMENT_DETAIL.Hirerachy_Level_Code=TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code " &
                   "where ISNULL(Account_Code,'') <>'' "
             qry += " UNION ALL"
             qry += " Select tspl_payment_header.Payment_Type,tspl_payment_header.isReceipt, TSPL_PAYMENT_HEADER.Payment_No, TSPL_PAYMENT_HEADER.Bank_Charges_Ac as Account_Code, TSPL_GL_ACCOUNTS.Description, '' as Entry_Desc, '' as Remarks, '' as Comments, case when ISNULL(Bank_Charges,0)>0 then Bank_Charges end as DrAmt,case when ISNULL(Bank_Charges,0)<0 then Bank_Charges*-1 end as CrAmt, 0 as OrderDrCr, '' as saleInvoiceNo, '' as SalesmanCode, '' as SalesmanName, '' as txtNo, '' as EntryDesc ,'' AS Hirerachy_Level_Code,'' AS Cost_Center_Fin_Code from TSPL_PAYMENT_HEADER "
@@ -370,9 +370,9 @@ Public Class FrmPaymentEntry
             Dim frmcrystal As New frmCrystalReportViewer()
             If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dt1, EnumTecxpertPaperSize.HalfLegal85x7, "PaymentEntryReport4VIZAG", "Payment Details")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt1, EnumTecxpertPaperSize.HalfLegal85x7, "PaymentEntryReport4VIZAG", "Payment Details")
                 Else
-                    frmcrystal.funsubreportWithdt(CrystalReportFolder.Purchase, dt1, clsDBFuncationality.GetDataTable(InvoiceSubReport), "PaymentEntryReport4GUNTUR", "Payment Details", clsCommon.myCDate(dt1.Rows(0)("PaymentDate")), "rptPaymentDetailWithInvoice.rpt")
+                    frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.Purchase, dt1, clsDBFuncationality.GetDataTable(InvoiceSubReport), "PaymentEntryReport4GUNTUR", "Payment Details", clsCommon.myCDate(dt1.Rows(0)("PaymentDate")), "rptPaymentDetailWithInvoice.rpt")
                     'frmCRV.funreport(CrystalReportFolder.Purchase, dt1, EnumTecxpertPaperSize.NA, "PaymentEntryReport4GUNTUR", "Payment Details", clsCommon.myCDate(dt1.Rows(0)("PaymentDate")),)
                 End If
             Else

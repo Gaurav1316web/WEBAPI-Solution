@@ -132,7 +132,7 @@ Public Class FrmProjectDetails
             If IsPrint = Exporter.Refresh Then
             ElseIf IsPrint = Exporter.Print Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptProjectDetail", "Project Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProjectDetail", "Project Detail")
                 frmCRV = Nothing
             ElseIf IsPrint = Exporter.Excel Then
                 clsCommon.MyExportToExcelGrid("Project List Report", gv, strArr, Me.Text)

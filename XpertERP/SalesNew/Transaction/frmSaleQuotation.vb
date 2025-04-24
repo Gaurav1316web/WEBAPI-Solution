@@ -1126,7 +1126,7 @@ Public Class frmSaleQuotation
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSalesQuotation", "Sales Quoation")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSalesQuotation", "Sales Quoation")
                 frmCRV = Nothing
             End If
 

@@ -83,7 +83,7 @@ Public Class frmSalaryVoucher_Reports
 
             Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptSalaryVoucher", "Salary Voucher")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptSalaryVoucher", "Salary Voucher")
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

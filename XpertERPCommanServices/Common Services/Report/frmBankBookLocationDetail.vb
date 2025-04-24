@@ -493,7 +493,7 @@ Public Class FrmBankBookLocationDetail
                 ExportToExcelGV()
             Else
                 Dim FRMcrys As New frmCrystalReportViewer
-                FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
+                FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
             End If
         End If
     End Sub

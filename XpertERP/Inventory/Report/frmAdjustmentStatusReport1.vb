@@ -152,7 +152,7 @@ Public Class FrmAdjustmentStatusReport1
                         common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                     Else
                         dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentStatusDetailReport", "Adjustment Status Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustmentStatusDetailReport", "Adjustment Status Report")
                     End If
                 ElseIf RadioBtnSummary.IsChecked = True Then
                     Dim qry As String = "select xxxx.*,TSPL_COMPANY_MASTER.Comp_Code as [CompNamae],TSPL_COMPANY_MASTER.Comp_Name as [compname], " + LocNcmpAdd + " as [address],TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER .Logo_Img2  from ( " & _
@@ -170,7 +170,7 @@ Public Class FrmAdjustmentStatusReport1
                         common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                     Else
                         dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentStatusReport", "Adjustment Status Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustmentStatusReport", "Adjustment Status Report")
                     End If
                 End If
                 frmCRV = Nothing

@@ -124,7 +124,7 @@ Public Class rptDBTDashboard
                     gvJanAdh.BestFitColumns()
                     If print = True Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptLastDBT_JanAdh", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptLastDBT_JanAdh", "")
                     End If
 
                 Else
@@ -201,7 +201,7 @@ Public Class rptDBTDashboard
                     gvMismatchqty.BestFitColumns()
                     If print = True Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptUnionWiseDBT_MismatchQty", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptUnionWiseDBT_MismatchQty", "")
                     End If
 
                 Else
@@ -288,7 +288,7 @@ Public Class rptDBTDashboard
                 End If
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBTPaymentStatus", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptDBTPaymentStatus", "")
                 End If
 
             Else
@@ -381,7 +381,7 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
                     gvDBTSummary.BestFitColumns()
                     If print = True Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptUnionWiseDBT_Summary", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptUnionWiseDBT_Summary", "")
                     End If
 
 

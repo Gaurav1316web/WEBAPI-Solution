@@ -582,12 +582,12 @@ Public Class rptSalesReport
                     Else
                         If rbnPricegroup.Checked Then
                             Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
-                            frmCRV = Nothing
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
+                        frmCRV = Nothing
                         Else
                             Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReportCustGroup", "")
-                            frmCRV = Nothing
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSalesReportCustGroup", "")
+                        frmCRV = Nothing
                         End If
 
                     End If

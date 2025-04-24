@@ -252,7 +252,7 @@ Public Class frmAppointmentLetterHR
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptAppointmentLetter", "Appointment Letter")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HumanResource, dt, "rptAppointmentLetter", "Appointment Letter")
                 Else
                     Throw New Exception("Please check email is not set")
                 End If

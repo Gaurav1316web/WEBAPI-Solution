@@ -7081,7 +7081,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 If PrintOpen = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 End If
                 Return dt
@@ -7206,7 +7206,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -7325,7 +7325,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess_Type_Wise", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess_Type_Wise", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -7620,9 +7620,9 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = '" + fndDocNo.Value + "'
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             Else
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             End If
 
 
@@ -7859,7 +7859,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -8170,7 +8170,7 @@ from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO2", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubNonMilkPurchaseBill.rpt", dtgv, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale)
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO2", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubNonMilkPurchaseBill.rpt", dtgv, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -8381,7 +8381,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -8576,7 +8576,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -8680,7 +8680,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
             frmCRV = Nothing
         End If
 
@@ -8916,7 +8916,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
 
-        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "rptPaymentProcessJ-V", "Payment Process JournalEntry Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "SubRptCmpnyMasterForERODE.rpt")
+        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "rptPaymentProcessJ-V", "Payment Process JournalEntry Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "SubRptCmpnyMasterForERODE.rpt")
         frmCRV = Nothing
     End Sub
 

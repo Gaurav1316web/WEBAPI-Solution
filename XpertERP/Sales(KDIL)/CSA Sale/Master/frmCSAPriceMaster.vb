@@ -1898,7 +1898,7 @@ Public Class FrmCSAPriceMaster
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptCPDPriceMaster", "CPD Price Master")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptCPDPriceMaster", "CPD Price Master")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)

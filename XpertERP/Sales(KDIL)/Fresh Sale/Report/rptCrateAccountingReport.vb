@@ -278,9 +278,9 @@ Public Class RptCrateAccountingReport
         If btnReferesh = False Then
             Dim frmCRV As New frmCrystalReportViewer()
             If rdbSummary.IsChecked = True Then
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dtgv, "crptCrateAccountingForSummary", "Crate Accounting")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dtgv, "crptCrateAccountingForSummary", "Crate Accounting")
             Else
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dtgv, "crptCrateAccountingForDetail", "Crate Accounting")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dtgv, "crptCrateAccountingForDetail", "Crate Accounting")
             End If
             frmCRV = Nothing
         End If

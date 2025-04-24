@@ -1445,7 +1445,7 @@ TSPL_INVOICE_MASTER_BULKSALE.Tax_Calculation_Type,TSPL_INVOICE_MASTER_BULKSALE.T
              " where 2=2  and  TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No = '" + StrCode + "'"
             dt = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptBulkSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptBulkSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)

@@ -1951,7 +1951,7 @@ left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMEN
 where TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + fndDocNo.Value + "'  and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount>0 order by TSPL_Vendor_MASTER.Bank_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderVLC", "VSP Wise NEFT Uploader")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderVLC", "VSP Wise NEFT Uploader")
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1995,7 +1995,7 @@ group by Bank_Code
 order by Bank_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderBank", "Bank Wise NEFT Uploader")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderBank", "Bank Wise NEFT Uploader")
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2024,7 +2024,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + fndDocNo.Value + "'  and TSPL_MP_PAY
 order by TSPL_MP_MASTER.BankName"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderMP", "MP Wise NEFT Uploader")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "NEFTUploaderMP", "MP Wise NEFT Uploader")
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

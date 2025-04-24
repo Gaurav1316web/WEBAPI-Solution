@@ -269,7 +269,7 @@ Public Class rptVendorAccountSetReport
 
             If blnRefresh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.Purchase, dtPrint, "rptVendorAccountSet", "Vendor Account Set Report", clsCommon.GETSERVERDATE())
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtPrint, "rptVendorAccountSet", "Vendor Account Set Report", clsCommon.GETSERVERDATE())
                 frmCRV = Nothing
             End If
 

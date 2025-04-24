@@ -109,7 +109,7 @@ Public Class FrmVLCDailyLandedCost
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtgv, dt, "rptVlcDailyLanded", "Vlc Landed Cost", "rptVLCDLandedCostSub2.rpt", "rptVLCDailyLandedSub.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv, dt, "rptVlcDailyLanded", "Vlc Landed Cost", "rptVLCDLandedCostSub2.rpt", "rptVLCDailyLandedSub.rpt")
                     frmCRV = Nothing
                 End If
             Else

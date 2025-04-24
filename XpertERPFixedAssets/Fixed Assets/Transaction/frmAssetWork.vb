@@ -3213,7 +3213,7 @@ Public Class frmAssetWork
          " from TSPL_JOURNAL_MASTER left join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_JOURNAL_MASTER.Source_Doc_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code" & _
         " left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By " & _
        " where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" & ap_No & "' order by Detail_Line_No  "
-        frm.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(qry), "rptjvprint1", "Journal Voucher Report")
+        frm.funreport(MyBase.Form_ID,CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(qry), "rptjvprint1", "Journal Voucher Report")
     End Sub
     Sub PrintJVData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -3258,7 +3258,7 @@ Public Class frmAssetWork
                   " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Remarks) VI  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " & _
                   " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where " & _Cond & "  order by Detail_Line_No "
 
-        frm.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+        frm.funreport(clsUserMgtCode.FAAssetWork, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
 
     End Sub
     Public Shared Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String, ByVal isHierarchyLevel As Boolean)
@@ -3288,7 +3288,7 @@ Public Class frmAssetWork
                   " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Remarks) VI  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " & _
                   " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where " & _Cond & "  order by Detail_Line_No "
 
-        frm.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher_Hierarchy", "Journal Voucher Report")
+        frm.funreport(clsUserMgtCode.FAAssetWork, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher_Hierarchy", "Journal Voucher Report")
 
     End Sub
 

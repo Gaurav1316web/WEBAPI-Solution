@@ -2488,7 +2488,7 @@ Public Class frmAdjProductionEntryQCC
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 qry = "select Head.Adjustment_No as [Adjustment No], Head.Adjustment_Date as [Adjustment Date],Head.Description as [Description], Head.Reference_Document AS [Reference Document], Head.Document_No as [Document No],detail.Item_Code as [Item Code], detail.Item_Description as [Item Description], Location.Location_Desc as [Location], CASE when detail.Adjustment_Type='BI' then 'Both Increase' else CASE when detail.Adjustment_Type='BD' then 'Both Decrease' else CASE when detail.Adjustment_Type='QI' then 'Quality Increase' else CASE when detail.Adjustment_Type='QD' then 'Quality Decrease' else CASE when detail.Adjustment_Type='CI' then 'Cost Increase' else CASE when detail.Adjustment_Type='CD' then 'Cost Decrease' end end end end end end  as [Adjustment Type],detail.Item_Quantity as [Quantity], detail.Item_Cost as [Cost Adjustment], detail.Breakage as [Breakage Quantity],detail.Breakage_Cost as [Breakage Cost], detail.mrp as [MRP], detail.Unit_Code as [UOM], detail.MFG_Date as [MFG Date],detail.Batch_No as [Batch No], detail.Expiry_Date  as [Exp. Date],Location.Location_Desc as [Location], TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, (Location.Add1+(case when len(Location.Add2)>0 then ', 'else '' end )+Location.Add2+(case when len(Location.Add3)>0 then ', 'else '' end )+Location.Add3+(case when len(Location.Add4)>0 then ', 'else '' end )+Location.Add4+(case when len(Location.City_Code )>0 then ', 'else '' end ) + '' +TSPL_TDS_STATE_MASTER.State_Name ) as [Add1] from TSPL_ADJUSTMENT_HEADER_QC as Head left outer join TSPL_ADJUSTMENT_DETAIL as detail on head.Adjustment_No = detail.Adjustment_No Left Outer JOIN TSPL_COMPANY_MASTER ON Head.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_LOCATION_MASTER as Location on detail.Location_Code=Location.Location_Code Left Outer Join TSPL_TDS_STATE_MASTER on Location .State=TSPL_TDS_STATE_MASTER.State_Code  where Head.Adjustment_No='" + txtAdjustmentNo.Value + "' order by detail.Adjustment_Line_No "
                 dt = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
             Else
                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Adjustment_Type")), "BD") = CompairStringResult.Equal Then
                     qry = "select TSPL_ADJUSTMENT_HEADER_QC.Adjustment_No,(TSPL_ADJUSTMENT_HEADER_QC.Adjustment_Date+' '+TSPL_ADJUSTMENT_HEADER_QC.created_time) as Adjustment_Date ,TSPL_ADJUSTMENT_HEADER.Customer_CODE,TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_CUSTOMER_MASTER.Lst_No,TSPL_ADJUSTMENT_DETAIL_QC.Item_Code,TSPL_ADJUSTMENT_DETAIL_QC.Item_Description,TSPL_ADJUSTMENT_DETAIL_QC.Item_Quantity,TSPL_ADJUSTMENT_DETAIL_QC.mrp,TSPL_ADJUSTMENT_DETAIL_QC.Item_Cost,TSPL_ADJUSTMENT_HEADER.Vehicle_No " &
@@ -2497,7 +2497,7 @@ Public Class frmAdjProductionEntryQCC
                     " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_ADJUSTMENT_HEADER_QC.Customer_CODE" &
                     " where TSPL_ADJUSTMENT_HEADER_QC.Adjustment_No='" + txtAdjustmentNo.Value + "' ORDER by TSPL_ADJUSTMENT_DETAIL_QC.Adjustment_Line_No"
                     dt = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
 
                 Else
                     ''For both Increase OR Receipt Challan
@@ -2513,7 +2513,7 @@ Public Class frmAdjProductionEntryQCC
                     qry += " where TSPL_ADJUSTMENT_HEADER_QC.Adjustment_No='" + txtAdjustmentNo.Value + "'  " &
                     ")xxx group by Adjustment_No,Item_Code order by Item_Desc"
                     dt = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
                 End If
             End If
             frmCRV = Nothing
@@ -2810,7 +2810,7 @@ Public Class frmAdjProductionEntryQCC
                 dtDocdate = Nothing
                 dtDocdate = clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm:ss tt")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptAdjproducctionEntryQC", "Production Entry QC", dtDocdate)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAdjproducctionEntryQC", "Production Entry QC", dtDocdate)
                 frmCRV = Nothing
             End If
 
@@ -2844,7 +2844,7 @@ Public Class frmAdjProductionEntryQCC
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 qry = "select Head.Adjustment_No as [Adjustment No], Head.Adjustment_Date as [Adjustment Date],Head.Description as [Description], Head.Reference_Document AS [Reference Document], Head.Document_No as [Document No],detail.Item_Code as [Item Code], detail.Item_Description as [Item Description], Location.Location_Desc as [Location], CASE when detail.Adjustment_Type='BI' then 'Both Increase' else CASE when detail.Adjustment_Type='BD' then 'Both Decrease' else CASE when detail.Adjustment_Type='QI' then 'Quantity Increase' else CASE when detail.Adjustment_Type='QD' then 'Quantity Decrease' else CASE when detail.Adjustment_Type='CI' then 'Cost Increase' else CASE when detail.Adjustment_Type='CD' then 'Cost Decrease' end end end end end end  as [Adjustment Type],detail.Item_Quantity as [Quantity], detail.Item_Cost as [Cost Adjustment], detail.Breakage as [Breakage Quantity],detail.Breakage_Cost as [Breakage Cost], detail.mrp as [MRP], detail.Unit_Code as [UOM], detail.MFG_Date as [MFG Date],detail.Batch_No as [Batch No], detail.Expiry_Date  as [Exp. Date],Location.Location_Desc as [Location], TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, (Location.Add1+(case when len(Location.Add2)>0 then ', 'else '' end )+Location.Add2+(case when len(Location.Add3)>0 then ', 'else '' end )+Location.Add3+(case when len(Location.Add4)>0 then ', 'else '' end )+Location.Add4+(case when len(Location.City_Code )>0 then ', 'else '' end ) + '' +TSPL_TDS_STATE_MASTER.State_Name ) as [Add1],head.created_by as [Created by],head.modify_by as [Modified by] from TSPL_ADJUSTMENT_HEADER_QC as Head left outer join TSPL_ADJUSTMENT_DETAIL_QC as detail on head.Adjustment_No = detail.Adjustment_No Left Outer JOIN TSPL_COMPANY_MASTER ON Head.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_LOCATION_MASTER as Location on detail.Location_Code=Location.Location_Code Left Outer Join TSPL_TDS_STATE_MASTER on Location .State=TSPL_TDS_STATE_MASTER.State_Code  where Head.Adjustment_No='" + strAdjustmentNo + "' order by detail.Adjustment_Line_No "
                 dt = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
             Else
                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Adjustment_Type")), "BD") = CompairStringResult.Equal And IsPreprinted = True Then
                     ''For both Decrese or Empty Issue/Sent
@@ -2856,7 +2856,7 @@ Public Class frmAdjProductionEntryQCC
                     " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_ADJUSTMENT_HEADER_QC.Customer_CODE" &
                     " where TSPL_ADJUSTMENT_HEADER_QC.Adjustment_No='" + strAdjustmentNo + "' ORDER by TSPL_ADJUSTMENT_DETAIL_QC.Adjustment_Line_No"
                         dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
                     Else
                         ''For both Increase OR Receipt Challan
                         Dim strReportName As String = "EMPTY RECEIPT CHALLAN"
@@ -2898,7 +2898,7 @@ Public Class frmAdjProductionEntryQCC
                         "WHERE (TSPL_ADJUSTMENT_HEADER_QC.Adjustment_No = '" + strAdjustmentNo + "')  " &
                          ") xxx group by Adjustment_No,Item_Code order by Item_Desc"
                         dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyOutward", "Empty Issue Challan")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyOutward", "Empty Issue Challan")
                     End If
 
 
@@ -2980,18 +2980,18 @@ Public Class frmAdjProductionEntryQCC
                     dt = clsDBFuncationality.GetDataTable(qry)
                     If IsEmpty Then
                         If IsPreprinted Then
-                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptAdjustmentCustomReceiptGun", "Adjustment Detail")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptAdjustmentCustomReceiptGun", "Adjustment Detail")
                         Else
 
                             If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "guntur") = CompairStringResult.Equal) Then
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptGuntur", "Adjustment Detail")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptGuntur", "Adjustment Detail")
                             Else
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptVizag", "Adjustment Detail")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptVizag", "Adjustment Detail")
 
                             End If
                         End If
                     Else
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
                     End If
                 End If
             End If

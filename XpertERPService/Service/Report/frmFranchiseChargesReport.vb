@@ -107,7 +107,7 @@ Public Class FrmFranchiseChargesReport
 
             If Isprint = Exporter.Print Then
                 Dim frmCrystalReportViewer As New frmCrystalReportViewer
-                frmCrystalReportViewer.funreport(CrystalReportFolder.ServiceReport, dt, "crptFranchiseChargeReport", "Franchise Charges Report")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.ServiceReport, dt, "crptFranchiseChargeReport", "Franchise Charges Report")
             End If
 
             If Isprint = Exporter.Refresh Then

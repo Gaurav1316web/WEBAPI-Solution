@@ -1060,7 +1060,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmcrsytal As New frmCrystalReportViewer
-                frmcrsytal.funsubreportWithdt(CrystalReportFolder.HRPayroll, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFullAndFinalSettlement", "Full And Final Settlement", "rptCompanyAddress.rpt")
+                frmcrsytal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFullAndFinalSettlement", "Full And Final Settlement", "rptCompanyAddress.rpt")
                 'frmCrystalReportViewer.funreport(CrystalReportFolder.HRPayroll, dt, "crptFullAndFinalSettlement", "Full And Final Settlement")
             Else
                 Throw New Exception("No Data Found")
@@ -1074,7 +1074,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim strQuery As String = "select Emp_Name,Designation_Desc  from TSPL_FF_SETTLEMENT_HEAD left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_FF_SETTLEMENT_HEAD.EMP_CODE left join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id =TSPL_EMPLOYEE_MASTER.Designation"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptresignationLetter", "Resignation Letter")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptresignationLetter", "Resignation Letter")
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If
@@ -1107,7 +1107,7 @@ Public Class frmEmpFullAndFinalSettlement
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptFinalDeclaration", "Final Declaration")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptFinalDeclaration", "Final Declaration")
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If
@@ -1119,7 +1119,7 @@ Public Class frmEmpFullAndFinalSettlement
                                      " where 2=2 and TSPL_EMPLOYEE_MASTER.EMP_CODE='" + txtCode.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptNoDues", "No Dues Certificate")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptNoDues", "No Dues Certificate")
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If

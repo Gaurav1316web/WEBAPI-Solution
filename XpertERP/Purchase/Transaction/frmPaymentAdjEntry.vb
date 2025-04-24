@@ -610,7 +610,7 @@ Public Class frmPaymentAdjEntry
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
                     frmCRV = Nothing
                 End If
             Catch ex As Exception

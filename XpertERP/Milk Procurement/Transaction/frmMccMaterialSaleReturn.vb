@@ -6051,15 +6051,15 @@ Public Class frmMccMaterialSaleReturn
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("document_Date"))) Then
                     If clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1 Then
                         If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("STATE")), clsCommon.myCstr(dt.Rows(0)("STATE_CODE"))) = CompairStringResult.Equal Then
-                            StrPDFPath = frmCRV.funsubreportWithdt(IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         Else
-                            StrPDFPath = frmCRV.funsubreportWithdt(IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInterState", "MCC Material Sale InterState", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInterState", "MCC Material Sale InterState", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         End If
                     Else
-                        StrPDFPath = frmCRV.funsubreportWithdt(IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                     End If
                 Else
-                    StrPDFPath = frmCRV.funsubreportWithdt(IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "MCC Material Sale", "rptCompanyAddress.rpt")
+                    StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "MCC Material Sale", "rptCompanyAddress.rpt")
 
                 End If
             End If
@@ -6296,7 +6296,7 @@ Public Class frmMccMaterialSaleReturn
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -2046,7 +2046,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")

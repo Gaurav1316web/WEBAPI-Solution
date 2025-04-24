@@ -385,7 +385,7 @@ Public Class FrmForm16A
                      
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim frmCrystalReportViewer As New frmCrystalReportViewer
-                    frmCrystalReportViewer.funreport1(CrystalReportFolder.TDS, dt, "Form16a04", "Form 16 Report")
+                    frmCrystalReportViewer.funreport1(MyBase.Form_ID, CrystalReportFolder.TDS, dt, "Form16a04", "Form 16 Report")
 
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For i As Integer = 0 To dt.Rows.Count - 1
@@ -409,7 +409,7 @@ Public Class FrmForm16A
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim frmCrystalReportViewer As New frmCrystalReportViewer
-                    frmCrystalReportViewer.funreport(CrystalReportFolder.TDS, dt, "Form16a04D", "Form 16 Report")
+                    frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.TDS, dt, "Form16a04D", "Form 16 Report")
 
                 End If
 

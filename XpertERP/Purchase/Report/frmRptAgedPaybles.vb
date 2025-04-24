@@ -295,7 +295,7 @@ Public Class FrmRptAgedPaybles
                 dt = clsDBFuncationality.GetDataTable(Qry)
             End If
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "crptAPAge" + strNo + "", "A/P Aged Paybles Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "crptAPAge" + strNo + "", "A/P Aged Paybles Report")
             frmCRV = Nothing
         Catch ex As Exception
             RadMessageBox.Show(ex.Message)
@@ -522,9 +522,9 @@ Public Class FrmRptAgedPaybles
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If chkType.Checked <> True Then
-                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "AgingPaybles" + strNo + "", "A/P Aged Paybles Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "AgingPaybles" + strNo + "", "A/P Aged Paybles Report")
             Else
-                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "AgingPayblesSummaryNew" + strNo + "", "A/P Aged Paybles Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "AgingPayblesSummaryNew" + strNo + "", "A/P Aged Paybles Report")
             End If
             frmCRV = Nothing
         Catch ex As Exception

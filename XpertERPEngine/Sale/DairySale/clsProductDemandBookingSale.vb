@@ -454,7 +454,7 @@ Public Class clsProductDemandBookingSale
         Return True
     End Function
 
-    Public Shared Function PrintDemandProductData(ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean) As Boolean
+    Public Shared Function PrintDemandProductData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean) As Boolean
         Try
             Dim whrcls As String = ""
 
@@ -548,11 +548,11 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
                 If isMultipleRoutes Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandPrint", "Booth Product Demand", "rptSubProductDemandBooking")
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandPrint", "Booth Product Demand", "rptSubProductDemandBooking")
                 ElseIf isRouteSummary Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandRouteSummary", "Booth Product Demand", "rptSubProductDemandBooking")
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandRouteSummary", "Booth Product Demand", "rptSubProductDemandBooking")
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductDemandBooking", "Booth Product Demand", "rptSubProductDemandBooking")
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductDemandBooking", "Booth Product Demand", "rptSubProductDemandBooking")
                 End If
                 frmCRV = Nothing
             End If

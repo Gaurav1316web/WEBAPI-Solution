@@ -98,7 +98,7 @@ Public Class FrmEmptyInwardRpt
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptEmptyInwardRegister", "Empty Inward Register Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptEmptyInwardRegister", "Empty Inward Register Report")
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

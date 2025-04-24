@@ -83,7 +83,7 @@ Public Class frmSaleSummaryAgainstPO
             dt = clsDBFuncationality.GetDataTable(qry)
             'gv1.DataSource = dt
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptSaleSummaryAgainstPO", "Sale Summary Against PO")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSaleSummaryAgainstPO", "Sale Summary Against PO")
         Catch ex As Exception
 
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

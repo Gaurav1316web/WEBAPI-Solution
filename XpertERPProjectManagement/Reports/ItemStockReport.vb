@@ -892,7 +892,7 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
             End If
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptItemStockReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptItemStockReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

@@ -753,9 +753,9 @@ Public Class FrmMilkPurchaseInvoice
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoiceForBHBA", "Purchase Invoice")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoiceForBHBA", "Purchase Invoice")
             Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
             End If
 
             frmCRV = Nothing
@@ -3647,7 +3647,7 @@ Public Class FrmMilkPurchaseInvoice
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice_Bill_of_Supply", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice_Bill_of_Supply", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)

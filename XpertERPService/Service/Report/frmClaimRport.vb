@@ -177,7 +177,7 @@ Public Class FrmClaimRport
                 clsCommon.MyExportToPDF("Claim Report " + IIf(chkLandingCost.IsChecked, "Based On Landing Cost", "Based On MRP") + "", GV1, arrHeader, "Claim Report", True)
             ElseIf exporter = EnumExportTo.Print Then
                 Dim frmCrystalReportViewer As New frmCrystalReportViewer
-                frmCrystalReportViewer.funreport(CrystalReportFolder.ServiceReport, dt, "rptClaimSummary", "Claim Summary")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.ServiceReport, dt, "rptClaimSummary", "Claim Summary")
 
             End If
 

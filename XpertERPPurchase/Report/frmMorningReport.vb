@@ -276,7 +276,7 @@ Public Class FrmMorningReport
 
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "MorningReport", "Morning Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "MorningReport", "Morning Report")
                     frmCRV = Nothing
 
                 End If

@@ -2387,7 +2387,7 @@ a:
             objSMSH.Email_Subject = objSMSH.Email_Subject.Replace(frmEMailAndSMSSetting.Vendor_Code, obj.Vendor_Code)
             objSMSH.Email_Subject = objSMSH.Email_Subject.Replace(frmEMailAndSMSSetting.Vendor_Name, obj.Vendor_Name)
 
-            objSMSH.Attachment_1_Path = PrintData(obj, trans, True)
+            objSMSH.Attachment_1_Path = PrintData(Form_ID, obj, trans, True)
 
             objSMSH.Email_Text = clsCommon.myCstr(objContent.EMail_Text)
             objSMSH.Email_Text = objSMSH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, obj.PurchaseOrder_No)
@@ -5352,25 +5352,25 @@ a:
         Return True
     End Function
 
-    Public Function PrintData(ByVal strCode As String) As String
+    Public Function PrintData(ByVal Form_ID As String, ByVal strCode As String) As String
         Try
-            Return PrintData(GetData(strCode, NavigatorType.Current), Nothing, False)
+            Return PrintData(Form_ID, GetData(strCode, NavigatorType.Current), Nothing, False)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return ""
     End Function
 
-    Public Function PrintData(ByVal obj As clsPurchaseOrderHead, ByVal tran As SqlTransaction, ByVal isPDFPath As Boolean) As String
+    Public Function PrintData(ByVal Form_ID As String, ByVal obj As clsPurchaseOrderHead, ByVal tran As SqlTransaction, ByVal isPDFPath As Boolean) As String
         Try
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(obj.Item_Type, "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal Then
                     PrintWorkOrder(obj.PurchaseOrder_No, tran, isPDFPath)
                 Else
-                    Return PrintNew(obj.PurchaseOrder_No, Form_ID, IIf(obj.MT_Is_Merchant_Trade = 1, True, False), IIf(obj.IsPO = 1, True, False), tran, isPDFPath)
+                    Return PrintNew(Form_ID, obj.PurchaseOrder_No, Form_ID, IIf(obj.MT_Is_Merchant_Trade = 1, True, False), IIf(obj.IsPO = 1, True, False), tran, isPDFPath)
                 End If
             Else
-                Return PrintNew(obj.PurchaseOrder_No, Form_ID, IIf(obj.MT_Is_Merchant_Trade = 1, True, False), IIf(obj.IsPO = 1, True, False), tran, isPDFPath)
+                Return PrintNew(Form_ID, obj.PurchaseOrder_No, Form_ID, IIf(obj.MT_Is_Merchant_Trade = 1, True, False), IIf(obj.IsPO = 1, True, False), tran, isPDFPath)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -5434,7 +5434,7 @@ a:
         End Try
     End Sub
 
-    Private Function PrintNew(ByVal StrDocNo As String, ByVal StrFormID As String, ByVal IsMT As Boolean, ByVal IsPO As Boolean, ByVal tran As SqlTransaction, ByVal isPDFPath As Boolean) As String
+    Private Function PrintNew(ByVal Form_ID As String, ByVal StrDocNo As String, ByVal StrFormID As String, ByVal IsMT As Boolean, ByVal IsPO As Boolean, ByVal tran As SqlTransaction, ByVal isPDFPath As Boolean) As String
         Dim frmCRViewer As New frmCrystalReportViewer()
         Dim level1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL left outer join TSPL_USER_MASTER  on TSPL_USER_MASTER.User_Code=TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL.User_Code where Document_Code='" & StrDocNo & "' and No_of_Level=1 and status='Approved'", tran))
         Dim level2 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL left outer join TSPL_USER_MASTER  on TSPL_USER_MASTER.User_Code=TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL.User_Code where Document_Code='" & StrDocNo & "' and No_of_Level=2 and status='Approved'", tran))
@@ -5811,45 +5811,45 @@ a:
         ''==========================against[BM00000008380] Ticket : BHA/08/06/18-000045 , ERO/19/06/18-000353 For Print 
         If ((clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "ADVANTEK") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
             If IsMT = True Then
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "Merchant_PO-G", "Merchant Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "", "", dt3)
+                Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "Merchant_PO-G", "Merchant Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "", "", dt3)
             Else
 
                 '' Work done by Parteek on 13/08/2018
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("item_type")), "N") = CompairStringResult.Equal Then
                         SetItemWiseTax(dt, StrDocNo, tran)
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     End If
                 End If
                 ' ENd
 
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") <> CompairStringResult.Equal) Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     End If
                 End If
 
                 '==============================Added by preeti Gupta Against Ticket No[ERO/19/04/18-000092]=========================
                 If (clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("item_type")), "N") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("auto_calculate")), 0) = CompairStringResult.Equal) AndAlso Not clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
                     If IsPO = True Then
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal Then
                     If IsPO = True Then
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                     End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "L") = CompairStringResult.Equal Then
                     SetItemWiseTax(dt, StrDocNo, tran)
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                     SetItemWiseTax(dt, StrDocNo, tran)
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt1, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "CustomField.rpt", "MMM.rpt", dt3)
                 Else
                     Throw New Exception("Not a valid Po Type")
                 End If
@@ -5857,24 +5857,24 @@ a:
         ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "MPD") = CompairStringResult.Equal Then
             If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("item_type")), "N") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("auto_calculate")), 0) = CompairStringResult.Equal Then
                 If IsPO = True Then
-                    Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                    Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 Else
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal Then
                 If IsPO = True Then
-                    Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                    Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 Else
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "L") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 'frmCRViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "PO-G", "Purchase Order")
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 'frmCRViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "PO-G", "Purchase Order")
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
             Else
                 Throw New Exception("Not a valid Po Type")
             End If
@@ -5883,15 +5883,15 @@ a:
             If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("item_type")), "N") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("auto_calculate")), 0) = CompairStringResult.Equal Then
                 If clsERPFuncationality.GetGSTStatus(PO_Date) Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                        Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                        Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                     Else
-                        Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G -InterState", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                        Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G -InterState", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                     End If
                 Else
                     If IsPO = True Then
-                        Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                        Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                     Else
-                        Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                        Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                     End If
                 End If
 
@@ -5899,22 +5899,22 @@ a:
                 If clsERPFuncationality.GetGSTStatus(PO_Date) Then
                     If IsPO = True Then
                         If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                            Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                            Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                         Else
-                            Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G -InterState", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                            Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G -InterState", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                         End If
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                            Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                            Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                         Else
-                            Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "WO-G -Interstate", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                            Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "WO-G -Interstate", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                         End If
                     End If
                 Else
                     If IsPO = True Then
                         Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
 
@@ -5923,28 +5923,28 @@ a:
                     Dim isGSTSkip As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select  count (TSPL_PURCHASE_ORDER_DETAIL.Item_Code) as NoOfItem from TSPL_PURCHASE_ORDER_DETAIL inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_ITEM_MASTER.Skip_GST = 1 left outer join TSPL_PURCHASE_ORDER_head on TSPL_PURCHASE_ORDER_head.purchaseorder_no = TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_no where  TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_no = '" + clsCommon.myCstr(dt.Rows(0)("purchase_no")) + "' ", tran))
                     If isGSTSkip = False Then
                         If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                            Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                            Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                         Else
-                            Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                            Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                         End If
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G_Skip_GST", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G_Skip_GST", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                     End If
 
                 Else
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                 End If
 
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 If clsERPFuncationality.GetGSTStatus(PO_Date) Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                     Else
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, dt3, "PO-G-Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "MMM.rpt")
                     End If
                 Else
                     SetItemWiseTax(dt, StrDocNo, tran)
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", )
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", )
                 End If
             Else
                 Throw New Exception("Not a valid Po Type")
@@ -5952,48 +5952,48 @@ a:
         Else
             If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("item_type")), "N") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("auto_calculate")), 0) = CompairStringResult.Equal Then
                 If IsPO = True Then
-                    Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                    Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 Else
-                    Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                    Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "J") = CompairStringResult.Equal Then
                 If IsPO = True Then
-                    Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
+                    Return frmCRViewer.funreport(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 Else
                     'Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "L") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 'Ticket No-MIL/20/08/19-000124,sanjay
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GMD") = CompairStringResult.Equal Then
                     If Not clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Loc_StateCode"))) = CompairStringResult.Equal Then
-                        Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO_G_Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                        Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO_G_Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "PLI") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-PLI", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-PLI", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GBKNN", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GBKNN", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GALW", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GALW", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-SKR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-SKR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GKTA", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GKTA", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JAL", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JAL", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JPR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-JPR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-AJM", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-AJM", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 Else
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 End If
                 'Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
             Else
                 Throw New Exception("Not a valid Po Type")
             End If

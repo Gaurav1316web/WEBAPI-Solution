@@ -27,7 +27,7 @@ Public Class RptRegisterOfDeduction
         Dim dtgv As New DataTable
         Dim frmcrystal As New frmCrystalReportViewer()
         dtgv = clsDBFuncationality.GetDataTable(Qry)
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptDamageLoss", "Register Of Deduction")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptDamageLoss", "Register Of Deduction")
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Addnew()

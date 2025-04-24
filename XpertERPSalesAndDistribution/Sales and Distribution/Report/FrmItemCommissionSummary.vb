@@ -337,11 +337,11 @@ Public Class FrmItemCommissionSummary
             If rdoSummary.IsChecked Then
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptItemCommissionSummaryReport", "Item Commission Summary")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptItemCommissionSummaryReport", "Item Commission Summary")
             ElseIf rdoDetail.IsChecked Then
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptItemCommissionDetailsReport", "Item Commission Summary")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptItemCommissionDetailsReport", "Item Commission Summary")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

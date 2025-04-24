@@ -88,9 +88,9 @@ Public Class ReportTransfer
                             'InventryViewer.funreport(dt, ERP.EnumTecxpertPaperSize.PaperSize10x12, "rptEmptyTransferLoadOutCustomGun", "Empty Loadout Report")
 
                             If isPrePrinted Then
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "rptEmptyTransferLoadOutCustomGun", "Empty LoadOut Report")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "rptEmptyTransferLoadOutCustomGun", "Empty LoadOut Report")
                             Else
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyTransferLoadoutCustomVizag", "Empty Loadin Report")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyTransferLoadoutCustomVizag", "Empty Loadin Report")
                             End If
 
 
@@ -120,9 +120,9 @@ Public Class ReportTransfer
                             " )SuperFinal group by Transfer_No,Item_Code,Created_By,Modify_By"
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If isPrePrinted Then
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "rptEmptyTransferLoadInCustomGun", "Empty Loadin Report")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "rptEmptyTransferLoadInCustomGun", "Empty Loadin Report")
                             Else
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyTransferLoadInCustomVizag", "Empty Loadin Report")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyTransferLoadInCustomVizag", "Empty Loadin Report")
                             End If
 
                         End If
@@ -154,10 +154,10 @@ Public Class ReportTransfer
                             " where TSPL_TRANSFER_HEAD.Transfer_No='" + strNo + "'"
                             If isPrePrinted Then
                                 dt = clsDBFuncationality.GetDataTable(qry)
-                                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptCustomSaleInvoiceWithExciseForGuntur", "Excisable Loadout Transfer", True)
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptCustomSaleInvoiceWithExciseForGuntur", "Excisable Loadout Transfer", True)
                             Else
                                 dt = clsDBFuncationality.GetDataTable(qry)
-                                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.NA, "ExcisableTransferReport", "Excisable Loadout Transfer", True)
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.NA, "ExcisableTransferReport", "Excisable Loadout Transfer", True)
                             End If
                         Else
                             ' ''qry = "select bb.Item_Code,MAX(item) as item, max(transfer_number)as  transfer_number,max(date)as date,max(salesman_name)as salesman_name,max(route_number)as route_number,max(tn_number)as tn_number,max(trip_number)as trip_number ,sum(leak)as leak,sum(brust)as brust,sum(short)as short, (mrp) as mrp, max(Vehicle_No)as Vehicle_No,sum(itemqty) as itemqty,SUM(isnull(FCS,0)) as FCS,SUM(isnull(FBS,0)) as FBS,SUM(isnull(FSH,0)) as FSH,SUM(isnull(ECS,0)) as ECS,SUM(isnull(EBS,0)) as EBS,SUM(isnull(ESH,0)) as ESH,max(description) as description ,max(Reference) as Reference, MAX(Total_Transfer_Amount) as Total_Transfer_Amount ,Max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq,max(RemovalTime) as RemovalTime ,max(LoadoutFromLocation) as  LoadoutFromLocation ,max(Conversion_Factor) as [COnversion Factor] from(" & _
@@ -209,15 +209,15 @@ Public Class ReportTransfer
                             If strTrasactionType = "LI" Then
                                 If isPrePrinted Then
                                     If isBothLocationPhysical Then
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "TransferLIBothLogical", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "TransferLIBothLogical", "TransferReport")
                                     Else
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprinted", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprinted", "TransferReport")
                                     End If
                                 Else
                                     If (objCommonVar.CurrentCompanyCode = "VIZAG") Then
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLI-VIZ", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLI-VIZ", "TransferReport")
                                     Else
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLI-GUN", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLI-GUN", "TransferReport")
                                     End If
 
                                 End If
@@ -231,17 +231,17 @@ Public Class ReportTransfer
                                     If clsCommon.CompairString(Transype, "Route") = CompairStringResult.Equal OrElse clsCommon.CompairString(Transype, "Depot") = CompairStringResult.Equal Then
 
                                         If isPrePrintTAx Then
-                                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "TransferPreprintedLORouteTAX", "TransferReport")
+                                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "TransferPreprintedLORouteTAX", "TransferReport")
 
                                         Else
-                                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "TransferPreprintedLORoute", "TransferReport")
+                                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "TransferPreprintedLORoute", "TransferReport")
 
                                         End If
 
                                     ElseIf clsCommon.CompairString(loctype, "Physical") = CompairStringResult.Equal Then
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprintedLO", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprintedLO", "TransferReport")
                                     Else
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprintedLOoldfrt", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "transferpreprintedLOoldfrt", "TransferReport")
                                     End If
 
                                 Else
@@ -266,9 +266,9 @@ Public Class ReportTransfer
                                         qry += " ) xxx "
                                         qry += ") bb Left Outer Join TSPL_ITEM_MASTER on bb.Item_Code  =TSPL_ITEM_MASTER.Item_Code group by bb.Item_Code,bb.mrp   Order by Sku_Seq "
                                         dt = clsDBFuncationality.GetDataTable(qry)
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptTransferPrintG", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptTransferPrintG", "TransferReport")
                                     Else
-                                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLO", "TransferReport")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "TransferLO", "TransferReport")
 
                                     End If
                                 End If

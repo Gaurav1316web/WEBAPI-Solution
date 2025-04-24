@@ -1325,6 +1325,7 @@ Public Class clsFixedParameterType
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
+    Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
@@ -2799,6 +2800,7 @@ Public Class clsFixedParameterCode
     Public Const QuantityTolerance = "Quantity Tolerance"
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
+    Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4442,7 +4444,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
-
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function

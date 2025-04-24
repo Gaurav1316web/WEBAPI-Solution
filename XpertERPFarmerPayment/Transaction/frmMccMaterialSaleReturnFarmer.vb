@@ -5833,7 +5833,7 @@ Public Class frmMccMaterialSaleReturnFarmer
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "Sales Return", "rptCompanyAddress.rpt")
                 frmCRV = Nothing
                 ' NewSalesReportViewer.funreport(dt, "crptSaleReturn", "Sales Return")
             End If
@@ -6069,7 +6069,7 @@ Public Class frmMccMaterialSaleReturnFarmer
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

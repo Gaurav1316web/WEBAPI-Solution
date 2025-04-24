@@ -517,10 +517,10 @@ Public Class FrmPrimarySalesReport
                 Else
                     If rdbSummary.IsChecked = True Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleSummaryShipping", "Primary Sale Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleSummaryShipping", "Primary Sale Report")
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleDetailShipping", "Primary Sale Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleDetailShipping", "Primary Sale Report")
                     End If
                 End If
             Else
@@ -638,10 +638,10 @@ Public Class FrmPrimarySalesReport
                 Else
                     If rdbSummary.IsChecked = True Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleSummaryAccount", "Primary Sale Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleSummaryAccount", "Primary Sale Report")
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleDetailAccount", "Primary Sale Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptPrimarySaleDetailAccount", "Primary Sale Report")
                     End If
                 End If
 

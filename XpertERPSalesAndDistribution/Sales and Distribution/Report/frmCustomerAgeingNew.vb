@@ -421,7 +421,7 @@ Public Class FrmCustomerAgeing
             End If
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptAgedTrialBalance" + strNo + "", "A/R Customer Ageing Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptAgedTrialBalance" + strNo + "", "A/R Customer Ageing Report")
         Catch ex As Exception
             RadMessageBox.Show(ex.Message)
         End Try

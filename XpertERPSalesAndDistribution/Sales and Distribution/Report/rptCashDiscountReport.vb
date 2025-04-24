@@ -141,7 +141,7 @@ Public Class rptCashDiscountReport
             Exit Sub
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "crptCashDiscountReport", "Cash Discount Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(qry), "crptCashDiscountReport", "Cash Discount Report")
 
         End If
     End Sub

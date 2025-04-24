@@ -1402,7 +1402,7 @@ Public Class frmMilkJobWorkTransfer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
-                    frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMilkJobWorkTransfer", "Milk Job Work Transfer", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                    frmCrystalReportViewer.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMilkJobWorkTransfer", "Milk Job Work Transfer", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                 End If
             End If
             ' frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkSRN", "Milk SRN", clsCommon.myCDate(dtpSRNDATE.Value))

@@ -107,9 +107,9 @@ Public Class FrmStockAdjustmentReport
             dt = clsDBFuncationality.GetDataTable(strSql)
             Dim frmCRV As New frmCrystalReportViewer()
             If RadioBtnSummary.IsChecked Then
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockAdjustmentSummary", "Stock Adjustment Summary")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockAdjustmentSummary", "Stock Adjustment Summary")
             Else
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockAdjustmentDetail", "Stock Adjustment Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockAdjustmentDetail", "Stock Adjustment Detail")
             End If
             frmCRV = Nothing
         End If

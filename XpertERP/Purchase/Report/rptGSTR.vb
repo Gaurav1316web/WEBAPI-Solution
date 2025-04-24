@@ -2914,9 +2914,9 @@ Case When TSPL_Customer_INVOICE_HEAD.TAX10 IN ('TCS') Then Isnull(TSPL_Customer_
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If btnGSTR1.IsChecked Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtHeader, "rptGSTCompuatation - Sale", "GST Compuatation", clsCommon.myCDate(txtFromDate.Value), "SubReportOfGSTComHeaderPart.rpt", "SubReportOfGSTComdetailPart-Sale.rpt", dtdetail)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtHeader, "rptGSTCompuatation - Sale", "GST Compuatation", clsCommon.myCDate(txtFromDate.Value), "SubReportOfGSTComHeaderPart.rpt", "SubReportOfGSTComdetailPart-Sale.rpt", dtdetail)
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dtHeader, "rptGSTCompuatation", "GST Compuatation", clsCommon.myCDate(txtFromDate.Value), "SubReportOfGSTComHeaderPart.rpt", "SubReportOfGSTComdetailPart.rpt", dtdetail)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dtHeader, "rptGSTCompuatation", "GST Compuatation", clsCommon.myCDate(txtFromDate.Value), "SubReportOfGSTComHeaderPart.rpt", "SubReportOfGSTComdetailPart.rpt", dtdetail)
                 End If
                 frmCRV = Nothing
             Else

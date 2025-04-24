@@ -114,7 +114,7 @@ Public Class RptGatePassVSActual
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptGatePassVsActual", "GatePass V/S Actual")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptGatePassVsActual", "GatePass V/S Actual")
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
         End Try

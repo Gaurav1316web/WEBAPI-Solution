@@ -441,7 +441,7 @@ Public Class ProductionReport
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "rptProductionReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "rptProductionReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")

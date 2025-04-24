@@ -8272,9 +8272,9 @@ Public Class frmSRN
                 Else
                     'PurchaseOrderViewer.funreport(dt, EnumTecxpertPaperSize.PaperSize10x6, "rptSRNCustomReport", "SRN Report")
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Vizag") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptSRN_4_FG_Vizag", "SRN Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptSRN_4_FG_Vizag", "SRN Report")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptSRN_4_FG_Guntur", "SRN Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptSRN_4_FG_Guntur", "SRN Report")
                     End If
                 End If
             Else ''For RM Other Print out
@@ -8411,23 +8411,23 @@ Public Class frmSRN
                     End If
 
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Vizag") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport", "Store Receipt Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport", "Store Receipt Report")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                         If IsSRNReportQtyWise Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
 
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(txtDate.Value))
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(txtDate.Value))
                         End If
                     Else
                         If IsSRNReportQtyWise Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
                         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G-SKR", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G-SKR", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
 
                             ' frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport-G-SKR", "Store Receipt Report", clsCommon.myCDate(txtDate.Value))
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
 
 
                         End If
@@ -8486,7 +8486,7 @@ Public Class frmSRN
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x6, "rptSRNCustom", "SRN Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x6, "rptSRNCustom", "SRN Report")
         frmCRV = Nothing
     End Sub
     Public Sub print()
@@ -8597,7 +8597,7 @@ Public Class frmSRN
         Else
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReport", "Store Receipt Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "SRNReport", "Store Receipt Report")
             frmCRV = Nothing
         End If
 
@@ -8892,7 +8892,7 @@ Public Class frmSRN
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

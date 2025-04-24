@@ -495,11 +495,11 @@ Public Class FrmGatePassENtry1
 
             If PrePrinted Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptGatePassPreprinted", "GatePass Report", True)
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptGatePassPreprinted", "GatePass Report", True)
             Else
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Vizag") = CompairStringResult.Equal Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.NA, "crptGatePassVizag", "GatePass Report", False)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, EnumTecxpertPaperSize.NA, "crptGatePassVizag", "GatePass Report", False)
 
                 Else
                     strGlass = " and Two_Count_Status='Y' "

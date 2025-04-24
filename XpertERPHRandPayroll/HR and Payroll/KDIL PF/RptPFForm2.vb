@@ -45,7 +45,7 @@ Public Class RptPFForm2
             dtgv = clsDBFuncationality.GetDataTable(sQry)
             If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFForm2", "PF Form2")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFForm2", "PF Form2")
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If

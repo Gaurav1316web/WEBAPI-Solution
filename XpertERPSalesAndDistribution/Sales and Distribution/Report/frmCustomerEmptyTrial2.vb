@@ -163,7 +163,7 @@ Public Class FrmCustomerEmptyTrial2
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCustomerEmptyTrial", "Customer Empty Trial")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptCustomerEmptyTrial", "Customer Empty Trial")
                 End If
             Catch ex As Exception
                 common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

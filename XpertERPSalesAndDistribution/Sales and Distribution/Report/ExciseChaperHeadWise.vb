@@ -640,9 +640,9 @@ Public Class frmExciseChapterWise
         End If
         Dim frmcrystal As New frmCrystalReportViewer()
         If rdbDSR.IsChecked Then
-            frmcrystal.funsubreportWithdt(CrystalReportFolder.SalesReport, dtFinal, dtData1, "crptERDSRReport", "", "crptERSubReport.rpt")
+            frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtFinal, dtData1, "crptERDSRReport", "", "crptERSubReport.rpt")
         Else
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
 
         End If
     End Sub
@@ -891,7 +891,7 @@ Public Class frmExciseChapterWise
                 CrptName = "crptER1"
             End If
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

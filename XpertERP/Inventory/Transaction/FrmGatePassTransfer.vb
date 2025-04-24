@@ -614,7 +614,7 @@ Public Class FrmGatePassTransfer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTransferGatePass", "Gate Pass", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTransferGatePass", "Gate Pass", "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

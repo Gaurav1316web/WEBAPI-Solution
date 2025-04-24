@@ -123,7 +123,7 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptZoneWiseReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptZoneWiseReport", "")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
@@ -231,7 +231,7 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWiseReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWiseReport", "")
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptRouteWiseReport", "", "rptRoutWise")
 
             Else

@@ -919,7 +919,7 @@ Public Class FrmGatePassPS
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
         If dt.Rows.Count > 0 Then
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassReturnProductSale", "Gate Pass Return", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassReturnProductSale", "Gate Pass Return", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
         End If
 
 

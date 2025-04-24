@@ -1621,7 +1621,7 @@ Public Class frmJWOGateEntry
                 dtDocdate = Nothing
                 dtDocdate = clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm:ss tt")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptJWOItemAccepatance", "JOB WORK ITEM ACCEPATANCE", dtDocdate)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptJWOItemAccepatance", "JOB WORK ITEM ACCEPATANCE", dtDocdate)
                 frmCRV = Nothing
             End If
 

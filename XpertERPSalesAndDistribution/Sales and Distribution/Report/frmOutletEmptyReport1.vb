@@ -270,10 +270,10 @@ Public Class FrmOutletEmptyReport1
                 Else
                     If rdobtnSummary.IsChecked Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOutletEmpty", "Outlet Empty Summary Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOutletEmpty", "Outlet Empty Summary Report")
                     ElseIf rdobtndetails.IsChecked Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOutletEmptyDetail", "Outlet Empty Detail Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOutletEmptyDetail", "Outlet Empty Detail Report")
                     End If
                 End If
 

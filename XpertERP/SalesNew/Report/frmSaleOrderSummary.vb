@@ -214,7 +214,7 @@ Public Class FrmSaleOrderSummary
                 'NewSalesReportViewer.funreport(dt, "crptSaleOrderDetail", "Sale Order Report")
                 'Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleOrderSummary", "Sale Order Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSaleOrderSummary", "Sale Order Report")
                 frmCRV = Nothing
                 'End If
             Else

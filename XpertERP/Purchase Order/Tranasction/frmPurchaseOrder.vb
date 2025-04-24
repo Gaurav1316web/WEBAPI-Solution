@@ -8913,7 +8913,7 @@ Public Class frmPurchaseOrder
     Private Sub btnPrintNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintNew.Click
         Try
             Dim obj As New clsPurchaseOrderHead()
-            obj.PrintData(txtDocNo.Value)
+            obj.PrintData(MyBase.Form_ID, txtDocNo.Value)
             obj = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

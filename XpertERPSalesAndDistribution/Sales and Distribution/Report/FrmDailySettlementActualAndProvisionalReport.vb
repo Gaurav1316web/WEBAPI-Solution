@@ -319,7 +319,7 @@ Public Class FrmDailySettlementActualAndProvisionalReport
         dt = clsDBFuncationality.GetDataTable(strQuery)
 
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptDailyQuickSettlement", "Daily Quick Settlement Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptDailyQuickSettlement", "Daily Quick Settlement Report")
 
     End Sub
 

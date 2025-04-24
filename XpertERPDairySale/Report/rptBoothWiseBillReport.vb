@@ -428,7 +428,7 @@ Public Class rptBoothWiseBillReport
                     Throw New Exception("The Print Button does not function for detailed printing.")
                     ' frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptBoothWiseBillDetail", "Booth Wise Bill Detail", "SubReportInvoiceDetail")
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptBoothWiseBillSummary", "Booth Wise Bill Summary Report", Nothing, "crptBoothWiseBillSummary.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptBoothWiseBillSummary", "Booth Wise Bill Summary Report", Nothing, "crptBoothWiseBillSummary.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If
                 frmCRV = Nothing
             Else

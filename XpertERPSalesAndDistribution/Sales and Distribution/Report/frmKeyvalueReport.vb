@@ -422,7 +422,7 @@ Public Class FrmKeyvalueReport
                 GV1.DataSource = dt
                 SetGridFormationOFGV1()
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptKeyValue", "Key Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptKeyValue", "Key Sale Report")
             End If
 
         Catch ex As Exception

@@ -1879,7 +1879,7 @@ Public Class frmStoreRequistion
                         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_REQUISITION_HEAD.Location  left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state  where(2 = 2) and  TSPL_REQUISITION_HEAD.Requisition_Id='" + txtReqNo.Value + "'
                         )XX "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionForVijaya", "Store Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionForVijaya", "Store Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
             Else
                 qry = "select TSPL_REQUISITION_HEAD.Requisition_Id ,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date , " &
             "convert(varchar,TSPL_REQUISITION_HEAD.Expire_Date,103) as Expire_Date ,convert(varchar,TSPL_REQUISITION_HEAD.Require_Date,103) as Require_Date , " &
@@ -1919,20 +1919,20 @@ Public Class frmStoreRequistion
 
                 If no = 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor-G", "Purchase Requisition")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor-G", "Purchase Requisition")
                     Else
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Store Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Store Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                         End If
                     End If
 
                 Else
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition-G", "Purchase Requisition")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition-G", "Purchase Requisition")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     End If
                 End If
             End If
@@ -2476,9 +2476,9 @@ Public Class frmStoreRequistion
                     Next
                     Dim frmCRV As New frmCrystalReportViewer()
                     If no = 0 Then
-                        strRptPath = frmCRV.funreport1(CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                        strRptPath = frmCRV.funreport1(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
                     Else
-                        strRptPath = frmCRV.funreport1(CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisition", "Purchase Requisition")
+                        strRptPath = frmCRV.funreport1(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisition", "Purchase Requisition")
                     End If
                     objEmailH.Attachment_1_Path = strRptPath
                     frmCRV = Nothing
@@ -2644,9 +2644,9 @@ Public Class frmStoreRequistion
             Next
             Dim frmCRV As New frmCrystalReportViewer()
             If no = 0 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
             End If
             frmCRV = Nothing
         End If

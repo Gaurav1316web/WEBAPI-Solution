@@ -97,7 +97,7 @@ Public Class frmMonthlyESI_Report
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer()
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, DT, "crptMonthlyESI", "Monthly ESI Report")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptMonthlyESI", "Monthly ESI Report")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

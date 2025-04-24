@@ -279,7 +279,7 @@ Public Class FrmEmployeeTransfer
             dtgv = clsDBFuncationality.GetDataTable(Qry)
 
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptLocationtransferletter", "Location Letter")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptLocationtransferletter", "Location Letter")
         ElseIf clsCommon.CompairString(cboDocType.Text, "Promotion Letter") = CompairStringResult.Equal Then
             Dim Qry1 As String
             'Qry1 = "select TOP 1 Revision_No,tt.Emp_Code,Rate_Amount,Document_Code, Document_Date,Emp_Name,ttt.* from (select max(Revision_No)as Revision_No,max(TSPL_EMPLOYEE_TRANSFER.EMP_CODE)as EMP_CODE,sum(Rate_Amount)as Rate_Amount,max(TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE)as EMP_SAL_CODE,max(Document_Code)as Document_Code,max(Document_Date)as Document_Date,max(Emp_Name)as Emp_Name from TSPL_EMPLOYEE_SALARY left join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE left join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE  left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.Emp_Code=TSPL_EMPLOYEE_SALARY.Emp_Code left join TSPL_EMPLOYEE_TRANSFER on TSPL_EMPLOYEE_MASTER.Emp_Code=TSPL_EMPLOYEE_TRANSFER.Emp_Code and  TSPL_EMPLOYEE_TRANSFER.salary_code=TSPL_EMPLOYEE_SALARY.emp_sal_code where HEAD_TYPE <> 'F' and ISEARNING='1' and TSPL_EMPLOYEE_TRANSFER.Emp_Code='" & fndEmployeeCode.Value & "' group by TSPL_EMPLOYEE_TRANSFER.EMP_CODE,TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE,Document_Code    )as tt"
@@ -295,7 +295,7 @@ Public Class FrmEmployeeTransfer
             Dim dtgv1 As New DataTable
             dtgv1 = clsDBFuncationality.GetDataTable(Qry1)
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dtgv1, "crptPromotionLetter", "Promotion Letter")
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv1, "crptPromotionLetter", "Promotion Letter")
             'ElseIf cboDocType.Text = "Transfer Letter(For Department)" Then
             '    ' PayRoll_HR_ReportViewer.funreport(dtgv, "crptESICChallan", "ESIC Challan Report")
         End If

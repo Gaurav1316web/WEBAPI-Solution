@@ -472,7 +472,7 @@ Public Class frmPriceChartBulkProc
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkProcItemPrice", "Bulk Price Master")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkProcItemPrice", "Bulk Price Master")
                 frmCRV = Nothing
             Else
                 ' clsCommon.MyMessageBoxShow("No data found to Print")

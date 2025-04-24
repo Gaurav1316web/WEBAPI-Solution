@@ -247,7 +247,7 @@ Public Class frmVarianceReport
                 Next
                 dtFinal.AcceptChanges()
                 Dim frmcrsytal As New frmCrystalReportViewer()
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpVarianceReport", "Variance Report")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpVarianceReport", "Variance Report")
 
             End If
         Catch ex As Exception

@@ -276,7 +276,7 @@ Public Class FrmPendingRequisitionQty
 
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "RequisitionPendingQty", "Pending Requisition Qty")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "RequisitionPendingQty", "Pending Requisition Qty")
             frmCRV = Nothing
         Else
             common.clsCommon.MyMessageBoxShow(Me, "No Data Found ", Me.Text)

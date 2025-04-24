@@ -1428,7 +1428,7 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateInfatsnfcomparison", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInfatsnfcomparison", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
             frmCRV = Nothing
             'End If
         Catch ex As Exception

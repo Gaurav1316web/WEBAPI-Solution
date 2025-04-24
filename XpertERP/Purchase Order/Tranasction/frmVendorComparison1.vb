@@ -288,7 +288,7 @@ Public Class FrmVendorComparison1
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptVendorComparison", "COMPARATIVE STATEMENT FOR PURCHASE", clsCommon.myCDate(dt.Rows(0)("VQDate")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptVendorComparison", "COMPARATIVE STATEMENT FOR PURCHASE", clsCommon.myCDate(dt.Rows(0)("VQDate")))
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -2124,7 +2124,7 @@ Public Class frmReverseTransaction
         End If
         ''---------------------
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptBankReverseEntry", "Bank Reverse Entry Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptBankReverseEntry", "Bank Reverse Entry Report")
         frmCRV = Nothing
     End Sub
 

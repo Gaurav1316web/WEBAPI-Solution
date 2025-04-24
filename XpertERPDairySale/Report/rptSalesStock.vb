@@ -115,9 +115,9 @@ Public Class rptSalesStock
                 If Print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If ddlReportType.SelectedValue = "Stock Summary" Then
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptStockSummaryALW", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptStockSummaryALW", "")
                     ElseIf ddlReportType.SelectedValue = "Stock Journal" Then
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptJournalStockALW", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptJournalStockALW", "")
                     End If
                     frmCRV = Nothing
                 Else

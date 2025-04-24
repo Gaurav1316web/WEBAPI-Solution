@@ -1970,9 +1970,9 @@ where 2=2 "
                 End If
                 dtFinal.AcceptChanges()
 
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtFinal, "rptDCSTrackSheet_JPR", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtFinal, "rptDCSTrackSheet_JPR", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
             Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
             End If
 
             frmCRV = Nothing

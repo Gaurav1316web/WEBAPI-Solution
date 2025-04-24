@@ -176,7 +176,7 @@ Public Class FrmBreakageReport
                     Else
                         dt = clsDBFuncationality.GetDataTable(qry)
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptBreakageDetail", "Breakage Detail")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptBreakageDetail", "Breakage Detail")
                         frmCRV = Nothing
                     End If
 
@@ -201,7 +201,7 @@ Public Class FrmBreakageReport
                     Else
                             dt = clsDBFuncationality.GetDataTable(qry)
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptBreakageSummary", "Breakage Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptBreakageSummary", "Breakage Summary")
                         frmCRV = Nothing
                     End If
                 End If

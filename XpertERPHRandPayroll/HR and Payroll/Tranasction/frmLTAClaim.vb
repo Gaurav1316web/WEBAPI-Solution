@@ -526,7 +526,7 @@ Public Class frmLTAClaim
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmcrsytal As New frmCrystalReportViewer
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptLTAClaim", "LTA Claim")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptLTAClaim", "LTA Claim")
             Else
                 Throw New Exception("No data found to display")
             End If

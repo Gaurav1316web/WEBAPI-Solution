@@ -474,7 +474,7 @@ Public Class FrmStoresLedger
                     ''''' This check Done BY Abhishek on 1 Nov 2012 7.15 pm For Show data In Excel with Or WithOut Data 
                     Dim frmCRV As New frmCrystalReportViewer()
                     If cbWthoutValue.Checked = True AndAlso chkExport2Exl.Checked = False AndAlso rdbDetail.IsChecked = True And Not chkNewDetail.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.Purchase, dtFinal, "crptStoresLedgerWithoutValue", "Stores Ledger Report (Without Value)")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtFinal, "crptStoresLedgerWithoutValue", "Stores Ledger Report (Without Value)")
                     ElseIf cbWthoutValue.Checked = True AndAlso chkExport2Exl.Checked = True AndAlso rdbDetail.IsChecked = True Then
                         dtFinal.Columns.Remove("RcptRate")
                         dtFinal.Columns.Remove("RcptValue")
@@ -500,7 +500,7 @@ Public Class FrmStoresLedger
                         clsCommon.MyExportToExcel(str, gv, arr, "StoresLedger Report")
                         'ExporttoMyExcel(Nothing, Me, DtWithValueForExcel)
                     ElseIf cbWthoutValue.Checked = False AndAlso chkExport2Exl.Checked = False AndAlso rdbDetail.IsChecked = True And Not chkNewDetail.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.Purchase, dtFinal, "crptStoresLedger", "Stores Ledger Report")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtFinal, "crptStoresLedger", "Stores Ledger Report")
                     ElseIf chkNewDetail.Checked Then
                         dtFinal.Columns.Remove("RcptRate")
                         dtFinal.Columns.Remove("RcptValue")

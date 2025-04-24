@@ -5470,7 +5470,7 @@ Public Class ucPaymentProcess
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             If PrintOpen = True Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                frmCRV.funsubreportWithdt(MyBase__Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                 frmCRV = Nothing
             End If
             Return dt
@@ -5593,7 +5593,7 @@ Public Class ucPaymentProcess
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+            frmCRV.funsubreportWithdt(MyBase__Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -5712,7 +5712,7 @@ Public Class ucPaymentProcess
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess_Type_Wise", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+            frmCRV.funsubreportWithdt(MyBase__Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess_Type_Wise", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -5954,7 +5954,7 @@ Public Class ucPaymentProcess
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO1", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            frmCRV.funsubreportWithdt(MyBase__Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO1", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -6136,7 +6136,7 @@ Public Class ucPaymentProcess
         Dim dtSale As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            frmCRV.funsubreportWithdt(MyBase__Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -6240,7 +6240,7 @@ Public Class ucPaymentProcess
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
+            frmCRV.funreport(MyBase__Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
             frmCRV = Nothing
         End If
 

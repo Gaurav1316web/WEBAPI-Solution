@@ -115,7 +115,7 @@ Public Class FrmAdjustmentReport
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentThorughReportScreen", "Adjustment Detail")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustmentThorughReportScreen", "Adjustment Detail")
                 End If
             ElseIf rdbtnIssue.IsChecked = True Then
                 qry = "select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_ADJUSTMENT_HEADER.Customer_CODE,TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_CUSTOMER_MASTER.Lst_No,TSPL_ADJUSTMENT_DETAIL.Item_Code,TSPL_ADJUSTMENT_DETAIL.Item_Description,TSPL_ADJUSTMENT_DETAIL.Item_Quantity,TSPL_ADJUSTMENT_DETAIL.mrp,TSPL_ADJUSTMENT_DETAIL.Item_Cost,TSPL_ADJUSTMENT_HEADER.Vehicle_No,TSPL_ADJUSTMENT_HEADER .Loc_Code  " & _
@@ -143,7 +143,7 @@ Public Class FrmAdjustmentReport
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentCustomIssueThorughReportScreen", "Adjustment Detail")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustmentCustomIssueThorughReportScreen", "Adjustment Detail")
                 End If
             ElseIf rdbtnReceipt.IsChecked = True Then
                 Dim strReportName As String = "EMPTY RECEIPT CHALLAN"
@@ -172,7 +172,7 @@ Public Class FrmAdjustmentReport
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentCustomReceiptThorughReportScreen", "Adjustment Detail")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustmentCustomReceiptThorughReportScreen", "Adjustment Detail")
                 End If
             End If
             frmCRV = Nothing

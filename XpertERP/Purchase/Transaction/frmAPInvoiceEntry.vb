@@ -4982,9 +4982,9 @@ Public Class FrmAPInvoiceEntry
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If SettingCostCenterlevel AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
             Else
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
             End If
             frmCRV = Nothing
 

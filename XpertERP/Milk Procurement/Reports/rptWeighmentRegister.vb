@@ -97,7 +97,7 @@ left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=tspl_m
             If Print = 1 Then
                 dtgv = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "rptVLCWeighmentRegister", "VLC WEIGHMENT REGISTER", "Address.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "rptVLCWeighmentRegister", "VLC WEIGHMENT REGISTER", "Address.rpt")
                 frmCRV = Nothing
                 Exit Sub
             End If

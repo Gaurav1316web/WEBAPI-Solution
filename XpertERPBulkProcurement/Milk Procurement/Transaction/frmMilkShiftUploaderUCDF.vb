@@ -1018,7 +1018,7 @@ where  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No='" + clsCommon.myCstr(gv1.CurrentRo
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "Milkshiftprint", "Bill Of Supply")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "Milkshiftprint", "Bill Of Supply")
                     frmCRV = Nothing
                 End If
             End If
@@ -1072,7 +1072,7 @@ where  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No='" + clsCommon.myCstr(gv1.CurrentRo
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "Milkshiftprintsec", "Bill Of Supply")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "Milkshiftprintsec", "Bill Of Supply")
                     frmCRV = Nothing
                 End If
             End If

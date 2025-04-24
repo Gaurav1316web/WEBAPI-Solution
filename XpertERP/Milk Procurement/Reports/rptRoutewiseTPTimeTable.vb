@@ -329,7 +329,7 @@ Public Class RptRoutewiseTPTimeTable
                 ' Report_RouteWise()
                 'frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "rptRouteWiseTimeTable", "")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptRouteWiseTimeTable_New", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptRouteWiseTimeTable_New", "")
                 frmCRV = Nothing
             Else
                 common.clsCommon.MyMessageBoxShow("No data found to print", Me.Text)
@@ -345,7 +345,7 @@ Public Class RptRoutewiseTPTimeTable
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 ' Report_VLCWise()
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptVLCWiseTimeTable", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptVLCWiseTimeTable", "")
                 frmCRV = Nothing
             Else
                 common.clsCommon.MyMessageBoxShow("No data found to print", Me.Text)

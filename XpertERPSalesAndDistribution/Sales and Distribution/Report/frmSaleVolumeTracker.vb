@@ -266,7 +266,7 @@ Public Class FrmSaleVolumeTracker
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptSaleVolumeTracker", "Report For Pending Settlement")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleVolumeTracker", "Report For Pending Settlement")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
