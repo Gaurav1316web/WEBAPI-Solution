@@ -39,6 +39,7 @@ Public Class clsMilkCollectionMCC
 
     Public ORG As String
     Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
+    Public Remark As String
 
 
 
@@ -58,6 +59,7 @@ Public Class clsMilkCollectionMCC
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionMCC, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim Reason As String = ""
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.MCC_Code, obj.Document_Date, trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
@@ -65,7 +67,6 @@ Public Class clsMilkCollectionMCC
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
-                Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
                 frm.Text = "Remarks for Update"
                 frm.ShowDialog()
@@ -87,9 +88,14 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
+            'clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+
             'clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
+            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+
+
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
             clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
             clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No)
@@ -393,7 +399,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
         Else
             qry = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG,Case When IsNUll(tspl_Milk_collection_MCC.Status,0)=0 Then 'Pending' Else 'Approved' End As Status "
         End If
-        qry += " From tspl_Milk_collection_MCC_Detail 
+        qry += ",tspl_Milk_collection_MCC_Detail.Remark From tspl_Milk_collection_MCC_Detail 
 Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
 Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code "
         If SendSMSScreen Then
@@ -458,6 +464,8 @@ Public Class clsMilkCollectionMCCDetail
     Public Retesting_By As String
     Public Retesting_date As String
     Public Retesting_On As String
+    Public Remark As String
+    Public isNewEntry As Boolean
 
 
 
@@ -491,21 +499,23 @@ Public Class clsMilkCollectionMCCDetail
     End Function
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
+        Dim Reason As String = ""
+        If isNewEntry = False Then
 
-        'If isNewEntry = False Then
-        '    Dim Reason As String = ""
-        '    Dim frm As New FrmFreeTxtBox1
-        '    frm.Text = "Remarks for Update"
-        '    frm.ShowDialog()
-        '    If clsCommon.myLen(frm.strRmks) <= 0 Then
-        '        Return False
-        '    Else
-        '        Reason = frm.strRmks
-        '    End If
-        'End If
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Return False
+            Else
+                Reason = frm.strRmks
+            End If
+        End If
+
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Remark", Reason)
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                 clsCommon.AddColumnsForChange(coll, "Sample_No", obj.Sample_No)
@@ -554,6 +564,8 @@ Public Class clsMilkCollectionMCCDetail
                     clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
                     clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
                 End If
+
+
                 clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction", obj.Retesting_OR_Correction)
                 clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading", obj.Gaze_Reading)

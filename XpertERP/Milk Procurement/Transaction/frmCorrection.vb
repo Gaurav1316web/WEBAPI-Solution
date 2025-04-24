@@ -1316,6 +1316,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
 
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
+
                 clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, tran, isCorrection, isNewEntry)
                 clsMilkCollectionMCC.HistoryUpdate(lblBMCDocNo.Text, tran)
                 If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, tran)) = 1) Then

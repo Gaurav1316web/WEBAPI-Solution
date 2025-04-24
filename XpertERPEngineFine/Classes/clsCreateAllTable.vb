@@ -24569,6 +24569,7 @@ Public Class clsCreateAllTable
             coll.Add("Correction_SNF", "Decimal(18,2) null")
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
+            coll.Add("Remark", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -24619,6 +24620,7 @@ Public Class clsCreateAllTable
             coll.Add("Required_Retesting", "int Null")
             coll.Add("Retesting_By", "varchar(12)  NULL")
             coll.Add("Retesting_Date", "Datetime  NULL")
+            coll.Add("Remark", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_By varchar(12) NULL")
@@ -24652,6 +24654,7 @@ Public Class clsCreateAllTable
             'coll.Add("Against_Milk_Collection_MCC_Detail", "integer NOT NULL unique references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("operation_type", "VARCHAR(50)")
+            coll.Add("Remark", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

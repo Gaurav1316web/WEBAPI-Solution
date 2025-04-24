@@ -12,6 +12,7 @@ Public Class clsMilkCollectionDCS
     Public Posting_Date As DateTime? = Nothing
     Public Arr As List(Of clsMilkCollectionDCSDetail) = Nothing
     Public ArrMCC As List(Of clsMilkCollectionDCSMCCDetail) = Nothing
+    Public Remark As String
 #End Region
 
     Public Function SaveData(ByVal obj As clsMilkCollectionDCS, ByVal isNewEntry As Boolean) As Boolean
@@ -31,8 +32,9 @@ Public Class clsMilkCollectionDCS
             'If isNewEntry = False Then
             '    HistoryUpdate(obj.Document_No, trans)
             'End If
+            Dim Reason As String = ""
+
             If isNewEntry = False Then
-                Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
                 frm.Text = "Remarks for Update"
                 frm.ShowDialog()
@@ -59,6 +61,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
+            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
