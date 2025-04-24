@@ -229,9 +229,9 @@ Public Class clsMCCMaterialSaleFarmer
             ''
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFarmerPayment, clsUserMgtCode.frmMCCMaterialFarmer, obj.Bill_To_Location, obj.Document_Date, trans)
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_Sale_Farmer_Head", "Document_Code", "TSPL_MCC_Sale_Farmer_Detail", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_Sale_Farmer_Head", "Document_Code", "TSPL_MCC_Sale_Farmer_Detail", "Document_Code", trans)
+            'End If
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             Dim qry As String = "delete from TSPL_MCC_Sale_Farmer_Detail where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -685,6 +685,8 @@ Public Class clsMCCMaterialSaleFarmer
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_Sale_Farmer_Head", OMInsertOrUpdate.Update, "TSPL_MCC_Sale_Farmer_Head.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsMCCMaterialSaleFarmerDetail.SaveData(obj.Document_Code, Arr, trans, obj.Document_Date)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_Sale_Farmer_Head", "Document_Code", "TSPL_MCC_Sale_Farmer_Detail", "Document_Code", trans)
+
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
             '''' to save item weight unit
             qry = "update TSPL_MCC_Sale_Farmer_Detail set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_MCC_Sale_Farmer_Detail.Item_Code)  where Document_Code='" + obj.Document_Code + "'"

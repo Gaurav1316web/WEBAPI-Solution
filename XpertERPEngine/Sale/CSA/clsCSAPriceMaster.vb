@@ -278,11 +278,14 @@ Public Class clsCSAPriceMaster
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("CSA Price No not found to Post")
             End If
+
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
 
             Dim qry As String = "Update TSPL_CSA_PRICE_HEAD set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CSA_PRICE_HEAD", "doc_no", trans)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_CSA_PRICE_DETAIL", "doc_no", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

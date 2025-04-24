@@ -78,7 +78,7 @@ Public Class ClsVendorQuotationHead
             trans.Commit()
 
             'If Not isNewEntry Then
-            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", trans)
             'End If
 
         Catch err As Exception
@@ -185,6 +185,7 @@ Public Class ClsVendorQuotationHead
 
             Dim qry As String = "Update TSPL_Vendor_Quotation_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_VENDOR_QUOTATION_HEAD", "Code", trans)
 
             trans.Commit()
 
@@ -207,6 +208,8 @@ Public Class ClsVendorQuotationHead
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", trans)
+
                 Dim qry As String = "delete from TSPL_Vendor_Quotation_DETAIL where Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

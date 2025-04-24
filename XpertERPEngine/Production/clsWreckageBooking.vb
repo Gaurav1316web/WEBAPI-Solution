@@ -447,7 +447,7 @@ Public Class clsWreckageBooking
         If (isCheckForPosted AndAlso obj.Posted = 1) Then
             Throw New Exception("Already Post on :" + obj.Posting_Date)
         End If
-        HistoryUpdate(strDocNo, trans)
+
         clsWreckageBooking.UpdateInventoryMovement(Form_Id, obj.Wrekage_ENTRY_CODE, obj.Category, arrloc, trans)
         ''richa BHA/03/08/18-000385
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, trans), "1") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Category, "Warehouse WRECKAGE") = CompairStringResult.Equal Then
@@ -456,6 +456,7 @@ Public Class clsWreckageBooking
         ''------------
         Dim qry As String = "Update TSPL_WRECKAGE_ENTRY set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where WRECKAGE_ENTRY_CODE ='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        HistoryUpdate(strDocNo, trans)
         Return True
     End Function
     Public Shared Function JournalEntryWIP(ByVal trans As SqlTransaction, ByVal Doc_Code As String, Optional ByVal strVourcherNoForRecreateOnly As String = "") As Boolean

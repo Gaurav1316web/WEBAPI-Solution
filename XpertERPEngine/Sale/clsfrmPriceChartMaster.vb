@@ -84,8 +84,9 @@ Public Class clsfrmPriceChartMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PRICE_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PRICE_MASTER", OMInsertOrUpdate.Update, " TSPL_MILK_PRICE_MASTER.price_code='" + obj.code + "' and TSPL_MILK_PRICE_MASTER.price_type='" + obj.price_type + "'", trans)
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_MILK_PRICE_MASTER", "price_code", trans)
             End If
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.code, "TSPL_MILK_PRICE_MASTER", "price_code", trans)
+
             clsPriceChartSNFDed.SaveData(obj.code, obj.arrSNFDed, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -115,6 +116,7 @@ Public Class clsfrmPriceChartMaster
 
             Dim qry As String = "Update TSPL_MILK_PRICE_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Price_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_PRICE_MASTER", "price_code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

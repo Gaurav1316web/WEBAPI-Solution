@@ -186,6 +186,8 @@ Public Class clsLeaveApplication
             'End If
             Dim qry As String = "Update TSPL_LEAVE_APPLICATION set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where LVAPPLICATION_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LEAVE_APPLICATION", "LVAPPLICATION_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

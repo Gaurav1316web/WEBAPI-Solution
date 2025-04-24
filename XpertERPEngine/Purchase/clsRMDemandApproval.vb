@@ -153,6 +153,7 @@ Public Class clsRMDemandApproval
             End If
             Dim qry As String = "Update TSPL_RM_DEMAND_APPROVAL set Status=1, Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_RM_DEMAND_APPROVAL", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

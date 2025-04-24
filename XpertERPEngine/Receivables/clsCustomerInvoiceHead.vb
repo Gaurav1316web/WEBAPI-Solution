@@ -915,7 +915,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             qry = "Update TSPL_Customer_Invoice_Head set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' , Status=1,EInvoice_Type='" + ECustomerType + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Customer_Invoice_HEAD", "Document_No", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

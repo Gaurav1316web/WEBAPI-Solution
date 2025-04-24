@@ -839,6 +839,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             End If
             qry = "Update TSPL_MRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "',NIR_QC=" + clsCommon.myCstr(intNIR_QC) + " where MRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MRN_HEAD", "MRN_No", trans)
 
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS(obj, trans)

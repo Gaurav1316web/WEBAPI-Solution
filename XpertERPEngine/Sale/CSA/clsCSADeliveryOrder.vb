@@ -110,10 +110,10 @@ Public Class clsCSADeliveryOrder
 
             isSaved = isSaved AndAlso clsCSADeliveryOrderDetail.SaveData(obj.docno, obj.Arr, trans)
 
-            If obj.isDOAmended Then
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_CSA_DO_HEAD", "doc_no", trans)
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_CSA_DO_DETAIL", "doc_no", trans)
-            End If
+            'If obj.isDOAmended Then
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_CSA_DO_HEAD", "doc_no", "TSPL_CSA_DO_DETAIL", "doc_no", trans)
+            'isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.docno, "TSPL_CSA_DO_DETAIL", "doc_no", trans)
+            ' End If
 
             Return isSaved
         Catch ex As Exception
@@ -234,6 +234,8 @@ Public Class clsCSADeliveryOrder
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmCSADeliveryOrder, clsCommon.myCstr(dt.Rows()("From_Location_Code")), clsCommon.myCDate(dt.Rows()("Doc_Date")), trans)
 
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CSA_DO_HEAD", "doc_no", "TSPL_CSA_DO_DETAIL", "doc_no", trans)
+
             Dim qry As String = "delete from TSPL_CSA_DO_DETAIL where doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -272,6 +274,7 @@ Public Class clsCSADeliveryOrder
             End If
             Dim qry As String = "update TSPL_CSA_DO_HEAD set is_post='1',modified_by='" + objCommonVar.CurrentUserCode + "',modified_date='" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")) + "' where doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CSA_DO_HEAD", "doc_no", trans)
 
             Return True
         Catch ex As Exception

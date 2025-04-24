@@ -2072,7 +2072,6 @@ Public Class clsPSShipmentHead
                 End If
             End If
             ''===============End
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
             Dim FindReasonWhyInvoiceIssueOccursOnErode As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FindReasonWhyInvoiceIssueOccursOnErode, clsFixedParameterCode.FindReasonWhyInvoiceIssueOccursOnErode, trans)) = 0, False, True)
             If FindReasonWhyInvoiceIssueOccursOnErode = True Then
                 Dim isSaleInvoicePosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SALE_INVOICE_head where Document_Code='" + obj.Sale_Invoice_No + "'", trans)) = 0, False, True)

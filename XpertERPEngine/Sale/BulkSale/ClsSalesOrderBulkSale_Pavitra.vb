@@ -219,7 +219,6 @@ Public Class ClsSalesOrderBulkSale_Pavitra
             End If
             Dim obj As ClsSalesOrderBulkSale_Pavitra = ClsSalesOrderBulkSale_Pavitra.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmSalesOrderBS, obj.Location_Code, obj.Document_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -229,6 +228,8 @@ Public Class ClsSalesOrderBulkSale_Pavitra
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
             " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALES_ORDER_MASTER_BulkSale", "Document_No", "TSPL_SALES_ORDER_DETAIL_BulkSale", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
