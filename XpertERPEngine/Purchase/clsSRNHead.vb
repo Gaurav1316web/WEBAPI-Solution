@@ -1451,6 +1451,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             End If
             qry += " where SRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_No, "TSPL_SRN_HEAD", "SRN_No", trans)
+
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDocNo), "TSPL_SRN_HEAD", "SRN_No", trans)
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS(obj, trans)

@@ -129,7 +129,9 @@ Public Class clsMPDCSInsentiveReco
             End If
             Dim Document_Date As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select top 1 Document_Date from TSPL_DCS_MP_INCENTIVE_RECO_HEAD where Document_Code='" + strDocNo + "'", trans))
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DCSMPIncentiveReco, Location_code, Document_Date, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", "Document_Code", trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", "Document_Code", trans)
 
             Dim qry As String = ""
             qry = "delete from TSPL_ATTACHMENTS where FormId='" + clsUserMgtCode.DCSMPIncentiveReco + "' and TransactionId='" + strDocNo + "'"

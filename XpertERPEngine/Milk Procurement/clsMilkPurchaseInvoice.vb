@@ -773,6 +773,8 @@ Public Class clsMilkPurchaseInvoiceHead
             qry = "Update TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD set isPosted=1, Posting_Date='" + clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy") + "'"
             qry += " where DOC_no='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD", "DOC_no", trans)
+
             If isTransLocallyInitiatted Then
                 If isSaved Then
                     trans.Commit()

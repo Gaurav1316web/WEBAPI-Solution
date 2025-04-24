@@ -607,9 +607,9 @@ Public Class clsPPStdFinalQCHead
         If obj.Posted = 1 Then
             Throw New Exception("already posted transaction")
         End If
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
         Dim qry As String = "update TSPL_PP_STD_FINALQC_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where  QC_Code='" + strCode + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
 
         PostInventoryMovementANDJE(obj, Form_Id, strCode, arrLoc, trans, VoucherNo)
         If clsCommon.myLen(VoucherNo) <= 0 Then

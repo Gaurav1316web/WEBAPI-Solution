@@ -152,6 +152,8 @@ Public Class clsLeaveAdjustment
 
             Dim qry As String = "Update TSPL_LEAVE_ADJUSTMENT set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where LVADJUSTMENT_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LEAVE_ADJUSTMENT", "LVADJUSTMENT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

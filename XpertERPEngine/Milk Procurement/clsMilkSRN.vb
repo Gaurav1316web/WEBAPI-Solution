@@ -627,7 +627,7 @@ Public Class clsMilkSRNMCC
             qry += " where DOC_CODE='" + obj.DOC_CODE + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "TSPL_MILK_SRN_DETAIL", "DOC_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_SRN_HEAD", "DOC_CODE", trans)
             'Throw New Exception("Balwinder Singh Premi")
 
         Catch ex As Exception
@@ -754,6 +754,8 @@ Public Class clsMilkSRNMCC
 
             Dim qry As String
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "TSPL_MILK_SRN_DETAIL", "DOC_CODE", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "TSPL_MILK_SRN_DETAIL", "DOC_CODE", trans)
+
             qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE =(select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE='" + strCode + "')"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

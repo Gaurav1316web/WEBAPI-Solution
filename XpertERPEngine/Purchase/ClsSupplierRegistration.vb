@@ -427,9 +427,10 @@ Public Class ClsSupplierRegistration
                 Throw New Exception("No Data found to Post")
             End If
 
-            Dim qry = "Update TSPL_SUPPLIER_REGISTRATION set Posted=1, " & _
-            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "'" & _
+            Dim qry = "Update TSPL_SUPPLIER_REGISTRATION set Posted=1, " &
+            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "'" &
             " WHERE Registration_No='" + strDocNo + "'"
+
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

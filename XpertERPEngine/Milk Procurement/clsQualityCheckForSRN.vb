@@ -642,9 +642,9 @@ Public Class clsQualityCheckForSRNHead
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1 Then
                 Throw New Exception("Already Posted Document [" + strCode + "]")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
             qry = "update TSPL_QC_CHECK_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + strCode + "' and QC_Type='" + QC_Type + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", trans)
 
             'qry = "update TSPL_PURCHASE_ORDER_HEAD set close_yn='N' where (coalesce((select sum(ok_qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)<=0 or coalesce((select sum(Reject_Qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)>0)"
             Dim StrPONOQry As String = "DECLARE @query  AS NVARCHAR(MAX) SELECT  STUFF((SELECT distinct ',''' + TSPL_QC_CHECK_detail.po_no+'''' as Alies_Name 

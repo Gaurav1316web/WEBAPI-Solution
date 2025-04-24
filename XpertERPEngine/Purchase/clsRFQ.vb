@@ -83,8 +83,7 @@ Public Class clsRFQ
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
 
             Dim obj As clsRFQ = clsRFQ.GetData(strDocNo, NavigatorType.Current, trans)
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.RFQ_No, "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL", "RFQ_No", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.RFQ_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -94,6 +93,8 @@ Public Class clsRFQ
 
             Dim qry As String = "Update TSPL_RFQ_HEAD set Is_Post=1, Post_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "', Modify_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where RFQ_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_RFQ_HEAD", "RFQ_No", trans)
+
             trans.Commit()
 
         Catch ex As Exception

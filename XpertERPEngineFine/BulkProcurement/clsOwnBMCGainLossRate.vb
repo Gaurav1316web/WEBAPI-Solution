@@ -66,6 +66,8 @@ Public Class clsOwnBMCGainLossRate
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OWN_BMC_GAIN_LOSS_RATE", OMInsertOrUpdate.Update, "TSPL_OWN_BMC_GAIN_LOSS_RATE.Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OWN_BMC_GAIN_LOSS_RATE", "Code", trans)
+
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -77,6 +79,9 @@ Public Class clsOwnBMCGainLossRate
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OWN_BMC_GAIN_LOSS_RATE", "Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OWN_BMC_GAIN_LOSS_RATE", "Code", tran)
+
             qry = "Delete from TSPL_OWN_BMC_GAIN_LOSS_RATE where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
             tran.Commit()
@@ -164,6 +169,8 @@ Public Class clsOwnBMCGainLossRate
 
             Dim qry As String = "Update TSPL_OWN_BMC_GAIN_LOSS_RATE set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_OWN_BMC_GAIN_LOSS_RATE", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

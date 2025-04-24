@@ -258,7 +258,6 @@ Public Class ClsLoadingTanker
             End If
             Dim obj As ClsLoadingTanker = ClsLoadingTanker.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmLoadingTanker, obj.Location_Code, obj.LoadingTanker_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LoadingTanker_No, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.LoadingTanker_No) <= 0) Then
@@ -269,6 +268,8 @@ Public Class ClsLoadingTanker
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
             " where LoadingTanker_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

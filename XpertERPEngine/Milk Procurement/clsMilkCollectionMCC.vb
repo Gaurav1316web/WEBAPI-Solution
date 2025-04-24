@@ -263,7 +263,7 @@ where 2=2"
             End If
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Post' where Document_No='" + obj.Document_No + "'", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             For Each objtr As clsMilkCollectionMCCDetail In obj.Arr
                 If Not objtr.Milk_Not_Picked Then

@@ -321,7 +321,6 @@ Public Class clsMilkReceiptMCC
             Dim obj As clsMilkReceiptMCC = clsMilkReceiptMCC.GetData(strDocNo, NavigatorType.Current)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_CODE, obj.DOC_DATE, Nothing)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", Nothing)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.DOC_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -332,6 +331,8 @@ Public Class clsMilkReceiptMCC
 
             Dim qry As String = "Update TSPL_MILK_RECEIPT_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DOC_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", Nothing)
+
             'trans.Commit()
         Catch ex As Exception
             'trans.Rollback()

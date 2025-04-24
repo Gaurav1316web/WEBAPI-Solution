@@ -62,6 +62,8 @@ Public Class ClsOwnBmcExpanse
             End If
             'clsMPIncetiveMP.SaveData(obj.Code, obj.ArrMP, trans)
             ClsOwnBmcExpanseDetail.SaveData(obj.Start_Date, obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OWN_BMC_EXPANSE", "Code", "TSPL_OWN_BMC_EXPANSE_SLAB", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -71,6 +73,10 @@ Public Class ClsOwnBmcExpanse
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OWN_BMC_EXPANSE", "Code", "TSPL_OWN_BMC_EXPANSE_SLAB", "Code", tran)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OWN_BMC_EXPANSE", "Code", "TSPL_OWN_BMC_EXPANSE_SLAB", "Code", tran)
+
             qry = "Delete from TSPL_OWN_BMC_EXPANSE_SLAB where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
@@ -153,6 +159,8 @@ Public Class ClsOwnBmcExpanse
 
             Dim qry As String = "Update TSPL_OWN_BMC_EXPANSE set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OWN_BMC_EXPANSE", "Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

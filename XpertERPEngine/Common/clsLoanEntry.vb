@@ -64,6 +64,8 @@ Public Class clsLoanEntry
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LOAN_ENTRY", OMInsertOrUpdate.Update, "TSPL_LOAN_ENTRY.Loan_Code='" + obj.Loan_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Loan_Code, "TSPL_LOAN_ENTRY", "Loan_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -144,6 +146,8 @@ Public Class clsLoanEntry
 
             Dim qry As String = "Update TSPL_LOAN_ENTRY set Status=1, Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Loan_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOAN_ENTRY", "Loan_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -163,6 +167,9 @@ Public Class clsLoanEntry
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_ENTRY", "Loan_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOAN_ENTRY", "Loan_Code", trans)
 
             Dim qry As String = "delete from TSPL_LOAN_ENTRY where Loan_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

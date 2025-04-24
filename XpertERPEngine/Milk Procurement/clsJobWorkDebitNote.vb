@@ -195,6 +195,7 @@ Public Class clsJobWorkDebitNote
             Dim strPostby As String = objCommonVar.CurrentUserCode
             Dim qry As String = "Update TSPL_JOBWORK_DEBIT_NOTE_HEAD set Status=1, Posted_Date='" + strPostDate + "', Posted_By='" + strPostby + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JOBWORK_DEBIT_NOTE_HEAD", "Document_No", trans)
 
             ''--------- Auto AR Generte
             For Each objtr As clsJobWorkDebitNote In obj.Arr
@@ -366,6 +367,7 @@ Public Class clsJobWorkDebitNoteHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JobWork_Debit_Note_Head", OMInsertOrUpdate.Update, "TSPL_JobWork_Debit_Note_Head.Document_No='" + obj.DocumentNo + "'", trans)
             End If
             isSaved = isSaved AndAlso clsJobWorkDebitNote.SaveDataDetail(obj.DocumentNo, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JOBWORK_DEBIT_NOTE_HEAD", "Document_No", "TSPL_JobWork_Debit_Note_detail", "Document_No", trans)
 
 
             trans.Commit()

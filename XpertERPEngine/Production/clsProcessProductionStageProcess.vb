@@ -258,9 +258,10 @@ Public Class clsProcessProductionStageProcess
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, trans)) > 0 Then
             CreateJournalEntry(trans, strCode, VoucherNo)
         End If
-        HistoryUpdate(strCode, trans)
         Dim qry As String = "update TSPL_PP_STAGE_PROCESS_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where comp_code='" + objCommonVar.CurrentCompanyCode + "' and STAGE_PROCESS_CODE='" + strCode + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        HistoryUpdate(strCode, trans)
+
         If clsCommon.myLen(VoucherNo) <= 0 Then
             Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmProcessProductionStageProcess + "'", trans))
             If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then

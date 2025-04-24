@@ -298,7 +298,7 @@ Public Class clsVCGLHead
         qry = "update TSPL_VCGL_Head set Status=1,Posting_Date=TSPL_VCGL_Head.Document_Date where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", trans)
 
         Return True
     End Function

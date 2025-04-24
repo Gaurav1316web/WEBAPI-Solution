@@ -418,10 +418,10 @@ Public Class clsPriceMaster
             If clsDBFuncationality.getSingleValue(qry, trans) = 0 Then
                 Throw New Exception("Already unposted price Id" + strDocNo)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
 
             qry = "Update TSPL_ITEM_PRICE_MASTER set Posted=0, Posted_Date=null,Posted_By=null where Item_Price_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_PRICE_MASTER", "Item_Price_Id", trans)
 
             trans.Commit()
         Catch ex As Exception

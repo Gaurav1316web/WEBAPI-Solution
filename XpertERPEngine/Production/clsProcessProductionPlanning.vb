@@ -374,9 +374,9 @@ Public Class clsProcessProductionPlanning
                 CreateNotificationContentEMP(strCode, trans)
             End If
             '== Complete
-            HistoryUpdate(strCode, trans)
             qry = "update TSPL_PP_PRODUCTION_PLAN_HEAD set Is_Post='1',status='Approved',Modified_By='" + objCommonVar.CurrentUserCode + "',modified_date='" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")) + "' where plan_code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            HistoryUpdate(strCode, trans)
 
             Return isSaved
         Catch ex As Exception
