@@ -1790,7 +1790,7 @@ Public Class ProgramCodeNew
         '===sanjeet(21/11/2016)====================
 
         'InsertDefaultValue(clsUserMgtCode.FrmTruckSheetRouteWiseRpt, "Truck Sheet Route Wise", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementBMCReport, "BMC Report", "1.17.04", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
 
         '23/11/2016
         'InsertDefaultValue(clsUserMgtCode.FrmMccWeightDifferenceRpt, "Weight Difference Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -2373,6 +2373,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, "Quick Demand", "1.36.02.33", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmLeakedSaleReturn, "Leaked Sale Return", "1.36.02.34", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
 
         '' end of transaction
