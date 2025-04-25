@@ -210,7 +210,7 @@ Public Class RptMaterialReceivedAfterJobWork
                 If btnReferesh = False Then
                     'PurchaseViewer.funsub(dtgv, "crptMaterialSendForJobWork", "Material Send For Job Work")
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dtgv, "crptmaterialReceivedAfterJobWork", "Material Received After Job Work")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dtgv, "crptmaterialReceivedAfterJobWork", "Material Received After Job Work")
                     frmCRV = Nothing
                 End If
 

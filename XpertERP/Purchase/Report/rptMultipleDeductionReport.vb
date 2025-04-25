@@ -1,9 +1,5 @@
-﻿Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.Shared
-Imports CrystalDecisions.Windows.Forms
+﻿Imports System.IO
 Imports common
-Imports System.IO
-Imports XpertERPEngine
 
 '' created by richa Agarwal on 27 Nov,2021 UCD/18/11/21-000019
 Public Class rptMultipleDeductionReport
@@ -693,11 +689,11 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
             If dt1.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewJPR", "MD Print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewJPR", "MD Print")
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewTNK", "MD Print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewTNK", "MD Print")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewGNG", "MD Print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewGNG", "MD Print")
                 End If
                 frmCRV = Nothing
             Else
@@ -1229,7 +1225,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                 'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewTNK", "MD Print")
                 'Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionDetail", "Ded Print")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionDetail", "Ded Print")
                 'End If
                 frmCRV = Nothing
             Else
@@ -1292,7 +1288,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                 'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewTNK", "MD Print")
                 'Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionSummary", "Ded Print")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionSummary", "Ded Print")
                 'End If
                 frmCRV = Nothing
             Else

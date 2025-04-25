@@ -7526,9 +7526,9 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, Code)
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispatchProductSale", "Dispatch Product Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispatchProductSale", "Dispatch Product Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispatchProductSale", "Dispatch Product Sale", "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispatchProductSale", "Dispatch Product Sale", "rptCompanyAddress.rpt")
                 End If
 
             End If
@@ -7751,7 +7751,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

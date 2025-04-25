@@ -230,7 +230,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
         Qry += " left join (select Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES left join TSPL_CUSTOM_FIELD_HEAD on TSPL_CUSTOM_FIELD_HEAD.Code=TSPL_CUSTOM_FIELD_VALUES.Custom_Field_Code left join TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code=TSPL_CUSTOM_FIELD_VALUES.Program_Code where TSPL_CUSTOM_FIELD_VALUES.Program_Code='PYMT-NEW'  and  Name ='Purpose')tt on tt.transaction_Code=TSPL_PAYMENT_HEADER.Payment_No WHERE TSPL_PAYMENT_HEADER.Payment_Code='RTGS' and TSPL_PAYMENT_HEADER.Payment_No in ('" & PaymentNo & "')"
         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "PaymentRTGS", "Payment Details")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "PaymentRTGS", "Payment Details")
         frmCRV = Nothing
     End Sub
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click

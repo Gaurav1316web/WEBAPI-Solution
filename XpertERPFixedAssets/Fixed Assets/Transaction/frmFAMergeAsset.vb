@@ -1185,7 +1185,7 @@ Public Class frmFAMergeAsset
             If dt_final.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
-                frm.funreport(CrystalReportFolder.FixedAssets, dt_final, "frmFAMergeAssetReport", "Acquision Entry Report")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt_final, "frmFAMergeAssetReport", "Acquision Entry Report")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

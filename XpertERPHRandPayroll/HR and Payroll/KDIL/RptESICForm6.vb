@@ -121,7 +121,7 @@ Public Class RptESICForm6
                 dtgv = clsDBFuncationality.GetDataTable(strqry)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptESCIForm6", "ESCI Form6")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptESCIForm6", "ESCI Form6")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If
@@ -197,7 +197,7 @@ Public Class RptESICForm6
                 dtgv = clsDBFuncationality.GetDataTable(strqry)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptESCIForm6(Apr-Sep)", "ESCI Form6")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptESCIForm6(Apr-Sep)", "ESCI Form6")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If

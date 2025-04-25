@@ -301,7 +301,7 @@ Public Class FrmWTDRpt
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "WTDPrice", "Detail of WTD.Price of Raw Material")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "WTDPrice", "Detail of WTD.Price of Raw Material")
                 frmCRV = Nothing
 
             End If

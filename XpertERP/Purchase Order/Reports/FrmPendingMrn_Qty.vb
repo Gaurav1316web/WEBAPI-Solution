@@ -455,7 +455,7 @@ Public Class FrmPendingMrn_Qty
             clsCommon.MyMessageBoxShow("No Print For Cancel Document", Me.Text)
         Else
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "Pending MRN", "Pending MRN Qty")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "Pending MRN", "Pending MRN Qty")
             frmCRV = Nothing
         End If
     End Sub

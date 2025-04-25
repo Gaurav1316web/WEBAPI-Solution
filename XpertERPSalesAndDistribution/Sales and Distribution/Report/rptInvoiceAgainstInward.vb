@@ -163,10 +163,10 @@ Public Class RptInvoiceAgainstInward
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             If (chkTransporter.Checked = True) Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptInvoiceAgainstInwardTransporter", "Dispatch Details Transporter Wise")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptInvoiceAgainstInwardTransporter", "Dispatch Details Transporter Wise")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptInvoiceAgainstInward", "Invoice Against Inward Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptInvoiceAgainstInward", "Invoice Against Inward Report")
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())

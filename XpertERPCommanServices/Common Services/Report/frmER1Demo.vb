@@ -447,7 +447,7 @@ Public Class frmER1Demo
         End If
 
         Dim FRMcrys As New frmCrystalReportViewer
-        FRMcrys.funreport(CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
+        FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
     End Sub
     Sub print()
         Try
@@ -699,7 +699,7 @@ Public Class frmER1Demo
             End If
 
             Dim FRMcrys As New frmCrystalReportViewer
-            FRMcrys.funreport(CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
+            FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

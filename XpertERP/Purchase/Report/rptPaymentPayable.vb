@@ -120,7 +120,7 @@ Public Class rptPaymentPayable
                 Gv1.BestFitColumns()
                 If isPrint = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, Nothing, "crptPaymentPayable", "Payment Approval")
+                    frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, Nothing, "crptPaymentPayable", "Payment Approval")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

@@ -370,7 +370,7 @@ Public Class rptMCCVLCVariationReportPourersNo
                 FormatGrid()
                 If btnReferesh = False Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtgv, "CrptVillageDifference", "Village Different Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv, "CrptVillageDifference", "Village Different Report")
                     frmCRV = Nothing
                 End If
 

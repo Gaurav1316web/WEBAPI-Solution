@@ -1673,7 +1673,7 @@ Public Class FrmBankTransfer
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

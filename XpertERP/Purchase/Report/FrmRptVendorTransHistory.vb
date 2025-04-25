@@ -281,9 +281,9 @@ Public Class FrmRptVendorTransHistory
             If blnRefresh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If ChkSummary.Checked = True Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorTransListLandScapeSummary", "Vendor Transaction List (Summary)")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorTransListLandScapeSummary", "Vendor Transaction List (Summary)")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorTransListLandScape", "Vendor Transaction List")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorTransListLandScape", "Vendor Transaction List")
                 End If
                 frmCRV = Nothing
             End If

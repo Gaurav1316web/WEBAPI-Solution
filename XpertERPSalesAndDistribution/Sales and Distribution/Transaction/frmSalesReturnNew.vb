@@ -3084,7 +3084,7 @@ Public Class frmSalesReturnNew
 
                 SetItemWiseTax(dtAfterModify, strDocNo)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtAfterModify, EnumTecxpertPaperSize.NA, "crptSaleReturnExcise", "Sales Report", True)
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtAfterModify, EnumTecxpertPaperSize.NA, "crptSaleReturnExcise", "Sales Report", True)
             Else
                 strQuery = "  SELECT  '' as Cust_PONo," + qryForShipToAdd + " AS Address, " & _
                " TSPL_SALE_RETURN_HEad.Sale_Return_No, convert(varchar(10),TSPL_SALE_RETURN_HEad.Sale_Return_Date ,103) as Sale_Return_Date, TSPL_SALE_RETURN_HEad.Invoice_No  as Sale_Invoice_No, convert(varchar(10),TSPL_SALE_RETURN_HEad.Invoice_Date  ,103) as Sale_Invoice_Date, TSPL_SALE_RETURN_HEad.Cust_Name, " & _
@@ -3116,7 +3116,7 @@ Public Class frmSalesReturnNew
                 Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(strQuery)
                 SetItemWiseTax(dtNew, strDocNo)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtNew, EnumTecxpertPaperSize.NA, "crptSaleReturnNonExcise", "Sales Report", True)
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtNew, EnumTecxpertPaperSize.NA, "crptSaleReturnNonExcise", "Sales Report", True)
             End If
 
 

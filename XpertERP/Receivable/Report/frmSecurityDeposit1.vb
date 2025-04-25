@@ -89,7 +89,7 @@ Public Class FrmSecurityDeposit1
             StrQuery = "Select *, Case When Debit>0 Then 0 else 1 END as OrderDrCr from (" + StrQuery + ") XXX ORDER BY OrderDrCr"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "crptSecurityDeposit", "Security Deposit Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSecurityDeposit", "Security Deposit Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

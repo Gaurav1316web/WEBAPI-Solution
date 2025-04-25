@@ -495,7 +495,7 @@ Public Class RptSaleAccountSummary
             'dt = clsDBFuncationality.GetDataTable(strQuery)
             'GV1.DataSource = Nothing
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSaleAccountSummary", "Sales Account Summary")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSaleAccountSummary", "Sales Account Summary")
             ''GV1.Columns.Clear()
             ''GV1.Rows.Clear()
             'GV1.GroupDescriptors.Clear()

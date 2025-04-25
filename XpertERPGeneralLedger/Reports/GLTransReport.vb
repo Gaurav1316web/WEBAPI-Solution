@@ -624,9 +624,9 @@ Public Class GLTransReport
                         txtFromDate.Value = dTPrevFormFromDate
                         txtToDate.Value = dTPrevFormToDate
                     End If
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "CrptGL_Trans_Month_Wise", "General Ledger Month Wise")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "CrptGL_Trans_Month_Wise", "General Ledger Month Wise")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "crptGLTrans", "General Ledger")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "crptGLTrans", "General Ledger")
                 End If
                 frmCRV = Nothing
             End If
@@ -973,9 +973,9 @@ Public Class GLTransReport
                         txtFromDate.Value = dTPrevFormFromDate
                         txtToDate.Value = dTPrevFormToDate
                     End If
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "CrptGL_Trans_Month_Wise", "General Ledger Month Wise")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "CrptGL_Trans_Month_Wise", "General Ledger Month Wise")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "crptGLTrans", "General Ledger")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "crptGLTrans", "General Ledger")
                 End If
                 frmCRV = Nothing
             End If

@@ -335,7 +335,7 @@ Public Class FrmDayWiseLoadOutEntered
 
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
                 End If
             ElseIf DrpType.Text = "Load IN" Then
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select Count(Transfer_No)   from TSPL_TRANSFER_HEAD where To_Location in (select Location_Code  from TSPL_LOCATION_MASTER where Location_Type ='Physical')and  Transfer_Date  = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "' and TSPL_TRANSFER_HEAD .To_Location ='" & FndLocation.Value & "' and Transfer_Type ='LI' and Post ='Y')as PostedCount,(select Count(Transfer_No)   from TSPL_TRANSFER_HEAD where To_Location in (select Location_Code  from TSPL_LOCATION_MASTER where Location_Type ='Physical')and  Transfer_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "' and TSPL_TRANSFER_HEAD .To_Location ='" & FndLocation.Value & "' and Transfer_Type ='LI')as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate= '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location_Code='" & FndLocation.Value & "' and TYPE = 'Load In' "
@@ -346,7 +346,7 @@ Public Class FrmDayWiseLoadOutEntered
 
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
                 End If
             ElseIf DrpType.Text = "Settlement" Then
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select COUNT(Payment_Code ) from TSPL_PAYMENT_HEADER where Payment_Code ='Settlement'and Payment_Date ='" & dtpLoadoutNo.Value & "' and Posted ='P'and Location_Code ='" & FndLocation.Value & "')as PostedCount,(select COUNT(Payment_No) from TSPL_PAYMENT_HEADER where Convert(date,Payment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Payment_Code ='SETTLEMENT'and Location_Code ='" & FndLocation.Value & "')as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate=Convert(Date,'" & dtpLoadoutNo.Value & "',103) and Location_Code='" & FndLocation.Value & "'and TYPE = 'SETTLEMENT' "
@@ -356,7 +356,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Else
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
                 End If
             ElseIf DrpType.Text = "Empty Settlement" Then
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select COUNT(Adjustment_No ) from TSPL_ADJUSTMENT_HEADER where Convert(Date,Adjustment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Loc_Code ='" & FndLocation.Value & "' and Reference_Document ='Load Out/Transfer' and ItemType ='E'and  Trans_Type ='In')as TotalOfCount,(select COUNT(Adjustment_No ) from TSPL_ADJUSTMENT_HEADER where Convert(Date,Adjustment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Loc_Code ='" & FndLocation.Value & "' and Reference_Document ='Load Out/Transfer' and ItemType ='E'and  Trans_Type ='In'and Posted ='Y')as PostedCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate=Convert(Date,'" & dtpLoadoutNo.Value & "',103) and Location_Code='" & FndLocation.Value & "'and TYPE = 'Empty Settlement'  "
@@ -367,7 +367,7 @@ Public Class FrmDayWiseLoadOutEntered
 
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
                 End If
             ElseIf DrpType.Text = "Sale Invoice" Then
                 Dim qry As String = " select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select Count(Sale_Invoice_No)   from TSPL_SALE_INVOICE_HEAD where Sale_Invoice_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location ='" & FndLocation.Value & "'and  is_post='Y')as PostedCount,(select Count(Sale_Invoice_No)   from TSPL_SALE_INVOICE_HEAD where Sale_Invoice_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location ='" & FndLocation.Value & "' )as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate= '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location_Code='" & FndLocation.Value & "'and TYPE = 'Sale Invoice' "
@@ -378,7 +378,7 @@ Public Class FrmDayWiseLoadOutEntered
 
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.UtilityReports, dt, "DayEntryStatus", "Day Entry Status")
                 End If
             End If
         End If

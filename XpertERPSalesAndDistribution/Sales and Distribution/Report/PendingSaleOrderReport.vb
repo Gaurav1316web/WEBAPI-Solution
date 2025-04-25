@@ -46,7 +46,7 @@ Public Class PendingSaleOrderReport
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "PendingSaleOrder", "Pending SaleOrder Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "PendingSaleOrder", "Pending SaleOrder Report")
 
     End Sub
 

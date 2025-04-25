@@ -378,20 +378,20 @@ Public Class FrmPrintProductInvoiceStatement
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Product Invoice Statement", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Product Invoice Statement", "rptCompanyAddress.rpt")
             Else
                 If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LT") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LWM") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_WithMandiTax", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_WithMandiTax", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IT") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_Interstate", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "IWM") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_InterstateWithMandiTax", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "UT") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_UT", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "NT") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice _NonTaxable", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_Interstate", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                ElseIf clsCommon.CompairString(MyBase.Form_ID, clsCommon.myCstr(cboReportType.SelectedValue), "IWM") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_InterstateWithMandiTax", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                ElseIf clsCommon.CompairString(MyBase.Form_ID, clsCommon.myCstr(cboReportType.SelectedValue), "UT") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_UT", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
+                ElseIf clsCommon.CompairString(MyBase.Form_ID, clsCommon.myCstr(cboReportType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice _NonTaxable", "Product Invoice Statement", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptCompanyAddress.rpt")
                 End If
             End If
             frmCRV = Nothing

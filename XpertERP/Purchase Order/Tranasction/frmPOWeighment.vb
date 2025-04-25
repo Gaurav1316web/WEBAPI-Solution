@@ -969,9 +969,9 @@ Public Class frmPOWeighment
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If isHighClass > 0 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip2", "Tanker Weighment Slip")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip2", "Tanker Weighment Slip")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
                 End If
                 frmCRV = Nothing
             End If
@@ -1040,7 +1040,7 @@ Public Class frmPOWeighment
 							left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_PO_WEIGHTMENT_GUNNY.item_code where Weighment_Code = '" + StrCode + "'"
                 Dim dtGunnyBag As DataTable = clsDBFuncationality.GetDataTable(GunnyBag)
                 Dim frmCRV As New frmCrystalReportViewer()
-                strrptpath = frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtGunnyBag, "TankerWeighwithBag", "Tanker Slip", "SubWithGunnyBag.rpt")
+                strrptpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, dtGunnyBag, "TankerWeighwithBag", "Tanker Slip", "SubWithGunnyBag.rpt")
                 frmCRV = Nothing
             End If
         Else

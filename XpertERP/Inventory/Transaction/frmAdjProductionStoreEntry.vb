@@ -2907,7 +2907,7 @@ Public Class frmAdjProductionStoreEntry
                 dtDocdate = Nothing
                 dtDocdate = clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm:ss tt")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptAdjproductionStoreEntry", "Production Store Entry", dtDocdate)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAdjproductionStoreEntry", "Production Store Entry", dtDocdate)
                 frmCRV = Nothing
             End If
 

@@ -1167,7 +1167,7 @@ Public Class FrmCanSale
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptCANSaleInvoice", "Fresh Invoice Statement", txtDate.Value, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptCANSaleInvoice", "Fresh Invoice Statement", txtDate.Value, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
             frmCRV = Nothing
         End If
     End Sub

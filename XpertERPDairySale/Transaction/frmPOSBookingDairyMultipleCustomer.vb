@@ -2644,7 +2644,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCrystalReportViewer As New frmCrystalReportViewer
-                frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDSBoking", "Performa Invoice", "rptCompanyAddress.rpt")
+                frmCrystalReportViewer.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDSBoking", "Performa Invoice", "rptCompanyAddress.rpt")
             End If
 
         Catch ex As Exception

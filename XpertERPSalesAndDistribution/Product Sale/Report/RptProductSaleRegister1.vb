@@ -285,7 +285,7 @@ Public Class RptProductSaleRegister1
                 clsCommon.MyExportToPDF("Sale Register" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Sale Register", True)
             ElseIf IsPrint = Exporter.PrintReport Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "rptAFInstituionSales", "Product Sale to Customer Group Wise Report", "Address.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "rptAFInstituionSales", "Product Sale to Customer Group Wise Report", "Address.rpt")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

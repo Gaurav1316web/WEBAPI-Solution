@@ -2378,7 +2378,7 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                         "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

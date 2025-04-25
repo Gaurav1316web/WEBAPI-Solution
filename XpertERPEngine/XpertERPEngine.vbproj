@@ -276,6 +276,19 @@
     <Compile Include="Common\clsJWParameterMaster.vb" />
     <Compile Include="Common\RefeshLocationsAndGLAccount.vb" />
     <Compile Include="Common\UserControl\clsGatePassPS.vb" />
+    <Compile Include="CrystalReportActionType\clsCrystalReportActionType.vb" />
+    <Compile Include="CrystalReportActionType\frmSaveCrystalReportAction.Designer.vb">
+      <DependentUpon>frmSaveCrystalReportAction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReportActionType\frmSaveCrystalReportAction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrystalReportActionType\frmShowCrystalReportAction.Designer.vb">
+      <DependentUpon>frmShowCrystalReportAction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReportActionType\frmShowCrystalReportAction.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CustomerComplaint\clsCustomerComplain.vb" />
     <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
     <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
@@ -1363,6 +1376,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CrystalReportActionType\frmSaveCrystalReportAction.resx">
+      <DependentUpon>frmSaveCrystalReportAction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReportActionType\frmShowCrystalReportAction.resx">
+      <DependentUpon>frmShowCrystalReportAction.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCreateTemplate.resx">
       <DependentUpon>frmCreateTemplate.vb</DependentUpon>
     </EmbeddedResource>

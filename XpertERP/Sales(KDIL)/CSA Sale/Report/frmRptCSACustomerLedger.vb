@@ -477,23 +477,23 @@ Public Class frmRptCSACustomerLedger
                         '    frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                         'End If
                         If chkCustGroupWise.Checked AndAlso gvCustomerGroup.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                         ElseIf chkCustGroupWise.Checked = True AndAlso gvCustomer.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                         ElseIf chkCustGroupWise.Checked = True AndAlso gvDetails.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                         End If
 
                     ElseIf chkCustWise.Checked = True Then
                         If gvCustomer.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                         ElseIf gvDetails.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                         ElseIf gvCustomerGroup.Visible = True Then
-                            frmCRV.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                         End If
                     ElseIf chkNone.Checked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
                     End If
                     frmCRV = Nothing
                     'Else

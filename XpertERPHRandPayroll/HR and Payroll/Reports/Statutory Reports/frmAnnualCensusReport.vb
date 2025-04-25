@@ -78,7 +78,7 @@ Public Class frmAnnualCensusReport
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer()
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt_final, "crptAnnualCensus", "Employee Annual Census Report")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt_final, "crptAnnualCensus", "Employee Annual Census Report")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

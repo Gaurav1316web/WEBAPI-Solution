@@ -548,9 +548,9 @@ from
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnrouteWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummary", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummary", "")
                 ElseIf rbtnCustomerWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryCustomerWise", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryCustomerWise", "")
                 End If
                 frmCRV = Nothing
             Else
@@ -921,9 +921,9 @@ GROUP BY
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnrouteWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyRouteWiseDetail", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyRouteWiseDetail", "")
                 ElseIf rbtnCustomerWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyCustomerWiseDetail", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyCustomerWiseDetail", "")
                 End If
                 frmCRV = Nothing
             Else

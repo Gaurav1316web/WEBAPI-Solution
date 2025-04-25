@@ -213,7 +213,7 @@ Public Class frmEmployeeRegister
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(Qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFWithdrawnFormStatement", "PF Withdrawn Form Statement")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFWithdrawnFormStatement", "PF Withdrawn Form Statement")
     End Sub
     Private Sub rmPFWithdrawnForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmPFWithdrawnForm.Click
         LoadReportPFWithdrawn()
@@ -224,7 +224,7 @@ Public Class frmEmployeeRegister
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(Qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFEligibilityRegister", "Eligibility Register For PF")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFEligibilityRegister", "Eligibility Register For PF")
     End Sub
     Private Sub rmPFEligibiltyRegister_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmPFEligibiltyRegister.Click
         LoadReportPFEligibilityRegister()

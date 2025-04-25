@@ -2088,7 +2088,7 @@ Public Class frmGatePassDairySale
             If dt.Rows.Count > 0 Then
                 ' frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassDairySale", "Retail Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePass", "Dairy Gate Pass", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePass", "Dairy Gate Pass", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -2213,7 +2213,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKI
                 If dt.Rows.Count > 0 Then
                     ' frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassDairySale", "Retail Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePass", "Dairy Gate Pass", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePass", "Dairy Gate Pass", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
                     frmCRV = Nothing
                 End If
             End If
@@ -2298,9 +2298,9 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKI
                     ' frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassDairySale", "Retail Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GMD") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CrptSummaryGatePassDairySaleForLocationWise", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("gate_Pass_Date")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CrptSummaryGatePassDairySaleForLocationWise", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("gate_Pass_Date")), "rptCompanyAddress.rpt")
                     Else
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairyGatePassEntry_New", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairyGatePassEntry_New", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
                     End If
 
                     frmCRV = Nothing

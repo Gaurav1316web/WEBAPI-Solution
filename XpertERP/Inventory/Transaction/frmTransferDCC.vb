@@ -3856,9 +3856,9 @@ Public Class frmTransferDCC
                 Dim frmCRV As New frmCrystalReportViewer()
                 If objCommonVar.IsKDIL = True Then
                     'frmInventoryReportViewer.funreport(dt, "crptStockTransferChallanInvoiceInterState", "Transfer")
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState", "Transfer", "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState", "Transfer", "rptCompanyAddress.rpt")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice", "Transfer")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice", "Transfer")
                 End If
                 frmCRV = Nothing
             End If

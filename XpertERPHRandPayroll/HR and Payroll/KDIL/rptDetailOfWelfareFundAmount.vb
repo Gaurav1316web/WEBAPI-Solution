@@ -72,7 +72,7 @@ Public Class RptDetailOfWelfareFundAmount
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "rptDetailOfWelfareFundAmount", "Detail Of Welfare Fund Amount")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "rptDetailOfWelfareFundAmount", "Detail Of Welfare Fund Amount")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If

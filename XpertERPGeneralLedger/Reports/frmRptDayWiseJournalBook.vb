@@ -87,9 +87,9 @@ Public Class frmRptDayWiseJournalBook
     Sub PrintData()
         Dim frmCRV As New frmCrystalReportViewer()
         If chkSummary.IsChecked = True Then
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "DayWiseJrnlBookSummary", "Journal Book Summary")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "DayWiseJrnlBookSummary", "Journal Book Summary")
         Else
-            frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "DayWiseJrnlBook", "Journal Book")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "DayWiseJrnlBook", "Journal Book")
         End If
         frmCRV = Nothing
     End Sub

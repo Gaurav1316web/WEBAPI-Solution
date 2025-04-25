@@ -282,16 +282,16 @@ Public Class RptIssueReturnHirerachyWise
                     If isprint Then
                         Dim frmCRV As New frmCrystalReportViewer()
                         If chkDocWise.Checked Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
                         ElseIf ddlRptType.SelectedIndex = 0 AndAlso chkVehicleWise.Checked = False Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
                         ElseIf ddlRptType.SelectedIndex = 1 AndAlso chkVehicleWise.Checked = False Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
                         ElseIf chkVehicleWise.Checked = True Then
                             If ddlRptType.SelectedIndex = 1 Then
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
                             ElseIf ddlRptType.SelectedIndex = 0 Then
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
                             End If
                         End If
                         frmCRV = Nothing
@@ -579,16 +579,16 @@ Public Class RptIssueReturnHirerachyWise
                 If isprint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkDocWise.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
                     ElseIf ddlRptType.SelectedIndex = 0 AndAlso chkVehicleWise.Checked = False Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
                     ElseIf ddlRptType.SelectedIndex = 1 AndAlso chkVehicleWise.Checked = False Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
                     ElseIf chkVehicleWise.Checked = True Then
                         If ddlRptType.SelectedIndex = 1 Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
                         ElseIf ddlRptType.SelectedIndex = 0 Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
                         End If
                     End If
                     frmCRV = Nothing
@@ -1397,16 +1397,16 @@ Public Class RptIssueReturnHirerachyWise
                 If isprint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkDocWise.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptIssReturn_DocWiseSummary", "Issue/Return Document Wise Summary")
                     ElseIf ddlRptType.SelectedIndex = 0 AndAlso chkVehicleWise.Checked = False Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptNetIssue", "Issue Item Wise Summary")
                     ElseIf ddlRptType.SelectedIndex = 1 AndAlso chkVehicleWise.Checked = False Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnItemWiseSummary", "Issue Or Return Item Wise Summary")
                     ElseIf chkVehicleWise.Checked = True Then
                         If ddlRptType.SelectedIndex = 1 Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "IssueOrReturnVehicleWiseItemSummary", " Issue Or Retrun Vehicle Wise Item Summery ")
                         ElseIf ddlRptType.SelectedIndex = 0 Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptVehicleWiseIssue", " Issue Or Retrun Vehicle Wise Issue ")
                         End If
                     End If
                     frmCRV = Nothing

@@ -208,7 +208,7 @@ Public Class frmBillChecklist
                 Dim qry1 As String = "select  TSPL_ITEM_MASTER.HSN_Code, TSPL_SRN_DETAIL.Item_Code ,TSPL_SRN_DETAIL.Item_Desc,TSPL_VENDOR_INVOICE_HEAD .Description ,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType   from TSPL_SRN_DETAIL left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_SRN_DETAIL .SRN_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SRN_DETAIL.Item_Code where RefDocType ='S'and TSPL_VENDOR_INVOICE_HEAD .Document_No in('" & strDocNo & "') and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= ''  "
                 Dim frmCRV As New frmCrystalReportViewer()
 
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptBillCheckListAPInvoice", "AP Invoice")
+                frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptBillCheckListAPInvoice", "AP Invoice")
 
                 frmCRV = Nothing
 
@@ -310,7 +310,7 @@ Public Class frmBillChecklist
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.Purchase, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptBillCheckListSRN", "Store Receipt Note")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptBillCheckListSRN", "Store Receipt Note")
                     frmCRV = Nothing
                 End If
 

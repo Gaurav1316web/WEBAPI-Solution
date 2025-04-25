@@ -132,7 +132,7 @@ Public Class frmCustomerBillWiseDuesSummary
             dt = clsDBFuncationality.GetDataTable(qry)
             'gv1.DataSource = dt
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptCustBillWiseDuesSummary", "Customer Bill Wise Dues Summry")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCustBillWiseDuesSummary", "Customer Bill Wise Dues Summry")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

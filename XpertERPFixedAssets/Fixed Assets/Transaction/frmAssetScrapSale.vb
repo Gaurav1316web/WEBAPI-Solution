@@ -3103,7 +3103,7 @@ Public Class frmAssetScrapSale
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If isPrint Then
                             SetItemWiseTax(dt, InvoiceNo)
-                            frm.funreport(CrystalReportFolder.FixedAssets, dt, "AssetScrapSale", "Asset Scrap Sale", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")))
+                            frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt, "AssetScrapSale", "Asset Scrap Sale", clsCommon.myCDate(dt.Rows(0)("Invoice_Date")))
                         End If
                     Else
                         qry = "   select cast(h.BarCode_Img as image) As BarCode_Img,isnull (h.IRN_No,'') as IRN_No,isnull (h.Ack_No,'') as Ack_No,case when len(isnull (h.Ack_No,'')) > 0 then convert (varchar, h.Ack_Date,103) else ''  end as Ack_Date, " + clsCommon.myCstr(IsEInvoiceApply) + " as IsEInvoiceApply,"
@@ -3134,7 +3134,7 @@ Public Class frmAssetScrapSale
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If isPrint Then
                             SetItemWiseTax(dt, InvoiceNo)
-                            frm.funreport(CrystalReportFolder.FixedAssets, dt, "frmAssetScrapSale", "Asset Scrap Sale", clsCommon.myCDate(dt.Rows(0)("ScrapInvoiceDate")))
+                            frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt, "frmAssetScrapSale", "Asset Scrap Sale", clsCommon.myCDate(dt.Rows(0)("ScrapInvoiceDate")))
                         End If
                     End If
                 End If

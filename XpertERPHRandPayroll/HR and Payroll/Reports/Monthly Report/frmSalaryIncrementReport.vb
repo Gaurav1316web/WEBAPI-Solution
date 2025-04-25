@@ -90,7 +90,7 @@ Public Class frmSalaryIncrementReport
             Dim dtFinal As DataTable
             dtFinal = clsDBFuncationality.GetDataTable(Qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpIncrementReport", "Salary Increment Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpIncrementReport", "Salary Increment Report")
 
 
         Catch ex As Exception

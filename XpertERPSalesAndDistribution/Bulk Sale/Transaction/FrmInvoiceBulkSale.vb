@@ -2502,9 +2502,9 @@ Public Class FrmInvoiceBulkSale
             'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", "rptCompanyAddress.rpt")
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
-                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoiceSWM", "Milk Sales Dispatch", "Bulk dispath")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoiceSWM", "Milk Sales Dispatch", "Bulk dispath")
             Else
-                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
             End If
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
             frmCRV = Nothing
@@ -3320,7 +3320,7 @@ Public Class FrmInvoiceBulkSale
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBulkSaleInvAndDispatchJV", "Journal Voucher", "")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBulkSaleInvAndDispatchJV", "Journal Voucher", "")
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
                     frmCRV = Nothing
                     Qry = Nothing

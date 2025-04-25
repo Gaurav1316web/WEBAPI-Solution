@@ -1112,7 +1112,7 @@ Public Class rptSaleAccountSetList
                 ' Display Purpose Account , Display Purpose Account Desc
                 If isPrint = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleAccountSetList", "Sale Account Set List", "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleAccountSetList", "Sale Account Set List", "rptCompanyAddress.rpt")
                     frmCRV = Nothing
                 Else
                     Gv1.DataSource = Nothing

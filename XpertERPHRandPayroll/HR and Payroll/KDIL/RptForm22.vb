@@ -53,7 +53,7 @@ Public Class RptForm22
                 dtgv = clsDBFuncationality.GetDataTable(sQuery)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptForm22", "Form 22 Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptForm22", "Form 22 Report")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If
@@ -84,7 +84,7 @@ Public Class RptForm22
                 dtgv = clsDBFuncationality.GetDataTable(sQuery)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptForm22", "Form 22 Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptForm22", "Form 22 Report")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If

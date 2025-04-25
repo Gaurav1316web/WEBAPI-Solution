@@ -1637,7 +1637,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
     End Function
 
     '' Function For MCC Material Sale Report start
-    Public Sub funPrintForMCC(ByVal strDocNo As String)
+    Public Sub funPrintForMCC(ByVal Form_ID As String, ByVal strDocNo As String)
 
         Try
             Dim atchqry As String = ""
@@ -1781,17 +1781,17 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
             If GSTStatus Then
                 If dt1.Rows.Count > 0 Then
                     If clsCommon.myCdbl(dt1.Rows(0)("Is_Tax_Exempted")) = 1 Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("Cust_Sate_Code")), clsCommon.myCstr(dt1.Rows(0)("Loc_Sate_Code"))) = CompairStringResult.Equal Then
                             If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             End If
 
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         End If
                     End If
 
@@ -1802,7 +1802,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
 
                 If dt.Rows.Count > 0 Then
                     SetItemWiseTax(dt, strDocNo)
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleInvoiceMCC", "Sales Invoice", "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleInvoiceMCC", "Sales Invoice", "rptCompanyAddress.rpt")
                 End If
             End If
             frmCRV = Nothing

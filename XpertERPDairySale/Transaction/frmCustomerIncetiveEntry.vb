@@ -1768,7 +1768,7 @@ Public Class frmCustomerIncetiveEntry
                            "  where TSPL_CUSTOMER_INCENTIVE_DETAIL.Doc_Code = '" + txtCode.Value + "' "
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, Nothing, "rptCustomerIncentiveEntryDateWise", "Abstract of Vendor Margin", clsCommon.myCDate(dt.Rows(0)("Doc_Date")))
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, Nothing, "rptCustomerIncentiveEntryDateWise", "Abstract of Vendor Margin", clsCommon.myCDate(dt.Rows(0)("Doc_Date")))
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptCustomerIncentiveEntry", "Turnover Discount", clsCommon.myCDate(dt.Rows(0)("Doc_Date")), "rptCompanyAddress.rpt", "rptPendingDetailsAsPerSaleLeger.rpt", dtPendingLedger, "rptIncentiveCustomerStructure.rpt", dt2)
                 Else
 
@@ -1804,7 +1804,7 @@ Public Class frmCustomerIncetiveEntry
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     '==========================================================================================================
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptCustomerIncentiveEntry", "Turnover Discount", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptPendingDetailsAsPerSaleLeger.rpt", dtPendingLedger, "rptIncentiveCustomerStructure.rpt", dt2)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptCustomerIncentiveEntry", "Turnover Discount", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptPendingDetailsAsPerSaleLeger.rpt", dtPendingLedger, "rptIncentiveCustomerStructure.rpt", dt2)
                 End If
             End If
         Catch ex As Exception

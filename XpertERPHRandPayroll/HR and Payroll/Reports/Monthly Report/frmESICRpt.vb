@@ -128,7 +128,7 @@ Public Class FrmESICRpt
             Dim dtFinal As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "ESICCrpt", "ESIC Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "ESICCrpt", "ESIC Report")
 
 
         Catch ex As Exception

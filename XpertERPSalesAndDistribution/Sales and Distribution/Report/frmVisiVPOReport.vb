@@ -212,10 +212,10 @@ Public Class FrmVisiVPOReport
             Else
                 If chkVisi.IsChecked = True Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptVisiVPOReport", " Visi VPO Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptVisiVPOReport", " Visi VPO Report")
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptNonVisiVPOReport", " Visi Non VPO Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptNonVisiVPOReport", " Visi Non VPO Report")
                 End If
 
             End If

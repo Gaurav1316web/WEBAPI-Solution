@@ -89,11 +89,11 @@ Public Class JanaadharStatusReport
                 Else
                     If rbtnTransaction.IsChecked Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusReport", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusReport", "")
                         frmCRV = Nothing
                     Else
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusfromMasterReport", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusfromMasterReport", "")
                         frmCRV = Nothing
                     End If
 

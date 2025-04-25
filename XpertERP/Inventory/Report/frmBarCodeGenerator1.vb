@@ -105,7 +105,7 @@ Public Class FrmBarCodeGenerator1
         Next
         If dtBarCode.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dtBarCode, "crptBarCodeImages", "BarCode")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtBarCode, "crptBarCodeImages", "BarCode")
             frmCRV = Nothing
         End If
     End Sub

@@ -57885,6 +57885,13 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Balance_Amt", "Decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_SHARE_ALLOTMENT_AP_INVOICE_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD", "Document_No", "")
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
+        coll.Add("Form_ID   ", "varchar(12) NULL ")
+        coll.Add("Report_Name", "varchar(50) NOT NULL")
+        coll.Add("Action_Type", "Integer null")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CRYSTAL_REPORT_ACTION", coll, "", True)
+
         Return True
     End Function
 

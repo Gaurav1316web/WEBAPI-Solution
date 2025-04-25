@@ -339,7 +339,7 @@ Public Class frmVendorPriceChartMappingUDL
                                    " where TSPL_Bulk_Price_MASTER.Posted=1  and TSPL_Bulk_Price_MASTER.milk_type_code <> '' and TSPL_Bulk_Price_MASTER.Price_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_Bulk_Price_MASTER.Price_Code='" + priceCode + "' and Tspl_Vendor_Price_Chart_mapping.VendorCode in (" + vendorCodeList + ") " + strGradeCode + " and TSPL_VENDOR_MASTER.Status='N' and Vendor_Type_CHA in ('M','J')  "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptVendorPriceChartMapping", "Vendor Price Chart Mapping")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptVendorPriceChartMapping", "Vendor Price Chart Mapping")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

@@ -103,7 +103,7 @@ Public Class Vehicle_Details_Report
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "VehicleDetails", "VehicleDetails")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "VehicleDetails", "VehicleDetails")
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
         End Try

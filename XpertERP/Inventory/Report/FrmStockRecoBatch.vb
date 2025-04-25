@@ -775,7 +775,7 @@ Public Class FrmStockRecoBatch
                         Throw New Exception("No Data Found to Display")
                     End If
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt1, "rptStockLedgerReport", "Stock Reco Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, "rptStockLedgerReport", "Stock Reco Report")
                     frmCRV = Nothing
                 End If
             ElseIf isPrintCrystalReport = 2 Then

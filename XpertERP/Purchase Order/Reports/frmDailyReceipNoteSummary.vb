@@ -263,7 +263,7 @@ Public Class FrmDailyReceipNoteSummary
                 'PurchaseOrderViewer.funreport(Dt, "crptDailyRcptSummaryItemWise", "Daily Receipt Summary")
                 'Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, Dt, "crptDailyRcptSummary", "Daily Receipt Summary")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, Dt, "crptDailyRcptSummary", "Daily Receipt Summary")
                 frmCRV = Nothing
             End If
             'End If

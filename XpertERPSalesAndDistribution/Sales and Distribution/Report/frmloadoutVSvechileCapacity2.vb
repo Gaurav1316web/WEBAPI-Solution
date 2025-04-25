@@ -82,7 +82,7 @@ Public Class FrmloadoutVSvechileCapacity2
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptLO_vs_VehicleCapacity", "Loadout V/S Vehicle Capacity")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptLO_vs_VehicleCapacity", "Loadout V/S Vehicle Capacity")
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
         End Try

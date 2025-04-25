@@ -281,9 +281,9 @@ Public Class Store_Receipt_Note
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(qry)
             If chkFnshdGoods.IsChecked = True Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SrnReceipt", "StroreReceipNote")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "SrnReceipt", "StroreReceipNote")
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SrnReceipt1", "StroreReceipNote1")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "SrnReceipt1", "StroreReceipNote1")
             End If
             frmCRV = Nothing
 

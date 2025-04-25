@@ -6748,9 +6748,9 @@ Public Class frmSNShipment
                 If dt1.Rows.Count > 0 Then
                     If clsCommon.myCdbl(dt1.Rows(0)("Is_Tax_Exempted")) = 1 Then
                         If isA4Size = True Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_ExemptedA4", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_ExemptedA4", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
 
                         End If
                     Else
@@ -6759,13 +6759,13 @@ Public Class frmSNShipment
                         ' End If
                         If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("Cust_Sate_Code")), clsCommon.myCstr(dt1.Rows(0)("Loc_Sate_Code"))) = CompairStringResult.Equal Then
                             If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             End If
 
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         End If
                     End If
 
@@ -6775,7 +6775,7 @@ Public Class frmSNShipment
 
                 If dt.Rows.Count > 0 Then
                     SetItemWiseTax(dt, txtDocNo.Value)
-                    frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptShipment", "Pick List", clsCommon.myCDate(txtDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptShipment", "Pick List", clsCommon.myCDate(txtDate.Value))
                 End If
             End If
             frmCRV = Nothing
@@ -7018,7 +7018,7 @@ Public Class frmSNShipment
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -9946,10 +9946,10 @@ a:          End If
             If dt.Rows.Count > 0 Then
                 If isSummary Then
                     'frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt1, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", "SubRptAdditionalReport.rpt")
-                    frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePassSummary.rpt")
+                    frmDCSPrint.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePassSummary.rpt")
 
                 Else
-                    frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePass", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePass.rpt")
+                    frmDCSPrint.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePass", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePass.rpt")
 
                 End If
             End If

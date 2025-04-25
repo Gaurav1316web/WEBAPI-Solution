@@ -629,7 +629,7 @@ QuantityBag as [Total BagSale]
 	                                 WHERE convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
                                      and  convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
-                qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + ""
+                    qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + ""
                     If rdbStockTransfer.IsChecked = True Then
                         qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =1 "
                     Else
@@ -770,11 +770,11 @@ QuantityBag as [Total BagSale]
                 Else
                     If rbnPricegroup.Checked Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
                         frmCRV = Nothing
                     Else
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReportCustGroup", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSalesReportCustGroup", "")
                         frmCRV = Nothing
                     End If
 

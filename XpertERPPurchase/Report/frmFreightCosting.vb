@@ -106,7 +106,7 @@ Public Class FrmFreightCosting
 
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FreightCosting", "Freight Costing")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FreightCosting", "Freight Costing")
                 frmCRV = Nothing
 
             End If

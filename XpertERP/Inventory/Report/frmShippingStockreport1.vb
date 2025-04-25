@@ -62,7 +62,7 @@ Public Class FrmShippingStockreport1
             strQuery = LoadQuery("", "", "", 0)
             If clsCommon.myLen(strQuery) > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptShippingStock", "Stock Reconciliation Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptShippingStock", "Stock Reconciliation Report")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

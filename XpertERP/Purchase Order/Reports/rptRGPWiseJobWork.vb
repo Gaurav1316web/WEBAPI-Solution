@@ -220,7 +220,7 @@ Public Class RptRGPWiseJobWork
             If btnReferesh = False Then
                 'PurchaseViewer.funsub(dtgv, "crptMaterialSendForJobWork", "Material Send For Job Work")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dtgv, "rptRGPWiseJobWork", "RGP Wise Job Work")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dtgv, "rptRGPWiseJobWork", "RGP Wise Job Work")
                 frmCRV = Nothing
             End If
 

@@ -779,7 +779,7 @@ TSPL_DISTRIBUTOR_ROUTE.Status=1"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDistributorCommission", "Distributor Commission Rate", Nothing)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDistributorCommission", "Distributor Commission Rate", Nothing)
                     frmCRV = Nothing
                 End If
             Else

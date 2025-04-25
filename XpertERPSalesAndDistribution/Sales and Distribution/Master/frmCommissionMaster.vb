@@ -618,7 +618,7 @@ Public Class FrmCommissionMaster
                                  "  TSPL_Commission_Master_History.Item_Code='" + fndItemCode.Value + "' and UOM='" + fndunit.Value + "' and TSPL_Commission_Master_History.Hierarchy='" + ddlhier.Text + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCommissionMasterHistory", "Commission History Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptCommissionMasterHistory", "Commission History Report")
 
 
         Catch ex As Exception

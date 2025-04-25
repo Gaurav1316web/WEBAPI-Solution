@@ -157,7 +157,7 @@ where Structure_Code IS NOT NULL AND Structure_Code <> '' and (Amt_Less_Discount
                 Exit Sub
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptPerDayDetail", "Per Day Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptPerDayDetail", "Per Day Detail")
                 frmCRV = Nothing
             End If
 

@@ -2294,10 +2294,10 @@ Public Class FrmMccDispatch
                 'If clsCommon.CompairString(strFromStateCode, strToStateCode) = CompairStringResult.Equal Then
                 '    frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'End If
             Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
         Else

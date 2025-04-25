@@ -2855,11 +2855,11 @@ Public Class frmItemIssueToAssembledAsset
 
             If val = "Issue" Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frm.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
                 'PurchaseOrderViewer.funreport(dt, "rptissue", "Issur/Return/Transfer")
             ElseIf val = "Return" Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frm.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
 
                 ' PurchaseOrderViewer.funreport(dt, "rptreturn", "Issur/Return/Transfer")
 
@@ -2900,7 +2900,7 @@ Public Class frmItemIssueToAssembledAsset
     " where TSPL_IssueItemToAssembledAsset_Head.Doc_No='" + txtDocNo.Value + "' and TSPL_IssueItemToAssembledAsset_Head.Doc_Type='" + val + "' "
                 '--------------------------------------------------Code Ends Here--------------------------------------------------
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryTrnsfr)
-                frm.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
 
             End If
 

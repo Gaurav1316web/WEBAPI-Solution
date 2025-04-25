@@ -244,7 +244,7 @@ Public Class frmRptCreditSales
                     FinalQry += " order by Final.Sale_Invoice_Date, Cust_Name"
                     dt = clsDBFuncationality.GetDataTable(FinalQry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptCreditSaleDetail", Me.Text)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCreditSaleDetail", Me.Text)
                 ElseIf rbtnSummary.IsChecked Then
                     FinalQry = "select Cust_Code, Cust_Name,Cust_Address,Total_Basic_Amt,Total_Disc_Amt,Total_Item_Amt,(TSPL_COMPANY_MASTER.Add1+ case when LEN(TSPL_COMPANY_MASTER.Add2)>0 then  ' ,'+TSPL_COMPANY_MASTER.Add2 else '' end +case when LEN(TSPL_COMPANY_MASTER.Add3)>0 then ' ,'+TSPL_COMPANY_MASTER.Add3 else '' end )as comapnyAdd,TSPL_COMPANY_MASTER.Comp_Name,TSPL_CITY_MASTER.City_Name,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,'" + customername + "' as Cusomer, Location, LocDesc from("
                     FinalQry += " select Cust_Code, max(Cust_Name) as Cust_Name,MAX(Cust_Address) as Cust_Address,SUM(Total_Basic_Amt) as Total_Basic_Amt,SUM(Total_Disc_Amt) as Total_Disc_Amt,SUM(Total_Item_Amt) as Total_Item_Amt, MAX(Location_Code) as Location, MAX(Location_Desc) as LocDesc "
@@ -256,7 +256,7 @@ Public Class frmRptCreditSales
                     FinalQry += " order by Cust_Name"
                     dt = clsDBFuncationality.GetDataTable(FinalQry)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptCreditSaleSummary", Me.Text)
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCreditSaleSummary", Me.Text)
                 End If
             End If
 

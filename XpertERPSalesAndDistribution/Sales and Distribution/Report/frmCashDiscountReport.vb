@@ -129,7 +129,7 @@ Public Class FrmCashDiscountReport
                     Else
                         'dt = clsDBFuncationality.GetDataTable(qry)
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCashDiscountDetail", "Cash Discount Detail")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptCashDiscountDetail", "Cash Discount Detail")
                     End If
 
                 ElseIf RadioBtnSummary.IsChecked = True Then
@@ -154,7 +154,7 @@ Public Class FrmCashDiscountReport
                         dt = clsDBFuncationality.GetDataTable(qry)
 
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCashDiscountSummary", "Cash Discount Summary")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptCashDiscountSummary", "Cash Discount Summary")
                     End If
                 End If
             Catch ex As Exception

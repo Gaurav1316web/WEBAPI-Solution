@@ -148,7 +148,7 @@ Public Class FrmSchemeReport
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptSchemeReport", "Scheme Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptSchemeReport", "Scheme Report")
                 frmCRV = Nothing
             End If
 

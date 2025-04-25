@@ -5192,7 +5192,7 @@ Public Class frmProspectDetail
             'GetDataForPrint()
             If dt.Rows.Count > 0 Then
 
-                frm.funreport(CrystalReportFolder.NewSalesReports, dt, "crptQMSReport", "QMS Report")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptQMSReport", "QMS Report")
 
             End If
         Catch ex As Exception

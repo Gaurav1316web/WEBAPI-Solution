@@ -221,7 +221,7 @@ Public Class FrmStockStatementReport
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptStockStatement", "Stock Statement Summary")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptStockStatement", "Stock Statement Summary")
                 frmCRV = Nothing
 
             End If

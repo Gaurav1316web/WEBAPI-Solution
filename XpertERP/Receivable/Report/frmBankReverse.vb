@@ -89,7 +89,7 @@ Public Class FrmBankReverse
             Else
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "BankReverseReport", "Bank Reverse Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "BankReverseReport", "Bank Reverse Report")
                 frmCRV = Nothing
             End If
 

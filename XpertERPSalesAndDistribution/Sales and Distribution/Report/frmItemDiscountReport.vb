@@ -318,7 +318,7 @@ Public Class FrmItemDiscountReport
         strQuery = clsCommon.GetQueryWithAllSelectedDataBase(strQuery, ArrDBName, False)
 
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemDiscountReport", "Item Discount Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptItemDiscountReport", "Item Discount Report")
 
 
 

@@ -275,7 +275,7 @@ Public Class FrmEmployeeGratuity
 9:              common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptEmployeeGratuityReport", "Employee Gratuity")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptEmployeeGratuityReport", "Employee Gratuity")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -135,9 +135,9 @@ Public Class rptUnionMilkRegister
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
                     If objCommonVar.RCDFCFP Then
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNALLUnion", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNALLUnion", "")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNUnion", "") ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptMilkSRNUnion", "") ''report for both (RCDF And RCDFCF)
                     End If
                 End If
                     Else

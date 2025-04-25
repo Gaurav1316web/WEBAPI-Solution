@@ -454,9 +454,9 @@ Public Class JrnlVoucherReport
             If dtmain IsNot Nothing And dtmain.Rows.Count >= 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkSummary.Checked = True Then
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dtmain, "crptGLVoucherSummary", "Journal Voucher Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dtmain, "crptGLVoucherSummary", "Journal Voucher Summary")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.GeneralLedger, dtmain, "crptGLVoucher", "Journal Voucher Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dtmain, "crptGLVoucher", "Journal Voucher Report")
                 End If
                 frmCRV = Nothing
                 'refreshRecords()

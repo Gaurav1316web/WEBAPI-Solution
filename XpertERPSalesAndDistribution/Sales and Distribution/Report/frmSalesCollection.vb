@@ -352,10 +352,10 @@ Public Class FrmSalesCollection
 
         If rdbSummary.IsChecked = True Then
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSalesCollectionSummary", "Sales v/s Collection")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSalesCollectionSummary", "Sales v/s Collection")
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSalesCollectionDetail", "Sales v/s Collection")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptSalesCollectionDetail", "Sales v/s Collection")
         End If
     End Sub
     Private Sub rbtnCompanyAll_ToggleStateChanged(ByVal sender As Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnCompanyAll.ToggleStateChanged

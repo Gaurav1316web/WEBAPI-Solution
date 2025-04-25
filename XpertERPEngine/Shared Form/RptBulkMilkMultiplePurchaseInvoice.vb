@@ -340,9 +340,9 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoiceForBHBA", "Purchase Invoice")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoiceForBHBA", "Purchase Invoice")
             Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseMultipleInvoice", "Bulk Invoice Statement")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseMultipleInvoice", "Bulk Invoice Statement")
             End If
             frmCRV = Nothing
         End If
@@ -625,7 +625,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dt.Rows(0)("DOC_DATE")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dt.Rows(0)("DOC_DATE")))
             frmCRV = Nothing
         End If
 

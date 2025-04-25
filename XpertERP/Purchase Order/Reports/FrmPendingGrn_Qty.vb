@@ -274,7 +274,7 @@ Public Class FrmPendingGrn_Qty
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PendingGRNQty", "Pending GRN Qty")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PendingGRNQty", "Pending GRN Qty")
         frmCRV = Nothing
     End Sub
     'Private Sub Export_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnExport.Click

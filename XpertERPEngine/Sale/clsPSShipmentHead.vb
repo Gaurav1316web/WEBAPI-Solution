@@ -4344,7 +4344,7 @@ Public Class clsPSShipmentChecklistDetail
 End Class
 
 Public Class clsPSShipmentPrint
-    Public Shared Function PrintDataBatchWiseInvoice(ByVal StrDocNo As String) As Boolean
+    Public Shared Function PrintDataBatchWiseInvoice(ByVal Form_ID As String, ByVal StrDocNo As String) As Boolean
         Try
             If clsCommon.myLen(StrDocNo) <= 0 Then
                 clsCommon.MyMessageBoxShow("Invoice Not Found")
@@ -4390,7 +4390,7 @@ Public Class clsPSShipmentPrint
 
                     End If
                 End If
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispacthBatchWiseReportByInvoice", "Invoice", clsCommon.myCDate(dt.Rows(0)("Sale_Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstanding.rpt", Nothing, "rptHashCodeSummary.rpt", dtUOM)
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispacthBatchWiseReportByInvoice", "Invoice", clsCommon.myCDate(dt.Rows(0)("Sale_Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstanding.rpt", Nothing, "rptHashCodeSummary.rpt", dtUOM)
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No data found to print")

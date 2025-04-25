@@ -136,7 +136,7 @@ Public Class frmMilkSRNMCC
             Else
                 'frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "MilkSRNReportThroughReport", "Milk SRN Report")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkSRN", "Milk SRN Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkSRN", "Milk SRN Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
                 frmCRV = Nothing
             End If
         Catch ex As Exception

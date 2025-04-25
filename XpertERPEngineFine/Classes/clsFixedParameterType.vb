@@ -1326,6 +1326,7 @@ Public Class clsFixedParameterType
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
@@ -2801,6 +2802,7 @@ Public Class clsFixedParameterCode
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4446,6 +4448,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, "0", "0:Off, 1:On;")
 
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function

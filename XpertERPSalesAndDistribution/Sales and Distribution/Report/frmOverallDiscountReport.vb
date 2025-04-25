@@ -455,12 +455,12 @@ Public Class FrmOverallDiscountReport
             strSql = strSql1 & Un1 & strSql2
             strQuery = clsCommon.GetQueryWithAllSelectedDataBase(strSql, ArrDBName, False)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOverallDiscountItemwise", "OverAll Discount report Item wise")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOverallDiscountItemwise", "OverAll Discount report Item wise")
         Else
             strSql = strSql1 & Un1 & strSql2 & Un2 & strSql3 & Un3 & strSql4
             strQuery = clsCommon.GetQueryWithAllSelectedDataBase(strSql, ArrDBName, False)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOverallDiscountInvoicewise", "OverAll Discount report Invoice wise")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOverallDiscountInvoicewise", "OverAll Discount report Invoice wise")
         End If
     End Sub
     Function funTempTableCreation() As Boolean

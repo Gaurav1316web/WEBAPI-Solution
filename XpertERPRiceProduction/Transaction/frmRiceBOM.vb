@@ -1303,7 +1303,7 @@ Public Class frmRiceBOM
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
             frmCRV = Nothing
             If Not clsCommon.MyMessageBoxShow("Want to see tree structure?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 

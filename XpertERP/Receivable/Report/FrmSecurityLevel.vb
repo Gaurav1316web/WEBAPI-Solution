@@ -110,7 +110,7 @@ Public Class FrmSecurityLevel
                 If btnReferesh = False Then
                     If rbtnDetail.IsChecked = True Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptCustomerSecurity", "Customer Security")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCustomerSecurity", "Customer Security")
                         frmCRV = Nothing
                     End If
 

@@ -1060,7 +1060,7 @@ Public Class rptDairyTruckSheetReport
                 Dim dtSubForRouteWise As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dtMain IsNot Nothing And dtMain.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dtMain, dtSub, "rptTruckSheetReport", "Truck Sheet Report", "rptSubReportTruckSheet.rpt", "rptSubReportTruckSheetForRouteWise.rpt", dtSubForRouteWise)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dtMain, dtSub, "rptTruckSheetReport", "Truck Sheet Report", "rptSubReportTruckSheet.rpt", "rptSubReportTruckSheetForRouteWise.rpt", dtSubForRouteWise)
                     frmCRV = Nothing
                     '=====================================================================
 
@@ -1137,7 +1137,7 @@ Public Class rptDairyTruckSheetReport
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, dt1, "rptTruckSheet", "Truck Sheet", clsCommon.myCDate(TSP_Date.Value), "SubRptforTruckSheetReport.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, dt1, "rptTruckSheet", "Truck Sheet", clsCommon.myCDate(TSP_Date.Value), "SubRptforTruckSheetReport.rpt")
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptTruckSheet", "Truck Sheet", clsCommon.myCDate(TSP_Date.Value))
                     frmCRV = Nothing
                 Else
@@ -1257,7 +1257,7 @@ Public Class rptDairyTruckSheetReport
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, dt1, "rptTruckSheetOrderwise", "Truck Sheet", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "SubRptforTruckSheetReport.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, dt1, "rptTruckSheetOrderwise", "Truck Sheet", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "SubRptforTruckSheetReport.rpt")
                 frmCRV = Nothing
             Else
                 Throw New Exception("No data found to print")
@@ -4782,7 +4782,7 @@ Public Class rptDairyTruckSheetReport
                 Qry = objMultPrintInvoice.PrintInvoiceForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls, whrcls2)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
@@ -4852,7 +4852,7 @@ Public Class rptDairyTruckSheetReport
             End If
             If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
 
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, TotalItems(whrcls), "crptInvoiceDetail", "Invoice Detail", "rptSubInvoiceDetails.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, TotalItems(whrcls), "crptInvoiceDetail", "Invoice Detail", "rptSubInvoiceDetails.rpt")
                 frmCRV = Nothing
             Else
                 myMessages.blankValue(Me, "No data found", Me.Text)

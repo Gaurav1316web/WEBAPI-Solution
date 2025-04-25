@@ -1597,9 +1597,9 @@ Public Class frmAssetDispatch
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             Dim frmCrystalReportViewer As New frmCrystalReportViewer
             If (type = "Returnable Gate Pass") Then
-                frmCrystalReportViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptRGPNew", "RGP Report")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptRGPNew", "RGP Report")
             Else
-                frmCrystalReportViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptNRGP", "NRGP Report")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNRGP", "NRGP Report")
             End If
 
 

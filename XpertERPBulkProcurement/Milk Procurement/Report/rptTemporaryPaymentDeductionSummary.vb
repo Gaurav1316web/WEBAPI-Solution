@@ -185,7 +185,7 @@ Public Class rptTemporaryPaymentDeductionSummary
             If btnPrint.Text = "Print" Then
                 dtPrint = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
                 frmCRV = Nothing
             Else
                 dt1 = Nothing
@@ -933,10 +933,10 @@ union all
                 dtPrint = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryJPR", "TP Print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryJPR", "TP Print")
                     'frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryCHU", "TP Print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryCHU", "TP Print")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "This print is not intended for you", Me.Text)
                 End If

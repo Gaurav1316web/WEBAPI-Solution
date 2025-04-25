@@ -120,7 +120,7 @@ Public Class FrmProvionalSalesReport
         Dim subQry As String = "select Salesman_Code FROM TSPL_SALESMAN_MAPPING where Salesman_Code='" + strSalesmanCode + "' or Level2_Code='" + strSalesmanCode + "' or Level3_Code='" + strSalesmanCode + "' or Level4_Code='" + strSalesmanCode + "'"
         Dim StrQuery As String = "select TSPL_SALE_INVOICE_HEAD.Salesman_Code,RTRIM(TSPL_SALE_INVOICE_HEAD.Salesman_Code)+' - '+RTRIM(TSPL_EMPLOYEE_MASTER.Emp_Name) as Emp_Name,TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No,TSPL_SALE_INVOICE_HEAD.Shipment_No,TSPL_SALE_INVOICE_HEAD.Sale_Invoice_Date,TSPL_SALE_INVOICE_HEAD.Inv_Detail_Total_Amt,TSPL_SALE_INVOICE_HEAD.Empty_Value,(select isnull(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL where Document_No=TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No) as ReceiptAmt ,ISNULL(TSPL_SALE_INVOICE_HEAD.Balance_Amt,0) as Balance_Amt,TSPL_SALE_INVOICE_HEAD.Cust_Code,TSPL_SALE_INVOICE_HEAD.Cust_Name, TSPL_SALE_INVOICE_HEAD.Inv_Tax_Amt, TSPL_SALE_INVOICE_HEAD.Total_Invoice_Amt,'" + fromdate + "' as FilterFromDate,'" + todate + "' as FilterToDate,'" + strSalesmanCode.Trim() + " - " + strSalesmanNew.Trim() + "' as FilterSalesman from TSPL_SALE_INVOICE_HEAD left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_SALE_INVOICE_HEAD.Salesman_Code where convert(date,Sale_Invoice_Date,103) >= convert(date,'" + fromdate + "',103) and convert(date,Sale_Invoice_Date,103) <= convert(date,'" + todate + "',103) and TSPL_SALE_INVOICE_HEAD.Salesman_Code in (" + subQry + ")"
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "rptSalesman", "Salesman Sales Report")
+        frmcrystal.funreport(clsUserMgtCode.ProvisionalSaleReport, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "rptSalesman", "Salesman Sales Report")
     End Sub
 
     Public Shared Sub funTrialBalanceReport(ByVal fromdate As String, ByVal todate As String)
@@ -128,7 +128,7 @@ Public Class FrmProvionalSalesReport
                    "WHERE convert(date,Voucher_Date,103) > =convert(date, '" & fromdate & "',103) and " & _
                    "convert(date,Voucher_Date,103) < =convert(date, '" & todate & "',103) "
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "crptTrialBalance", "Trial Balance Report")
+        frmcrystal.funreport(clsUserMgtCode.ProvisionalSaleReport, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "crptTrialBalance", "Trial Balance Report")
     End Sub
 
     Public Shared Sub funCustomerRouteHistory(ByVal strCustCode As String, ByVal fromdate As String, ByVal todate As String)
@@ -147,7 +147,7 @@ Public Class FrmProvionalSalesReport
         '           "convert(date,Voucher_Date,103) < =convert(date, '" & todate & "',103) "
         'StrQuery += " and convert(date,Created_Date,103) >=convert(date,'" + fromdate + "',103) and convert(date,Created_Date,103)<=convert(date,'" + todate + "',103)"
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "CrpyCustomerRouteHistory", "Customer Route History")
+        frmcrystal.funreport(clsUserMgtCode.ProvisionalSaleReport, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "CrpyCustomerRouteHistory", "Customer Route History")
     End Sub
 
     Public Shared Sub funprovSalesReport(ByVal strTransferNo As String)
@@ -240,7 +240,7 @@ Public Class FrmProvionalSalesReport
                     "TSPL_ITEM_DETAILS.Class_Name='pack' and TSPL_ITEM_DETAILS_1.Class_Name='flavour'  and TSPL_TRANSFER_HEAD.Load_Out_No='" & strTransferNo & "' order by Sku_Seq"
         End If
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "crptProvisionalSales", "Proviosional Sales Report")
+        frmcrystal.funreport(clsUserMgtCode.ProvisionalSaleReport, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(StrQuery), "crptProvisionalSales", "Proviosional Sales Report")
     End Sub
     Public Shared Sub funSettlementReport(ByVal fromdate As String, ByVal todate As String, ByVal strTransfer As String, ByVal strLoadOut As String)
         Dim StrQuery, StrQuery1, StrQuery2, StrQuery3, StrQuery4 As String

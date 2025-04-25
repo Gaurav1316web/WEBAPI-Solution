@@ -1970,9 +1970,9 @@ Public Class frmAssetStoreRequistion
             Next
             Dim frm As New frmCrystalReportViewer()
             If no = 0 Then
-                frm.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
             Else
-                frm.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
             End If
 
         End If

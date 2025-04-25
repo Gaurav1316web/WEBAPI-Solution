@@ -4233,9 +4233,9 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_SGST_CGST", "Payment Voucher", DocDate)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_SGST_CGST", "Payment Voucher", DocDate)
                 Else
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_IGST", "Payment Voucher", DocDate)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_IGST", "Payment Voucher", DocDate)
                 End If
                 frmCRV = Nothing
             End If
@@ -5178,7 +5178,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt2.Rows.Count > 0 AndAlso dt2 IsNot Nothing Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "PaymentRTGS", "Payment Details", False, dtpPayment.Value)
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "PaymentRTGS", "Payment Details", False, dtpPayment.Value)
             frmCRV = Nothing
         End If
     End Sub

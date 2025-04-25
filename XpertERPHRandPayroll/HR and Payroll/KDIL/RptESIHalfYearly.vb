@@ -175,7 +175,7 @@ Public Class RptESIHalfYearly
                 dtgv = clsDBFuncationality.GetDataTable(strqry)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptESIHalfYearlyForm5", "ESI HAlf Year Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptESIHalfYearlyForm5", "ESI HAlf Year Report")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If
@@ -303,7 +303,7 @@ Public Class RptESIHalfYearly
                 dtgv = clsDBFuncationality.GetDataTable(strqry)
                 If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptESICRegisForm5(Apr-Sep)", "ESI HAlf Year Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptESICRegisForm5(Apr-Sep)", "ESI HAlf Year Report")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If

@@ -2021,9 +2021,9 @@ Public Class FrmQuickEntry1
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptQuickBook", "Quick Book Report")
                 If chkPrintCheque.Enabled = True AndAlso chkPrintCheque.Checked Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBookCheque", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBookCheque", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
                 End If
 
                 frmCRV = Nothing

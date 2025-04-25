@@ -607,7 +607,7 @@ Public Class rptCustomerWiseStockReco
                         Throw New Exception("No Data Found to Display")
                     End If
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt1, "rptStockLedgerReport", "Stock Reco Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, "rptStockLedgerReport", "Stock Reco Report")
                     frmCRV = Nothing
                 End If
             ElseIf isPrintCrystalReport = 2 Then
@@ -1494,7 +1494,7 @@ goAlreadyAdded:
                         Throw New Exception("No Data Found to Display")
                     End If
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt1, "rptCustomerStockReco", "Customer Stock Reco Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt1, "rptCustomerStockReco", "Customer Stock Reco Report")
                     frmCRV = Nothing
                 End If
             ElseIf isPrintCrystalReport = 2 Then
@@ -6630,7 +6630,7 @@ Select  max(PPP.Sno) As Sno , max (ppp.CompName) As CompName, max (FromDate) As 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptCustomerStockRecoALW", "Customer Stock Reco Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptCustomerStockRecoALW", "Customer Stock Reco Report")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

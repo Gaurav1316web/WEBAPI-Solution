@@ -153,7 +153,7 @@ Public Class rptdailydispatch
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptdailydispatch", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptdailydispatch", "")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If

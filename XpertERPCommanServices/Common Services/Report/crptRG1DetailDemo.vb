@@ -272,7 +272,7 @@ Public Class frmRG1Demo
             CrptName = "crptRG1DetailsDemo"
         End If
         Dim fRMcrys As New frmCrystalReportViewer
-        fRMcrys.funreport(CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
+        fRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
     End Sub
     Sub printMRPWISE()
         Try
@@ -504,7 +504,7 @@ Public Class frmRG1Demo
                 Exit Sub
             End If
             Dim fRMcrys As New frmCrystalReportViewer
-            fRMcrys.funreport(CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
+            fRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

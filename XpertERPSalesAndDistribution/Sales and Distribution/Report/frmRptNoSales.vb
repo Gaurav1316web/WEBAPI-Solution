@@ -235,7 +235,7 @@ Public Class frmRptNoSales
                 FinalQry = "select Route_No, Cust_Code, Customer_Name,Addres,Channel_Desc,NoOfVisi,LastInvNo,(case when LEN(ISNULL(LastInvDate,''))>0 then CONVERT(varchar(10),LastInvDate,103) else '' end ) as LastInvDate,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FilterFromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as FilterToDate,'" + customername + "' as FilterCustomerName,'" + Routename + "' as FilterRouteName,(TSPL_COMPANY_MASTER.Add1+ case when LEN(TSPL_COMPANY_MASTER.Add2)>0 then  ' ,'+TSPL_COMPANY_MASTER.Add2 else '' end +case when LEN(TSPL_COMPANY_MASTER.Add3)>0 then ' ,'+TSPL_COMPANY_MASTER.Add3 else '' end )as comapnyAdd,TSPL_COMPANY_MASTER.Comp_Name,TSPL_CITY_MASTER.City_Name from(" + qry + ")Final left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_COMPANY_MASTER.City_Code order by Route_No"
                 dt = clsDBFuncationality.GetDataTable(FinalQry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptNoSaleDetail", Me.Text)
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptNoSaleDetail", Me.Text)
             ElseIf rbtnSummary.IsChecked Then
                 FinalQry = "select (ROW_NUMBER() over(order by Route_No)) as SNo, Route_No,TotalCustomer,NoSaleCust,((NoSaleCust*100)/TotalCustomer) as NoSalePer,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FilterFromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as FilterToDate,'" + customername + "' as FilterCustomerName,'" + Routename + "' as FilterRouteName,(TSPL_COMPANY_MASTER.Add1+ case when LEN(TSPL_COMPANY_MASTER.Add2)>0 then  ' ,'+TSPL_COMPANY_MASTER.Add2 else '' end +case when LEN(TSPL_COMPANY_MASTER.Add3)>0 then ' ,'+TSPL_COMPANY_MASTER.Add3 else '' end )as comapnyAdd,TSPL_COMPANY_MASTER.Comp_Name,TSPL_CITY_MASTER.City_Name from("
                 FinalQry += " select Route_No,(select count(1) from TSPL_CUSTOMER_MASTER as NoOfTotalCust where NoOfTotalCust.Route_No=xxx.Route_No) as TotalCustomer,COUNT(Cust_Code) as NoSaleCust"
@@ -247,7 +247,7 @@ Public Class frmRptNoSales
                 FinalQry += " order by Route_No"
                 dt = clsDBFuncationality.GetDataTable(FinalQry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptNoSaleSummary", Me.Text)
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptNoSaleSummary", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

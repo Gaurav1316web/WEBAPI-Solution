@@ -483,7 +483,7 @@ Public Class rptCustomerAgeingDrillDown
 
             If Isgrid = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "crptAgedTrialBalance" + strNo + "", "A/R Customer Ageing Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptAgedTrialBalance" + strNo + "", "A/R Customer Ageing Report")
                 frmCRV = Nothing
             Else
                 gv1.DataSource = Nothing

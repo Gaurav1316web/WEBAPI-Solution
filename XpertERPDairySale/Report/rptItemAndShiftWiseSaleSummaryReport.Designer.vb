@@ -22,7 +22,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -48,7 +48,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -85,7 +84,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,7 +130,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -357,7 +354,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.rbtnDispatch.MyLinkLable1 = Nothing
         Me.rbtnDispatch.MyLinkLable2 = Nothing
         Me.rbtnDispatch.Name = "rbtnDispatch"
-        Me.rbtnDispatch.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnDispatch.Size = New System.Drawing.Size(64, 18)
         Me.rbtnDispatch.TabIndex = 391
         Me.rbtnDispatch.TabStop = False
         Me.rbtnDispatch.Text = "Dispatch"
@@ -411,7 +408,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -421,16 +418,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.gv1.Size = New System.Drawing.Size(671, 388)
         Me.gv1.TabIndex = 6
         Me.gv1.VarID = ""
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(263, 15)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 155
-        Me.btnPrint.Text = "Print"
         '
         'RadSplitButton1
         '
@@ -531,7 +518,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -571,7 +557,6 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents RadGroupBox4 As RadGroupBox
-    Friend WithEvents btnPrint As RadButton
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
 

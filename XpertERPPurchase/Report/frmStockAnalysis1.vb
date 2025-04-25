@@ -375,7 +375,7 @@ Public Class FrmStockAnalysis1
             Else
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StockAnalysis", "Stock Analysis")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "StockAnalysis", "Stock Analysis")
                 frmCRV = Nothing
             End If
             '   Else

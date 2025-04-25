@@ -1103,7 +1103,7 @@ FROM
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "rptUnionWiseDemand", "Demand Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "rptUnionWiseDemand", "Demand Report")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
@@ -1291,7 +1291,7 @@ FROM
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "rptRoute&BoothWiseDemand", "Demand Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.UnionReports, dt2, "rptRoute&BoothWiseDemand", "Demand Report")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If

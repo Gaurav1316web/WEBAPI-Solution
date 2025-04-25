@@ -1986,7 +1986,7 @@ Public Class FrmCSADeliveryOrder
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptCSADeliverySale", "CSA Delivery Sale", clsCommon.myCstr(dt.Rows(0)("Doc_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptCSADeliverySale", "CSA Delivery Sale", clsCommon.myCstr(dt.Rows(0)("Doc_Date")))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)

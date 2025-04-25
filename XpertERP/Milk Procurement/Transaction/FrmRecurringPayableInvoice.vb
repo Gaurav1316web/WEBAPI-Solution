@@ -3761,6 +3761,7 @@ Public Class FrmRecurringPayableInvoice
         End If
         Dim Arr As New ArrayList
         Arr.Add(txtDocNo.Value)
+        Dim frmRptAPInvoice As New frmRptAPInvoice()
         frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
     End Sub
 

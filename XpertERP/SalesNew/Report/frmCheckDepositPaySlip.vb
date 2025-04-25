@@ -77,7 +77,7 @@ Public Class frmCheckDepositPaySlip
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.CommonServices, dt, "rptPaySlip", "Cheque Deposit Slip/Pay-in-Slip")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "rptPaySlip", "Cheque Deposit Slip/Pay-in-Slip")
                 frmCRV = Nothing
             Else
                 Throw New Exception("No data found.")

@@ -425,17 +425,17 @@ Public Class FrmMainTranScreen
                             dt.Rows.InsertAt(dr, 0)
                         End If
                         Dim frmFC As New FrmFreeComboBox
-                            frmFC.ComboSource = dt
-                            frmFC.ComboValueMember = "Code"
-                            frmFC.ComboDisplayMember = "Name"
-                            frmFC.ShowDialog()
-                            If clsCommon.myLen(frmFC.strRetValue) > 0 Then
-                                strFormID = clsCommon.myCstr(frmFC.strRetValue)
-                            Else
-                                strFormID = ""
-                            End If
+                        frmFC.ComboSource = dt
+                        frmFC.ComboValueMember = "Code"
+                        frmFC.ComboDisplayMember = "Name"
+                        frmFC.ShowDialog()
+                        If clsCommon.myLen(frmFC.strRetValue) > 0 Then
+                            strFormID = clsCommon.myCstr(frmFC.strRetValue)
+                        Else
+                            strFormID = ""
                         End If
-                        If clsCommon.myLen(strFormID) > 0 Then
+                    End If
+                    If clsCommon.myLen(strFormID) > 0 Then
                         Dim frm As New frmEMailAndSMSSetting
                         frm.isForSMS = Me.Is_SMS_Applied
                         frm.isForEMail = Me.Is_EMAIL_Applied
@@ -458,6 +458,13 @@ Public Class FrmMainTranScreen
                     clsCommon.MyMessageBoxShow(Me, "Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
                     clsERPFuncationality.closeForm(Me)
                 End If
+            End If
+
+        ElseIf e.Control AndAlso e.Alt AndAlso e.Shift AndAlso e.KeyCode = Keys.F8 Then
+            If objCommonVar.ShowAndSaveCrystalReportActionType Then
+                Dim frmShowCrystalReportActionType As New frmShowCrystalReportAction()
+                frmShowCrystalReportActionType.Report_ID = Form_ID
+                frmShowCrystalReportActionType.ShowDialog()
             End If
         End If
         If e.Control And e.Shift And e.KeyCode = Keys.R Then

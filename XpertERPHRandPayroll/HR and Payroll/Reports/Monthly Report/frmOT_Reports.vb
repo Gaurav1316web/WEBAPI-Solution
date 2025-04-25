@@ -82,7 +82,7 @@ Public Class frmOT_Reports
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, Dt, "crptOTReport", "OT Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, Dt, "crptOTReport", "OT Report")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

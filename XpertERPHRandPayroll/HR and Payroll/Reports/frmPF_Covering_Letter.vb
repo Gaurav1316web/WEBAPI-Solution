@@ -95,7 +95,7 @@ Public Class frmPF_Covering_Letter
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer()
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, DT, "crptPFCoveringLetter", "PF Covering Letter ")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptPFCoveringLetter", "PF Covering Letter ")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

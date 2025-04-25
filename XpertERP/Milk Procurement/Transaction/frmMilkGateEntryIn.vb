@@ -466,7 +466,7 @@ Public Class frmMilkGateEntryIn
                 " left join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code  = TSPL_MILK_GATE_ENTRY_IN.Route_Code left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_MCC_MASTER. Comp_Code  where entry_code= '" + txtCode.Value + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptGateEntryIn", "Milk Gate Entry In")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptGateEntryIn", "Milk Gate Entry In")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)

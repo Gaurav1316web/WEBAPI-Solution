@@ -1811,7 +1811,7 @@ Public Class frmDeliveryNoteDairySale
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairyDeliveryOrder", "Delivery Order Dairy Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairyDeliveryOrder", "Delivery Order Dairy Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 frmCRV = Nothing
                 'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairyDeliveryOrder", "Delivery Order Dairy Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter(), "MMM.rpt", Nothing)
             End If

@@ -238,7 +238,7 @@ Public Class FrmPendingRequisitionQty
         qry += " order by Code,ICode"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.PurchaseOrder, dt, "RequisitionPendingQty", "Pending Requisition Qty")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "RequisitionPendingQty", "Pending Requisition Qty")
     End Sub
 
     Private Sub chkDocAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkdocAll.ToggleStateChanged, chkDoc_select.ToggleStateChanged

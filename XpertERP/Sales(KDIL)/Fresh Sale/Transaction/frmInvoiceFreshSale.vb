@@ -4352,7 +4352,7 @@ Public Class frmInvoiceFreshSale
                 If dt1.Rows.Count > 0 Then
                     SetItemWiseTax(dt1, txtDocNo.Value)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    strRptPath = frmCRV.funreport(True, CrystalReportFolder.NewSalesReports, dt1, "crptShipment", "Shippment Detail")
+                    strRptPath = frmCRV.funreport(MyBase.Form_ID, True, CrystalReportFolder.NewSalesReports, dt1, "crptShipment", "Shippment Detail")
                     'strRptPath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "DispatchChallanFresh", "Dispatch", txtDate.Value, "rptCompanyAddress.rpt")
                     frmCRV = Nothing
                     objEmailH.Attachment_1_Path = strRptPath
@@ -5506,7 +5506,7 @@ Public Class frmInvoiceFreshSale
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Fresh Invoice Statement", txtDate.Value, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Fresh Invoice Statement", txtDate.Value, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
             End If
         End If
@@ -5594,7 +5594,7 @@ Public Class frmInvoiceFreshSale
                 'SetItemWiseTax(dt, strDocNo)
                 ''KwalitySalesReportViewer.funreport(dt, "rptFreshSaleInvoice", "Retail Invoice")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptFreshSaleInvoice", "Retail Invoice", txtDate.Value, "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptFreshSaleInvoice", "Retail Invoice", txtDate.Value, "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             End If
 
@@ -5872,7 +5872,7 @@ Public Class frmInvoiceFreshSale
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

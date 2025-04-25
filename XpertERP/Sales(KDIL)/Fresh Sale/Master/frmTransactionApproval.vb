@@ -2034,7 +2034,7 @@ Public Class FrmTransactionApproval
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check")
                 frmCRV = Nothing
             End If
 

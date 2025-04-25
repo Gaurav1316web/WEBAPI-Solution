@@ -2918,7 +2918,7 @@ Public Class FrmGateEntry
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
                 frmCRV = Nothing
             End If
         Catch ex As Exception

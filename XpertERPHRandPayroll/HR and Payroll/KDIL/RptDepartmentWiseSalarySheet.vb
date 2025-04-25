@@ -192,7 +192,7 @@ Public Class RptDepartmentWiseSalarySheet
                         dtFinalCR.Rows(ix).Item("PayPeriod") = clsCommon.myCstr(PayPeriod)
                     Next
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCR, "DepartmentWiseSalarySlip", "DepartmentWise Salary Sheet Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinalCR, "DepartmentWiseSalarySlip", "DepartmentWise Salary Sheet Report")
                 Else
                     'Dim dtFinalCR As DataTable = GetFinalDtCR(dtFinal)
                     Dim dtFinalCRR As New DataTable
@@ -234,7 +234,7 @@ Public Class RptDepartmentWiseSalarySheet
                         dtFinalCRR.Rows(ix).Item("DivDes") = clsCommon.myCstr(DivDes)
                     Next
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
                 End If
             End If
             For ii As Integer = 0 To Gv1.Columns.Count - 1

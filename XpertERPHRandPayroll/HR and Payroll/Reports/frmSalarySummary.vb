@@ -257,7 +257,7 @@ Public Class FrmSalarySummary
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummary", "Salary Summary ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptSalarySummary", "Salary Summary ")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -292,9 +292,9 @@ Public Class FrmSalarySummary
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
             If clsCommon.myLen(fndEmplyee.Value) > 0 Then
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynewEMP", "Salary Summary ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynewEMP", "Salary Summary ")
             Else
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynew", "Salary Summary ")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynew", "Salary Summary ")
             End If
         End If
     End Sub

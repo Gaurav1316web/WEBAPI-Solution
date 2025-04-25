@@ -95,7 +95,7 @@ Public Class frmAditionalEarning_DeductionReport
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptAdditionalEarningDeduction", "Employee Pay Slip Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptAdditionalEarningDeduction", "Employee Pay Slip Report")
             End If
 
         Catch ex As Exception

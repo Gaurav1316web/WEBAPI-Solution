@@ -198,7 +198,7 @@ Public Class Weightment_Auto_and_Manual_Report
                     If rbtWeightment.Checked = True Then
                         If dt IsNot Nothing And dt.Rows.Count > 0 Then
                             Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
                             frmCRV = Nothing
                         Else
                             clsCommon.MyMessageBoxShow("No Data Found")
@@ -206,7 +206,7 @@ Public Class Weightment_Auto_and_Manual_Report
                     ElseIf rbtLoadSlip.Checked = True Then
                         If dt IsNot Nothing And dt.Rows.Count > 0 Then
                             Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
                             frmCRV = Nothing
                         Else
                             clsCommon.MyMessageBoxShow("No Data Found")
@@ -448,7 +448,7 @@ ORDER BY aa.Location_Code  "
             If rbtWeightment.Checked = True Then
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow("No Data Found")
@@ -456,7 +456,7 @@ ORDER BY aa.Location_Code  "
             ElseIf rbtLoadSlip.Checked = True Then
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow("No Data Found")

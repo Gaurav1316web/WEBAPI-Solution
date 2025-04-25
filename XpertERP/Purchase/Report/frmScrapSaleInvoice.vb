@@ -79,7 +79,7 @@ Public Class FrmScrapSaleInvoice
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message.ToString())

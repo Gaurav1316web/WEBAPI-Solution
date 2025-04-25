@@ -44,7 +44,7 @@ Public Class FrmTDSsectionSummary
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCrystalReportViewer As New frmCrystalReportViewer
-        frmCrystalReportViewer.funreport(CrystalReportFolder.TDS, dt, "frmTDSsectionsummary", "TDS Section Summary")
+        frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.TDS, dt, "frmTDSsectionsummary", "TDS Section Summary")
 
 
 

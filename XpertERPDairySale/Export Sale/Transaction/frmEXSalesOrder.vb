@@ -5799,7 +5799,7 @@ Public Class frmEXSalesOrder
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSalesOrderReport", "Sales Order")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSalesOrderReport", "Sales Order")
                 frmCRV = Nothing
             End If
 

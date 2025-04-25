@@ -2117,7 +2117,7 @@ Public Class frmJWOTransferOther
                 dtDocdate = Nothing
                 dtDocdate = clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptJWOTransferOther_Local", "JOB WORK CHALLAN", dtDocdate)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptJWOTransferOther_Local", "JOB WORK CHALLAN", dtDocdate)
                 frmCRV = Nothing
             End If
 

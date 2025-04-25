@@ -5720,7 +5720,7 @@ Public Class frmSaleInvoiceDairy
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     frmCRV = Nothing
                 End If
             End If
@@ -5935,12 +5935,12 @@ Public Class frmSaleInvoiceDairy
                     If dt.Rows.Count > 0 Then
                         ''richa agarwal call report with its subreport data'''
                         '  KwalitySalesReportViewer.funsubreportWithdt(dt, dt2, "rptProductExciseTransferSaleInvoice", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt")
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransferSaleInvoice", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransferSaleInvoice", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                         ''----------------
                     End If
                 Else
                     If dt.Rows.Count > 0 Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Retail Invoice", "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Retail Invoice", "rptCompanyAddress.rpt")
                     End If
                 End If
                 frmCRV = Nothing
@@ -6043,11 +6043,11 @@ Public Class frmSaleInvoiceDairy
             Dim frmCRV As New frmCrystalReportViewer()
             If InvoiceType = "E" Then
                 If dt.Rows.Count > 0 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransferSaleInvoice_Challan", "Challan", "rptSubReportExciseTransferSaleInvoice.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransferSaleInvoice_Challan", "Challan", "rptSubReportExciseTransferSaleInvoice.rpt")
                 End If
             Else
                 If dt.Rows.Count > 0 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_Challan", "Challan", "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice_Challan", "Challan", "rptCompanyAddress.rpt")
                 End If
             End If
             frmCRV = Nothing
@@ -6327,7 +6327,7 @@ Public Class frmSaleInvoiceDairy
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

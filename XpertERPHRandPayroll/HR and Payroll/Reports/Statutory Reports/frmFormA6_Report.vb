@@ -75,7 +75,7 @@ Public Class frmFormA6_Report
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer()
-                frmcrsytal.funreport(CrystalReportFolder.HRPayroll, DT, "crptFormA6", "Form A6")
+                frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptFormA6", "Form A6")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -464,7 +464,7 @@ Public Class RptPrimaryTransporter
                 FormatGrid()
                 If btnReferesh = False Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
                     frmCRV = Nothing
                 End If
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -662,7 +662,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
         FormatGrid()
         If btnReferesh = False Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
             frmCRV = Nothing
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

@@ -95,8 +95,8 @@ Public Class Frmreceiptvoucher2
 
         PrintData(fromdate, todate, chkReceiptSelect.IsChecked, arrreceipt, chkCustomerSelect.IsChecked, arrcustomer, chkLocSelect.IsChecked, arrlocation)
     End Sub
-    
-    Shared Sub PrintData(ByVal fromdate As String, ByVal todate As String, ByVal chkReceiptSelect As Boolean, ByVal arrreceipt As ArrayList, ByVal chkCustomerSelect As Boolean, ByVal arrcustomer As ArrayList, ByVal chklocationselect As Boolean, ByVal arrlocation As ArrayList)
+
+    Sub PrintData(ByVal fromdate As String, ByVal todate As String, ByVal chkReceiptSelect As Boolean, ByVal arrreceipt As ArrayList, ByVal chkCustomerSelect As Boolean, ByVal arrcustomer As ArrayList, ByVal chklocationselect As Boolean, ByVal arrlocation As ArrayList)
         Dim dttemp As New DataTable()
         Dim strTDocNo As String = String.Empty
         Dim recvalue1 As String = String.Empty
@@ -231,33 +231,33 @@ Public Class Frmreceiptvoucher2
 
                 strremark = strremark.Replace("'", "''")
                 '' ---- '' added One Column DocNo in this Query By Abhishek kumar as on 11 july 2012  get DocNo For SubReport
-                strquery = "SELECT  GSTNO, GST_STATE_Code,   Cheque_No,  Cheque_Date, Entry_Desc, Receipt_No,convert(varchar, Receipt_Post_Date,103)as Receipt_Post_Date, Created_By, Modify_By, Detail_Line_No, Account_code, Account_Desc, " & _
-                                       " '" + strdocno + "' as Document_No,(Substring('" & strdocno & "',0,charindex(',','" & strdocno & "')))as DocNo,''as Remarks, rmk as Comment, Amount, Description, Cust_Code, Customer_Name, BankName, " & _
-                                       " (SELECT     Comp_Name FROM TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS CompanyName, " & _
-                                       " (SELECT     Logo_Img FROM          TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS logo1, " & _
-                                       " (SELECT     Logo_Img2 FROM          TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS logo2, " & _
-                                       " (SELECT     Description FROM TSPL_GL_SEGMENT_CODE WHERE      (Seg_No = '7') AND (Segment_code = SUBSTRING(xxx.Account_code, LEN(xxx.Account_code) - 2, 3))) AS SegName," & _
+                strquery = "SELECT  GSTNO, GST_STATE_Code,   Cheque_No,  Cheque_Date, Entry_Desc, Receipt_No,convert(varchar, Receipt_Post_Date,103)as Receipt_Post_Date, Created_By, Modify_By, Detail_Line_No, Account_code, Account_Desc, " &
+                                       " '" + strdocno + "' as Document_No,(Substring('" & strdocno & "',0,charindex(',','" & strdocno & "')))as DocNo,''as Remarks, rmk as Comment, Amount, Description, Cust_Code, Customer_Name, BankName, " &
+                                       " (SELECT     Comp_Name FROM TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS CompanyName, " &
+                                       " (SELECT     Logo_Img FROM          TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS logo1, " &
+                                       " (SELECT     Logo_Img2 FROM          TSPL_COMPANY_MASTER WHERE      (Comp_Code = '" + objCommonVar.CurrentCompanyCode + "')) AS logo2, " &
+                                       " (SELECT     Description FROM TSPL_GL_SEGMENT_CODE WHERE      (Seg_No = '7') AND (Segment_code = SUBSTRING(xxx.Account_code, LEN(xxx.Account_code) - 2, 3))) AS SegName," &
                 "case "
                 '' Anubhooti 11-Feb-2015 (If Receipt Type =Refund Then VoucherType Heading should be 'Payment Voucher')
-                strquery += " WHEN (Select Receipt_Type From TSPL_RECEIPT_HEADER Where Receipt_No ='" + recvalue + "') ='F' THEN 'Payment Voucher'" & _
-                " when  xxx.Payment_Code ='cheque' then 'Bank Receipt Voucher' when xxx.Payment_Code ='check' then 'Bank Receipt Voucher'when xxx.Payment_Code ='SETTLEMENT' then'Cash Receipt Voucher'when xxx.Payment_Code ='SETTLEB'then 'Bank Receipt Voucher' when xxx.Payment_Code ='CASH' then 'Cash Receipt Voucher'  " & _
-                "  when xxx.Payment_Code ='NEFT' THEN 'NEFT Receipt Voucher'when xxx.Payment_Code ='RTGS' THEN 'RTGS Receipt Voucher' when xxx.Payment_Code ='DD' THEN 'DD Receipt Voucher' when xxx.Payment_Code='OTHER' then '" + recvalue + "'+ ' Voucher'    else (select distinct TSPL_PAYMENT_CODE.Payment_Code  from TSPL_PAYMENT_CODE left outer join TSPL_RECEIPT_HEADER on TSPL_PAYMENT_CODE.Payment_Code =TSPL_RECEIPT_HEADER.Payment_Code  where Receipt_No='" + recvalue + "') +'  Voucher' " & _
-                " end   as vouchertype ,xxx.IsShowDocumentNo, Cheque_From,case when Posted ='N' Then 'UN-APPROVED' else 'P' end as Posted,SaleInvoice,BRNCH_AC ,GL_ACC,xxx.TapalNo,xxx.DateAndTime  FROM  (" & _
-                " select TSPL_RECEIPT_HEADER.Cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date,TSPL_RECEIPT_HEADER.Entry_Desc, xx.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Post_Date,TSPL_RECEIPT_HEADER.Created_By,TSPL_RECEIPT_HEADER.Modify_By,0 as Detail_Line_No,xx.ACCode as Account_code,xx.Account_Desc,xx.Amount,'' as Description,TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.Customer_Name,   TSPL_BANK_MASTER.DESCRIPTION AS BankName ,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_CUSTOMER_MASTER.GSTNO, TSPL_STATE_MASTER.GST_STATE_Code,xx.IsShowDocumentNo,tspl_gl_accounts.Account_Seg_Code7, TSPL_RECEIPT_HEADER.Cheque_From, xx.Entry_Desc as rmk,TSPL_RECEIPT_HEADER.Posted , SaleInvoice " + Environment.NewLine & _
-                " ,ISNULL(SUBSTRING(TSPL_BRANCH_ACCOUNT_MAPPING.BRANCH_ACCOUNT,0,LEN(TSPL_BRANCH_ACCOUNT_MAPPING.BRANCH_ACCOUNT)-3),'') AS BRNCH_AC,SUBSTRING(TSPL_GL_ACCOUNTS.Account_Code,0,LEN(TSPL_GL_ACCOUNTS.Account_Code)-3) AS GL_ACC,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime " & _
+                strquery += " WHEN (Select Receipt_Type From TSPL_RECEIPT_HEADER Where Receipt_No ='" + recvalue + "') ='F' THEN 'Payment Voucher'" &
+                " when  xxx.Payment_Code ='cheque' then 'Bank Receipt Voucher' when xxx.Payment_Code ='check' then 'Bank Receipt Voucher'when xxx.Payment_Code ='SETTLEMENT' then'Cash Receipt Voucher'when xxx.Payment_Code ='SETTLEB'then 'Bank Receipt Voucher' when xxx.Payment_Code ='CASH' then 'Cash Receipt Voucher'  " &
+                "  when xxx.Payment_Code ='NEFT' THEN 'NEFT Receipt Voucher'when xxx.Payment_Code ='RTGS' THEN 'RTGS Receipt Voucher' when xxx.Payment_Code ='DD' THEN 'DD Receipt Voucher' when xxx.Payment_Code='OTHER' then '" + recvalue + "'+ ' Voucher'    else (select distinct TSPL_PAYMENT_CODE.Payment_Code  from TSPL_PAYMENT_CODE left outer join TSPL_RECEIPT_HEADER on TSPL_PAYMENT_CODE.Payment_Code =TSPL_RECEIPT_HEADER.Payment_Code  where Receipt_No='" + recvalue + "') +'  Voucher' " &
+                " end   as vouchertype ,xxx.IsShowDocumentNo, Cheque_From,case when Posted ='N' Then 'UN-APPROVED' else 'P' end as Posted,SaleInvoice,BRNCH_AC ,GL_ACC,xxx.TapalNo,xxx.DateAndTime  FROM  (" &
+                " select TSPL_RECEIPT_HEADER.Cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date,TSPL_RECEIPT_HEADER.Entry_Desc, xx.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Post_Date,TSPL_RECEIPT_HEADER.Created_By,TSPL_RECEIPT_HEADER.Modify_By,0 as Detail_Line_No,xx.ACCode as Account_code,xx.Account_Desc,xx.Amount,'' as Description,TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.Customer_Name,   TSPL_BANK_MASTER.DESCRIPTION AS BankName ,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_CUSTOMER_MASTER.GSTNO, TSPL_STATE_MASTER.GST_STATE_Code,xx.IsShowDocumentNo,tspl_gl_accounts.Account_Seg_Code7, TSPL_RECEIPT_HEADER.Cheque_From, xx.Entry_Desc as rmk,TSPL_RECEIPT_HEADER.Posted , SaleInvoice " + Environment.NewLine &
+                " ,ISNULL(SUBSTRING(TSPL_BRANCH_ACCOUNT_MAPPING.BRANCH_ACCOUNT,0,LEN(TSPL_BRANCH_ACCOUNT_MAPPING.BRANCH_ACCOUNT)-3),'') AS BRNCH_AC,SUBSTRING(TSPL_GL_ACCOUNTS.Account_Code,0,LEN(TSPL_GL_ACCOUNTS.Account_Code)-3) AS GL_ACC,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime " &
                 " from(" + Environment.NewLine
 
-                strquery += " SELECT TSPL_RECEIPT_HEADER.Receipt_No,  TSPL_JOURNAL_DETAILS.Account_code  as ACCode,TSPL_JOURNAL_DETAILS.Account_Desc,TSPL_JOURNAL_DETAILS.Amount as Amount," + Environment.NewLine & _
-                " CASE WHEN LEN(ISNULL(TSPL_RECEIPT_HEADER.UnApplied_No,''))>0 THEN 0 ELSE 1 END as IsShowDocumentNo, '' as Entry_Desc ,'' as SaleInvoice" + Environment.NewLine & _
-                " FROM TSPL_RECEIPT_HEADER" + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_JOURNAL_MASTER ON TSPL_JOURNAL_MASTER .Source_Doc_No =TSPL_RECEIPT_HEADER .Receipt_No " + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_JOURNAL_DETAILS  ON TSPL_JOURNAL_MASTER .Voucher_No  =TSPL_JOURNAL_DETAILS .Voucher_No " + Environment.NewLine & _
-                " )xx " + Environment.NewLine & _
-                " left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=xx.Receipt_No" + Environment.NewLine & _
-                " left  outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=xx.ACCode" + Environment.NewLine & _
-                 " left  outer join TSPL_BRANCH_ACCOUNT_MAPPING on TSPL_GL_ACCOUNTS.Account_Code=TSPL_BRANCH_ACCOUNT_MAPPING.Branch_Account " & Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE =TSPL_RECEIPT_HEADER.Bank_Code left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= TSPL_STATE_MASTER.State_Code " + Environment.NewLine & _
-                " ) AS xxx " + Environment.NewLine & _
+                strquery += " SELECT TSPL_RECEIPT_HEADER.Receipt_No,  TSPL_JOURNAL_DETAILS.Account_code  as ACCode,TSPL_JOURNAL_DETAILS.Account_Desc,TSPL_JOURNAL_DETAILS.Amount as Amount," + Environment.NewLine &
+                " CASE WHEN LEN(ISNULL(TSPL_RECEIPT_HEADER.UnApplied_No,''))>0 THEN 0 ELSE 1 END as IsShowDocumentNo, '' as Entry_Desc ,'' as SaleInvoice" + Environment.NewLine &
+                " FROM TSPL_RECEIPT_HEADER" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_JOURNAL_MASTER ON TSPL_JOURNAL_MASTER .Source_Doc_No =TSPL_RECEIPT_HEADER .Receipt_No " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_JOURNAL_DETAILS  ON TSPL_JOURNAL_MASTER .Voucher_No  =TSPL_JOURNAL_DETAILS .Voucher_No " + Environment.NewLine &
+                " )xx " + Environment.NewLine &
+                " left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=xx.Receipt_No" + Environment.NewLine &
+                " left  outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=xx.ACCode" + Environment.NewLine &
+                 " left  outer join TSPL_BRANCH_ACCOUNT_MAPPING on TSPL_GL_ACCOUNTS.Account_Code=TSPL_BRANCH_ACCOUNT_MAPPING.Branch_Account " & Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE =TSPL_RECEIPT_HEADER.Bank_Code left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= TSPL_STATE_MASTER.State_Code " + Environment.NewLine &
+                " ) AS xxx " + Environment.NewLine &
                 " WHERE   2=2 "
 
                 Dim StrAllowBranchAcconReceiptPrint = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowBranchAcconReceiptPrint, clsFixedParameterCode.AllowBranchAcconReceiptPrint, Nothing)) = 1, True, False))
@@ -334,9 +334,9 @@ Public Class Frmreceiptvoucher2
                 Next
             Next
             '' added By Abhishek kumar as on 11 july 2012   For SubReport
-            Dim adjustSubReport As String = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Customer_No ,xx.Customer_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " & _
-                  " (SELECT  TSPL_Receipt_Adjustment_Detail.Adjustment_No  ,Adjustment_Date,TSPL_Receipt_Adjustment_Header.Customer_No ,  (select Customer_Name from TSPL_CUSTOMER_MASTER where cust_Code =TSPL_Receipt_Adjustment_Header .Customer_No )as Customer_Name,TSPL_Receipt_Adjustment_Detail.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_Receipt_Adjustment_Header .Comp_Code,TSPL_Receipt_Adjustment_Header .Doc_No  FROM TSPL_Receipt_Adjustment_Detail left outer join TSPL_Receipt_Adjustment_Header on  TSPL_Receipt_Adjustment_Detail.Adjustment_No = TSPL_Receipt_Adjustment_Header .Adjustment_No   where TSPL_Receipt_Adjustment_Header .Doc_No  in (" & clsCommon.GetMulcallString(arrDocNo1) & ")" & _
-                   " union all " & _
+            Dim adjustSubReport As String = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Customer_No ,xx.Customer_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " &
+                  " (SELECT  TSPL_Receipt_Adjustment_Detail.Adjustment_No  ,Adjustment_Date,TSPL_Receipt_Adjustment_Header.Customer_No ,  (select Customer_Name from TSPL_CUSTOMER_MASTER where cust_Code =TSPL_Receipt_Adjustment_Header .Customer_No )as Customer_Name,TSPL_Receipt_Adjustment_Detail.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_Receipt_Adjustment_Header .Comp_Code,TSPL_Receipt_Adjustment_Header .Doc_No  FROM TSPL_Receipt_Adjustment_Detail left outer join TSPL_Receipt_Adjustment_Header on  TSPL_Receipt_Adjustment_Detail.Adjustment_No = TSPL_Receipt_Adjustment_Header .Adjustment_No   where TSPL_Receipt_Adjustment_Header .Doc_No  in (" & clsCommon.GetMulcallString(arrDocNo1) & ")" &
+                   " union all " &
                    " select TSPL_Receipt_Adjustment_Header.Adjustment_No ,TSPL_Receipt_Adjustment_Header .Adjustment_Date  ,TSPL_Receipt_Adjustment_Header .Customer_No,(select Customer_Name from TSPL_CUSTOMER_MASTER where cust_Code =TSPL_Receipt_Adjustment_Header .Customer_No )as Customer_Name,(select TSPL_CUSTOMER_ACCOUNT_SET .Receivable_Control_acct from TSPL_CUSTOMER_ACCOUNT_SET where TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account =TSPL_CUSTOMER_master.Cust_Account) as Acct,(select Description from TSPL_GL_ACCOUNTS where Account_Code =(select TSPL_CUSTOMER_ACCOUNT_SET .Receivable_Control_acct  from TSPL_CUSTOMER_ACCOUNT_SET where TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account =TSPL_CUSTOMER_master.Cust_Account))as AcctDesc,0 as DbtAmt,TSPL_Receipt_Adjustment_Header.Adjustment_Amount as CrAmt ,TSPL_Receipt_Adjustment_Header .Comp_Code,TSPL_Receipt_Adjustment_Header .Doc_No from TSPL_Receipt_Adjustment_Header left outer join TSPL_CUSTOMER_MASTER on TSPL_Receipt_Adjustment_Header .Customer_No =tspl_customer_master.Cust_Code  where TSPL_Receipt_Adjustment_Header .Doc_No  in (" & clsCommon.GetMulcallString(arrDocNo1) & "))as xx )as finalQry left outer join TSPL_COMPANY_MASTER on finalQry .Comp_Code =TSPL_COMPANY_MASTER .Comp_Code "
             '------ Code Ends Here --------------
             '' added By Richa Agarwal 29 aug,2018 BHA/28/08/18-000487   For SubReport
@@ -344,7 +344,7 @@ Public Class Frmreceiptvoucher2
 
             Dim frmcrystal As New frmCrystalReportViewer()
             Dim strReceiptDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Receipt_Date from TSPL_RECEIPT_HEADER where Receipt_No='" + recvalue1 + "'"))
-            frmcrystal.funsubreportWithdt(CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
+            frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
         End Try

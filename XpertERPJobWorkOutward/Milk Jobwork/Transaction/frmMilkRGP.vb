@@ -2475,7 +2475,7 @@ a:
             strqry += "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_Milk_RGP_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_LOCATION_MASTER on TSPL_Milk_RGP_HEAD.Location=TSPL_LOCATION_MASTER .Location_Code LEFT OUTER JOIN  TSPL_GL_SEGMENT_CODE on TSPL_Milk_RGP_HEAD.Department = TSPL_GL_SEGMENT_CODE.Segment_code  where   " & strDep & " TSPL_Milk_RGP_HEAD.RGP_No='" + txtDocNo.Value + "'   "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptNRGP3rdParty", "NRGP Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNRGP3rdParty", "NRGP Report")
             frmCRV = Nothing
 
 
@@ -2522,10 +2522,10 @@ a:
             Dim frmCRV As New frmCrystalReportViewer()
             If (type = "Returnable Gate Pass") Then
                 ' PurchaseOrderViewer.funreport(dt, "rptRGPNew", "RGP Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", "rptCompanyAddress.rpt")
             Else
                 'PurchaseOrderViewer.funreport(dt, "rptNRGP", "NRGP Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
 
@@ -3414,7 +3414,7 @@ a:
                 common.clsCommon.MyMessageBoxShow("No Data Found")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "MilkRGPChallan", "Milk RGP Challan Report", txtDate.Value)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "MilkRGPChallan", "Milk RGP Challan Report", txtDate.Value)
                 frmCRV = Nothing
             End If
         Catch ex As Exception

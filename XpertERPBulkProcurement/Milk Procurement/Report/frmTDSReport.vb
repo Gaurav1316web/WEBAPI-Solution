@@ -174,7 +174,7 @@ where Isnull(TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsC
             Dim dt As DataTable = PrintData()
             If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptTDSReport", "TDS Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptTDSReport", "TDS Report")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found To Print", Me.Text)

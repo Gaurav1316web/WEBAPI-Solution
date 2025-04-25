@@ -857,7 +857,7 @@ Public Class frmMCCMilkLossGain
             Dim dt As DataTable = gv1.DataSource
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptLossGainReport", "MCC Milk Loss Gain", clsCommon.myCDate(txtFromDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptLossGainReport", "MCC Milk Loss Gain", clsCommon.myCDate(txtFromDate.Value))
                 frmCRV = Nothing
             End If
         Catch ex As Exception

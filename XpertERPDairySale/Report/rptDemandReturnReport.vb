@@ -46,7 +46,7 @@ Public Class rptDemandReturnReport
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDemandReturn", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDemandReturn", "")
 
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
