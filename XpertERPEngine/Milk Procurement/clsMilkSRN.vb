@@ -356,9 +356,20 @@ Public Class clsMilkSRNMCC
     Public Shared Function UpdateDataFromSRNFrom(ByVal obj As clsMilkSRNMCC, ByVal objList As List(Of clsMilkSRNMCCDetail), ByVal objVSPChargeList As List(Of clsMilkSRNVSpChargeDetail), ByVal objPriceChargeList As List(Of clsMilkSRNPriceChargeDetail), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
+            Dim Reason As String = ""
+
             Dim isNewEntry As Boolean
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_CODE, obj.DOC_DATE, trans)
-
+            If isNewEntry = False Then
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Update"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Return False
+                Else
+                    Reason = frm.strRmks
+                End If
+            End If
             SaveSRN_History(obj.DOC_CODE, trans)
             isNewEntry = False
             Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
@@ -386,6 +397,8 @@ Public Class clsMilkSRNMCC
             End If
 
             clsCommon.AddColumnsForChange(coll, "DOC_CODE", obj.DOC_CODE)
+            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+
             clsCommon.AddColumnsForChange(coll, "MCC_CODE", obj.MCC_CODE)
             clsCommon.AddColumnsForChange(coll, "DOC_DATE", clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "SHIFT", obj.SHIFT)
@@ -862,17 +875,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
             settMaxFATPerLimit = 0
             settMaxSNFPerLimit = 0
         End If
-        If isNewEntry = False Then
-            Dim Reason As String = ""
-            Dim frm As New FrmFreeTxtBox1
-            frm.Text = "Remarks for Update"
-            frm.ShowDialog()
-            If clsCommon.myLen(frm.strRmks) <= 0 Then
-                Exit Sub
-            Else
-                Reason = frm.strRmks
-            End If
-        End If
+
 
         Dim IsRoundOffPaiseAmount As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Trans)) = 1
         Dim SettShowAllMCC As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Trans)) = 1)
