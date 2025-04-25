@@ -280,10 +280,13 @@ Public Class frmMilkCollectionMCCQC
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
+
+
             clsCommon.ProgressBarPercentShow()
             If AllowToSave(False) Then
                 If gv1.Rows.Count > 0 Then
                     Dim dictionary As New List(Of clsMilkCollectionMCCDetail)
+
                     For ii As Integer = 0 To gv1.RowCount - 1
                         clsCommon.ProgressBarPercentUpdate(ii * 50 / gv1.RowCount - 1, "Fetching " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
                         If clsCommon.myCdbl(gv1.Rows(ii).Cells("IsOK").Value) = 1 Then
@@ -300,6 +303,8 @@ Public Class frmMilkCollectionMCCQC
                             obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
                             obj.FATKG = Math.Round(obj.Qty * obj.FAT / 100, 3, MidpointRounding.ToEven)
                             obj.SNFKG = Math.Round(obj.Qty * obj.SNF / 100, 3, MidpointRounding.ToEven)
+                            obj.Remark = clsCommon.myCstr(gv1.Rows(ii).Cells("RemarkS").Value)
+
                             dictionary.Add(obj)
                         End If
                     Next
@@ -309,11 +314,15 @@ Public Class frmMilkCollectionMCCQC
                         ''Saveing Data
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Dim ArrPKID As New List(Of String)
+
                         Try
                             For ii As Integer = 0 To dictionary.Count - 1
                                 clsCommon.ProgressBarPercentUpdate(ii * 100 / dictionary.Count - 1, "Saving " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(dictionary.Count - 1))
 
                                 Dim coll As New Hashtable()
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                    clsCommon.AddColumnsForChange(coll, "Remark", dictionary(ii).Remark)
+                                End If
                                 clsCommon.AddColumnsForChange(coll, "Required_Retesting", IIf(dictionary(ii).Required_Retesting, 1, 0), True)
                                 clsCommon.AddColumnsForChange(coll, "Qty", dictionary(ii).Qty)
                                 clsCommon.AddColumnsForChange(coll, "FAT", dictionary(ii).FAT)

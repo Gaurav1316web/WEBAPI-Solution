@@ -516,7 +516,9 @@ Public Class clsMilkCollectionMCCDetail
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Remark", Remark)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    clsCommon.AddColumnsForChange(coll, "Remark", Remark)
+                End If
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                 clsCommon.AddColumnsForChange(coll, "Sample_No", obj.Sample_No)
