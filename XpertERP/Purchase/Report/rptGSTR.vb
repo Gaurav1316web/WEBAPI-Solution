@@ -2365,7 +2365,7 @@ Case When TSPL_Customer_INVOICE_HEAD.TAX10 IN ('TCS') Then Isnull(TSPL_Customer_
             " (case when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')<>'' then case when isnull(TSPL_SD_SALE_RETURN_HEAD.Document_Code,'')='' then TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code else case when isnull(TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location ,'')='' then NULL else TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location end end when isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' then case when isnull(TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location ,'')='' then NULL else TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location end when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap,'')<>'' then TSPL_SCRAPINVOICE_HEAD.loc_code when isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn  ,'')<>'' then TSPL_SCRAPSALE_HEAD_RETURN.loc_code when isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL   ,'')<>'' then TSPL_VCGL_HEAD.Location_Segment when isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')<>'' then case when isnull(TSPL_MCC_Material_sale_Return.Ship_To_Location ,'')='' then NULL else TSPL_MCC_Material_sale_Return.Ship_To_Location end when isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')<>'' then TSPL_RECEIPT_HEADER. Location_GL_Code when (isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_Return_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrap ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.AgainstScrapReturn ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')='' AND isnull(TSPL_Customer_INVOICE_HEAD.Against_MCC_Material_Sale_Return    ,'')='' and isnull(TSPL_Customer_INVOICE_HEAD.Against_Security_Receipt_No     ,'')='' ) then ''  end) as [Location Code], "
 
 
-            BaseQry = " select SNo,Particulars,[Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount]-z.TCSAmt As [Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount],Case When TSPL_COMPANY_MASTER.GSTReg_No Is not null and [GST No] Is not null Then Case When TSPL_COMPANY_MASTER.State=TSPL_Customer_Master.State Then 'Regular B2B' Else 'Intra-State supplies attracting IGST' End Else '' End As [Invoice Type] from ( " & Environment.NewLine &
+            BaseQry = " select SNo,Particulars,[Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount]-z.TCSAmt As [Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount],'Regular B2B' As [Invoice Type] from ( " & Environment.NewLine &
             " select ROW_NUMBER() OVER(ORDER BY TSPL_Customer_Invoice_Head.Document_No ASC) as  SNo,'" & strType & "' as Particulars,TSPL_Customer_Invoice_Head.Document_No as [Document No],convert(varchar,TSPL_Customer_Invoice_Head.Document_Date ,103) as [Document Date]," & strtranstypeandsaleinvoiceno & " " & Environment.NewLine &
             " TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_Customer_Invoice_Head.Document_Type as [Document Type],case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  (isnull(TSPL_Customer_Invoice_Head.Discount_Base,0)-isnull(TSPL_Customer_Invoice_Head.Discount_Amount ,0)) as [Taxable Value]," & Environment.NewLine &
             " CASE WHEN TSPL_Customer_Invoice_Head.Document_Type = 'C' THEN -1 ELSE 1 END *(CASE  WHEN TSPL_SD_SALE_INVOICE_HEAD.tax2 = 'TCS' THEN 0 ELSE ISNULL(TSPL_Customer_Invoice_Head.Total_Tax, 0) 
@@ -3618,37 +3618,42 @@ Case When TSPL_Customer_INVOICE_HEAD.TAX10 IN ('TCS') Then Isnull(TSPL_Customer_
 
 
             exportGSTR = True
-            clsCommon.ProgressBarPercentShow()
-            For i As Integer = 1 To (gv2.Rows.Count + 1)
-                clsCommon.ProgressBarPercentUpdate((i / (gv2.Rows.Count + 1)) * 100, "Processing...")
-                DrillDownDetailForGSTR1(i)
-                Dim finalQry As String = Nothing
-                If i = 1 Then
-                    finalQry = "Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
-                ElseIf i = 4 Then
-                    finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
-                ElseIf i = 5 Then
-                    finalQry = "Select '' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
-                ElseIf i = 6 Then
-                    finalQry = "Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
-                ElseIf i = 7 Then
-                    finalQry = "Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
-                ElseIf i = (gv2.Rows.Count + 1) Then
-                    DrillDownDetailForGSTR1_ItemWise(i)
-                    finalQry = "Select [HSN Code],Description,UOM,TotalQty,TotalAmount,Tax_Rate,TotalTaxableValue,IGSTAmount,CGSTAmount,SGSTAmount,'' As [Cess Amount] from (" + strQryGSTR + ") xyz"
-                End If
-                If clsCommon.myLen(finalQry) > 0 Then
-                    Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
-                    If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
-                        exportExcel(dtGSTR, outputFilePath, i)
+            Try
+                clsCommon.ProgressBarPercentShow()
+                For i As Integer = 1 To (gv2.Rows.Count + 1)
+                    clsCommon.ProgressBarPercentUpdate((i / (gv2.Rows.Count + 1)) * 100, "Processing...")
+                    DrillDownDetailForGSTR1(i)
+                    Dim finalQry As String = Nothing
+                    If i = 1 Then
+                        finalQry = "Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    ElseIf i = 4 Then
+                        finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
+                    ElseIf i = 5 Then
+                        finalQry = "Select 'OE' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
+                    ElseIf i = 6 Then
+                        finalQry = "Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    ElseIf i = 7 Then
+                        finalQry = "Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
+                    ElseIf i = (gv2.Rows.Count + 1) Then
+                        DrillDownDetailForGSTR1_ItemWise(i)
+                        finalQry = "Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Sum(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from (" + strQryGSTR + ") xyz Group By [HSN Code]"
                     End If
-                End If
-            Next
-            clsCommon.ProgressBarPercentHide()
-            exportGSTR = False
+                    If clsCommon.myLen(finalQry) > 0 Then
+                        Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
+                        If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
+                            exportExcel(dtGSTR, outputFilePath, i)
+                        End If
+                    End If
+                Next
+                clsCommon.ProgressBarPercentHide()
+                exportGSTR = False
+            Catch ex As Exception
+                exportGSTR = False
+                clsCommon.ProgressBarPercentHide()
+                Throw New Exception(ex.Message)
+            End Try
         Catch ex As Exception
             exportGSTR = False
-            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
