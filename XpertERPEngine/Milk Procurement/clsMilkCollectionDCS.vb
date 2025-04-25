@@ -32,18 +32,7 @@ Public Class clsMilkCollectionDCS
             'If isNewEntry = False Then
             '    HistoryUpdate(obj.Document_No, trans)
             'End If
-            Dim Reason As String = ""
 
-            If isNewEntry = False Then
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Update"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Return False
-                Else
-                    Reason = frm.strRmks
-                End If
-            End If
             Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
@@ -61,7 +50,10 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
-            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+
+                clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
+            End If
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
@@ -573,7 +565,7 @@ where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strCode + "' and ISNULL(T
                         qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1,Suspence_VLC_Code=VLC_Code where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, trans, "", False)
+                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, Nothing, "", False)
                     Next
                 Else
                     Throw New Exception("No data found for Suspence DCS")

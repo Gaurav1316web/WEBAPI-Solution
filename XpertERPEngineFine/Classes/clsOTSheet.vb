@@ -55,9 +55,10 @@ Public Class clsOTSheet
             If (obj Is Nothing OrElse clsCommon.myLen(obj.OT_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
             Dim qry As String = "Update tspl_ot_sheet set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where OT_Sheet_Code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_OT_SHEET", "OT_SHEET_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

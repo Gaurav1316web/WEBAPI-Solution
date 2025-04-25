@@ -848,6 +848,18 @@ Public Class frmMilkCollectionDCS
         Try
             If (AllowToSave()) Then
                 Dim obj As New clsMilkCollectionDCS()
+                Dim Reason As String = ""
+
+                If isNewEntry = False AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Update"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Return False
+                    Else
+                        obj.Remark = frm.strRmks
+                    End If
+                End If
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.Description = txtDesc.Text
