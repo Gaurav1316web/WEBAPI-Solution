@@ -286,10 +286,10 @@ where 1=1 "
                                         isAdded = False
                                     End If
                                     If i = 0 AndAlso j = 0 AndAlso rbtnRouteWise.IsChecked = True Then
-                                        dtReport.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
+                                        dtReport.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                                     End If
                                     If isAdded Or i = 0 Then
-                                        dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
+                                        dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                                     End If
 
                                     SumQty = 0.0
@@ -342,7 +342,7 @@ where 1=1 "
                                         End If
                                         '=================================================
 
-                                        dtReport.Rows.Add("Total Collection for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, Hist_SumQty, Hist_AVGFAT, Hist_AVGSNF, Hist_SumFATKG, Hist_SumSNFKG)
+                                        dtReport.Rows.Add("Total Collection for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, Hist_SumQty, Hist_AVGFAT, Hist_AVGSNF, Hist_SumFATKG, Hist_SumSNFKG)
                                     End If
 
 
@@ -368,7 +368,7 @@ where 1=1 "
 
                                     If rbtnRouteWise.IsChecked = True Then
                                         If isAdded Or i = 0 Then
-                                            dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                            dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
                                         End If
 
                                     End If
@@ -382,7 +382,7 @@ where 1=1 "
                                     Dim Hist_VariationSNFKG As Decimal = Math.Round(Hist_SumSNFKG - MCCSumSNFKG, 2)
 
                                     If rbtnRouteWise.IsChecked = True Then
-                                        dtReport.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, VariationQty, DBNull.Value, DBNull.Value, VariationFATKG, VariationSNFKG, Hist_VariationQty, DBNull.Value, DBNull.Value, Hist_VariationFATKG, Hist_VariationSNFKG)
+                                        dtReport.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, VariationQty, DBNull.Value, DBNull.Value, VariationFATKG, VariationSNFKG, Hist_VariationQty, DBNull.Value, DBNull.Value, Hist_VariationFATKG, Hist_VariationSNFKG)
                                     End If
                                 Next
 
@@ -452,9 +452,9 @@ where 1=1 "
                                     RouteHist_SumSNFKG += Hist_SumSNFKG
 
                                     If isLastRoute Then
-                                        dtReport.Rows.Add("Total Dispatch for Tanker : " + clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty1, DBNull.Value, DBNull.Value, RouteSumFATKG1, RouteSumSNFKG1, RouteHist_SumQty1, DBNull.Value, DBNull.Value, RouteHist_SumFATKG1, RouteHist_SumSNFKG1)
-                                        dtReport.Rows.Add("Receipt at dock for : ", DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty2, DBNull.Value, DBNull.Value, RouteSumFATKG2, RouteSumSNFKG2, RouteHist_SumQty2, DBNull.Value, DBNull.Value, RouteHist_SumFATKG2, RouteHist_SumSNFKG2)
-                                        dtReport.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty, DBNull.Value, DBNull.Value, RouteSumFATKG, RouteSumSNFKG, RouteHist_SumQty, DBNull.Value, DBNull.Value, RouteHist_SumFATKG, RouteHist_SumSNFKG)
+                                        dtReport.Rows.Add("Total Dispatch for Tanker : " + clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty1, DBNull.Value, DBNull.Value, RouteSumFATKG1, RouteSumSNFKG1, RouteHist_SumQty1, DBNull.Value, DBNull.Value, RouteHist_SumFATKG1, RouteHist_SumSNFKG1)
+                                        dtReport.Rows.Add("Receipt at dock for : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty2, DBNull.Value, DBNull.Value, RouteSumFATKG2, RouteSumSNFKG2, RouteHist_SumQty2, DBNull.Value, DBNull.Value, RouteHist_SumFATKG2, RouteHist_SumSNFKG2)
+                                        dtReport.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty, DBNull.Value, DBNull.Value, RouteSumFATKG, RouteSumSNFKG, RouteHist_SumQty, DBNull.Value, DBNull.Value, RouteHist_SumFATKG, RouteHist_SumSNFKG)
                                     End If
                                 End If
 
@@ -470,7 +470,7 @@ where 1=1 "
                         Hist_SumSNFKG = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "' and [Own_SNFKG] is not null")), 2)
 
 
-                        dtReport.Rows.Add("Total Collection for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
+                        dtReport.Rows.Add("Total Collection for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
 
 
 
@@ -483,7 +483,7 @@ where 1=1 "
                         Hist_SumSNFKG = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "' and  [SNFKG] is not null")), 2)
 
                         If rbtnRouteWise.IsChecked = True Then
-                            dtReport.Rows.Add("Total Dispatch for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
+                            dtReport.Rows.Add("Total Dispatch for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
                         End If
 
                         SumQty = Math.Round(clsCommon.myCdbl(dtMCCHeadFilter.Compute("SUM([Entered_Qty])", "[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "'")), 2)
@@ -512,7 +512,7 @@ where 1=1 "
                         End If
                         '-------------------------------------------
                         If rbtnRouteWise.IsChecked = True Then
-                            dtReport.Rows.Add("Receipt at Dock for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, Hist_SumQty, Hist_AVGFAT, Hist_AVGSNF, Hist_SumFATKG, Hist_SumSNFKG)
+                            dtReport.Rows.Add("Receipt at Dock for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, Hist_SumQty, Hist_AVGFAT, Hist_AVGSNF, Hist_SumFATKG, Hist_SumSNFKG)
                         End If
                     End If
                 Next
@@ -561,8 +561,8 @@ where 1=1 "
                 '------------------------------------------------
 
                 If rbtnRouteWise.IsChecked Then
-                    dtReport.Rows.Add("Total Disp-Collection : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
-                    dtReport.Rows.Add("Loss in Transit : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty11, DBNull.Value, DBNull.Value, SumFATKG11, SumSNFKG11, Hist_SumQty11, DBNull.Value, DBNull.Value, Hist_SumFATKG11, Hist_SumSNFKG11)
+                    dtReport.Rows.Add("Total Disp-Collection : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
+                    dtReport.Rows.Add("Loss in Transit : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty11, DBNull.Value, DBNull.Value, SumFATKG11, SumSNFKG11, Hist_SumQty11, DBNull.Value, DBNull.Value, Hist_SumFATKG11, Hist_SumSNFKG11)
                 End If
 
 
@@ -575,7 +575,7 @@ where 1=1 "
                 Hist_SumSNFKG = Math.Round(Hist_SumSNFKG + Hist_SumSNFKG11, 2)
 
                 If rbtnRouteWise.IsChecked = True Then
-                    dtReport.Rows.Add("Overall Loss : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
+                    dtReport.Rows.Add("Overall Loss : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
                 End If
             End If
 

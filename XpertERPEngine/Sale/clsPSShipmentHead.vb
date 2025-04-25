@@ -467,10 +467,10 @@ Public Class clsPSShipmentHead
             'qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type='FS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH')"
+            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH')"
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
