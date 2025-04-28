@@ -303,10 +303,11 @@ Public Class frmMilkCollectionMCCQC
                             obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
                             obj.FATKG = Math.Round(obj.Qty * obj.FAT / 100, 3, MidpointRounding.ToEven)
                             obj.SNFKG = Math.Round(obj.Qty * obj.SNF / 100, 3, MidpointRounding.ToEven)
-                            obj.Remark = clsCommon.myCstr(gv1.Rows(ii).Cells("RemarkS").Value)
-
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                obj.Remark = clsCommon.myCstr(gv1.Rows(ii).Cells("RemarkS").Value)
+                            End If
                             dictionary.Add(obj)
-                        End If
+                            End If
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.MyMessageBoxShow(Me, "Updating [" + clsCommon.myCstr(dictionary.Count) + "] Samples" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then

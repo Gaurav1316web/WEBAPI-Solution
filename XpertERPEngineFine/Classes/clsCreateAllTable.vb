@@ -18841,7 +18841,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted", "integer not null default 0")
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Posted_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_PRICE_MASTER", coll, "PRIMARY KEY (Item_Code, UOM, Start_Date, Price_Code, Item_Basic_Net, Item_Basic_Price,Location_Code)", True, False, Nothing, Nothing, Nothing, True)
+            ' clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_PRICE_MASTER", coll, "PRIMARY KEY (Item_Code, UOM, Start_Date, Price_Code, Item_Basic_Net, Item_Basic_Price,Location_Code)", True, False, Nothing, Nothing, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ITEM_PRICE_MASTER", coll, "", True, False, Nothing, Nothing, Nothing, True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "Varchar(30) not null Primary key")
@@ -18853,6 +18854,7 @@ Public Class clsCreateAllTable
             coll.Add("Comment", "varchar(200) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Tare_Weight", "Decimal(18,2) NULL")
+            coll.Add("Gross_Weight", "Decimal(18,2) NULL")
             coll.Add("Gross_Weight", "Decimal(18,2) NULL")
             coll.Add("Net_Weight", "Decimal(18,2) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
