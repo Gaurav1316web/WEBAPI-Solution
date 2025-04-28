@@ -597,12 +597,17 @@ from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         SetLength()
         SetUserMgmtNew()
         funReset()
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
-            RadPageMobile.Enabled = True
-        Else
-            RadPageMobile.Enabled = False
+        'If objCommonVar.RCDFCFP Then
+        '    RadPageMobile.Enabled = False
+        'Else
+        '    RadPageMobile.Enabled = True
+        'End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+        '    RadPageMobile.Enabled = True
+        'Else
+        '    RadPageMobile.Enabled = False
 
-        End If
+        'End If
         RpMobileDetail.SelectedPage = RadPageViewPage1
         LoadDataBase()
         ' globalFunc.mandatoryText(fndCompanyCode.Value, txtCompanyName)

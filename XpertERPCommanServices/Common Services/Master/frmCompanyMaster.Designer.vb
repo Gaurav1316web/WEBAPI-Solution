@@ -23,9 +23,9 @@ Partial Class FrmCompanyMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCompanyMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtISO_No = New common.Controls.MyTextBox()
@@ -1712,12 +1712,12 @@ Partial Class FrmCompanyMaster
         Me.ddlModeofTransp.IsSourceFromTable = False
         Me.ddlModeofTransp.IsSourceFromValueList = False
         Me.ddlModeofTransp.IsUnique = False
-        RadListDataItem1.Text = "By Air"
-        RadListDataItem2.Text = "By Road"
-        RadListDataItem3.Text = "By Sea"
-        Me.ddlModeofTransp.Items.Add(RadListDataItem1)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem2)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "By Air"
+        RadListDataItem5.Text = "By Road"
+        RadListDataItem6.Text = "By Sea"
+        Me.ddlModeofTransp.Items.Add(RadListDataItem4)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem5)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem6)
         Me.ddlModeofTransp.Location = New System.Drawing.Point(167, 339)
         Me.ddlModeofTransp.MendatroryField = False
         Me.ddlModeofTransp.MyLinkLable1 = Me.RadLabel2
@@ -2727,7 +2727,6 @@ Partial Class FrmCompanyMaster
         '
         Me.RadPageMobile.Controls.Add(Me.RadGroupBox4)
         Me.RadPageMobile.Controls.Add(Me.RadGroupBox5)
-        Me.RadPageMobile.Enabled = False
         Me.RadPageMobile.ItemSize = New System.Drawing.SizeF(122.0!, 28.0!)
         Me.RadPageMobile.Location = New System.Drawing.Point(10, 37)
         Me.RadPageMobile.Name = "RadPageMobile"
