@@ -201,7 +201,7 @@ WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
 
         ElseIf clsCommon.myLen(TXTCCN4.Text) > 0 AndAlso Not IsValidPhoneNumber(TXTCCN4.Text) Then
             TXTCCN4.Focus()
-                clsCommon.MyMessageBoxShow(Me, "Please enter a valid 10-digit phone number.Saras Order Contact Person Numbe 2r", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please enter a valid 10-digit phone number.Saras Order Contact Person Numbe 2r", Me.Text)
 
 
             '' Anubhooti 01-Sep-2014 (Add CIN No.)
