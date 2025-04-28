@@ -18855,7 +18855,6 @@ Public Class clsCreateAllTable
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Tare_Weight", "Decimal(18,2) NULL")
             coll.Add("Gross_Weight", "Decimal(18,2) NULL")
-            coll.Add("Gross_Weight", "Decimal(18,2) NULL")
             coll.Add("Net_Weight", "Decimal(18,2) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
