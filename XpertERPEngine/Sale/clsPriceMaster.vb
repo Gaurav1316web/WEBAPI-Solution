@@ -399,7 +399,7 @@ Public Class clsPriceMaster
             Dim qry As String = "Update TSPL_ITEM_PRICE_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Item_Price_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_item_price_master", "Item_Price_ID", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
 
         Catch ex As Exception
 
@@ -701,8 +701,9 @@ Public Class clsPriceComponent
             Dim obj As clsPriceComponent
             If clsCommon.myLen(strComponentCode) > 0 Then
                 obj = clsPriceComponent.GetData(strComponentCode, NavigatorType.Current)
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
+
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
 
                 If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Price_Comp_code) > 0) Then
                     clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_PRICE_COMPONENT_MASTER_DELETE", New SqlParameter("@Price_Comp_code", strComponentCode))

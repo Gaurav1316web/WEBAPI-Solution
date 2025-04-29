@@ -46624,7 +46624,7 @@ LL")
             coll.Add("Modify_Date", "Varchar(30) NOT NULL")
             coll.Add("comp_code", "Varchar(8) NOT NULL")
             coll.Add("JobWorkLocation", "varchar(12)  NULL  References TSPL_LOCATION_MASTER(Location_Code) ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_UNLOADING", coll, "", True, False, "", "Unloading_No", "Unloading_Date_Time")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_UNLOADING", coll, "", True, False, "", "Unloading_No", "Unloading_Date_Time", True)
 
             ''--------------------------------------------
 

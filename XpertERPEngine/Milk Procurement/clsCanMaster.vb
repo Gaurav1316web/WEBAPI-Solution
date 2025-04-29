@@ -160,9 +160,10 @@ Public Class clsDockMaster
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCK_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DOCK_MASTER", "Code", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCK_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DOCK_MASTER", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()

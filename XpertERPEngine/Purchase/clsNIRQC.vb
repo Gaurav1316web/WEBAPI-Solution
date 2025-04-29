@@ -167,6 +167,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             End If
             Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_NIR_QC", "Document_No", trans)
+
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.NIRQC, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
             trans.Commit()

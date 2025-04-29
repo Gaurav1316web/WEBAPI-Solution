@@ -134,10 +134,11 @@ select PK_Id,Against_Tender_Schedule_PK_Id,Penalty_Date,Penalty from TSPL_TENDER
 
             Dim ArrSchedule As List(Of clsTenderSchedule) = DeepCopy(obj.Tender_No, obj.Vendor_Code, obj.Item_Code, obj.Location_Code, obj.ArrSchedule)
             clsTenderSchedule.SaveData(obj.Tender_No, ArrSchedule, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Tender_No, "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_TENDER_SCHEDULE", "DocumentCode", trans)
 
             qry = "Update TSPL_RAL_NOC set Status=1,Post_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_RAL_NOC", "Document_No", trans)
+
 
             trans.Commit()
         Catch ex As Exception

@@ -662,6 +662,7 @@ left JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.RECEIVED_BY=T2.EMP_CODE left JOIN TSPL_L
 
             qry = "update TSPL_SPP_PRODUCTION_ENTRY set Posted='0',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where PROD_ENTRY_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", trans)
 
             Return issaved
         Catch ex As Exception
