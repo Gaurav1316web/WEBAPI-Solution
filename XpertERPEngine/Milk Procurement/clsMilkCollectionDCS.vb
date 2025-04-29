@@ -457,10 +457,15 @@ and not exists (select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SH
     End Function
 
     Public Shared Function GetBaseQueryFATSNFGainLoss(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal arrMCC As ArrayList) As String
+        Dim strDecimalPlacesAmt As String = "2"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            strDecimalPlacesAmt = "0"
+        End If
+
         Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,cast(xxx.Document_Date as varchar) as Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
-,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
-,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
-,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt ,(FindCode) as FindCode
+,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18," + strDecimalPlacesAmt + ")) as FatAmt 
+,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18," + strDecimalPlacesAmt + ")) as SNFAmt 
+,(cast(((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG)as decimal(18," + strDecimalPlacesAmt + ")) + cast(((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG)as decimal(18," + strDecimalPlacesAmt + "))) as Amt,(FindCode) as FindCode
 from (
 select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
 from TSPL_OWN_BMC_GAIN_LOSS_RATE where max(Document_Date)>=TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date  and (2= case when TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date is null then 2 else case when max(Document_Date)<= TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc,TSPL_OWN_BMC_GAIN_LOSS_RATE.Code desc) as  FindCode
