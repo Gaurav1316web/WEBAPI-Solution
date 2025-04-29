@@ -398,6 +398,13 @@ QuantityBag as [Total BagSale]
                                      and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPINVOICE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+
+                If rdbStockTransfer.IsChecked = True Then
+                    qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
+                Else
+                    qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
+                End If
+
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
