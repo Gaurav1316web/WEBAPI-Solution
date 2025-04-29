@@ -118,7 +118,7 @@ Public Class frmPayPeriodMaster
                 Dim strchk1 As String = "select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) or DATE_TO  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
                 Dim PAY_PERIOD_CODE As String = clsDBFuncationality.getSingleValue(strchk1)
                 If clsCommon.myLen(PAY_PERIOD_CODE) > 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "This Data Range" + chkPayPeriod + " Document Allready created.")
+                    clsCommon.MyMessageBoxShow(Me, "This Date Range" + chkPayPeriod + " Document Allready created.")
                     Return False
                 End If
             End If
