@@ -8,6 +8,8 @@ Imports Telerik.WinControls.UI
 Public Class frmPayPeriodMaster
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim SkipDatePayPeriodMaster As Boolean = False
+
 #Region "Variable"
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -109,10 +111,24 @@ Public Class frmPayPeriodMaster
         End If
         Dim strchk As String = "select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between '" + clsCommon.GetPrintDate(dtpFrom.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpTo.Value, "dd/MMM/yyyy") + "' or DATE_TO  between '" + clsCommon.GetPrintDate(dtpFrom.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpTo.Value, "dd/MMM/yyyy") + "' ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
         Dim chkPayPeriod As String = clsDBFuncationality.getSingleValue(strchk)
-        If clsCommon.myLen(chkPayPeriod) > 0 Then
-            clsCommon.MyMessageBoxShow(Me, "From or To date overlapped Pay Period " + chkPayPeriod + " . Overlapping pay periods can not be created.")
-            Return False
+        If SkipDatePayPeriodMaster = True Then
+            Dim dateFromSkip As Date = clsCommon.GetPrintDate(dtpFrom.Value, "yyyy-MM-dd")
+            Dim dateToSkip As Date = clsCommon.GetPrintDate(dtpTo.Value, "yyyy-MM-dd")
+            If clsCommon.myLen(dateFromSkip) > 0 AndAlso clsCommon.myLen(dateToSkip) > 0 Then
+                Dim strchk1 As String = "select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) or DATE_TO  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
+                Dim PAY_PERIOD_CODE As String = clsDBFuncationality.getSingleValue(strchk1)
+                If clsCommon.myLen(PAY_PERIOD_CODE) > 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "This Data Range" + chkPayPeriod + " Document Allready created.")
+                    Return False
+                End If
+            End If
+            Else
+                If clsCommon.myLen(chkPayPeriod) > 0 Then
+                clsCommon.MyMessageBoxShow(Me, "From or To date overlapped Pay Period " + chkPayPeriod + " . Overlapping pay periods can not be created.")
+                Return False
+            End If
         End If
+
         Dim strCode As String = clsPayPeriodMaster.CheckNameExistness(txtName.Text, txtCode.Value, Nothing)
         If clsCommon.myLen(strCode) > 0 Then
             clsCommon.MyMessageBoxShow(Me, "Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
@@ -190,6 +206,8 @@ Public Class frmPayPeriodMaster
 
     Private Sub frmPayPeriodMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            SkipDatePayPeriodMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipDatePayPeriodMaster, clsFixedParameterCode.SkipDatePayPeriodMaster, Nothing)) = 1)
+
             SetUserMgmtNew()
             isNewEntry = True
             'createTable()
