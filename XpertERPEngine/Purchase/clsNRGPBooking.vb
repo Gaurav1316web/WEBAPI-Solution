@@ -128,6 +128,7 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
 
             Dim qry As String
             qry = "delete from TSPL_NRGP_REQUEST_DETAIL where BOOKING_NO ='" + strCode + "'"
@@ -273,6 +274,7 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
 
             isSaved = isSaved AndAlso cls_TSPL_NRGP_REQUEST_DETAIL.SaveDetailData(obj.BOOKING_NO, obj, objList, trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOOKING_NO), "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
 
             'If Not isNewEntry Then
             '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOOKING_NO), "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
@@ -314,6 +316,7 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
             Dim isSaved As Boolean = True
             Dim qry As String = "Update TSPL_NRGP_REQUEST_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where BOOKING_NO ='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", trans)
 
             Return isSaved
         Catch ex As Exception

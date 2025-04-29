@@ -190,6 +190,8 @@ Public Class clsDailyAttendance
             clsDailyAttendance.SaveCoffLeaveAllotment(obj, trans)
             Dim qry As String = "Update TSPL_DAILY_ATTENDANCE set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DLA_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DLA_CODE, "TSPL_DAILY_ATTENDANCE", "DLA_CODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             Throw New Exception(ex.Message)

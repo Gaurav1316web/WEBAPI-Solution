@@ -4026,8 +4026,9 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             End If
             qry = " Update TSPL_MILK_PURCHASE_INVOICE_HEAD set Posted=1, Posting_Date='" + clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy") + "',Modified_By='" + objCommonVar.CurrentUserCode + "' "
             qry += " Where DOC_Code='" + strDocNo + "'"
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", trans)
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
