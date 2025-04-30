@@ -214,10 +214,10 @@ Public Class clsRcptEntryHeader
                     Throw New Exception("Loadin Customer is [" + qry + "] but Receipt entry customer is [" + obj.Cust_Code + "].Both Should be same")
                 End If
             End If
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+            'End If
 
             qry = "DELETE TSPL_RECEIPT_DETAIL WHERE Receipt_No ='" + obj.Receipt_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -714,7 +714,8 @@ Public Class clsRcptEntryHeader
             If clsCommon.myLen(obj.Booking_Code) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("Update TSPL_BOOKING_MATSER set Against_Receipt_No ='" & obj.Receipt_No & "' where Document_No='" & obj.Booking_Code & "' ", trans)
             End If
-
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
             coll = Nothing
         Catch err As Exception
             Throw New Exception(err.Message)
