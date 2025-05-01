@@ -102,6 +102,7 @@ Public Class frmCorrection
                 btnTankerMilkImport.Visible = False
                 txtBMCTankerQty.ReadOnly = False
                 txtBMCCorrQty.ReadOnly = False
+
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
 
                 If isPickCLRInsteadOfSNF Then
@@ -139,6 +140,7 @@ Public Class frmCorrection
                 btnImport.Visible = True
                 btnTankerMilkExport.Visible = True
                 btnTankerMilkImport.Visible = True
+                chkMarkAsSuspence.Visible = False
             End If
             If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 isCorrection = 1
@@ -296,9 +298,9 @@ Public Class frmCorrection
             " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code  " + Environment.NewLine +
             " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
 
-            Dim whrCls As String = ""
+            Dim whrCls As String = "  isnull(TSPL_VLC_MASTER_HEAD.IsSuspense,0)=0  "
             If Not MultipleFinderFillAuto Then
-                whrCls += "  TSPL_VLC_MASTER_HEAD.MCC  ='" + txtMCC.Value + "'"
+                whrCls += " and TSPL_VLC_MASTER_HEAD.MCC  ='" + txtMCC.Value + "'"
             End If
 
             finder.Value = clsCommon.ShowSelectForm("SMSRNUdC", qry, "Uploader_Code", whrCls, finder.Value, "Uploader_Code", isButtonClicked)
@@ -496,7 +498,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                 End If
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
-                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), isNewEntry, Remark)
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), isNewEntry, Remark, chkMarkAsSuspence.Checked)
                     tran.Commit()
                 Catch ex As Exception
                     tran.Rollback()
@@ -601,6 +603,7 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
                 MyLabel5.Text = lblVLC.Text
                 RadGroupBox2.Enabled = False
                 RadGroupBox1.Enabled = True
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -1826,4 +1829,6 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
+
+
 End Class

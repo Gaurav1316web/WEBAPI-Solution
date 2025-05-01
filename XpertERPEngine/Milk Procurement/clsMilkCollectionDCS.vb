@@ -791,6 +791,9 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
         clsCommon.AddColumnsForChange(coll, "Suspence", IIf(obj.Suspence, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Suspence_Remarks", obj.Suspence_Remarks)
+        If clsCommon.myLen(obj.Suspence_VLC_Code) > 0 Then
+            clsCommon.AddColumnsForChange(coll, "Suspence_VLC_Code", obj.Suspence_VLC_Code)
+        End If
         If intPKID > 0 Then
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
         Else
