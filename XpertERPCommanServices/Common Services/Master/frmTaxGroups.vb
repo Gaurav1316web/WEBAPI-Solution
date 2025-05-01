@@ -170,6 +170,9 @@ Public Class FrmTaxGroups
         '    gvTaxGroups.Rows.RemoveAt(i)
         'Next
         chkActive.Checked = False
+        rbtnDefaultNonTaxabale.IsChecked = False
+        rbtnDefaultIGST.IsChecked = False
+        rbtnDefaultLocalGST.IsChecked = False
     End Sub
 
     Private Sub fillTaxAuthority()

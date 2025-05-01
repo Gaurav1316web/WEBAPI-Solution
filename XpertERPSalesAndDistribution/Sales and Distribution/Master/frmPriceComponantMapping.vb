@@ -90,6 +90,8 @@ Public Class FrmPriceComponantMapping
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
         End If
+        rbtnDefaultIGST.IsChecked = False
+        rbtnDefaultGST.IsChecked = False
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
