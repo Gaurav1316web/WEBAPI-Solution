@@ -107,7 +107,7 @@ Partial Class YearlyBillReport
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
-        Me.RadPageView2.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView2.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView2.TabIndex = 18
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -150,7 +150,6 @@ Partial Class YearlyBillReport
         Me.rdbMonthCycle.TabIndex = 4
         Me.rdbMonthCycle.TabStop = False
         Me.rdbMonthCycle.Text = "MonthCycleWise"
-        Me.rdbMonthCycle.Visible = False
         '
         'rdbCycleW
         '
@@ -300,7 +299,7 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(779, 359)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage5.Text = "Detail"
         '
         'gv1
@@ -324,7 +323,7 @@ Partial Class YearlyBillReport
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 359)
+        Me.gv1.Size = New System.Drawing.Size(779, 361)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
