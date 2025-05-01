@@ -773,6 +773,8 @@ Public Class clsFixedParameterType
     Public Const DeleteTempData As String = "Delete Temp Data"
     Public Const DeleteTempDataFromTime As String = "Delete Temp Data From Time"
     Public Const DeleteTempDataToTime As String = "Delete Temp Data To Time"
+    Public Const SkipDatePayPeriodMaster As String = "Skip Date Pay Period Master"
+
 
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
@@ -1734,6 +1736,7 @@ Public Class clsFixedParameterCode
     Public Const DeleteTempData As String = "Delete Temp Data"
     Public Const DeleteTempDataFromTime As String = "Delete Temp Data From Time"
     Public Const DeleteTempDataToTime As String = "Delete Temp Data To Time"
+    Public Const SkipDatePayPeriodMaster As String = "Skip Date Pay Period Master"
 
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
@@ -3801,6 +3804,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DeleteTempDataFromTime, clsFixedParameterCode.DeleteTempDataFromTime, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkipDatePayPeriodMaster, clsFixedParameterCode.SkipDatePayPeriodMaster, "0", "0:Off, 1:On;")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
@@ -5204,6 +5208,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.LoadLoginScreen, clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPayPeriodMaster, clsFixedParameterType.SkipDatePayPeriodMaster, clsFixedParameterCode.SkipDatePayPeriodMaster, EnumControlType.CheckBox)
 
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)

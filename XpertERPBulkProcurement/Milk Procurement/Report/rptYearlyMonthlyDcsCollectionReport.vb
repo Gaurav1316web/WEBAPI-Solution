@@ -29,12 +29,22 @@ Public Class rptYearlyMonthlyDcsCollectionReport
         Try
 
             Dim dt As New DataTable
-            Dim strQry As String = "SELECT XXX.*,xxxMPCount.[Count of Farmers],xxxMPCount.[Farmers Milk Qty
-] FROM (Select 
+            Dim strQry As String = "SELECT XXX.*
+,
+
+ CAST(FLOOR(xxx.[FAT(KG)] * 100.0 / [MILK WEIGHT] * 100) / 100.0 AS DECIMAL(10,2)) AS FatPER,
+  CAST(FLOOR(xxx.[SNF(KG)] * 100.0 / [MILK WEIGHT] * 100) / 100.0 AS DECIMAL(10,2)) AS SNFPER,
+
+xxxMPCount.[Count of Farmers],xxxMPCount.[Farmers Milk Qty
+]
+FROM (Select 
 TSPL_MILK_SRN_HEAD.VSP_Code,MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [BMC Uploader code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) as [BMC Name],max(TSPL_VLC_MASTER_HEAD.MCC) as [DCS],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [Vlc Uploader Code],MAX(TSPL_MILK_SRN_HEAD.Route_code) AS [Route Code],
 Sum(TSPL_MILK_SRN_DETAIL.Qty)AS [MILK WEIGHT],sum(TSPL_MILK_SRN_DETAIL.ACC_Qty) As [Milk Weight(KG)], 
-sum(TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR) As [Milk Weight(LTR)],sum(TSPL_MILK_SRN_DETAIL.FAT_PER) As [FAT(%)], sum(TSPL_MILK_SRN_DETAIL.SNF_PER) As [SNF(%)],
-sum(TSPL_MILK_SRN_DETAIL.FAT_kg) As [FAT(KG)], sum(TSPL_MILK_SRN_DETAIL.SNF_kg) As [SNF(KG)]
+sum(TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR) As [Milk Weight(LTR)],
+sum(TSPL_MILK_SRN_DETAIL.FAT_PER) As Fat_Per, 
+sum(TSPL_MILK_SRN_DETAIL.SNF_PER) As Snf_Per,
+sum(TSPL_MILK_SRN_DETAIL.FAT_kg) As [FAT(KG)],
+sum(TSPL_MILK_SRN_DETAIL.SNF_kg) As [SNF(KG)]
 
 from TSPL_MILK_SRN_DETAIL
 Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.Doc_Code=TSPL_MILK_SRN_DETAIL.Doc_Code
@@ -108,7 +118,10 @@ group by TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VL
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
-
+        Gv1.Columns("Fat_Per").IsVisible = False
+        Gv1.Columns("Snf_Per").IsVisible = False
+        Gv1.Columns("FatPer").HeaderText = "Fat(%)"
+        Gv1.Columns("SnfPer").HeaderText = "Snf(%)"
         Dim item1 As New GridViewSummaryItem("MILK WEIGHT", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
@@ -121,6 +134,7 @@ group by TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VL
         summaryRowItem.Add(item5)
         Dim item6 As New GridViewSummaryItem("Farmers Milk Qty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
+
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True

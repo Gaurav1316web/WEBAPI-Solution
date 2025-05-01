@@ -263,6 +263,8 @@ Public Class clsApplyLoan
             End If
             Dim qry As String = "Update TSPL_LOAN_APPLICATION set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where LOAN_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.LOAN_CODE, "TSPL_LOAN_APPLICATION", "LOAN_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

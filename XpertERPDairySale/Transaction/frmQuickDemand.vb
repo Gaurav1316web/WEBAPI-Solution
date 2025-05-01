@@ -207,13 +207,23 @@ Public Class frmQuickDemand
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
                     If e.Column.Name = colCustCode Then
+                        Dim qry As String = "select Cust_Code,Status from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If Not clsCommon.CompairString(dt.Rows(0)("Status"), "N") = CompairStringResult.Equal Then
+                                qry = clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value)
+                                gv1.CurrentRow.Cells(colCustCode).Value = ""
+                                Throw New Exception("Inactive Customer [ " + qry + " ]")
+                            End If
+                        End If
+
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" Status='N' and IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
                         Dim isExistingCust As Boolean = FindCustInGrid(gv1.CurrentRow.Cells(colCustCode).Value)
                         gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colSetZero).Value = 1
                         GetBoothDetail()
-                        Dim qry As String = "select top 1 TSPL_DEMAND_BOOKING_MASTER.Document_No from TSPL_DEMAND_BOOKING_MASTER 
+                        qry = "select top 1 TSPL_DEMAND_BOOKING_MASTER.Document_No from TSPL_DEMAND_BOOKING_MASTER 
 where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + cmbShift.Text + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value) + "' and tspl_demand_booking_master.posted=1 and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0"
                         Dim isDemandPosted As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                         Dim cust As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value)

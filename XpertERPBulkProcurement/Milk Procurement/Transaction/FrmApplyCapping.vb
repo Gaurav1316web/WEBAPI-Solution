@@ -299,7 +299,7 @@ where xxx.CappingCode is not null and (xxx.Farmer_FAT-xxx.FAT_PER>=0 or xxx.Farm
             Dim flag As Boolean = False
             For ii As Integer = 0 To gvDetail.Rows.Count - 1
                 If clsCommon.myLen(gvDetail.Rows(ii).Cells("Doc_Code").Value) > 0 Then
-                    clsMilkSRNMCC.Correction(clsCommon.myCstr(gvDetail.Rows(ii).Cells("Doc_Code").Value), False, True, False, 0, "", clsCommon.myCdbl(gvDetail.Rows(ii).Cells("NewFAT").Value), clsCommon.myCdbl(gvDetail.Rows(ii).Cells("NewSNF").Value), "", True)
+                    clsMilkSRNMCC.Correction(clsCommon.myCstr(gvDetail.Rows(ii).Cells("Doc_Code").Value), False, True, False, 0, "", clsCommon.myCdbl(gvDetail.Rows(ii).Cells("NewFAT").Value), clsCommon.myCdbl(gvDetail.Rows(ii).Cells("NewSNF").Value), "", True, Nothing)
                 End If
                 flag = True
             Next

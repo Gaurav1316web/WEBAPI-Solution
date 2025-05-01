@@ -255,9 +255,9 @@ Public Class clsDispatchNoteFreshSale
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             checkSaveNotification(obj.Document_Date, obj.Customer_Code, trans)
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+            'End If
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsBatchInventory.DeleteData("FS-SH", obj.Document_Code, trans)
@@ -594,6 +594,8 @@ Public Class clsDispatchNoteFreshSale
                 qry = "Update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' where Document_Code='" + obj.Document_Code + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+
         Catch err As Exception
 
             Throw New Exception(err.Message)
@@ -1235,6 +1237,7 @@ Public Class clsDispatchNoteFreshSale
             qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", trans)
 
             qry = "update TSPL_VEHICLE_MASTER set InOut='O' where Vehicle_Id='" & obj.Vehicle_Code & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1821,6 +1824,7 @@ Public Class clsDispatchNoteFreshSale
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
 
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

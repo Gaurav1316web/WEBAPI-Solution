@@ -528,6 +528,8 @@ Public Class clsItemIssueToAssembledAsset
             For Each objTr As clsItemIssueToAssembledAssetDetail In obj.Arr
                 Dim qry As String = "Update TSPL_IssueItemToAssembledAsset_Head set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", trans)
+
                 qry = " UPDATE TSPL_ACQUISITION_DETAIL SET Book_Source_value=ISSUE_AMT.Amount,Book_Source_Original_value=ISSUE_AMT.Amount FROM " & _
                       " (SELECT TSPL_IssueItemToAssembledAsset_Detail.Asset_Code,SUM(CASE WHEN TSPL_IssueItemToAssembledAsset_Head.Doc_Type='Issue' then  TSPL_IssueItemToAssembledAsset_Detail.Amount else -TSPL_IssueItemToAssembledAsset_Detail.Amount end) AS Amount " & _
                       " FROM TSPL_IssueItemToAssembledAsset_Detail " & _

@@ -399,7 +399,7 @@ Public Class clsPriceMaster
             Dim qry As String = "Update TSPL_ITEM_PRICE_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Item_Price_Id='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "tspl_item_price_master", "Item_Price_ID", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
 
         Catch ex As Exception
 
@@ -701,8 +701,9 @@ Public Class clsPriceComponent
             Dim obj As clsPriceComponent
             If clsCommon.myLen(strComponentCode) > 0 Then
                 obj = clsPriceComponent.GetData(strComponentCode, NavigatorType.Current)
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
+
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strComponentCode, "TSPL_PRICE_COMPONENT_MASTER", "Price_Comp_code", trans)
 
                 If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Price_Comp_code) > 0) Then
                     clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_PRICE_COMPONENT_MASTER_DELETE", New SqlParameter("@Price_Comp_code", strComponentCode))
@@ -814,6 +815,8 @@ Public Class clsPriceComponentMapping
     '============added by preeti gupta=================
     Public Transfer As Decimal = 0
     Public Inactive As Decimal = 0
+    Public Default_Type As Integer = 0
+
     '==================================================
 #End Region
     '----------------Code For Get Finder--------------------------------------------------------------------'
@@ -850,7 +853,7 @@ Public Class clsPriceComponentMapping
                 'clsCommon.AddColumnsForChange(coll, "Transfer", obj.Transfer)
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Update, "price_code='" & obj.Price_Code & "'", trans)
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Insert, "", trans)
-                clsDBFuncationality.ExecuteNonQuery("update TSPL_PRICE_COMPONENT_MAPPING set Transfer  =" & obj.Transfer & ",Inactive=" & obj.Inactive & " where Price_Code ='" & obj.Price_Code & "'", trans)
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_PRICE_COMPONENT_MAPPING set Transfer  =" & obj.Transfer & ",Inactive=" & obj.Inactive & ",default_Type=" & obj.Default_Type & " where Price_Code ='" & obj.Price_Code & "'", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_PRICE_COMPONENT_MAPPING", "Price_Code", trans)
 
             Next
@@ -902,7 +905,7 @@ Public Class clsPriceComponentMapping
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As List(Of clsPriceComponentMapping)
         Dim obj As clsPriceComponentMapping = Nothing
-        Dim qry As String = "SELECT distinct [Price_code] as [Price Code] ,[Price_Code_Desc] as [Description], Remarks,vendor_code,Transfer,Inactive FROM [TSPL_PRICE_COMPONENT_MAPPING] where 2=2"
+        Dim qry As String = "SELECT distinct [Price_code] as [Price Code] ,[Price_Code_Desc] as [Description], Remarks,vendor_code,Transfer,Inactive,Default_Type FROM [TSPL_PRICE_COMPONENT_MAPPING] where 2=2"
         Select Case NavType
             Case NavigatorType.Current
                 qry += " and TSPL_PRICE_COMPONENT_MAPPING.Price_code in ('" + strCode + "')"
@@ -935,6 +938,8 @@ Public Class clsPriceComponentMapping
                     obj.Amount = clsCommon.myCdbl(dr("Amount"))
                     obj.Transfer = clsCommon.myCdbl(dt.Rows(0)("Transfer"))
                     obj.Inactive = clsCommon.myCdbl(dt.Rows(0)("Inactive"))
+                    obj.Default_Type = clsCommon.myCdbl(dt.Rows(0)("Default_Type"))
+
                     arr.Add(obj)
                 Next
             End If

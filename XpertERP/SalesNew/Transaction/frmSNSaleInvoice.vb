@@ -29,6 +29,7 @@ Public Class frmSNSaleInvoice
     Private AllowChangeInvoiceType As Boolean = False
     Public strExcise As Boolean
     Public intMRPwithabatement As Integer
+    Public Inter_unit_Sale As Integer = 0
     Public strSaleInvoice As String = Nothing
     Private isPO_GRN_MRN_Editable As Boolean = False
     Public Const RowTypeItem As String = "Item"
@@ -5376,6 +5377,7 @@ Public Class frmSNSaleInvoice
                     '' currency details
 
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
+                    Inter_unit_Sale = clsCommon.myCdbl(objOrderHead.Inter_unit_sale)
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
                     If objOrderHead.ApplicableFrom IsNot Nothing Then
                         Me.txtApplicableFrom.Text = objOrderHead.ApplicableFrom

@@ -47,6 +47,7 @@ Partial Class frmCorrection
         Me.txtVLC = New common.UserControls.txtFinder()
         Me.lblVLC = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkMarkAsSuspence = New common.Controls.MyCheckBox()
         Me.cboRejectType = New common.Controls.MyComboBox()
         Me.chkCorrection = New common.Controls.MyCheckBox()
         Me.chkRetesting = New common.Controls.MyCheckBox()
@@ -189,6 +190,7 @@ Partial Class frmCorrection
         CType(Me.lblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkMarkAsSuspence, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -343,7 +345,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -579,6 +581,7 @@ Partial Class frmCorrection
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkMarkAsSuspence)
         Me.RadGroupBox1.Controls.Add(Me.cboRejectType)
         Me.RadGroupBox1.Controls.Add(Me.chkCorrection)
         Me.RadGroupBox1.Controls.Add(Me.chkRetesting)
@@ -603,9 +606,20 @@ Partial Class frmCorrection
         Me.RadGroupBox1.HeaderText = "Correction"
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 91)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(437, 201)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(566, 201)
         Me.RadGroupBox1.TabIndex = 1
         Me.RadGroupBox1.Text = "Correction"
+        '
+        'chkMarkAsSuspence
+        '
+        Me.chkMarkAsSuspence.Location = New System.Drawing.Point(353, 114)
+        Me.chkMarkAsSuspence.MyLinkLable1 = Nothing
+        Me.chkMarkAsSuspence.MyLinkLable2 = Nothing
+        Me.chkMarkAsSuspence.Name = "chkMarkAsSuspence"
+        Me.chkMarkAsSuspence.Size = New System.Drawing.Size(111, 18)
+        Me.chkMarkAsSuspence.TabIndex = 373
+        Me.chkMarkAsSuspence.Tag1 = Nothing
+        Me.chkMarkAsSuspence.Text = "Mark As Suspence"
         '
         'cboRejectType
         '
@@ -642,7 +656,7 @@ Partial Class frmCorrection
         '
         Me.chkCorrection.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkCorrection.Enabled = False
-        Me.chkCorrection.Location = New System.Drawing.Point(358, 22)
+        Me.chkCorrection.Location = New System.Drawing.Point(353, 22)
         Me.chkCorrection.MyLinkLable1 = Nothing
         Me.chkCorrection.MyLinkLable2 = Nothing
         Me.chkCorrection.Name = "chkCorrection"
@@ -681,7 +695,7 @@ Partial Class frmCorrection
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(175, 46)
+        Me.MyLabel6.Location = New System.Drawing.Point(192, 46)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(33, 16)
         Me.MyLabel6.TabIndex = 17
@@ -692,7 +706,7 @@ Partial Class frmCorrection
         Me.lblUOM.AutoSize = False
         Me.lblUOM.BorderVisible = True
         Me.lblUOM.FieldName = Nothing
-        Me.lblUOM.Location = New System.Drawing.Point(241, 44)
+        Me.lblUOM.Location = New System.Drawing.Point(242, 44)
         Me.lblUOM.Name = "lblUOM"
         Me.lblUOM.Size = New System.Drawing.Size(102, 21)
         Me.lblUOM.TabIndex = 16
@@ -712,7 +726,7 @@ Partial Class frmCorrection
         Me.lblSRNNo.AutoSize = False
         Me.lblSRNNo.BorderVisible = True
         Me.lblSRNNo.FieldName = Nothing
-        Me.lblSRNNo.Location = New System.Drawing.Point(71, 21)
+        Me.lblSRNNo.Location = New System.Drawing.Point(72, 21)
         Me.lblSRNNo.Name = "lblSRNNo"
         Me.lblSRNNo.Size = New System.Drawing.Size(272, 21)
         Me.lblSRNNo.TabIndex = 13
@@ -722,7 +736,7 @@ Partial Class frmCorrection
         Me.MyLabel5.AutoSize = False
         Me.MyLabel5.BorderVisible = True
         Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(71, 139)
+        Me.MyLabel5.Location = New System.Drawing.Point(72, 139)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(272, 21)
         Me.MyLabel5.TabIndex = 12
@@ -747,7 +761,7 @@ Partial Class frmCorrection
         RadListDataItem6.Text = "E"
         Me.cboMilkType.Items.Add(RadListDataItem5)
         Me.cboMilkType.Items.Add(RadListDataItem6)
-        Me.cboMilkType.Location = New System.Drawing.Point(71, 92)
+        Me.cboMilkType.Location = New System.Drawing.Point(72, 92)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
         Me.cboMilkType.MyLinkLable2 = Nothing
@@ -772,7 +786,7 @@ Partial Class frmCorrection
         '
         Me.btnnew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnnew.Location = New System.Drawing.Point(256, 173)
+        Me.btnnew.Location = New System.Drawing.Point(286, 173)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(88, 21)
         Me.btnnew.TabIndex = 6
@@ -792,7 +806,7 @@ Partial Class frmCorrection
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(71, 173)
+        Me.btnSave.Location = New System.Drawing.Point(192, 173)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(88, 21)
         Me.btnSave.TabIndex = 5
@@ -810,7 +824,7 @@ Partial Class frmCorrection
         Me.TxtFinder1.IsSourceFromTable = False
         Me.TxtFinder1.IsSourceFromValueList = False
         Me.TxtFinder1.IsUnique = False
-        Me.TxtFinder1.Location = New System.Drawing.Point(71, 114)
+        Me.TxtFinder1.Location = New System.Drawing.Point(72, 114)
         Me.TxtFinder1.MendatroryField = True
         Me.TxtFinder1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtFinder1.MyLinkLable1 = Me.MyLabel2
@@ -849,7 +863,7 @@ Partial Class frmCorrection
         Me.txtQty.IsSourceFromTable = False
         Me.txtQty.IsSourceFromValueList = False
         Me.txtQty.IsUnique = False
-        Me.txtQty.Location = New System.Drawing.Point(71, 45)
+        Me.txtQty.Location = New System.Drawing.Point(72, 45)
         Me.txtQty.MendatroryField = False
         Me.txtQty.MyLinkLable1 = Me.MyLabel1
         Me.txtQty.MyLinkLable2 = Nothing
@@ -887,7 +901,7 @@ Partial Class frmCorrection
         Me.txtSNF.IsSourceFromTable = False
         Me.txtSNF.IsSourceFromValueList = False
         Me.txtSNF.IsUnique = False
-        Me.txtSNF.Location = New System.Drawing.Point(241, 68)
+        Me.txtSNF.Location = New System.Drawing.Point(242, 68)
         Me.txtSNF.MendatroryField = False
         Me.txtSNF.MyLinkLable1 = Me.LblManualSNF_Per
         Me.txtSNF.MyLinkLable2 = Nothing
@@ -905,7 +919,7 @@ Partial Class frmCorrection
         '
         Me.LblManualSNF_Per.FieldName = Nothing
         Me.LblManualSNF_Per.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblManualSNF_Per.Location = New System.Drawing.Point(175, 70)
+        Me.LblManualSNF_Per.Location = New System.Drawing.Point(192, 70)
         Me.LblManualSNF_Per.Name = "LblManualSNF_Per"
         Me.LblManualSNF_Per.Size = New System.Drawing.Size(29, 16)
         Me.LblManualSNF_Per.TabIndex = 8
@@ -925,7 +939,7 @@ Partial Class frmCorrection
         Me.txtFAT.IsSourceFromTable = False
         Me.txtFAT.IsSourceFromValueList = False
         Me.txtFAT.IsUnique = False
-        Me.txtFAT.Location = New System.Drawing.Point(71, 68)
+        Me.txtFAT.Location = New System.Drawing.Point(72, 68)
         Me.txtFAT.MendatroryField = False
         Me.txtFAT.MyLinkLable1 = Me.LblManualFAT_Per
         Me.txtFAT.MyLinkLable2 = Nothing
@@ -2462,6 +2476,7 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkMarkAsSuspence, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2732,4 +2747,5 @@ Partial Class frmCorrection
     Friend WithEvents chkPreviousShift As common.Controls.MyCheckBox
     Friend WithEvents cboRejectType As common.Controls.MyComboBox
     Friend WithEvents chkAvgFATSNF As common.Controls.MyCheckBox
+    Friend WithEvents chkMarkAsSuspence As common.Controls.MyCheckBox
 End Class

@@ -36,9 +36,10 @@ Public Class ClsProfitCenterMaster
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PROFIT_CENTER_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_PROFIT_CENTER_MASTER", "Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PROFIT_CENTER_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_PROFIT_CENTER_MASTER", "Code", trans)
+
             isSaved = isSaved AndAlso clsProfitCenterMapping.SaveData(obj.Code, obj.arrCenterList, trans)
             'trans.Commit()
         Catch err As Exception

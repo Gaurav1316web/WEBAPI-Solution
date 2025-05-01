@@ -2076,9 +2076,10 @@ Public Class frmImplementImportExport
                             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_GROUP_MASTER", OMInsertOrUpdate.Insert, "", trans)
                         Else
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCustGroup), "TSPL_CUSTOMER_GROUP_MASTER", "Cust_Group_Code", trans)
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_GROUP_MASTER", OMInsertOrUpdate.Update, "Cust_Group_Code='" + strCustGroup + "'", trans)
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCustGroup), "TSPL_CUSTOMER_GROUP_MASTER", "Cust_Group_Code", trans)
+
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()

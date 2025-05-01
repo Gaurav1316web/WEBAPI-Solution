@@ -21,7 +21,7 @@ Public Class frmFATSNFDiffReport
         Reset()
         If SettCalculateFATSNFLossByCycleWise Then
             rbtnMCCWise.IsChecked = True
-            GroupBox1.Visible = False
+            'GroupBox1.Visible = False
         End If
     End Sub
 
@@ -44,10 +44,15 @@ Public Class frmFATSNFDiffReport
     End Sub
     Sub Print(ByVal isPrint As Boolean)
         Try
+            Dim strDecimalPlacesAmt As String = "2"
             Dim strDecimalPlaces As String = "2"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 strDecimalPlaces = "3"
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                strDecimalPlacesAmt = "0"
+            End If
+
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -71,10 +76,10 @@ Public Class frmFATSNFDiffReport
             ElseIf rbtnMCCWise.IsChecked Then
                 Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
                 If SettCalculateFATSNFLossByCycleWise Then
-                    Qry = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
-,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
-,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
-,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt
+                    Qry = " select xxx.MCC_Code,xxx.[MCC Uploader Code],xxx.MCC_NAME,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
+,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18," + strDecimalPlacesAmt + ")) as FatAmt 
+,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18," + strDecimalPlacesAmt + ")) as SNFAmt 
+,(cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) )as decimal(18," + strDecimalPlacesAmt + ")) + cast((((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18," + strDecimalPlacesAmt + "))) as Amt,max(FindCode) as FindCode
 from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=xxx.FindCode"
                 End If
                 Qry += " order by MCC_NAME"
@@ -136,7 +141,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
         If rbtnDetails.IsChecked Then
             Gv1.Columns("MCC_Code").HeaderText = "BMC Code"
             Gv1.Columns("MCC_Code").IsVisible = False
-
+            Gv1.Columns("FindCode").IsVisible = False
             Gv1.Columns("MCC_NAME").HeaderText = "BMC"
             Gv1.Columns("Document_Date").HeaderText = "Date"
             Gv1.Columns("MCC Uploader Code").HeaderText = "MCC Uploader Code"
@@ -155,6 +160,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
         ElseIf rbtnMCCWise.IsChecked Then
             Gv1.Columns("MCC_Code").HeaderText = "BMC Code"
             Gv1.Columns("MCC_Code").IsVisible = False
+            Gv1.Columns("FindCode").IsVisible = False
             Gv1.Columns("MCC_NAME").HeaderText = "BMC"
             Gv1.Columns("MCC Uploader Code").HeaderText = "MCC Uploader Code"
             Gv1.Columns("MCCQty").HeaderText = "BMC Qty"
@@ -176,8 +182,6 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
             Else
                 summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
             End If
-
-
         Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -220,9 +224,11 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
                 arrHeader.Add("Mcc : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrValueMember))
             End If
             arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
-
-
-
+            If clsCommon.myLen(Gv1.Rows(0).Cells("FindCode").Value) > 0 Then
+                Dim qry As String = "select 'Rate/KG FAT : (R)'+ cast( Loss_FAT_Rate as varchar)+'   (P)'+cast(Gain_FAT_Rate as varchar)+' ,   Rate/KG SNF : (R)'+cast(Loss_SNF_Rate as varchar)+'  (P)'+cast(Gain_SNF_Rate as varchar)+'' from TSPL_OWN_BMC_GAIN_LOSS_RATE where Code='" + clsCommon.myCstr(Gv1.Rows(0).Cells("FindCode").Value) + "'"
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                arrHeader.Add(qry)
+            End If
             If exporter = EnumExportTo.Excel Then
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             Else

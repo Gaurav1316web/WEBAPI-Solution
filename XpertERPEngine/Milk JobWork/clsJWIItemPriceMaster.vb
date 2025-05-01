@@ -31,7 +31,7 @@ Public Class clsJWIItemPriceMaster
 
     Public Function SaveData(ByVal obj As clsJWIItemPriceMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_JWI_PRICE_HEAD", "Price_Code", "TSPL_JWI_PRICE_DETAIL", "Price_Code", "TSPL_JWI_PRICE_DETAIL_ALL_UOM", "Price_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_JWI_PRICE_HEAD", "Price_Code", "TSPL_JWI_PRICE_DETAIL", "Price_Code", "TSPL_JWI_PRICE_DETAIL_ALL_UOM", "Price_Code", trans)
 
             Dim qry As String = "delete from TSPL_JWI_PRICE_DETAIL where Price_Code='" + obj.Price_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -68,6 +68,7 @@ Public Class clsJWIItemPriceMaster
             End If
             clsJWIItemPriceDetail.SaveData(obj.Price_Code, obj.Arr, trans)
             clsJWIVendorDetail.SaveData(obj.Price_Code, obj.ArrVendor, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_JWI_PRICE_HEAD", "Price_Code", "TSPL_JWI_PRICE_DETAIL", "Price_Code", "TSPL_JWI_PRICE_DETAIL_ALL_UOM", "Price_Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -79,6 +80,8 @@ Public Class clsJWIItemPriceMaster
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_JWI_PRICE_HEAD", "Price_Code", "TSPL_JWI_PRICE_DETAIL", "Price_Code", tran)
+
             qry = "Delete from TSPL_JWI_PRICE_DETAIL_ALL_UOM where Price_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
             qry = "Delete from TSPL_JWI_PRICE_DETAIL where Price_Code='" + strCode + "'"
@@ -214,6 +217,8 @@ Public Class clsJWIItemPriceMaster
 
             Dim qry As String = "Update TSPL_JWI_PRICE_HEAD set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Price_Code='" + obj.Price_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Price_Code, "TSPL_JWI_PRICE_HEAD", "Price_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

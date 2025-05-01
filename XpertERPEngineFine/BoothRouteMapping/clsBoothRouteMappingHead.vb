@@ -34,7 +34,7 @@ Public Class clsBoothRouteMappingHead
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
             clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Datedeletedata", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
 
             If isNewEntry Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.BoothRouteMapping, "", "")

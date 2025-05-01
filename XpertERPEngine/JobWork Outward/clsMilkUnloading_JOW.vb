@@ -62,6 +62,8 @@ Public Class clsMilkUnloading_JOW
             'End If
             Dim strQry As String = " update TSPL_JWO_UNLOADING set isPosted='1', Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where Unloading_no='" & StrDocNo & "'"
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrDocNo, "TSPL_JWO_UNLOADING", "Unloading_no", trans)
+
             If isTrnasInitPostData Then
                 If isPosted Then
                     trans.Commit()
@@ -86,6 +88,9 @@ Public Class clsMilkUnloading_JOW
 
     Public Shared Function deleteData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JWO_UNLOADING", "Unloading_no", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JWO_UNLOADING", "Unloading_no", trans)
+
             Dim qry As String = "delete from TSPL_JWO_UNLOADING where Unloading_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -172,8 +177,9 @@ Public Class clsMilkUnloading_JOW
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_UNLOADING", OMInsertOrUpdate.Insert, "", trans)
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_UNLOADING", OMInsertOrUpdate.Update, "TSPL_JWO_UNLOADING.Unloading_no='" + obj.Unloading_No + "'", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_JWO_UNLOADING", "Unloading_no", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_JWO_UNLOADING", "Unloading_no", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

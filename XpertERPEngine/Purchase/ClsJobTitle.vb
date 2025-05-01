@@ -45,7 +45,7 @@ Public Class ClsJobTitle
             trans.Commit()
 
             'If Not isNewEntry Then
-            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Job_Title_Code), "TSPL_HR_JOB_TITLE", "Job_Title_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Job_Title_Code), "TSPL_HR_JOB_TITLE", "Job_Title_Code", trans)
             'End If
 
         Catch err As Exception

@@ -25,10 +25,12 @@ Partial Class rptMonthlyBillSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
         Me.rbtnrouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDateWise = New common.Controls.MyRadioButton()
         Me.rbtnDocumentdate = New common.Controls.MyRadioButton()
         Me.rbtnSupplydate = New common.Controls.MyRadioButton()
         Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
@@ -40,11 +42,10 @@ Partial Class rptMonthlyBillSummary
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnprintDetail = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.btnprintDetail = New Telerik.WinControls.UI.RadButton()
-        Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,6 +58,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,10 +69,10 @@ Partial Class rptMonthlyBillSummary
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,23 +124,33 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageViewPage1.Size = New System.Drawing.Size(880, 365)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'chkExcludeShift
+        '
+        Me.chkExcludeShift.AutoSize = True
+        Me.chkExcludeShift.Location = New System.Drawing.Point(785, 17)
+        Me.chkExcludeShift.Name = "chkExcludeShift"
+        Me.chkExcludeShift.Size = New System.Drawing.Size(92, 17)
+        Me.chkExcludeShift.TabIndex = 448
+        Me.chkExcludeShift.Text = "Exclude Shift"
+        Me.chkExcludeShift.UseVisualStyleBackColor = True
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Controls.Add(Me.rbtnCustomerWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnrouteWise)
         Me.RadGroupBox1.HeaderText = "Report Type"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(533, 2)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(557, 2)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(246, 43)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(222, 43)
         Me.RadGroupBox1.TabIndex = 447
         Me.RadGroupBox1.Text = "Report Type"
         '
         'rbtnCustomerWise
         '
         Me.rbtnCustomerWise.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnCustomerWise.Location = New System.Drawing.Point(30, 17)
+        Me.rbtnCustomerWise.Location = New System.Drawing.Point(13, 17)
         Me.rbtnCustomerWise.MyLinkLable1 = Nothing
         Me.rbtnCustomerWise.MyLinkLable2 = Nothing
         Me.rbtnCustomerWise.Name = "rbtnCustomerWise"
@@ -149,7 +161,7 @@ Partial Class rptMonthlyBillSummary
         '
         'rbtnrouteWise
         '
-        Me.rbtnrouteWise.Location = New System.Drawing.Point(152, 15)
+        Me.rbtnrouteWise.Location = New System.Drawing.Point(132, 16)
         Me.rbtnrouteWise.MyLinkLable1 = Nothing
         Me.rbtnrouteWise.MyLinkLable2 = Nothing
         Me.rbtnrouteWise.Name = "rbtnrouteWise"
@@ -161,20 +173,32 @@ Partial Class rptMonthlyBillSummary
         'RadGroupBox5
         '
         Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDateWise)
         Me.RadGroupBox5.Controls.Add(Me.rbtnDocumentdate)
         Me.RadGroupBox5.Controls.Add(Me.rbtnSupplydate)
         Me.RadGroupBox5.HeaderText = "Date Type"
         Me.RadGroupBox5.Location = New System.Drawing.Point(276, 3)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(254, 40)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(275, 40)
         Me.RadGroupBox5.TabIndex = 446
         Me.RadGroupBox5.Text = "Date Type"
+        '
+        'rbtnDateWise
+        '
+        Me.rbtnDateWise.Location = New System.Drawing.Point(199, 15)
+        Me.rbtnDateWise.MyLinkLable1 = Nothing
+        Me.rbtnDateWise.MyLinkLable2 = Nothing
+        Me.rbtnDateWise.Name = "rbtnDateWise"
+        Me.rbtnDateWise.Size = New System.Drawing.Size(71, 18)
+        Me.rbtnDateWise.TabIndex = 393
+        Me.rbtnDateWise.TabStop = False
+        Me.rbtnDateWise.Text = "Date Wise"
         '
         'rbtnDocumentdate
         '
         Me.rbtnDocumentdate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDocumentdate.Location = New System.Drawing.Point(30, 17)
+        Me.rbtnDocumentdate.Location = New System.Drawing.Point(9, 15)
         Me.rbtnDocumentdate.MyLinkLable1 = Nothing
         Me.rbtnDocumentdate.MyLinkLable2 = Nothing
         Me.rbtnDocumentdate.Name = "rbtnDocumentdate"
@@ -185,7 +209,7 @@ Partial Class rptMonthlyBillSummary
         '
         'rbtnSupplydate
         '
-        Me.rbtnSupplydate.Location = New System.Drawing.Point(152, 15)
+        Me.rbtnSupplydate.Location = New System.Drawing.Point(111, 15)
         Me.rbtnSupplydate.MyLinkLable1 = Nothing
         Me.rbtnSupplydate.MyLinkLable2 = Nothing
         Me.rbtnSupplydate.Name = "rbtnSupplydate"
@@ -303,6 +327,16 @@ Partial Class rptMonthlyBillSummary
         Me.txtfDate.Text = "24/10/2011"
         Me.txtfDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
+        'btnprintDetail
+        '
+        Me.btnprintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprintDetail.Location = New System.Drawing.Point(111, 7)
+        Me.btnprintDetail.Name = "btnprintDetail"
+        Me.btnprintDetail.Size = New System.Drawing.Size(80, 18)
+        Me.btnprintDetail.TabIndex = 166
+        Me.btnprintDetail.Text = "Detail Print"
+        Me.btnprintDetail.Visible = False
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -320,6 +354,7 @@ Partial Class rptMonthlyBillSummary
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 166
         Me.btnReset.Text = "Reset"
+        Me.btnReset.Visible = False
         '
         'btnPrint
         '
@@ -328,26 +363,7 @@ Partial Class rptMonthlyBillSummary
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(96, 18)
         Me.btnPrint.TabIndex = 165
-        Me.btnPrint.Text = "Summary Print"
-        '
-        'btnprintDetail
-        '
-        Me.btnprintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnprintDetail.Location = New System.Drawing.Point(111, 7)
-        Me.btnprintDetail.Name = "btnprintDetail"
-        Me.btnprintDetail.Size = New System.Drawing.Size(80, 18)
-        Me.btnprintDetail.TabIndex = 166
-        Me.btnprintDetail.Text = "Detail Print"
-        '
-        'chkExcludeShift
-        '
-        Me.chkExcludeShift.AutoSize = True
-        Me.chkExcludeShift.Location = New System.Drawing.Point(785, 17)
-        Me.chkExcludeShift.Name = "chkExcludeShift"
-        Me.chkExcludeShift.Size = New System.Drawing.Size(92, 17)
-        Me.chkExcludeShift.TabIndex = 448
-        Me.chkExcludeShift.Text = "Exclude Shift"
-        Me.chkExcludeShift.UseVisualStyleBackColor = True
+        Me.btnPrint.Text = "Print"
         '
         'rptMonthlyBillSummary
         '
@@ -376,6 +392,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -387,10 +404,10 @@ Partial Class rptMonthlyBillSummary
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -419,4 +436,5 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents rbtnrouteWise As common.Controls.MyRadioButton
     Friend WithEvents btnprintDetail As RadButton
     Friend WithEvents chkExcludeShift As CheckBox
+    Friend WithEvents rbtnDateWise As common.Controls.MyRadioButton
 End Class

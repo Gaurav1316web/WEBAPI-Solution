@@ -1628,8 +1628,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             Dim StockQty As Decimal
             Dim isBatchWise As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Batch_Item from tspl_item_master Where Item_Code='" + Item_Code + "'", trans))
             If (isBatchWise AndAlso Not Is_Batch_Item) OrElse (Not isBatchWise AndAlso Is_Batch_Item) Then
-                StockQty = clsDBFuncationality.getSingleValue("select sum(Stock_Qty)  as Stock_Qty from ( select  (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end)  as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW 
-            " + Environment.NewLine + " union all " + Environment.NewLine + " select (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end) as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT )xx  where xx.item_code = '" + Item_Code + "' ", trans)
+                StockQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Stock_Qty)  as Stock_Qty from ( select  (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end)  as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW 
+            " + Environment.NewLine + " union all " + Environment.NewLine + " select (case when InOut = 'I' then 1 * isnull(Stock_Qty,0)  when InOut = 'O' then -1 *  isnull(Stock_Qty,0)  end) as Stock_Qty,Item_Code from TSPL_INVENTORY_MOVEMENT )xx  where xx.item_code = '" + Item_Code + "' ", trans))
                 If StockQty > 0 Then
                     If (isBatchWise AndAlso Not Is_Batch_Item) Then
                         Throw New Exception("You cannot make this Item without Batch wise because stock is available [" + clsCommon.myCstr(StockQty) + "]")

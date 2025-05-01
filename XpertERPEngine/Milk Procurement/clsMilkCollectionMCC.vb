@@ -67,14 +67,14 @@ Public Class clsMilkCollectionMCC
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Update"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Return False
-                Else
-                    Reason = frm.strRmks
-                End If
+                'Dim frm As New FrmFreeTxtBox1
+                'frm.Text = "Remarks for Update"
+                'frm.ShowDialog()
+                'If clsCommon.myLen(frm.strRmks) <= 0 Then
+                '    Return False
+                'Else
+                '    Reason = frm.strRmks
+                'End If
                 ' HistoryUpdate(obj.Document_No, trans)
             End If
             'Dim objTr As New clsMilkCollectionMCCDetail()
@@ -88,12 +88,13 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
-            'clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
+            End If
 
             'clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
-            clsCommon.AddColumnsForChange(coll, "Remark", Reason)
 
 
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
@@ -132,7 +133,7 @@ Public Class clsMilkCollectionMCC
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
             End If
             Dim isCorrection As Integer = 0
-            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection, False)
+            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection, False, Remark)
             HistoryUpdate(obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -477,7 +478,7 @@ Public Class clsMilkCollectionMCCDetail
         Try
             Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC where Document_No='" + strDocNo + "'", trans))
             Dim isCorrection As Integer = 0
-            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, False)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, False, Nothing)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -486,10 +487,10 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean, ByVal remark As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, isNewEntry)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection, isNewEntry, remark)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -498,24 +499,26 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer, ByVal isNewEntry As Boolean, ByVal Remark As String) As Boolean
         Dim Reason As String = ""
-        If isNewEntry = False Then
+        'If isNewEntry = False Then
 
-            Dim frm As New FrmFreeTxtBox1
-            frm.Text = "Remarks for Update"
-            frm.ShowDialog()
-            If clsCommon.myLen(frm.strRmks) <= 0 Then
-                Return False
-            Else
-                Reason = frm.strRmks
-            End If
-        End If
+        '    Dim frm As New FrmFreeTxtBox1
+        '    frm.Text = "Remarks for Update"
+        '    frm.ShowDialog()
+        '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '        Return False
+        '    Else
+        '        Reason = frm.strRmks
+        '    End If
+        'End If
 
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Remark", Reason)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    clsCommon.AddColumnsForChange(coll, "Remark", Remark)
+                End If
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                 clsCommon.AddColumnsForChange(coll, "Sample_No", obj.Sample_No)

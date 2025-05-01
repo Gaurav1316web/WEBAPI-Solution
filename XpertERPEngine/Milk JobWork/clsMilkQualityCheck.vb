@@ -241,9 +241,9 @@ Public Class clsMilkQualityCheck
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", clsCommon.myCstr(objCommonVar.CurrentCompanyCode))
             clsCommon.AddColumnsForChange(coll, "Remarks", clsCommon.myCstr(obj.Remarks))
-            If Not obj.isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_No), "tspl_Milk_quality_check", "qc_no", "TSPL_Milk_QC_Parameter_Detail", "qc_no", trans)
-            End If
+            'If Not obj.isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_No), "tspl_Milk_quality_check", "qc_no", "TSPL_Milk_QC_Parameter_Detail", "qc_no", trans)
+            'End If
             If obj.isNewEntry OrElse isHistory Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", clsCommon.myCstr(objCommonVar.CurrentUserCode))
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -252,6 +252,8 @@ Public Class clsMilkQualityCheck
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_Milk_quality_check", OMInsertOrUpdate.Update, "tspl_Milk_quality_check.QC_No='" + obj.QC_No + "'", trans)
             End If
             issaved = issaved AndAlso clsMilkQcParam.saveData(obj.arrQcParam, obj.QC_No, trans, isHistory)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_No), "tspl_Milk_quality_check", "qc_no", "TSPL_Milk_QC_Parameter_Detail", "qc_no", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -18,6 +18,7 @@ Public Class clsSNInvoiceHead
     Public is_taxable As Double = 0
     Public Inter_unit_sale As Integer = 0
     Public Is_Delivered As Integer = 0
+    'Public Inter_unit_sale As Integer = 0
     Public podate As DateTime? = Nothing
     Public Form_38_No As String = Nothing
     Public Cust_PO_No As String = Nothing

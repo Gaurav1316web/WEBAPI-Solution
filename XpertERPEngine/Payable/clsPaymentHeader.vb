@@ -237,11 +237,11 @@ Public Class clsPaymentHeader
                 End If
             End If
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_PAYMENT_HEADER", "Payment_No", "TSPL_PAYMENT_DETAIL", "Payment_No", "TSPL_PAYMENT_BANK_CHARGES_TAX", "Payment_No", "TSPL_PAYMENT_DETAIL_GST", "Payment_No", "", "", "", "", "", "", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_REMITTANCE", "Document_No", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_PAYMENT_HEADER", "Payment_No", "TSPL_PAYMENT_DETAIL", "Payment_No", "TSPL_PAYMENT_BANK_CHARGES_TAX", "Payment_No", "TSPL_PAYMENT_DETAIL_GST", "Payment_No", "", "", "", "", "", "", trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_REMITTANCE", "Document_No", trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+            'End If
 
             clsDBFuncationality.ExecuteNonQuery("Delete From TSPL_REMITTANCE Where Document_No='" + obj.Payment_No + "'", trans)
 
@@ -705,6 +705,11 @@ Public Class clsPaymentHeader
                     End If
                 End If
             End If
+            'If Not isNewEntry Then
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_PAYMENT_HEADER", "Payment_No", "TSPL_PAYMENT_DETAIL", "Payment_No", "TSPL_PAYMENT_BANK_CHARGES_TAX", "Payment_No", "TSPL_PAYMENT_DETAIL_GST", "Payment_No", "", "", "", "", "", "", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Payment_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+            'End If
 
         Catch err As Exception
 

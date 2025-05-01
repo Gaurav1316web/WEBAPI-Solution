@@ -53,6 +53,8 @@ Public Class clsSetPOSchedule
             End If
             clsSetPOScheduleDetail.SaveData(obj.Code, obj.ArrTr, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Code, obj.arrCustomFields, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
+
             trans.Commit()
 
             'If Not isNewEntry Then
@@ -147,6 +149,7 @@ Public Class clsSetPOSchedule
 
             Dim qry As String = "Update TSPL_SET_PO_SCHEDULE set Status=1,Posted_Date='" + strPostDate + "' where Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SET_PO_SCHEDULE", "Code", trans)
 
             trans.Commit()
 
@@ -168,6 +171,8 @@ Public Class clsSetPOSchedule
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
+
                 Dim qry As String = "delete from TSPL_SET_PO_SCHEDULE_DETAIL where Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
