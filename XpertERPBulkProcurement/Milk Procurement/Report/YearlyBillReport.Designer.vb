@@ -23,16 +23,15 @@ Partial Class YearlyBillReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbMonthCycle = New common.Controls.MyRadioButton()
+        Me.rdbCycleW = New common.Controls.MyRadioButton()
+        Me.rdbMonth = New common.Controls.MyRadioButton()
+        Me.rdbSummary = New common.Controls.MyRadioButton()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -44,16 +43,24 @@ Partial Class YearlyBillReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView2.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.rdbMonthCycle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCycleW, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbMonth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,6 +72,10 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,58 +100,6 @@ Partial Class YearlyBillReport
         Me.SplitContainer1.SplitterDistance = 409
         Me.SplitContainer1.TabIndex = 0
         '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
-        Me.btnExport.Location = New System.Drawing.Point(160, 8)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(95, 22)
-        Me.btnExport.TabIndex = 162
-        Me.btnExport.Text = "Export"
-        '
-        'btnExcel
-        '
-        Me.btnExcel.Name = "btnExcel"
-        Me.btnExcel.Text = "Excel"
-        Me.btnExcel.UseCompatibleTextRendering = False
-        '
-        'btnPDF
-        '
-        Me.btnPDF.Name = "btnPDF"
-        Me.btnPDF.Text = "PDF"
-        Me.btnPDF.UseCompatibleTextRendering = False
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(707, 8)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(84, 22)
-        Me.btnClose.TabIndex = 161
-        Me.btnClose.Text = "Close"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(12, 8)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 159
-        Me.btnGo.Text = ">>>"
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(86, 8)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(71, 22)
-        Me.btnReset.TabIndex = 160
-        Me.btnReset.Text = "Reset"
-        '
         'RadPageView2
         '
         Me.RadPageView2.Controls.Add(Me.RadPageViewPage4)
@@ -155,6 +114,7 @@ Partial Class YearlyBillReport
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage4.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel2)
@@ -165,6 +125,66 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage4.Text = "Filters"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rdbMonthCycle)
+        Me.RadGroupBox6.Controls.Add(Me.rdbCycleW)
+        Me.RadGroupBox6.Controls.Add(Me.rdbMonth)
+        Me.RadGroupBox6.Controls.Add(Me.rdbSummary)
+        Me.RadGroupBox6.HeaderText = ""
+        Me.RadGroupBox6.Location = New System.Drawing.Point(372, 9)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(366, 42)
+        Me.RadGroupBox6.TabIndex = 418
+        '
+        'rdbMonthCycle
+        '
+        Me.rdbMonthCycle.Location = New System.Drawing.Point(258, 11)
+        Me.rdbMonthCycle.MyLinkLable1 = Nothing
+        Me.rdbMonthCycle.MyLinkLable2 = Nothing
+        Me.rdbMonthCycle.Name = "rdbMonthCycle"
+        Me.rdbMonthCycle.Size = New System.Drawing.Size(104, 18)
+        Me.rdbMonthCycle.TabIndex = 4
+        Me.rdbMonthCycle.TabStop = False
+        Me.rdbMonthCycle.Text = "MonthCycleWise"
+        Me.rdbMonthCycle.Visible = False
+        '
+        'rdbCycleW
+        '
+        Me.rdbCycleW.Location = New System.Drawing.Point(164, 11)
+        Me.rdbCycleW.MyLinkLable1 = Nothing
+        Me.rdbCycleW.MyLinkLable2 = Nothing
+        Me.rdbCycleW.Name = "rdbCycleW"
+        Me.rdbCycleW.Size = New System.Drawing.Size(71, 18)
+        Me.rdbCycleW.TabIndex = 3
+        Me.rdbCycleW.TabStop = False
+        Me.rdbCycleW.Text = "CycleWise"
+        '
+        'rdbMonth
+        '
+        Me.rdbMonth.Location = New System.Drawing.Point(93, 11)
+        Me.rdbMonth.MyLinkLable1 = Nothing
+        Me.rdbMonth.MyLinkLable2 = Nothing
+        Me.rdbMonth.Name = "rdbMonth"
+        Me.rdbMonth.Size = New System.Drawing.Size(54, 18)
+        Me.rdbMonth.TabIndex = 2
+        Me.rdbMonth.TabStop = False
+        Me.rdbMonth.Text = "Month"
+        '
+        'rdbSummary
+        '
+        Me.rdbSummary.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbSummary.Location = New System.Drawing.Point(16, 11)
+        Me.rdbSummary.MyLinkLable1 = Nothing
+        Me.rdbSummary.MyLinkLable2 = Nothing
+        Me.rdbSummary.Name = "rdbSummary"
+        Me.rdbSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rdbSummary.TabIndex = 1
+        Me.rdbSummary.Text = "Summary"
+        Me.rdbSummary.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'txtRoute
         '
@@ -298,7 +318,7 @@ Partial Class YearlyBillReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -307,6 +327,58 @@ Partial Class YearlyBillReport
         Me.gv1.Size = New System.Drawing.Size(779, 359)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.btnExport.Location = New System.Drawing.Point(160, 8)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(95, 22)
+        Me.btnExport.TabIndex = 162
+        Me.btnExport.Text = "Export"
+        '
+        'btnExcel
+        '
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
+        '
+        'btnPDF
+        '
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(12, 8)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 159
+        Me.btnGo.Text = ">>>"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(707, 8)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(84, 22)
+        Me.btnClose.TabIndex = 161
+        Me.btnClose.Text = "Close"
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(86, 8)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(71, 22)
+        Me.btnReset.TabIndex = 160
+        Me.btnReset.Text = "Reset"
         '
         'YearlyBillReport
         '
@@ -323,14 +395,17 @@ Partial Class YearlyBillReport
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView2.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.rdbMonthCycle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCycleW, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbMonth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -343,6 +418,10 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -368,4 +447,9 @@ Partial Class YearlyBillReport
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage5 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rdbMonthCycle As common.Controls.MyRadioButton
+    Friend WithEvents rdbCycleW As common.Controls.MyRadioButton
+    Friend WithEvents rdbMonth As common.Controls.MyRadioButton
+    Friend WithEvents rdbSummary As common.Controls.MyRadioButton
 End Class
