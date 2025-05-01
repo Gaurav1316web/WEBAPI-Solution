@@ -1833,7 +1833,7 @@ xyz.Sale_Invoice_No, "
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
 
                     Else
-                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        pdfpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
                         'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)
                     End If
                     frmCRV = Nothing

@@ -132,6 +132,7 @@ Public Class frmCrystalReportViewer
         Dim PDFpath As String = ""
         Dim strReportPath As String = ""
         Dim rptshow As Boolean
+        Dim isPDFPathOrg As Boolean = isPDFPath
         Try
             If dt.Rows.Count > 0 Then
                 If objCommonVar.ShowAndSaveCrystalReportActionType Then
@@ -189,7 +190,9 @@ Public Class frmCrystalReportViewer
                     rpdoc.Export()
                     rpdoc.Close()
                     rpdoc.Dispose()
-                    clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    If Not isPDFPathOrg Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
                 Else
                     rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
@@ -287,7 +290,7 @@ Public Class frmCrystalReportViewer
                     End If
 
                     CrDiskFileDestinationOptions.DiskFileName = subPath
-                    PDFpath = CrDiskFileDestinationOptions.DiskFileName
+                    PDFPath = CrDiskFileDestinationOptions.DiskFileName
                     CrExportOptions = rpdoc.ExportOptions
 
                     With CrExportOptions
@@ -299,7 +302,9 @@ Public Class frmCrystalReportViewer
                     rpdoc.Export()
                     rpdoc.Close()
                     rpdoc.Dispose()
-                    clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    If Not isPDFPath Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
                 Else
                     rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
@@ -391,6 +396,7 @@ Public Class frmCrystalReportViewer
     Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
         Dim PDFPath As String = ""
         Dim strReportPath As String = Nothing
+        Dim isPDFPathOrg As Boolean = isPDFPath
         Try
             Dim rptshow As Boolean
             If dt1.Rows.Count > 0 Then
@@ -503,9 +509,11 @@ Public Class frmCrystalReportViewer
                     CrDiskFileDestinationOptions = Nothing
                     CrFormatTypeOptions = Nothing
                     Me.Close()
-                    clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    If Not isPDFPathOrg Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
                 Else
-                    rpdoc.ReportOptions.EnableSaveDataWithReport = False
+                        rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
                     rptshow = True
                     Me.Text = strReportPath
