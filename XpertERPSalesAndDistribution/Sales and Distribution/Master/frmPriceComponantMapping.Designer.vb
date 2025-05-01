@@ -49,6 +49,9 @@ Partial Class FrmPriceComponantMapping
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDefaultIGST = New common.Controls.MyRadioButton()
+        Me.rbtnDefaultGST = New common.Controls.MyRadioButton()
         Me.chkInActive = New System.Windows.Forms.CheckBox()
         Me.chkTransfer = New System.Windows.Forms.CheckBox()
         Me.txtprinciple = New common.Controls.MyLabel()
@@ -77,6 +80,10 @@ Partial Class FrmPriceComponantMapping
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDefaultGST, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtprinciple, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvpCustomFields.SuspendLayout()
@@ -338,6 +345,7 @@ Partial Class FrmPriceComponantMapping
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.chkInActive)
         Me.RadPageViewPage1.Controls.Add(Me.chkTransfer)
         Me.RadPageViewPage1.Controls.Add(Me.txtprinciple)
@@ -356,6 +364,41 @@ Partial Class FrmPriceComponantMapping
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 411)
         Me.RadPageViewPage1.Text = "Customer"
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultIGST)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultGST)
+        Me.RadGroupBox5.HeaderText = "Default Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(675, 3)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(206, 40)
+        Me.RadGroupBox5.TabIndex = 447
+        Me.RadGroupBox5.Text = "Default Type"
+        '
+        'rbtnDefaultIGST
+        '
+        Me.rbtnDefaultIGST.Location = New System.Drawing.Point(9, 15)
+        Me.rbtnDefaultIGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultIGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultIGST.Name = "rbtnDefaultIGST"
+        Me.rbtnDefaultIGST.Size = New System.Drawing.Size(82, 18)
+        Me.rbtnDefaultIGST.TabIndex = 393
+        Me.rbtnDefaultIGST.TabStop = False
+        Me.rbtnDefaultIGST.Text = "Default IGST"
+        '
+        'rbtnDefaultGST
+        '
+        Me.rbtnDefaultGST.Location = New System.Drawing.Point(111, 15)
+        Me.rbtnDefaultGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultGST.Name = "rbtnDefaultGST"
+        Me.rbtnDefaultGST.Size = New System.Drawing.Size(79, 18)
+        Me.rbtnDefaultGST.TabIndex = 393
+        Me.rbtnDefaultGST.TabStop = False
+        Me.rbtnDefaultGST.Text = "Default GST"
         '
         'chkInActive
         '
@@ -487,6 +530,11 @@ Partial Class FrmPriceComponantMapping
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDefaultGST, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtprinciple, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
@@ -524,5 +572,8 @@ Partial Class FrmPriceComponantMapping
     Friend WithEvents chkTransfer As System.Windows.Forms.CheckBox
     Friend WithEvents chkInActive As CheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnDefaultIGST As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDefaultGST As common.Controls.MyRadioButton
 End Class
 

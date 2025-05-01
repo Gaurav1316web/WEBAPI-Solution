@@ -27722,8 +27722,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Tax_Group_Code_InterState", "varchar(12) NULL")
             coll.Add("Tax_Group_Description_InterState", "varchar(50) NULL")
             coll.Add("Active", "integer not null default 0")
+             coll.Add("Default_Type", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_TAX_GROUP_MASTER", coll, "PRIMARY KEY (Tax_Group_Code, Tax_Group_Type)")
-
+          
             coll = New Dictionary(Of String, String)()
             coll.Add("CURRENCY_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
             coll.Add("ConvRate", "Decimal(18,6) NOT NULL DEFAULT 1")
@@ -27764,6 +27765,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Transfer", "int DEFAULT 0")
             coll.Add("Inactive", "int Not Null DEFAULT 0")
+                         coll.Add("Default_Type", "integer null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PRICE_COMPONENT_MAPPING", coll, "PRIMARY KEY (Price_Code, Price_Comp_Code)", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()

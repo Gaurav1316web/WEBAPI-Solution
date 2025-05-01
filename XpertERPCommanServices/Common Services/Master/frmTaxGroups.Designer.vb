@@ -22,18 +22,18 @@ Partial Class FrmTaxGroups
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewMultiComboBoxColumn2 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewMultiComboBoxColumn5 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn17 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn18 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn19 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewMultiComboBoxColumn6 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn20 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn21 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn22 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn23 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn24 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.menuFile = New Telerik.WinControls.UI.RadMenuItem()
         Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -71,6 +71,10 @@ Partial Class FrmTaxGroups
         Me.gvDB = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDefaultNonTaxabale = New common.Controls.MyRadioButton()
+        Me.rbtnDefaultIGST = New common.Controls.MyRadioButton()
+        Me.rbtnDefaultLocalGST = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -111,6 +115,11 @@ Partial Class FrmTaxGroups
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnDefaultNonTaxabale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDefaultLocalGST, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,9 +163,10 @@ Partial Class FrmTaxGroups
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox5)
+        Me.RadGroupBox1.Controls.Add(Me.pnlCurrConv)
         Me.RadGroupBox1.Controls.Add(Me.gbActive)
         Me.RadGroupBox1.Controls.Add(Me.chkTaxExempted)
-        Me.RadGroupBox1.Controls.Add(Me.pnlCurrConv)
         Me.RadGroupBox1.Controls.Add(Me.chkTransfer)
         Me.RadGroupBox1.Controls.Add(Me.lblTaxGroup)
         Me.RadGroupBox1.Controls.Add(Me.txtRowNo)
@@ -180,7 +190,7 @@ Partial Class FrmTaxGroups
         Me.gbActive.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.gbActive.Controls.Add(Me.chkActive)
         Me.gbActive.HeaderText = ""
-        Me.gbActive.Location = New System.Drawing.Point(787, 45)
+        Me.gbActive.Location = New System.Drawing.Point(682, 33)
         Me.gbActive.Name = "gbActive"
         Me.gbActive.Size = New System.Drawing.Size(118, 25)
         Me.gbActive.TabIndex = 176
@@ -195,7 +205,7 @@ Partial Class FrmTaxGroups
         '
         'chkTaxExempted
         '
-        Me.chkTaxExempted.Location = New System.Drawing.Point(691, 49)
+        Me.chkTaxExempted.Location = New System.Drawing.Point(806, 34)
         Me.chkTaxExempted.MyLinkLable1 = Nothing
         Me.chkTaxExempted.MyLinkLable2 = Nothing
         Me.chkTaxExempted.Name = "chkTaxExempted"
@@ -209,7 +219,7 @@ Partial Class FrmTaxGroups
         Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
         Me.pnlCurrConv.Controls.Add(Me.MyLabel1)
-        Me.pnlCurrConv.Location = New System.Drawing.Point(687, 7)
+        Me.pnlCurrConv.Location = New System.Drawing.Point(681, 5)
         Me.pnlCurrConv.Name = "pnlCurrConv"
         Me.pnlCurrConv.Size = New System.Drawing.Size(224, 25)
         Me.pnlCurrConv.TabIndex = 13
@@ -245,7 +255,7 @@ Partial Class FrmTaxGroups
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 3)
+        Me.MyLabel1.Location = New System.Drawing.Point(0, 3)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel1.TabIndex = 7
@@ -323,16 +333,16 @@ Partial Class FrmTaxGroups
         Me.gbVS.Controls.Add(Me.chkSale)
         Me.gbVS.Controls.Add(Me.chkVat)
         Me.gbVS.HeaderText = ""
-        Me.gbVS.Location = New System.Drawing.Point(553, 7)
+        Me.gbVS.Location = New System.Drawing.Point(550, 4)
         Me.gbVS.Name = "gbVS"
         Me.gbVS.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbVS.Size = New System.Drawing.Size(128, 37)
+        Me.gbVS.Size = New System.Drawing.Size(127, 36)
         Me.gbVS.TabIndex = 3
         Me.gbVS.Visible = False
         '
         'chkSale
         '
-        Me.chkSale.Location = New System.Drawing.Point(56, 10)
+        Me.chkSale.Location = New System.Drawing.Point(56, 8)
         Me.chkSale.Name = "chkSale"
         Me.chkSale.Size = New System.Drawing.Size(61, 18)
         Me.chkSale.TabIndex = 1
@@ -340,7 +350,7 @@ Partial Class FrmTaxGroups
         '
         'chkVat
         '
-        Me.chkVat.Location = New System.Drawing.Point(13, 10)
+        Me.chkVat.Location = New System.Drawing.Point(13, 9)
         Me.chkVat.Name = "chkVat"
         Me.chkVat.Size = New System.Drawing.Size(37, 18)
         Me.chkVat.TabIndex = 0
@@ -377,7 +387,7 @@ Partial Class FrmTaxGroups
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(565, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(433, 18)
         Me.txtDesc.TabIndex = 6
         '
         'lblDesc
@@ -461,7 +471,7 @@ Partial Class FrmTaxGroups
         '
         Me.pnlTaxFormula.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlTaxFormula.Location = New System.Drawing.Point(3, 207)
+        Me.pnlTaxFormula.Location = New System.Drawing.Point(3, 176)
         Me.pnlTaxFormula.Name = "pnlTaxFormula"
         Me.pnlTaxFormula.Size = New System.Drawing.Size(889, 110)
         Me.pnlTaxFormula.TabIndex = 0
@@ -484,65 +494,66 @@ Partial Class FrmTaxGroups
         '
         Me.gvTaxGroups.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvTaxGroups.MasterTemplate.AutoGenerateColumns = False
-        GridViewMultiComboBoxColumn1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        GridViewMultiComboBoxColumn1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDown
-        GridViewMultiComboBoxColumn1.FieldName = "Tax_Code"
-        GridViewMultiComboBoxColumn1.HeaderText = "Tax Authority"
-        GridViewMultiComboBoxColumn1.Name = "taxAuthority"
-        GridViewMultiComboBoxColumn1.Width = 200
-        GridViewTextBoxColumn1.FieldName = "Tax_Code_Desc"
-        GridViewTextBoxColumn1.HeaderText = "Description"
-        GridViewTextBoxColumn1.Name = "Description"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 160
-        GridViewTextBoxColumn2.FieldName = "Taxable"
-        GridViewTextBoxColumn2.HeaderText = "Taxable"
-        GridViewTextBoxColumn2.Name = "taxable"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn3.FieldName = "Surtax"
-        GridViewTextBoxColumn3.HeaderText = "Surcharge"
-        GridViewTextBoxColumn3.Name = "surtax"
-        GridViewTextBoxColumn3.ReadOnly = True
-        GridViewTextBoxColumn3.Width = 62
-        GridViewMultiComboBoxColumn2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        GridViewMultiComboBoxColumn2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDown
-        GridViewMultiComboBoxColumn2.FieldName = "Surtax_Tax_Code"
-        GridViewMultiComboBoxColumn2.HeaderText = "Surcharge on Authority"
-        GridViewMultiComboBoxColumn2.Name = "surtaxonAuthority"
-        GridViewMultiComboBoxColumn2.Width = 122
-        GridViewTextBoxColumn4.FieldName = "Surtax_Tax_Code_Desc"
-        GridViewTextBoxColumn4.HeaderText = "Surcharge Description"
-        GridViewTextBoxColumn4.Name = "surtaxDesc"
-        GridViewTextBoxColumn4.ReadOnly = True
-        GridViewTextBoxColumn4.Width = 160
-        GridViewTextBoxColumn5.HeaderText = "Currency Code"
-        GridViewTextBoxColumn5.IsVisible = False
-        GridViewTextBoxColumn5.Name = "CurrencyCode"
-        GridViewTextBoxColumn5.Width = 100
-        GridViewTextBoxColumn6.HeaderText = "Conversion Rate"
-        GridViewTextBoxColumn6.IsVisible = False
-        GridViewTextBoxColumn6.Name = "ConvRate"
-        GridViewTextBoxColumn6.Width = 100
-        GridViewTextBoxColumn7.HeaderText = "Applicable From"
-        GridViewTextBoxColumn7.IsVisible = False
-        GridViewTextBoxColumn7.Name = "ApplicableFrom"
-        GridViewTextBoxColumn7.Width = 100
-        GridViewTextBoxColumn8.HeaderText = "Tax On Base Amount"
-        GridViewTextBoxColumn8.Name = "TaxOnBaseAmount"
-        GridViewTextBoxColumn8.ReadOnly = True
-        GridViewTextBoxColumn8.Width = 150
-        Me.gvTaxGroups.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1, GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewMultiComboBoxColumn2, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewTextBoxColumn8})
+        GridViewMultiComboBoxColumn5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        GridViewMultiComboBoxColumn5.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDown
+        GridViewMultiComboBoxColumn5.FieldName = "Tax_Code"
+        GridViewMultiComboBoxColumn5.HeaderText = "Tax Authority"
+        GridViewMultiComboBoxColumn5.Name = "taxAuthority"
+        GridViewMultiComboBoxColumn5.Width = 200
+        GridViewTextBoxColumn17.FieldName = "Tax_Code_Desc"
+        GridViewTextBoxColumn17.HeaderText = "Description"
+        GridViewTextBoxColumn17.Name = "Description"
+        GridViewTextBoxColumn17.ReadOnly = True
+        GridViewTextBoxColumn17.Width = 160
+        GridViewTextBoxColumn18.FieldName = "Taxable"
+        GridViewTextBoxColumn18.HeaderText = "Taxable"
+        GridViewTextBoxColumn18.Name = "taxable"
+        GridViewTextBoxColumn18.ReadOnly = True
+        GridViewTextBoxColumn19.FieldName = "Surtax"
+        GridViewTextBoxColumn19.HeaderText = "Surcharge"
+        GridViewTextBoxColumn19.Name = "surtax"
+        GridViewTextBoxColumn19.ReadOnly = True
+        GridViewTextBoxColumn19.Width = 62
+        GridViewMultiComboBoxColumn6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        GridViewMultiComboBoxColumn6.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDown
+        GridViewMultiComboBoxColumn6.FieldName = "Surtax_Tax_Code"
+        GridViewMultiComboBoxColumn6.HeaderText = "Surcharge on Authority"
+        GridViewMultiComboBoxColumn6.Name = "surtaxonAuthority"
+        GridViewMultiComboBoxColumn6.Width = 122
+        GridViewTextBoxColumn20.FieldName = "Surtax_Tax_Code_Desc"
+        GridViewTextBoxColumn20.HeaderText = "Surcharge Description"
+        GridViewTextBoxColumn20.Name = "surtaxDesc"
+        GridViewTextBoxColumn20.ReadOnly = True
+        GridViewTextBoxColumn20.Width = 160
+        GridViewTextBoxColumn21.HeaderText = "Currency Code"
+        GridViewTextBoxColumn21.IsVisible = False
+        GridViewTextBoxColumn21.Name = "CurrencyCode"
+        GridViewTextBoxColumn21.Width = 100
+        GridViewTextBoxColumn22.HeaderText = "Conversion Rate"
+        GridViewTextBoxColumn22.IsVisible = False
+        GridViewTextBoxColumn22.Name = "ConvRate"
+        GridViewTextBoxColumn22.Width = 100
+        GridViewTextBoxColumn23.HeaderText = "Applicable From"
+        GridViewTextBoxColumn23.IsVisible = False
+        GridViewTextBoxColumn23.Name = "ApplicableFrom"
+        GridViewTextBoxColumn23.Width = 100
+        GridViewTextBoxColumn24.HeaderText = "Tax On Base Amount"
+        GridViewTextBoxColumn24.Name = "TaxOnBaseAmount"
+        GridViewTextBoxColumn24.ReadOnly = True
+        GridViewTextBoxColumn24.Width = 150
+        Me.gvTaxGroups.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn5, GridViewTextBoxColumn17, GridViewTextBoxColumn18, GridViewTextBoxColumn19, GridViewMultiComboBoxColumn6, GridViewTextBoxColumn20, GridViewTextBoxColumn21, GridViewTextBoxColumn22, GridViewTextBoxColumn23, GridViewTextBoxColumn24})
         Me.gvTaxGroups.MasterTemplate.EnableGrouping = False
         Me.gvTaxGroups.MasterTemplate.EnableSorting = False
         Me.gvTaxGroups.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxGroups.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxGroups.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTaxGroups.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvTaxGroups.MyExportFilePath = ""
         Me.gvTaxGroups.MyStopExport = False
         Me.gvTaxGroups.Name = "gvTaxGroups"
         Me.gvTaxGroups.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxGroups.ShowGroupPanel = False
         Me.gvTaxGroups.ShowHeaderCellButtons = True
-        Me.gvTaxGroups.Size = New System.Drawing.Size(889, 191)
+        Me.gvTaxGroups.Size = New System.Drawing.Size(889, 160)
         Me.gvTaxGroups.TabIndex = 0
         Me.gvTaxGroups.TabStop = False
         Me.gvTaxGroups.VarID = ""
@@ -554,10 +565,10 @@ Partial Class FrmTaxGroups
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Location = New System.Drawing.Point(3, 74)
+        Me.RadPageView1.Location = New System.Drawing.Point(3, 105)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(916, 366)
+        Me.RadPageView1.Size = New System.Drawing.Size(916, 335)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -568,7 +579,7 @@ Partial Class FrmTaxGroups
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 318)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 287)
         Me.RadPageViewPage1.Text = "Tax Authorities"
         '
         'RadPageViewPage2
@@ -602,7 +613,8 @@ Partial Class FrmTaxGroups
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvDB.MyExportFilePath = ""
         Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
@@ -645,6 +657,53 @@ Partial Class FrmTaxGroups
         Me.btnHistory.Size = New System.Drawing.Size(68, 18)
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultLocalGST)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultNonTaxabale)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultIGST)
+        Me.RadGroupBox5.HeaderText = "Default Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(550, 57)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(369, 39)
+        Me.RadGroupBox5.TabIndex = 448
+        Me.RadGroupBox5.Text = "Default Type"
+        '
+        'rbtnDefaultNonTaxabale
+        '
+        Me.rbtnDefaultNonTaxabale.Location = New System.Drawing.Point(12, 15)
+        Me.rbtnDefaultNonTaxabale.MyLinkLable1 = Nothing
+        Me.rbtnDefaultNonTaxabale.MyLinkLable2 = Nothing
+        Me.rbtnDefaultNonTaxabale.Name = "rbtnDefaultNonTaxabale"
+        Me.rbtnDefaultNonTaxabale.Size = New System.Drawing.Size(119, 18)
+        Me.rbtnDefaultNonTaxabale.TabIndex = 393
+        Me.rbtnDefaultNonTaxabale.TabStop = False
+        Me.rbtnDefaultNonTaxabale.Text = "Default NonTaxable"
+        '
+        'rbtnDefaultIGST
+        '
+        Me.rbtnDefaultIGST.Location = New System.Drawing.Point(149, 15)
+        Me.rbtnDefaultIGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultIGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultIGST.Name = "rbtnDefaultIGST"
+        Me.rbtnDefaultIGST.Size = New System.Drawing.Size(82, 18)
+        Me.rbtnDefaultIGST.TabIndex = 393
+        Me.rbtnDefaultIGST.TabStop = False
+        Me.rbtnDefaultIGST.Text = "Default IGST"
+        '
+        'rbtnDefaultLocalGST
+        '
+        Me.rbtnDefaultLocalGST.Location = New System.Drawing.Point(244, 15)
+        Me.rbtnDefaultLocalGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultLocalGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultLocalGST.Name = "rbtnDefaultLocalGST"
+        Me.rbtnDefaultLocalGST.Size = New System.Drawing.Size(114, 18)
+        Me.rbtnDefaultLocalGST.TabIndex = 394
+        Me.rbtnDefaultLocalGST.TabStop = False
+        Me.rbtnDefaultLocalGST.Text = "Default Loacal GST"
         '
         'FrmTaxGroups
         '
@@ -704,6 +763,12 @@ Partial Class FrmTaxGroups
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnDefaultNonTaxabale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDefaultLocalGST, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -747,5 +812,9 @@ Partial Class FrmTaxGroups
     Friend WithEvents chkActive As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents gbActive As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnDefaultNonTaxabale As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDefaultIGST As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDefaultLocalGST As common.Controls.MyRadioButton
 End Class
 
