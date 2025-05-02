@@ -158,10 +158,10 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
             'Throw New Exception("Not implemented")
             Dim obj As clsDBTCaping = clsDBTCaping.GetData(strDocNo, NavigatorType.Current, trans, "")
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
-                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+                Throw New Exception("No Data found to Reverse And UnPost")
             End If
             If Not obj.Status = ERPTransactionStatus.Approved Then
-                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
             Dim qry As String = "select TSPL_DBT_NEFT.Document_Code 
 from  TSPL_DCS_MP_INCENTIVE_RECO_HEAD 

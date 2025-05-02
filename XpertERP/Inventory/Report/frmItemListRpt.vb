@@ -60,8 +60,8 @@ Public Class FrmItemListRpt
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then ''BHA/30/10/18-000652, by balwinder on 31/10/2018  
             If btnImport.Visible = False OrElse btnUpdate.Visible = False Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnImport.Visible = True

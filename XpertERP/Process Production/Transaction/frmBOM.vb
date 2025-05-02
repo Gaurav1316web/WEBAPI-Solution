@@ -484,8 +484,8 @@ Public Class frmBOM
                                                  "TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS ")
                 If btnPost.Enabled = False AndAlso btnsave.Enabled = False Then
                     'Dim frm As New FrmPWD(Nothing)
-                    'frm.strType = "SIRC"
-                    'frm.strCode = "SIReversAndCreate"
+                    'frm.strType = clsFixedParameterType.SIR
+                    'frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     'frm.ShowDialog()
                     'If frm.isPasswordCorrect Then
                     '    btnReverse.Visible = True

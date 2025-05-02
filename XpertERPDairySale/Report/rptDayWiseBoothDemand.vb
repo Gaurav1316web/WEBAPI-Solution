@@ -134,8 +134,9 @@ Public Class rptDayWiseBoothDemand
             End If
             If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemWise.IsChecked Then
                 Qry += "SELECT " + Dates + "'LTR' as [QTY IN]," + Booth + "([Route]) AS [Route], max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
-                     " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((select xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
-                    (SELECT 
+                     " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((
+select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
+                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -151,7 +152,7 @@ Public Class rptDayWiseBoothDemand
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
                     ))xx )
 					union all
-                    (SELECT 
+                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -241,8 +242,9 @@ Public Class rptDayWiseBoothDemand
                     )))YYY  where  2=2 " + Whr + "  " + Groupby + " "
             ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked Then
                 Qry = "SELECT " + Dates + " ([Route]) AS [Route], max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
-                      " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((select xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
-                    (SELECT 
+                      " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((
+                      select xx.Item_Code, xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
+                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -258,7 +260,7 @@ Public Class rptDayWiseBoothDemand
 					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
                     ))xx )
 					union all
-                    (SELECT 
+                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -333,12 +335,12 @@ Public Class rptDayWiseBoothDemand
                     FormatGridRouteGrp()
                 ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked Then
                     If dt.Columns.Contains("Date") Then
-                            GV1.Columns("Date").FormatString = "{0: dd/MM/yyyy}"
-                        End If
-                        If dt.Columns.Contains("Zone") Then
-                            GV1.Columns("Zone").IsVisible = True
-                        End If
-                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        GV1.Columns("Date").FormatString = "{0: dd/MM/yyyy}"
+                    End If
+                    If dt.Columns.Contains("Zone") Then
+                        GV1.Columns("Zone").IsVisible = True
+                    End If
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
                     For i As Integer = 5 To GV1.Columns.Count - 1
                         Dim items = GV1.Columns(i).HeaderText()
                         Dim item2 As New GridViewSummaryItem(items, "{0:F2}", GridAggregateFunction.Sum)
@@ -346,12 +348,12 @@ Public Class rptDayWiseBoothDemand
                         GV1.Columns(i).FormatString = "{0:n2}"
                     Next
                     GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                        GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                        ReStoreGridLayout()
-                    End If
+                    GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ReStoreGridLayout()
+                End If
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FormatGrid()
