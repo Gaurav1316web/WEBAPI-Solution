@@ -40,6 +40,7 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         LoadData()
     End Sub
 
@@ -55,7 +56,22 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
     Private Sub EnableDisableControls(ByVal val As Boolean)
         RadGroupBox1.Enabled = val
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnDemand.IsChecked Then
+            VarID += "_DE"
+        ElseIf rbtnDispatch.IsChecked Then
+            VarID += "_DI"
+        End If
+        If rbtnMorning.IsChecked Then
+            VarID += "_MS"
+        ElseIf rbtnEvening.IsChecked Then
+            VarID += "_ES"
+        ElseIf rbtnBothShift.IsChecked Then
+            VarID += "_BS"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub LoadData()
         Try
             Dim qry As String = ""
@@ -96,7 +112,17 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
             gv1.Columns(ii).IsVisible = True
         Next
         gv1.ShowGroupPanel = False
-
+        If rbtnMorning.IsChecked Then
+            gv1.Columns("Morning_Qty").IsVisible = True
+            gv1.Columns("Morning_Amt").IsVisible = True
+            gv1.Columns("Evening_Qty").IsVisible = False
+            gv1.Columns("Evening_Amt").IsVisible = False
+        ElseIf rbtnEvening.IsChecked Then
+            gv1.Columns("Morning_Qty").IsVisible = False
+            gv1.Columns("Morning_Amt").IsVisible = False
+            gv1.Columns("Evening_Qty").IsVisible = True
+            gv1.Columns("Evening_Amt").IsVisible = True
+        End If
 
         gv1.Columns("Short_Description").HeaderText = "Item"
         gv1.Columns("UOM_Code").HeaderText = "UOM"
