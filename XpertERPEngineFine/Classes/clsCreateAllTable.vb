@@ -8410,7 +8410,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
-
+            coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
@@ -28281,6 +28281,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BarCode_Img", "image null")
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            coll.Add("Route_No", " VARCHAR(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Head", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
@@ -28346,6 +28347,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Reco_Control_Account", "varchar(1) NULL") ''S/P/V/C Full Name Sale/Purchase/Vendor/Customer Control Account
             coll.Add("AddChargeCode", "Varchar(50) null")
             coll.Add("AddChargeDesc", "Varchar(500) null")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
+            coll.Add("Promotional_GL_Account_Code", "varchar(50) null")
+            coll.Add("Transporter_GL_Account_Code", "varchar(50) null")
+            coll.Add("SD_GL_Account_Code", "varchar(50) null")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Detail", coll, Nothing, True, True, "TSPL_CUSTOMER_INVOICE_HEAD", "Document_No", "", True)
 
             ''richa ERO/31/10/19-001082
@@ -32404,6 +32412,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("RateDiff_Per", "decimal(18, 2) NULL")
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
+            coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Security_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -32605,6 +32616,14 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("VS_CashSchemeCode", "varchar(12) null")
             coll.Add("VS_Cash_Amt", "float null")
             coll.Add("VS_ltrInCrate", "float null")
+            coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+            coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Rate", "decimal(18,2) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_INVOICE_HEAD", "DOCUMENT_CODE", "", True)
 
 

@@ -2624,6 +2624,7 @@ Public Class clsUserMgtCode
     Public Const frmAssetBookMaster As String = "Asset-Book"
     Public Const frmPendingBooking As String = "Pend-BOK"
     Public Const frmCustomerZone As String = "Cust-ZNE"
+    Public Const FrmQuickDemandReport As String = "Quk-DEM-RPT"
     Public Const frmCrateCanreceiptReport As String = "CraCan-Rpt"
     'Public Const ApproveFailedSample As String = "APP-FAIL-SAM"
 

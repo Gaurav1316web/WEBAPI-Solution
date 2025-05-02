@@ -377,6 +377,12 @@
     <Compile Include="Report\FrmBoothCountReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmQuickDemandReport.Designer.vb">
+      <DependentUpon>FrmQuickDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmQuickDemandReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmDayBook.Designer.vb">
       <DependentUpon>frmDayBook.vb</DependentUpon>
     </Compile>
@@ -1250,6 +1256,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmQuickDemandReport.resx">
+      <DependentUpon>FrmQuickDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDailyDemandReport.resx">
       <DependentUpon>frmDailyDemandReport.vb</DependentUpon>

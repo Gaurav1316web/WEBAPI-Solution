@@ -1326,6 +1326,12 @@ Public Class clsFixedParameterType
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const FinancialImpactForTPT = "Financial Impact For TPT"
+    Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
+    Public Const FinancialImpactForSecurity = "Financial Impact For Security"
+
+
+
 End Class
 Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
@@ -2801,6 +2807,9 @@ Public Class clsFixedParameterCode
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const FinancialImpactForTPT = "Financial Impact For TPT"
+    Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
+    Public Const FinancialImpactForSecurity = "Financial Impact For Security"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4445,6 +4454,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, "0", "0:Off, 1:On;")
 
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6289,5 +6301,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, EnumControlType.CheckBox)
     End Sub
 End Class

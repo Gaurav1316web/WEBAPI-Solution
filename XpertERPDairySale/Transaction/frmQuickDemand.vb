@@ -631,6 +631,7 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
                         objDBD.Item_Desc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Short_Description from TSPL_ITEM_MASTER where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
                         objDBD.Unit_code = "Crate"
                         objDBD.Qty = clsCommon.myCdbl(dr("Qty"))
+                        objDBD.REF_PK_ID = clsCommon.myCstr(clsCommon.myCdbl(dr("PK_ID")))
                         objDBD.Price_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" + strCustCode + "'"))
                         objDBD.ShiftType = strShiftType
                         objDBD.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vehicle_No from TSPL_VEHICLE_MASTER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + RouteNo + "'"))
@@ -759,6 +760,7 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
                         objDBD.Item_Desc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Short_Description from TSPL_ITEM_MASTER where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
                         objDBD.Unit_code = "Crate"
                         objDBD.Qty = clsCommon.myCdbl(dr("Qty"))
+                        objDBD.REF_PK_ID = clsCommon.myCstr(clsCommon.myCdbl(dr("PK_ID")))
                         objDBD.Price_Code = DBObj.Price_code
                         objDBD.ShiftType = strShiftType
                         objDBD.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vehicle_No from TSPL_VEHICLE_MASTER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + RouteNo + "'"))

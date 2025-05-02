@@ -9485,6 +9485,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmCustomerZone
                         frm = New FrmCustomerZoneReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmQuickDemandReport
+                        frm = New FrmQuickDemandReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '==========================================================================================================
                     ' ADDED BY KUNAL TICKET : BM00000009674 ENDED HERE
                     '==========================================================================================================

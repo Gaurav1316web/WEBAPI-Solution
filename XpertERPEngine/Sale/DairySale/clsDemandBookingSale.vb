@@ -758,6 +758,11 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     objTr = New clsDemandBookingSaleDetail
                     objTr.Cust_Code = clsCommon.myCstr(dr("Cust_Code"))
                     objTr.Created_By = clsCommon.myCstr(dr("Created_By"))
+                    If clsCommon.myCdbl(dr("REF_PK_ID")) = 0 Then
+                        objTr.REF_PK_ID = Nothing
+                    Else
+                        objTr.REF_PK_ID = clsCommon.myCstr(clsCommon.myCdbl(dr("REF_PK_ID")))
+                    End If
                     objTr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
@@ -2134,6 +2139,7 @@ Public Class clsDemandBookingSaleDetail
     Public Item_Code As String = Nothing
     Public Cust_Code As String = Nothing
     Public Created_By As String = Nothing
+    Public REF_PK_ID As String = Nothing
     Public Item_Desc As String = Nothing
     Public Unit_code As String = Nothing
     Public TotalCrates_ItemWise As Decimal = 0
@@ -2214,6 +2220,10 @@ Public Class clsDemandBookingSaleDetail
                         clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                         clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                         clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                        If obj.REF_PK_ID IsNot Nothing AndAlso clsCommon.myLen(obj.REF_PK_ID) > 0 Then
+                            clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID, True)
+
+                        End If
                         clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                         clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                         clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)

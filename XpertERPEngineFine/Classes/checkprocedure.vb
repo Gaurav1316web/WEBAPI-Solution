@@ -2458,6 +2458,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMilkSupplySaleReport, "Milk Supply Sale Report", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustItemWiseSaleReport, "Customer Item Wise Sale Report", "1.06.03.63", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport, "Item And Shift Wise Sale Summary Report", "1.06.03.64", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
