@@ -94,6 +94,7 @@ Public Class FrmTaxGroups
     End Sub
 
     Public Sub GetData(ByVal NavType As common.NavigatorType)
+        reset()
         '-----------------------------Updated By---Pankaj Kumar---------on---13-04-2012----------
         Dim qry1 As String = "  Select * from (SELECT ROW_NUMBER() OVER (ORDER BY Tax_Group_Code) AS Row, Tax_Group_Code, Tax_Group_Desc, (CASE WHEN Tax_Group_Type='S' THEN 'Sales'  WHEN Tax_Group_Type='T' THEN 'Transfer'  WHEN Tax_Group_Type='H' THEN 'HR And Payroll'   ELSE 'Purchase' END) as [Transaction Type],Currency_Code,Is_Tax_Exempted,Active FROM TSPL_TAX_GROUP_MASTER) xxx Where 1=1"
         Select Case NavType
@@ -342,17 +343,14 @@ Public Class FrmTaxGroups
                 Else
                     dataRowInfo.Cells("ApplicableFrom").Value = ""
                 End If
-                If dr1("Default_Type") = 1 Then
+                If clsCommon.myCDecimal(dr1("Default_Type")) = 1 Then
                     rbtnDefaultNonTaxabale.IsChecked = True
-                ElseIf dr1("Default_Type") = 2 Then
+                ElseIf clsCommon.myCDecimal(dr1("Default_Type")) = 2 Then
                     rbtnDefaultIGST.IsChecked = True
-
-                ElseIf dr1("Default_Type") = 3 Then
+                ElseIf clsCommon.myCDecimal(dr1("Default_Type")) = 3 Then
                     rbtnDefaultLocalGST.IsChecked = True
                 End If
                 'dataRowInfo.Cells("Default_Type").Value = clsCommon.myCstr(dr1("Default_Type"))
-
-
                 'End MultiCurrency'
                 gvTaxGroups.Rows.Insert(i, dataRowInfo)
                 i = i + 1
