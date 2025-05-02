@@ -570,7 +570,7 @@ where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strCode + "' and ISNULL(T
                         qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1,Suspence_VLC_Code=VLC_Code where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, Nothing, "", False)
+                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, Nothing, "")
                     Next
                 Else
                     Throw New Exception("No data found for Suspence DCS")

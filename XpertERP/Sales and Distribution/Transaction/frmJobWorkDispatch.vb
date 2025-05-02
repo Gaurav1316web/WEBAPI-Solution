@@ -3800,8 +3800,8 @@ Public Class frmJobWorkDispatch
                                                   "TSPL_JOURNAL_DETAILS")
             'Add Tool tip Task No- TEC/22/05/18-000245
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True

@@ -1273,8 +1273,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                                              "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine +
                                              "TSPL_DAIRYSALE_GATEPASS_DETAIL  ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -1296,7 +1296,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
+            frm.strType = clsFixedParameterType.SIR
             frm.strCode = "GatePass Password"
             frm.ShowDialog()
             If frm.isPasswordCorrect Then

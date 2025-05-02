@@ -806,8 +806,8 @@ Public Class FrmBulkMilkSRN
                                              "tspl_bulk_milk_srn_History ( For History) " + Environment.NewLine + _
                                              "TSPL_SRN_Parameter_Range_Detail ( For SRN Parameter.) ")
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 If TankerFromMaster = 1 Then

@@ -6156,8 +6156,8 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                                                      "TSPL_ACQUISITION_DETAIL(Vendor Service charge against asset for assembled asset) " + Environment.NewLine +
                                                      "TSPL_SALE_INVOICE_HEAD(Update Balance Amount) ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

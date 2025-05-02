@@ -450,8 +450,8 @@ Public Class frmTankerCleaningItem
                                              "TSPL_TANKER_CLEANING_ITEM_HEAD " + Environment.NewLine + _
                                              "TSPL_REQUISITION_DETAIL ")
                 'Dim frm As New FrmPWD(Nothing)
-                'frm.strType = "SIRC"
-                'frm.strCode = "SIReversAndCreate"
+                'frm.strType = clsFixedParameterType.SIR
+                'frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 'frm.ShowDialog()
                 'If frm.isPasswordCorrect Then
                 '    btnUnpost.Visible = True

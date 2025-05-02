@@ -5292,8 +5292,8 @@ Public Class frmPurchaseReturn
                                                 "TSPL_MILK_PURCHASE_INVOICE_HEAD(Against Milk purchase invoice) " + Environment.NewLine +
                                                 "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD(Against Bulk Milk purchase invoice) ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

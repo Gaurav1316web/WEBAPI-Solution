@@ -20,8 +20,8 @@ Public Class frmBulkPurchaseUploader
     Private Sub frmBulkPurchaseUploader_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 And rdbAgainstBulkprocurement.IsChecked Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnMergeAndRecreate.Visible = True
@@ -29,8 +29,8 @@ Public Class frmBulkPurchaseUploader
         End If
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 And rdbAgainstBulkSaleTrade.IsChecked Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnMergeAndRecreateTrade.Visible = True

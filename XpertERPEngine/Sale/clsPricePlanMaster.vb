@@ -481,6 +481,49 @@ Public Class clsPricePlanHead
         End If
         Return isSaved
     End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsPricePlanHead = clsPricePlanHead.GetData(strDocNo, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Plan_Code) <= 0) Then
+                Throw New Exception("No Data found to Reverse And Unpost")
+            End If
+            If Not obj.Post_Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+
+            If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For Each objtr As clsPricePlanDetail In obj.Arr
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, objtr.Plan_TR_Code, "TSPL_ITEM_PRICE_MASTER", "Against_Plan_TR_Code", trans)
+                    Dim qry As String = "Delete from TSPL_ITEM_PRICE_MASTER where Against_Plan_TR_Code='" + objtr.Plan_TR_Code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                Next
+            End If
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Post_Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Post_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Post_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_PRICE_PLAN_HEADER", OMInsertOrUpdate.Update, "Plan_Code='" + strDocNo + "'", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Plan_Code, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class clsPricePlanDetail

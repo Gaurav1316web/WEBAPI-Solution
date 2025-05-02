@@ -1753,8 +1753,8 @@ Public Class frmWorkEstimationEng
                                              "TSPL_REQUISITION_DETAIL ")
                 'Ticket No- UDL/22/10/18-000234 Reverse button password protected
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnUnpost.Visible = True

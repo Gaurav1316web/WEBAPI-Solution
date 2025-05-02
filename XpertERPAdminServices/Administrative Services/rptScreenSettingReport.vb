@@ -27,8 +27,8 @@ Public Class rptScreenSettingReport
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim frm As New FrmPWD(Nothing)
-        frm.strType = "SIRC"
-        frm.strCode = "SIReversAndCreate"
+        frm.strType = clsFixedParameterType.SIR
+        frm.strCode = clsFixedParameterCode.SIReversAndCreate
         frm.ShowDialog()
         If frm.isPasswordCorrect = True Then
             Reset()

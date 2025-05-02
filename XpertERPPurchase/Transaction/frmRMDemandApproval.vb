@@ -543,8 +543,8 @@ Public Class frmRMDemandApproval
 
         ElseIf e.Control AndAlso e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnreverse.Visible = True
