@@ -535,8 +535,8 @@ Public Class frmProcessProductionStandardizationFinalQC
                                      "TSPL_JOURNAL_MASTER ")
             If btnPost.Enabled = False AndAlso btnsave.Enabled = False Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnunpost.Visible = True

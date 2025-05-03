@@ -1200,8 +1200,8 @@ Public Class FrmMilkTransferIn
                                                  "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine +
                                                  "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

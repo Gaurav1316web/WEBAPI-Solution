@@ -29,6 +29,7 @@ Public Class frmSNSaleInvoice
     Private AllowChangeInvoiceType As Boolean = False
     Public strExcise As Boolean
     Public intMRPwithabatement As Integer
+    Public Inter_unit_Sale As Integer = 0
     Public strSaleInvoice As String = Nothing
     Private isPO_GRN_MRN_Editable As Boolean = False
     Public Const RowTypeItem As String = "Item"
@@ -4956,8 +4957,8 @@ Public Class frmSNSaleInvoice
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
         ElseIf isNewEntry AndAlso e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 '-----------------richa 26/06/2014 Ticket No .BM00000002982------------
@@ -5376,6 +5377,7 @@ Public Class frmSNSaleInvoice
                     '' currency details
 
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
+                    Inter_unit_Sale = clsCommon.myCdbl(objOrderHead.Inter_unit_sale)
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
                     If objOrderHead.ApplicableFrom IsNot Nothing Then
                         Me.txtApplicableFrom.Text = objOrderHead.ApplicableFrom

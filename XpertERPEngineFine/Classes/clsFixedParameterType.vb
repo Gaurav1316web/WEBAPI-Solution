@@ -405,7 +405,7 @@ Public Class clsFixedParameterType
     Public Const ROUTE As String = "ROUTE"
     Public Const Route1 As String = "Route"
     Public Const Salesman As String = "Salesman"
-    Public Const SIR As String = "SIR"
+    Public Const SIR As String = "SIRC"
     Public Const SIRC As String = "SIRC"
     Public Const PP_MRP As String = "PP_MRP"
     Public Const MulProcDedReversAndCreate As String = "MulProcDedReversAndCreate"

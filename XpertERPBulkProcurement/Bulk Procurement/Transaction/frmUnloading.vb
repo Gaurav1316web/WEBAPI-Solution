@@ -518,8 +518,8 @@ Public Class FrmUnloading
                                                   "TSPL_Milk_Unloading_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
                                                   "TSPL_MILK_UNLOADING_History ( For History) ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

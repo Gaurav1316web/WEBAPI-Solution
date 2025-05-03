@@ -1776,8 +1776,8 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True

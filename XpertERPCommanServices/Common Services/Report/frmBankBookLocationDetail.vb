@@ -608,8 +608,8 @@ Public Class FrmBankBookLocationDetail
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True

@@ -6934,8 +6934,8 @@ Public Class frmSRN
                                 "TSPL_JOURNAL_MASTER " + Environment.NewLine +
                                 "TSPL_JOURNAL_DETAILS")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

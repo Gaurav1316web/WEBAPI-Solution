@@ -102,6 +102,7 @@ Public Class frmCorrection
                 btnTankerMilkImport.Visible = False
                 txtBMCTankerQty.ReadOnly = False
                 txtBMCCorrQty.ReadOnly = False
+
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
 
                 If isPickCLRInsteadOfSNF Then
@@ -139,6 +140,7 @@ Public Class frmCorrection
                 btnImport.Visible = True
                 btnTankerMilkExport.Visible = True
                 btnTankerMilkImport.Visible = True
+                chkMarkAsSuspence.Visible = False
             End If
             If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 isCorrection = 1
@@ -296,9 +298,9 @@ Public Class frmCorrection
             " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code  " + Environment.NewLine +
             " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
 
-            Dim whrCls As String = ""
+            Dim whrCls As String = "  isnull(TSPL_VLC_MASTER_HEAD.IsSuspense,0)=0  "
             If Not MultipleFinderFillAuto Then
-                whrCls += "  TSPL_VLC_MASTER_HEAD.MCC  ='" + txtMCC.Value + "'"
+                whrCls += " and TSPL_VLC_MASTER_HEAD.MCC  ='" + txtMCC.Value + "'"
             End If
 
             finder.Value = clsCommon.ShowSelectForm("SMSRNUdC", qry, "Uploader_Code", whrCls, finder.Value, "Uploader_Code", isButtonClicked)
@@ -496,7 +498,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                 End If
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
-                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), isNewEntry, Remark)
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), Remark, chkMarkAsSuspence.Checked)
                     tran.Commit()
                 Catch ex As Exception
                     tran.Rollback()
@@ -601,6 +603,7 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
                 MyLabel5.Text = lblVLC.Text
                 RadGroupBox2.Enabled = False
                 RadGroupBox1.Enabled = True
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -955,7 +958,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                                     If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
-                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, isNewEntry, Remark)
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, Remark)
                                     Else
                                         Dim coll As New Hashtable()
                                         clsCommon.AddColumnsForChange(coll, "Qty", Qty)
@@ -1061,7 +1064,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                                     If clsCommon.myLen(dtDetail.Rows(indx)("DOC_CODE")) > 0 Then
-                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, isNewEntry, Remark)
+                                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType, Remark)
                                     Else
                                         Dim coll As New Hashtable()
                                         clsCommon.AddColumnsForChange(coll, "Qty", Qty)
@@ -1826,4 +1829,6 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
+
+
 End Class

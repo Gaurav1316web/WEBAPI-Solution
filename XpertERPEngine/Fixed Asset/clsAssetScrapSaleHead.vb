@@ -119,9 +119,9 @@ Public Class clsAssetScrapSaleHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.FADisposalEntry, obj.Loc_Code, obj.Document_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ASSET_SCRAP_HEAD", "Document_No", "TSPL_ASSET_SCRAP_DETAIL", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ASSET_SCRAP_HEAD", "Document_No", "TSPL_ASSET_SCRAP_DETAIL", "Document_No", trans)
+            'End If
             Dim qry As String = "delete from TSPL_ASSET_SCRAP_DETAIL where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""

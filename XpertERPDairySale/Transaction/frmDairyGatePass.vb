@@ -1273,8 +1273,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                                              "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine +
                                              "TSPL_DAIRYSALE_GATEPASS_DETAIL  ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -1296,7 +1296,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
+            frm.strType = clsFixedParameterType.SIR
             frm.strCode = "GatePass Password"
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
@@ -1833,7 +1833,7 @@ xyz.Sale_Invoice_No, "
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
 
                     Else
-                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        pdfpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
                         'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)
                     End If
                     frmCRV = Nothing

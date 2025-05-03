@@ -570,7 +570,7 @@ where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strCode + "' and ISNULL(T
                         qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence=1,Suspence_VLC_Code=VLC_Code where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, Nothing, "", False)
+                        clsMilkSRNMCC.Correction(clsCommon.myCstr(dr("SRNNo")), False, True, True, clsCommon.myCstr(dr("Qty")), "", clsCommon.myCstr(dr("FAT_PER")), clsCommon.myCstr(dr("SNF_PER")), strSuspenceDCSCode, False, Nothing, "")
                     Next
                 Else
                     Throw New Exception("No data found for Suspence DCS")
@@ -791,6 +791,9 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
         clsCommon.AddColumnsForChange(coll, "Suspence", IIf(obj.Suspence, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Suspence_Remarks", obj.Suspence_Remarks)
+        If clsCommon.myLen(obj.Suspence_VLC_Code) > 0 Then
+            clsCommon.AddColumnsForChange(coll, "Suspence_VLC_Code", obj.Suspence_VLC_Code)
+        End If
         If intPKID > 0 Then
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
         Else

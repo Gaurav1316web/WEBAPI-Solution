@@ -230,7 +230,7 @@ Public Class ClsOutgoingQcEntry
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
+            '.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_PARA_DETAIL", "Document_Code", trans)
             Dim qry As String
             If obj.Status = 1 Then
                 qry = "update TSPL_PROD_QC_CHECK_HEAD set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"

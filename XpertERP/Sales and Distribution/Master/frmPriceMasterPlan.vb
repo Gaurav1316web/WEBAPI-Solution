@@ -666,6 +666,14 @@ Public Class frmPriceMasterPlan
             btndelete.PerformClick()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Me.Close()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
 
@@ -1696,6 +1704,19 @@ Public Class frmPriceMasterPlan
             End If
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "plan_code", "TSPL_ITEM_PRICE_PLAN_HEADER", "TSPL_ITEM_PRICE_PLAN_DETAIL")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsPricePlanHead.ReverseAndUnpost(txtCode.Value) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully reversed and unposted", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
