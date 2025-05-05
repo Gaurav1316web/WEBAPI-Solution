@@ -24,6 +24,7 @@ Public Class clsRcptEntryHeader
     Public IsApplyDocAuto As Integer = 0
     Public Cust_Code As String = Nothing
     Public Against_RCDF_Loadin As String = Nothing
+    Public Route_Code As String = Nothing
     Public Customer_Name As String = Nothing
     Public Entry_Desc As String = Nothing
     Public Reference As String = Nothing
@@ -235,6 +236,7 @@ Public Class clsRcptEntryHeader
             clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
             clsCommon.AddColumnsForChange(coll, "Against_RCDF_Loadin", obj.Against_RCDF_Loadin, True)
             clsCommon.AddColumnsForChange(coll, "Rec_Route_Code", obj.Rec_Route_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
             clsCommon.AddColumnsForChange(coll, "Rec_Zone_Code", obj.Rec_Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "isCardSale", obj.isCardSale)
 
@@ -862,7 +864,7 @@ Public Class clsRcptEntryHeader
         Dim isCustomerFinderLocationWiseARReceipt As Boolean = False
         Dim strJointCond As String = ""
 
-        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin,TSPL_RECEIPT_HEADER.TDS_Recoverable_Amt, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type,TSPL_RECEIPT_HEADER.SecurityDepositType, TSPL_RECEIPT_HEADER.Cust_Code," &
+        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Route_Code,TSPL_RECEIPT_HEADER.Against_RCDF_Loadin,TSPL_RECEIPT_HEADER.TDS_Recoverable_Amt, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type,TSPL_RECEIPT_HEADER.SecurityDepositType, TSPL_RECEIPT_HEADER.Cust_Code," &
         " TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference, TSPL_RECEIPT_HEADER.Narration   , TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No, TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Cheque_From, TSPL_RECEIPT_HEADER.From_Branch, TSPL_RECEIPT_HEADER.Receipt_Amount," &
         " TSPL_RECEIPT_HEADER.Cust_Account, TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted,TSPL_RECEIPT_HEADER.Foreign_Bank_Charges_Amt ,TSPL_RECEIPT_HEADER.Bank_Charges_Amt," &
         " TSPL_RECEIPT_HEADER.Level1_User_code, TSPL_RECEIPT_HEADER.Level2_User_code, TSPL_RECEIPT_HEADER.Level3_User_code, TSPL_RECEIPT_HEADER.Level4_User_code, TSPL_RECEIPT_HEADER.Level5_User_code," &
@@ -935,6 +937,7 @@ Public Class clsRcptEntryHeader
             obj.Against_ECollect = clsCommon.myCdbl(dt.Rows(0)("Against_ECollect"))
             obj.Receipt_No = clsCommon.myCstr(dt.Rows(0)("Receipt_No"))
             obj.Rec_Route_Code = clsCommon.myCstr(dt.Rows(0)("Rec_Route_Code"))
+            obj.Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
             obj.Rec_Zone_Code = clsCommon.myCstr(dt.Rows(0)("Rec_Zone_Code"))
             obj.Receipt_Date = clsCommon.myCDate(dt.Rows(0)("Receipt_Date"))
             obj.Receipt_Post_Date = clsCommon.myCDate(dt.Rows(0)("Receipt_Post_Date"))

@@ -19039,6 +19039,7 @@ Public Class clsCreateAllTable
             coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
             coll.Add("Against_ECollect", "integer NULL")
             coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            coll.Add("Route_Code", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()

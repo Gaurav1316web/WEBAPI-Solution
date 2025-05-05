@@ -48,7 +48,9 @@ Public Class YearlyBillReport
                 Next
             End If
 
-            qry = " Select distinct Ded_Code,Ded_Desc from (select TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
+            If dtDoc.Rows.Count > 0 Then
+
+                qry = " Select distinct Ded_Code,Ded_Desc from (select TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_no=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no
@@ -89,37 +91,42 @@ left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
-)xx "
-            Dim dtDesc As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtDesc.Rows.Count > 0 Then
-                For i As Integer = 0 To dtDesc.Rows.Count - 1
-                    Dim J As Integer = 0
-                    If i = 0 Then
-                        J = i
-                        'Description += " '" + clsCommon.myCstr(dtDesc.Rows(i)("Doc_No")) + "' "
-                        Description += "[A]," + "[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
-                        DescName += "0 as [A]," + " 0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                        DescName2 += " isnull ([A], 0)  as [A], IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                        DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                        DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
-                        DescName4 += " SUM([A]) AS [A],Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                        'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
-                    Else
-                        J = +i
-                        Description += ", [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
-                        DescName += ",  0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                        DescName2 += " , IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                        DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                        DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
-                        DescName4 += " ,Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                        'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
-                        'DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + J"]"
+)xx where 2=2 and Ded_Code is not null "
+                Dim dtDesc As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtDesc.Rows.Count > 0 Then
+                    For i As Integer = 0 To dtDesc.Rows.Count - 1
+                        Dim J As Integer = 0
+                        If i = 0 Then
+                            J = i
+                            'Description += " '" + clsCommon.myCstr(dtDesc.Rows(i)("Doc_No")) + "' "
+                            Description += "[A]," + "[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
+                            DescName += "0 as [A]," + " 0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName2 += " isnull ([A], 0)  as [A], IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+                            DescName4 += " SUM([A]) AS [A],Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
+                        Else
+                            J = +i
+                            Description += ", [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
+                            DescName += ",  0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName2 += " , IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+                            DescName4 += " ,Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
+                            'DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + J"]"
 
 
-                    End If
-                Next
+                        End If
+                    Next
+                End If
             End If
-            Dim Qry1 As String = " Select
+
+            If dtDoc.Rows.Count > 0 Then
+
+
+                Dim Qry1 As String = " Select
 				                    TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else  TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DCS_Addition_Deduction,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as DCSDescription,
                                     TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
@@ -196,9 +203,9 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 
 
 
-            Dim sQuery As String = Nothing
-            If rdbSummary.IsChecked = True Then
-                sQuery = "  Select VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                Dim sQuery As String = Nothing
+                If rdbSummary.IsChecked = True Then
+                    sQuery = "  Select VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                                     from 
@@ -213,10 +220,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
                         PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
 
                         Union all
@@ -234,13 +241,13 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by VSP_CODE "
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by VSP_CODE order by cast(max(DCSCode)  as int) "
 
-            ElseIf rdbMonth.IsChecked = True Then
-                sQuery = "  Select max(Month_Name)Month_Name,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                ElseIf rdbMonth.IsChecked = True Then
+                    sQuery = "  Select max(Month_Name)Month_Name,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                             from (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty 
@@ -258,10 +265,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date,
                                    DATENAME(MONTH, MAX(From_Date)) AS Month_Name,MONTH(MAX(From_Date)) AS Month_Number
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction)YY group by Month_Number,DCS_Addition_Deduction) Tab1
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction)YY group by Month_Number,DCS_Addition_Deduction) Tab1
                             PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp
 									group by Month_Number )YY
 
@@ -282,13 +289,13 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " )XX GROUP BY DOC_CODE,QBD,Month_Number)yy group by Month_Number )Tab2 group by Month_Number "
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD,Month_Number)yy group by Month_Number )Tab2 group by Month_Number "
 
-            ElseIf rdbCycleW.IsChecked = True Then
-                sQuery = " Select FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
+                ElseIf rdbCycleW.IsChecked = True Then
+                    sQuery = " Select FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
                            ,To_Date,max(From_Date)From_Date,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
@@ -306,10 +313,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date ,
                                    max(To_Date)To_Date from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by To_Date,DCS_Addition_Deduction)Tab1  
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by To_Date,DCS_Addition_Deduction)Tab1  
                             PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by To_Date )YY 
                         
                             Union all
@@ -329,13 +336,13 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103)"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 group by To_Date "
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 group by To_Date "
 
-            ElseIf rdbMonthCycle.IsChecked = True Then
-                sQuery = "  WITH BaseData AS ( Select DATENAME(MONTH, max(From_Date)) AS Month_Name,MONTH(max(From_Date)) AS Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
+                ElseIf rdbMonthCycle.IsChecked = True Then
+                    sQuery = "  WITH BaseData AS ( Select DATENAME(MONTH, max(From_Date)) AS Month_Name,MONTH(max(From_Date)) AS Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
                            ,To_Date,max(From_Date)From_Date,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
@@ -353,10 +360,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date ,
                                    max(To_Date)To_Date from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by To_Date,DCS_Addition_Deduction)Tab1  
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by To_Date,DCS_Addition_Deduction)Tab1  
                             PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by To_Date )YY 
                         
                             Union all
@@ -376,10 +383,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103)"
-                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                    sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
-                End If
-                sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 group by To_Date)
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 group by To_Date)
 SELECT * FROM BaseData
 Union all
 SELECT 
@@ -388,25 +395,30 @@ SELECT
     MAX(Gender) AS Gender,SUM(Milk_Qty) AS Milk_Qty,SUM(Milk_Amount) AS Milk_Amount,SUM(Head_Load_Amount) AS Head_Load_Amount,SUM(Deduction_Amount) AS Deduction_Amount,
     SUM(Credit_Note_Amount) AS Credit_Note_Amount," & DescName4 & ", SUM(SweetQty) AS SweetQty,SUM(SourQty) AS SourQty,SUM(CurdQty) AS CurdQty,SUM(Payable_Amount) AS Payable_Amount
 FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
-            End If
+                End If
 
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
-            gv1.DataSource = Nothing
-            gv1.Rows.Clear()
-            gv1.Columns.Clear()
-            gv1.GroupDescriptors.Clear()
-            gv1.MasterView.Refresh()
-            gv1.GroupDescriptors.Clear()
-            gv1.EnableFiltering = True
-            gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            If dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
-                gv1.BestFitColumns()
-                SetGridFormation()
-                RadPageView2.SelectedPage = RadPageViewPage5
-                gv1.BestFitColumns()
-                EnableDisableControls(False)
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterView.Refresh()
+                gv1.GroupDescriptors.Clear()
+                gv1.EnableFiltering = True
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                If dt.Rows.Count > 0 Then
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
+                    SetGridFormation()
+                    RadPageView2.SelectedPage = RadPageViewPage5
+                    gv1.BestFitColumns()
+                    EnableDisableControls(False)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
