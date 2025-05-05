@@ -318,7 +318,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -362,6 +362,9 @@ Public Class FrmUserMaster
             txtEmailId.Text = row("E_Mail").ToString()
             txt_Mob_No.Text = clsCommon.myCstr(row("Mob_No").ToString())
             fndDepartment.Value = row("Segment_code").ToString()
+            'txtSubLocation.Value = ("txtSubLocation").ToString()
+            'If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+            'End If
             'fndZone.Value = row("Zone_Code").ToString()
             'If clsCommon.myLen(fndZone.Value) > 0 Then
             '    lblzone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Description from TSPL_ZONE_MASTER where  Zone_Code='" + fndZone.Value + "'"))
@@ -374,6 +377,7 @@ Public Class FrmUserMaster
             Else
                 lblDepartmentName.Text = ""
             End If
+
             chkInActive.Checked = IIf(row("InActive") = "Y", True, False)
             Dim date1 As String = clsCommon.myCstr(row("InActive_Date"))
             If date1 <> "" Then
@@ -446,9 +450,13 @@ Public Class FrmUserMaster
                     lblCustCode.Text = ""
                 End If
             End If
+            txtSubLocation.Value = clsCommon.myCstr(row("Sub_location"))
+            lblSubLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtSubLocation.Value + "'")
+
             txtDefaultLocation.Value = clsCommon.myCstr(row("Default_Location"))
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtDefaultLocation.Value + "'")
             lblVendorName.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + fndVendor.Value + "'")
+            'txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from tspl_location_master  where  location_code='" + txtDefaultLocation.Value + "'"))
 
             txtMP.Value = clsCommon.myCstr(row("MP_Code"))
             txtSSO.Text = clsCommon.myCstr(row("SSO"))
@@ -648,6 +656,9 @@ Public Class FrmUserMaster
                     connectSql.RunSpTransaction(Nothing, "SP_TSPL_GL_SEGMENT_PERMISSION_INSERT", New SqlParameter("@usercode", fndUserCode.Value), New SqlParameter("@glsegment", "7"), New SqlParameter("@segmentcode", Gl_Segment), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@compcode", companyCode), New SqlParameter("@Default_Segment", "Y"))
                     ''---------------------------
                 End If
+                'If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                '    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Sub_location = '" + txtSubLocation.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                'End If
                 If clsCommon.myLen(fndVendor.Value) > 0 Then
                     clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Vendor_Code = '" + fndVendor.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
@@ -719,6 +730,8 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
+        clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Text, True)
+
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub
 
@@ -900,6 +913,9 @@ Public Class FrmUserMaster
 
                     ''---------------------------
                 End If
+                'If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                '    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Sub_location = '" + txtSubLocation.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                'End If
                 If clsCommon.myLen(fndVendor.Value) > 0 Then
                     clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Vendor_Code = '" + fndVendor.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
@@ -980,6 +996,8 @@ Public Class FrmUserMaster
         btnDelete.Enabled = False
     End Sub
     Private Sub funReset()
+        lblSubLocation.Text = ""
+        txtSubLocation.Value = ""
         fndUserCode.MyReadOnly = False
         fndUserCode.Value = ""
         fndEmployeeCode.Value = ""
@@ -1605,7 +1623,7 @@ Public Class FrmUserMaster
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
         '=======Update By preeti Gupta Against Ticket No[BM00000008831]
         'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
-        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date , User_APP_Type as [App User Type] , Vendor_Code as [Vendor] from TSPL_USER_MASTER "
+        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date , User_APP_Type as [App User Type] , Vendor_Code as [Vendor],Sub_location as [Sub Location] from TSPL_USER_MASTER "
         ListImpExpColumnsMandatory = New List(Of String)({"User_Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"User_Code"})
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
@@ -1613,7 +1631,7 @@ Public Class FrmUserMaster
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
         Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
-        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor") Then  ' "Zone Code"
+        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor", "Sub Location") Then  ' "Zone Code"
             Dim trans As SqlTransaction = Nothing
 
             Try
@@ -1629,6 +1647,7 @@ Public Class FrmUserMaster
                     Dim strLevel2 As String = ""
                     Dim strLevel3 As String = ""
                     Dim strLevel4 As String = ""
+                    ' Dim SubLoaction As String = ""
                     ' Dim strZoneCode As String = ""
 
                     If clsCommon.myLen(grow.Cells("User_Code").Value) <= 0 Then
@@ -1654,6 +1673,8 @@ Public Class FrmUserMaster
                         strName = grow.Cells("User_Name").Value.ToString()
                     End If
 
+
+
                     Dim strDefaultLocation As String = clsCommon.myCstr(grow.Cells("Default Location").Value)
                     If clsCommon.myLen(strDefaultLocation) > 0 Then
                         Dim Default_Location As String = clsDBFuncationality.getSingleValue("select Location_Code  from TSPL_LOCATION_MASTER  where Location_Code ='" + grow.Cells("Default Location").Value.ToString() + "'", trans)
@@ -1670,6 +1691,18 @@ Public Class FrmUserMaster
                     '        Throw New Exception("" + strZoneCode + " Invalid Zone Code.Does Not Exist In Zone Master")
                     '    End If
                     'End If
+                    'Dim SubLoaction As String = clsCommon.myCstr(grow.Cells("Sub_location").Value)
+
+                    Dim strSubLocation As String = clsCommon.myCstr(grow.Cells("Sub Location").Value)
+                    'If clsCommon.myLen(strSubLocation) > 0 Then
+                    '    'Dim Sub_Location As String = clsDBFuncationality.getSingleValue("select Location_Code  from TSPL_LOCATION_MASTER  where Location_Code ='" + grow.Cells("Sub location").Value.ToString() + "'", trans)
+                    '    If clsCommon.CompairString(Sub_Location, strSubLocation) = CompairStringResult.Equal Then
+                    '        strSubLocation = grow.Cells("Sub Location").Value.ToString()
+                    '    Else
+                    '        Throw New Exception("Sub Location '" + strSubLocation + "' Does Not Exist In Location Master")
+                    '    End If
+                    'End If
+
                     If grow.Cells("Login_Type") IsNot Nothing AndAlso clsCommon.myLen(grow.Cells("Login_Type")) > 0 Then
                         If (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Login_Type").Value), "CNF") = CompairStringResult.Equal) AndAlso (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("InActive").Value), "N") = CompairStringResult.Equal) Then
                             Dim IsMappedCustomer As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_USER_MASTER where  Login_Type = 'CNF'  AND InActive = 'N' and Cust_Code IN( '" & grow.Cells("Cust_Code").Value.ToString() & "')", trans)
@@ -1694,7 +1727,9 @@ Public Class FrmUserMaster
                         clsCommon.AddColumnsForChange(coll, "Default_Location", strDefaultLocation)
                         clsCommonFunctionality.UpdateDataTable(coll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     End If
-
+                    If (clsCommon.myLen(strSubLocation) > 0) Then ' Condition Add by Prabhakar 25/11/2016
+                        clsCommon.AddColumnsForChange(coll, "Sub_location", strSubLocation)
+                    End If
                     'sanjay
                     Dim colll As New Hashtable()
                     clsCommon.AddColumnsForChange(colll, "Department_Head", grow.Cells("Department Head").Value.ToString())
@@ -2926,6 +2961,22 @@ order by LEVEL"
         txtBulkRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtBulkRoute.arrValueMember, txtBulkRoute.arrDispalyMember)
 
     End Sub
+
+    Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
+        Try
+            Dim qry As String = " select location_code as [Code],Location_Desc as [Description] from tspl_location_master  "
+            Dim wlr As String = " Is_Sub_Location='Y' "
+            txtSubLocation.Value = clsCommon.ShowSelectForm("VNDFND", qry, "Code", wlr, txtSubLocation.Value, "Code", isButtonClicked)
+
+            If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from tspl_location_master where location_code='" + txtSubLocation.Value + "'"))
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 
     Private Sub SaveUserMapping()
         Try
