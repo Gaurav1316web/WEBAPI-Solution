@@ -1115,8 +1115,8 @@ Public Class frmAssembDis
                 If MyBase.isReverse Then
 
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnunpost.Visible = True
@@ -2377,7 +2377,7 @@ Public Class frmAssembDis
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -248,7 +248,7 @@ Public Class FrmPrintBulkInvoiceStatement
 
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Bulk Invoice Statement", clsCommon.myCDate(dt.Rows(0)("Invoicedate")), "rptCompanyAddress.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Bulk Invoice Statement", clsCommon.myCDate(dt.Rows(0)("Invoicedate")), "rptCompanyAddress.rpt")
             frmCRV = Nothing
         End If
         'Next

@@ -460,14 +460,14 @@ Public Class RptKDILSalarySlip
                 If Print = True Then
                     Dim frmcrystal As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1_CHU", "Employee Salary Slip Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1_CHU", "Employee Salary Slip Report")
                     Else
-                        frmcrystal.funsubreportWithdt(CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
+                        frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
                     End If
                     frmcrystal = Nothing
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report")
                     frmcrystal = Nothing
                 End If
             End If

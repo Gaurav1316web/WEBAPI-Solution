@@ -67,6 +67,9 @@ Public Class FrmTaxGroups
                     ddlTransType.SelectedIndex = 3
                 End If
                 txtDesc.Text = dr("Description")
+
+
+
                 'This IS Added For Handling Navigation-------by ---Pankaj Kumar
                 txtRowNo.Text = clsDBFuncationality.getSingleValue("Select Row from (SELECT ROW_NUMBER() OVER (ORDER BY Tax_Group_Code) AS Row, Tax_Group_Code, Tax_Group_Desc FROM TSPL_TAX_GROUP_MASTER) xxx Where Tax_Group_Code='" + findTaxGroup.Value + "' And Tax_Group_Desc='" + txtDesc.Text + "'")
                 'Code Ends Here
@@ -91,6 +94,7 @@ Public Class FrmTaxGroups
     End Sub
 
     Public Sub GetData(ByVal NavType As common.NavigatorType)
+        reset()
         '-----------------------------Updated By---Pankaj Kumar---------on---13-04-2012----------
         Dim qry1 As String = "  Select * from (SELECT ROW_NUMBER() OVER (ORDER BY Tax_Group_Code) AS Row, Tax_Group_Code, Tax_Group_Desc, (CASE WHEN Tax_Group_Type='S' THEN 'Sales'  WHEN Tax_Group_Type='T' THEN 'Transfer'  WHEN Tax_Group_Type='H' THEN 'HR And Payroll'   ELSE 'Purchase' END) as [Transaction Type],Currency_Code,Is_Tax_Exempted,Active FROM TSPL_TAX_GROUP_MASTER) xxx Where 1=1"
         Select Case NavType
@@ -167,6 +171,9 @@ Public Class FrmTaxGroups
         '    gvTaxGroups.Rows.RemoveAt(i)
         'Next
         chkActive.Checked = False
+        rbtnDefaultNonTaxabale.IsChecked = False
+        rbtnDefaultIGST.IsChecked = False
+        rbtnDefaultLocalGST.IsChecked = False
     End Sub
 
     Private Sub fillTaxAuthority()
@@ -308,11 +315,12 @@ Public Class FrmTaxGroups
                 chkActive.Checked = IIf(clsCommon.myCdbl(dr("Active")) = 1, True, False)
             Next
         End If
-        sql = "SELECT  TSPL_TAX_GROUP_DETAILS.Tax_Code, TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc, " & _
-              "(CASE WHEN TSPL_TAX_GROUP_DETAILS.Taxable = 'Y' THEN 'Yes' ELSE 'No' END) AS Taxable, " & _
-              "(CASE WHEN TSPL_TAX_GROUP_DETAILS.Surtax = 'Y' THEN 'Yes' ELSE 'No' END) AS Surtax, TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code, " & _
-              "TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code_Desc,TSPL_TAX_GROUP_DETAILS.Currency_Code,TSPL_TAX_GROUP_DETAILS.ConvRate,TSPL_TAX_GROUP_DETAILS.ApplicableFrom,case when TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount='Y' then 'Yes' else 'No' end as Tax_On_Base_Amount  " & _
-              " FROM TSPL_TAX_GROUP_DETAILS INNER JOIN TSPL_Tax_Group_Master ON TSPL_TAX_GROUP_DETAILS.Tax_Group_Code = TSPL_Tax_Group_Master.Tax_Group_Code AND TSPL_TAX_GROUP_DETAILS.Tax_Group_Type = TSPL_TAX_GROUP_MASTER.Tax_Group_Type" & _
+
+        sql = "SELECT  TSPL_TAX_GROUP_DETAILS.Tax_Code, TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc, " &
+              "(CASE WHEN TSPL_TAX_GROUP_DETAILS.Taxable = 'Y' THEN 'Yes' ELSE 'No' END) AS Taxable, " &
+              "(CASE WHEN TSPL_TAX_GROUP_DETAILS.Surtax = 'Y' THEN 'Yes' ELSE 'No' END) AS Surtax, TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code, " &
+              "TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code_Desc,TSPL_TAX_GROUP_DETAILS.Currency_Code,TSPL_TAX_GROUP_DETAILS.ConvRate,TSPL_TAX_GROUP_DETAILS.ApplicableFrom,case when TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount='Y' then 'Yes' else 'No' end as Tax_On_Base_Amount  " &
+              ",Default_Type FROM TSPL_TAX_GROUP_DETAILS INNER JOIN TSPL_Tax_Group_Master ON TSPL_TAX_GROUP_DETAILS.Tax_Group_Code = TSPL_Tax_Group_Master.Tax_Group_Code AND TSPL_TAX_GROUP_DETAILS.Tax_Group_Type = TSPL_TAX_GROUP_MASTER.Tax_Group_Type" &
               " WHERE TSPL_Tax_Group_Master.Tax_Group_Code='" + findTaxGroup.Value + "' and TSPL_Tax_Group_Master.Tax_Group_Type='" + ddlTransType.SelectedValue + "' Order by TSPL_TAX_GROUP_DETAILS.trans_Code"
         dt = clsDBFuncationality.GetDataTable(sql)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -335,13 +343,19 @@ Public Class FrmTaxGroups
                 Else
                     dataRowInfo.Cells("ApplicableFrom").Value = ""
                 End If
-
-
-
+                If clsCommon.myCDecimal(dr1("Default_Type")) = 1 Then
+                    rbtnDefaultNonTaxabale.IsChecked = True
+                ElseIf clsCommon.myCDecimal(dr1("Default_Type")) = 2 Then
+                    rbtnDefaultIGST.IsChecked = True
+                ElseIf clsCommon.myCDecimal(dr1("Default_Type")) = 3 Then
+                    rbtnDefaultLocalGST.IsChecked = True
+                End If
+                'dataRowInfo.Cells("Default_Type").Value = clsCommon.myCstr(dr1("Default_Type"))
                 'End MultiCurrency'
                 gvTaxGroups.Rows.Insert(i, dataRowInfo)
                 i = i + 1
             Next
+
             ' transportSql.FillGridView(sql, gvTaxGroups)
             createFormula()
             btnAdd.Text = "Update"
@@ -481,6 +495,15 @@ Public Class FrmTaxGroups
                 If chkSale.ToggleState = ToggleState.On Then
                     strSTax = "Y"
                 End If
+                Dim default_Type As Integer = 0
+
+                If rbtnDefaultNonTaxabale.IsChecked Then
+                    default_Type = 1
+                ElseIf rbtnDefaultIGST.IsChecked Then
+                    default_Type = 2
+                ElseIf rbtnDefaultLocalGST.IsChecked Then
+                    default_Type = 3
+                End If
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
                     Dim isSaved As Boolean = True
@@ -502,10 +525,13 @@ Public Class FrmTaxGroups
                         'sanjay
                         Dim col1 As New Hashtable()
                         clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
+                        clsCommon.AddColumnsForChange(col1, "default_Type", (default_Type))
+
 
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
                         'sanjay
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
+
 
                         For Each grow As GridViewRowInfo In gvTaxGroups.Rows
                             If grow.Cells(2).Value = "Yes" Then
@@ -553,9 +579,10 @@ Public Class FrmTaxGroups
                         'sanjay
                         Dim col1 As New Hashtable()
                         clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
+                        clsCommon.AddColumnsForChange(col1, "default_Type", (default_Type))
+
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
                         'sanjay
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
 
                         isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_DELETE", New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue))
                         For Each grow As GridViewRowInfo In gvTaxGroups.Rows
@@ -1196,6 +1223,10 @@ Public Class FrmTaxGroups
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub findTaxGroup_Load(sender As Object, e As EventArgs) Handles findTaxGroup.Load
+
     End Sub
 
     Private Sub txtCurrencyCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCurrencyCode._MYValidating

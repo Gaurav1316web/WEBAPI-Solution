@@ -1526,8 +1526,8 @@ Public Class FrmMakePayment
                 If MyBase.isReverse Then
 
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnReverse.Visible = True
@@ -1703,7 +1703,7 @@ Public Class FrmMakePayment
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptQuickBook", "Quick Book Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
                 frmCRV = Nothing
 
             End If

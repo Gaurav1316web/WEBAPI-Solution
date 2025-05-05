@@ -83,7 +83,7 @@ Public Class FrmStockReportFinishedGoods
         Try
             RefreshData()
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockReportFinishGoods", " Stock Report For Finish Goods")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockReportFinishGoods", " Stock Report For Finish Goods")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)

@@ -548,14 +548,14 @@ Public Class MSIProductionSaleReport
                 Dim qry As String = "  SELECT '" + clsCommon.GetPrintDate(FromDate.Value) + "' as Date,'" + txtLocation.Value + "' as Location_Code,'" + lblLocation.Text + "' as Location_Desc "
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
 
                 'PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
                 'frmCRV.funreport(CrystalReportFolder.SalesReport, dtsalesdaily, "rptMSIProductionSaleReport", "", Nothing)
                 frmCRV = Nothing
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
 
             End If
 

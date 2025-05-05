@@ -68,7 +68,7 @@ Public Class FrmCanceledSaleInvoice1
             Else
 
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strCmd), "crptCanceledSaleInvoice", "Canceleld Sale Invoice")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strCmd), "crptCanceledSaleInvoice", "Canceleld Sale Invoice")
             End If
 
         Catch ex As Exception

@@ -215,9 +215,9 @@ Public Class frmRptVendorCustomerLedger
                 ''richa KDI/15/10/18-000438
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rdbDetail.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtOpening, "CustomerVendorLedgerDetail", "Customer Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtOpening, "CustomerVendorLedgerDetail", "Customer Vendor Ledger Report")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtOpening, "CustomerVendorLedger", "Customer Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtOpening, "CustomerVendorLedger", "Customer Vendor Ledger Report")
                 End If
                 frmCRV = Nothing
             End If
@@ -575,8 +575,8 @@ Public Class frmRptVendorCustomerLedger
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True

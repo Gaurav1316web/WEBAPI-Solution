@@ -2584,10 +2584,10 @@ Public Class FrmDispatchBulkSale
             Dim frmCRV As New frmCrystalReportViewer()
             If isPerformaInvoice = False Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSaleBHR", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSaleBHR", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
 
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSale", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSale", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
 
                 End If
 
@@ -2595,7 +2595,7 @@ Public Class FrmDispatchBulkSale
                 '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSaleBHR", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
 
             Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSalePerformaInvoice", "Milk Sales Dispatch", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSalePerformaInvoice", "Milk Sales Dispatch", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
             qry = Nothing

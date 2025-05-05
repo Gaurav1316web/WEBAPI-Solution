@@ -182,10 +182,10 @@ Public Class FrmMismatchRpt
             Else
                 If chkSummary.IsChecked = True Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptMismatchReportSummary", "Mismatch Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptMismatchReportSummary", "Mismatch Report")
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptMismatchReportDetail", "Mismatch Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptMismatchReportDetail", "Mismatch Report")
                 End If
 
             End If

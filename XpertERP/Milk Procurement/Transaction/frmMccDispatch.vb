@@ -983,8 +983,8 @@ Public Class FrmMccDispatch
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -1029,8 +1029,8 @@ Public Class FrmMccDispatch
                                      "CreateCommonSeriesLocationwiseForAllSale (For Create Common Series Location Wise For All Sale)")
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F3 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
@@ -2294,10 +2294,10 @@ Public Class FrmMccDispatch
                 'If clsCommon.CompairString(strFromStateCode, strToStateCode) = CompairStringResult.Equal Then
                 '    frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'End If
             Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
         Else

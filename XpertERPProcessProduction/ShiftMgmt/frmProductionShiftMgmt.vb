@@ -3042,7 +3042,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             End If
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PRODUCTION, dt, dtOpening, "crptShiftManagement", "ShiftReport", "rptOpeningShiftMngmnt", "rptSubReceiptShiftDispatchIssue", dtDisposal, "rptSubReceiptShiftBulkMilk", dtReceipt, "rptSubShiftClosingBal", dtClosing)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, dtOpening, "crptShiftManagement", "ShiftReport", "rptOpeningShiftMngmnt", "rptSubReceiptShiftDispatchIssue", dtDisposal, "rptSubReceiptShiftBulkMilk", dtReceipt, "rptSubShiftClosingBal", dtClosing)
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If

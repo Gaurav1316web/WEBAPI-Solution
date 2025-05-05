@@ -63,6 +63,10 @@ Public Class frmShortCutInfo
         dr("Description") = "Export on grid"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("ShortCut Key") = "Alt+Ctrl+Shift+F8"
+        dr("Description") = "Show and Update Crystal Report Action Type"
+        dt.Rows.Add(dr)
         grdLoginInfo.DataSource = dt
 
         grdLoginInfo.Columns(0).Width = 100

@@ -113,7 +113,7 @@ Public Class FrmChannelwiseCustomer1
             strSql += " AND TSPL_SALE_INVOICE_HEAD.Location  in (" + clsCommon.GetMulcallString(dgvLocation.CheckedValue) + ")"
         End If
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptChannelwiseCustomer", "Channel wise Customer")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptChannelwiseCustomer", "Channel wise Customer")
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.Channelwisecustomer1)

@@ -987,6 +987,19 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         End If
     End Sub
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        'If isNewEntry = False Then
+        '    Dim obj As New clsMilkCollectionMCC
+        '    Dim qry As String = ""
+        '    Dim Reason As String = ""
+        '    Dim frm As New FrmFreeTxtBox1
+        '    frm.Text = "Remarks for Update"
+        '    frm.ShowDialog()
+        '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+        '        Exit Sub
+        '    Else
+        '        obj.Remark = frm.strRmks
+        '    End If
+        'End If
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
@@ -1021,6 +1034,20 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         Try
             If (AllowToSave()) Then
                 Dim obj As New clsMilkCollectionMCC()
+
+                If isNewEntry = False AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    'Dim obj As New clsMilkCollectionMCC
+                    Dim qry As String = ""
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Update"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Return False
+                    Else
+                        obj.Remark = frm.strRmks
+                    End If
+                End If
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.Late = clsCommon.myCDecimal(cboLate.SelectedValue)
@@ -2378,7 +2405,7 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                         "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

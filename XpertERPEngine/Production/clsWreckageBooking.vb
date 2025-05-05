@@ -121,10 +121,11 @@ Public Class clsWreckageBooking
 
                 End If
             Else
-                HistoryUpdate(obj.Wrekage_ENTRY_CODE, trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_WRECKAGE_ENTRY", OMInsertOrUpdate.Update, "TSPL_WRECKAGE_ENTRY.WRECKAGE_ENTRY_CODE='" + obj.Wrekage_ENTRY_CODE + "'", trans)
             End If
             isSaved = isSaved AndAlso clsWreckage.SaveData(obj, trans)
+            HistoryUpdate(obj.Wrekage_ENTRY_CODE, trans)
+
             'trans.Commit()
         Catch ex As Exception
             'trans.Rollback()

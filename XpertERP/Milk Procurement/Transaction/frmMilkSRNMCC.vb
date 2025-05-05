@@ -11,6 +11,7 @@ Public Class frmMilkSRNMCC
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Public remark As String
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isNewEntry As Boolean = False
     Dim userCode, companyCode As String
@@ -136,7 +137,7 @@ Public Class frmMilkSRNMCC
             Else
                 'frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "MilkSRNReportThroughReport", "Milk SRN Report")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkSRN", "Milk SRN Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkSRN", "Milk SRN Report", clsCommon.myCDate(dt.Rows(0)("SRN_Date")))
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -825,7 +826,7 @@ Public Class frmMilkSRNMCC
                             ElseIf CorrTypeSRNVLC Then
                                 strVLCUploaderCode = clsCommon.myCstr(growImport.Cells("VLC").Value)
                             End If
-                            clsMilkSRNMCC.Correction(clsCommon.myCstr(growImport.Cells("SRN No").Value), CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dclQty, strType, dclFAT, dclSNF, strVLCUploaderCode, isNewEntry)
+                            clsMilkSRNMCC.Correction(clsCommon.myCstr(growImport.Cells("SRN No").Value), CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dclQty, strType, dclFAT, dclSNF, strVLCUploaderCode, remark)
                         Catch ex As Exception
                             Dim dr As DataRow = dtError.NewRow()
                             dr("RowNo") = counter_Index

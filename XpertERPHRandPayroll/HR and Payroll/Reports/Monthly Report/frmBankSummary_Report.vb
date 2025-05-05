@@ -157,7 +157,7 @@ Public Class frmBankSummary_Report
                 Else
                     'formatgrid()
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptBankSummary", "Bank Summary Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptBankSummary", "Bank Summary Report")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)

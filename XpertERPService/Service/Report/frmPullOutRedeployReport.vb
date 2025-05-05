@@ -92,7 +92,7 @@ Public Class frmPullOutRedeployReport
             dt = clsDBFuncationality.GetDataTable(qry)
             'gv1.DataSource = dt
             Dim frmCrystalReportViewer As New frmCrystalReportViewer
-            frmCrystalReportViewer.funreport(CrystalReportFolder.ServiceReport, dt, "rptPulloutRedeployReport", "Asset PullOut Redeploy Report")
+            frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.ServiceReport, dt, "rptPulloutRedeployReport", "Asset PullOut Redeploy Report")
 
         Catch ex As Exception
 

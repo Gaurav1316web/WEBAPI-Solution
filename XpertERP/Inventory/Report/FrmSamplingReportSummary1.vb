@@ -5,7 +5,7 @@ Imports CrystalDecisions.ReportSource
 Imports common
 
 Public Class FrmSamplingReportSummary1
-
+    Inherits FrmMainTranScreen
     Private Sub FrmSamplingReportSummary1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         funreset()
 
@@ -107,10 +107,10 @@ Public Class FrmSamplingReportSummary1
             Dim frmCRV As New frmCrystalReportViewer()
             If rdodetail.IsChecked = True Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "SampleReportDetail", "Sample Report Detail")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "SampleReportDetail", "Sample Report Detail")
             ElseIf rdosummary.IsChecked = True Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "SampleReportSummary", "Sample Report Summary")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "SampleReportSummary", "Sample Report Summary")
 
 
             End If

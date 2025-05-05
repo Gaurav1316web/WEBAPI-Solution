@@ -222,7 +222,7 @@ Public Class rptCustItemWiseSaleReport
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWisee", "STS Register-Item Wise Summary Party Wise")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWisee", "STS Register-Item Wise Summary Party Wise")
                     frmCRV = Nothing
 
                 End If
@@ -430,7 +430,7 @@ Public Class rptCustItemWiseSaleReport
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     frmCRV = Nothing
 
                 End If
@@ -559,7 +559,7 @@ GROUP BY Item_Code"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
                     frmCRV = Nothing
 
                 End If
@@ -678,7 +678,7 @@ GROUP BY Item_Code"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
                     frmCRV = Nothing
 
                 End If
@@ -785,7 +785,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
                     frmCRV = Nothing
 
                 End If
@@ -1094,7 +1094,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     frmCRV = Nothing
 
                 End If
@@ -1169,7 +1169,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptTransportationCharges", "Transportation Charges")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptTransportationCharges", "Transportation Charges")
                     frmCRV = Nothing
 
                 End If
@@ -1245,7 +1245,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptTcsSummaryReport", "Tcs Summary Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptTcsSummaryReport", "Tcs Summary Report")
                     frmCRV = Nothing
 
                 End If
@@ -1320,7 +1320,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptGheeReport", "Ghee Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptGheeReport", "Ghee Report")
                     frmCRV = Nothing
 
                 End If
@@ -1403,7 +1403,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptRouteWiseSale", "Route Wise Sale")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptRouteWiseSale", "Route Wise Sale")
                     frmCRV = Nothing
 
                 End If
@@ -1477,7 +1477,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptCreditPartyWiseSaleAmount", "Credit Party Wise Sale Amount")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptCreditPartyWiseSaleAmount", "Credit Party Wise Sale Amount")
                     frmCRV = Nothing
 
                 End If
@@ -1553,7 +1553,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
                     frmCRV = Nothing
 
                 End If
@@ -1626,7 +1626,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf Print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
                     frmCRV = Nothing
 
                 End If
@@ -1842,23 +1842,23 @@ LEFT JOIN TSPL_COMPANY_MASTER
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If BtnStcRegisterItemWiseSummary.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
                     ElseIf BtnProductWiseSaleQuantity.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
                     ElseIf BtnBillWiseSaleOfMilk.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
                     ElseIf BtnPartySaleMilkProductt.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     ElseIf BtnProductSalesSummary.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
                     ElseIf BtnMilkStcSummary.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
                     ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWise", "STS Register-Item Wise Summary Party Wise")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWise", "STS Register-Item Wise Summary Party Wise")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptCustItemWiseSale", "Customer Item Wise Sale")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCustItemWiseSale", "Customer Item Wise Sale")
                     End If
                     frmCRV = Nothing
                 End If

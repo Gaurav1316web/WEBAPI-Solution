@@ -891,7 +891,7 @@ select 'QC Status' as  [QC Code],'Y/N' as [Standard Range],'" + IIf(clsCommon.my
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
             End If

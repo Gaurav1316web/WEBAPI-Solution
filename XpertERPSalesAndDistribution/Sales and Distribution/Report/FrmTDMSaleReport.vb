@@ -968,13 +968,13 @@ Public Class FrmTDMSaleReport
                     If rdocolumn.IsChecked = True Then
                         Dim frmcrystal As New frmCrystalReportViewer()
                         If ddlprinttype.Text = "Detail" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "salevolumereport", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "salevolumereport", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Summary" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "salevolumereportColSummary", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "salevolumereportColSummary", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Routewise" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "salevolumereportColRoute", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "salevolumereportColRoute", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Hierarchywise" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "salevolumereportcolHier", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "salevolumereportcolHier", " Sales Volume Report")
                         End If
 
 
@@ -984,13 +984,13 @@ Public Class FrmTDMSaleReport
 
                         Dim frmcrystal As New frmCrystalReportViewer()
                         If ddlprinttype.Text = "Detail" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "salevolumeRowise", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "salevolumeRowise", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Summary" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowSummary", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowSummary", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Routewise" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowRoute", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowRoute", " Sales Volume Report")
                         ElseIf ddlprinttype.Text = "Hierarchywise" Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowHier", " Sales Volume Report")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "SaleVolumeRowiseRowHier", " Sales Volume Report")
                         End If
 
 

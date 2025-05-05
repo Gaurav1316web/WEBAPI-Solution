@@ -172,7 +172,7 @@ Public Class FrmCEAllocationRpt
 
 
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "RptCEAllocationALl", " CE Allocation Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptCEAllocationALl", " CE Allocation Report")
 
             Else
                 If clsCommon.CompairString(ddlhier.Text, "HOS") = CompairStringResult.Equal Then
@@ -217,7 +217,7 @@ Public Class FrmCEAllocationRpt
                 qry += "  order by RouteId ,convert(date,HSDate,103)"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "RptCEAllocation", " CE Allocation Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptCEAllocation", " CE Allocation Report")
 
             End If
 

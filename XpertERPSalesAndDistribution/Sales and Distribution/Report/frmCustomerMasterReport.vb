@@ -115,7 +115,7 @@ Public Class FrmCustomerMasterReport
             Else
 
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "OutletDetails", "Outlet Details")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "OutletDetails", "Outlet Details")
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)

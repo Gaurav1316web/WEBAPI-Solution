@@ -1200,8 +1200,8 @@ Public Class FrmMilkTransferIn
                                                  "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine +
                                                  "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -1391,7 +1391,7 @@ Public Class FrmMilkTransferIn
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)

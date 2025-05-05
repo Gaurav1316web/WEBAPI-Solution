@@ -1059,9 +1059,9 @@ Where TSPL_SD_SALE_INVOICE_HEAD.Document_Code In (" + InvCode + "))xyz Group By 
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If printType = 1 Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDistributerProductSaleInvoice", "Distributer Invoice Statement", "")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDistributerProductSaleInvoice", "Distributer Invoice Statement", "")
             ElseIf printType = 2 Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDistributerProductSaleInvoice_Challan", "Challan", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDistributerProductSaleInvoice_Challan", "Challan", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
 
@@ -1580,7 +1580,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                 InvoiceNo = InvoiceNo.Substring(3, InvoiceNo.Length - 3)
 
             End If
-            clsPSShipmentPrint.PrintDataBatchWiseInvoice(InvoiceNo)
+            clsPSShipmentPrint.PrintDataBatchWiseInvoice(MyBase.Form_ID, InvoiceNo)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

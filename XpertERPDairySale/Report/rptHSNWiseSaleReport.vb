@@ -244,9 +244,9 @@ Public Class rptHSNWiseSaleReport
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkKKFMandi.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSaleALW", "HSN Wise Sale")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptHSNWiseSaleALW", "HSN Wise Sale")
                     End If
                     frmCRV = Nothing
                 End If

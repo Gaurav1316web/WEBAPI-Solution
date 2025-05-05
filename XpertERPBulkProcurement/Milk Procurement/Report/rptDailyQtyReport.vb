@@ -2259,17 +2259,17 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnDockSummary.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDockSummaryReport", "DCS Summary Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDockSummaryReport", "DCS Summary Report", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnSummary.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDSummary", "Dock Summary", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDSummary", "Dock Summary", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnBMCDock.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptBMCDockReport", "BMC Dock Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptBMCDockReport", "BMC Dock Report", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnBMCDCSPrint.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBMCDCSPrint", "BMC DCS Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptBMCDCSPrint", "BMC DCS Report", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnBMCRoutePrint.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptBMCRoutePrint", "BMC Route Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptBMCRoutePrint", "BMC Route Report", clsCommon.myCDate(fromDate.Value))
                 Else
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptdailyqtyreport", "Daily Quantity Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptdailyqtyreport", "Daily Quantity Report", clsCommon.myCDate(fromDate.Value))
                 End If
                 frmCRV = Nothing
             Else
@@ -2480,7 +2480,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWisereport", "Route Wise", clsCommon.myCDate(fromDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWisereport", "Route Wise", clsCommon.myCDate(fromDate.Value))
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
@@ -2671,7 +2671,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "TransportGainLossSummary", "Gain/Loss Report", Nothing)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "TransportGainLossSummary", "Gain/Loss Report", Nothing)
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow("No Data Found")

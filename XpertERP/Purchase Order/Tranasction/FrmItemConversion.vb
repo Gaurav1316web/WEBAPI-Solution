@@ -589,19 +589,19 @@ Public Class FrmItemConversion
             RadMessageBox.Show(ex.Message, Me.Text)
         End Try
     End Sub
-    Public Shared Sub PrintData(ByVal strDocNo As String, ByVal IsPreprinted As Boolean)
+    Public Sub PrintData(ByVal strDocNo As String, ByVal IsPreprinted As Boolean)
         Try
 
             Dim qry As String
             Dim dt As DataTable
-            qry = "select * from TSPL_Item_Conversion_HEAD left outer  join TSPL_Item_Conversion_DETAIL on TSPL_Item_Conversion_HEAD.Doc_Code=TSPL_Item_Conversion_DETAIL.Doc_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Item_Conversion_HEAD.loc_code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_Item_Conversion_HEAD.comp_code " & _
+            qry = "select * from TSPL_Item_Conversion_HEAD left outer  join TSPL_Item_Conversion_DETAIL on TSPL_Item_Conversion_HEAD.Doc_Code=TSPL_Item_Conversion_DETAIL.Doc_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Item_Conversion_HEAD.loc_code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_Item_Conversion_HEAD.comp_code " &
                  " where TSPL_Item_Conversion_HEAD.Doc_Code='" + strDocNo + "' ORDER by document_line_no"
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If IsPreprinted Then
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptExpiryDetails", "Expired Item Entry")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptExpiryDetails", "Expired Item Entry")
             Else
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptExpiryDetails", "Expired Item Entry")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptExpiryDetails", "Expired Item Entry")
             End If
             frmCRV = Nothing
         Catch ex As Exception

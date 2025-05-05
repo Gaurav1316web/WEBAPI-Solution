@@ -899,7 +899,7 @@ Public Class FrmDetailsOfForm2B
 
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strmain), "DetailsOfForm2BCstVat", "Details of Form 2B")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strmain), "DetailsOfForm2BCstVat", "Details of Form 2B")
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

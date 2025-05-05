@@ -141,7 +141,7 @@ Public Class frmItemPrice
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "ItemPrice", "Item Price Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "ItemPrice", "Item Price Report")
             frmCRV = Nothing
             'frmInventoryReportViewer.proShowReport("Item Price", fndItemCode.txtValue.Text, pricedate, pricetodate, fromdate, todate, ddl)
 

@@ -407,7 +407,7 @@ Public Class frmMilkGateEntryOut
             " where Gate_Out_Code= '" + txtCode.Value + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptGateEntryOut", "Milk Gate Entry Out")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptGateEntryOut", "Milk Gate Entry Out")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)

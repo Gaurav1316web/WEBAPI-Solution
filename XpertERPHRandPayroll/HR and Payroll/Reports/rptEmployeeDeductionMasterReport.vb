@@ -165,9 +165,9 @@ Public Class rptEmployeeDeductionMasterReport
                 If isPrint Then
                     Dim frmcrystal As New frmCrystalReportViewer()
                     If rbtnEmpDed.Checked Then
-                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptEmployeeDeductionMaster", "Employee Deduction Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptEmployeeDeductionMaster", "Employee Deduction Report")
                     Else
-                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptEmployeePayHeadDeductionReport", "Employee Deduction Report")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptEmployeePayHeadDeductionReport", "Employee Deduction Report")
                     End If
                     frmcrystal = Nothing
                 Else

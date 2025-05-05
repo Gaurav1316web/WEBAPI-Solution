@@ -116,7 +116,7 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
                         gv1.BestFitColumns()
                         If isPrint Then
                             Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
                             frmCRV = Nothing
                         End If
                     Else
@@ -133,7 +133,7 @@ where convert(date,TSPL_Booking_MATSER.Document_Date,103)>='" + clsCommon.GetPri
 
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dtRCDF, "rptAllUnionBookingReport", "")
                     frmCRV = Nothing
                 End If
                 clsCommon.ProgressBarHide()

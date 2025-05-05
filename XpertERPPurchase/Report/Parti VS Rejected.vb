@@ -180,7 +180,7 @@ Public Class Parti_VS_Rejected
             If btnReferesh = False Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PartyVsRejected", "Rejected SRN Qty")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PartyVsRejected", "Rejected SRN Qty")
                 frmCRV = Nothing
             End If
         End If

@@ -201,9 +201,9 @@ Public Class FrmVendorWiseReturnableGoodBalance
                 If btnReferesh = False Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If rdbtnVendor.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "VendorWiseGoodsReturnableBalance", "Vendor Wise Retrunable Goods Balance")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "VendorWiseGoodsReturnableBalance", "Vendor Wise Retrunable Goods Balance")
                     ElseIf rdbtnPerson.IsChecked = True Then
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PersonWiseGoodsReturnableBalance", "Person Wise Retrunable Goods Balance")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PersonWiseGoodsReturnableBalance", "Person Wise Retrunable Goods Balance")
                     End If
                     frmCRV = Nothing
                 End If

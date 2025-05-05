@@ -33,7 +33,7 @@ Public Class RptJobWorkDebitNoteReport
         LoadDataQuery()
         If dt1.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.Purchase, dt1, dt2, "RptJobWorkDebitNot", "Job Work Debit Note", "RptJobWorkProductManufactured")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.Purchase, dt1, dt2, "RptJobWorkDebitNot", "Job Work Debit Note", "RptJobWorkProductManufactured")
             frmCRV = Nothing
         End If
 

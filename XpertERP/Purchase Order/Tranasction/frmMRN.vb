@@ -4507,8 +4507,8 @@ Public Class frmMRN
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     RadButton1.Visible = True
@@ -5243,7 +5243,7 @@ Public Class frmMRN
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count > 0 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRNCustom", "MRN Report", clsCommon.myCDate(txtDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNCustom", "MRN Report", clsCommon.myCDate(txtDate.Value))
                 End If
             ElseIf ((clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal) Then
                 Dim QryShowStatus As String = ""
@@ -5339,9 +5339,9 @@ Public Class frmMRN
                 Else
                     clsSRNHead.SetItemWiseTax(dt, txtDocNo.Value)
                     If IsMRNReportQtyWise Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "MRNReportThroughReportQtyWise", "Material Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "MRNReportThroughReportQtyWise", "Material Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "MRNReportThroughReport-G", "Material Receipt Report", clsCommon.myCDate(txtDate.Value))
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "MRNReportThroughReport-G", "Material Receipt Report", clsCommon.myCDate(txtDate.Value))
                     End If
                 End If
             Else
@@ -5437,7 +5437,7 @@ Public Class frmMRN
                 where TSPL_MRN_DETAIL.MRN_No='" + StrDocNo + "' ORDER BY TSPL_MRN_DETAIL.Line_No"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRNReportNew", "MRN Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNReportNew", "MRN Report")
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found To Print", Me.Text)
                 End If

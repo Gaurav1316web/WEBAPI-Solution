@@ -2291,6 +2291,7 @@ Public Class clsUserMgtCode
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
     Public Const frmSendSMSToDCS As String = "SMS-SND-DCS"
+    Public Const frmReviseMilkBill As String = "REV-MLK-BLL"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
 

@@ -572,13 +572,13 @@ Public Class FrmBankBook
 
                 If chkDocWise.Checked Then
 
-                    FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptBankBookSummaryDocWise", Me.Text)
+                    FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptBankBookSummaryDocWise", Me.Text)
                 Else
-                    FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptBankBookSummary", Me.Text)
+                    FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptBankBookSummary", Me.Text)
                 End If
 
             Else
-                FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
+                FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
             End If
         End If
     End Sub
@@ -747,8 +747,8 @@ Public Class FrmBankBook
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True

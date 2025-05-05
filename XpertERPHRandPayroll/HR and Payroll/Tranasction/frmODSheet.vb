@@ -348,7 +348,7 @@ Public Class frmODSheet
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "CrptODSheet", "OD Sheet Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "CrptODSheet", "OD Sheet Report")
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         PrintData()

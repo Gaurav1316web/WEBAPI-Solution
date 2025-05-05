@@ -806,8 +806,8 @@ Public Class FrmBulkMilkSRN
                                              "tspl_bulk_milk_srn_History ( For History) " + Environment.NewLine + _
                                              "TSPL_SRN_Parameter_Range_Detail ( For SRN Parameter.) ")
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 If TankerFromMaster = 1 Then
@@ -1655,7 +1655,7 @@ a:
             strQuery += " where  TSPL_Bulk_MILK_SRN.SRN_NO='" & SRNNo & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkSRN", "Milk SRN", clsCommon.myCDate(dtpSRNDATE.Value))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkSRN", "Milk SRN", clsCommon.myCDate(dtpSRNDATE.Value))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)

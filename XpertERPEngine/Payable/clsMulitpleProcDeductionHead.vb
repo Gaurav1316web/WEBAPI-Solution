@@ -329,6 +329,8 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
         CreateDrCrNote(obj, trans)
         qry = "Update TSPL_MULTIPLE_DEDUCTION_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy") + "',isPosted=1 ,Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", trans)
+
         Return True
 
     End Function
@@ -371,6 +373,8 @@ where Document_No ='" + strDocNo + "'", trans))
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_MULTIPLE_DEDUCTION_HEAD where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
+
             Catch ex As Exception
                 Throw New Exception(ex.Message)
             End Try

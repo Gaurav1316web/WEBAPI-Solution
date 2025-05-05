@@ -201,6 +201,8 @@ Public Class clsBonus
 
             Dim qry As String = "Update TSPL_EMPLOYEE_BONUS set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where EMP_BONUS_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

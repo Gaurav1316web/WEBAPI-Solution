@@ -914,107 +914,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
 
     Private Sub BtnDcsPrint_Click(sender As Object, e As EventArgs) Handles BtnDcsPrint.Click
         Try
-            Dim Itemqry As String = ""
-            Dim DocumentNo As String = Nothing
-            Dim itemNames1 As String = Nothing
-            Itemqry = " Select Document_No from TSPL_MILK_COLLECTION_DCS where convert(date,Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(DCSDate.Value, "dd/MMM/yyyy") + "',103) "
-            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
-            If dtitemName.Rows.Count > 0 Then
-                For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If i = 0 Then
-                        itemNames1 += "'" + clsCommon.myCstr(dtitemName.Rows(i)("Document_No")) + "' "
-                    Else
-                        itemNames1 += ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Document_No")) + "' "
-                    End If
-                Next
+            If TxtDocument.arrValueMember Is Nothing OrElse TxtDocument.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please selecet at least one document ")
             End If
-            If TxtDocument.arrValueMember IsNot Nothing AndAlso TxtDocument.arrValueMember.Count > 0 Then
-                DocumentNo = clsCommon.GetMulcallString(TxtDocument.arrValueMember)
-            Else
-                DocumentNo += itemNames1
-            End If
-
-            Dim objmultprintdcs As New frmMilkCollectionDCS
-            'Dim qry As String = objmultprintdcs.DCSTruckSheetPrint(clsCommon.GetMulcallString(TxtDocument.arrValueMember), DCSDate.Value)
-            Dim qry As String = objmultprintdcs.DCSTruckSheetPrint(DocumentNo, DCSDate.Value)
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                Dim dv As New DataView(dt)
-                dv.RowFilter = " OwnBMC=0 "
-                Dim dtFinal As DataTable = dv.ToTable()
-                If dtFinal Is Nothing OrElse dtFinal.Rows.Count <= 0 Then
-                    Dim dr As DataRow = dtFinal.NewRow
-                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
-                    dr("Comp_Name") = dt.Rows(0)("Comp_Name")
-                    dr("Add1") = dt.Rows(0)("Add1")
-                    dr("Add2") = dt.Rows(0)("Add2")
-                    dr("Add3") = dt.Rows(0)("Add3")
-                    dr("City_Code") = dt.Rows(0)("City_Code")
-                    dr("State") = dt.Rows(0)("State")
-                    dr("Pincode") = dt.Rows(0)("Pincode")
-                    dr("GSTReg_No") = dt.Rows(0)("GSTReg_No")
-                    dr("GSTINNo") = dt.Rows(0)("GSTINNo")
-                    dr("CINNo") = dt.Rows(0)("CINNo")
-                    dr("Phone1") = dt.Rows(0)("Phone1")
-                    dr("Phone2") = dt.Rows(0)("Phone2")
-                    dr("Logo_Img") = dt.Rows(0)("Logo_Img")
-                    dr("Logo_Img2") = dt.Rows(0)("Logo_Img2")
-                    dr("Pan_No") = dt.Rows(0)("Pan_No")
-                    dr("Email") = dt.Rows(0)("Email")
-                    dr("Comp_Code") = dt.Rows(0)("Comp_Code")
-                    dr("Document_No") = dt.Rows(0)("Document_No")
-                    dr("Document_Date") = dt.Rows(0)("Document_Date")
-                    dr("Route_Code") = dt.Rows(0)("Route_Code")
-                    dr("ROUTE_NAME") = dt.Rows(0)("ROUTE_NAME")
-                    dr("Vehicle_No") = dt.Rows(0)("Vehicle_No")
-                    dr("Tanker_No") = dt.Rows(0)("Tanker_No")
-                    dr("MCC_Code") = dt.Rows(0)("MCC_Code")
-                    dr("MCC_NAME") = dt.Rows(0)("MCC_NAME")
-                    dr("Mcc_Code_VLC_Uploader") = dt.Rows(0)("Mcc_Code_VLC_Uploader")
-                    dtFinal.Rows.Add(dr)
-
-                End If
-                dtFinal.Columns.Add("OWN_VLC_Code_VLC_Uploader", GetType(String))
-                dtFinal.Columns.Add("OWN_Evening_Qty", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Evening_FAT", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Evening_SNF", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Evening_FATKG", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Evening_SNFKG", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Morning_Qty", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Morning_FAT", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Morning_SNF", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Morning_FATKG", GetType(Decimal))
-                dtFinal.Columns.Add("OWN_Morning_SNFKG", GetType(Decimal))
-
-                Dim dvOwn As New DataView(dt)
-                dvOwn.RowFilter = " OwnBMC=1 "
-                Dim dtOwn As DataTable = dvOwn.ToTable()
-                If dtOwn IsNot Nothing AndAlso dtOwn.Rows.Count > 0 Then
-                    For ii As Integer = 0 To dtFinal.Rows.Count - 1
-                        dtFinal.Rows(ii)("OWN_VLC_Code_VLC_Uploader") = dtOwn.Rows(0)("VLC_Code_VLC_Uploader")
-                        dtFinal.Rows(ii)("OWN_Evening_Qty") = dtOwn.Rows(0)("Evening_Qty")
-                        dtFinal.Rows(ii)("OWN_Evening_FAT") = dtOwn.Rows(0)("Evening_FAT")
-                        dtFinal.Rows(ii)("OWN_Evening_SNF") = dtOwn.Rows(0)("Evening_SNF")
-                        dtFinal.Rows(ii)("OWN_Evening_FATKG") = dtOwn.Rows(0)("Evening_FATKG")
-                        dtFinal.Rows(ii)("OWN_Evening_SNFKG") = dtOwn.Rows(0)("Evening_SNFKG")
-                        dtFinal.Rows(ii)("OWN_Morning_Qty") = dtOwn.Rows(0)("Morning_Qty")
-                        dtFinal.Rows(ii)("OWN_Morning_FAT") = dtOwn.Rows(0)("Morning_FAT")
-                        dtFinal.Rows(ii)("OWN_Morning_FATKG") = dtOwn.Rows(0)("Morning_FATKG")
-                        dtFinal.Rows(ii)("OWN_Morning_SNF") = dtOwn.Rows(0)("Morning_SNF")
-                        dtFinal.Rows(ii)("OWN_Morning_SNFKG") = dtOwn.Rows(0)("Morning_SNFKG")
-                    Next
-                End If
-                dtFinal.AcceptChanges()
-
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtFinal, "rptDCSTrackSheet_JPR", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
-            Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSTrackSheet", "DCS Truck Sheet", clsCommon.myCDate(txtDate.Value))
-            End If
-
-            frmCRV = Nothing
-
+            Dim objfrm As New frmMilkCollectionDCS
+            objfrm.Print(TxtDocument.arrValueMember, DCSDate.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

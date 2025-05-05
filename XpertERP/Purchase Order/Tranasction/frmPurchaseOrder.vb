@@ -7601,8 +7601,8 @@ Public Class frmPurchaseOrder
                                                       "TSPL_PO_VENDOR_SCH_DETAIL ")
                 'Add Tool tip Task No- TEC/22/05/18-000245
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnUnpost.Visible = True
@@ -8913,7 +8913,7 @@ Public Class frmPurchaseOrder
     Private Sub btnPrintNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintNew.Click
         Try
             Dim obj As New clsPurchaseOrderHead()
-            obj.PrintData(txtDocNo.Value)
+            obj.PrintData(MyBase.Form_ID, txtDocNo.Value)
             obj = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

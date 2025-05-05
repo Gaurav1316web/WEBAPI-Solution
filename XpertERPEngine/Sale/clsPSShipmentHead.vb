@@ -467,10 +467,10 @@ Public Class clsPSShipmentHead
             'qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type='FS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH')"
+            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH')"
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
@@ -4356,7 +4356,7 @@ Public Class clsPSShipmentChecklistDetail
 End Class
 
 Public Class clsPSShipmentPrint
-    Public Shared Function PrintDataBatchWiseInvoice(ByVal StrDocNo As String) As Boolean
+    Public Shared Function PrintDataBatchWiseInvoice(ByVal Form_ID As String, ByVal StrDocNo As String) As Boolean
         Try
             If clsCommon.myLen(StrDocNo) <= 0 Then
                 clsCommon.MyMessageBoxShow("Invoice Not Found")
@@ -4402,7 +4402,7 @@ Public Class clsPSShipmentPrint
 
                     End If
                 End If
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispacthBatchWiseReportByInvoice", "Invoice", clsCommon.myCDate(dt.Rows(0)("Sale_Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstanding.rpt", Nothing, "rptHashCodeSummary.rpt", dtUOM)
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispacthBatchWiseReportByInvoice", "Invoice", clsCommon.myCDate(dt.Rows(0)("Sale_Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstanding.rpt", Nothing, "rptHashCodeSummary.rpt", dtUOM)
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No data found to print")

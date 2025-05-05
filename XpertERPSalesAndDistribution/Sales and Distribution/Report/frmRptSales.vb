@@ -50,8 +50,8 @@ Public Class FrmRptSales
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True
@@ -1018,10 +1018,10 @@ Public Class FrmRptSales
         If rbtnInvoiceWise.IsChecked = True AndAlso dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptSaleRegisterDetailNew", "Sales Register")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterDetailNew", "Sales Register")
         ElseIf rbtnCustomerWise.IsChecked = True AndAlso dt.Rows.Count > 0 Then
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptSaleRegisterSmryNew", "Sales Register")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterSmryNew", "Sales Register")
         End If
     End Sub
 

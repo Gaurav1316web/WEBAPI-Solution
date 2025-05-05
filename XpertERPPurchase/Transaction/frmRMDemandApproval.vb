@@ -543,8 +543,8 @@ Public Class frmRMDemandApproval
 
         ElseIf e.Control AndAlso e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnreverse.Visible = True
@@ -701,7 +701,7 @@ group by Item_Code
 )xxxx left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptRMDemandApproval", "RM Demand Approval for RAL", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptRMDemandApproval", "RM Demand Approval for RAL", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 frmCRV = Nothing
             Else
                 Throw New Exception("Please select document to print")

@@ -484,7 +484,7 @@ Public Class FrmMCCTankerGateOut
                 qry = "select  O.Tanker_No  , isnull(o.GATE_OUT_NO ,'') [Gate-Out No] , O.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address],c.Logo_Img2,O.DriverName,z.MCC_NAME as AllocateToName ,O.PhoneNo,O.Remarks,O.Storage_Capacity from TSPL_MCC_TANKER_GATE_OUT O LEFT JOIN TSPL_COMPANY_MASTER C on O.comp_code = c.Comp_Code LEFT JOIN (select MCC_Code,mcc_name from TSPL_MCC_MASTER union all select TSPL_LOCATION_MASTER.Location_Code ,TSPL_LOCATION_MASTER.Location_Desc  from TSPL_LOCATION_MASTER)z on z.MCC_Code=O.LOCATION_CODE where O.GATE_OUT_NO in ('" + fndGateOutNo.Value + "')"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMccTankerGateOutPrint", "Gate Out", clsCommon.myCDate(txtGateOutDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptMccTankerGateOutPrint", "Gate Out", clsCommon.myCDate(txtGateOutDate.Value))
 
                 frmCRV = Nothing
             End If
@@ -633,8 +633,8 @@ Public Class FrmMCCTankerGateOut
         Try
             If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnUnpost.Visible = True

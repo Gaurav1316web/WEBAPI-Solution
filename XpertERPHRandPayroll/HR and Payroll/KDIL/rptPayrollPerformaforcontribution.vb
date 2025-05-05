@@ -90,7 +90,7 @@ Public Class RptPayrollPerformaforcontribution
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptPerormaForContributiondetails", "Performa for Contribution details")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptPerormaForContributiondetails", "Performa for Contribution details")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If

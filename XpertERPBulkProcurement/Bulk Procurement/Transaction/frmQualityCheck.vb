@@ -843,8 +843,8 @@ Public Class FrmQualityCheck
                                                 "TSPL_QC_Manual_Seal_Details ( For Manual Seal.) ")
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -880,8 +880,8 @@ Public Class FrmQualityCheck
             End If
             'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.A And chkBulkMilkProc.IsChecked And btnSendForApproval.Enabled Then
             '    Dim frm As New FrmPWD(Nothing)
-            '    frm.strType = "SIRC"
-            '    frm.strCode = "SIReversAndCreate"
+            '    frm.strType = clsFixedParameterType.SIR
+            '    frm.strCode = clsFixedParameterCode.SIReversAndCreate
             '    frm.ShowDialog()
             '    If frm.isPasswordCorrect Then
             '        If clsCommon.myLen(fndQcNo) <= 0 Then
@@ -2678,7 +2678,7 @@ Public Class FrmQualityCheck
                 End If
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMCCMilkReceiptSlip", "Milk Transfer In")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMCCMilkReceiptSlip", "Milk Transfer In")
                     frmCRV = Nothing
                 End If
             Else
@@ -2746,7 +2746,7 @@ Public Class FrmQualityCheck
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check", clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptQualityCheck", "Quality Check", clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")))
                     frmCRV = Nothing
                 End If
             End If

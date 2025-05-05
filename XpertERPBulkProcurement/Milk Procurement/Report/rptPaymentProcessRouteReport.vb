@@ -1371,7 +1371,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
 ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
 		   else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end ) else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type ) end as QBD
-,(case when row_number() over(partition by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE order by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE)=1 then PaymentProcess.PPSRN_RO_Amount else 0 end) as PPSRN_RO_Amount,PaymentProcess.PPSRN_Net_Amount
+,(case when row_number() over(partition by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE order by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE)=1 then TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT else 0 end) as Total_BasicAMOUNT,PaymentProcess.PPSRN_Net_Amount
 from TSPL_MILK_PURCHASE_INVOICE_DETAIL 
 Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
 left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
@@ -1413,7 +1413,7 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
 
         ShowMixedMilk = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, Nothing)) = 1)
 
-        Dim legerMainQuery As String = " select '" + CompName + "' As 'CompanyName','" + strCompanyCityName + "' as strCompanyCityName, '" & objCommonVar.CurrentUser & "' as User_Name, max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name,max(Bank_Code) As Bank_Code,max(Account_No) As Account_No  , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when sum(Qty)>0 then sum(FATQTY) * 100 / sum( Qty) else 0 end  as FAT_PER ,case when sum(Qty)>0 then sum(SNFQTY) * 100 / sum( Qty) else 0 end  as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount1,sum(FATQTY1) as FATQTY1,sum(SNFQTY1) as SNFQTY1,Max(PPSRN_Net_Amount)SRN_Net_Amount, "
+        Dim legerMainQuery As String = " select '" + CompName + "' As 'CompanyName','" + strCompanyCityName + "' as strCompanyCityName, '" & objCommonVar.CurrentUser & "' as User_Name, max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name,max(Bank_Code) As Bank_Code,max(Account_No) As Account_No  , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when sum(Qty)>0 then sum(FATQTY) * 100 / sum( Qty) else 0 end  as FAT_PER ,case when sum(Qty)>0 then sum(SNFQTY) * 100 / sum( Qty) else 0 end  as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount1,sum(FATQTY1) as FATQTY1,sum(SNFQTY1) as SNFQTY1,sum(SRN_NET_AMOUNT) as SRN_Net_Amount,sum(Total_BasicAMOUNT)Total_BasicAMOUNT, "
         If ShowMixedMilk = True Then
             legerMainQuery += " 'Mixed Milk' as CowBuffalo_Type , max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader  from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE "
         Else
@@ -1695,12 +1695,12 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "SubSaving.rpt", dtSaving)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "SubSaving.rpt", dtSaving)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJSS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subDeductionRouteWise.rpt", dtDeductionRouteWise, "subAdditionRouteWise.rpt", dtAdditionRouteWise, "subTotalAddition.rpt", dtTotalAddition, "subTotalDeduction.rpt", dtTotalDeduction)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJSS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subDeductionRouteWise.rpt", dtDeductionRouteWise, "subAdditionRouteWise.rpt", dtAdditionRouteWise, "subTotalAddition.rpt", dtTotalAddition, "subTotalDeduction.rpt", dtTotalDeduction)
                 'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             Else
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLeger", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subDeductionRouteWise.rpt", dtDeductionRouteWise, "subAdditionRouteWise.rpt", dtAdditionRouteWise, "subTotalAddition.rpt", dtTotalAddition, "subTotalDeduction.rpt", dtTotalDeduction)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLeger", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subDeductionRouteWise.rpt", dtDeductionRouteWise, "subAdditionRouteWise.rpt", dtAdditionRouteWise, "subTotalAddition.rpt", dtTotalAddition, "subTotalDeduction.rpt", dtTotalDeduction)
             End If
             frmCRV = Nothing
         Else
@@ -2055,7 +2055,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptDCSLedgerReport", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subAdditionHeader1.rpt", dtAdditionHeader, "subDeductionHeader11.rpt", dtDeductionHeader, "subAdditionTotal.rpt", dtAdditionTotal, "subDeductionTotal.rpt", dtDeductionTotal)
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptDCSLedgerReport", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subAdditionHeader1.rpt", dtAdditionHeader, "subDeductionHeader11.rpt", dtDeductionHeader, "subAdditionTotal.rpt", dtAdditionTotal, "subDeductionTotal.rpt", dtDeductionTotal)
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -3954,13 +3954,13 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                 Dim frmCRV As New frmCrystalReportViewer()
                 If PaymentCWchk.Checked = True Then
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
                     Else
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReportCycleWise", "")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReportCycleWise", "")
                     End If
                     frmCRV = Nothing
                     Else
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                     frmCRV = Nothing
                 End If
             Else
@@ -5040,11 +5040,11 @@ TSPL_MILK_COLLECTION_MCC
                     Gv1.BestFitColumns()
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
 
                     Else
 
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
                         'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
                     End If
                 Else

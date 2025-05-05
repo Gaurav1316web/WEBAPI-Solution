@@ -3707,7 +3707,7 @@ Public Class frmIndent
                 qry += " where TSPL_INDENT_HEAD.Indent_No='" + txtTransferNo.Value + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptIndentDetail", "Indent Details")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptIndentDetail", "Indent Details")
                 frmCRV = Nothing
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Transfer no", Me.Text)
@@ -5342,7 +5342,7 @@ Public Class frmIndent
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptCheckSlipIndentReport", "Check Slip")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptCheckSlipIndentReport", "Check Slip")
                     frmCRV = Nothing
                 Else
                     common.clsCommon.MyMessageBoxShow(Me, "No Data Found", "Transfer Indent Report", MessageBoxButtons.OK)

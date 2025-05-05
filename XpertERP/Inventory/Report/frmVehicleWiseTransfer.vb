@@ -74,7 +74,7 @@ Public Class frmVehicleWiseTransfe
         qry += " group by xxx.Item_Code"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptVehicleWiseTransfer", Me.Text)
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptVehicleWiseTransfer", Me.Text)
         frmCRV = Nothing
     End Sub
 

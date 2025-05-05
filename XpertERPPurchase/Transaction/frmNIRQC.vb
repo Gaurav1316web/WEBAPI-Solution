@@ -205,8 +205,8 @@ Public Class frmNIRQC
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     RadButton1.Visible = True
@@ -345,7 +345,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
             dtItem = clsDBFuncationality.GetDataTable(sqlqry)
             If dtItem.Rows.Count > 0 Then
                 Dim crysFrm As New frmCrystalReportViewer()
-                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dtItem, "NIRQc", "NIRQc Details")
+                crysFrm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dtItem, "NIRQc", "NIRQc Details")
 
             End If
         Catch ex As Exception

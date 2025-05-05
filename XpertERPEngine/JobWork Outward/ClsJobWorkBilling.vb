@@ -89,9 +89,9 @@ Public Class ClsJobWorkBilling
         Dim VatInvoiceType As String = Nothing
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkInWard, clsUserMgtCode.frmJobWorkBillig, obj.Loc_Code, obj.Document_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
+            'End If
 
             Dim qry As String = "delete from TSPL_JOBWORK_BILLING_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -182,6 +182,8 @@ Public Class ClsJobWorkBilling
             isSaved = isSaved AndAlso ClsJobWorkBillingDetail.SaveData(obj.Document_Code, Arr, trans)
 
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

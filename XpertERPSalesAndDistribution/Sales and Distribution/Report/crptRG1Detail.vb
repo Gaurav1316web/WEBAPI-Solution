@@ -302,7 +302,7 @@ Public Class frmRG1
         End If
 
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
     End Sub
     Sub printMRPWISE()
         Try
@@ -533,7 +533,7 @@ Public Class frmRG1
                 Exit Sub
             End If
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtFinal, CrptName, "Excise Report")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

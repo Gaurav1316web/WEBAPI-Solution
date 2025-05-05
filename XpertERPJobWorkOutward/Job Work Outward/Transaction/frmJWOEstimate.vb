@@ -2215,7 +2215,7 @@ Public Class frmJWOEstimate
                                 " where TSPL_JW_ESTIMATE_DETAILS.Document_No = '" + strDocNo + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crpJobworkEstimate", "Jobwork Estimate", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crpJobworkEstimate", "Jobwork Estimate", "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
         Catch ex As Exception
@@ -2317,8 +2317,8 @@ Public Class frmJWOEstimate
                     btnunpost.Visible = False
                 Else
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnunpost.Visible = True

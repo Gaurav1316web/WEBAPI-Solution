@@ -59,7 +59,7 @@ Public Class rptCreditCustomerReport
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 'If rbtnDistributorWise.IsChecked Then
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "CrptCreditCustomerReport", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "CrptCreditCustomerReport", "")
                 'Else
                 '    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
                 'End If

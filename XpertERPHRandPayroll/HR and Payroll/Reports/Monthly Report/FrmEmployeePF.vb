@@ -128,9 +128,9 @@ Public Class FrmEmployeePF
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 If chkEmpWise.Checked Then
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPFEmployeeWise", "Employee PF ")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptSalaryEPFEmployeeWise", "Employee PF ")
                 Else
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
                 End If
 
                 frmcrystal = Nothing

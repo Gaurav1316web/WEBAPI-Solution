@@ -1646,8 +1646,8 @@ Public Class frmReverseTransaction
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverseTransaction.Visible = True
@@ -2124,7 +2124,7 @@ Public Class frmReverseTransaction
         End If
         ''---------------------
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.GeneralLedger, dt, "rptBankReverseEntry", "Bank Reverse Entry Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "rptBankReverseEntry", "Bank Reverse Entry Report")
         frmCRV = Nothing
     End Sub
 

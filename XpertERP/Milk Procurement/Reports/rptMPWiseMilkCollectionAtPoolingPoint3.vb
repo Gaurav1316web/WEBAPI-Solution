@@ -1107,7 +1107,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             FormatGrid()
             If btnReferesh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMPWiseMilkCollectionAtPoolingPoint", "MP Wise Milk Collection Pooling Point", "")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMPWiseMilkCollectionAtPoolingPoint", "MP Wise Milk Collection Pooling Point", "")
                 frmCRV = Nothing
             End If
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

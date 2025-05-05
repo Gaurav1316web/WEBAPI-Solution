@@ -5292,8 +5292,8 @@ Public Class frmPurchaseReturn
                                                 "TSPL_MILK_PURCHASE_INVOICE_HEAD(Against Milk purchase invoice) " + Environment.NewLine +
                                                 "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD(Against Bulk Milk purchase invoice) ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -5314,7 +5314,7 @@ Public Class frmPurchaseReturn
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptDeviation", "Deviation Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptDeviation", "Deviation Report")
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -6493,10 +6493,10 @@ Public Class frmPurchaseReturn
                 ''richa agarwal create new report against ticket no BM00000008838 for price adjsutment 04 March,2016 ,31 May 2019 open Price Adjustment report in both cases i.e Credit Note and Debit Note if Trasaction type is Price Adjustment KDI/31/05/19-000455
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(cboTrType.SelectedValue, "P") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptPriceAdjustment", "Price Adjustment Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptPriceAdjustment", "Price Adjustment Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")))
                 Else
                     'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptPurchaseReturn", "Purchase Return Report",  clsCommon.myCDate(dt.Rows(0)("PR_Date")))
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt2, "crptPurchaseReturn", "Purchase Return Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")), "rptSubReportPurchaseReturnVoucherDetails.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, dt2, "crptPurchaseReturn", "Purchase Return Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")), "rptSubReportPurchaseReturnVoucherDetails.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
                 End If
                 frmCRV = Nothing
             End If
@@ -6560,7 +6560,7 @@ Public Class frmPurchaseReturn
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptDebitAdivse", "Debit Advise Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptDebitAdivse", "Debit Advise Report")
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -6759,7 +6759,7 @@ Public Class frmPurchaseReturn
             Throw New Exception("No Data Found")
         Else
             Dim frmCRV As New frmCrystalReportViewer()
-            System.Diagnostics.Process.Start(frmCRV.funreport1(CrystalReportFolder.PurchaseOrder, dt, "crptPurchaseReturn", "Purchase Return Report"))
+            System.Diagnostics.Process.Start(frmCRV.funreport1(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptPurchaseReturn", "Purchase Return Report"))
             frmCRV = Nothing
         End If
     End Sub

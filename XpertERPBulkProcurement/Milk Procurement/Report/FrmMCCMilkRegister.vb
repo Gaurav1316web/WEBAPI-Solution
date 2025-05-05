@@ -4052,7 +4052,7 @@ Public Class FrmMCCMilkRegister
 
                     dt = clsDBFuncationality.GetDataTable(FinalQueryFinal)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterRoutShiftWise", "MCC Milk Register Route/Shift wise Report", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterRoutShiftWise", "MCC Milk Register Route/Shift wise Report", "Address.rpt")
                     frmCRV = Nothing
                     Exit Sub
                 ElseIf BulkExport = 4 Then
@@ -4066,7 +4066,7 @@ Public Class FrmMCCMilkRegister
                     Dim dtPart1 As DataTable = clsDBFuncationality.GetDataTable(QtyforMccDetailsPrart1)
                     Dim dtPart2 As DataTable = clsDBFuncationality.GetDataTable(QtyforMccDetailsPrart2)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtPart1, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterDetail", "MCC Milk Register Report", "Address.rpt", "rptMccMilkRegisterDetailTypeWise.rpt", dtPart2)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPart1, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterDetail", "MCC Milk Register Report", "Address.rpt", "rptMccMilkRegisterDetailTypeWise.rpt", dtPart2)
                     frmCRV = Nothing
                     Exit Sub
                 ElseIf BulkExport = 6 Then
@@ -4081,7 +4081,7 @@ Public Class FrmMCCMilkRegister
                     Dim dtRouteWise As DataTable = clsDBFuncationality.GetDataTable(RouteWiseQry)
                     If dtRouteWise.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtRouteWise, Nothing, "crptRouteWisePrintReport", "Route Wise Report")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtRouteWise, Nothing, "crptRouteWisePrintReport", "Route Wise Report")
                         frmCRV = Nothing
                     End If
                     Exit Sub
@@ -5340,10 +5340,10 @@ ORDER BY
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkRouteWiseDateWise.Checked Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "RouteWisePrint", "Date Wise and Rote wise print")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "RouteWisePrint", "Date Wise and Rote wise print")
                         frmCRV = Nothing
                     Else
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "RouteWiseSummaryPrint", "Date Wise and Rote wise print")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "RouteWiseSummaryPrint", "Date Wise and Rote wise print")
                         frmCRV = Nothing
                     End If
 
@@ -5505,7 +5505,7 @@ ORDER BY
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkRouteWisedateWiseSummry.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "RouteWiseDateWiseSummary", "Date Wise and Route wise print")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "RouteWiseDateWiseSummary", "Date Wise and Route wise print")
                     frmCRV = Nothing
                 End If
             Else

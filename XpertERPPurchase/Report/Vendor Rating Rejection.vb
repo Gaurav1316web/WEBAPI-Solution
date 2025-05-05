@@ -147,7 +147,7 @@ Public Class Vendor_Rating_Rejection
         qry += "group by ICode,Vendor having sum(ReceiptQty) <>0 "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "VendorRatingRejection", "VendorRating Rej")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "VendorRatingRejection", "VendorRating Rej")
         frmCRV = Nothing
     End Sub
     'Sub funPrint(ByVal FromDate As String, ByVal ToDate As String, ByVal isVendorSelect As Boolean, ByVal ArrVendor As ArrayList, ByVal isitemselect As Boolean, ByVal ArrItem As ArrayList)

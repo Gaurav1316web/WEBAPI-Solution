@@ -152,6 +152,8 @@ Public Class clsEmployeeShiftChange
             End If
             Dim qry As String = "Update TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where EMP_SHIFT_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD", "EMP_SHIFT_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

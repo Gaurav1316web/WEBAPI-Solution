@@ -218,30 +218,30 @@ Public Class FrmPurchaseOrderReport
             Next
             If objCommonVar.CurrentCompanyCode = "GUNTUR" Then
                 If i = 1 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseWorkOrderReport-G", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseWorkOrderReport-G", "Purchase Order Report")
                 ElseIf i = 2 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
                 End If
             ElseIf objCommonVar.CurrentCompanyCode = "VIZAG" Then
 
                 If i = 1 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport-V", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport-V", "Purchase Order Report")
                 ElseIf i = 2 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
                 End If
             Else
                 If i = 1 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
                 ElseIf i = 2 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
                 End If
             End If
         ElseIf clsCommon.myCstr(POType) = "A" Then
 
             If i = 1 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
             ElseIf i = 2 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
             End If
         Else
             dt.Columns.Add("OrderWise", Type.GetType("System.String"))
@@ -261,16 +261,16 @@ Public Class FrmPurchaseOrderReport
                             dr("CreatedBy") = objCommonVar.CurrentUser
                         Next
                     End If
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport-G", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport-G", "Purchase Order Report")
                 ElseIf i = 2 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
                 End If
                
             Else
                 If i = 1 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "FrmPurchaseOrderReport", "Purchase Order Report")
                 ElseIf i = 2 Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "FrmPurchaseOrderReport PrePrintedFormat", "Purchase Order Report")
                 End If
 
             End If

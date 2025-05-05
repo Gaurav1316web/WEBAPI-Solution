@@ -4670,8 +4670,8 @@ Public Class frmAcquisionEntry
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
@@ -5506,7 +5506,7 @@ Public Class frmAcquisionEntry
             If dt_final.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
-                frm.funreport(CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
+                frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

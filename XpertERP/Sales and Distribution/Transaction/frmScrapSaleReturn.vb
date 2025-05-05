@@ -4646,8 +4646,8 @@ Public Class frmScrapSaleReturn
                                                   "Press Alt+P for Post Trasnaction " + Environment.NewLine +
                                                   "TSPL_INVENTORY_MOVEMENT ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -4672,48 +4672,48 @@ Public Class frmScrapSaleReturn
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Is_Scrap")), "Y") = CompairStringResult.Equal Then
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
                         End If
 
                         'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
                     ElseIf clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                         If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                             If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             End If
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                         End If
 
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") <> CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
                         End If
                     End If
                 End If
@@ -4861,9 +4861,9 @@ Public Class frmScrapSaleReturn
                             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
                                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
                                     If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
-                                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSalesReturn_RCDF", "")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSalesReturn_RCDF", "")
                                     Else
-                                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSaleaReturn_RCDFCF_NT", "")
+                                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSaleaReturn_RCDFCF_NT", "")
 
                                     End If
                                 End If

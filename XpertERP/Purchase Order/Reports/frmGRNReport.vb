@@ -475,7 +475,7 @@ Public Class FrmGRNReport
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report")
+        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report")
         frmCRV = Nothing
     End Sub
 

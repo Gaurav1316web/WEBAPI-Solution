@@ -142,7 +142,7 @@ Public Class RptPFStatement
             dtgv = clsDBFuncationality.GetDataTable(Qry)
             If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFStatement", "PF Statement Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFStatement", "PF Statement Report")
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
@@ -239,7 +239,7 @@ Public Class RptPFStatement
             dtgv = clsDBFuncationality.GetDataTable(qry)
             If dtgv.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFstatementt", "PF Statement Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "crptPFstatementt", "PF Statement Report")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If

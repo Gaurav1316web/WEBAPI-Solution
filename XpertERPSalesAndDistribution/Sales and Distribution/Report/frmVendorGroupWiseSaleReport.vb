@@ -107,7 +107,7 @@ Public Class frmVendorGroupWiseSaleReport
             dt = clsDBFuncationality.GetDataTable(qry)
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptVendorGroupWiseSale", "Vendor Group Wise Sale Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptVendorGroupWiseSale", "Vendor Group Wise Sale Report")
         Catch ex As Exception
 
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

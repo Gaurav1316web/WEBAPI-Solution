@@ -348,9 +348,9 @@ Public Class RpttankerReportForErode
 
             Dim frmCRV As New frmCrystalReportViewer()
             If isIntermittent = True OrElse chkBulk.Checked = True Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, Nothing, "rptTankerReportIntermittent", "Tanker Bill")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptTankerReportIntermittent", "Tanker Bill")
             Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, Nothing, "rptTankerReport", "Tanker Bill")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptTankerReport", "Tanker Bill")
             End If
 
             frmCRV = Nothing

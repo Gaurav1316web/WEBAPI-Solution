@@ -69,7 +69,7 @@ Public Class FrmCustomerGroupReport
             Dim dt As DataTable
             dt = ds.Tables(0)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "CustomerGroupDetails", "Customer Group Details")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CustomerGroupDetails", "Customer Group Details")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

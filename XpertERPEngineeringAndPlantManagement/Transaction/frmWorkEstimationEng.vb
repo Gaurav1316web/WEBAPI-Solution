@@ -1753,8 +1753,8 @@ Public Class frmWorkEstimationEng
                                              "TSPL_REQUISITION_DETAIL ")
                 'Ticket No- UDL/22/10/18-000234 Reverse button password protected
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnUnpost.Visible = True
@@ -2523,9 +2523,9 @@ Public Class frmWorkEstimationEng
             Next
             Dim frmCRV As New frmCrystalReportViewer()
             If no = 0 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
             End If
             frmCRV = Nothing
         End If

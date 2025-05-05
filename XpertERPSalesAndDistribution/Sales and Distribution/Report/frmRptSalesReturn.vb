@@ -808,10 +808,10 @@ Public Class FrmRptSalesReturn
 
         If rbtnInvoiceWise.IsChecked = True AndAlso dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptSaleRegisterDetailNew", "Sales Register")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterDetailNew", "Sales Register")
         ElseIf rbtnCustomerWise.IsChecked = True AndAlso dt.Rows.Count > 0 Then
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptSaleRegisterSmryNew", "Sales Register")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterSmryNew", "Sales Register")
         End If
     End Sub
 

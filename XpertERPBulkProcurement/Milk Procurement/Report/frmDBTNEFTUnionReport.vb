@@ -148,8 +148,9 @@ Public Class frmDBTNEFTUnionReport
                     BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT In (TSPL_DBT_NEFT.Document_Code))) and                        
                                 Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
                 Else
-                    BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and                        
-                                Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
+                    'Comment By balwinder on 30/04/2025 as All data should come if only reject check box is off
+                    'BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and                        
+                    '            Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
                 End If
                 BaseQry += "              )x group by [Month] "
                 If chkOnlyReject.Checked Then
@@ -552,12 +553,12 @@ Public Class frmDBTNEFTUnionReport
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkOnlyReject.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 Else
                     If rbtnQuarterly.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                     ElseIf rbtnYearly.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                     End If
                 End If
                 frmCRV = Nothing

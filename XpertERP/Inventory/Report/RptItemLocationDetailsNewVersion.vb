@@ -172,7 +172,7 @@ Public Class RptItemLocationDetailsNewVersion
             Else
                 '' dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "CrptItemLocationDetailsNew", "Report of New Item Location Details")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "CrptItemLocationDetailsNew", "Report of New Item Location Details")
                 frmCRV = Nothing
             End If
            

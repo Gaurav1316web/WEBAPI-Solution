@@ -1991,8 +1991,8 @@ where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProd
                 If MyBase.isReverse Then
 
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnunpost.Visible = True
@@ -2004,8 +2004,8 @@ where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProd
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     RadButton1.Visible = True
@@ -2046,7 +2046,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")

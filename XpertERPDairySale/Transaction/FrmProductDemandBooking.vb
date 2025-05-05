@@ -152,8 +152,8 @@ Public Class FrmProductDemandBooking
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnreverse.Visible = True
@@ -1973,7 +1973,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
         End If
         Dim ArrRoute As ArrayList = New ArrayList
         ArrRoute.Add(txtRouteNo.Value)
-        clsProductDemandBookingSale.PrintDemandProductData(ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False, False, False)
+        clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False, False, False)
     End Sub
 
     Private Sub btnAssessment_Click(sender As Object, e As EventArgs) Handles btnAssessment.Click

@@ -134,7 +134,7 @@ Public Class RouteSaleReport
             qry += " order by Transfer_No,Transfer_Date"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "RouteSale", "Report For Route Sales")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RouteSale", "Report For Route Sales")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try

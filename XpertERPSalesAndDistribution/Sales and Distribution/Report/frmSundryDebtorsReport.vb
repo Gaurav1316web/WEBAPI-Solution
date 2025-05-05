@@ -275,7 +275,7 @@ PIVOT ( SUM(AMT)  FOR Location_Code IN ([AJMR], [BIKR], [JODH], [NADB], [LAMB], 
         GridFormate()
         If IsPrint Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSundryDebtors", "Sundry Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptSundryDebtors", "Sundry Report")
         End If
 
     End Sub

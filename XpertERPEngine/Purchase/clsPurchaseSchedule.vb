@@ -157,11 +157,11 @@ Public Class clsPurchaseSchedule
 
             isSaved = isSaved AndAlso clsPurchaseScheduleDetail.SaveData(obj.Document_Code, obj.Arr, trans)
             isSaved = isSaved AndAlso clsPurchaseScheduleVendorDetail.SaveData(obj.Document_Code, obj.Arr_Vendor, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
 
             Return isSaved
 
             'If Not isNewEntry Then
-            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
             'End If
 
         Catch ex As Exception
@@ -409,6 +409,7 @@ Public Class clsPurchaseSchedule
 
             Dim qry As String = "update TSPL_PO_SCH_HEAD set is_post=1,modified_by='" + clsCommon.myCstr(objCommonVar.CurrentUserCode) + "',modified_date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_SCH_HEAD", "Document_Code", trans)
 
             Return isSaved
         Catch ex As Exception
@@ -484,6 +485,7 @@ Public Class clsPurchaseSchedule
 
             qry = "update TSPL_PO_SCH_HEAD set is_post=0,Revision_No='" + rev_no + "',modified_by='" + clsCommon.myCstr(objCommonVar.CurrentUserCode) + "',modified_date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_SCH_HEAD", "Document_Code", trans)
 
             Return isSaved
         Catch ex As Exception
@@ -508,6 +510,7 @@ Public Class clsPurchaseSchedule
     Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim isSaved As Boolean = True
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
 
             Dim qry As String = "delete from TSPL_PO_VENDOR_SCH_DETAIL where document_code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

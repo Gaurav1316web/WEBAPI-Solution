@@ -979,16 +979,16 @@ Public Class FrmMccDispatch
             btnReverse_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F3 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
@@ -2244,10 +2244,10 @@ Public Class FrmMccDispatch
                 'If clsCommon.CompairString(strFromStateCode, strToStateCode) = CompairStringResult.Equal Then
                 '    frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'Else
-                frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
+                frmCrystalReportViewer.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan_Bill_of_Supply", "Dispatch Challan", clsCommon.myCDate(dtpDateAndTime.Value), "rptCompanyAddress.rpt")
                 'End If
             Else
-                frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
+                frmCrystalReportViewer.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
             End If
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

@@ -194,7 +194,7 @@ Public Class FrmVehiclewiseSale
             End If
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptVehiclewiseSale", "Vehicle wise Sale")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptVehiclewiseSale", "Vehicle wise Sale")
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

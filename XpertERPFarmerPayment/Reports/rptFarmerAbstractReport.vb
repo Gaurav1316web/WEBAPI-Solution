@@ -141,7 +141,7 @@ Public Class rptFarmerAbstractReport
             If isPrint = True And isPrerint = False Then
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, Nothing, "rptAbstractReport", Nothing, "", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptAbstractReport", Nothing, "", "Address.rpt")
                     frmCRV = Nothing
                     Exit Sub
                 Else
@@ -152,7 +152,7 @@ Public Class rptFarmerAbstractReport
             ElseIf isPrint = True And isPrerint = True Then
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, Nothing, "rptAbstractReportPrePrint", Nothing, "", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptAbstractReportPrePrint", Nothing, "", "Address.rpt")
                     frmCRV = Nothing
                     Exit Sub
                 Else

@@ -467,8 +467,8 @@ Public Class FrmJobMilkQualityCheck
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -491,8 +491,8 @@ Public Class FrmJobMilkQualityCheck
             End If
             'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.A And chkBulkMilkProc.IsChecked And btnSendForApproval.Enabled Then
             '    Dim frm As New FrmPWD(Nothing)
-            '    frm.strType = "SIRC"
-            '    frm.strCode = "SIReversAndCreate"
+            '    frm.strType = clsFixedParameterType.SIR
+            '    frm.strCode = clsFixedParameterCode.SIReversAndCreate
             '    frm.ShowDialog()
             '    If frm.isPasswordCorrect Then
             '        If clsCommon.myLen(fndQcNo) <= 0 Then

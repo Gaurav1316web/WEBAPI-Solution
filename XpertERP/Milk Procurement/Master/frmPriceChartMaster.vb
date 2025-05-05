@@ -872,7 +872,7 @@ Public Class FrmPriceChartMaster
                 " Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_MILK_PRICE_MASTER.Comp_Code  where 1=1 and  TSPL_MILK_PRICE_MASTER.Price_Code='" + fndcode.Value + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMilkPriceChartMaster", "Milk Price Chart")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMilkPriceChartMaster", "Milk Price Chart")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)

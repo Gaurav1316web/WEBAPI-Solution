@@ -88,7 +88,7 @@ Public Class FrmLoadOutStatusreport
             strQuery += " order by [LoadOut Date]  "
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptLoadOutStatus", "Load Status Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptLoadOutStatus", "Load Status Report")
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try

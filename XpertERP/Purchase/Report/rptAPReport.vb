@@ -767,7 +767,7 @@ Public Class rptAPReport
             RadPageView1.SelectedPage = RadPageViewPage2
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptGSTCompuatation", "Dispatch Product Sale", clsCommon.myCDate(txtFromDate.Value))
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptGSTCompuatation", "Dispatch Product Sale", clsCommon.myCDate(txtFromDate.Value))
 
 
                 frmCRV = Nothing

@@ -2232,14 +2232,14 @@ Public Class frmMilkPurchaseInvoiceMCC
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dtpDocDate.Value)) Then
                 If isBillofSupply = False Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
                 Else
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice_Bill_of_Supply", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice_Bill_of_Supply", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
                 End If
 
             Else
                 If isBillofSupply = False Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice", "Purchase Invoice")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkPurchaseInvoice", "Purchase Invoice")
                 End If
 
             End If

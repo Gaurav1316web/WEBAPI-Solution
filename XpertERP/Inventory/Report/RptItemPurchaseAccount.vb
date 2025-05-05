@@ -568,7 +568,7 @@ Public Class RptItemPurchaseAccount
                     common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 ElseIf IsPrint = Exporter.Print Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemPurchase", "Item Purchase Account Set Report", clsCommon.GETSERVERDATE())
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptItemPurchase", "Item Purchase Account Set Report", clsCommon.GETSERVERDATE())
                     frmCRV = Nothing
                 Else
                     'gv.DataSource = dt

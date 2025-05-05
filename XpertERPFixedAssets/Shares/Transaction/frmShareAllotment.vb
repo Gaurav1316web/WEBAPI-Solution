@@ -361,8 +361,8 @@ TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'"
             'If fontInstalled Then
             If dt.Rows.Count > 0 Then
                     Dim crysFrm As New frmCrystalReportViewer()
-                    crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
-                    crysFrm = Nothing
+                crysFrm.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "ShareAlloment", "Share Report")
+                crysFrm = Nothing
                 End If
             'Else
             '    clsCommon.MyMessageBoxShow(Me, "The font Mangal is not installed on the system.", Me.Text)

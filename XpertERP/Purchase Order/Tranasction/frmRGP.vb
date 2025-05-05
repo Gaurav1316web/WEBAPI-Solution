@@ -2304,8 +2304,8 @@ Public Class frmRGP
                                                       "TSPL_BATCH_ITEM")
                 'Add Tool tip Task No- TEC/22/05/18-000245
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -2488,7 +2488,7 @@ Public Class frmRGP
             strqry += "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RGP_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_LOCATION_MASTER on TSPL_RGP_HEAD.Location=TSPL_LOCATION_MASTER .Location_Code LEFT OUTER JOIN  TSPL_GL_SEGMENT_CODE on TSPL_RGP_HEAD.Department = TSPL_GL_SEGMENT_CODE.Segment_code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_RGP_DETAIL.Item_Code  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_RGP_HEAD.Vendor_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code  where   " & strDep & " TSPL_RGP_HEAD.RGP_No='" + txtDocNo.Value + "'   "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptNRGP3rdParty", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")))
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNRGP3rdParty", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")))
             frmCRV = Nothing
 
 
@@ -2546,10 +2546,10 @@ Public Class frmRGP
             Dim frmCRV As New frmCrystalReportViewer()
             If (type = "Returnable Gate Pass") Then
                 ' PurchaseOrderViewer.funreport(dt, "rptRGPNew", "RGP Report") 
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
             Else
                 'PurchaseOrderViewer.funreport(dt, "rptNRGP", "NRGP Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
             End If
             frmCRV = Nothing
 

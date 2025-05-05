@@ -1210,6 +1210,8 @@ Public Class clsAssetDispatchRetailerHead
 
             Dim qry As String = "Update TSPL_ASSET_DISPATCH_RETAILER_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", trans)
+
             If isTransOutSide = False Then
                 If isSaved Then
                     trans.Commit()

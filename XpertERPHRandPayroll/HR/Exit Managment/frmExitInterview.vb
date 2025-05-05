@@ -506,7 +506,7 @@ Public Class FrmExitInterview
 
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREMExitInterview", "Exit Interview")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HumanResource, dt, "rptHREMExitInterview", "Exit Interview")
 
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)

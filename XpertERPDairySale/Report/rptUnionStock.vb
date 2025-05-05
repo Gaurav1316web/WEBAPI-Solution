@@ -331,9 +331,9 @@ END AS [Balance_Qty]
                 If Print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If rbtnSummary.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "UnionStockSummary", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "UnionStockSummary", "")
                     ElseIf rbtnDetail.IsChecked Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "UnionStockDetail", "")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "UnionStockDetail", "")
                     End If
                     frmCRV = Nothing
                 Else

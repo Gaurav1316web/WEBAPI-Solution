@@ -3356,9 +3356,9 @@ Public Class FrmARInvoiceEntry
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If SettingCostCenterlevel Then
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "crptAPInvc_Hierarchy", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc_Hierarchy", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
             Else
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "crptAPInvc", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
             End If
             frmCRV = Nothing
         Catch ex As Exception
@@ -3385,8 +3385,8 @@ Public Class FrmARInvoiceEntry
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -5133,7 +5133,7 @@ Public Class FrmARInvoiceEntry
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvc", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvcnew", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvcnew", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

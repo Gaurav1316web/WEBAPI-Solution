@@ -84,8 +84,8 @@ Public Class FrmExpiryDateEntry
             CloseForm()
         ElseIf e.Control And e.Alt And e.Shift And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverseAndRecreate.Visible = True
@@ -941,19 +941,19 @@ Public Class FrmExpiryDateEntry
         End Try
     End Sub
 
-    Public Shared Sub PrintData(ByVal strDocNo As String, ByVal IsPreprinted As Boolean)
+    Public Sub PrintData(ByVal strDocNo As String, ByVal IsPreprinted As Boolean)
         Try
 
             Dim qry As String
             Dim dt As DataTable
-            qry = "select * from TSPL_EXPIRY_HEADER left outer  join TSPL_EXPIRY_DETAIL on TSPL_EXPIRY_HEADER.DOcument_no=TSPL_EXPIRY_DETAIL.DOcument_no left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EXPIRY_HEADER.loc_code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_EXPIRY_HEADER.comp_code " & _
+            qry = "select * from TSPL_EXPIRY_HEADER left outer  join TSPL_EXPIRY_DETAIL on TSPL_EXPIRY_HEADER.DOcument_no=TSPL_EXPIRY_DETAIL.DOcument_no left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EXPIRY_HEADER.loc_code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_EXPIRY_HEADER.comp_code " &
                  " where TSPL_EXPIRY_HEADER.DOcument_no='" + strDocNo + "' ORDER by document_line_no"
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If IsPreprinted Then
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptExpiryDetails", "Expired Item Entry")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptExpiryDetails", "Expired Item Entry")
             Else
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptExpiryDetails", "Expired Item Entry")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptExpiryDetails", "Expired Item Entry")
             End If
             frmCRV = Nothing
         Catch ex As Exception

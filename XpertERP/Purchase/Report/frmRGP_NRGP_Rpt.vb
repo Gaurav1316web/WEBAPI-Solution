@@ -184,7 +184,7 @@ Public Class frmRGP_NRGP_Rpt
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             'PurchaseOrderViewer.funreport(dt, "rptRGPForAll", "RGP Report")
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPForAll", "RGP Report", "rptCompanyAddress.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPForAll", "RGP Report", "rptCompanyAddress.rpt")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -1926,9 +1926,9 @@ sum(isnull (txt10amt,0)*RI) as txt10amt, max(tax10name) as tax10name
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReportSWM", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReportSWM", "")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReport", "")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -3241,7 +3241,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                 If rbtnMilkType.Checked Then
                     clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
                 ElseIf rbtnProductType.Checked OrElse rbtnIceCream.Checked Then
-                    clsProductDemandBookingSale.PrintDemandProductData(TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False)
+                    clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False)
                 End If
             Else
                 clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
@@ -3675,7 +3675,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
             End If
             Dim Qry As String = Nothing
             If EnableProductSaleForJPR AndAlso (rbtnProductType.Checked OrElse rbtnIceCream.Checked) Then
-                clsProductDemandBookingSale.PrintDemandProductData(TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, False, True)
+                clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, False, True)
             Else
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     Qry = " select TSPL_DEMAND_BOOKING_MASTER.Route_No ,TSPL_ROUTE_MASTER.Route_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Is_FreshItem, TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_MASTER.ShiftType, TSPL_ROUTE_MASTER.Route_Desc as Route_Desc, TSPL_DEMAND_BOOKING_MASTER.Route_No as Route_No, Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Tonk Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILCrate.CFForCrate) else 0 end as QtyCrate, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILLTR.CFForLTR) else 0 end as QtyLTR,  case   WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code = 'CUP' then qty * ITEMDETAILcup.Conversion_factor / ITEMDETAILCrate.CFForCrate when TSPL_ITEM_MASTER.Is_FreshItem=0 then (TSPL_DEMAND_BOOKING_DETAIL.Qty) else 0 end as PQty, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code Left Join (select Conversion_factor AS CFForCrate,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CRATE') as ITEMDETAILCrate on ITEMDETAILCrate.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAILLTR on ITEMDETAILLTR.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code  Left Join (select Conversion_factor AS Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CUP') as ITEMDETAILcup on ITEMDETAILcup.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " + whrcls
@@ -3709,10 +3709,10 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWiseTNK", "Demand Booking")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWiseTNK", "Demand Booking")
 
                     Else
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
                     End If
                     frmCRV = Nothing
                 Else
@@ -3825,7 +3825,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
             End If
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptTaxNonTaxableCustomerCreditReport", "Customer Credit Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptTaxNonTaxableCustomerCreditReport", "Customer Credit Report")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
@@ -5061,7 +5061,7 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
     ) as prevtcs on xx.Cust_Code=prevtcs.Cust_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandRoutBoothWise", "Demand Rout Booth Wise")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptDemandRoutBoothWise", "Demand Rout Booth Wise")
             frmCRV = Nothing
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text)
@@ -5123,7 +5123,7 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptGPRouteWiseSummary", "GatePass Route Wise")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptGPRouteWiseSummary", "GatePass Route Wise")
                         frmCRV = Nothing
                     Else
                         Throw New Exception("No Data Found!")
@@ -5231,7 +5231,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
                 If dtPrint.Rows.Count > 0 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamGatePassRouteSummary", "Route Product Gate Pass", "rptSubProductDemandBooking")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamGatePassRouteSummary", "Route Product Gate Pass", "rptSubProductDemandBooking")
                 End If
 
                 frmCRV = Nothing

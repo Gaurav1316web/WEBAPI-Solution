@@ -724,21 +724,21 @@ Public Class FrmNetSaleReport1
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Vizag") = CompairStringResult.Equal Then
             Dim frmcrystal As New frmCrystalReportViewer()
             If clsCommon.CompairString(ddlValue.Text, "Yes") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleValueVizag", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleValueVizag", "Net Sale Report")
             ElseIf clsCommon.CompairString(ddlValue.Text, "No") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleQtyVizag", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleQtyVizag", "Net Sale Report")
             ElseIf clsCommon.CompairString(ddlValue.Text, "Both") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleBothVizag", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleBothVizag", "Net Sale Report")
             End If
 
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
             If clsCommon.CompairString(ddlValue.Text, "Yes") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleValueGuntur", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleValueGuntur", "Net Sale Report")
             ElseIf clsCommon.CompairString(ddlValue.Text, "No") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleQtyGuntur", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleQtyGuntur", "Net Sale Report")
             ElseIf clsCommon.CompairString(ddlValue.Text, "Both") = CompairStringResult.Equal Then
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleBothGuntur", "Net Sale Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strSql), "crptNetSaleBothGuntur", "Net Sale Report")
             End If
 
         End If

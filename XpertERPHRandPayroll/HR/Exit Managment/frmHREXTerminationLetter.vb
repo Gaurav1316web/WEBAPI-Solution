@@ -542,7 +542,7 @@ Public Class FrmHREXTerminationLetter
 
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREXTetminationLetter", "Termination Letter")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HumanResource, dt, "rptHREXTetminationLetter", "Termination Letter")
 
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)

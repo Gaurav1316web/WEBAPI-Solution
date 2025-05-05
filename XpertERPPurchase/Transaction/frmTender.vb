@@ -1150,8 +1150,8 @@ Public Class frmTender
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnreverse.Visible = True
@@ -1426,7 +1426,7 @@ Public Class frmTender
                     order by tspl_tender_detail.line_no"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTender", "Tender", clsCommon.myCDate(dt.Rows(0)("DocumentDate")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptTender", "Tender", clsCommon.myCDate(dt.Rows(0)("DocumentDate")))
                 frmCRV = Nothing
             Else
                 Throw New Exception("Please select document to print")
@@ -1972,8 +1972,8 @@ Public Class frmTender
             If (myMessages.updateConfirm) Then
                 'If clsCancelLog.CheckForReasonOnUpdateAfterPost() Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     '' REASON FOR DELETE 

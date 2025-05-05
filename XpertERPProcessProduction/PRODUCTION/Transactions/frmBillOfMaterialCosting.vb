@@ -1567,7 +1567,7 @@ Public Class frmBillOfMaterialCosting
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim objn As New frmCrystalReportViewer
-            objn.funreport(CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
+            objn.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
 
             'If Not clsCommon.MyMessageBoxShow("Want to see tree structure?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 

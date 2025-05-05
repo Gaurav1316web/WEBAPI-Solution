@@ -380,7 +380,7 @@ Public Class frmItemStructure
 
             '' custom fields
             clsCustomFieldValues.SaveData(MyBase.Form_ID, fndstructurecode.Value.Trim(), arrCustomFields, trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndstructurecode.Value, "TSPL_STRUCTURE_MASTER", "Structure_Code", trans)
 
             ''End of For Custom Fields
             trans.Commit()

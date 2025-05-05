@@ -538,7 +538,7 @@ Public Class frmAutoAdditionDeductionReport
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptAutoAdditionDeductionNewTNK", "MD Print")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptAutoAdditionDeductionNewTNK", "MD Print")
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -680,7 +680,7 @@ left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PURCHASE_
                     'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewTNK", "MD Print")
                     'Else
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
                     frmCRV = Nothing
                     'End If
                 Else

@@ -440,13 +440,13 @@ Public Class rptVendorReco
                 End If
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkNone.IsChecked AndAlso rbPortrait.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedger", "Vendor Invoice Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedger", "Vendor Invoice Report")
                 ElseIf chkVendorWise.IsChecked = True OrElse chkVendorGrupWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupBy-KDIL", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupBy-KDIL", "Vendor Ledger Report")
                 ElseIf chkNone.IsChecked AndAlso rbLandScape.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerLandScape", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerLandScape", "Vendor Ledger Report")
                 ElseIf chkNone.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupByDoc-KDIL", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupByDoc-KDIL", "Vendor Ledger Report")
                 End If
                 frmCRV = Nothing
             End If
@@ -2564,8 +2564,8 @@ Public Class rptVendorReco
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True
@@ -2916,17 +2916,17 @@ Public Class rptVendorReco
             If blnRefresh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkVendorGrupWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtCustGrp, "rptVendorLedgerSummary_DEMO", "Vendor Ledger")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtCustGrp, "rptVendorLedgerSummary_DEMO", "Vendor Ledger")
                 ElseIf chkVendorWise.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtCustomer, "rptVendorLedgerSummary_DEMO", "Vendor Ledger")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtCustomer, "rptVendorLedgerSummary_DEMO", "Vendor Ledger")
                 ElseIf chkNone.IsChecked AndAlso rbPortrait.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedger", "Vendor Invoice Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedger", "Vendor Invoice Report")
                 ElseIf chkVendorWise.IsChecked = True Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupBy-KDIL", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupBy-KDIL", "Vendor Ledger Report")
                 ElseIf chkNone.IsChecked AndAlso rbLandScape.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerLandScape", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerLandScape", "Vendor Ledger Report")
                 ElseIf chkNone.IsChecked Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupByDoc-KDIL", "Vendor Ledger Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtMain, "VendorLedgerSummaryGroupByDoc-KDIL", "Vendor Ledger Report")
                 End If
                 frmCRV = Nothing
             End If

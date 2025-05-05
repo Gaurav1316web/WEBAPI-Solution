@@ -155,8 +155,8 @@ Public Class frmGeneralWeighment
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -457,7 +457,7 @@ Public Class frmGeneralWeighment
                   "  where TSPL_GENERAL_WEIGHMENT_DETAIL.Weighment_No='" + fndWeighmentcode.Value + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count > 0 Then
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptGeneralWeighment", "General Weighment", clsCommon.myCDate(dt.Rows(0)("Weighment_date")))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptGeneralWeighment", "General Weighment", clsCommon.myCDate(dt.Rows(0)("Weighment_date")))
                 End If
                 frmCRV = Nothing
             End If

@@ -29,6 +29,7 @@ Public Class frmSNSaleInvoice
     Private AllowChangeInvoiceType As Boolean = False
     Public strExcise As Boolean
     Public intMRPwithabatement As Integer
+    Public Inter_unit_Sale As Integer = 0
     Public strSaleInvoice As String = Nothing
     Private isPO_GRN_MRN_Editable As Boolean = False
     Public Const RowTypeItem As String = "Item"
@@ -4956,8 +4957,8 @@ Public Class frmSNSaleInvoice
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
         ElseIf isNewEntry AndAlso e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 '-----------------richa 26/06/2014 Ticket No .BM00000002982------------
@@ -5376,6 +5377,7 @@ Public Class frmSNSaleInvoice
                     '' currency details
 
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
+                    Inter_unit_Sale = clsCommon.myCdbl(objOrderHead.Inter_unit_sale)
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
                     If objOrderHead.ApplicableFrom IsNot Nothing Then
                         Me.txtApplicableFrom.Text = objOrderHead.ApplicableFrom
@@ -6392,33 +6394,33 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 If dt1.Rows.Count > 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "ADVANTEK") = CompairStringResult.Equal Then
                         If clsCommon.myCdbl(dt1.Rows(0)("Is_Tax_Exempted")) = 1 Then
-                            strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
+                            strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
                         Else
                             If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("Cust_Sate_Code")), clsCommon.myCstr(dt1.Rows(0)("Loc_Sate_Code"))) = CompairStringResult.Equal Then
                                 If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
-                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
+                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
                                 Else
-                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
+                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
                                 End If
 
                             Else
-                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
+                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, dtTax, "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "RateWiseax1.rpt")
 
                             End If
                         End If
                     Else
                         If clsCommon.myCdbl(dt1.Rows(0)("Is_Tax_Exempted")) = 1 Then
-                            strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         Else
                             If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("Cust_Sate_Code")), clsCommon.myCstr(dt1.Rows(0)("Loc_Sate_Code"))) = CompairStringResult.Equal Then
                                 If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
-                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                                 Else
-                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                    strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                                 End If
 
                             Else
-                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleInvoice_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             End If
                         End If
                     End If
@@ -6428,7 +6430,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
             Else
                 If dt.Rows.Count > 0 Then
                     SetItemWiseTax(dt, strDocNo)
-                    strPdfAttachmentPath = frmCRV.funreport(IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptSaleInvoice", "Sales Invoice", clsCommon.myCDate(txtDate.Value))
+                    strPdfAttachmentPath = frmCRV.funreport(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptSaleInvoice", "Sales Invoice", clsCommon.myCDate(txtDate.Value))
                 End If
             End If
             frmCRV = Nothing
@@ -6880,7 +6882,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7637,7 +7639,7 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
 
-                frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDispatchInvoiceDetails", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Dispatch_Date")), "crptDispatchInvoiceDetails.rpt")
+                frmDCSPrint.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDispatchInvoiceDetails", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Dispatch_Date")), "crptDispatchInvoiceDetails.rpt")
 
 
             End If
@@ -7766,7 +7768,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSP
             Dim frmCRV As New frmCrystalReportViewer()
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptsaleinvoicedispatch", "Milk Sales Dispatch", "Bulk dispath")
 
-            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptsaleinvpoicePJV", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, dt1, "rptsaleinvpoicePJV", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
 
             'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, "rptPJV-V", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
             frmCRV = Nothing

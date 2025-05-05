@@ -74,7 +74,7 @@ Public Class SaleConsignee
                 'frmCRV.funreport(CrystalReportFolder.PRODUCTION, dtSaleConsignee, "rptRMUnloadingReport", "")
                 'frmCRV = Nothing
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dtSaleConsignee, "rptSalesConsignee", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtSaleConsignee, "rptSalesConsignee", "")
                 'PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
                 frmCRV = Nothing
             Else

@@ -174,6 +174,8 @@ Public Class clsPayPeriodMaster
             End If
             Dim qry As String = "Update TSPL_PAYPERIOD_MASTER set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where PAY_PERIOD_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

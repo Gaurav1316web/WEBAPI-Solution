@@ -163,7 +163,7 @@ Public Class FrmDebitAdviseReport
                 Throw New Exception("No Data found to Print")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptDebitAdivseReport", "Debit Advise Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptDebitAdivseReport", "Debit Advise Report")
                 frmCRV = Nothing
             End If
 

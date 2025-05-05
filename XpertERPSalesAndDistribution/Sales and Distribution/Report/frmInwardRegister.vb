@@ -175,10 +175,10 @@ Public Class frmInwardRegister
 
             If rdodetail.IsChecked = True Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptInwardRegisteDetail", "Inward Register Detail")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptInwardRegisteDetail", "Inward Register Detail")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptInwardRegisteSummary", "Inward Register Summary")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptInwardRegisteSummary", "Inward Register Summary")
             End If
 
         Catch ex As Exception

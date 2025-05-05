@@ -120,7 +120,7 @@ Public Class RptTransfer_IncompleteReport
             qry += " Order by TransferNo,Type"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptTransferIncomplete", "Report For Transfer Incomplete")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptTransferIncomplete", "Report For Transfer Incomplete")
         Catch ex As Exception
             RadMessageBox.Show(ex.Message, Me.Text)
         End Try

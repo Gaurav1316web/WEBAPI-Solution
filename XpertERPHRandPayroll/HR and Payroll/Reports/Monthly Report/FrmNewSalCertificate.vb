@@ -211,7 +211,7 @@ Public Class FrmNewSalCertificate
                 dtFinal.AcceptChanges()
 
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpSalCertificate", "Salary Certificate")
+                frmcrystal.funreport(clsUserMgtCode.frmNewSalCertificate, CrystalReportFolder.HRPayroll, dtFinal, "crpSalCertificate", "Salary Certificate")
 
             End If
         Catch ex As Exception

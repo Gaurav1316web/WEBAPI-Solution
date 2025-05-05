@@ -484,8 +484,8 @@ Public Class frmBOM
                                                  "TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS ")
                 If btnPost.Enabled = False AndAlso btnsave.Enabled = False Then
                     'Dim frm As New FrmPWD(Nothing)
-                    'frm.strType = "SIRC"
-                    'frm.strCode = "SIReversAndCreate"
+                    'frm.strType = clsFixedParameterType.SIR
+                    'frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     'frm.ShowDialog()
                     'If frm.isPasswordCorrect Then
                     '    btnReverse.Visible = True
@@ -1864,7 +1864,7 @@ Public Class frmBOM
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptPPBOMPrint", "Bill Of Material")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptPPBOMPrint", "Bill Of Material")
                 frmCRV = Nothing
                 'ProductionReportViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")
                 'PurchaseOrderViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")

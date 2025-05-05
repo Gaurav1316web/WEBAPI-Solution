@@ -4611,10 +4611,10 @@ Public Class frmSaleOrder
                     Dim Excisable As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Excisable from TSPL_LOCATION_MASTER  WHERE Location_Code='" + Location + "'"))
                     If clsCommon.CompairString(Excisable, "T") = CompairStringResult.Equal Then
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOrderWithExcise", "Sales Order")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOrderWithExcise", "Sales Order")
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOrderWithNonExcise", "Sales Order")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptOrderWithNonExcise", "Sales Order")
                     End If
                 Else
                     common.clsCommon.MyMessageBoxShow("No Data Found", "Sales Order Report", MessageBoxButtons.OK)
@@ -4690,7 +4690,7 @@ Public Class frmSaleOrder
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
                 If dt.Rows.Count > 0 Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptCheckSlipReport", "Check Slip")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "crptCheckSlipReport", "Check Slip")
                 Else
                     common.clsCommon.MyMessageBoxShow("No Data Found", "Sales Order Report", MessageBoxButtons.OK)
                 End If

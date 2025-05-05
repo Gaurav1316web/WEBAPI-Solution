@@ -123,7 +123,7 @@ Public Class FrmBreakageReportSummary
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "BreakageReportSummary", "Breakage Summary Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "BreakageReportSummary", "Breakage Summary Report")
                 frmCRV = Nothing
                 'ElseIf rdodetail.IsChecked = True Then
 

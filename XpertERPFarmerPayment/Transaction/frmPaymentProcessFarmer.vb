@@ -7376,7 +7376,7 @@ Public Class frmPaymentProcessFarmer
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             If PrintOpen = True Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                 frmCRV = Nothing
             End If
             Return dt
@@ -7493,7 +7493,7 @@ Public Class frmPaymentProcessFarmer
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -7576,10 +7576,10 @@ Public Class frmPaymentProcessFarmer
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If isPreFormatePrint = True Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmer", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmer", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 End If
             Else
@@ -7687,7 +7687,7 @@ Public Class frmPaymentProcessFarmer
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkProBulkPmtProcess_VLCWise", "VLC WISE DOC REPORT")
             frmCRV = Nothing
         End If
 
@@ -7918,8 +7918,8 @@ Public Class frmPaymentProcessFarmer
             e.Handled = True
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
@@ -8088,10 +8088,10 @@ Public Class frmPaymentProcessFarmer
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If isPreFormatePrint = True Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmer", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmer", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 End If
             Else
@@ -8274,7 +8274,7 @@ Public Class frmPaymentProcessFarmer
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If isPreFormatePrint = True Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate2", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmerPredefineFormate2", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
                     frmCRV = Nothing
                 Else
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt2, "crptPaymentProcessFarmer", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")

@@ -290,7 +290,7 @@ Public Class RptPendingPO
             Exit Sub
         Else
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dtData, "RptPendingPo", "Purchase Order Pending Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dtData, "RptPendingPo", "Purchase Order Pending Report")
             frmCRV = Nothing
         End If
     End Sub

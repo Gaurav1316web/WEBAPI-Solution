@@ -246,7 +246,7 @@ Public Class FrmStockReport
             strQuery = clsCommon.GetQueryWithAllSelectedDataBase(strquery3, ArrDBName, False)
             'strQuery2 = clsCommon.GetQueryWithAllSelectedDataBase(strQuery2, ArrDBName, False)
 
-            frmCRV.funreport(CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptStockReco", "Stock Reconciliation Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptStockReco", "Stock Reconciliation Report")
         Else
             Dim strQuery1 = "SELECT '" + FromDateFilter + "' as FromDate,'" + TodateFIlter + "' as Todate,'" + CompCode + "' as CompCode,'" + Locfilter + "' as LocFilter, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Item_Code, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Item_Desc, (" + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Qty/" + clsCommon.ReplicateDBString + "TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Qty, " & _
                         "" + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.InOut, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Source_Doc_No, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Source_Doc_Date, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Entry_Date, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Net_Cost, " + clsCommon.ReplicateDBString + "TSPL_INVENTORY_MOVEMENT.Location_Code, " & _

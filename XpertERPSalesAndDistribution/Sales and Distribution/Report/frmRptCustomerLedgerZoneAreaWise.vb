@@ -48,8 +48,8 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True
@@ -889,43 +889,43 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                         Dim frmcrystal As New frmCrystalReportViewer()
                         If rbtnCustGroupWiseDrCr.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummaryDRCR_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummaryDRCR_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustGroupWise.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustWiseDrCr.Checked Then
                             'Balwinder
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerWiseDRCR", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerWiseDRCR", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustWise.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible And chkDateWise.Checked = True Then  '' BHA/04/10/18-000601
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerCustomerWiseWithDateWise", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerCustomerWiseWithDateWise", "Customer Ledger")
                             ElseIf gvCustomer.Visible And chkDateWise.Checked = False Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnNone.Checked Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
                         ElseIf rbtnDocWise.Checked Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
                         End If
 
 
@@ -934,10 +934,10 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                         '' Anubhooti 11-Mar-2015 (Doc Wise Rpt)
                         If ChkDocSumm.Checked = True Then
                             Dim frmcrystal As New frmCrystalReportViewer()
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocSummWise", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocSummWise", "Customer Ledger")
                         Else
                             Dim frmcrystal As New frmCrystalReportViewer()
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocWise", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocWise", "Customer Ledger")
                         End If
 
                     End If
@@ -2734,48 +2734,48 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                         Dim frmcrystal As New frmCrystalReportViewer()
                         If rbtnCustGroupWiseDrCr.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummaryDRCR_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummaryDRCR_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustGroupWise.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustWiseDrCr.Checked Then
                             'Balwinder
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerWiseDRCR", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerWiseDRCR", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnCustWise.Checked Then
                             If gvCustomerGroup.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustGrp, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvCustomer.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtCustomer, "rptCustomerLedgerSummary_DEMO", "Customer Ledger")
                             ElseIf gvDetails.Visible Then
-                                frmcrystal.funreport(CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
+                                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dvTemp1.ToTable(), "rptCustomerLedger_DEMO", "Customer Ledger")
                             End If
                         ElseIf rbtnNone.Checked Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
                         ElseIf rbtnDocWise.Checked Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedger_DEMO", "Customer Ledger")
                         End If
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
                         If ChkDocSumm.Checked = True Then
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocSummWise", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocSummWise", "Customer Ledger")
                         Else
-                            frmcrystal.funreport(CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocWise", "Customer Ledger")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtMain, "rptCustomerLedgerDocWise", "Customer Ledger")
                         End If
 
                     End If

@@ -493,7 +493,7 @@ Public Class FrmBankBookLocationDetail
                 ExportToExcelGV()
             Else
                 Dim FRMcrys As New frmCrystalReportViewer
-                FRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
+                FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.CommonServices, dt, "crptBankBook", Me.Text)
             End If
         End If
     End Sub
@@ -608,8 +608,8 @@ Public Class FrmBankBookLocationDetail
                 pnlAdminSetting.Visible = False
             Else
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     pnlAdminSetting.Visible = True

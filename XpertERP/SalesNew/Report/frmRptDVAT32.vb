@@ -160,9 +160,9 @@ Public Class frmRptDVAT32
                 'SetGridFormationOFGV1()
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rdbDVAT32.IsChecked = True Then
-                    frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptDVAT32", "DVAT 32")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptDVAT32", "DVAT 32")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptDVAT33", "DVAT 33")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptDVAT33", "DVAT 33")
                 End If
                 frmCRV = Nothing
             End If

@@ -230,9 +230,9 @@ where 2=2 "
             If btnReferesh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rdbDetail.IsChecked = True Then
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtgv, "rptVendorSecurity", "Vendor Security")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtgv, "rptVendorSecurity", "Vendor Security")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dtgv, "rptVendorSecurity_summary", "Vendor Security")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dtgv, "rptVendorSecurity_summary", "Vendor Security")
                 End If
                 frmCRV = Nothing
             End If

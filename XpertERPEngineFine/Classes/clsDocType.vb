@@ -655,6 +655,7 @@ Public Class clsDocType
     Public Const DispatchTransfer As String = "Dispatch Transfer"
     Public Const ConveyanceClaim As String = "ConveyanceClaim"
     Public Const PaymentProcess As String = "Payment Process"
+    Public Const ReviseMilkBill As String = "Revise Milk Bill"
     Public Const BankAdvise As String = "Bank Advise"
     Public Const PaymentProcessWithoutLoc As String = "Payment Process without Loc"
     Public Const AssetWork As String = "Asset Work"

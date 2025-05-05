@@ -471,7 +471,7 @@ Public Class FrmSettlementEntry
 
             dt1 = clsDBFuncationality.GetDataTable(qry)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt1, "crptSettlementEntry", "Payment Details")
+            frmcrystal.funreport(clsUserMgtCode.FrmSettlementEntry, CrystalReportFolder.SalesReport, dt1, "crptSettlementEntry", "Payment Details")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try

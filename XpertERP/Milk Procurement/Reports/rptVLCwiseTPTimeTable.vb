@@ -44,7 +44,7 @@ Public Class RptVLCwiseTPTimeTable
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptVLCWiseTimeTable", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptVLCWiseTimeTable", "")
                 frmCRV = Nothing
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "No Data To Print", Me.Text)

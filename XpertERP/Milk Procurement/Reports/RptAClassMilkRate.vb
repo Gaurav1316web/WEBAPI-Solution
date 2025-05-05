@@ -97,7 +97,7 @@ Public Class RptAClassMilkRate
         dt = clsDBFuncationality.GetDataTable(strQuery)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptAClass_MilkRate", "A Class Milk Rates")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptAClass_MilkRate", "A Class Milk Rates")
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data to Print ..", Me.Text)
@@ -150,7 +150,7 @@ Public Class RptAClassMilkRate
             If dtPrice.Rows.Count > 0 AndAlso dt.Rows.Count > 0 Then
                 ' frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "rptAClass_MilkRate", "A Class Milk Rates")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtPrice, dt, "rptMccMilkRate", "MCC Milk Rate", "RptIncentiveDetailForMccRate.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPrice, dt, "rptMccMilkRate", "MCC Milk Rate", "RptIncentiveDetailForMccRate.rpt")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data to Print ..", Me.Text)

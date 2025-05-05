@@ -72,7 +72,7 @@ Public Class RptFromNo21
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(Qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "CrptPayrollForm4", "Form 34 Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "CrptPayrollForm4", "Form 34 Report")
     End Sub
     Private Sub RptFromNo21_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 

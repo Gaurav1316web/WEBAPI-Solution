@@ -4982,9 +4982,9 @@ Public Class FrmAPInvoiceEntry
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If SettingCostCenterlevel AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
             Else
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+                frmCRV.funsubreport(MyBase.Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
             End If
             frmCRV = Nothing
 
@@ -5017,8 +5017,8 @@ Public Class FrmAPInvoiceEntry
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

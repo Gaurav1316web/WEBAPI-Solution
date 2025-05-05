@@ -3562,8 +3562,8 @@ Public Class frmIssueReturn
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.O Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 chkSkipIndentBalance.Checked = True
@@ -3586,8 +3586,8 @@ Public Class frmIssueReturn
                                        "TSPL_PI_REMITTANCE")
                 'Add Tool tip Task No- TEC/22/05/18-000245
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -3715,11 +3715,11 @@ Public Class frmIssueReturn
 
             If val = "Issue" Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
                 'PurchaseOrderViewer.funreport(dt, "rptissue", "Issur/Return/Transfer")
             ElseIf val = "Return" Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
 
                 ' PurchaseOrderViewer.funreport(dt, "rptreturn", "Issur/Return/Transfer")
 
@@ -3760,7 +3760,7 @@ Public Class frmIssueReturn
     " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "' and TSPL_IssueReturn_HEAD.Doc_Type='" + val + "' "
                 ''''--------------------------------------------------Code Ends Here--------------------------------------------------
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryTrnsfr)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
 
             End If
             frmCRV = Nothing

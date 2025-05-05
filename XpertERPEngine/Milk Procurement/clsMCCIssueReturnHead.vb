@@ -948,6 +948,8 @@ Public Class clsMCCIssueReturnHead
             End If
             Dim qry As String = "Update TSPL_VSPAsset_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VSPAsset_HEAD", "Doc_No", trans)
+
             If isTransOutSide = False Then
                 If isSaved Then
                     trans.Commit()

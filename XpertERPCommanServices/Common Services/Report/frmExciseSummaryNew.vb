@@ -245,10 +245,10 @@ Public Class FrmExciseSummaryNew
             If IsPrint Then
                 If rbtnSummary.IsChecked = True Then
                     Dim FRMcrys As New frmCrystalReportViewer
-                    FRMcrys.funreport(CrystalReportFolder.SalesReport, dt, strReportName, "Excise Report")
+                    FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, strReportName, "Excise Report")
                 Else
                     Dim FRMcrys As New frmCrystalReportViewer
-                    FRMcrys.funreport(CrystalReportFolder.SalesReport, dt, strReportName, "Excise Report")
+                    FRMcrys.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, strReportName, "Excise Report")
                 End If
             End If
             RadPageView1.SelectedPage = RadPageViewPage2

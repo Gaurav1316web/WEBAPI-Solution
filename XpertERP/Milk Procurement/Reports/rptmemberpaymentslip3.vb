@@ -410,7 +410,7 @@ Public Class Rptmemberpaymentslip3
 
             If btnReferesh = False Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
                 frmCRV = Nothing
 
             End If

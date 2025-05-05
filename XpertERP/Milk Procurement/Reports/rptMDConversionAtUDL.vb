@@ -176,11 +176,11 @@ Public Class RptMDConversionAtUDL
                 If btnReferesh = False Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If rdDetail.IsChecked = True Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "MDConversionDetail", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "MDConversionDetail", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
                     ElseIf rdSummary.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "rptMDCONVERSIONSUMMARY", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "rptMDCONVERSIONSUMMARY", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
                     ElseIf rdStock.IsChecked Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "rptMDCONVERSIONSTOCK", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtgv1, dtcomp, "rptMDCONVERSIONSTOCK", "MD Conversion", "RPTCOMPANYADDMDCONVERSION.rpt")
                     End If
                     frmCRV = Nothing
                 End If

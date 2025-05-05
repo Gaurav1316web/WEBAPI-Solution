@@ -3449,6 +3449,7 @@ Public Class FrmAPInvoiceEntryTDS
         End If
         Dim Arr As New ArrayList
         Arr.Add(txtDocNo.Value)
+        Dim frmRptAPInvoice As New frmRptAPInvoice()
         frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
     End Sub
 
@@ -3479,8 +3480,8 @@ Public Class FrmAPInvoiceEntryTDS
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

@@ -1473,8 +1473,8 @@ Public Class FrmWeighment
                                                   "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
                                                   "tspl_weighment_detail_history  ( For History) .")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -2176,7 +2176,7 @@ Public Class FrmWeighment
      " ) as main  pivot ( max(Param_Values) for CHAMBER_DESC in ([F],[R],[M],[1],[2],[3])) PIVT " & _
     " group by SNO"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptWeighmentSlip", "Milk Receipt Slip")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptWeighmentSlip", "Milk Receipt Slip")
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                 ' Ticket No : BHA/03/07/18-000125 By Prabhakar -- Multi chember wise Print For Bharat
                 ' Ticket No : BHA/16/07/18-000179 By prabhakar for  QC Status  on print 
@@ -2225,7 +2225,7 @@ Public Class FrmWeighment
                 Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt3.Rows.Count > 0 Then
 
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "crptWeighmetBulk", "Weighment", clsCommon.myCDate(dt3.Rows(0)("Weighment_date")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "crptWeighmetBulk", "Weighment", clsCommon.myCDate(dt3.Rows(0)("Weighment_date")), "rptCompanyAddress.rpt")
                 End If
                 '=============================================================================================================================================
             Else
@@ -2292,12 +2292,12 @@ Public Class FrmWeighment
 
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                     If dt1.Rows.Count > 0 Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "WeigntmenUDLRpt", "WeigntmenUDLRpt", "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "WeigntmenUDLRpt", "WeigntmenUDLRpt", "rptCompanyAddress.rpt")
                     End If
                 Else
                     If dt.Rows.Count > 0 Then
 
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptWeighmetBulk", "Weighment", clsCommon.myCDate(dt.Rows(0)("Weighment_date")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptWeighmetBulk", "Weighment", clsCommon.myCDate(dt.Rows(0)("Weighment_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
 

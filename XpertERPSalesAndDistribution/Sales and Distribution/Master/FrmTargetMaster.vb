@@ -521,7 +521,7 @@ Public Class FrmTargetMaster
                 common.clsCommon.MyMessageBoxShow("No Data Found")
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptTarget", "Target Report")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptTarget", "Target Report")
             End If
 
         Catch ex As Exception

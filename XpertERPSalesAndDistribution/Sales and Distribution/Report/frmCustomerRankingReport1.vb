@@ -193,7 +193,7 @@ Public Class FrmCustomerRankingReport1
             common.clsCommon.MyMessageBoxShow("No Data Found")
         Else
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCustomerRanking", " Customer Ranking Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptCustomerRanking", " Customer Ranking Report")
         End If
     End Sub
     Private Sub chkRouteAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkRouteAll.ToggleStateChanged

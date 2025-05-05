@@ -487,8 +487,8 @@ Public Class FrmCSASaleInvoice
 
             If e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F12 AndAlso MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnRev_Unpost.Visible = True
@@ -7161,7 +7161,7 @@ Public Class FrmCSASaleInvoice
             'End If
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptSaleInvoiceCSA", "Sale Invoice CSA", clsCommon.myCstr(dt.Rows(0)("Document_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptSaleInvoiceCSA", "Sale Invoice CSA", clsCommon.myCstr(dt.Rows(0)("Document_Date")))
                 frmCRV = Nothing
             End If
             'clsCommon.ProgressBarHide()

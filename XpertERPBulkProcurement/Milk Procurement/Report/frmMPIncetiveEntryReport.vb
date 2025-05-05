@@ -357,11 +357,11 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             If isPrint Then
                 If rbtnFarmerBankWiseDetail.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankAdvice", "Farmer Bank Wise Details")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankAdvice", "Farmer Bank Wise Details")
                     frmCRV = Nothing
                 ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankSummary", "Farmer Bank Wise Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankSummary", "Farmer Bank Wise Summary")
                     frmCRV = Nothing
                 End If
             End If

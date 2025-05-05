@@ -5624,7 +5624,7 @@ Public Class FrmTransferKDIL
                 dt = clsDBFuncationality.GetDataTable(strQuery)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransferChallanJW_Local", "DELIVERY CHALLAN/STOCK SHIFTING CHALLAN", dtDocdate)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransferChallanJW_Local", "DELIVERY CHALLAN/STOCK SHIFTING CHALLAN", dtDocdate)
                     frmCRV = Nothing
                 End If
             Else
@@ -5647,13 +5647,13 @@ Public Class FrmTransferKDIL
                     Dim frmCRV As New frmCrystalReportViewer()
                     If objCommonVar.IsKDIL = True Then
                         'frmInventoryReportViewer.funreport(dt, "crptStockTransferChallanInvoiceInterState", "Transfer")
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState_Challan", "Challan", "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState_Challan", "Challan", "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("Taxable").ToString() = "T" Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Product", "Challan", dtDocdate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Product", "Challan", dtDocdate)
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("Taxable").ToString() = "NT" Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Milk", "Challan", dtDocdate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Milk", "Challan", dtDocdate)
                     Else
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew", "Challan", dtDocdate)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew", "Challan", dtDocdate)
                     End If
                     frmCRV = Nothing
                 End If
@@ -5910,9 +5910,9 @@ Public Class FrmTransferKDIL
                     dt = clsDBFuncationality.GetDataTable(strQuery)
                     If clsCommon.myCBool(dt.Rows(0)("For_Repair")) = True Then
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local_repair", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local_repair", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                         End If
                         Exit Sub
                     End If
@@ -6031,7 +6031,7 @@ Public Class FrmTransferKDIL
         " order by TSPL_TRANSFER_ORDER_DETAIL .line_no "
                         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry2)
                         'KwalitySalesReportViewer.funsubreportWithdt(dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Retail Invoice", "rptCompanyAddress.rpt")
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", dtDocdate, "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", dtDocdate, "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                         'KwalitySalesReportViewer.funsubreportWithdt(dt, dt2, "rptProductExciseTransferSaleInvoice", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt")
                     Else
                         'frmInventoryReportViewer.funreport(dt, "crptStockTransferChallanInvoiceInterState", "Transfer")
@@ -6041,52 +6041,52 @@ Public Class FrmTransferKDIL
                             If clsERPFuncationality.GetGSTStatus(dtDocdate) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("From_Location_State")), clsCommon.myCstr(dt.Rows(0)("To_Location_State"))) = CompairStringResult.Equal Then
                                     If clsCommon.myCdbl(dt.Rows(0)("Is_MandiTax")) = 1 Then
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local_WithMandiTax", "Transfer Local With MandiTax", dtDocdate, "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local_WithMandiTax", "Transfer Local With MandiTax", dtDocdate, "rptCompanyAddress.rpt")
                                     Else
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                                     End If
                                 Else
                                     If IsMandiTax > 0 Then
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_InterState_WithMandiTax", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_InterState_WithMandiTax", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                                     ElseIf clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted")), 1) = CompairStringResult.Equal Then
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                                     Else
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_InterState", "Transfer InterState", dtDocdate, "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_InterState", "Transfer InterState", dtDocdate, "rptCompanyAddress.rpt")
                                     End If
                                 End If
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice1", "Transfer", dtDocdate, "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice1", "Transfer", dtDocdate, "rptCompanyAddress.rpt")
                             End If
                         ElseIf clsCommon.CompairString(currentCompanyCode, "GDFPL") = CompairStringResult.Equal Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "rptTransferDepot", "Transfer", dtDocdate, "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "rptTransferDepot", "Transfer", dtDocdate, "rptCompanyAddress.rpt")
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState", "Transfer", "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState", "Transfer", "rptCompanyAddress.rpt")
                         End If
                     End If
                 ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
                     If clsERPFuncationality.GetGSTStatus(dtDocdate) Then
                         If clsCommon.myCBool(dt.Rows(0)("InternalTransfer")) = True Then
-                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_Internal", "Internal Transfer", dtDocdate)
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransfer_Internal", "Internal Transfer", dtDocdate)
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("To_Gp_stateCode")), clsCommon.myCstr(dt.Rows(0)("frm_state_code"))) = CompairStringResult.Equal Then
                             If clsCommon.myCdbl(dt.Rows(0)("Is_MandiTax")) = 1 Then
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_LocalWithMandiTax", "Transfer Excise Invoice", dtDocdate)
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransfer_LocalWithMandiTax", "Transfer Excise Invoice", dtDocdate)
                             Else
-                                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_Local", "Transfer Excise Invoice", dtDocdate)
+                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransfer_Local", "Transfer Excise Invoice", dtDocdate)
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_InterState", "Transfer Excise Invoice", dtDocdate)
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransfer_InterState", "Transfer Excise Invoice", dtDocdate)
                         End If
                     Else
-                        If clsCommon.CompairString(clsCommon.myCstr(IsExcise), "1") = CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_ExcisableNormal", "Transfer Excise Invoice", dtDocdate)
+                        If clsCommon.CompairString(MyBase.Form_ID, clsCommon.myCstr(IsExcise), "1") = CompairStringResult.Equal Then
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptTransfer_ExcisableNormal", "Transfer Excise Invoice", dtDocdate)
                             'frmCrystalReportViewer.funreport(CrystalReportFolder.InventoryReport, dt, "rptTransferChallanInvoice", "Challan/Transfe Invoice")
                         Else
-                            frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptDepTransfer_Challan", "Challan/Transfe", dtDocdate)
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptDepTransfer_Challan", "Challan/Transfe", dtDocdate)
                         End If
                     End If
                 Else
                     SetItemWiseTax(dt, StrCode)
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice", "Transfer", dtDocdate)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice", "Transfer", dtDocdate)
                 End If
             End If
         End If
@@ -7362,9 +7362,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
                     Else
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA_Other", "Stock Transfer Advice", Nothing)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockTransferSTA_Other", "Stock Transfer Advice", Nothing)
                     End If
                     'frmCRV.Close()
                 Else
@@ -7385,7 +7385,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAMilk", "Stock Transfer Advice", Nothing)
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockTransferSTAMilk", "Stock Transfer Advice", Nothing)
                     'frmCRV.Close()
                 Else
                     clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
@@ -7406,9 +7406,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProductBKN", "Stock Transfer Advice", Nothing)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProductBKN", "Stock Transfer Advice", Nothing)
                     Else
-                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
                     End If
                     'frmCRV.Close()
                 Else

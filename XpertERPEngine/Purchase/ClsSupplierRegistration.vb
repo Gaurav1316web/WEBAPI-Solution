@@ -210,6 +210,7 @@ Public Class ClsSupplierRegistration
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SUPPLIER_REGISTRATION", OMInsertOrUpdate.Update, "Registration_No='" + obj.Registration_No + "'", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Registration_No), "TSPL_SUPPLIER_REGISTRATION", "Registration_No", trans)
 
                 'If Not isNewEntry Then
                 '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Registration_No), "TSPL_SUPPLIER_REGISTRATION", "Registration_No", trans)
@@ -432,6 +433,8 @@ Public Class ClsSupplierRegistration
             " WHERE Registration_No='" + strDocNo + "'"
 
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SUPPLIER_REGISTRATION", "Registration_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -7110,9 +7110,9 @@ Public Class frmEXSalesInvoice
                         Next
                     End If
 
-                    strPdfPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice_Interstate", "Tax Invoice", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                    strPdfPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice_Interstate", "Tax Invoice", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 Else
-                    strPdfPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice", "Export Invoice Statement", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                    strPdfPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice", "Export Invoice Statement", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                 End If
 
             Else
@@ -7131,7 +7131,7 @@ Public Class frmEXSalesInvoice
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice", "Export Invoice Statement", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptExportSaleInvoice", "Export Invoice Statement", "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)

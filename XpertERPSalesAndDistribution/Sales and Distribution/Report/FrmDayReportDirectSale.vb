@@ -321,7 +321,7 @@ Public Class FrmDayReportDirectSale
                 End If
             ElseIf refreshGrid = "F" Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.SalesReport, dtgv, "crptDayReportDirectSale", "DAY REPORT DIRECT SALE")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtgv, "crptDayReportDirectSale", "DAY REPORT DIRECT SALE")
 
             End If
 

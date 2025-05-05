@@ -127,8 +127,8 @@ Public Class FrmQualityCheckForSRN
                 If MyBase.isReverse Then
 
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnreverse.Visible = True
@@ -1831,7 +1831,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(dtpDate.Value))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(dtpDate.Value))
             End If
 
         Catch ex As Exception
@@ -2077,11 +2077,11 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If IsPrintVertical = True Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportVertical", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportVertical", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
                 Else
                     'If IsPrintVertical = True Then
                     '    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
@@ -2173,13 +2173,13 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
                 End If
             End If
         Catch ex As Exception
@@ -2265,9 +2265,9 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 Exit Sub
             Else
                 If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionEnglish", "Rejected Analysis Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionEnglish", "Rejected Analysis Report")
                 ElseIf clsCommon.CompairString(strBtnText, "Hindi") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Analysis Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Analysis Report")
                 End If
             End If
         Catch ex As Exception
@@ -2350,7 +2350,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 'Exit Sub
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportMultiple", "RL Wise Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportMultiple", "RL Wise Report")
                 frmCRV = Nothing
             End If
 

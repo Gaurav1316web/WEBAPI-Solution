@@ -1007,8 +1007,8 @@ Public Class FrmGateEntry
                                                   "GateEntryTankerFromTankerMaster - Chamber wise setiing for Contract tanker  ")
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -2918,7 +2918,7 @@ Public Class FrmGateEntry
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
                 frmCRV = Nothing
             End If
         Catch ex As Exception

@@ -164,8 +164,8 @@ Public Class FrmBankReco
                     btnReverse.Visible = False
                 Else
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnReverse.Visible = True
@@ -1612,7 +1612,7 @@ Public Class FrmBankReco
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "crptBankOutstanding", "Bank Outstanding Document Report")
+            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "crptBankOutstanding", "Bank Outstanding Document Report")
             frmCRV = Nothing
         End If
     End Sub

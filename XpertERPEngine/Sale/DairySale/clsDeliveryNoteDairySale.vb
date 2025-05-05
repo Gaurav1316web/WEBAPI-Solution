@@ -168,6 +168,8 @@ Public Class clsDeliveryNoteDairySale
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
+
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -386,7 +388,7 @@ Public Class clsDeliveryNoteDairySale
                 End If
             End If
 
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", trans)
 
 
         Catch ex As Exception

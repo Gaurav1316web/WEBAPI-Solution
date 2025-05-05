@@ -362,7 +362,7 @@ Public Class LoadOut
         strquery = strSql1 & Un1 & strSql4 & Un4 & strSql5 & Un4 & strSql6
 
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strquery), "crptLoadOutReport", "LoadOut Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strquery), "crptLoadOutReport", "LoadOut Report")
 
 
         'If strCustClass = "N" Then

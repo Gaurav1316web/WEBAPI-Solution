@@ -213,7 +213,7 @@ Public Class frmRptSalesManReport
             strQuery = clsCommon.GetQueryWithAllSelectedDataBase(strQuery, ArrDBName, False)
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "rptSalesman", "Salesman Sales Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strQuery), "rptSalesman", "Salesman Sales Report")
 
 
         Catch ex As Exception

@@ -127,7 +127,7 @@ Public Class VisiDetail
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "VisiDetail", "VisiDetail")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "VisiDetail", "VisiDetail")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
         End Try

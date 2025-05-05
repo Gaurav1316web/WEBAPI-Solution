@@ -704,9 +704,9 @@ Public Class frmDeductionRegister
             If totalVgsli > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(clsCommon.myCstr(fndDeductioncode.Value), "KKK") <> CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegister", "Sale Order")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegister", "Sale Order")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegisterkkk", "Sale Order")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegisterkkk", "Sale Order")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

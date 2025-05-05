@@ -132,7 +132,7 @@ Public Class RptActurialValuation
                         Else
 
                             Dim frmcrystal As New frmCrystalReportViewer()
-                            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptActuarialValuationSummary", "Acturial Valuation Summary")
+                            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptActuarialValuationSummary", "Acturial Valuation Summary")
                         End If
                     End If
 

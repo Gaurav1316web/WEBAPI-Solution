@@ -5604,8 +5604,8 @@ Public Class frmGRN
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 If MyBase.isReverse Then
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "sirc"
-                    frm.strCode = "sireversandcreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnUnpost.Visible = True
@@ -6415,7 +6415,7 @@ Public Class frmGRN
                     Dim frmCRV As New frmCrystalReportViewer()
                     '==update by preeti gupta Against ticket no[ERO/30/04/19-000579]
                     'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")))
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")), "SubRptCmpnyMasterForERODE.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")), "SubRptCmpnyMasterForERODE.rpt")
                     frmCRV = Nothing
                 End If
             End If
@@ -7981,9 +7981,9 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 Exit Sub
             Else
                 If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportEnglish", "Rejected Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportEnglish", "Rejected Report")
                 ElseIf clsCommon.CompairString(strBtnText, "Hindi") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Report")
                 End If
             End If
         Catch ex As Exception

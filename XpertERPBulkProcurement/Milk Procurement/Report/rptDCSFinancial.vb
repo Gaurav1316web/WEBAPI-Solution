@@ -92,7 +92,7 @@ order by PK_Id "
                 Throw New Exception("No Data Found to Display")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDCSFinancialEntry", "DCS Finalcial Entry")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDCSFinancialEntry", "DCS Finalcial Entry")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

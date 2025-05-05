@@ -364,7 +364,7 @@ Public Class RptBulkMultipleDispatch
         If dt.Rows.Count > 0 Then
 
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSale", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSale", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
             frmCRV = Nothing
         End If
 

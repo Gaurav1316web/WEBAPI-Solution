@@ -865,23 +865,23 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                     ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso VendorBankAdviceForSWM = True Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSWM", "Bank Advice")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSWM", "Bank Advice")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt7, "crptBankAdviceNewTNK", "Bank Advice", "crptBankAdviceNewTNKSubReport.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt7, "crptBankAdviceNewTNK", "Bank Advice", "crptBankAdviceNewTNKSubReport.rpt")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         frmCRV = Nothing
                     End If
                 ElseIf rbtnBankWiseSummary.IsChecked OrElse rbtnSavingSummary.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummaryNew", "Bank Wise Summary")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummaryNew", "Bank Wise Summary")
                     End If
 
                     frmCRV = Nothing
@@ -889,9 +889,9 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                     Dim frmCRV As New frmCrystalReportViewer()
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, "", "crptBankAdviseReportALW", "Bank Advice Report", "", "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", "", Nothing, Nothing, Nothing)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportALW", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportALW", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportNew", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportNew", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
 
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
@@ -900,11 +900,11 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                 ElseIf rbtnSaving.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt8, "crptBankAdviceNewSavingTNK", "Bank Advice Saving", "crptBankAdviceNewSavingTNKSubReport.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, dt8, "crptBankAdviceNewSavingTNK", "Bank Advice Saving", "crptBankAdviceNewSavingTNKSubReport.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSavingJPR", "Bank Advice Saving")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSavingJPR", "Bank Advice Saving")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSaving", "Bank Advice Saving")
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSaving", "Bank Advice Saving")
                         frmCRV = Nothing
                     End If
                     'frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSaving", "Bank Advice Saving")
@@ -2154,9 +2154,9 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
             'frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
             ' Else
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewwBKN", "Bank Advice New")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewwBKN", "Bank Advice New")
             Else
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNeww", "Bank Advice New")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNeww", "Bank Advice New")
             End If
 
             'End If
@@ -2294,7 +2294,7 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
 
                 If dt1 IsNot Nothing And dt1.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptBankSavingSummary", "Bank Saving Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt1, "crptBankSavingSummary", "Bank Saving Summary")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -2325,7 +2325,7 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
 
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankDraftSummary", "Bank Draft Summary")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankDraftSummary", "Bank Draft Summary")
                     frmCRV = Nothing
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

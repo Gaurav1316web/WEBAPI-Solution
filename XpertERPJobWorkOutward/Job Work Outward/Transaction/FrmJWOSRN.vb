@@ -461,8 +461,8 @@ Public Class FrmJWOSRN
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -536,7 +536,7 @@ Public Class FrmJWOSRN
                 dtDocdate = Nothing
                 dtDocdate = clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptJWOSRN", "JOB WORK SRN", dtDocdate)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "RptJWOSRN", "JOB WORK SRN", dtDocdate)
                 frmCRV = Nothing
             End If
         Else

@@ -192,6 +192,6 @@ left join TSPL_DEVISION_MASTER on TSPL_DEVISION_MASTER.DEVISION_CODE =emp.DEVISI
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(qry)
         Dim frmcrystal As New frmCrystalReportViewer()
-        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "Rptloanstatement", "Loan Statement Report")
+        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtgv, "Rptloanstatement", "Loan Statement Report")
     End Sub
 End Class

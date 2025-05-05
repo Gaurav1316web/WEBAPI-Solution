@@ -142,9 +142,9 @@ order by [Doc Date] "
             If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReportSKR", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReportSKR", "")
                 Else
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReport", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReport", "")
                 End If
                 frmCRV = Nothing
             Else

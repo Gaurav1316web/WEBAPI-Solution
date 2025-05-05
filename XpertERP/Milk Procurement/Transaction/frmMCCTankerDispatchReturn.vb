@@ -1039,8 +1039,8 @@ Public Class FrmMccTankerDispatchReturn
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -2138,7 +2138,7 @@ Public Class FrmMccTankerDispatchReturn
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
         'MilkProcurementReportViewer.funreport(dt, "rptDispatchChallan", "Dispatch Challan")
         Dim frmCRV As New frmCrystalReportViewer()
-        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
+        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchChallan", "Dispatch Challan", "rptCompanyAddress.rpt")
         frmCRV = Nothing
     End Sub
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click

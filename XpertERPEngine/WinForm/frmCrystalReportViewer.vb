@@ -95,45 +95,64 @@ Public Class frmCrystalReportViewer
         rpdoc.Dispose()
     End Sub
 
-    Public Function funreport(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
-        Return funreport(False, crpfolder, dt, strReportName, strCaption)
+    Public Function funreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
+        Return funreport(Form_ID, False, crpfolder, dt, strReportName, strCaption)
     End Function
 
-    Public Function funreport(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
+    Public Function funreport(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim dtTranDate As Date?
         dtTranDate = Nothing
-        Return funreport(isPDFPath, crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
+        Return funreport(Form_ID, isPDFPath, crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
     End Function
 
-    Public Function funreport(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
-        Return funreport(isPDFPath, crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
+    Public Function funreport(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
+        Return funreport(Form_ID, isPDFPath, crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
     End Function
 
-    Public Function funreport(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
-        Return funreport(crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
+    Public Function funreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
+        Return funreport(Form_ID, crpfolder, dt, EnumTecxpertPaperSize.NA, strReportName, strCaption, dtTranDate)
     End Function
 
-    Public Function funreport(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
-        Return funreport(crpfolder, dt, ePaperSize, strReportName, strCaption, False, dtTranDate)
+    Public Function funreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
+        Return funreport(Form_ID, crpfolder, dt, ePaperSize, strReportName, strCaption, False, dtTranDate)
     End Function
 
-    Public Function funreport(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
-        Return funreport(isPDFPath, crpfolder, dt, ePaperSize, strReportName, strCaption, False, dtTranDate)
+    Public Function funreport(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date) As String
+        Return funreport(Form_ID, isPDFPath, crpfolder, dt, ePaperSize, strReportName, strCaption, False, dtTranDate)
     End Function
 
-    Public Function funreport(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean) As String
-        Return funreport(False, crpfolder, dt, ePaperSize, strReportName, strCaption, False, Nothing)
+    Public Function funreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean) As String
+        Return funreport(Form_ID, False, crpfolder, dt, ePaperSize, strReportName, strCaption, False, Nothing)
     End Function
 
-    Public Function funreport(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean, ByVal dtTranDate? As Date) As String
-        Return funreport(False, crpfolder, dt, ePaperSize, strReportName, strCaption, IsShowDilogue, dtTranDate)
+    Public Function funreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean, ByVal dtTranDate? As Date) As String
+        Return funreport(Form_ID, False, crpfolder, dt, ePaperSize, strReportName, strCaption, IsShowDilogue, dtTranDate)
     End Function
-    Public Function funreport(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean, ByVal dtTranDate? As Date) As String
+    Public Function funreport(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal ePaperSize As EnumTecxpertPaperSize, ByVal strReportName As String, ByVal strCaption As String, ByVal IsShowDilogue As Boolean, ByVal dtTranDate? As Date) As String
         Dim PDFpath As String = ""
         Dim strReportPath As String = ""
         Dim rptshow As Boolean
+        Dim isPDFPathOrg As Boolean = isPDFPath
         Try
             If dt.Rows.Count > 0 Then
+                If objCommonVar.ShowAndSaveCrystalReportActionType Then
+                    If Not isPDFPath Then
+                        Dim dtActionType As DataTable = clsDBFuncationality.GetDataTable("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")
+                        If dtActionType.Rows.Count > 0 Then
+                            Dim isActionTypeExist As Boolean = clsCommon.myCBool(IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")) = "1", True, False))
+                            If isActionTypeExist Then
+                                isPDFPath = isActionTypeExist
+                            End If
+                        Else
+                            Dim frmSaveCrystalReportAction As New frmSaveCrystalReportAction()
+                            frmSaveCrystalReportAction.Report_ID = Form_ID
+                            frmSaveCrystalReportAction.CrystalReportName = strReportName
+                            frmSaveCrystalReportAction.ShowDialog()
+                            isPDFPath = IIf(frmSaveCrystalReportAction.ActionType, True, False)
+                        End If
+
+                    End If
+                End If
                 strReportPath = GetReportPath(crpfolder, strReportName, dtTranDate)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
@@ -171,6 +190,9 @@ Public Class frmCrystalReportViewer
                     rpdoc.Export()
                     rpdoc.Close()
                     rpdoc.Dispose()
+                    If Not isPDFPathOrg Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
                 Else
                     rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
@@ -194,32 +216,49 @@ Public Class frmCrystalReportViewer
         Return PDFpath
     End Function
 
-    Public Sub funsubreport(ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String)
+    Public Sub funsubreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String)
         Dim dtTransDate As Date?
         dtTransDate = Nothing
-        funsubreport(crpfolder, qry, qry1, strReportName, strCaption, vbNullString, dtTransDate)
+        funsubreport(Form_ID, crpfolder, qry, qry1, strReportName, strCaption, vbNullString, dtTransDate)
     End Sub
 
-    Public Sub funsubreport(ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date)
-        funsubreport(crpfolder, qry, qry1, strReportName, strCaption, vbNullString, dtTranDate)
+    Public Sub funsubreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTranDate? As Date)
+        funsubreport(Form_ID, crpfolder, qry, qry1, strReportName, strCaption, vbNullString, dtTranDate)
     End Sub
 
-    Public Sub funsubreport(ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal strSubReport1 As String)
+    Public Sub funsubreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal strSubReport1 As String)
         Dim dtTransDate As Date?
         dtTransDate = Nothing
-        funsubreport(crpfolder, qry, qry1, strReportName, strCaption, strSubReport1, dtTransDate)
+        funsubreport(Form_ID, crpfolder, qry, qry1, strReportName, strCaption, strSubReport1, dtTransDate)
     End Sub
 
-    Public Sub funsubreport(ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal strSubReport1 As String, ByVal dtTranDate? As Date)
+    Public Sub funsubreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal qry As String, ByVal qry1 As String, ByVal strReportName As String, ByVal strCaption As String, ByVal strSubReport1 As String, ByVal dtTranDate? As Date)
         Dim strReportPath As String = ""
+        Dim PDFPath As String = ""
         Try
             Dim dt1, dt2 As New DataTable
             Dim ds1, ds2 As New DataSet
             ds1 = connectSql.RunSQLReturnDS(qry)
             dt1 = ds1.Tables(0)
             Dim rptshow As Boolean
+            Dim isPDFPath As Boolean = False
             If dt1.Rows.Count > 0 Then
                 'Dim rpdoc As New ReportDocument()
+                If objCommonVar.ShowAndSaveCrystalReportActionType Then
+                    Dim dtActionType As DataTable = clsDBFuncationality.GetDataTable("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")
+                    If dtActionType.Rows.Count > 0 Then
+                        Dim isActionTypeExist As Boolean = clsCommon.myCBool(IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")) = "1", True, False))
+                        If isActionTypeExist Then
+                            isPDFPath = isActionTypeExist
+                        End If
+                    Else
+                        Dim frmSaveCrystalReportAction As New frmSaveCrystalReportAction()
+                        frmSaveCrystalReportAction.Report_ID = Form_ID
+                        frmSaveCrystalReportAction.CrystalReportName = strReportName
+                        frmSaveCrystalReportAction.ShowDialog()
+                        isPDFPath = IIf(frmSaveCrystalReportAction.ActionType, True, False)
+                    End If
+                End If
                 strReportPath = GetReportPath(crpfolder, strReportName, dtTranDate)
 
                 rpdoc.Load(strReportPath)
@@ -233,12 +272,49 @@ Public Class frmCrystalReportViewer
                 crptViewer.ReportSource = rpdoc
                 crptViewer.ShowPrintButton = ShowCystalReportToolbar
                 crptViewer.ShowExportButton = ShowCystalReportToolbar
-                rpdoc.ReportOptions.EnableSaveDataWithReport = False
-                rpdoc.Refresh()
 
-                rptshow = True
-                Me.Text = strReportPath
-                Me.Show()
+                If isPDFPath Then
+                    Me.crptViewer.Refresh()
+                    Dim subPath As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+                    Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
+                    If (IsExists = False) Then
+                        System.IO.Directory.CreateDirectory(subPath)
+                    End If
+                    Dim CrExportOptions As ExportOptions
+                    Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
+                    Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions()
+                    subPath += "\\" & clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmttss") & ".pdf"
+                    IsExists = System.IO.File.Exists(subPath)
+                    If IsExists Then
+                        System.IO.File.Delete(subPath)
+                    End If
+
+                    CrDiskFileDestinationOptions.DiskFileName = subPath
+                    PDFPath = CrDiskFileDestinationOptions.DiskFileName
+                    CrExportOptions = rpdoc.ExportOptions
+
+                    With CrExportOptions
+                        .ExportDestinationType = ExportDestinationType.DiskFile
+                        .ExportFormatType = ExportFormatType.PortableDocFormat
+                        .DestinationOptions = CrDiskFileDestinationOptions
+                        .FormatOptions = CrFormatTypeOptions
+                    End With
+                    rpdoc.Export()
+                    rpdoc.Close()
+                    rpdoc.Dispose()
+                    If Not isPDFPath Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
+                Else
+                    rpdoc.ReportOptions.EnableSaveDataWithReport = False
+                    rpdoc.Refresh()
+                    rptshow = True
+                    Me.Text = strReportPath
+                    Me.Show()
+                End If
+
+
+
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
@@ -249,7 +325,7 @@ Public Class frmCrystalReportViewer
         End Try
     End Sub
 
-    Public Function funreport1(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
+    Public Function funreport1(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim rptPath As String = ""
         Dim strReportPath As String = ""
         Try
@@ -300,29 +376,48 @@ Public Class frmCrystalReportViewer
         Return rptPath
     End Function
 
-    Public Function funsubreportWithdt(ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
+    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
         Dim dtTransDate As Date?
         dtTransDate = Nothing
-        Return funsubreportWithdt(crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
+        Return funsubreportWithdt(Form_ID, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
     End Function
 
-    Public Function funsubreportWithdt(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
+    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
         Dim dtTransDate As Date?
         dtTransDate = Nothing
-        Return funsubreportWithdt(isPDFPath, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
+        Return funsubreportWithdt(Form_ID, isPDFPath, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
     End Function
 
-    Public Function funsubreportWithdt(ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
-        Return funsubreportWithdt(False, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
+    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing) As String
+        Return funsubreportWithdt(Form_ID, False, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
     End Function
 
 
-    Public Function funsubreportWithdt(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
+    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
         Dim PDFPath As String = ""
         Dim strReportPath As String = Nothing
+        Dim isPDFPathOrg As Boolean = isPDFPath
         Try
             Dim rptshow As Boolean
             If dt1.Rows.Count > 0 Then
+                If objCommonVar.ShowAndSaveCrystalReportActionType Then
+                    If Not isPDFPath Then
+                        Dim dtActionType As DataTable = clsDBFuncationality.GetDataTable("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")
+                        If dtActionType.Rows.Count > 0 Then
+                            Dim isActionTypeExist As Boolean = clsCommon.myCBool(IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ACTION_TYPE from TSPL_CRYSTAL_REPORT_ACTION where FORM_ID = '" + Form_ID + "' and REPORT_NAME = '" + strReportName + "' ")) = "1", True, False))
+                            If isActionTypeExist Then
+                                isPDFPath = isActionTypeExist
+                            End If
+                        Else
+                            Dim frmSaveCrystalReportAction As New frmSaveCrystalReportAction()
+                            frmSaveCrystalReportAction.Report_ID = Form_ID
+                            frmSaveCrystalReportAction.CrystalReportName = strReportName
+                            frmSaveCrystalReportAction.ShowDialog()
+                            isPDFPath = IIf(frmSaveCrystalReportAction.ActionType, True, False)
+                        End If
+
+                    End If
+                End If
                 strReportPath = GetReportPath(crpfolder, strReportName, dtTransDate)
                 rpdoc.Load(strReportPath)
                 Try
@@ -414,8 +509,11 @@ Public Class frmCrystalReportViewer
                     CrDiskFileDestinationOptions = Nothing
                     CrFormatTypeOptions = Nothing
                     Me.Close()
+                    If Not isPDFPathOrg Then
+                        clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
+                    End If
                 Else
-                    rpdoc.ReportOptions.EnableSaveDataWithReport = False
+                        rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
                     rptshow = True
                     Me.Text = strReportPath
@@ -574,7 +672,7 @@ Public Class frmCrystalReportViewer
         Return pdfpath
     End Function
 
-    Public Sub funSubreport(ByVal crpfolder As CrystalReportFolder, ByVal strquery As String, ByVal strquery1 As String, ByVal strquery2 As String, ByVal strquery3 As String, ByVal strquery4 As String, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal strSubReport8 As String = vbNullString, Optional ByVal strSubReport9 As String = vbNullString, Optional ByVal strSubReport10 As String = vbNullString)
+    Public Sub funSubreport(ByVal Form_ID As String, ByVal crpfolder As CrystalReportFolder, ByVal strquery As String, ByVal strquery1 As String, ByVal strquery2 As String, ByVal strquery3 As String, ByVal strquery4 As String, ByVal strReportName As String, ByVal strCaption As String, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal strSubReport8 As String = vbNullString, Optional ByVal strSubReport9 As String = vbNullString, Optional ByVal strSubReport10 As String = vbNullString)
         Dim strReportPath As String = ""
         Try
 

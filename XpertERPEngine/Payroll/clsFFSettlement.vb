@@ -381,6 +381,8 @@ Public Class clsFFSettlement
 
             qry = "Update TSPL_FF_SETTLEMENT_HEAD set SAL_GEN_CODE='" & objSal.Code & "', POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where EMP_CODE ='" + strDocNo + "'"
             IsSaved = IsSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", trans)
+
             trans.Commit()
         Catch ex As Exception
             'trans.Rollback()

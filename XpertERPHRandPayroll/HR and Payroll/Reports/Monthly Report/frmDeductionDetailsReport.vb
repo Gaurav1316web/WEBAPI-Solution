@@ -103,7 +103,7 @@ Public Class frmDeductionDetailsReport
             Dim dtFinal As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
             Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crpDeductionDetails", "Deduction Details Report")
+            frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crpDeductionDetails", "Deduction Details Report")
 
 
         Catch ex As Exception

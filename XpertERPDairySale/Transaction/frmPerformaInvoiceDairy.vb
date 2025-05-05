@@ -5863,9 +5863,9 @@ Public Class frmPerformaInvoiceDairy
             dtDocdate = clsCommon.myCDate(dt.Rows(0)("Date_Time_Invoice"))
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(dt.Rows(0)("Tax1name"), "IGST") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt1, "rptProformaInvoiceIntrastate", "Proforma Invoice IGST", dtDocdate, "rptChildProductSaleInvoice_Interstate.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt1, "rptProformaInvoiceIntrastate", "Proforma Invoice IGST", dtDocdate, "rptChildProductSaleInvoice_Interstate.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
             Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt1, "rptProformaInvoiceLocal", "Proforma Invoice", dtDocdate, "RptChlidProductInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt1, "rptProformaInvoiceLocal", "Proforma Invoice", dtDocdate, "RptChlidProductInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
             End If
             frmCRV = Nothing
         End If

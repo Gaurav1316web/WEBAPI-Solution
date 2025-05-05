@@ -1414,8 +1414,8 @@ Public Class frmAssetDispatch
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -1597,9 +1597,9 @@ Public Class frmAssetDispatch
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             Dim frmCrystalReportViewer As New frmCrystalReportViewer
             If (type = "Returnable Gate Pass") Then
-                frmCrystalReportViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptRGPNew", "RGP Report")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptRGPNew", "RGP Report")
             Else
-                frmCrystalReportViewer.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptNRGP", "NRGP Report")
+                frmCrystalReportViewer.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNRGP", "NRGP Report")
             End If
 
 

@@ -173,7 +173,7 @@ Public Class RM_Consumption_Detail
                 common.clsCommon.MyMessageBoxShow("No Record Found")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "RMConsumptionBreakup", "RM Consumption Breakup")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "RMConsumptionBreakup", "RM Consumption Breakup")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

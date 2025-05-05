@@ -213,7 +213,7 @@ Public Class FrmOfferLetterHR
 
             If dt.Rows.Count > 0 Then
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptMultipleOfferLetter", "Offer Letter")
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HumanResource, dt, "rptMultipleOfferLetter", "Offer Letter")
             End If
 
         Catch ex As Exception

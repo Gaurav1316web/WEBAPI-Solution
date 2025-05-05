@@ -6156,8 +6156,8 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                                                      "TSPL_ACQUISITION_DETAIL(Vendor Service charge against asset for assembled asset) " + Environment.NewLine +
                                                      "TSPL_SALE_INVOICE_HEAD(Update Balance Amount) ")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
@@ -7487,7 +7487,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             Dim frmCRV As New frmCrystalReportViewer()
             'frmCRV.funsubreport(CrystalReportFolder.PurchaseOrder, qry, qry1, "rptPJV-V", "PJV Report", "PurchaseDetails1.rpt", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
 
-            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptPJV-V", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, dt1, "rptPJV-V", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
             frmCRV = Nothing
 
 
@@ -8491,24 +8491,24 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("PI_Date"))) Then
                     If clsCommon.CompairString(strReportType, "L") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Ship_IS_GST_UT")), 1) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Bill_IS_GST_UT")), 1) = CompairStringResult.Equal Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_UT", "Tax Invoice For UT", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_UT", "Tax Invoice For UT", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
 
                         Else
                             If IsMandiTax > 0 Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_WithMandiTax", "Tax Invoice with MandiTax", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_WithMandiTax", "Tax Invoice with MandiTax", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
                             End If
 
                         End If
                     ElseIf clsCommon.CompairString(strReportType, "I") = CompairStringResult.Equal Then
                         If IsMandiTax > 0 Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_InterstateWithMandiTax", "Tax Invoice With Mandi Tax", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_InterstateWithMandiTax", "Tax Invoice With Mandi Tax", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_Interstate", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice_Interstate", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
                         End If
                     ElseIf clsCommon.CompairString(strReportType, "NT") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice _NonTaxable", "Bill of Supply", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptPurchaseInvoice _NonTaxable", "Bill of Supply", clsCommon.myCDate(dt.Rows(0)("PI_Date")), "rptCompanyAddress.rpt", "MMM.rpt")
 
                     End If
                 Else
@@ -9134,7 +9134,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 Dim dt1APDocs As DataTable = clsDBFuncationality.GetDataTable(qry1)
                 Dim dtAPDocs As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim dtSHORTDocs As DataTable = clsDBFuncationality.GetDataTable(SHORTQTTY)
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt", "PurchaseInvoiceSub", dt1APDocs, "SubShortSupplyPenalty", dtSHORTDocs)
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt", "PurchaseInvoiceSub", dt1APDocs, "SubShortSupplyPenalty", dtSHORTDocs)
 
 
             Else
@@ -9165,7 +9165,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 dt = clsDBFuncationality.GetDataTable(qry)
 
 
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, Nothing, "rptPurchaseInvoicePrint", "Purchase Invoice")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, Nothing, "rptPurchaseInvoicePrint", "Purchase Invoice")
             End If
             frmCRV = Nothing
         Catch ex As Exception

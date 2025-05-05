@@ -369,16 +369,16 @@ Public Class FrmTransitBreakageReport
                 dt = clsDBFuncationality.GetDataTable(finalqry)
                 If rdobtnSummary.IsChecked = True And drpboxType.Text = "Item" Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "TransitBreakageReport", "Transit Breakage Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "TransitBreakageReport", "Transit Breakage Report")
                 ElseIf rdobtnSummary.IsChecked = True And drpboxType.Text = "Vendor" Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "TransitBreakageVendorSummary", "Transit Breakage Vendor Summary")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "TransitBreakageVendorSummary", "Transit Breakage Vendor Summary")
                 ElseIf rdobtndetails.IsChecked = True And drpboxType.Text = "Date" Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "TransitBreakage_Details", "Transit Breakage Report")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "TransitBreakage_Details", "Transit Breakage Report")
                 ElseIf rdobtndetails.IsChecked = True And drpboxType.Text = "Vendor" Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "TransitBreakageVendorDetails", "Transit Breakage Vendor Details")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "TransitBreakageVendorDetails", "Transit Breakage Vendor Details")
                 End If
 
 

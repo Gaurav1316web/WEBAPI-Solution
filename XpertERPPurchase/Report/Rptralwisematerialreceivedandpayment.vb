@@ -310,7 +310,7 @@ Public Class Rptralwisematerialreceivedandpayment
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "Rptralwisematerialreceivedandpayment", "")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.Purchase, dt, "Rptralwisematerialreceivedandpayment", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")

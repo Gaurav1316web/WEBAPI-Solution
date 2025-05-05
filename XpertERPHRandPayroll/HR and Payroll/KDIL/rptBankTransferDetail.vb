@@ -91,7 +91,7 @@ Public Class RptBankTransferDetail
                         common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
-                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "rptPayrollBankTransferDetail", "Bank Transfer Detail")
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "rptPayrollBankTransferDetail", "Bank Transfer Detail")
                     End If
                 End If
 

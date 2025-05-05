@@ -201,7 +201,7 @@ WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
 
         ElseIf clsCommon.myLen(TXTCCN4.Text) > 0 AndAlso Not IsValidPhoneNumber(TXTCCN4.Text) Then
             TXTCCN4.Focus()
-                clsCommon.MyMessageBoxShow(Me, "Please enter a valid 10-digit phone number.Saras Order Contact Person Numbe 2r", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please enter a valid 10-digit phone number.Saras Order Contact Person Numbe 2r", Me.Text)
 
 
             '' Anubhooti 01-Sep-2014 (Add CIN No.)
@@ -597,12 +597,17 @@ from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         SetLength()
         SetUserMgmtNew()
         funReset()
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
-            RadPageMobile.Enabled = True
-        Else
-            RadPageMobile.Enabled = False
+        'If objCommonVar.RCDFCFP Then
+        '    RadPageMobile.Enabled = False
+        'Else
+        '    RadPageMobile.Enabled = True
+        'End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+        '    RadPageMobile.Enabled = True
+        'Else
+        '    RadPageMobile.Enabled = False
 
-        End If
+        'End If
         RpMobileDetail.SelectedPage = RadPageViewPage1
         LoadDataBase()
         ' globalFunc.mandatoryText(fndCompanyCode.Value, txtCompanyName)

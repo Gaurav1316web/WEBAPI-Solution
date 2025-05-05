@@ -124,7 +124,7 @@ Public Class FrmSaleInvoiceDetail
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             ElseIf IsPrint = Exporter.Print Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleInvoiceDetail", "Sale Invoice Detail Report")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSaleInvoiceDetail", "Sale Invoice Detail Report")
                 frmCRV = Nothing
             Else
                 gv.DataSource = dt

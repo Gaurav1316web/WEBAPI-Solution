@@ -331,7 +331,7 @@ Public Class RptMPWiseMilkCollection
         FormatGrid()
         If btnReferesh = False Then
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMilkCollectionAsPerDataEntry", "Milk Collection As Per Data Entry", "")
+            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMilkCollectionAsPerDataEntry", "Milk Collection As Per Data Entry", "")
             frmCRV = Nothing
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

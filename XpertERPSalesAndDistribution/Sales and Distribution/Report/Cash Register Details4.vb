@@ -213,12 +213,12 @@ Public Class Cash_Register_Details4
                     ' query += " group by TSPL_RECEIPT_HEADER. Receipt_Date"
                     dt = clsDBFuncationality.GetDataTable(query)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "CashRegisterSummary", "Cash Register Details")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CashRegisterSummary", "Cash Register Details")
                 Else
 
                     dt = clsDBFuncationality.GetDataTable(query)
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "CashRegisterNew", "Cash Register Details")
+                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CashRegisterNew", "Cash Register Details")
                 End If
             End If
 

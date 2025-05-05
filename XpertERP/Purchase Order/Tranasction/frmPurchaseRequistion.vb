@@ -1611,8 +1611,8 @@ Public Class frmPurchaseRequistion
                 'Ticket No- UDL/22/10/18-000234 Reverse button password protected
                 If MyBase.isReverse Then
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnUnpost.Visible = True
@@ -1704,7 +1704,7 @@ Public Class frmPurchaseRequistion
                         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_REQUISITION_HEAD.Location  left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state  where(2 = 2) and  TSPL_REQUISITION_HEAD.Requisition_Id='" + txtReqNo.Value + "'
                         )XX "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseIndentForVijaya", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseIndentForVijaya", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
             Else
 
                 qry = "select TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc , TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.City_Code as Location_City_Code , TSPL_LOCATION_MASTER.State as Location_State , TSPL_LOCATION_MASTER.Pin_Code as Location_Pin_Code , TSPL_LOCATION_MASTER.Country as Location_Country , TSPL_LOCATION_MASTER.Telphone as Location_Telphone,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.GSTReg_No, TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name as Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.Add1 as Comp_Add1 , TSPL_COMPANY_MASTER.Add2 as Comp_Add2 ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Fax as Comp_Fax , TSPL_COMPANY_MASTER.Email as Comp_Email, TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State_Code , TSPL_STATE_MASTER_Comp.STATE_NAME as Comp_STATE_NAME,  TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2 ,   TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,tspl_company_master.cinno as Comp_CIN, case when len(TSPL_COMPANY_MASTER.Pan_No) >0 then cast (TSPL_COMPANY_MASTER.Pan_No as varchar) else '' end as PAN_NO, tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,  TSPL_REQUISITION_DETAIL.Item_Cost ,TSPL_REQUISITION_DETAIL.Item_Net_Amt  as Amount ,TSPL_REQUISITION_HEAD.Requisition_Id ,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date , " &
@@ -2455,9 +2455,9 @@ Public Class frmPurchaseRequistion
             Next
             Dim frmCRV As New frmCrystalReportViewer()
             If no = 0 Then
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
             Else
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
             End If
             frmCRV = Nothing
         End If

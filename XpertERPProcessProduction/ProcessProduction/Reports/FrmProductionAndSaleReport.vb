@@ -947,7 +947,7 @@ LEFT OUTER JOIN
                     RadPageView1.SelectedPage = RadPageViewPage2
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing
                 ElseIf Print = True And rdbWeekly.IsChecked = True Then
                     Gv1.Visible = True
@@ -961,7 +961,7 @@ LEFT OUTER JOIN
                     RadPageView1.SelectedPage = RadPageViewPage2
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Weekly Production and Sale Report", "Weekly Production Sale Report")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Weekly Production and Sale Report", "Weekly Production Sale Report")
                     frmCRV = Nothing
                 Else
                     Gv1.Visible = True

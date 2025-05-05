@@ -5601,21 +5601,21 @@ Public Class frmCSATransfer
                         'SetItemWiseTax(dt, txtDocNo.Value)
                         'KwalitySalesReportViewer.funreport(dt, "CSATransfer", "CSA Transfer")
                         If clsCommon.CompairString(strDepPrint, "Y") = CompairStringResult.Equal Then
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSA_DepoTransfer_Challan", "Depo Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSA_DepoTransfer_Challan", "Depo Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                         Else
                             If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue"))) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("from_state_Name")), clsCommon.myCstr(dt.Rows(0)("To_Location_State"))) = CompairStringResult.Equal Then
                                     If clsCommon.myCdbl(dt.Rows(0)("txt1amt")) <> 0 Then
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local_WithMandiTax", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local_WithMandiTax", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                                     Else
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                                     End If
                                 Else
-                                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_InterState", "CSA Transfer Interstate", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_InterState", "CSA Transfer Interstate", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                                 End If
 
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
                             End If
 
                         End If
@@ -5681,7 +5681,7 @@ Public Class frmCSATransfer
                     " LEFT OUTER JOIN TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE =TSPL_CSA_TRANSFER_DETAIL.DOC_CODE" + Environment.NewLine & _
                     " where TSPL_CSA_TRANSFER_HEAD.DOC_CODE ='" & StrCode & "'"
                         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry2)
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                     End If
                 End If
             End If
@@ -5768,7 +5768,7 @@ Public Class frmCSATransfer
                 'SetItemWiseTax(dt, txtDocNo.Value)
                 'KwalitySalesReportViewer.funreport(dt, "CSATransfer", "CSA Transfer")
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Challan", "Challan", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Challan", "Challan", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             End If
             'clsCommon.ProgressBarHide()
@@ -7155,16 +7155,16 @@ Public Class frmCSATransfer
             If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue"))) Then
                 If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("from_state_Name")), clsCommon.myCstr(dt.Rows(0)("To_Location_State"))) = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(dt.Rows(0)("txt1amt")) <> 0 Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Manditax", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Manditax", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                     Else
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Intrastate", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Intrastate", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                     End If
                 Else
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Interstate", "CSA Transfer Interstate", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Interstate", "CSA Transfer Interstate", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                 End If
 
             Else
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), strreportname, "CSA Transfer", "rptCompanyAddress.rpt")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), strreportname, "CSA Transfer", "rptCompanyAddress.rpt")
             End If
         End If
         frmCRV = Nothing
@@ -7408,23 +7408,23 @@ Public Class frmCSATransfer
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue"))) Then
 
                             If arrTaxType.Contains("M") AndAlso arrTaxType.Contains("IGST") Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_InterStateWithMandi", "CSA Transfer Inter State With Mandi", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_InterStateWithMandi", "CSA Transfer Inter State With Mandi", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             ElseIf arrTaxType.Contains("M") AndAlso arrTaxType.Contains("SGST") AndAlso arrTaxType.Contains("CGST") Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local_WithMandi", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Local_WithMandi", "CSA Transfer Local With MandiTax", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             ElseIf arrTaxType.Contains("SGST") AndAlso arrTaxType.Contains("CGST") Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Intrastate", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Intrastate", "CSA Transfer Local", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             ElseIf arrTaxType.Contains("IGST") Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Interstate", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Interstate", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             ElseIf arrTaxType.Contains("M") AndAlso (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Mandi", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer_Mandi", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             ElseIf (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", clsCommon.myCDate(dt.Rows(0)("Date_N_Time_issue")), "rptCompanyAddress.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
+                                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
                             End If
 
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CSATransfer", "CSA Transfer", "rptCompanyAddress.rpt")
                         End If
 
 
@@ -7490,7 +7490,7 @@ Public Class frmCSATransfer
                     " LEFT OUTER JOIN TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE =TSPL_CSA_TRANSFER_DETAIL.DOC_CODE" + Environment.NewLine & _
                     " where TSPL_CSA_TRANSFER_HEAD.DOC_CODE ='" & StrCode & "'"
                         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry2)
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                     End If
                 End If
             End If

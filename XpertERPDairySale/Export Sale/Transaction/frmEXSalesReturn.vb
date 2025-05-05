@@ -6876,7 +6876,7 @@ Public Class frmEXSalesReturn
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptExportPackingList", "Packing List")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptExportPackingList", "Packing List")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
@@ -6893,7 +6893,7 @@ Public Class frmEXSalesReturn
             If dt.Rows.Count > 0 Then
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoice", "Commercial Invoice")
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoice", "Commercial Invoice")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No data found.")
