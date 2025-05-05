@@ -1991,8 +1991,8 @@ where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProd
                 If MyBase.isReverse Then
 
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
                         btnunpost.Visible = True
@@ -2004,8 +2004,8 @@ where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProd
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     RadButton1.Visible = True

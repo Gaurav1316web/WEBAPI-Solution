@@ -626,7 +626,10 @@ GROUP BY
     Customer_Code)RR on RR.Customer_Code=final.cust_Code "
             End If
             qry = "select '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
-,0 as valueInRs,
+,0 as valueInRs,  ROW_NUMBER() OVER (
+    PARTITION BY Document_Date
+    ORDER BY Document_Date asc
+) AS SrNo,
 sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   max(Payment_Terms) AS Payment_Terms, 
   MAX(Is_Distributor) AS Is_Distributor, 

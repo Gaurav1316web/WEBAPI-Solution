@@ -1473,8 +1473,8 @@ Public Class FrmWeighment
                                                   "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
                                                   "tspl_weighment_detail_history  ( For History) .")
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

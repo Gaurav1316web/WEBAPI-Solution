@@ -1446,8 +1446,8 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
     Private Sub frmDemandAdjustment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 isChange = True

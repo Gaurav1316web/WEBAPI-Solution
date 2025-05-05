@@ -1150,8 +1150,8 @@ Public Class frmTender
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnreverse.Visible = True
@@ -1972,8 +1972,8 @@ Public Class frmTender
             If (myMessages.updateConfirm) Then
                 'If clsCancelLog.CheckForReasonOnUpdateAfterPost() Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     '' REASON FOR DELETE 

@@ -145,6 +145,7 @@ Public Class clsCustomerInvoiceHead
     Public Against_Service_Visit_Code As String = Nothing
     Public Against_Asset_Disposal As String = Nothing
     Public Form_ID As String = ""
+    Public Route_No As String = ""
 
     Public Is_Against_Security_Receipt As Boolean
     Public Against_Security_Receipt_No As String
@@ -352,9 +353,10 @@ Public Class clsCustomerInvoiceHead
         clsCommon.AddColumnsForChange(coll, "TAX8_GLAC", obj.TAX8_GLAC, True)
         clsCommon.AddColumnsForChange(coll, "TAX9_GLAC", obj.TAX9_GLAC, True)
         clsCommon.AddColumnsForChange(coll, "TAX10_GLAC", obj.TAX10_GLAC, True)
-        clsCommon.AddColumnsForChange(coll, "LeakageAmount", obj.LeakageAmount)
-        ''richa agarwal changes on 12 Aug,2016 against AR Aging report for invoice type
-        If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) AndAlso clsCommon.myLen(obj.Terms_Code) <= 0 Then
+            clsCommon.AddColumnsForChange(coll, "LeakageAmount", obj.LeakageAmount)
+
+            ''richa agarwal changes on 12 Aug,2016 against AR Aging report for invoice type
+            If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) AndAlso clsCommon.myLen(obj.Terms_Code) <= 0 Then
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select TSPL_CUSTOMER_MASTER.Terms_Code ,TSPL_TERMS_MASTER.Terms_Desc,TSPL_TERMS_MASTER.No_Days   from TSPL_CUSTOMER_MASTER left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code =TSPL_CUSTOMER_MASTER.Terms_Code where TSPL_CUSTOMER_MASTER.Cust_Code ='" & clsCommon.myCstr(obj.Customer_Code) & "'", trans)
             If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                 obj.Terms_Code = clsCommon.myCstr(dt1.Rows(0)("Terms_Code"))
@@ -430,10 +432,11 @@ Public Class clsCustomerInvoiceHead
 
         clsCommon.AddColumnsForChange(coll, "Is_Against_Security_Receipt", IIf(obj.Is_Against_Security_Receipt, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Against_Security_Receipt_No", obj.Against_Security_Receipt_No, True)
-        clsCommon.AddColumnsForChange(coll, "Against_Subsidy_No", obj.Against_Subsidy_No, True)
+            clsCommon.AddColumnsForChange(coll, "Against_Subsidy_No", obj.Against_Subsidy_No, True)
+            clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No, True)
 
-        '' currencyconversion BM00000007917
-        If clsCommon.myLen(obj.CURRENCY_CODE) = 0 Then
+            '' currencyconversion BM00000007917
+            If clsCommon.myLen(obj.CURRENCY_CODE) = 0 Then
             'obj.CURRENCY_CODE = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select BaseCurrencyCode from TSPL_COMPANY_MASTER where Comp_Code='" & objCommonVar.CurrentCompanyCode & "'", trans))
             'clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", obj.CURRENCY_CODE, True)
             'clsCommon.AddColumnsForChange(coll, "ConvRate", 1)
@@ -550,6 +553,7 @@ Public Class clsCustomerInvoiceHead
             obj.RefDocType = clsCommon.myCstr(dt.Rows(0)("RefDocType"))
             obj.RefDocNo = clsCommon.myCstr(dt.Rows(0)("RefDocNo"))
             obj.Order_No = clsCommon.myCstr(dt.Rows(0)("Order_No"))
+            obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
             obj.Document_Total = clsCommon.myCdbl(dt.Rows(0)("Document_Total"))
             obj.On_Hold = IIf(clsCommon.myCdbl(dt.Rows(0)("On_Hold")) = 1, True, False)
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
@@ -773,6 +777,12 @@ Public Class clsCustomerInvoiceHead
                     objTr.Hirerachy_Code2 = clsCommon.myCstr(dr("Hirerachy_Code2"))
                     objTr.Hirerachy_Code3 = clsCommon.myCstr(dr("Hirerachy_Code3"))
                     objTr.Hirerachy_Code4 = clsCommon.myCstr(dr("Hirerachy_Code4"))
+                    objTr.Distributor_Commission_Amt = clsCommon.myCdbl(dr("Distributor_Commission_Amt"))
+                    objTr.Promotional_GL_Account_Code = clsCommon.myCstr(dr("Promotional_GL_Account_Code"))
+                    objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
+                    objTr.Transporter_GL_Account_Code = clsCommon.myCstr(dr("Transporter_GL_Account_Code"))
+                    objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
+                    objTr.SD_GL_Account_Code = clsCommon.myCstr(dr("SD_GL_Account_Code"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -1614,9 +1624,9 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
 
                 End If
 
-                ''''' GL entry for Tax and retail Invoicefrm
-                '' Updated by richa agarwal add condition in below line invoice type=S----------------- added A for TAx Exempted type,I= inter state
-                If clsCommon.CompairString(objInv.Invoice_Type, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "E") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "S") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "N") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "A") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "I") = CompairStringResult.Equal Then
+                    ''''' GL entry for Tax and retail Invoicefrm
+                    '' Updated by richa agarwal add condition in below line invoice type=S----------------- added A for TAx Exempted type,I= inter state
+                    If clsCommon.CompairString(objInv.Invoice_Type, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "E") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "S") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "N") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "A") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "I") = CompairStringResult.Equal Then
 
                     ''  for tax gl entry start here
                     Dim objTM As clsTaxMaster
@@ -2266,28 +2276,30 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                         Dim AccAddCostCR() As String = {AddCharge_GL_Acc9, -1 * obj.Add_Charge_Amt9}
                         ArryLst.Add(AccAddCostCR)
                     End If
-                    If obj.Add_Charge_Amt10 <> 0 Then
-                        Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
-                        AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
+                        If obj.Add_Charge_Amt10 <> 0 Then
+                            Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
+                            AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
 
-                        If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
-                            Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
+                            If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
+                            ArryLst.Add(AccAddCostCR)
                         End If
-                        Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
-                        ArryLst.Add(AccAddCostCR)
-                    End If
-                    '' Additional cost ends here
 
-                    ''richa agarwal added on 02-jan-2015
-                    If clsCommon.CompairString(objInv.Invoice_Type, "S") <> CompairStringResult.Equal Then
+                        '' Additional cost ends here
+
+                        ''richa agarwal added on 02-jan-2015
+                        If clsCommon.CompairString(objInv.Invoice_Type, "S") <> CompairStringResult.Equal Then
                         Dim isFirstTime As Boolean = True
                         For Each objTR As clsCustomerInvoiceDetail In obj.Arr
                             'Dim dblLedgeerNonRecoverableAmt As Double = clsCustomerInvoiceHead.GetTaxAmt(objTR, trans)
                             'Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount)}
                             Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                            ArryLst.Add(AccInvDR)
+                                ArryLst.Add(AccInvDR)
 
-                            If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
+
+                                If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
                                 'Dim AccInvTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt)}
                                 'ArryLst.Add(AccInvTaxDR)
                             End If
@@ -2304,17 +2316,31 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                 Dim AccDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
                                 ArryLst.Add(AccDiscDR)
                             End If
-                            If FormId = clsUserMgtCode.frmSaleDispatchDairy AndAlso objTR.Discount > 0 AndAlso objTR.Amount_less_Discount = 0 Then
-                                Dim AccDDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                ArryLst.Add(AccDDiscDR)
+                                If FormId = clsUserMgtCode.frmSaleDispatchDairy AndAlso objTR.Discount > 0 AndAlso objTR.Amount_less_Discount = 0 Then
+                                    Dim AccDDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccDDiscDR)
 
-                                Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, 1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                ArryLst.Add(AccDiscTaxDR)
-                                dblDiscountTaxamt += objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt
-                            End If
+                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, 1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                    dblDiscountTaxamt += objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt
+                                End If
+                                If objTR.Distributor_Commission_Amt > 0 Then
+                                    Dim AccDDiscDR() As String = {objTR.Promotional_GL_Account_Code, 1 * (objTR.Distributor_Commission_Amt)}
+                                    ArryLst.Add(AccDDiscDR)
 
-                            ''''''code ends here
-                        Next
+                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Distributor_Commission_Amt)}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                End If
+                                If objTR.Transporter_Commission_Amt > 0 Then
+
+                                End If
+                                If objTR.Security_Amt > 0 Then
+
+                                End If
+
+
+                                ''''''code ends here    
+                            Next
                         Dim AllowCrateCanPhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
                         If AllowCrateCanPhysicalStock = 1 Then
                             ' DOne by priti BHA/15/06/18-000055
@@ -4788,6 +4814,9 @@ Public Class clsCustomerInvoiceDetail
     Public TAX8_Base_Amt As Double = 0
     Public TAX9_Base_Amt As Double = 0
     Public TAX10_Base_Amt As Double = 0
+    Public Distributor_Commission_Amt As Double = 0
+    Public Transporter_Commission_Amt As Double = 0
+    Public Security_Amt As Double = 0
     '' richa
     Public Hirerachy_Code As String = String.Empty
     Public Cost_Centre_Code As String = String.Empty
@@ -4797,6 +4826,10 @@ Public Class clsCustomerInvoiceDetail
     Public Hirerachy_Code4 As String = String.Empty
     Public AddChargeCode As String = String.Empty
     Public AddChargeDesc As String = String.Empty
+    Public Promotional_GL_Account_Code As String = String.Empty
+    Public Transporter_GL_Account_Code As String = String.Empty
+    Public SD_GL_Account_Code As String = String.Empty
+
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsCustomerInvoiceDetail), ByVal trans As SqlTransaction) As Boolean
@@ -4864,6 +4897,12 @@ Public Class clsCustomerInvoiceDetail
                 clsCommon.AddColumnsForChange(coll, "Hirerachy_Code4", obj.Hirerachy_Code4, True)
                 clsCommon.AddColumnsForChange(coll, "AddChargeCode", obj.AddChargeCode, True)
                 clsCommon.AddColumnsForChange(coll, "AddChargeDesc", obj.AddChargeDesc, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Promotional_GL_Account_Code", obj.Promotional_GL_Account_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Transporter_GL_Account_Code", obj.Transporter_GL_Account_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "SD_GL_Account_Code", obj.SD_GL_Account_Code, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Customer_Invoice_Detail", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

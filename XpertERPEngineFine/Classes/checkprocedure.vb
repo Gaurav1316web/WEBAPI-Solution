@@ -1711,6 +1711,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.48", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.SendDBTToJanaadhar, "Send DBT To Janaadhar", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, "Send SMS to Mobile", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
+        InsertDefaultValue(clsUserMgtCode.frmReviseMilkBill, "Revise Milk Bill", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
 
         '=========================================================================================
         '--Reportsmdi
@@ -2458,6 +2459,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMilkSupplySaleReport, "Milk Supply Sale Report", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustItemWiseSaleReport, "Customer Item Wise Sale Report", "1.06.03.63", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport, "Item And Shift Wise Sale Summary Report", "1.06.03.64", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

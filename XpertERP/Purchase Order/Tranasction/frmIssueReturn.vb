@@ -3562,8 +3562,8 @@ Public Class frmIssueReturn
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.O Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 chkSkipIndentBalance.Checked = True
@@ -3586,8 +3586,8 @@ Public Class frmIssueReturn
                                        "TSPL_PI_REMITTANCE")
                 'Add Tool tip Task No- TEC/22/05/18-000245
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True

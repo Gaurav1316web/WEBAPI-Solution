@@ -129,8 +129,8 @@ Public Class frmBookingDairyMultipleCustomer
             If MyBase.isReverse Then
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnreverse.Visible = True

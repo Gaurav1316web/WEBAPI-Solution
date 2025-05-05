@@ -2291,6 +2291,7 @@ Public Class clsUserMgtCode
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
     Public Const frmSendSMSToDCS As String = "SMS-SND-DCS"
+    Public Const frmReviseMilkBill As String = "REV-MLK-BLL"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
 
@@ -2624,6 +2625,7 @@ Public Class clsUserMgtCode
     Public Const frmAssetBookMaster As String = "Asset-Book"
     Public Const frmPendingBooking As String = "Pend-BOK"
     Public Const frmCustomerZone As String = "Cust-ZNE"
+    Public Const FrmQuickDemandReport As String = "Quk-DEM-RPT"
     Public Const frmCrateCanreceiptReport As String = "CraCan-Rpt"
     'Public Const ApproveFailedSample As String = "APP-FAIL-SAM"
 

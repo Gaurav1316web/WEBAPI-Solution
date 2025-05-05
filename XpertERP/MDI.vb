@@ -8651,8 +8651,8 @@ Public Class MDI
                     Case clsUserMgtCode.frmSendBillToDCS
                         frm = New frmSendBillToDCS
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmSendSMSToDCS
-                        frm = New frmSendSMSToDCS
+                    Case clsUserMgtCode.frmReviseMilkBill
+                        frm = New frmReviseMilkBill
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptTankerStatusReport
                         frm = New rptTankerStatusReport
@@ -9484,6 +9484,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCustomerZone
                         frm = New FrmCustomerZoneReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmQuickDemandReport
+                        frm = New FrmQuickDemandReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '==========================================================================================================
                     ' ADDED BY KUNAL TICKET : BM00000009674 ENDED HERE

@@ -25,12 +25,12 @@ Partial Class rptMonthlyBillSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.rbtnDateWise = New common.Controls.MyRadioButton()
         Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
         Me.rbtnrouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDateWise = New common.Controls.MyRadioButton()
         Me.rbtnDocumentdate = New common.Controls.MyRadioButton()
         Me.rbtnSupplydate = New common.Controls.MyRadioButton()
         Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
@@ -52,13 +52,13 @@ Partial Class rptMonthlyBillSummary
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,17 +124,6 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageViewPage1.Size = New System.Drawing.Size(880, 365)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'rbtnDateWise
-        '
-        Me.rbtnDateWise.Location = New System.Drawing.Point(199, 15)
-        Me.rbtnDateWise.MyLinkLable1 = Nothing
-        Me.rbtnDateWise.MyLinkLable2 = Nothing
-        Me.rbtnDateWise.Name = "rbtnDateWise"
-        Me.rbtnDateWise.Size = New System.Drawing.Size(71, 18)
-        Me.rbtnDateWise.TabIndex = 393
-        Me.rbtnDateWise.TabStop = False
-        Me.rbtnDateWise.Text = "Date Wise"
-        '
         'chkExcludeShift
         '
         Me.chkExcludeShift.AutoSize = True
@@ -195,16 +184,28 @@ Partial Class rptMonthlyBillSummary
         Me.RadGroupBox5.TabIndex = 446
         Me.RadGroupBox5.Text = "Date Type"
         '
+        'rbtnDateWise
+        '
+        Me.rbtnDateWise.Location = New System.Drawing.Point(199, 15)
+        Me.rbtnDateWise.MyLinkLable1 = Nothing
+        Me.rbtnDateWise.MyLinkLable2 = Nothing
+        Me.rbtnDateWise.Name = "rbtnDateWise"
+        Me.rbtnDateWise.Size = New System.Drawing.Size(71, 18)
+        Me.rbtnDateWise.TabIndex = 393
+        Me.rbtnDateWise.TabStop = False
+        Me.rbtnDateWise.Text = "Date Wise"
+        '
         'rbtnDocumentdate
         '
+        Me.rbtnDocumentdate.CheckState = System.Windows.Forms.CheckState.Checked
         Me.rbtnDocumentdate.Location = New System.Drawing.Point(9, 15)
         Me.rbtnDocumentdate.MyLinkLable1 = Nothing
         Me.rbtnDocumentdate.MyLinkLable2 = Nothing
         Me.rbtnDocumentdate.Name = "rbtnDocumentdate"
         Me.rbtnDocumentdate.Size = New System.Drawing.Size(99, 18)
         Me.rbtnDocumentdate.TabIndex = 393
-        Me.rbtnDocumentdate.TabStop = False
         Me.rbtnDocumentdate.Text = "Document Date"
+        Me.rbtnDocumentdate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rbtnSupplydate
         '
@@ -383,7 +384,6 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -392,6 +392,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()

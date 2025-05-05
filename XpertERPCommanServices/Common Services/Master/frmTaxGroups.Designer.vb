@@ -40,12 +40,16 @@ Partial Class FrmTaxGroups
         Me.menuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.menuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gbActive = New Telerik.WinControls.UI.RadGroupBox()
-        Me.chkActive = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkTaxExempted = New common.Controls.MyCheckBox()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDefaultLocalGST = New common.Controls.MyRadioButton()
+        Me.rbtnDefaultNonTaxabale = New common.Controls.MyRadioButton()
+        Me.rbtnDefaultIGST = New common.Controls.MyRadioButton()
         Me.pnlCurrConv = New System.Windows.Forms.Panel()
         Me.txtCurrencyCode = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.gbActive = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkActive = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkTaxExempted = New common.Controls.MyCheckBox()
         Me.chkTransfer = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblTaxGroup = New common.Controls.MyLabel()
         Me.txtRowNo = New common.Controls.MyTextBox()
@@ -74,12 +78,17 @@ Partial Class FrmTaxGroups
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnDefaultLocalGST, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDefaultNonTaxabale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlCurrConv.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbActive, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbActive.SuspendLayout()
         CType(Me.chkActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTaxExempted, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlCurrConv.SuspendLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRowNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -154,9 +163,10 @@ Partial Class FrmTaxGroups
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox5)
+        Me.RadGroupBox1.Controls.Add(Me.pnlCurrConv)
         Me.RadGroupBox1.Controls.Add(Me.gbActive)
         Me.RadGroupBox1.Controls.Add(Me.chkTaxExempted)
-        Me.RadGroupBox1.Controls.Add(Me.pnlCurrConv)
         Me.RadGroupBox1.Controls.Add(Me.chkTransfer)
         Me.RadGroupBox1.Controls.Add(Me.lblTaxGroup)
         Me.RadGroupBox1.Controls.Add(Me.txtRowNo)
@@ -175,41 +185,59 @@ Partial Class FrmTaxGroups
         Me.RadGroupBox1.Size = New System.Drawing.Size(919, 437)
         Me.RadGroupBox1.TabIndex = 0
         '
-        'gbActive
+        'RadGroupBox5
         '
-        Me.gbActive.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbActive.Controls.Add(Me.chkActive)
-        Me.gbActive.HeaderText = ""
-        Me.gbActive.Location = New System.Drawing.Point(787, 45)
-        Me.gbActive.Name = "gbActive"
-        Me.gbActive.Size = New System.Drawing.Size(118, 25)
-        Me.gbActive.TabIndex = 176
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultLocalGST)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultNonTaxabale)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnDefaultIGST)
+        Me.RadGroupBox5.HeaderText = "Default Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(550, 57)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(369, 39)
+        Me.RadGroupBox5.TabIndex = 448
+        Me.RadGroupBox5.Text = "Default Type"
         '
-        'chkActive
+        'rbtnDefaultLocalGST
         '
-        Me.chkActive.Location = New System.Drawing.Point(25, 3)
-        Me.chkActive.Name = "chkActive"
-        Me.chkActive.Size = New System.Drawing.Size(51, 18)
-        Me.chkActive.TabIndex = 175
-        Me.chkActive.Text = "Active"
+        Me.rbtnDefaultLocalGST.Location = New System.Drawing.Point(244, 15)
+        Me.rbtnDefaultLocalGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultLocalGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultLocalGST.Name = "rbtnDefaultLocalGST"
+        Me.rbtnDefaultLocalGST.Size = New System.Drawing.Size(114, 18)
+        Me.rbtnDefaultLocalGST.TabIndex = 394
+        Me.rbtnDefaultLocalGST.TabStop = False
+        Me.rbtnDefaultLocalGST.Text = "Default Loacal GST"
         '
-        'chkTaxExempted
+        'rbtnDefaultNonTaxabale
         '
-        Me.chkTaxExempted.Location = New System.Drawing.Point(691, 49)
-        Me.chkTaxExempted.MyLinkLable1 = Nothing
-        Me.chkTaxExempted.MyLinkLable2 = Nothing
-        Me.chkTaxExempted.Name = "chkTaxExempted"
-        Me.chkTaxExempted.Size = New System.Drawing.Size(90, 18)
-        Me.chkTaxExempted.TabIndex = 174
-        Me.chkTaxExempted.Tag1 = Nothing
-        Me.chkTaxExempted.Text = "Tax Exempted"
+        Me.rbtnDefaultNonTaxabale.Location = New System.Drawing.Point(12, 15)
+        Me.rbtnDefaultNonTaxabale.MyLinkLable1 = Nothing
+        Me.rbtnDefaultNonTaxabale.MyLinkLable2 = Nothing
+        Me.rbtnDefaultNonTaxabale.Name = "rbtnDefaultNonTaxabale"
+        Me.rbtnDefaultNonTaxabale.Size = New System.Drawing.Size(119, 18)
+        Me.rbtnDefaultNonTaxabale.TabIndex = 393
+        Me.rbtnDefaultNonTaxabale.TabStop = False
+        Me.rbtnDefaultNonTaxabale.Text = "Default NonTaxable"
+        '
+        'rbtnDefaultIGST
+        '
+        Me.rbtnDefaultIGST.Location = New System.Drawing.Point(149, 15)
+        Me.rbtnDefaultIGST.MyLinkLable1 = Nothing
+        Me.rbtnDefaultIGST.MyLinkLable2 = Nothing
+        Me.rbtnDefaultIGST.Name = "rbtnDefaultIGST"
+        Me.rbtnDefaultIGST.Size = New System.Drawing.Size(82, 18)
+        Me.rbtnDefaultIGST.TabIndex = 393
+        Me.rbtnDefaultIGST.TabStop = False
+        Me.rbtnDefaultIGST.Text = "Default IGST"
         '
         'pnlCurrConv
         '
         Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
         Me.pnlCurrConv.Controls.Add(Me.MyLabel1)
-        Me.pnlCurrConv.Location = New System.Drawing.Point(687, 7)
+        Me.pnlCurrConv.Location = New System.Drawing.Point(681, 5)
         Me.pnlCurrConv.Name = "pnlCurrConv"
         Me.pnlCurrConv.Size = New System.Drawing.Size(224, 25)
         Me.pnlCurrConv.TabIndex = 13
@@ -245,11 +273,40 @@ Partial Class FrmTaxGroups
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 3)
+        Me.MyLabel1.Location = New System.Drawing.Point(0, 3)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel1.TabIndex = 7
         Me.MyLabel1.Text = "Currency"
+        '
+        'gbActive
+        '
+        Me.gbActive.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbActive.Controls.Add(Me.chkActive)
+        Me.gbActive.HeaderText = ""
+        Me.gbActive.Location = New System.Drawing.Point(682, 33)
+        Me.gbActive.Name = "gbActive"
+        Me.gbActive.Size = New System.Drawing.Size(118, 25)
+        Me.gbActive.TabIndex = 176
+        '
+        'chkActive
+        '
+        Me.chkActive.Location = New System.Drawing.Point(25, 3)
+        Me.chkActive.Name = "chkActive"
+        Me.chkActive.Size = New System.Drawing.Size(51, 18)
+        Me.chkActive.TabIndex = 175
+        Me.chkActive.Text = "Active"
+        '
+        'chkTaxExempted
+        '
+        Me.chkTaxExempted.Location = New System.Drawing.Point(806, 34)
+        Me.chkTaxExempted.MyLinkLable1 = Nothing
+        Me.chkTaxExempted.MyLinkLable2 = Nothing
+        Me.chkTaxExempted.Name = "chkTaxExempted"
+        Me.chkTaxExempted.Size = New System.Drawing.Size(90, 18)
+        Me.chkTaxExempted.TabIndex = 174
+        Me.chkTaxExempted.Tag1 = Nothing
+        Me.chkTaxExempted.Text = "Tax Exempted"
         '
         'chkTransfer
         '
@@ -323,16 +380,16 @@ Partial Class FrmTaxGroups
         Me.gbVS.Controls.Add(Me.chkSale)
         Me.gbVS.Controls.Add(Me.chkVat)
         Me.gbVS.HeaderText = ""
-        Me.gbVS.Location = New System.Drawing.Point(553, 7)
+        Me.gbVS.Location = New System.Drawing.Point(550, 4)
         Me.gbVS.Name = "gbVS"
         Me.gbVS.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbVS.Size = New System.Drawing.Size(128, 37)
+        Me.gbVS.Size = New System.Drawing.Size(127, 36)
         Me.gbVS.TabIndex = 3
         Me.gbVS.Visible = False
         '
         'chkSale
         '
-        Me.chkSale.Location = New System.Drawing.Point(56, 10)
+        Me.chkSale.Location = New System.Drawing.Point(56, 8)
         Me.chkSale.Name = "chkSale"
         Me.chkSale.Size = New System.Drawing.Size(61, 18)
         Me.chkSale.TabIndex = 1
@@ -340,7 +397,7 @@ Partial Class FrmTaxGroups
         '
         'chkVat
         '
-        Me.chkVat.Location = New System.Drawing.Point(13, 10)
+        Me.chkVat.Location = New System.Drawing.Point(13, 9)
         Me.chkVat.Name = "chkVat"
         Me.chkVat.Size = New System.Drawing.Size(37, 18)
         Me.chkVat.TabIndex = 0
@@ -377,7 +434,7 @@ Partial Class FrmTaxGroups
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(565, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(433, 18)
         Me.txtDesc.TabIndex = 6
         '
         'lblDesc
@@ -461,7 +518,7 @@ Partial Class FrmTaxGroups
         '
         Me.pnlTaxFormula.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlTaxFormula.Location = New System.Drawing.Point(3, 207)
+        Me.pnlTaxFormula.Location = New System.Drawing.Point(3, 176)
         Me.pnlTaxFormula.Name = "pnlTaxFormula"
         Me.pnlTaxFormula.Size = New System.Drawing.Size(889, 110)
         Me.pnlTaxFormula.TabIndex = 0
@@ -537,12 +594,13 @@ Partial Class FrmTaxGroups
         Me.gvTaxGroups.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxGroups.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTaxGroups.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTaxGroups.MyExportFilePath = ""
         Me.gvTaxGroups.MyStopExport = False
         Me.gvTaxGroups.Name = "gvTaxGroups"
         Me.gvTaxGroups.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxGroups.ShowGroupPanel = False
         Me.gvTaxGroups.ShowHeaderCellButtons = True
-        Me.gvTaxGroups.Size = New System.Drawing.Size(889, 191)
+        Me.gvTaxGroups.Size = New System.Drawing.Size(889, 160)
         Me.gvTaxGroups.TabIndex = 0
         Me.gvTaxGroups.TabStop = False
         Me.gvTaxGroups.VarID = ""
@@ -554,10 +612,10 @@ Partial Class FrmTaxGroups
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Location = New System.Drawing.Point(3, 74)
+        Me.RadPageView1.Location = New System.Drawing.Point(3, 105)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(916, 366)
+        Me.RadPageView1.Size = New System.Drawing.Size(916, 335)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -568,7 +626,7 @@ Partial Class FrmTaxGroups
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 318)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 287)
         Me.RadPageViewPage1.Text = "Tax Authorities"
         '
         'RadPageViewPage2
@@ -577,7 +635,7 @@ Partial Class FrmTaxGroups
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(82.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(895, 318)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(895, 287)
         Me.RadPageViewPage2.Text = "Other Details"
         '
         'RadGroupBox4
@@ -603,6 +661,7 @@ Partial Class FrmTaxGroups
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDB.MyExportFilePath = ""
         Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
@@ -664,14 +723,20 @@ Partial Class FrmTaxGroups
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnDefaultLocalGST, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDefaultNonTaxabale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDefaultIGST, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlCurrConv.ResumeLayout(False)
+        Me.pnlCurrConv.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gbActive, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbActive.ResumeLayout(False)
         Me.gbActive.PerformLayout()
         CType(Me.chkActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTaxExempted, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlCurrConv.ResumeLayout(False)
-        Me.pnlCurrConv.PerformLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxGroup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRowNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -747,5 +812,9 @@ Partial Class FrmTaxGroups
     Friend WithEvents chkActive As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents gbActive As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnDefaultNonTaxabale As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDefaultIGST As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDefaultLocalGST As common.Controls.MyRadioButton
 End Class
 

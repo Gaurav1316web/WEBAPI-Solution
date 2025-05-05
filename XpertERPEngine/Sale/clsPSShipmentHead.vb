@@ -2773,6 +2773,9 @@ Public Class clsPSShipmentHead
             obj.Total_Amt = 0
             obj.Discount_Base = 0
         End If
+        obj.Distributor_Commission_TotalAmt = objShipment.Distributor_Commission_TotalAmt
+        obj.Security_TotalAmt = objShipment.Security_TotalAmt
+        obj.Transporter_Commission_TotalAmt = objShipment.Transporter_Commission_TotalAmt
 
         '-------------------------------------------------------------------
         If (objShipment.Arr IsNot Nothing AndAlso objShipment.Arr.Count > 0) Then
@@ -2936,6 +2939,15 @@ Public Class clsPSShipmentHead
                     objTr.TAX8_Base_Amt = objShipmentDetail.TAX8_Base_Amt
                     objTr.TAX9_Base_Amt = objShipmentDetail.TAX9_Base_Amt
                     objTr.TAX10_Base_Amt = objShipmentDetail.TAX10_Base_Amt
+                    objTr.Distributor_Commission_PKID = objShipmentDetail.Distributor_Commission_PKID
+                    objTr.Distributor_Commission_Rate = objShipmentDetail.Distributor_Commission_Rate
+                    objTr.Distributor_Commission_RateWithTax = objShipmentDetail.Distributor_Commission_RateWithTax
+                    objTr.Distributor_Commission_Amt = objShipmentDetail.Distributor_Commission_Amt
+                    objTr.Transporter_Commission_Rate = objShipmentDetail.Transporter_Commission_Rate
+                    objTr.Transporter_Commission_Amt = objShipmentDetail.Transporter_Commission_Amt
+                    objTr.Security_Rate = objShipmentDetail.Security_Rate
+                    objTr.Security_Amt = objShipmentDetail.Security_Amt
+
 
                     objTr.Commission_Rate = objShipmentDetail.Commission_Rate
                     objTr.Commission_Party = objShipmentDetail.Commission_Party

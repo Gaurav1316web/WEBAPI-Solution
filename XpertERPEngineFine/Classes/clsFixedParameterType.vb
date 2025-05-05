@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
@@ -404,7 +405,7 @@ Public Class clsFixedParameterType
     Public Const ROUTE As String = "ROUTE"
     Public Const Route1 As String = "Route"
     Public Const Salesman As String = "Salesman"
-    Public Const SIR As String = "SIR"
+    Public Const SIR As String = "SIRC"
     Public Const SIRC As String = "SIRC"
     Public Const PP_MRP As String = "PP_MRP"
     Public Const MulProcDedReversAndCreate As String = "MulProcDedReversAndCreate"
@@ -1328,9 +1329,16 @@ Public Class clsFixedParameterType
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const FinancialImpactForTPT = "Financial Impact For TPT"
+    Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
+    Public Const FinancialImpactForSecurity = "Financial Impact For Security"
+
+
+
     Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameterCode
+    Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
     Public Const TuneTime As String = "Tune Time"
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -2805,6 +2813,9 @@ Public Class clsFixedParameterCode
     Public Const AmountTolerance = "Amount Tolerance"
     Public Const ApplyItemCapacityLimit = "Apply Item Capacity Limit"
     Public Const SeprateMorningEveningSequence = "Seprate Morning Evening Sequence"
+    Public Const FinancialImpactForTPT = "Financial Impact For TPT"
+    Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
+    Public Const FinancialImpactForSecurity = "Financial Impact For Security"
     Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameter
@@ -2884,6 +2895,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, "250000", "Define Document Amount Range For B2C Large/Small")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TuneTime, "NA", "NA [27-Mar-2025 12:00:00AM to 27-Mar-2025 11:59:59PM]; 06:00:00AM [27-Mar-2025 06:00:00AM to 28-Mar-2025 05:59:59AM]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
@@ -4451,6 +4463,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, "0", "Amount Tolerance;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, "0", "0:Off, 1:On;")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -4482,6 +4497,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, EnumControlType.CheckBox)
@@ -6297,5 +6313,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, EnumControlType.CheckBox)
     End Sub
 End Class

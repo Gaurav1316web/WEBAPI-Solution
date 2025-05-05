@@ -211,6 +211,9 @@ Public Class clsPSInvoiceHead
     Public Freight_Distance As Integer = 0
     Public Deduction_Type As String = Nothing
     Public Deduction As String = Nothing
+    Public Distributor_Commission_TotalAmt As Decimal = 0
+    Public Transporter_Commission_TotalAmt As Decimal = 0
+    Public Security_TotalAmt As Decimal = 0
 #End Region
 
     Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
@@ -590,6 +593,9 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
             clsCommon.AddColumnsForChange(coll, "ActualTCSBaseAmount", obj.ActualTCSBaseAmount)
             clsCommon.AddColumnsForChange(coll, "ChangedTCSBaseAmount", obj.ChangedTCSBaseAmount)
+            clsCommon.AddColumnsForChange(coll, "Distributor_Commission_TotalAmt", obj.Distributor_Commission_TotalAmt, True)
+            clsCommon.AddColumnsForChange(coll, "Transporter_Commission_TotalAmt", obj.Transporter_Commission_TotalAmt, True)
+            clsCommon.AddColumnsForChange(coll, "Security_TotalAmt", obj.Security_TotalAmt, True)
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
@@ -896,8 +902,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill 
-    FROM TSPL_SD_SALE_INVOICE_HEAD " &
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt  
+     FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
     " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SD_SALE_INVOICE_HEAD.Tax_Group " &
@@ -1076,6 +1082,9 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
             obj.TermsName = clsCommon.myCstr(dt.Rows(0)("TermsName"))
             obj.PROJECT_ID = clsCommon.myCstr(dt.Rows(0)("PROJECT_ID"))
+            obj.Distributor_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Distributor_Commission_TotalAmt"))
+            obj.Transporter_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+            obj.Security_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Security_TotalAmt"))
 
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
@@ -1228,7 +1237,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             "TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  " &
             "TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_INVOICE_DETAIL.Bin_No,TSPL_SD_SALE_INVOICE_DETAIL.vendor_code,TSPL_SD_SALE_INVOICE_DETAIL.vendor_desc,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleCode,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleDesc,TSPL_SD_SALE_INVOICE_DETAIL.Markup_On,TSPL_SD_SALE_INVOICE_DETAIL.Markup_Percent,TSPL_SD_SALE_INVOICE_DETAIL.Landing_Cost,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscAmt,TSPL_SD_SALE_INVOICE_DETAIL.CustDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.CasdDiscScheme_Code " &
             ",TSPL_SD_SALE_INVOICE_DETAIL.Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Commission_Party,TSPL_SD_SALE_INVOICE_DETAIL.Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Commission "
-            qry += " ,TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Sampling FROM TSPL_SD_SALE_INVOICE_DETAIL "
+            qry += " ,TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Sampling,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_PKID,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Security_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Security_Amt 
+           FROM TSPL_SD_SALE_INVOICE_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
             qry += " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
@@ -1389,6 +1399,14 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
                     objTr.vendor_desc = clsCommon.myCstr(dr("vendor_desc"))
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
+                    objTr.Distributor_Commission_PKID = clsCommon.myCdbl(dr("Distributor_Commission_PKID"))
+                    objTr.Distributor_Commission_Rate = clsCommon.myCdbl(dr("Distributor_Commission_Rate"))
+                    objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(dr("Distributor_Commission_RateWithTax"))
+                    objTr.Distributor_Commission_Amt = clsCommon.myCdbl(dr("Distributor_Commission_Amt"))
+                    objTr.Transporter_Commission_Rate = clsCommon.myCdbl(dr("Transporter_Commission_Rate"))
+                    objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
+                    objTr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
+                    objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
 
                     obj.Screen_Type = clsDBFuncationality.getSingleValue("select Screen_Type from tspl_sd_sale_invoice_head where Document_Code='" & obj.Document_Code & "'", trans)
                     objTr.arrBatchItem = clsBatchInventory.GetData(obj.Trans_type, obj.Against_Shipment_No, objTr.Item_Code, objTr.Line_No, trans, obj.Screen_Type)
@@ -2051,9 +2069,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             objCustInv.Add_Charge_Amt10 = obj.Add_Charge_Amt10
             objCustInv.Total_Add_Charge = obj.Total_Add_Charge
             objCustInv.Tax_Calculation_Type = obj.Tax_Calculation_Type
+            objCustInv.Route_No = obj.Route_No
             ''objCustInv.Status
             ''objCustInv.AgainstScrap
             objCustInv.Against_Sale_No = obj.Document_Code
+            Dim FinancialImpactForDistributor As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, trans)) = 1, True, False)
+            Dim FinancialImpactForSecurity As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, trans)) = 1, True, False)
+            Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
+
+            If FinancialImpactForDistributor AndAlso FinancialImpactForTPT Then
+                Throw New Exception("FinancialImpactForDistributor and FinancialImpactForTPT both enabled, Please disable one")
+            End If
+
+
             Dim counter As Integer = 1
             objCustInv.Arr = New List(Of clsCustomerInvoiceDetail)
             For Each objTr As clsPSInvoiceHeadDetail In obj.Arr
@@ -2086,9 +2114,24 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                     Else
                         objCustInvTR.Amount = 0
                     End If
+                    If FinancialImpactForDistributor Then
+                        objCustInvTR.Promotional_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SALES_ACCOUNTS.Promotional,* from TSPL_SALES_ACCOUNTS left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code where TSPL_ITEM_MASTER.Item_Code='" + objTr.Item_Code + "'", trans))
+                        objCustInvTR.Distributor_Commission_Amt = objTr.Distributor_Commission_Amt
+                    End If
+                    If FinancialImpactForTPT Then
+                        objCustInvTR.Transporter_GL_Account_Code = ""
+                        objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
 
+                    End If
+                    If FinancialImpactForSecurity Then
+                        objCustInvTR.SD_GL_Account_Code = ""
+
+                        objCustInvTR.Security_Amt = objTr.Security_Amt
+
+                    End If
                     'objCustInvTR.Discount_Per = objTr.Disc_Per
                     'objCustInvTR.Discount = objTr.Disc_Amt
+
                     objCustInvTR.Amount_less_Discount = objTr.Amt_Less_Discount
                     objCustInvTR.TAX1 = objTr.TAX1
                     objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
@@ -9535,6 +9578,14 @@ Public Class clsPSInvoiceHeadDetail
     Public Cash_Scheme_Amount As Decimal = Nothing
     Public Delivery_Code As String = Nothing
     Public Sampling As Integer = 0
+    Public Distributor_Commission_PKID As String = ""
+    Public Distributor_Commission_Rate As Decimal = 0
+    Public Distributor_Commission_RateWithTax As Decimal = 0
+    Public Distributor_Commission_Amt As Decimal = 0
+    Public Transporter_Commission_Rate As Decimal = 0
+    Public Transporter_Commission_Amt As Decimal = 0
+    Public Security_Rate As Decimal = 0
+    Public Security_Amt As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsPSInvoiceHeadDetail), ByVal trans As SqlTransaction) As Boolean
@@ -9711,6 +9762,14 @@ Public Class clsPSInvoiceHeadDetail
                 clsCommon.AddColumnsForChange(coll, "vendor_desc", obj.vendor_desc)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_PKID", obj.Distributor_Commission_PKID, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Rate", obj.Distributor_Commission_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_RateWithTax", obj.Distributor_Commission_RateWithTax, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Rate", obj.Transporter_Commission_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

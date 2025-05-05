@@ -1577,6 +1577,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" & strDocNo & "'"
         objCustInv.Balance_Amt = obj.Total_Amt
         objCustInv.Terms_Code = obj.Terms_Code
         objCustInv.Return_Type = obj.Return_Type
+        objCustInv.Route_No = obj.Route_No
         qry = "select Terms_Code,Terms_Desc,No_Days from TSPL_TERMS_MASTER where Terms_Code='" + obj.Terms_Code + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

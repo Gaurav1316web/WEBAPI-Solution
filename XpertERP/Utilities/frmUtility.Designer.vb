@@ -22,6 +22,7 @@ Partial Class FrmUtility
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -802,7 +803,7 @@ Partial Class FrmUtility
         Me.RadButton284 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.Timer3 = New System.Windows.Forms.Timer()
+        Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout

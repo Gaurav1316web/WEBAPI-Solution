@@ -821,53 +821,53 @@ Public Class clsMilkSRNMCC
 
 
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal dblQty As Decimal, ByVal isNewEntry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, True, False, False, dblQty, "", 0, 0, "", isNewEntry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal dblQty As Decimal, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, True, False, False, dblQty, "", 0, 0, "", Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal isNewEntry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, False, True, False, 0, "", dblFAT, dblSNF, "", isNewEntry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, False, True, False, 0, "", dblFAT, dblSNF, "", Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal isNewEntry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, False, True, False, 0, strType, dblFAT, dblSNF, "", isNewEntry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, False, True, False, 0, strType, dblFAT, dblSNF, "", Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal strVLC As String, ByVal isNewEntry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, False, False, True, 0, "", 0, 0, strVLC, isNewEntry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal strVLC As String, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, False, False, True, 0, "", 0, 0, strVLC, Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal isnewentry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False, "", isnewentry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False, "", Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal Form_ID As String, ByVal isnewentry As Boolean, ByVal Remark As String)
-        clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False, Form_ID, isnewentry, Remark)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal Form_ID As String, ByVal Remark As String)
+        clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False, Form_ID, Remark)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Form_ID As String, ByVal isnewentry As Boolean, ByVal Remark As String)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Form_ID As String, ByVal Remark As String)
         Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, Form_ID, isnewentry, Remark)
+            clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, Form_ID, Remark)
             Trans.Commit()
         Catch ex As Exception
             Trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal Form_ID As String, ByVal isNewEntry As Boolean, ByVal Remark As String)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal Form_ID As String, ByVal Remark As String)
         Dim qry As String = "select case when len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,''))>0 then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type end as Reject_Type
 from TSPL_MILK_SRN_HEAD 
 left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         Dim strRejectType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Trans))
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID, strRejectType, isNewEntry, Remark)
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID, strRejectType, Remark)
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal isNewEntry As Boolean, ByVal Remark As String)
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, isNewEntry, Remark, False)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String)
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, False)
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal isNewEntry As Boolean, ByVal Remark As String, ByVal MarkAsSuspence As Boolean)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean)
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Trans)) > 0)
         Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, Trans)) > 0)
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
