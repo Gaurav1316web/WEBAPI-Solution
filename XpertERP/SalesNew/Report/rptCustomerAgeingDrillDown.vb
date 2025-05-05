@@ -344,7 +344,7 @@ Public Class rptCustomerAgeingDrillDown
 
             strUpperQry += " Query.Document_Type ,Query.Location  , '' AS From_Vendor, '' AS To_Vendor, " &
                                 " '" + Me.ddlAgedRcvbl.Text + "' AS Report_Type,  '" + Me.dtpAgeof.Value + "' AS AgeofDate,'" + strTtpe + "' as [Summary], '" + IsFifoBased + "' as [IsFifoBased]," &
-                                " TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.Add1+case  when isnull(TSPL_COMPANY_MASTER.Add2,'')='' then '' else ', '+TSPL_COMPANY_MASTER.Add2 +case  when isnull(TSPL_COMPANY_MASTER.Add3,'')='' then '' else ', '+TSPL_COMPANY_MASTER.Add3 end end as comp_address " &
+                                " TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.Add1+case  when isnull(TSPL_COMPANY_MASTER.Add2,'')='' then '' else ', '+TSPL_COMPANY_MASTER.Add2 +case  when isnull(TSPL_COMPANY_MASTER.Add3,'')='' then '' else ', '+TSPL_COMPANY_MASTER.Add3 end end as comp_address,TapalNo,Route_Code " &
                                 " from ( "
 
 
@@ -448,7 +448,7 @@ Public Class rptCustomerAgeingDrillDown
                 Else
                     strQuery += ",[Due Amount]"
                 End If
-                strQuery += ",Currency ,CURRENCY_CODE ,ConvRate ,[Due Date],type ,convert(varchar,[Document Date],103) as [Document Date],[Original Amount],[Current], [Ageing_Days],  Document_Type ,Location  , From_Vendor,  To_Vendor,  Report_Type,  AgeofDate,[Summary], [IsFifoBased], comp_name, comp_address " +
+                strQuery += ",Currency ,CURRENCY_CODE ,ConvRate ,[Due Date],type ,convert(varchar,[Document Date],103) as [Document Date],[Original Amount],[Current], [Ageing_Days],  Document_Type,TapalNo,Route_Code ,Location  , From_Vendor,  To_Vendor,  Report_Type,  AgeofDate,[Summary], [IsFifoBased], comp_name, comp_address " +
                 " from ( " + strUpperQry + strInnerQry + strLowerQry1
                 If clsCommon.CompairString(clsCommon.myCstr(ddlCurrencyType.SelectedValue), "1") = CompairStringResult.Equal Then
                     strQuery += "  and query.CURRENCY_CODE <>TSPL_COMPANY_MASTER .BaseCurrencyCode "
@@ -515,6 +515,8 @@ Public Class rptCustomerAgeingDrillDown
             dtGrid.Columns.Add(dt.Columns("Currency").ColumnName, dt.Columns("Currency").DataType)
             dtGrid.Columns.Add(dt.Columns("Original Amount").ColumnName, dt.Columns("Original Amount").DataType)
             dtGrid.Columns.Add(dt.Columns("Current").ColumnName, dt.Columns("Current").DataType)
+            dtGrid.Columns.Add(dt.Columns("TapalNo").ColumnName, dt.Columns("TapalNo").DataType)
+            dtGrid.Columns.Add(dt.Columns("Route_Code").ColumnName, dt.Columns("Route_Code").DataType)
 
 
             dtGrid.Columns.Add(dt.Columns("Due Date").ColumnName, dt.Columns("Due Date").DataType)
@@ -845,6 +847,7 @@ Public Class rptCustomerAgeingDrillDown
 
         gv1.Columns("Cust_Group_Code").HeaderText = "Customer Group Code"
         gv1.Columns("Cust_Group_Desc").HeaderText = "Customer Group Description"
+        gv1.Columns("Route_Code").HeaderText = "Route Code"
 
         If chkType.Checked = True Then
             gv1.Columns("Current").HeaderText = "Adv/On-Ac/Credit Note/UnApplied"

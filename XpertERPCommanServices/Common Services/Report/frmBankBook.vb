@@ -239,28 +239,28 @@ Public Class FrmBankBook
                 'End If
 
                 If chkDocWise.Checked Then
-                    Qry = "Select final.*,TSPL_COMPANY_MASTER.Logo_Img as Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name as CompName from ( Select BANK_CODE, MAX(DESCRIPTION) as DESCRIPTION, DocNo, MAX(DocDate) as DocDate, SUM(Debit_Amount ) as Debit_Amount, SUM(Credit_Amount ) as Credit_Amount,DocType, MAX(Status) as Status,max(Add1) as Add1,max(Startdate ) as Startdate,max(EndDate ) as EndDate,max(RunDate ) as RunDate,max([Payment Code]) as [Payment Mode] from ( " + Qry + " ) YYY Where ISNULL(DocNo, '')<>''  Group By BANK_CODE, DocNo,DocType ) final Left Outer Join TSPL_COMPANY_MASTER ON '" & objCommonVar.CurrentCompanyCode & "'=TSPL_COMPANY_MASTER.Comp_Code Order By Convert(date,DocDate, 103), DocNo "
+                    Qry = "Select final.*,TSPL_COMPANY_MASTER.Logo_Img as Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name as CompName from ( Select BANK_CODE, MAX(DESCRIPTION) as DESCRIPTION, DocNo, MAX(DocDate) as DocDate, SUM(Debit_Amount ) as Debit_Amount, SUM(Credit_Amount ) as Credit_Amount,DocType, MAX(Status) as Status,max(Add1) as Add1,max(Startdate ) as Startdate,max(EndDate ) as EndDate,max(RunDate ) as RunDate,max(TapalNo)TapalNo,max(Route_Code)Route_Code,max([Payment Code]) as [Payment Mode] from ( " + Qry + " ) YYY Where ISNULL(DocNo, '')<>''  Group By BANK_CODE, DocNo,DocType ) final Left Outer Join TSPL_COMPANY_MASTER ON '" & objCommonVar.CurrentCompanyCode & "'=TSPL_COMPANY_MASTER.Comp_Code Order By Convert(date,DocDate, 103), DocNo "
                 Else
                     Qry = "Select final.*,TSPL_COMPANY_MASTER.Logo_Img as Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name as CompName from ( SELECT BANK_CODE, MAX(DESCRIPTION) AS [DESCRIPTION], MAX(BankType) AS BankType,MAX(Startdate) AS Startdate,MAX(EndDate) AS EndDate,MAX(RunDate) AS RunDate,SUM(BalAmt) AS BalAmt,SUM(Debit_Amount) AS Debit_Amount ,SUM(Credit_Amount) AS Credit_Amount,(SUM(Debit_Amount)-SUM(Credit_Amount)+SUM(BalAmt)) AS Closing_Balance,max(POP.Add1) as Add1,max([Payment Code]) as [Payment Mode]   FROM (" + Qry + ")POP GROUP BY BANK_CODE )final Left Outer Join TSPL_COMPANY_MASTER ON '" & objCommonVar.CurrentCompanyCode & "'=TSPL_COMPANY_MASTER.Comp_Code ORDER BY  BANK_CODE "
                 End If
             ElseIf chkDetail.IsChecked Then
                 ''richa MIL/29/07/19-000113
-                Qry = "WITH CTETemp as (" + Environment.NewLine & _
-                    "Select YYY.DocType, YYY.rptHeading, YYY.NARR_MASTER, YYY.NARR_DETAIL, YYY.RunDate, YYY.Startdate, YYY.EndDate,convert(varchar,yyy.Reconciliation_Date,103) as [Reco Date], YYY.BANK_CODE, YYY.BankType, YYY.DESCRIPTION, YYY.DocNo, YYY.Entry_Desc, convert(varchar,YYY.DocDate,103)as DocDate, YYY.CHEQUE_NO, YYY.CHEQUE_DATE, YYY.CustVendorCode, YYY.CustVendName, YYY.Source_Code, YYY.Source_Name, YYY.Loc_Code, YYY.Loc_Name, YYY.BANKGL_account_Code, YYY.BANKGL_Account_Name, YYY.BalAmt, YYY.Balance, YYY.Debit_Amount, YYY.Credit_Amount, YYY.CummulativeBal, YYY.Status, YYY.Logo_Img, YYY.Logo_Img2, YYY.Add1, YYY.CompName, YYY.TransType, YYY.Type, ROW_NUMBER() OVER (Partition By YYY.Bank_Code ORDER BY CONVERT(Date,YYY.DocDate,103),DocNo) as [RowNo],doctypefororder,[Payment Code] From (" + Environment.NewLine & _
-                "" & Qry & "" + Environment.NewLine & _
-                " ) YYY" + Environment.NewLine & _
-                ")" + Environment.NewLine & _
-            " Select DocType, rptHeading, NARR_MASTER, NARR_DETAIL, RunDate, Startdate, EndDate,[Reco Date], BANK_CODE, BankType, DESCRIPTION, DocNo, Entry_Desc, DocDate, CHEQUE_NO, CHEQUE_DATE, CustVendorCode, CustVendName, CustomerVendor_Master.Cust_Group_Desc, CustomerVendor_Master.Cust_Type_Desc, CustomerVendor_Master.CUST_CATEGORY_DESC, Source_Code, Source_Name, Loc_Code, Loc_Name, BANKGL_account_Code, BANKGL_Account_Name, Debit_Amount, Credit_Amount, BalAmt," + Environment.NewLine & _
-            " Balance, (sum(Balance) over (partition by Bank_Code order by convert(date,DocDate,103) ,doctypefororder,rowno)) as CummulativeBal, Status,  Logo_Img,  Logo_Img2 , Add1, CompName, TransType, RowNo,doctypefororder" + Environment.NewLine & _
-            " ,[Payment Code] as [Payment Mode] from CTETemp" + Environment.NewLine & _
-                " LEFT OUTER JOIN (select TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Cust_Group_Code, TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc, TSPL_CUSTOMER_MASTER.Cust_Category_Code, TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC, TSPL_CUSTOMER_MASTER.Cust_Type_Code, TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc, 'Customer' as [Type] from TSPL_CUSTOMER_MASTER" + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.Cust_Category_Code" + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code" + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER on TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code=TSPL_CUSTOMER_MASTER.Cust_Type_Code" + Environment.NewLine & _
-                " UNION ALL" + Environment.NewLine & _
-                " select TSPL_VENDOR_MASTER.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Group_Code, TSPL_VENDOR_GROUP.Group_Desc as Cust_Group_Desc, '' as Cust_Category_Code, '' as CUST_CATEGORY_DESC, '' as Cust_Type_Code, '' as Cust_Type_Desc, 'Vendor' as [Type] from TSPL_VENDOR_MASTER" + Environment.NewLine & _
-                " LEFT OUTER JOIN TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code=TSPL_VENDOR_MASTER.Vendor_Group_Code) CustomerVendor_Master on CustomerVendor_Master.Type=CTETemp.Type AND CustomerVendor_Master.Cust_Code=CTETemp.CustVendorCode" + Environment.NewLine & _
-                " " + wherDocumentCode + " " & IIf(chkWithoutOpening.Checked = True, " and isnull(CTETemp.DocType,'')<>'' ", "") & " " + Environment.NewLine & _
+                Qry = "WITH CTETemp as (" + Environment.NewLine &
+                    "Select YYY.DocType, YYY.rptHeading, YYY.NARR_MASTER, YYY.NARR_DETAIL, YYY.RunDate, YYY.Startdate, YYY.EndDate,convert(varchar,yyy.Reconciliation_Date,103) as [Reco Date], YYY.BANK_CODE, YYY.BankType, YYY.DESCRIPTION, YYY.DocNo, YYY.Entry_Desc, convert(varchar,YYY.DocDate,103)as DocDate, YYY.CHEQUE_NO, YYY.CHEQUE_DATE, YYY.CustVendorCode, YYY.CustVendName, YYY.Source_Code, YYY.Source_Name, YYY.Loc_Code, YYY.Loc_Name, YYY.BANKGL_account_Code, YYY.BANKGL_Account_Name, YYY.BalAmt, YYY.Balance, YYY.Debit_Amount, YYY.Credit_Amount, YYY.CummulativeBal, YYY.Status, YYY.Logo_Img, YYY.Logo_Img2, YYY.Add1, YYY.CompName, YYY.TransType, YYY.Type, ROW_NUMBER() OVER (Partition By YYY.Bank_Code ORDER BY CONVERT(Date,YYY.DocDate,103),DocNo) as [RowNo],doctypefororder,[Payment Code],TapalNo,Route_Code From (" + Environment.NewLine &
+                "" & Qry & "" + Environment.NewLine &
+                " ) YYY" + Environment.NewLine &
+                ")" + Environment.NewLine &
+            " Select DocType, rptHeading, NARR_MASTER, NARR_DETAIL, RunDate, Startdate, EndDate,[Reco Date], BANK_CODE, BankType, DESCRIPTION, DocNo, Entry_Desc, DocDate, CHEQUE_NO, CHEQUE_DATE, CustVendorCode, CustVendName, CustomerVendor_Master.Cust_Group_Desc, CustomerVendor_Master.Cust_Type_Desc, CustomerVendor_Master.CUST_CATEGORY_DESC, Source_Code, Source_Name, Loc_Code, Loc_Name, BANKGL_account_Code, BANKGL_Account_Name, Debit_Amount, Credit_Amount, BalAmt," + Environment.NewLine &
+            " Balance, (sum(Balance) over (partition by Bank_Code order by convert(date,DocDate,103) ,doctypefororder,rowno)) as CummulativeBal, Status,  Logo_Img,  Logo_Img2 , Add1, CompName, TransType, RowNo,doctypefororder,TapalNo,Route_Code" + Environment.NewLine &
+            " ,[Payment Code] as [Payment Mode] from CTETemp" + Environment.NewLine &
+                " LEFT OUTER JOIN (select TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Cust_Group_Code, TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc, TSPL_CUSTOMER_MASTER.Cust_Category_Code, TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC, TSPL_CUSTOMER_MASTER.Cust_Type_Code, TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc, 'Customer' as [Type] from TSPL_CUSTOMER_MASTER" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.Cust_Category_Code" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER on TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code=TSPL_CUSTOMER_MASTER.Cust_Type_Code" + Environment.NewLine &
+                " UNION ALL" + Environment.NewLine &
+                " select TSPL_VENDOR_MASTER.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Group_Code, TSPL_VENDOR_GROUP.Group_Desc as Cust_Group_Desc, '' as Cust_Category_Code, '' as CUST_CATEGORY_DESC, '' as Cust_Type_Code, '' as Cust_Type_Desc, 'Vendor' as [Type] from TSPL_VENDOR_MASTER" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code=TSPL_VENDOR_MASTER.Vendor_Group_Code) CustomerVendor_Master on CustomerVendor_Master.Type=CTETemp.Type AND CustomerVendor_Master.Cust_Code=CTETemp.CustVendorCode" + Environment.NewLine &
+                " " + wherDocumentCode + " " & IIf(chkWithoutOpening.Checked = True, " and isnull(CTETemp.DocType,'')<>'' ", "") & " " + Environment.NewLine &
                 "  ORDER BY convert(date,DocDate,103) ,doctypefororder,rowno "
                 ''convert(date,docdate,103),DocNo"
                 'Qry += " Order By Bank_Code, Convert(Date,SourceDoc_date, 103), DocNo"
@@ -470,6 +470,14 @@ Public Class FrmBankBook
             gvReport.Columns("TransType").Width = 50
             gvReport.Columns("TransType").HeaderText = "Transaction Type"
 
+            gvReport.Columns("TapalNo").IsVisible = True
+            gvReport.Columns("TapalNo").Width = 151
+            gvReport.Columns("TapalNo").HeaderText = "TapalNo"
+
+            gvReport.Columns("Route_Code").IsVisible = True
+            gvReport.Columns("Route_Code").Width = 151
+            gvReport.Columns("Route_Code").HeaderText = "Route Code"
+
             If gvReport.Columns.Contains("Payment Mode") Then
                 gvReport.Columns("Payment Mode").Width = 100
                 gvReport.Columns("Payment Mode").IsVisible = True
@@ -500,6 +508,14 @@ Public Class FrmBankBook
                 gvReport.Columns("Status").IsVisible = True
                 gvReport.Columns("Status").Width = 50
                 gvReport.Columns("Status").HeaderText = "Status"
+
+                gvReport.Columns("TapalNo").IsVisible = True
+                gvReport.Columns("TapalNo").Width = 151
+                gvReport.Columns("TapalNo").HeaderText = "TapalNo"
+
+                gvReport.Columns("Route_Code").IsVisible = True
+                gvReport.Columns("Route_Code").Width = 151
+                gvReport.Columns("Route_Code").HeaderText = "Route Code"
 
                 If gvReport.Columns.Contains("Payment Mode") Then
                     gvReport.Columns("Payment Mode").Width = 100
