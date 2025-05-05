@@ -2816,6 +2816,7 @@ Public Class clsFixedParameterCode
     Public Const FinancialImpactForTPT = "Financial Impact For TPT"
     Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
     Public Const FinancialImpactForSecurity = "Financial Impact For Security"
+    Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
