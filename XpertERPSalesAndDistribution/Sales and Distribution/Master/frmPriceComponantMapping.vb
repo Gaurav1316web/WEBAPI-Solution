@@ -227,7 +227,7 @@ Public Class FrmPriceComponantMapping
     Private Sub mbtnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mbtnExport.Click
         Try
 
-            Dim query As String = "Select Price_Code As [Price Code],Price_Code_Desc As [Price Code Desc],Remarks,Price_Comp_Code As [Price Component Code], Price_Calculation_Method  As [Calculation Method],Amount,vendor_code As [Principle Code],'' as [Principle Name],Transfer as Transfer from TSPL_PRICE_COMPONENT_MAPPING "
+            Dim query As String = "Select Price_Code As [Price Code],Price_Code_Desc As [Price Code Desc],Remarks,Price_Comp_Code As [Price Component Code], Price_Calculation_Method  As [Calculation Method],Amount,vendor_code As [Principle Code],'' as [Principle Name],Transfer as Transfer,Default_Type as [Default Type] from TSPL_PRICE_COMPONENT_MAPPING "
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -250,11 +250,13 @@ Public Class FrmPriceComponantMapping
         Dim Amt_TPT As String = "0"
         'Dim Cal_TPT As String
         Dim Amt_TPTOTH As String = "0"
+        'Dim strDefaultType As Integer = 0
+
         'Dim Cal_TPTOTH As String
         Dim dgv As New RadGridView
         Me.Controls.Add(dgv)
         Dim ii As Integer = 1
-        If transportSql.importExcel(dgv, "Price Code", "Price Code Desc", "Remarks", "Price Component Code", "Calculation Method", "Amount") Then
+        If transportSql.importExcel(dgv, "Price Code", "Price Code Desc", "Remarks", "Price Component Code", "Calculation Method", "Amount", "Default Type") Then
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Dim strCurrDateTime As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
             Try
@@ -263,6 +265,12 @@ Public Class FrmPriceComponantMapping
 
                 For Each dgrv As GridViewRowInfo In dgv.Rows
                     Dim strPriceCode As String = clsCommon.myCstr(dgrv.Cells("Price Code").Value)
+                    Dim strDefaultType As Integer = clsCommon.myCDecimal(dgrv.Cells("Default Type").Value)
+                    If strDefaultType = 1 Then
+                        rbtnDefaultIGST.IsChecked = True
+                    ElseIf strDefaultType = 2 Then
+                        rbtnDefaultIGST.IsChecked = True
+                    End If
                     If clsCommon.myLen(strPriceCode) > 0 Then
                         If ii = 194 Then
                             ' Dim x As Integer
@@ -334,6 +342,7 @@ Public Class FrmPriceComponantMapping
                         clsCommon.AddColumnsForChange(coll, "vendor_code", vendorcode)
                         clsCommon.AddColumnsForChange(coll, "Transfer", Transfer)
                         clsCommon.AddColumnsForChange(coll, "Inactive", Inactive)
+                        clsCommon.AddColumnsForChange(coll, "Default_Type", strDefaultType)
 
                         If strCode <= 0 Then
                             clsCommon.AddColumnsForChange(coll, "Price_Code", strPriceCode)
