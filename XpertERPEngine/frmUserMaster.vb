@@ -1727,9 +1727,9 @@ Public Class FrmUserMaster
                         clsCommon.AddColumnsForChange(coll, "Default_Location", strDefaultLocation)
                         clsCommonFunctionality.UpdateDataTable(coll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     End If
-                    If (clsCommon.myLen(strSubLocation) > 0) Then ' Condition Add by Prabhakar 25/11/2016
-                        clsCommon.AddColumnsForChange(coll, "Sub_location", strSubLocation)
-                    End If
+                    'If (clsCommon.myLen(strSubLocation) > 0) Then ' Condition Add by Prabhakar 25/11/2016
+                    '    clsCommon.AddColumnsForChange(coll, "Sub_location", strSubLocation)
+                    'End If
                     'sanjay
                     Dim colll As New Hashtable()
                     clsCommon.AddColumnsForChange(colll, "Department_Head", grow.Cells("Department Head").Value.ToString())
@@ -1749,6 +1749,8 @@ Public Class FrmUserMaster
                     If clsCommon.myLen(grow.Cells("Login_Type")) > 0 Then
                         clsCommon.AddColumnsForChange(colll, "Login_Type", grow.Cells("Login_Type").Value.ToString())
                     End If
+                    clsCommon.AddColumnsForChange(coll, "Sub_location", strSubLocation)
+
                     clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     'sanjay
 
