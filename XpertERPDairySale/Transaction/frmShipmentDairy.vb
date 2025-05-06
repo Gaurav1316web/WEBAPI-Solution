@@ -577,11 +577,14 @@ Public Class frmShipmentDairy
         If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                 txtSubLocation.Enabled = True
+                txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "'"))
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "'"))
             Else
                 txtSubLocation.Enabled = False
+                txtSubLocation.Value = ""
+                lblSubLocation.Text = ""
             End If
-            txtSubLocation.Value = ""
-            lblSubLocation.Text = ""
+
         End If
         ''For Attachment
         If objCommonVar.IsDemoERP Then
@@ -6610,11 +6613,14 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                 txtSubLocation.Enabled = True
+                txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "'"))
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "'"))
             Else
                 txtSubLocation.Enabled = False
+                txtSubLocation.Value = ""
+                lblSubLocation.Text = ""
             End If
-            txtSubLocation.Value = ""
-            lblSubLocation.Text = ""
+
         End If
         TxtInvoiceNoForReplacement.Visible = False
         btnUpdateCustomerWithRoute.Visible = False

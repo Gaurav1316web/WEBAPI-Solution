@@ -730,7 +730,7 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
-        clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Text, True)
+        clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Value, True)
 
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub

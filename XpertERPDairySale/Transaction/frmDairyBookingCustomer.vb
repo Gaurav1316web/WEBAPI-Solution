@@ -345,14 +345,18 @@ Public Class frmDairyBookingCustomer
         LoadBlankGrid()
         LoadBlankGridTax()
         AddNew()
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                 txtSubLocation.Enabled = True
+                txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "'"))
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "'"))
             Else
                 txtSubLocation.Enabled = False
+                txtSubLocation.Value = ""
+                lblSubLocation.Text = ""
             End If
-            txtSubLocation.Value = ""
-            lblSubLocation.Text = ""
+
         End If
         lblCredit.Visible = False
         cmbcashcredit.Visible = False
@@ -390,10 +394,10 @@ Public Class frmDairyBookingCustomer
         Else
             ItemTypePanel.Visible = True
         End If
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtLocation.Value) > 0 Then
-            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-        End If
+        'txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        'If clsCommon.myLen(txtLocation.Value) > 0 Then
+        '    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+        'End If
         RadMenuItem3.Visibility = ElementVisibility.Collapsed
         isPageLoadData = False
         Try
@@ -412,7 +416,7 @@ Public Class frmDairyBookingCustomer
         BPLController(False)
         lblShiftType.Visible = False
         custname = txtVendorNo.Value
-        txtLocation.Value = txtloc
+        'txtLocation.Value = txtloc
         btnGatepass.Enabled = False
         'CreateTable()
         ChkTaxNonTax()
@@ -2929,6 +2933,19 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             txtVendorNo.Focus()
         End If
         btnprinte_wayBill.Visible = False
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                txtSubLocation.Enabled = True
+                txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "'"))
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "'"))
+            Else
+                txtSubLocation.Enabled = False
+                txtSubLocation.Value = ""
+                lblSubLocation.Text = ""
+            End If
+
+        End If
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
