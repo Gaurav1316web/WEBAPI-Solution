@@ -3508,7 +3508,15 @@ Public Class clsPSShipmentHead
                 Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
+            Dim APDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo=(select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + strCode + "')", trans))
+            If clsCommon.myLen(APDocNo) > 0 Then
+                clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, APDocNo, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
 
+                Qry = "delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" + APDocNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                Qry = "delete from tspl_vendor_Invoice_Head where Document_No='" + APDocNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            End If
 
             Qry = "select InOut,Trans_Type,Item_Code,Item_Desc,Location_Code,case when InOut='I' then -1 else 1 end *Qty as Qty ,UOM,MRP,ItemType,case when InOut='I' then -1 else 1 end* Basic_Cost as Basic_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SD-SH'"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)

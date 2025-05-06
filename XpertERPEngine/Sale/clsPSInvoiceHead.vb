@@ -1620,6 +1620,11 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             Dim strARInvNo = clsDBFuncationality.getSingleValue("Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No='" + strDocNo + "'", trans)
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
 
+            Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
+            If FinancialImpactForTPT Then
+                createAPInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+
+            End If
             'richa agarwal 21 Dec,2020 check eInvoice Implementation
             'If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
             '    If clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
@@ -1887,7 +1892,111 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
     '        Throw New Exception(ex.Message)
     '    End Try
     'End Function
+    Public Shared Function createAPInvoice(ByVal obj As clsPSInvoiceHead, ByVal trans As SqlTransaction, ByVal strARNoForRecreate As String, ByVal strVoucherNoRecreate As String, ByVal strFormID As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
 
+        Try
+            Dim strQry As String = "select TSPL_VENDOR_MASTER.vendor_Code,TSPL_VENDOR_ACCOUNT_SET.Freight_Provision,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code,
+TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt
+from TSPL_VENDOR_ACCOUNT_SET 
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code
+left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code
+where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + obj.Document_Code + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim objVendorInvHead As New clsVedorInvoiceHead()
+                Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MMM/yyyy")
+                objVendorInvHead.Vendor_Code = clsCommon.myCstr(dt.Rows(0)("vendor_Code"))
+                objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(clsCommon.myCstr(dt.Rows(0)("vendor_Code")), trans)
+                objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type
+                objVendorInvHead.Invoice_Type = "AP"
+                objVendorInvHead.Vendor_Invoice_Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MMM/yyyy")
+                objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans) 'obj.MCC_CODE
+                'objVendorInvHead.Irregular_loc_code = obj.Irregular_MCC_CODE
+                objVendorInvHead.Description = "AP Credit Note Against Transpoter Commission"
+                objVendorInvHead.Account_Set = clsCommon.myCstr(dt.Rows(0)("Acct_Set_Code"))
+                objVendorInvHead.Document_Type = "C"
+                objVendorInvHead.RefDocType = "TPT-Commission"
+                objVendorInvHead.RefDocNo = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
+                objVendorInvHead.On_Hold = False
+
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                If dt1 IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt1.Rows(0)("Payable_Account"))
+                    objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, obj.Bill_To_Location, trans)
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                        objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt1.Rows(0)("Discount_Account"))
+                        objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, obj.Bill_To_Location, trans)
+                    End If
+                End If
+                If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+                objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                Dim ii As Integer = 0
+                Dim isFirstTime As Boolean = True
+                objVendorInvHead.Total_Landed_Amt = 0
+
+                objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+
+                Dim strInvCtrlAC As String = clsCommon.myCstr(dt.Rows(0)("Freight_Provision"))
+                strInvCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvCtrlAC, obj.Bill_To_Location, trans)
+                If clsCommon.myLen(strInvCtrlAC) <= 0 Then
+                    Throw New Exception("Please set GL Account Code for deduction code " + objVendorInvDetail.Deduction_Code)
+                End If
+                objVendorInvDetail.GL_Account_Code = strInvCtrlAC
+                ii = ii + 1
+                objVendorInvDetail.Detail_Line_No = ii
+                objVendorInvDetail.GL_Account_Code = strInvCtrlAC
+                objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(strInvCtrlAC, trans)
+                objVendorInvDetail.Amount = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+
+                objVendorInvDetail.Discount_Per = 0
+                objVendorInvDetail.Discount = 0
+                objVendorInvDetail.Amount_less_Discount = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvDetail.Total_Tax = 0
+                objVendorInvDetail.Total_Amount = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvDetail.Landed_Amount = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                ''End of Set AP Invvoice Detail Table
+
+                If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                    objVendorInvHead.Arr.Add(objVendorInvDetail)
+                End If
+
+                ''Set AP Invvoice Header Table
+                objVendorInvHead.Total_Landed_Amt += clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvHead.Discount_Base += clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvHead.Discount_Amount += 0
+                objVendorInvHead.Amount_Less_Discount += clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvHead.Document_Total += clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                objVendorInvHead.Balance_Amt += clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
+                ''End of Set AP Invvoice Header Table
+
+                objVendorInvHead.Empty_Amount = 0 'obj.Tot_Empty_Amount
+                If objVendorInvHead.Empty_Amount > 0 Then
+                    If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                        Throw New Exception("Please set Inventory Control Empties")
+                    End If
+                    objVendorInvHead.Document_Total += objVendorInvHead.Empty_Amount
+                End If
+                If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                    Throw New Exception("No GL Account Found For AP Invoice")
+                End If
+                ''multicurrency
+                'objVendorInvHead.CURRENCY_CODE = obj.CURRENCY_CODE
+                'objVendorInvHead.ConvRate = 1
+                objVendorInvHead.ApplicableFrom = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MMM/yyyy")
+                ''end multicurrency
+
+                objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans, clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function createARInvoice(ByVal obj As clsPSInvoiceHead, ByVal trans As SqlTransaction, ByVal strARNoForRecreate As String, ByVal strVoucherNoRecreate As String, ByVal strFormID As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Try
 
@@ -2119,15 +2228,24 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         objCustInvTR.Distributor_Commission_Amt = objTr.Distributor_Commission_Amt
                     End If
                     If FinancialImpactForTPT Then
-                        objCustInvTR.Transporter_GL_Account_Code = ""
-                        objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
+                        objCustInvTR.Transporter_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Freight_Provision from TSPL_VENDOR_ACCOUNT_SET 
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code
+left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code
+where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans))
+                        If clsCommon.myLen(objCustInvTR.Transporter_GL_Account_Code) > 0 Then
+                            objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
+                        Else
+                            Throw New Exception("Transporter GL Account Not Found!")
+                        End If
 
                     End If
                     If FinancialImpactForSecurity Then
-                        objCustInvTR.SD_GL_Account_Code = ""
-
-                        objCustInvTR.Security_Amt = objTr.Security_Amt
-
+                        objCustInvTR.SD_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SECURITY_ACCOUNT from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account in(select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "')", trans))
+                        If clsCommon.myLen(objCustInvTR.SD_GL_Account_Code) > 0 Then
+                            objCustInvTR.Security_Amt = objTr.Security_Amt
+                        Else
+                            Throw New Exception("Security GL Account Not Found!")
+                        End If
                     End If
                     'objCustInvTR.Discount_Per = objTr.Disc_Per
                     'objCustInvTR.Discount = objTr.Disc_Amt
