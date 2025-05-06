@@ -215,6 +215,7 @@ Public Class frmPriceMasterPlan
             repoTextBox.Name = colType
             repoTextBox.Width = 100
             repoTextBox.ReadOnly = True
+            repoTextBox.IsVisible = False
             gv1.MasterTemplate.Columns.Add(repoTextBox)
 
             repoNumBox = New GridViewDecimalColumn()
@@ -225,6 +226,7 @@ Public Class frmPriceMasterPlan
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False
             repoNumBox.ReadOnly = False
+            repoNumBox.IsVisible = True
             repoNumBox.HeaderText = "MRP"
             gv1.MasterTemplate.Columns.Add(repoNumBox)
 
@@ -243,7 +245,7 @@ Public Class frmPriceMasterPlan
                 repoTextBox.Name = colPriceComponentDesc + clsCommon.myCstr(ii)
                 repoTextBox.Width = 150
                 repoTextBox.ReadOnly = True
-                repoTextBox.IsVisible = (ii < 4)
+                repoTextBox.IsVisible = False
                 repoTextBox.WrapText = True
                 gv1.MasterTemplate.Columns.Add(repoTextBox)
 
@@ -254,7 +256,7 @@ Public Class frmPriceMasterPlan
                 'repoNumBox.Minimum = 0
                 'repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
-                repoNumBox.IsVisible = (ii < 4)
+                repoNumBox.IsVisible = False
                 repoNumBox.ReadOnly = False
                 repoNumBox.HeaderText = "Price Component " + clsCommon.myCstr(ii) + " Rate "
                 repoNumBox.WrapText = True
@@ -276,7 +278,7 @@ Public Class frmPriceMasterPlan
                 'repoNumBox.Minimum = 0
                 'repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
-                repoNumBox.IsVisible = (ii < 4)
+                repoNumBox.IsVisible = False
                 repoNumBox.ReadOnly = True
                 repoNumBox.WrapText = True
                 repoNumBox.HeaderText = "Price Component Amount " + clsCommon.myCstr(ii)
@@ -290,7 +292,7 @@ Public Class frmPriceMasterPlan
             repoNumBox.Minimum = 0
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False
-            repoNumBox.IsVisible = True
+            repoNumBox.IsVisible = False
             repoNumBox.ReadOnly = True
             repoNumBox.HeaderText = "Basic Price"
             gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -302,6 +304,7 @@ Public Class frmPriceMasterPlan
             repoTextBox.Name = colTaxGroupCode
             repoTextBox.Width = 100
             repoTextBox.ReadOnly = False
+            repoTextBox.IsVisible = False
             gv1.MasterTemplate.Columns.Add(repoTextBox)
 
             repoTextBox = New GridViewTextBoxColumn()
@@ -310,6 +313,7 @@ Public Class frmPriceMasterPlan
             repoTextBox.Width = 150
             repoTextBox.ReadOnly = True
             repoTextBox.WrapText = True
+            repoTextBox.IsVisible = False
             gv1.MasterTemplate.Columns.Add(repoTextBox)
 
            
@@ -334,7 +338,7 @@ Public Class frmPriceMasterPlan
                 repoTextBox.Name = colTax + clsCommon.myCstr(ii)
                 repoTextBox.Width = 100
                 repoTextBox.ReadOnly = True
-                repoTextBox.IsVisible = (ii < 6)
+                repoTextBox.IsVisible = False
                 gv1.MasterTemplate.Columns.Add(repoTextBox)
 
                 repoNumBox = New GridViewDecimalColumn()
@@ -344,7 +348,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
-                repoNumBox.IsVisible = (ii < 6)
+                repoNumBox.IsVisible = False
                 repoNumBox.ReadOnly = True
                 repoNumBox.HeaderText = "Tax " + clsCommon.myCstr(ii) + " Rate"
                 repoNumBox.WrapText = True
@@ -357,7 +361,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
-                repoNumBox.IsVisible = (ii < 6)
+                repoNumBox.IsVisible = False
                 repoNumBox.ReadOnly = True
                 repoNumBox.HeaderText = "Tax " + clsCommon.myCstr(ii) + " Amt "
                 repoNumBox.WrapText = True
@@ -407,7 +411,7 @@ Public Class frmPriceMasterPlan
             repoNumBox.Minimum = 0
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False
-            repoNumBox.IsVisible = True
+            repoNumBox.IsVisible = False
             repoNumBox.ReadOnly = True
             repoNumBox.HeaderText = "Total Tax Amt"
             gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -430,6 +434,7 @@ Public Class frmPriceMasterPlan
             repoTextBox.Name = colPriceID
             repoTextBox.Width = 150
             repoTextBox.ReadOnly = True
+            repoTextBox.IsVisible = False
             gv1.MasterTemplate.Columns.Add(repoTextBox)
 
             gv1.AllowDeleteRow = True
@@ -1693,7 +1698,6 @@ Public Class frmPriceMasterPlan
             Reset()
             isLoadCopy = False
         End If
-
     End Sub
 
     Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles BtnHistory.Click
