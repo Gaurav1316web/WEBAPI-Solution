@@ -205,10 +205,10 @@ Partial Class FrmTaxGroups
         Me.rbtnDefaultLocalGST.MyLinkLable1 = Nothing
         Me.rbtnDefaultLocalGST.MyLinkLable2 = Nothing
         Me.rbtnDefaultLocalGST.Name = "rbtnDefaultLocalGST"
-        Me.rbtnDefaultLocalGST.Size = New System.Drawing.Size(114, 18)
+        Me.rbtnDefaultLocalGST.Size = New System.Drawing.Size(108, 18)
         Me.rbtnDefaultLocalGST.TabIndex = 394
         Me.rbtnDefaultLocalGST.TabStop = False
-        Me.rbtnDefaultLocalGST.Text = "Default Loacal GST"
+        Me.rbtnDefaultLocalGST.Text = "Default Local GST"
         '
         'rbtnDefaultNonTaxabale
         '

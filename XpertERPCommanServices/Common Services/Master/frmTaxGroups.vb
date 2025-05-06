@@ -503,6 +503,8 @@ Public Class FrmTaxGroups
                     default_Type = 2
                 ElseIf rbtnDefaultLocalGST.IsChecked Then
                     default_Type = 3
+                Else
+                    default_Type = 0
                 End If
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
@@ -521,61 +523,74 @@ Public Class FrmTaxGroups
                         Dim col As New Hashtable()
                         clsCommon.AddColumnsForChange(col, "CURRENCY_CODE", txtCurrencyCode.Value, True)
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
+                        If default_Type <> 0 Then
+                            Dim resetQuery As String = "UPDATE TSPL_TAX_GROUP_MASTER SET default_Type = 0 WHERE default_Type = '" & default_Type & "'"
+                            clsDBFuncationality.ExecuteNonQuery(resetQuery, trans)
+                            'If checkQuery > 0 Then
+                            '    default_Type = 0
+                            'End If
+                        End If
 
                         'sanjay
                         Dim col1 As New Hashtable()
-                        clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
-                        clsCommon.AddColumnsForChange(col1, "default_Type", (default_Type))
+                            clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)
+                            clsCommon.AddColumnsForChange(col1, "default_Type", (default_Type))
 
 
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
-                        'sanjay
-                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
+                            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + findTaxGroup.Value + "'", trans)
+                            'sanjay
+                            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxGroup.Value, "TSPL_TAX_GROUP_MASTER", "Tax_Group_Code", trans)
 
 
-                        For Each grow As GridViewRowInfo In gvTaxGroups.Rows
-                            If grow.Cells(2).Value = "Yes" Then
-                                strTaxable = "Y"
+                            For Each grow As GridViewRowInfo In gvTaxGroups.Rows
+                                If grow.Cells(2).Value = "Yes" Then
+                                    strTaxable = "Y"
+                                Else
+                                    strTaxable = "N"
+                                End If
+                                If grow.Cells(3).Value = "Yes" Then
+                                    strSurtax = "Y"
+                                Else
+                                    strSurtax = "N"
+                                End If
+
+
+
+                                If (grow.Cells(4).Value Is Nothing) Then
+                                    isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_INSERT", New SqlParameter("@Trans_Code", grow.Index + 1), New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Tax_Code", grow.Cells(0).Value), New SqlParameter("@Tax_Code_Desc", grow.Cells(1).Value), New SqlParameter("@Taxable", strTaxable), New SqlParameter("@Surtax", strSurtax), New SqlParameter("@Surtax_Tax_Code", ""), New SqlParameter("@Surtax_Tax_Code_Desc", ""), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
+                                Else
+                                    isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_INSERT", New SqlParameter("@Trans_Code", grow.Index + 1), New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Tax_Code", grow.Cells(0).Value), New SqlParameter("@Tax_Code_Desc", grow.Cells(1).Value), New SqlParameter("@Taxable", strTaxable), New SqlParameter("@Surtax", strSurtax), New SqlParameter("@Surtax_Tax_Code", grow.Cells(4).Value), New SqlParameter("@Surtax_Tax_Code_Desc", grow.Cells(5).Value), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
+                                End If
+
+                                '' multicurrency
+                                Dim coll As New Hashtable()
+                                clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", grow.Cells("CurrencyCode").Value, True)
+                                clsCommon.AddColumnsForChange(coll, "ConvRate", clsCommon.myCdbl(grow.Cells("ConvRate").Value))
+                                If clsCommon.myLen(grow.Cells("ApplicableFrom").Value) > 0 Then
+                                    clsCommon.AddColumnsForChange(coll, "ApplicableFrom", clsCommon.GetPrintDate(grow.Cells("ApplicableFrom").Value, "dd/MMM/yyyy"), True)
+                                End If
+                                clsCommon.AddColumnsForChange(coll, "Tax_On_Base_Amount", IIf(clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colTaxOnBaseAmount).Value), "Yes") = CompairStringResult.Equal, "Y", "N"))
+                                isSaved = isSaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TAX_GROUP_DETAILS", OMInsertOrUpdate.Update, " Tax_Group_Code='" & findTaxGroup.Value & "' and  Tax_Code='" + clsCommon.myCstr(grow.Cells(0).Value) + "'", trans)
+                                '' end of multicurrency
+                            Next
+                            UpdateTransferCheckBox(trans)
+                            If isSaved Then
+                                trans.Commit()
+                                myMessages.insert()
+                                btnAdd.Text = "Update"
+                                btnDelete.Enabled = True
                             Else
-                                strTaxable = "N"
+                                trans.Rollback()
                             End If
-                            If grow.Cells(3).Value = "Yes" Then
-                                strSurtax = "Y"
-                            Else
-                                strSurtax = "N"
-                            End If
-
-
-
-                            If (grow.Cells(4).Value Is Nothing) Then
-                                isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_INSERT", New SqlParameter("@Trans_Code", grow.Index + 1), New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Tax_Code", grow.Cells(0).Value), New SqlParameter("@Tax_Code_Desc", grow.Cells(1).Value), New SqlParameter("@Taxable", strTaxable), New SqlParameter("@Surtax", strSurtax), New SqlParameter("@Surtax_Tax_Code", ""), New SqlParameter("@Surtax_Tax_Code_Desc", ""), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
-                            Else
-                                isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_DETAIL_INSERT", New SqlParameter("@Trans_Code", grow.Index + 1), New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Tax_Code", grow.Cells(0).Value), New SqlParameter("@Tax_Code_Desc", grow.Cells(1).Value), New SqlParameter("@Taxable", strTaxable), New SqlParameter("@Surtax", strSurtax), New SqlParameter("@Surtax_Tax_Code", grow.Cells(4).Value), New SqlParameter("@Surtax_Tax_Code_Desc", grow.Cells(5).Value), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
-                            End If
-
-                            '' multicurrency
-                            Dim coll As New Hashtable()
-                            clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", grow.Cells("CurrencyCode").Value, True)
-                            clsCommon.AddColumnsForChange(coll, "ConvRate", clsCommon.myCdbl(grow.Cells("ConvRate").Value))
-                            If clsCommon.myLen(grow.Cells("ApplicableFrom").Value) > 0 Then
-                                clsCommon.AddColumnsForChange(coll, "ApplicableFrom", clsCommon.GetPrintDate(grow.Cells("ApplicableFrom").Value, "dd/MMM/yyyy"), True)
-                            End If
-                            clsCommon.AddColumnsForChange(coll, "Tax_On_Base_Amount", IIf(clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colTaxOnBaseAmount).Value), "Yes") = CompairStringResult.Equal, "Y", "N"))
-                            isSaved = isSaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TAX_GROUP_DETAILS", OMInsertOrUpdate.Update, " Tax_Group_Code='" & findTaxGroup.Value & "' and  Tax_Code='" + clsCommon.myCstr(grow.Cells(0).Value) + "'", trans)
-                            '' end of multicurrency
-                        Next
-                        UpdateTransferCheckBox(trans)
-                        If isSaved Then
-                            trans.Commit()
-                            myMessages.insert()
-                            btnAdd.Text = "Update"
-                            btnDelete.Enabled = True
-                        Else
-                            trans.Rollback()
+                        ElseIf btnAdd.Text = "Update" Then
+                            isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_MASTER_UPDATE", New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Desc", txtDesc.Text), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Excisable", strExcise), New SqlParameter("@Vat", strVat), New SqlParameter("@STax", strSTax), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
+                        If default_Type <> 0 Then
+                            Dim resetQuery As String = "UPDATE TSPL_TAX_GROUP_MASTER SET default_Type = 0 WHERE default_Type = '" & default_Type & "'"
+                            clsDBFuncationality.ExecuteNonQuery(resetQuery, trans)
+                            'If checkQuery > 0 Then
+                            '    default_Type = 0
+                            'End If
                         End If
-                    ElseIf btnAdd.Text = "Update" Then
-                        isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_TAX_GROUP_MASTER_UPDATE", New SqlParameter("@Tax_Group_Code", findTaxGroup.Value), New SqlParameter("@Tax_Group_Desc", txtDesc.Text), New SqlParameter("@Tax_Group_Type", ddlTransType.SelectedValue), New SqlParameter("@Excisable", strExcise), New SqlParameter("@Vat", strVat), New SqlParameter("@STax", strSTax), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
-
                         'sanjay
                         Dim col1 As New Hashtable()
                         clsCommon.AddColumnsForChange(col1, "Active", clsCommon.myCstr(IIf(chkActive.Checked, 1, 0)), True)

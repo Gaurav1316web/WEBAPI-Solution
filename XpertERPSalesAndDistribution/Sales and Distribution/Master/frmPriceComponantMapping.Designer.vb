@@ -24,12 +24,12 @@ Partial Class FrmPriceComponantMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewMultiComboBoxColumn4 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn10 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim SortDescriptor4 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel9 = New common.Controls.MyLabel()
@@ -200,31 +200,31 @@ Partial Class FrmPriceComponantMapping
         '
         Me.grdPrice.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.grdPrice.MasterTemplate.AllowAddNewRow = False
-        GridViewMultiComboBoxColumn1.FieldName = "Price Componant Code"
-        GridViewMultiComboBoxColumn1.HeaderText = "Price Component Code"
-        GridViewMultiComboBoxColumn1.Name = "Price Componant Code"
-        GridViewMultiComboBoxColumn1.ReadOnly = True
-        GridViewMultiComboBoxColumn1.Width = 150
-        GridViewTextBoxColumn1.FieldName = "Description"
-        GridViewTextBoxColumn1.HeaderText = "Description"
-        GridViewTextBoxColumn1.Name = "Description"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 400
-        GridViewTextBoxColumn2.HeaderText = "Price Calculation Method"
-        GridViewTextBoxColumn2.Name = "Price Calculation Type"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn2.Width = 150
-        GridViewTextBoxColumn3.FieldName = "Amount"
-        GridViewTextBoxColumn3.HeaderText = "Amount"
-        GridViewTextBoxColumn3.Name = "Amount"
-        GridViewTextBoxColumn3.Width = 150
-        Me.grdPrice.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1, GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3})
+        GridViewMultiComboBoxColumn4.FieldName = "Price Componant Code"
+        GridViewMultiComboBoxColumn4.HeaderText = "Price Component Code"
+        GridViewMultiComboBoxColumn4.Name = "Price Componant Code"
+        GridViewMultiComboBoxColumn4.ReadOnly = True
+        GridViewMultiComboBoxColumn4.Width = 150
+        GridViewTextBoxColumn10.FieldName = "Description"
+        GridViewTextBoxColumn10.HeaderText = "Description"
+        GridViewTextBoxColumn10.Name = "Description"
+        GridViewTextBoxColumn10.ReadOnly = True
+        GridViewTextBoxColumn10.Width = 400
+        GridViewTextBoxColumn11.HeaderText = "Price Calculation Method"
+        GridViewTextBoxColumn11.Name = "Price Calculation Type"
+        GridViewTextBoxColumn11.ReadOnly = True
+        GridViewTextBoxColumn11.Width = 150
+        GridViewTextBoxColumn12.FieldName = "Amount"
+        GridViewTextBoxColumn12.HeaderText = "Amount"
+        GridViewTextBoxColumn12.Name = "Amount"
+        GridViewTextBoxColumn12.Width = 150
+        Me.grdPrice.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn4, GridViewTextBoxColumn10, GridViewTextBoxColumn11, GridViewTextBoxColumn12})
         Me.grdPrice.MasterTemplate.EnableSorting = False
         Me.grdPrice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdPrice.MasterTemplate.ShowHeaderCellButtons = True
-        SortDescriptor1.PropertyName = "Price Component Code"
-        Me.grdPrice.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
-        Me.grdPrice.MasterTemplate.ViewDefinition = TableViewDefinition1
+        SortDescriptor4.PropertyName = "Price Component Code"
+        Me.grdPrice.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor4})
+        Me.grdPrice.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.grdPrice.MyExportFilePath = ""
         Me.grdPrice.MyStopExport = False
         Me.grdPrice.Name = "grdPrice"
@@ -374,7 +374,7 @@ Partial Class FrmPriceComponantMapping
         Me.RadGroupBox5.Location = New System.Drawing.Point(675, 3)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(206, 40)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(147, 40)
         Me.RadGroupBox5.TabIndex = 447
         Me.RadGroupBox5.Text = "Default Type"
         '
@@ -384,21 +384,21 @@ Partial Class FrmPriceComponantMapping
         Me.rbtnDefaultIGST.MyLinkLable1 = Nothing
         Me.rbtnDefaultIGST.MyLinkLable2 = Nothing
         Me.rbtnDefaultIGST.Name = "rbtnDefaultIGST"
-        Me.rbtnDefaultIGST.Size = New System.Drawing.Size(82, 18)
+        Me.rbtnDefaultIGST.Size = New System.Drawing.Size(43, 18)
         Me.rbtnDefaultIGST.TabIndex = 393
         Me.rbtnDefaultIGST.TabStop = False
-        Me.rbtnDefaultIGST.Text = "Default IGST"
+        Me.rbtnDefaultIGST.Text = "IGST"
         '
         'rbtnDefaultGST
         '
-        Me.rbtnDefaultGST.Location = New System.Drawing.Point(111, 15)
+        Me.rbtnDefaultGST.Location = New System.Drawing.Point(85, 15)
         Me.rbtnDefaultGST.MyLinkLable1 = Nothing
         Me.rbtnDefaultGST.MyLinkLable2 = Nothing
         Me.rbtnDefaultGST.Name = "rbtnDefaultGST"
-        Me.rbtnDefaultGST.Size = New System.Drawing.Size(79, 18)
+        Me.rbtnDefaultGST.Size = New System.Drawing.Size(40, 18)
         Me.rbtnDefaultGST.TabIndex = 393
         Me.rbtnDefaultGST.TabStop = False
-        Me.rbtnDefaultGST.Text = "Default GST"
+        Me.rbtnDefaultGST.Text = "GST"
         '
         'chkInActive
         '
