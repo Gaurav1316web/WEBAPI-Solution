@@ -144,6 +144,7 @@ Public Class clsLocation
     Public Remarks As String = Nothing
     Public Target As Decimal = 0
     '----------------Code For Get Finder--------------------------------------------------------------------'
+
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         'Dim whrcls As String = ""

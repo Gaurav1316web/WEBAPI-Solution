@@ -986,12 +986,12 @@ Public Class FrmTaxGroups
     End Sub
 
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
-        sql = "SELECT TSPL_Tax_Group_Master.Tax_Group_Code AS 'Tax Group Code',TSPL_Tax_Group_Master.Tax_Group_Desc AS 'Description', " & _
-              "(CASE WHEN TSPL_Tax_Group_Master.Tax_Group_Type = 'S' THEN 'Sales' ELSE 'Purchase' END) AS 'Tax Group Type',TSPL_TAX_GROUP_MASTER.Excisable ,TSPL_TAX_GROUP_MASTER .VAT ,TSPL_TAX_GROUP_MASTER .STax ," & _
-              " TSPL_TAX_GROUP_DETAILS.Tax_Code AS 'Tax Authority', TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc AS 'Authority Description'," & _
-              " (CASE WHEN TSPL_TAX_GROUP_DETAILS.Taxable = 'N' THEN 'No' ELSE 'Yes' END) AS Taxable, " & _
-              " (CASE WHEN TSPL_TAX_GROUP_DETAILS.Surtax = 'Y' THEN 'Yes' ELSE 'No' END) AS Surtax, " & _
-              " TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code AS 'Surtax Code', TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code_Desc AS 'Surtax Description',(CASE WHEN TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount = 'N' THEN 'No' ELSE 'Yes' END) AS TaxOnBaseAmt "
+        sql = "SELECT TSPL_Tax_Group_Master.Tax_Group_Code AS 'Tax Group Code',TSPL_Tax_Group_Master.Tax_Group_Desc AS 'Description', " &
+              "(CASE WHEN TSPL_Tax_Group_Master.Tax_Group_Type = 'S' THEN 'Sales' ELSE 'Purchase' END) AS 'Tax Group Type',TSPL_TAX_GROUP_MASTER.Excisable ,TSPL_TAX_GROUP_MASTER .VAT ,TSPL_TAX_GROUP_MASTER .STax ," &
+              " TSPL_TAX_GROUP_DETAILS.Tax_Code AS 'Tax Authority', TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc AS 'Authority Description'," &
+              " (CASE WHEN TSPL_TAX_GROUP_DETAILS.Taxable = 'N' THEN 'No' ELSE 'Yes' END) AS Taxable, " &
+              " (CASE WHEN TSPL_TAX_GROUP_DETAILS.Surtax = 'Y' THEN 'Yes' ELSE 'No' END) AS Surtax, " &
+              " TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code AS 'Surtax Code', TSPL_TAX_GROUP_DETAILS.Surtax_Tax_Code_Desc AS 'Surtax Description',(CASE WHEN TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount = 'N' THEN 'No' ELSE 'Yes' END) AS TaxOnBaseAmt ,TSPL_Tax_Group_Master.Default_Type as 'Default Type' "
 
         If objCommonVar.GSTApplicable Then
             sql += " ,TSPL_Tax_Group_Master.Active as 'Active'"
@@ -1011,9 +1011,9 @@ Public Class FrmTaxGroups
         Me.Controls.Add(gv)
         Dim input() As String = {}
         If objCommonVar.GSTApplicable Then
-            input = {"Tax Group Code", "Description", "Tax Group Type", "Excisable", "VAT", "STax", "Tax Authority", "Authority Description", "Taxable", "Surtax", "Surtax Code", "Surtax Description", "TaxOnBaseAmt", "Active"}
+            input = {"Tax Group Code", "Description", "Tax Group Type", "Excisable", "VAT", "STax", "Tax Authority", "Authority Description", "Taxable", "Surtax", "Surtax Code", "Surtax Description", "TaxOnBaseAmt", "Default Type", "Active"}
         Else
-            input = {"Tax Group Code", "Description", "Tax Group Type", "Excisable", "VAT", "STax", "Tax Authority", "Authority Description", "Taxable", "Surtax", "Surtax Code", "Surtax Description", "TaxOnBaseAmt"}
+            input = {"Tax Group Code", "Description", "Tax Group Type", "Excisable", "VAT", "STax", "Tax Authority", "Authority Description", "Taxable", "Surtax", "Surtax Code", "Surtax Description", "TaxOnBaseAmt", "Default Type"}
         End If
         Dim inputlist As List(Of String) = New List(Of String)(input)
         If transportSql.importExcel(gv, inputlist.ToArray()) Then
@@ -1024,6 +1024,7 @@ Public Class FrmTaxGroups
                 Dim TaxGroupCode As String = ""
                 Dim TaxGroupType As String = ""
                 Dim Active As Integer = 0
+                Dim strDefaultType As Integer = 0
                 For Each grow As GridViewRowInfo In gv.Rows
                     Dim strTaxGrCode As String = clsCommon.myCstr(grow.Cells(0).Value)
                     Dim strDesc As String = clsCommon.myCstr(grow.Cells(1).Value)
@@ -1040,6 +1041,7 @@ Public Class FrmTaxGroups
                     Dim strSurtaxCode As String = clsCommon.myCstr(grow.Cells(10).Value)
                     Dim strSurtaxCodeDesc As String = clsCommon.myCstr(grow.Cells(11).Value)
                     Dim strTaxOnBaseAmt As String = clsCommon.myCstr(grow.Cells(12).Value)
+                    ' Dim strDefaultType As Integer = clsCommon.myCDecimal(grow.Cells(14).Value)
 
 
                     If objCommonVar.GSTApplicable Then
@@ -1052,7 +1054,20 @@ Public Class FrmTaxGroups
                             Exit Sub
                         End If
                     End If
-
+                    strDefaultType = clsCommon.myCdbl(grow.Cells(14).Value)
+                    If strDefaultType = 1 Then
+                        rbtnDefaultNonTaxabale.IsChecked = True
+                    ElseIf strDefaultType = 2 Then
+                        rbtnDefaultIGST.IsChecked = True
+                    ElseIf strDefaultType = 3 Then
+                        rbtnDefaultLocalGST.IsChecked = True
+                    End If
+                    'If strDefaultType <> 0 And strDefaultType <> 1 Then
+                    '    common.clsCommon.MyMessageBoxShow(Me, "Default Type can't be left blank", Me.Text)
+                    '    trans.Rollback()
+                    '    Me.Controls.Remove(gv)
+                    '    Exit Sub
+                    'End If
                     If String.IsNullOrEmpty(strexcisable) Or strexcisable.Length <= 0 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Excisable cannont be left blank", Me.Text)
                         trans.Rollback()
@@ -1151,13 +1166,17 @@ Public Class FrmTaxGroups
                                 'sanjay
                                 Dim col1 As New Hashtable()
                                 clsCommon.AddColumnsForChange(col1, "Active", Active)
+                                'clsCommon.AddColumnsForChange(col1, "Default_Type", strDefaultType)
+
                                 clsCommon.AddColumnsForChange(col1, "CURRENCY_CODE", objCommonVar.BaseCurrencyCode)
                                 clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "Tax_Group_Code='" + strTaxGrCode + "' AND Tax_Group_Type='" + strTaxGrType + "'", trans)
                                 'sanjay
                             Else
                                 connectSql.RunSpTransaction(trans, "sp_TSPL_TAX_GROUP_MASTER_UPDATE", New SqlParameter("@Tax_Group_Code", strTaxGrCode), New SqlParameter("@Tax_Group_Desc", strDesc), New SqlParameter("@Excisable", strexcisable), New SqlParameter("@Tax_Group_Type", strTaxGrType), New SqlParameter("@Vat", strvat), New SqlParameter("@STax", strstax), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode))
-                                'sanjay
+                                'sanjay 
                                 Dim col1 As New Hashtable()
+                                'clsCommon.AddColumnsForChange(col1, "Default_Type", strDefaultType)
+
                                 clsCommon.AddColumnsForChange(col1, "Active", Active)
                                 clsCommon.AddColumnsForChange(col1, "CURRENCY_CODE", objCommonVar.BaseCurrencyCode)
                                 clsCommonFunctionality.UpdateDataTable(col1, "TSPL_TAX_GROUP_MASTER", OMInsertOrUpdate.Update, "Tax_Group_Code='" + strTaxGrCode + "' AND Tax_Group_Type='" + strTaxGrType + "'", trans)

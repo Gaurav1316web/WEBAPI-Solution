@@ -405,6 +405,9 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
 
 
                 For i = 0 To obj.ArrPPDetail.Count - 1
+                    If clsCommon.CompairString(obj.ArrPPDetail(i).VSP_CODE, "DCS00170") = CompairStringResult.Equal Then
+                        Dim x As Integer = 0
+                    End If
                     If ShowProgressBAR Then
                         clsCommon.ProgressBarPercentUpdate(i * 100 / obj.ArrPPDetail.Count, " Creating Payment Entry  Record " & (i + 1) & " Of " & obj.ArrPPDetail.Count)
                     End If
@@ -686,7 +689,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         If XTotalAmount > 0 Then
                             For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRTo
                                 If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
-                                    Dim XAmount As Decimal = obj.arrClsPaymentProcessCreditNote(Counter).Amount
+                                    'Dim XAmount As Decimal = obj.arrClsPaymentProcessCreditNote(Counter).Amount
+                                    Dim XAmount As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
                                     If XAmount > 0 Then
                                         XTotalAmount -= XAmount
                                         objPayAdj = New clsPaymentAdjustmentEntry

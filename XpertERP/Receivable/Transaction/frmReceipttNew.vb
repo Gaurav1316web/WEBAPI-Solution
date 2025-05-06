@@ -415,6 +415,14 @@ Public Class FrmReceipttNew
             txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
         End If
 
+        If objCommonVar.RCDFCFP = True Then
+            TxtRoute.Visible = False
+            RadLabel2.Visible = False
+        Else
+            TxtRoute.Visible = True
+            RadLabel2.Visible = True
+        End If
+
 
 
     End Sub
@@ -1226,6 +1234,19 @@ Public Class FrmReceipttNew
                 CheckNegativeBankBalance()
             End If
             ''--------
+            If objCommonVar.RCDFCFP = False Then
+                Dim qry As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("Select Count(*)  from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndCustomer.Value & "' and (IsDistributor='Y' OR Credit_Customer='Y')"))
+                If qry = 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "This Customer is neither Distributor nor credit Customer Type")
+                    Return False
+                End If
+                'TxtRoute.Visible = False
+                'RadLabel2.Visible = False
+                'Else
+                'TxtRoute.Visible = True
+                'RadLabel2.Visible = True
+            End If
+
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
 
@@ -1410,6 +1431,7 @@ Public Class FrmReceipttNew
 
                 obj.Cust_Code = clsCommon.myCstr(fndCustomer.Value)
                 obj.Against_RCDF_Loadin = txtLoadIn.Value
+                obj.Route_Code = TxtRoute.Value
                 obj.Distr_Code = clsCommon.myCstr(txtDistr_Code.Text)
                 '' Anubhooti 30-Oct-2014 BM00000003904
                 Dim OutstandingAmt As Decimal = 0
@@ -2793,6 +2815,7 @@ Public Class FrmReceipttNew
 
                 fndCustomer.Value = obj.Cust_Code
                 txtLoadIn.Value = obj.Against_RCDF_Loadin
+                TxtRoute.Value = obj.Route_Code
                 txtCusName.Text = obj.Customer_Name
                 txtDistr_Code.Text = obj.Distr_Code
                 If clsCommon.myLen(obj.DateAndTime) > 0 Then
@@ -3439,6 +3462,7 @@ Public Class FrmReceipttNew
         fndCustomer.Value = ""
         txtCusName.Text = ""
         txtLoadIn.Value = ""
+        TxtRoute.Value = ""
         dtPost.Value = connectSql.serverDate()
         dtCheque.Value = connectSql.serverDate()
         txtChkNo.Text = ""
@@ -8334,10 +8358,6 @@ Public Class FrmReceipttNew
 
     End Sub
 
-    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
-
-    End Sub
-
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndRcptNo.Value) <= 0 Then
@@ -8360,6 +8380,17 @@ Public Class FrmReceipttNew
             txtLocationPrefix.Value = clsCommon.ShowSelectForm("LocationFndr", qry, "Code", WhrCls, txtLocationPrefix.Value, "Code", isButtonClicked)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtRoute._MYValidating
+        Try
+            Dim qry As String = String.Empty
+            qry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            TxtRoute.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", TxtRoute.Value, "", isButtonClicked)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
