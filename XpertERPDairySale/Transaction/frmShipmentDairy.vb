@@ -12905,6 +12905,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             cmbShift.Enabled = True
         End If
         cmbDisItemType.Enabled = False
+        btnSave_Click(btnSave, New EventArgs())
     End Sub
     Private Sub Vehicle()
         Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER

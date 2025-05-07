@@ -37,6 +37,8 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
+        Me.lblSupplyDate = New common.Controls.MyLabel()
         Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkNoCrateIssue = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkisTCS = New Telerik.WinControls.UI.RadCheckBox()
@@ -317,14 +319,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
-        Me.lblSupplyDate = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -592,8 +594,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -751,6 +751,46 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'txtSupplyDate
+        '
+        Me.txtSupplyDate.CalculationExpression = Nothing
+        Me.txtSupplyDate.CustomFormat = "dd/MM/yyyy hh:mm:tt"
+        Me.txtSupplyDate.FieldCode = Nothing
+        Me.txtSupplyDate.FieldDesc = Nothing
+        Me.txtSupplyDate.FieldMaxLength = 0
+        Me.txtSupplyDate.FieldName = Nothing
+        Me.txtSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSupplyDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtSupplyDate.isCalculatedField = False
+        Me.txtSupplyDate.IsSourceFromTable = False
+        Me.txtSupplyDate.IsSourceFromValueList = False
+        Me.txtSupplyDate.IsUnique = False
+        Me.txtSupplyDate.Location = New System.Drawing.Point(603, 0)
+        Me.txtSupplyDate.MendatroryField = False
+        Me.txtSupplyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.MyLinkLable1 = Me.lblSupplyDate
+        Me.txtSupplyDate.MyLinkLable2 = Nothing
+        Me.txtSupplyDate.Name = "txtSupplyDate"
+        Me.txtSupplyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.ReferenceFieldDesc = Nothing
+        Me.txtSupplyDate.ReferenceFieldName = Nothing
+        Me.txtSupplyDate.ReferenceTableName = Nothing
+        Me.txtSupplyDate.Size = New System.Drawing.Size(125, 18)
+        Me.txtSupplyDate.TabIndex = 1585
+        Me.txtSupplyDate.TabStop = False
+        Me.txtSupplyDate.Text = "13/06/2011 11:29:AM"
+        Me.txtSupplyDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblSupplyDate
+        '
+        Me.lblSupplyDate.FieldName = Nothing
+        Me.lblSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSupplyDate.Location = New System.Drawing.Point(533, 3)
+        Me.lblSupplyDate.Name = "lblSupplyDate"
+        Me.lblSupplyDate.Size = New System.Drawing.Size(68, 16)
+        Me.lblSupplyDate.TabIndex = 1584
+        Me.lblSupplyDate.Text = "Supply Date"
         '
         'chkIsEwayBill
         '
@@ -1972,6 +2012,7 @@ Partial Class frmDairyBookingCustomer
         Me.chkDCS.Size = New System.Drawing.Size(44, 16)
         Me.chkDCS.TabIndex = 1484
         Me.chkDCS.Text = "DCS"
+        Me.chkDCS.Visible = False
         '
         'chkSampling
         '
@@ -4500,46 +4541,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'txtSupplyDate
-        '
-        Me.txtSupplyDate.CalculationExpression = Nothing
-        Me.txtSupplyDate.CustomFormat = "dd/MM/yyyy hh:mm:tt"
-        Me.txtSupplyDate.FieldCode = Nothing
-        Me.txtSupplyDate.FieldDesc = Nothing
-        Me.txtSupplyDate.FieldMaxLength = 0
-        Me.txtSupplyDate.FieldName = Nothing
-        Me.txtSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSupplyDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtSupplyDate.isCalculatedField = False
-        Me.txtSupplyDate.IsSourceFromTable = False
-        Me.txtSupplyDate.IsSourceFromValueList = False
-        Me.txtSupplyDate.IsUnique = False
-        Me.txtSupplyDate.Location = New System.Drawing.Point(603, 0)
-        Me.txtSupplyDate.MendatroryField = False
-        Me.txtSupplyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtSupplyDate.MyLinkLable1 = Me.lblSupplyDate
-        Me.txtSupplyDate.MyLinkLable2 = Nothing
-        Me.txtSupplyDate.Name = "txtSupplyDate"
-        Me.txtSupplyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtSupplyDate.ReferenceFieldDesc = Nothing
-        Me.txtSupplyDate.ReferenceFieldName = Nothing
-        Me.txtSupplyDate.ReferenceTableName = Nothing
-        Me.txtSupplyDate.Size = New System.Drawing.Size(125, 18)
-        Me.txtSupplyDate.TabIndex = 1585
-        Me.txtSupplyDate.TabStop = False
-        Me.txtSupplyDate.Text = "13/06/2011 11:29:AM"
-        Me.txtSupplyDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'lblSupplyDate
-        '
-        Me.lblSupplyDate.FieldName = Nothing
-        Me.lblSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSupplyDate.Location = New System.Drawing.Point(533, 3)
-        Me.lblSupplyDate.Name = "lblSupplyDate"
-        Me.lblSupplyDate.Size = New System.Drawing.Size(68, 16)
-        Me.lblSupplyDate.TabIndex = 1584
-        Me.lblSupplyDate.Text = "Supply Date"
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4562,6 +4563,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4848,8 +4851,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

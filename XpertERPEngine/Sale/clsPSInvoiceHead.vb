@@ -1622,7 +1622,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
             If FinancialImpactForTPT Then
-                createAPInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                If obj.Transporter_Commission_TotalAmt > 0 Then
+                    createAPInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                End If
 
             End If
             'richa agarwal 21 Dec,2020 check eInvoice Implementation

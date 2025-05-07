@@ -2017,9 +2017,15 @@ Public Class frmScrapSale
                 TxtVehicleCode.Focus()
                 Return False
             End If
+            Dim TaxGroupCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where Is_Tax_Exempted=1 and Tax_Group_Type='S'"))
+            If clsCommon.CompairString(txtTaxGroup.Value, TaxGroupCode) = CompairStringResult.Equal Then
+                common.clsCommon.MyMessageBoxShow(Me, "Tax Group Code [" + TaxGroupCode + "] is not Allowed for Taxable", Me.Text)
+                txtTaxGroup.Focus()
+                Return False
+            End If
         End If
 
-        GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
+            GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
         If GSTStatus = False OrElse (chkTaxable.Checked AndAlso GSTStatus = True) Then
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
