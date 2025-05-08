@@ -110,6 +110,7 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).FormatString = "{0:n2}"
         Next
         gv1.ShowGroupPanel = False
         If rbtnMorning.IsChecked Then
