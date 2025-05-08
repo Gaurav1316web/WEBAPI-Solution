@@ -954,6 +954,8 @@ Public Class clsPSShipmentHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", trans)
             ''''  for automatic invoice
+            Dim skipTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
+            Dim skipNonTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipNonTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
 
             If IsDairyModule = False Then
                 Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, 0, IsDairyModule) 'sanjay
@@ -968,20 +970,8 @@ Public Class clsPSShipmentHead
             Else
                 'If Dairy Sale ON
                 If Not clsCommon.CompairString(obj.DO_Item_Type, "NT") = CompairStringResult.Equal Then
-                    Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, 1, IsDairyModule) 'sanjay
-                    If objSI.Arr.Count > 0 Then
-                        If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                            objSI.SaveData(objSI, False, trans, True, False)
-                        Else
-                            objSI.Item_Tax_Type = obj.Item_Tax_Type
-                            objSI.SaveData(objSI, True, trans, True)
-                        End If
-                    End If
-                Else
-                    Dim saleInvoiceNo As String = ""
-                    Dim CreateSeperateTaxInvForFOCIteminNonTaxdispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, clsFixedParameterCode.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, trans))
-                    If CreateSeperateTaxInvForFOCIteminNonTaxdispatch = 0 Then
-                        Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, obj.Is_Taxable, IsDairyModule) 'sanjay
+                    If Not skipTaxableInvoice Then
+                        Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, 1, IsDairyModule) 'sanjay
                         If objSI.Arr.Count > 0 Then
                             If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
                                 objSI.SaveData(objSI, False, trans, True, False)
@@ -990,35 +980,49 @@ Public Class clsPSShipmentHead
                                 objSI.SaveData(objSI, True, trans, True)
                             End If
                         End If
+                    End If
 
-                    Else
-                        saleInvoiceNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt=0", trans))
-                        Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, saleInvoiceNo, False, 0, IsDairyModule) 'sanjay
-                        If objSI.Arr.Count > 0 Then
-                            obj.Sale_Invoice_No = saleInvoiceNo
-                            If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                                objSI.SaveData(objSI, False, trans, True, False)
-                            Else
-                                objSI.Item_Tax_Type = obj.Item_Tax_Type
-                                objSI.SaveData(objSI, True, trans, True, False)
+
+                Else
+                    Dim saleInvoiceNo As String = ""
+                    Dim CreateSeperateTaxInvForFOCIteminNonTaxdispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, clsFixedParameterCode.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, trans))
+                    If Not skipNonTaxableInvoice Then
+                        If CreateSeperateTaxInvForFOCIteminNonTaxdispatch = 0 Then
+                            Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, obj.Is_Taxable, IsDairyModule) 'sanjay
+                            If objSI.Arr.Count > 0 Then
+                                If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                                    objSI.SaveData(objSI, False, trans, True, False)
+                                Else
+                                    objSI.Item_Tax_Type = obj.Item_Tax_Type
+                                    objSI.SaveData(objSI, True, trans, True)
+                                End If
                             End If
-                        End If
-
-
-                        saleInvoiceNo = ""
-                        saleInvoiceNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt > 0", trans))
-                        Dim objSI1 As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, saleInvoiceNo, False, 1, IsDairyModule) 'sanjay
-                        If objSI1.Arr.Count > 0 Then
-                            obj.Sale_Invoice_No = saleInvoiceNo
-                            If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                                objSI1.SaveData(objSI1, False, trans, True, True)
-                            Else
-                                objSI1.Item_Tax_Type = obj.Item_Tax_Type
-                                objSI1.SaveData(objSI1, True, trans, True, True)
+                        Else
+                            saleInvoiceNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt=0", trans))
+                            Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, saleInvoiceNo, False, 0, IsDairyModule) 'sanjay
+                            If objSI.Arr.Count > 0 Then
+                                obj.Sale_Invoice_No = saleInvoiceNo
+                                If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                                    objSI.SaveData(objSI, False, trans, True, False)
+                                Else
+                                    objSI.Item_Tax_Type = obj.Item_Tax_Type
+                                    objSI.SaveData(objSI, True, trans, True, False)
+                                End If
+                            End If
+                            saleInvoiceNo = ""
+                            saleInvoiceNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt > 0", trans))
+                            Dim objSI1 As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, saleInvoiceNo, False, 1, IsDairyModule) 'sanjay
+                            If objSI1.Arr.Count > 0 Then
+                                obj.Sale_Invoice_No = saleInvoiceNo
+                                If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                                    objSI1.SaveData(objSI1, False, trans, True, True)
+                                Else
+                                    objSI1.Item_Tax_Type = obj.Item_Tax_Type
+                                    objSI1.SaveData(objSI1, True, trans, True, True)
+                                End If
                             End If
                         End If
                     End If
-
                 End If
 
 
@@ -2030,7 +2034,8 @@ Public Class clsPSShipmentHead
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
-
+            Dim skipTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
+            Dim skipNonTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipNonTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
             ''Invoice Should create after post of Shipment.
             If obj.Is_Create_Auto_Invoice Then
                 'Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj)
@@ -2041,17 +2046,21 @@ Public Class clsPSShipmentHead
                     clsPSInvoiceHead.PostData("", obj.Sale_Invoice_No, trans)
                 Else
                     If Not clsCommon.CompairString(obj.DO_Item_Type, "NT") = CompairStringResult.Equal Then
-                        obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL inner join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE where TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code='" & obj.Document_Code & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans)
-                        clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
-                    Else
-                        obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt=0 and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans))
-                        If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                        If Not skipTaxableInvoice Then
+                            obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL inner join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE where TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code='" & obj.Document_Code & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans)
                             clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
                         End If
 
-                        obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt > 0 and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans))
-                        If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                            clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
+                    Else
+                        If Not skipNonTaxableInvoice Then
+                            obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt=0 and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans))
+                            If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                                clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
+                            End If
+                            obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt > 0 and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans))
+                            If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
+                                clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
+                            End If
                         End If
                     End If
                 End If

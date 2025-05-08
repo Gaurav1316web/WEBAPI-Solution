@@ -100,6 +100,7 @@ Partial Class frmCustomer
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkSkipTaxableInvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.CFP_Unitchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtReference = New common.Controls.MyTextBox()
@@ -424,9 +425,11 @@ Partial Class frmCustomer
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.rbtnAddSecurity = New Telerik.WinControls.UI.RadButton()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkSkipNonTaxableInvoice = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkSkipTaxableInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CFP_Unitchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtReference, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -721,6 +724,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.SuspendLayout()
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipNonTaxableInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -892,13 +896,15 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage3
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1079, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkSkipNonTaxableInvoice)
+        Me.RadPageViewPage1.Controls.Add(Me.chkSkipTaxableInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.CFP_Unitchk)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel45)
         Me.RadPageViewPage1.Controls.Add(Me.txtReference)
@@ -971,6 +977,15 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 424)
         Me.RadPageViewPage1.Text = "Address"
+        '
+        'chkSkipTaxableInvoice
+        '
+        Me.chkSkipTaxableInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSkipTaxableInvoice.Location = New System.Drawing.Point(726, 104)
+        Me.chkSkipTaxableInvoice.Name = "chkSkipTaxableInvoice"
+        Me.chkSkipTaxableInvoice.Size = New System.Drawing.Size(125, 16)
+        Me.chkSkipTaxableInvoice.TabIndex = 1384
+        Me.chkSkipTaxableInvoice.Text = "Skip Taxable Invoice"
         '
         'CFP_Unitchk
         '
@@ -6534,6 +6549,15 @@ Partial Class frmCustomer
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
         '
+        'chkSkipNonTaxableInvoice
+        '
+        Me.chkSkipNonTaxableInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSkipNonTaxableInvoice.Location = New System.Drawing.Point(726, 126)
+        Me.chkSkipNonTaxableInvoice.Name = "chkSkipNonTaxableInvoice"
+        Me.chkSkipNonTaxableInvoice.Size = New System.Drawing.Size(149, 16)
+        Me.chkSkipNonTaxableInvoice.TabIndex = 1385
+        Me.chkSkipNonTaxableInvoice.Text = "Skip Non-Taxable Invoice"
+        '
         'frmCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6552,6 +6576,7 @@ Partial Class frmCustomer
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkSkipTaxableInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CFP_Unitchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtReference, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6859,6 +6884,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipNonTaxableInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7217,5 +7243,7 @@ Partial Class frmCustomer
     Friend WithEvents rmiExportDefaultSeq As RadMenuItem
     Friend WithEvents rmiExportMorningSeq As RadMenuItem
     Friend WithEvents rmiExportEveningSeq As RadMenuItem
+    Friend WithEvents chkSkipTaxableInvoice As RadCheckBox
+    Friend WithEvents chkSkipNonTaxableInvoice As RadCheckBox
 End Class
 
