@@ -2375,6 +2375,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, "Quick Demand", "1.36.02.33", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmLeakedSaleReturn, "Leaked Sale Return", "1.36.02.34", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmMultipleInvoice, "Multiple Invoice", "1.36.02.35", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
 
         '' end of transaction

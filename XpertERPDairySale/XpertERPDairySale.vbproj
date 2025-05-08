@@ -911,6 +911,12 @@
     <Compile Include="Transaction\frmDairyBookingUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmMultipleInvoice.designer.vb">
+      <DependentUpon>frmMultipleInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmMultipleInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmDairyFreshDispatchMultiple.designer.vb">
       <DependentUpon>frmDairyFreshDispatchMultiple.vb</DependentUpon>
     </Compile>
@@ -1514,6 +1520,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyBookingUploader.resx">
       <DependentUpon>frmDairyBookingUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmMultipleInvoice.resx">
+      <DependentUpon>frmMultipleInvoice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyFreshDispatchMultiple.resx">
       <DependentUpon>frmDairyFreshDispatchMultiple.vb</DependentUpon>

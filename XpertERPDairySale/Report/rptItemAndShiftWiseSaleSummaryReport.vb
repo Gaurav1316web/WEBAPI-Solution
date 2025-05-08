@@ -22,7 +22,7 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
             Dim qry As String = "select distinct TSPL_SD_SALE_INVOICE_HEAD.Route_No as  [ROUTE NO],TSPL_ROUTE_MASTER.Route_Desc as [ROUTE NAME]  FROM TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
            left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No
             where  TSPL_SD_SALE_INVOICE_HEAD.Status = 1 AND convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) 
-            and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)  and TSPL_ITEM_MASTER.Is_FreshItem = 1 "
+            and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)   "
 
             If rbtnMorning.IsChecked Then
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
@@ -41,13 +41,13 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         GetReportGridID()
+        EnableDisableControls(False)
         LoadData()
     End Sub
-
     Sub funreset()
         EnableDisableControls(True)
         gv1.DataSource = Nothing
-        txtRoute.arrValueMember = Nothing
+        chkDCSSale.Checked = False
         RadPageView1.SelectedPage = RadPageViewPage1
         rbtnDemand.IsChecked = True
         rbtnMorning.IsChecked = True
@@ -110,6 +110,7 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).FormatString = "{0:n2}"
         Next
         gv1.ShowGroupPanel = False
         If rbtnMorning.IsChecked Then
@@ -265,8 +266,10 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
         Dim qry As String = ""
         Try
             Dim BaseQry As String = ""
+            Dim BaseQry2 As String = ""
             Dim whrcls As String = ""
-            Dim strShift As String = ""
+            Dim whrShift As String = ""
+            Dim whrDCSSaleShift As String = ""
             If ShowTodayDemandAsCurrentandUpcoming Then
                 If rbtnDemand.IsChecked Then
                     whrcls = " And convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "'   and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value.AddDays(1), "dd/MMM/yyyy") & "' "
@@ -281,7 +284,6 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 End If
             End If
 
-
             If rbtnMorning.IsChecked Then
                 If rbtnDemand.IsChecked Then
                     If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
@@ -291,9 +293,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                     End If
                 ElseIf rbtnDispatch.IsChecked Then
                     If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
+                        whrDCSSaleShift = " and 2=( case when Convert(Date, Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='PM' then 3 else 2 end  )"
+                        whrShift = " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='PM' then 3 else 2 end  )"
                     Else
-                        whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM'  "
+                        whrShift += " And Shift_Type = 'AM'  "
+                        whrDCSSaleShift += " And Shift_Type = 'AM'  "
                     End If
                 End If
             ElseIf rbtnEvening.IsChecked Then
@@ -305,9 +309,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                     End If
                 ElseIf rbtnDispatch.IsChecked Then
                     If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
+                        whrDCSSaleShift += " and 2=( case when Convert(Date, Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='AM' then 3 else 2 end  )"
+                        whrShift += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='AM' then 3 else 2 end  )"
                     Else
-                        whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
+                        whrDCSSaleShift += " And Shift_Type = 'PM'  "
+                        whrShift += " And Shift_Type = 'PM'  "
                     End If
                 End If
 
@@ -319,8 +325,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                     End If
                 ElseIf rbtnDispatch.IsChecked Then
                     If ShowTodayDemandAsCurrentandUpcoming Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
+                        whrShift += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='AM' then 3 else 2 end  )"
+                        whrShift += " and 2=( case when Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='PM' then 3 else 2 end  )"
+
+                        whrDCSSaleShift += " and 2=( case when Convert(Date, Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='AM' then 3 else 2 end  )"
+                        whrDCSSaleShift += " and 2=( case when Convert(Date, Document_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, Document_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value.AddDays(1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Shift_Type='PM' then 3 else 2 end  )"
                     End If
                 End If
             End If
@@ -329,33 +338,73 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 If rbtnDemand.IsChecked Then
                     whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 ElseIf rbtnDispatch.IsChecked Then
-                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    If chkDCSSale.Checked Then
+                        whrcls += " and isnull(TSPL_SD_SALE_INVOICE_HEAD.Route_No,'') in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ",'')"
+                    Else
+                        whrcls += " and isnull(TSPL_SD_SALE_INVOICE_HEAD.Route_No,'') in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    End If
+                End If
+            End If
+            Dim whrDCSSaleData As String = ""
+            If rbtnDispatch.IsChecked Then
+                If chkDCSSale.Checked Then
+                    whrDCSSaleData = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC' "
+                Else
                 End If
             End If
 
-            qry = " Select Short_Description,UOM_Code,Evening_Qty,Morning_Qty,Evening_Amt,Morning_Amt,Total_Qty,Total_Amt from ( "
+            qry = " Select max(Short_Description)Short_Description,max(UOM_Code)UOM_Code,sum(Evening_Qty)Evening_Qty,sum(Morning_Qty)Morning_Qty,sum(Evening_Amt)Evening_Amt,sum(Morning_Amt)Morning_Amt,sum(Total_Qty)Total_Qty,sum(Total_Amt)Total_Amt from ( "
             If rbtnDemand.IsChecked Then
                 BaseQry = " max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Evening' then TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Evening_Qty,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' then TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Morning_Qty,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Evening' then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount  else 0 end),0) as Evening_Amt,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount  else 0 end),0) as Morning_Amt,isnull(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor)),0) as Total_Qty,isnull(sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount),0) as Total_Amt
             FROM TSPL_DEMAND_BOOKING_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Print_UOM = 1 ) as  I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code
             where  TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & "	"
             ElseIf rbtnDispatch.IsChecked Then
-                BaseQry = " max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'PM' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Evening_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Morning_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'PM' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Evening_Amt,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Morning_Amt,isnull(sum(TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor)),0) as Total_Qty,isnull(sum(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt),0) as Total_Amt
+                Dim sqlqry As String = " max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'PM' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Evening_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Morning_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'PM' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Evening_Amt,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Morning_Amt "
+                BaseQry2 = " 'PM' as Shift_Type, max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = '' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Evening_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Morning_Qty,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = '' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Evening_Amt,isnull(sum(case when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' then TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  else 0 end),0) as Morning_Amt "
+
+                BaseQry = " ,isnull(sum(TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor)),0) as Total_Qty,isnull(sum(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt),0) as Total_Amt
             FROM TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
             LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Print_UOM = 1 ) as  I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code
-            where  TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & "	"
+            where  TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " 	"
+                BaseQry2 += BaseQry + whrDCSSaleData
+                BaseQry = "" + sqlqry + BaseQry + whrShift
             End If
             If rbtnDispatch.IsChecked Then
-                qry += "  SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & "  and IsTaxable = 0 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 0  
-             " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & " and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 1 "
+                qry += "  SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & "  and IsTaxable = 0 and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_ITEM_MASTER.Item_Code  "
+                If chkDCSSale.Checked Then
+                    qry += "" & Environment.NewLine & " union all SELECT sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM ( SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code,TSPL_ITEM_MASTER.Item_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Date," & BaseQry2 & "  and IsTaxable = 0  group by TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date)xxx where 2=2  " + whrDCSSaleShift + "  group by Item_Code,sno "
+                End If
+
+                qry += "" & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 0  and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+                If chkDCSSale.Checked Then
+                    qry += "" & Environment.NewLine & " union all " & Environment.NewLine & " SELECT max(sno)sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM (  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, " & BaseQry2 & "  and IsTaxable = 0 group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date)xxx where 2=2 " + whrDCSSaleShift + "  "
+                End If
+
+                qry += "" & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & " and IsTaxable = 1 and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_ITEM_MASTER.Item_Code  "
+                If chkDCSSale.Checked Then
+                    qry += "" & Environment.NewLine & " union all " & Environment.NewLine & " SELECT sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM ( SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date," & BaseQry2 & " and IsTaxable = 1  group by TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date )xxx where 2=2  " + whrDCSSaleShift + " group by Item_Code,sno "
+                End If
+                qry += "" & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 1 and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+                If chkDCSSale.Checked Then
+                    qry += "" & Environment.NewLine & " union all " & Environment.NewLine & " SELECT max(sno)sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM ( SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, " & BaseQry2 & "  and IsTaxable = 1  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date)xxx where 2=2  " + whrDCSSaleShift + " "
+                End If
             ElseIf rbtnDemand.IsChecked Then
                 qry += "  SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & "  and IsTaxable = 0 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 0  
              " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & " and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 1 "
             End If
-            qry += " ) xx	order by SNO, Sku_Seq "
+            qry += " ) xxxx where SNO is not null and total_qty >0	group by sno	order by SNO, max(Sku_Seq ) "
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return qry
     End Function
+
+    Private Sub rbtnDemand_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDemand.ToggleStateChanged
+        If rbtnDemand.IsChecked Then
+            chkDCSSale.Visible = False
+        ElseIf rbtnDispatch.IsChecked Then
+            chkDCSSale.Visible = True
+        End If
+    End Sub
 End Class

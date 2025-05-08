@@ -78,7 +78,7 @@ Public Class FrmPrintDistributerInvoiceStatement
         End If
 
         sQuery += " from TSPL_SD_SALE_INVOICE_HEAD
-left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
 left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
@@ -163,14 +163,8 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
             'End If
             Dim sQuery As String = ReturnLoadReportQry()
             If rbtnPartyWise.Checked Then
-                FinalQry = "Select Cast(0 as BIT) as 'Check',Supply_Date,Shift_type,Customer_Code,MAX(Customer_Name)Customer_Name,STRING_AGG(Route_Code, ', ')Route_Code,MAX(Location_Desc)Location_Desc,SUM(Total_Amt)Total_Amt,MAX(Email)Email,MAX(Mobile_no)Mobile_no "
-                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
-                    FinalQry += ",Case When Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As IsTaxable"
-                End If
-                FinalQry += " from (" + sQuery + ")xyz Group By Customer_Code,Supply_Date,Shift_type "
-                If clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
-                    FinalQry += ",Is_Taxable"
-                End If
+                FinalQry = "WITH FilteredData AS (" + sQuery + ") "
+                FinalQry += " SELECT CAST(0 AS BIT) AS [Check],Supply_Date,Shift_type,Customer_Code,MAX(Customer_Name) AS Customer_Name,(SELECT STRING_AGG(Route_Code, ', ')FROM (SELECT DISTINCT Route_Code FROM FilteredData r WHERE r.Customer_Code = f.Customer_Code AND r.Supply_Date = f.Supply_Date AND r.Shift_type = f.Shift_type) AS UniqueRoutes) AS Route_Code,MAX(Location_Desc) AS Location_Desc,SUM(Total_Amt) AS Total_Amt,MAX(Email) AS Email,MAX(Mobile_no) AS Mobile_no FROM FilteredData f GROUP BY Customer_Code, Supply_Date, Shift_type"
             Else
                 FinalQry = sQuery
             End If
@@ -281,11 +275,11 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         gv.Columns("Mobile_no").Width = 100
         gv.Columns("Mobile_no").HeaderText = "Mobile no"
 
-        If Not rbtnInvoiceWise.Checked AndAlso clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
-            gv.Columns("IsTaxable").IsVisible = True
-            gv.Columns("IsTaxable").Width = 100
-            gv.Columns("IsTaxable").HeaderText = "Taxable/Non-Taxable"
-        End If
+        'If Not rbtnInvoiceWise.Checked AndAlso clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+        '    gv.Columns("IsTaxable").IsVisible = True
+        '    gv.Columns("IsTaxable").Width = 100
+        '    gv.Columns("IsTaxable").HeaderText = "Taxable/Non-Taxable"
+        'End If
 
         'gv.Columns("DespatchDocumentNo").IsVisible = False
         'gv.Columns("DespatchDocumentNo").Width = 100
@@ -323,7 +317,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         txtMultCustomer.arrValueMember = Nothing
         txtMultRoute.arrValueMember = Nothing
         txtMultLocation.arrValueMember = Nothing
-        cboReportType.SelectedValue = ""
+        'cboReportType.SelectedValue = ""
         btnPrePrintFormat.Visible = False
         gv.DataSource = Nothing
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
@@ -573,7 +567,6 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                 Printing()
             End If
         Catch ex As Exception
-            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -652,9 +645,92 @@ Where TSPL_SD_SALE_INVOICE_HEAD.Document_Code In (" + InvCode + "))xyz Group By 
                 End If
 
                 If rbtnPartyWise.Checked Then
-                    Dim BaseQry As String = "Select Max(Report_Status) As Report_Status,Max(Is_Distributor) As Is_Distributor,Max(Is_BPL) As Is_BPL,Max(Is_CashSale) As Is_CashSale,Max(Is_DCS) As Is_DCS,Max(Booking_Type) As Booking_Type,Max(xyz.CST_LST) As CST_LST,Max(Manual_VehicleNo) As Manual_VehicleNo,Max(Payment_Terms) As Payment_Terms,Max(ReceiverName) As ReceiverName,Sum(Security_TotalAmt) As Security_TotalAmt,Max(Supply_Date) As Supply_Date,Max(Shift_Type) As Shift_Type,Sum(QTY_LTRKG) As QTY_LTRKG,Max(ITAX1) As ITAX1,Max(ITAX1_RATE) As ITAX1_RATE,Sum(ITAX1_Amt) As ITAX1_Amt,Max(ITAX2) As ITAX2,Max(ITAX2_RATE) As ITAX2_RATE,Sum(ITAX2_Amt) As ITAX2_Amt,Max(ITAX3) As ITAX3,Max(ITAX3_Rate) As ITAX3_Rate,Sum(ITAX3_Amt) As ITAX3_Amt,Max(ITAX4) As ITAX4,Max(ITAX4_RATE) As ITAX4_RATE,Sum(ITAX4_Amt) As ITAX4_Amt,Max(ITAX5) As ITAX5,Max(ITAX5_RATE) As ITAX5_RATE,Sum(ITAX5_Amt) As ITAX5_Amt,Max(ITAX6) As ITAX6,Max(ITAX6_RATE) As ITAX6_RATE,Sum(ITAX6_Amt) As ITAX6_Amt,Max(ITAX7) As ITAX7,Max(ITAX7_Rate) As ITAX7_Rate,Sum(ITAX7_Amt) As ITAX7_Amt,Max(ITAX8) As ITAX8,Max(ITAX8_RATE) As ITAX8_RATE,Sum(ITAX8_Amt) As ITAX8_Amt,Max(ITAX9) As ITAX9,Max(ITAX9_Rate) As ITAX9_Rate,Sum(ITAX9_Amt) As ITAX9_Amt,Max(ITAX10) As ITAX10,Max(ITAX10_RATE) As ITAX10_RATE,Sum(ITAX10_Amt) As ITAX10_Amt,Max(Zone_Code) As Zone_Code,Max(CF) As CF,Max(ConversionFactor) As ConversionFactor,Max(EInvoice_Type) As EInvoice_Type,Max(LeakageDeduction_Freshsale) As LeakageDeduction_Freshsale,Max(LeakageDeduction) As LeakageDeduction,Max(Location_Desc) As Location_Desc,Max(Loc_Short_Name) As Loc_Short_Name,Max(Loc_Pin) As Loc_Pin,Max(Loc_Phone) As Loc_Phone,Max(Loc_Eamil) As Loc_Eamil,Max(Loc_Website) As Loc_Website,Max(xyz.ISO_No) As ISO_No,Max(Invoice_No) As Invoice_No,Max(Invoice_Date) As Invoice_Date,Max(Cust_City) As Cust_City,Max(Against_Shipment_No) As Against_Shipment_No,Max(Cust_Gst_StateCode) As Cust_Gst_StateCode,Max(Electronic_Ref_No) As Electronic_Ref_No,Max(CustGSTNo) As CustGSTNo,Max(gst_state_code) As gst_state_code,Max(LocGstNo) As LocGstNo,Max(EWayBillNo) As EWayBillNo,Max(EWayBillDate) As EWayBillDate,Max(HSN_Code) As HSN_Code,Max(InvRemarks) As InvRemarks,Max(Delivery_Code) As Delivery_Code,Max(Conversion_factor) As Conversion_factor,Sum(QTY_Box) As QTY_Box,Max(Sale_Invoice_No) As Sale_Invoice_No,Max(vehicleNo) As vehicleNo,Max(Sale_Invoice_Date) As Sale_Invoice_Date,Sum(RoundOffAmount) As RoundOffAmount,Max(Loc_ADd1) As Loc_ADd1,Max(LOC_ADD2) As LOC_ADD2,Max(LOC_ADD3) As LOC_ADD3,Max(LocationState) As LocationState,Max(LOCPhone) As LOCPhone,Max(Loc_TIN_NO) As Loc_TIN_NO,Max(Document_Code) As Document_Code,Max(Document_Date) As Document_Date,Max(Description) As Description,Max(Lorry_No) As Lorry_No,Max(Sku_Seq) As Sku_Seq,Max(Item_Code) As Item_Code,Max(Line_No) As Line_No,Max(Item_Desc) As Item_Desc,Sum(QtyCrates) As QtyCrates,Max(ConvFactInCrate) As ConvFactInCrate,Max(ConvQtyInCrate) As ConvQtyInCrate,Max(Unit_code) As Unit_code,Sum(Qty_Default) As Qty_Default,Max(Rate_Default) As Rate_Default,Sum(QtyPCS) As QtyPCS,Sum(free_qty) As free_qty,Max(FreeSchemeInLitres) As FreeSchemeInLitres,Max(RatePerPcs) As RatePerPcs,Sum(valueInRs) As valueInRs,Max(comp_add2) As comp_add2,Max(comp_add3) As comp_add3,Max(CompPhone) As CompPhone,Max(Cash_Scheme_Amount) As Cash_Scheme_Amount,Max(schemeInCrates) As schemeInCrates,Max(GrandTotalCrates) As GrandTotalCrates,Max(xyz.Comp_Code) As Comp_Code,Max(xyz.Comp_Name) As Comp_Name,Max(comp_add1) As comp_add1,Max(comp_Fax) As comp_Fax,Max(comp_Email) As comp_Email,Max(comp_tinNo) As comp_tinNo,Max(xyz.cust_Code) As cust_Code,Max(Customer_Name) As Customer_Name,Max(cust_add1) As cust_add1,Max(cust_add2) As cust_add2,Max(cust_add3) As cust_add3,Max(CustPhone) As CustPhone,Max(cust_fax) As cust_fax,Max(Cust_state) As Cust_state,Max(cust_Statename) As cust_Statename,Max(cust_Email) As cust_Email,Max(cust_website) As cust_website,Max(Customer_Pan) As Customer_Pan,Max(Ack_No) As Ack_No,Max(Ack_Date) As Ack_Date,Max(TaxableNonTaxable) As TaxableNonTaxable,Max(TAX1) As TAX1,Max(TaxType1) As TaxType1,Sum(TAX1_Amt) As TAX1_Amt,Max(TAX1_Rate) As TAX1_Rate,Sum(TAX1Amt) As TAX1Amt,Max(TaxType2) As TaxType2,Max(TAX2) As TAX2,Sum(TAX2_Amt) As TAX2_Amt,Max(TAX2_Rate) As TAX2_Rate,Sum(TAX2Amt) As TAX2Amt,Max(TaxType3) As TaxType3,Max(TAX3) As TAX3,Sum(TAX3_Amt) As TAX3_Amt,Max(TAX3_Rate) As TAX3_Rate,Sum(TAX3Amt) As TAX3Amt,Max(TaxType4) As TaxType4,Max(TAX4) As TAX4,Sum(TAX4_Amt) As TAX4_Amt,Max(TAX4_Rate) As TAX4_Rate,Sum(TAX4Amt) As TAX4Amt,Max(TaxType5) As TaxType5,Max(TAX5) As TAX5,Sum(TAX5_Amt) As TAX5_Amt,Max(TaxType6) As TaxType6,Max(TAX6) As TAX6,Sum(TAX6_Amt) As TAX6_Amt,STRING_AGG(Route_No, ', ') As Route_No,STRING_AGG(Route_Desc, ', ') As Route_Desc,Max(Distributor_Commission_TotalAmt) As Distributor_Commission_TotalAmt,Max(Transporter_Commission_TotalAmt) As Transporter_Commission_TotalAmt,Max(Against_Delivery_Code) As Against_Delivery_Code,Max(batchNO) As batchNO,Max(Credit_Customer) As Credit_Customer,Max(Ship_To_Code) As Ship_To_Code,Max(Ship_To_Desc) As Ship_To_Desc,Max(Ship_Address) As Ship_Address,Max(Ship_City) As Ship_City,Max(Ship_State) As Ship_State,Max(Ship_Pin_Code) As Ship_Pin_Code,Max(Ship_PAN) As Ship_PAN,Max(Ship_GSTNO) As Ship_GSTNO,Sum(Booth_Security_Amt) As Booth_Security_Amt,Max(Brand) As Brand,Max(BRANDDESC) As BRANDDESC,Max(Particulars) As Particulars,Max(Crate_No) As Crate_No,Max(CopyType) As CopyType,Max(SellerGST) As SellerGST,Max(xyz.Pan_No) As Pan_No,Max(RateLtr) As RateLtr from (" + objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType) + ")xyz "
+                    Dim BaseQry As String = "Select Max(Report_Status) As Report_Status,Max(Is_Distributor) As Is_Distributor,Max(Is_BPL) As Is_BPL,Max(Is_CashSale) As Is_CashSale,Max(Is_DCS) As Is_DCS,Max(Booking_Type) As Booking_Type,Max(xyz.CST_LST) As CST_LST,Max(Manual_VehicleNo) As Manual_VehicleNo,Max(Payment_Terms) As Payment_Terms,Max(ReceiverName) As ReceiverName,Sum(Security_TotalAmt) As Security_TotalAmt,Max(Supply_Date) As Supply_Date,Max(Shift_Type) As Shift_Type,Sum(QTY_LTRKG) As QTY_LTRKG,"
+                    BaseQry += " Case When Max(ITAX1) In ('KKF','MNDTAX') Then MAX(ITAX1_Base_Amt) Else 0 End +
+Case When Max(ITAX2) In ('KKF','MNDTAX') Then MAX(ITAX2_Base_Amt) Else 0 End +
+Case When Max(ITAX3) In ('KKF','MNDTAX') Then MAX(ITAX3_Base_Amt) Else 0 End +
+Case When Max(ITAX4) In ('KKF','MNDTAX') Then MAX(ITAX4_Base_Amt) Else 0 End +
+Case When Max(ITAX5) In ('KKF','MNDTAX') Then MAX(ITAX5_Base_Amt) Else 0 End +
+Case When Max(ITAX6) In ('KKF','MNDTAX') Then MAX(ITAX6_Base_Amt) Else 0 End +
+Case When Max(ITAX7) In ('KKF','MNDTAX') Then MAX(ITAX7_Base_Amt) Else 0 End +
+Case When Max(ITAX8) In ('KKF','MNDTAX') Then MAX(ITAX8_Base_Amt) Else 0 End +
+Case When Max(ITAX9) In ('KKF','MNDTAX') Then MAX(ITAX9_Base_Amt) Else 0 End +
+Case When Max(ITAX10) In ('KKF','MNDTAX') Then MAX(ITAX10_Base_Amt) Else 0 End As 'BaseAmt',
+Case When Max(ITAX1)='KKF' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='KKF' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='KKF' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='KKF' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='KKF' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='KKF' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='KKF' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='KKF' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='KKF' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='KKF' Then Sum(ITAX10_Amt) Else 0 End As 'KKF',
+Case When Max(ITAX1)='MNDTAX' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='MNDTAX' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='MNDTAX' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='MNDTAX' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='MNDTAX' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='MNDTAX' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='MNDTAX' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='MNDTAX' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='MNDTAX' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='MNDTAX' Then Sum(ITAX10_Amt) Else 0 End As 'MNDTAX',
+Case When Max(ITAX1) In ('SGST','CGST','IGST') Then Max(ITAX1_Base_Amt)
+When Max(ITAX2) In ('SGST','CGST','IGST') Then Max(ITAX2_Base_Amt)
+When Max(ITAX3) In ('SGST','CGST','IGST') Then Max(ITAX3_Base_Amt)
+When Max(ITAX4) In ('SGST','CGST','IGST') Then Max(ITAX4_Base_Amt)
+When Max(ITAX5) In ('SGST','CGST','IGST') Then Max(ITAX5_Base_Amt)
+When Max(ITAX6) In ('SGST','CGST','IGST') Then Max(ITAX6_Base_Amt)
+When Max(ITAX7) In ('SGST','CGST','IGST') Then Max(ITAX7_Base_Amt)
+When Max(ITAX8) In ('SGST','CGST','IGST') Then Max(ITAX8_Base_Amt)
+When Max(ITAX9) In ('SGST','CGST','IGST') Then Max(ITAX9_Base_Amt)
+When Max(ITAX10) In ('SGST','CGST','IGST') Then Max(ITAX10_Base_Amt) Else 0 End As 'TaxableAmount', 
+Case When Max(ITAX1)='SGST' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='SGST' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='SGST' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='SGST' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='SGST' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='SGST' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='SGST' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='SGST' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='SGST' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='SGST' Then Sum(ITAX10_Amt) Else 0 End As 'SGST',
+Case When Max(ITAX1)='CGST' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='CGST' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='CGST' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='CGST' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='CGST' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='CGST' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='CGST' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='CGST' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='CGST' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='CGST' Then Sum(ITAX10_Amt) Else 0 End As 'CGST',
+Case When Max(ITAX1)='IGST' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='IGST' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='IGST' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='IGST' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='IGST' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='IGST' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='IGST' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='IGST' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='IGST' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='IGST' Then Sum(ITAX10_Amt) Else 0 End As 'IGST',
+Case When Max(ITAX1)='TCS' Then Sum(ITAX1_Amt) Else 0 End +
+Case When Max(ITAX2)='TCS' Then Sum(ITAX2_Amt) Else 0 End +
+Case When Max(ITAX3)='TCS' Then Sum(ITAX3_Amt) Else 0 End +
+Case When Max(ITAX4)='TCS' Then Sum(ITAX4_Amt) Else 0 End +
+Case When Max(ITAX5)='TCS' Then Sum(ITAX5_Amt) Else 0 End +
+Case When Max(ITAX6)='TCS' Then Sum(ITAX6_Amt) Else 0 End +
+Case When Max(ITAX7)='TCS' Then Sum(ITAX7_Amt) Else 0 End +
+Case When Max(ITAX8)='TCS' Then Sum(ITAX8_Amt) Else 0 End +
+Case When Max(ITAX9)='TCS' Then Sum(ITAX9_Amt) Else 0 End +
+Case When Max(ITAX10)='TCS' Then Sum(ITAX10_Amt) Else 0 End As 'TCS',"
+                    BaseQry += " Max(ITAX1) As ITAX1,Max(ITAX1_RATE) As ITAX1_RATE,Sum(ITAX1_Amt) As ITAX1_Amt,Max(ITAX2) As ITAX2,Max(ITAX2_RATE) As ITAX2_RATE,Sum(ITAX2_Amt) As ITAX2_Amt,Max(ITAX3) As ITAX3,Max(ITAX3_Rate) As ITAX3_Rate,Sum(ITAX3_Amt) As ITAX3_Amt,Max(ITAX4) As ITAX4,Max(ITAX4_RATE) As ITAX4_RATE,Sum(ITAX4_Amt) As ITAX4_Amt,Max(ITAX5) As ITAX5,Max(ITAX5_RATE) As ITAX5_RATE,Sum(ITAX5_Amt) As ITAX5_Amt,Max(ITAX6) As ITAX6,Max(ITAX6_RATE) As ITAX6_RATE,Sum(ITAX6_Amt) As ITAX6_Amt,Max(ITAX7) As ITAX7,Max(ITAX7_Rate) As ITAX7_Rate,Sum(ITAX7_Amt) As ITAX7_Amt,Max(ITAX8) As ITAX8,Max(ITAX8_RATE) As ITAX8_RATE,Sum(ITAX8_Amt) As ITAX8_Amt,Max(ITAX9) As ITAX9,Max(ITAX9_Rate) As ITAX9_Rate,Sum(ITAX9_Amt) As ITAX9_Amt,Max(ITAX10) As ITAX10,Max(ITAX10_RATE) As ITAX10_RATE,Sum(ITAX10_Amt) As ITAX10_Amt,Max(Zone_Code) As Zone_Code,Max(CF) As CF,Max(ConversionFactor) As ConversionFactor,Max(EInvoice_Type) As EInvoice_Type,Max(LeakageDeduction_Freshsale) As LeakageDeduction_Freshsale,Max(LeakageDeduction) As LeakageDeduction,Max(Location_Desc) As Location_Desc,Max(Loc_Short_Name) As Loc_Short_Name,Max(Loc_Pin) As Loc_Pin,Max(Loc_Phone) As Loc_Phone,Max(Loc_Eamil) As Loc_Eamil,Max(Loc_Website) As Loc_Website,Max(xyz.ISO_No) As ISO_No,Max(Invoice_No) As Invoice_No,Max(Invoice_Date) As Invoice_Date,Max(Cust_City) As Cust_City,Max(Against_Shipment_No) As Against_Shipment_No,Max(Cust_Gst_StateCode) As Cust_Gst_StateCode,Max(Electronic_Ref_No) As Electronic_Ref_No,Max(CustGSTNo) As CustGSTNo,Max(gst_state_code) As gst_state_code,Max(LocGstNo) As LocGstNo,Max(EWayBillNo) As EWayBillNo,Max(EWayBillDate) As EWayBillDate,Max(HSN_Code) As HSN_Code,Max(InvRemarks) As InvRemarks,Max(Delivery_Code) As Delivery_Code,Max(Conversion_factor) As Conversion_factor,Sum(QTY_Box) As QTY_Box,Max(Sale_Invoice_No) As Sale_Invoice_No,Max(vehicleNo) As vehicleNo,Max(Sale_Invoice_Date) As Sale_Invoice_Date,Sum(RoundOffAmount) As RoundOffAmount,Max(Loc_ADd1) As Loc_ADd1,Max(LOC_ADD2) As LOC_ADD2,Max(LOC_ADD3) As LOC_ADD3,Max(LocationState) As LocationState,Max(LOCPhone) As LOCPhone,Max(Loc_TIN_NO) As Loc_TIN_NO,Max(Document_Code) As Document_Code,Max(Document_Date) As Document_Date,Max(Description) As Description,Max(Lorry_No) As Lorry_No,Max(Sku_Seq) As Sku_Seq,Max(Item_Code) As Item_Code,Max(Line_No) As Line_No,Max(Item_Desc) As Item_Desc,Sum(QtyCrates) As QtyCrates,Max(ConvFactInCrate) As ConvFactInCrate,Max(ConvQtyInCrate) As ConvQtyInCrate,Max(Unit_code) As Unit_code,Sum(Qty_Default) As Qty_Default,Max(Rate_Default) As Rate_Default,Sum(QtyPCS) As QtyPCS,Sum(free_qty) As free_qty,Max(FreeSchemeInLitres) As FreeSchemeInLitres,Max(RatePerPcs) As RatePerPcs,Sum(valueInRs) As valueInRs,Max(comp_add2) As comp_add2,Max(comp_add3) As comp_add3,Max(CompPhone) As CompPhone,Max(Cash_Scheme_Amount) As Cash_Scheme_Amount,Max(schemeInCrates) As schemeInCrates,Max(GrandTotalCrates) As GrandTotalCrates,Max(xyz.Comp_Code) As Comp_Code,Max(xyz.Comp_Name) As Comp_Name,Max(comp_add1) As comp_add1,Max(comp_Fax) As comp_Fax,Max(comp_Email) As comp_Email,Max(comp_tinNo) As comp_tinNo,Max(xyz.cust_Code) As cust_Code,Max(Customer_Name) As Customer_Name,Max(cust_add1) As cust_add1,Max(cust_add2) As cust_add2,Max(cust_add3) As cust_add3,Max(CustPhone) As CustPhone,Max(cust_fax) As cust_fax,Max(Cust_state) As Cust_state,Max(cust_Statename) As cust_Statename,Max(cust_Email) As cust_Email,Max(cust_website) As cust_website,Max(Customer_Pan) As Customer_Pan,Max(Ack_No) As Ack_No,Max(Ack_Date) As Ack_Date,Max(TaxableNonTaxable) As TaxableNonTaxable,Max(TAX1) As TAX1,Max(TaxType1) As TaxType1,Sum(TAX1_Amt) As TAX1_Amt,Max(TAX1_Rate) As TAX1_Rate,Sum(TAX1Amt) As TAX1Amt,Max(TaxType2) As TaxType2,Max(TAX2) As TAX2,Sum(TAX2_Amt) As TAX2_Amt,Max(TAX2_Rate) As TAX2_Rate,Sum(TAX2Amt) As TAX2Amt,Max(TaxType3) As TaxType3,Max(TAX3) As TAX3,Sum(TAX3_Amt) As TAX3_Amt,Max(TAX3_Rate) As TAX3_Rate,Sum(TAX3Amt) As TAX3Amt,Max(TaxType4) As TaxType4,Max(TAX4) As TAX4,Sum(TAX4_Amt) As TAX4_Amt,Max(TAX4_Rate) As TAX4_Rate,Sum(TAX4Amt) As TAX4Amt,Max(TaxType5) As TaxType5,Max(TAX5) As TAX5,Sum(TAX5_Amt) As TAX5_Amt,Max(TaxType6) As TaxType6,Max(TAX6) As TAX6,Sum(TAX6_Amt) As TAX6_Amt,STRING_AGG(Route_No, ', ') As Route_No,STRING_AGG(Route_Desc, ', ') As Route_Desc,Max(Distributor_Commission_TotalAmt) As Distributor_Commission_TotalAmt,Max(Transporter_Commission_TotalAmt) As Transporter_Commission_TotalAmt,Max(Against_Delivery_Code) As Against_Delivery_Code,Max(batchNO) As batchNO,Max(Credit_Customer) As Credit_Customer,Max(Ship_To_Code) As Ship_To_Code,Max(Ship_To_Desc) As Ship_To_Desc,Max(Ship_Address) As Ship_Address,Max(Ship_City) As Ship_City,Max(Ship_State) As Ship_State,Max(Ship_Pin_Code) As Ship_Pin_Code,Max(Ship_PAN) As Ship_PAN,Max(Ship_GSTNO) As Ship_GSTNO,Sum(Booth_Security_Amt) As Booth_Security_Amt,Max(Brand) As Brand,Max(BRANDDESC) As BRANDDESC,Max(Particulars) As Particulars,Max(Crate_No) As Crate_No,Max(CopyType) As CopyType,Max(SellerGST) As SellerGST,Max(xyz.Pan_No) As Pan_No,Max(RateLtr) As RateLtr from (" + objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType) + ")xyz "
                     If isPdf Then
-                        BaseQry += " where convert(Date,Supply_Date,103)=Convert(Date,'" + SupplyDate + "',103) And Shift_Type='" + Shift + "' And cust_Code ='" + strPartyCode + "' And TaxableNonTaxable='" + isTaxable + "'"
+                        BaseQry += " where convert(Date,Supply_Date,103)=Convert(Date,'" + SupplyDate + "',103) And Shift_Type='" + Shift + "' And cust_Code ='" + strPartyCode + "'" ' And TaxableNonTaxable='" + isTaxable + "'"
+                    Else
+                        BaseQry += " And TaxableNonTaxable='" + isTaxable + "'"
                     End If
                     BaseQry += " Group By Convert(DAte,Supply_Date,103),Shift_Type,TaxableNonTaxable,cust_Code,Item_Code "
                     Qry = "Select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,* from (" + BaseQry + ")xyzFinal left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=xyzFinal.comp_code"
@@ -1313,26 +1389,26 @@ Where TSPL_SD_SALE_INVOICE_HEAD.Document_Code In (" + InvCode + "))xyz Group By 
                 If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
                     strDate.Add("Convert(Date,'" + clsCommon.myCstr(grow.Cells("Supply_Date").Value) + "',103)")
                     strCustCode.Add(clsCommon.myCstr(grow.Cells("Customer_Code").Value))
-                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Non-Taxable") = CompairStringResult.Equal Then
-                        If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("0") Then
-                            strTaxableNonTaxable += ",'0'"
-                        ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
-                            strTaxableNonTaxable = "'0'"
-                        End If
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
-                        If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("1") Then
-                            strTaxableNonTaxable += ",'1'"
-                        ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
-                            strTaxableNonTaxable = "'1'"
-                        End If
-                    End If
+                    'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Non-Taxable") = CompairStringResult.Equal Then
+                    '    If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("0") Then
+                    '        strTaxableNonTaxable += ",'0'"
+                    '    ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                    '        strTaxableNonTaxable = "'0'"
+                    '    End If
+                    'End If
+                    'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                    '    If clsCommon.myLen(strTaxableNonTaxable) > 0 AndAlso Not strTaxableNonTaxable.Contains("1") Then
+                    '        strTaxableNonTaxable += ",'1'"
+                    '    ElseIf clsCommon.myLen(strTaxableNonTaxable) <= 0 Then
+                    '        strTaxableNonTaxable = "'1'"
+                    '    End If
+                    'End If
                 End If
             Next
 
             Dim strQry As String = ReturnLoadReportQry()
-            strQry += " and CONVERT(date,Supply_Date,103) in (" + clsCommon.GetMulcallStringWithComma(strDate) + ") and TSPL_CUSTOMER_MASTER.Cust_Code In (" + clsCommon.GetMulcallString(strCustCode) + ")
-and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
+            strQry += " and CONVERT(date,Supply_Date,103) in (" + clsCommon.GetMulcallStringWithComma(strDate) + ") and TSPL_CUSTOMER_MASTER.Cust_Code In (" + clsCommon.GetMulcallString(strCustCode) + ") "
+            'strQry +=" And TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
             Dim dtt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
                 lstinvNo = New List(Of String)
@@ -1391,6 +1467,10 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
     'Ticket No-ERO/03/09/19-001018,Send Email with Invoice PDF attachment
     Private Sub BtnEmailSms_Click(sender As Object, e As EventArgs) Handles BtnEmailSms.Click
         Try
+            If Not clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Select All in invoice type", Me.Text)
+                Exit Sub
+            End If
             chkbtnEmailSMS = True
             Dim dtContent As DataTable
             If rbtnPartyWise.Checked Then
@@ -1402,8 +1482,12 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                 clsCommon.MyMessageBoxShow(Me, "First do email setting", Me.Text)
                 Exit Sub
             End If
-            checkSendEmailSMS()
             clsCommon.ProgressBarPercentShow()
+            Try
+                checkSendEmailSMS()
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
             Dim ii As Integer = 1
             Dim Total As Integer = 0
             For Each grow As GridViewRowInfo In gv.Rows
@@ -1463,7 +1547,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.CustomerGroup, strCustGrp)
-                        objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                        'objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
                         objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
 
                         objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
@@ -1475,15 +1559,15 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, strCustGrp)
-                        objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                        'objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
                         objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                         '------------------------code for attchament-------------------------------------
-                        istaxable = Nothing
-                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
-                            istaxable = "T"
-                        Else
-                            istaxable = "NT"
-                        End If
+                        'istaxable = Nothing
+                        'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                        '    istaxable = "T"
+                        'Else
+                        '    istaxable = "NT"
+                        'End If
                         strRptPath = ""
                         strRptPath = Printing(Nothing, True, False, True, clsCommon.myCstr(grow.Cells("Supply_Date").Value), clsCommon.myCstr(grow.Cells("Shift_type").Value), istaxable, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
                     End If
@@ -1673,6 +1757,11 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
 
     Private Sub BtnSMS_Click(sender As Object, e As EventArgs) Handles BtnSMS.Click
         Try
+            If Not clsCommon.CompairString(cboReportType.SelectedValue, "AL") = CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Select All in invoice type", Me.Text)
+                Exit Sub
+            End If
+
             chkbtnEmailSMS = False
             'Dim dtContent1 As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
 
@@ -1684,12 +1773,16 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
             End If
 
             If dtContent1 Is Nothing OrElse dtContent1.Rows.Count = 0 Then
-                clsCommon.ProgressBarPercentHide()
+                'clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "First do SMS setting", Me.Text)
                 Exit Sub
             End If
-            checkSendEmailSMS()
             clsCommon.ProgressBarPercentShow()
+            Try
+                checkSendEmailSMS()
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
             Dim ii As Integer = 1
             Dim Total As Integer = 0
             For Each grow As GridViewRowInfo In gv.Rows
@@ -1779,15 +1872,15 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerGroup, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "'")))
-                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
+                                'objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.InvoiceType, clsCommon.myCstr(grow.Cells("IsTaxable").Value))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
 
-                                istaxable = Nothing
-                                If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
-                                    istaxable = "T"
-                                Else
-                                    istaxable = "NT"
-                                End If
+                                'istaxable = Nothing
+                                'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IsTaxable").Value), "Taxable") = CompairStringResult.Equal Then
+                                '    istaxable = "T"
+                                'Else
+                                '    istaxable = "NT"
+                                'End If
                             End If
                         End If
                         If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
@@ -1795,7 +1888,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                                 objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "1", objSMSH, Nothing)
                             Else
                                 objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "2", objSMSH, Nothing)
-                                clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_INVOICE_HEAD Set Send_SMS=1 Where Document_Code In (" + clsCommon.GetMulcallString(lstinvNo) + ") and Customer_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "' and Is_Taxable='" + clsCommon.myCstr(IIf(clsCommon.CompairString(istaxable, "T") = CompairStringResult.Equal, 1, 0)) + "'")
+                                clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_INVOICE_HEAD Set Send_SMS=1 Where Document_Code In (" + clsCommon.GetMulcallString(lstinvNo) + ") and Customer_Code='" + clsCommon.myCstr(grow.Cells("Customer_Code").Value) + "' ")
                             End If
                             objSMSH = Nothing
                         End If
@@ -1804,7 +1897,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
                 End If
             Next
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1839,6 +1932,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable in (" + strTaxableNonTaxable + ") "
     Sub InvoiceAndPartyWiseCheck()
         If rbtnPartyWise.Checked Then
             rbtnDocumentDate.Enabled = False
+            rbtnSupplyDate.Checked = True
         Else
             rbtnDocumentDate.Enabled = True
         End If

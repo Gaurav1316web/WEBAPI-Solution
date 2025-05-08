@@ -1320,6 +1320,7 @@ Public Class frmCustomer
             obj.I_Route_No = clsCommon.myCstr(txtIRouteCode.Value)
             obj.City_Code = clsCommon.myCstr(fndCity.Value)
             obj.State = clsCommon.myCstr(fndstate.Value)
+
             ''richa ticket No. BM00000003109 on 19/08/2014
             If clsCommon.myCdbl(txtTempCreditLimit.Text) > 0 Then
                 obj.TempCreditLimit = clsCommon.myCdbl(txtTempCreditLimit.Text)
@@ -1337,6 +1338,16 @@ Public Class frmCustomer
                 obj.IsReorder = 1
             Else
                 obj.IsReorder = 0
+            End If
+            If chkSkipTaxableInvoice.Checked Then
+                obj.SkipTaxableInvoice = 1
+            Else
+                obj.SkipTaxableInvoice = 0
+            End If
+            If chkSkipNonTaxableInvoice.Checked Then
+                obj.SkipNonTaxableInvoice = 1
+            Else
+                obj.SkipNonTaxableInvoice = 0
             End If
             If CFP_Unitchk.Checked = True Then
                 obj.CFP_Unit = 1
@@ -2111,6 +2122,18 @@ Public Class frmCustomer
                 Else
                     chkIsRepeatOrder.Checked = False
                 End If
+                Dim SkipTaxableInvoice As Integer = clsCommon.myCDecimal(myDr("SkipTaxableInvoice"))
+                If SkipTaxableInvoice = 1 Then
+                    chkSkipTaxableInvoice.Checked = True
+                Else
+                    chkSkipTaxableInvoice.Checked = False
+                End If
+                Dim SkipNonTaxableInvoice As Integer = clsCommon.myCDecimal(myDr("SkipNonTaxableInvoice"))
+                If SkipNonTaxableInvoice = 1 Then
+                    chkSkipNonTaxableInvoice.Checked = True
+                Else
+                    chkSkipNonTaxableInvoice.Checked = False
+                End If
                 Dim iscfpunit As Integer = clsCommon.myCDecimal(myDr("CFP_Unit"))
                 If iscfpunit = 1 Then
                     CFP_Unitchk.Checked = True
@@ -2525,6 +2548,8 @@ Public Class frmCustomer
         chkTurnoverMorethan10CR.Checked = False
         chkTCSnotApplicable.Enabled = True
         ChkDcsOnly.Checked = False
+        chkSkipTaxableInvoice.Checked = False
+        chkSkipNonTaxableInvoice.Checked = False
         TxtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(TxtLocation.Value) > 0 Then
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + TxtLocation.Value + "' "))
@@ -2926,6 +2951,8 @@ Public Class frmCustomer
         chkHold.Checked = False
         chkInActive.Checked = False
         chkInActive.Enabled = False
+        chkSkipTaxableInvoice.Checked = False
+        chkSkipNonTaxableInvoice.Checked = False
         Me.txtPriceCode.Value = ""
         fndstate.Value = ""
         '' Anubhooti 26-Aug-2014
