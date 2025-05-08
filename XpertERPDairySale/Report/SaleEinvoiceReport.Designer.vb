@@ -67,6 +67,7 @@ Partial Class SaleEinvoiceReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkDCSSale = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -107,6 +108,7 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -146,6 +148,7 @@ Partial Class SaleEinvoiceReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkDCSSale)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
@@ -529,6 +532,7 @@ Partial Class SaleEinvoiceReport
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -612,6 +616,15 @@ Partial Class SaleEinvoiceReport
         Me.btnGo.TabIndex = 161
         Me.btnGo.Text = ">>>"
         '
+        'chkDCSSale
+        '
+        Me.chkDCSSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDCSSale.Location = New System.Drawing.Point(396, 99)
+        Me.chkDCSSale.Name = "chkDCSSale"
+        Me.chkDCSSale.Size = New System.Drawing.Size(70, 16)
+        Me.chkDCSSale.TabIndex = 446
+        Me.chkDCSSale.Text = "DCS Sale"
+        '
         'SaleEinvoiceReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -672,6 +685,7 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -721,5 +735,6 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents txtfDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gvData As common.UserControls.MyRadGridView
+    Friend WithEvents chkDCSSale As RadCheckBox
 End Class
 
