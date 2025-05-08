@@ -334,6 +334,7 @@ Public Class clsUserMgtCode
 
     ''============ShareReport=======================
     Public Const SubModuleShareReport As String = "SMShareR"
+    Public Const rptShareRegister As String = "SHA-REG"
 
     ''==========BullManagementModule======
     Public Const ModuleBullManagement As String = "MSBullMang"
