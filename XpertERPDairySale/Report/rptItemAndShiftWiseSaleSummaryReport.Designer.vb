@@ -22,7 +22,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -54,6 +54,8 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.chkDCSSale = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -88,6 +90,8 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -161,6 +165,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.MyLabel5)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -171,6 +176,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkDCSSale)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox4)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox5)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox2)
@@ -179,7 +185,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(341, 164)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(417, 164)
         Me.RadGroupBox1.TabIndex = 389
         '
         'RadGroupBox4
@@ -193,7 +199,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadGroupBox4.Location = New System.Drawing.Point(12, 11)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(314, 37)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(304, 37)
         Me.RadGroupBox4.TabIndex = 444
         Me.RadGroupBox4.Text = "Supply Date"
         '
@@ -211,7 +217,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(172, 11)
+        Me.MyLabel4.Location = New System.Drawing.Point(162, 11)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel4.TabIndex = 363
@@ -230,7 +236,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(75, 10)
+        Me.txtFromDate.Location = New System.Drawing.Point(71, 10)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
@@ -259,7 +265,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(224, 10)
+        Me.txtToDate.Location = New System.Drawing.Point(214, 10)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Me.MyLabel4
@@ -285,7 +291,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadGroupBox5.Location = New System.Drawing.Point(11, 117)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(315, 39)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(305, 39)
         Me.RadGroupBox5.TabIndex = 443
         Me.RadGroupBox5.Text = "Shift Type"
         '
@@ -303,7 +309,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         'rbtnEvening
         '
-        Me.rbtnEvening.Location = New System.Drawing.Point(115, 9)
+        Me.rbtnEvening.Location = New System.Drawing.Point(127, 9)
         Me.rbtnEvening.MyLinkLable1 = Nothing
         Me.rbtnEvening.MyLinkLable2 = Nothing
         Me.rbtnEvening.Name = "rbtnEvening"
@@ -314,7 +320,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         'rbtnBothShift
         '
-        Me.rbtnBothShift.Location = New System.Drawing.Point(199, 9)
+        Me.rbtnBothShift.Location = New System.Drawing.Point(224, 9)
         Me.rbtnBothShift.MyLinkLable1 = Nothing
         Me.rbtnBothShift.MyLinkLable2 = Nothing
         Me.rbtnBothShift.Name = "rbtnBothShift"
@@ -332,7 +338,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadGroupBox2.Location = New System.Drawing.Point(11, 77)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(315, 37)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(305, 37)
         Me.RadGroupBox2.TabIndex = 440
         Me.RadGroupBox2.Text = "TransactionType"
         '
@@ -350,7 +356,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         'rbtnDispatch
         '
-        Me.rbtnDispatch.Location = New System.Drawing.Point(118, 9)
+        Me.rbtnDispatch.Location = New System.Drawing.Point(129, 9)
         Me.rbtnDispatch.MyLinkLable1 = Nothing
         Me.rbtnDispatch.MyLinkLable2 = Nothing
         Me.rbtnDispatch.Name = "rbtnDispatch"
@@ -363,13 +369,13 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(86, 51)
+        Me.txtRoute.Location = New System.Drawing.Point(84, 51)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblLocation
         Me.txtRoute.MyLinkLable2 = Nothing
         Me.txtRoute.MyNullText = "All"
         Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(239, 19)
+        Me.txtRoute.Size = New System.Drawing.Size(229, 19)
         Me.txtRoute.TabIndex = 387
         '
         'lblLocation
@@ -408,7 +414,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -471,6 +477,27 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'chkDCSSale
+        '
+        Me.chkDCSSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDCSSale.Location = New System.Drawing.Point(341, 16)
+        Me.chkDCSSale.Name = "chkDCSSale"
+        Me.chkDCSSale.Size = New System.Drawing.Size(70, 16)
+        Me.chkDCSSale.TabIndex = 445
+        Me.chkDCSSale.Text = "DCS Sale"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel5.Location = New System.Drawing.Point(444, 369)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(221, 16)
+        Me.MyLabel5.TabIndex = 390
+        Me.MyLabel5.Text = "DCS Sale Data is added in Evening shift"
+        '
         'rptItemAndShiftWiseSaleSummaryReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -493,6 +520,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -522,6 +550,8 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -558,5 +588,7 @@ Partial Class rptItemAndShiftWiseSaleSummaryReport
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents chkDCSSale As RadCheckBox
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
 End Class
 
