@@ -21,6 +21,7 @@ Public Class SaleEinvoiceReport
         reset()
     End Sub
     Private Sub reset()
+        chkDCSSale.Checked = False
         txtfDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
@@ -119,16 +120,24 @@ Public Class SaleEinvoiceReport
             Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
             Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
             Dim qry As String = ""
+            Dim whrDCSSale As String = ""
+            Dim whrclsDate As String = ""
             If BtnMorning.IsChecked Then
-                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+                whrDCSSale = " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in( 'AM','')"
+                whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
             ElseIf BtnEvening.IsChecked Then
-                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+                whrDCSSale += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type in('PM','') "
+                whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
             End If
             If rbtnDocumentdate.IsChecked Then
-                Whr += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
                                 Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
             Else
-                Whr += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                whrclsDate += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
                                 Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
             End If
 
@@ -142,7 +151,11 @@ Public Class SaleEinvoiceReport
             End If
 
             If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+                If chkDCSSale.Checked Then
+                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ",'')" + Environment.NewLine
+                Else
+                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+                End If
             End If
 
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
@@ -158,6 +171,7 @@ Public Class SaleEinvoiceReport
                     Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
                 End If
             End If
+            Dim Baseqry As String = ""
             If rbtnSummary.IsChecked Then
                 GetReportGridID()
                 qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
@@ -263,7 +277,9 @@ Public Class SaleEinvoiceReport
                            ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
                            left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                           left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " + Whr + "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
+                           left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
+                Baseqry=qry
+                qry += "" + Whr + " " + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
             ElseIf rbtnDetail.IsChecked Then
                 qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
@@ -437,8 +453,17 @@ Public Class SaleEinvoiceReport
                                 LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
                                 left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                                 left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " + Whr + " "
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
+                Baseqry=qry
+                qry += " " + Whr + "" + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
             End If
+            If chkDCSSale.Checked Then
+                qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
+                If rbtnSummary.IsChecked Then
+                    qry += "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code "
+                End If
+            End If
+
             qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
             dt = clsDBFuncationality.GetDataTable(qry)
             gvData.GroupDescriptors.Clear()

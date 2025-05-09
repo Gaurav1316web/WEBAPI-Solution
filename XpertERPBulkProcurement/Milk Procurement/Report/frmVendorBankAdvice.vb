@@ -417,6 +417,8 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal AndAlso SettVSPHoldPaymentNotCompanyBank = True Then
                         BaseQry += "  TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name as GRPColumn,"
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        BaseQry += "  CASE WHEN TSPL_Vendor_MASTER.Bank_Code='CASH' THEN 'CASH' WHEN TSPL_Vendor_MASTER.Bank_Code='CENTRAL CO-OPERATIVE BANK' THEN 'CENTRAL CO-OPERATIVE BANK' ELSE 'Other Banks' END AS GRPColumn,"
                     Else
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code as GRPColumn,"
                     End If

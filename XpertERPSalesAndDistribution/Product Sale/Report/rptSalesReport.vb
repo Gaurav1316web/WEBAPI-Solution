@@ -75,6 +75,7 @@ Public Class rptSalesReport
             Dim FGSFG As String = ""
             Dim StatusInvoice As String = ""
             Dim StatusReturn As String = ""
+            Dim StatusReturn1 As String = ""
             Dim Stocktransferdispatch As String = ""
             Dim stocktransferinvoice As String = ""
             Dim statusScrap As String = ""
@@ -84,6 +85,7 @@ Public Class rptSalesReport
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=1 "
+                StatusReturn1 = " And TSPL_SCRAPSALE_HEAD_RETURN.ispost=1"
                 statusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=1 "
                 statusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=1 "
             ElseIf rdbUnposted.IsChecked = True Then
@@ -91,6 +93,7 @@ Public Class rptSalesReport
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=0 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=0 "
+                StatusReturn1 = " AND TSPL_SCRAPSALE_HEAD_RETURN.ispost=0 "
                 statusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=0 "
                 statusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=0 "
             ElseIf rdbAll.IsChecked = True Then
@@ -104,6 +107,31 @@ Public Class rptSalesReport
             If rdbSaleTransfer.IsChecked = True Then
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+            End If
+
+            Dim Itemqry As String = ""
+            Dim itemNames1 As String = Nothing
+            Dim itemNames2 As String = Nothing
+            Dim itemNames3 As String = Nothing
+            Dim itemNames4 As String = Nothing
+            Itemqry = " Select price_code from TSPL_PRICE_COMPONENT_MAPPING "
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    If i = 0 Then
+                        itemNames1 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "] "
+                        itemNames2 += " IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
+                        itemNames3 += " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)"
+                        itemNames4 += " Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
+
+                    Else
+                        itemNames1 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "] "
+                        itemNames2 += ", IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
+                        itemNames3 += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)"
+                        itemNames4 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
+
+                    End If
+                Next
             End If
 
             If rdbFG.IsChecked = True Then
@@ -409,13 +437,21 @@ QuantityBag as [Total BagSale]
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
             ElseIf rbnPricegroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
-                qry = "   Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
-  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
-((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50)*100 as [Total BagSale]
-  FROM
-                                   (SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,
-                                    TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
-                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,price_CodeNon								   
+                qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                          '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
+                           max(Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
+                          from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
+                          " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
+                            QuantityBag as [Total BagSale]
+                              FROM 
+                            (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+                                   sum(xx.Quantity)Quantity,sum(xx.QuantityBag)QuantityBag,
+                                    price_CodeNon FROM 
+                                   (SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,MAX(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
+                                    max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
+                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
+									Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,
+									price_CodeNon								   
 								   FROM TSPL_SD_SALE_RETURN_DETAIL
 								     left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
@@ -424,14 +460,41 @@ QuantityBag as [Total BagSale]
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
-                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL' 
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_BAG ON  TSPL_ITEM_UOM_BAG.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		 left outer join TSPL_SD_SALE_RETURN_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
                                      and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
-                qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
+                qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
+
+UNION ALL
+
+SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
+                                    max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) as Document_Date,
+                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
+									Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,
+									price_CodeNon								   
+								   FROM TSPL_SCRAPSALE_DETAIL_RETURN
+								     left outer join TSPL_SCRAPSALE_HEAD_RETURN on TSPL_SCRAPSALE_HEAD_RETURN.Document_No =TSPL_SCRAPSALE_DETAIL_RETURN.Document_No
+                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPSALE_HEAD_RETURN.cust_Code
+                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'  
+									  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_BAG ON  TSPL_ITEM_UOM_BAG.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
+						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code
+	                                 WHERE  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+                qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
+                qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),price_CodeNon,Loc_Code)XX  GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location
+)Tab1
+                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by location   "
 
             Else
                 If rbnCustgroup.Checked AndAlso rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
@@ -710,11 +773,19 @@ QuantityBag as [Total BagSale]
                              PIVOT (SUM(Quantity) FOR Cust_Group_Code IN ([UNION],[DEALER],[GOSHAL],[DCS],[GOV],[KVSS],[AGENCY],[RETAIL],[CFP],[MISC]))AS Tab2)tmp"
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
-                    qry = "Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([UNION], 0) as [MILKUNION] ,ISNULL ([DEALER], 0) as [DEALER],ISNULL ([GOSHAL], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOV], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([AGENCY],0) AS [AGENCY],ISNULL ([RETAIL], 0) AS [RETAIL],ISNULL ([CFP], 0) AS [CFP],ISNULL ([MISC], 0) as [OTHER],
-  (ISNULL ([UNION], 0) +ISNULL ([DEALER], 0)+ ISNULL ([GOSHAL], 0) + ISNULL ([DCS], 0) + ISNULL ([GOV], 0) + ISNULL ([KVSS], 0) + ISNULL ([RETAIL], 0)+ ISNULL ([CFP], 0)+ ISNULL ([AGENCY], 0)+ ISNULL ([MISC], 0)) as [Total Sale],
-((ISNULL ([UNION], 0) +ISNULL ([DEALER], 0)+ ISNULL ([GOSHAL], 0) + ISNULL ([DCS], 0) + ISNULL ([GOV], 0) + ISNULL ([KVSS], 0) + ISNULL ([RETAIL], 0)+ ISNULL ([CFP], 0)+ ISNULL ([AGENCY], 0)+ ISNULL ([MISC], 0))/50)*100 as [Total BagSale]
-  FROM                                   ( SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
-                                         sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,Cust_Group_Code								   
+                    qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                          '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
+                           max(Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] 
+                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
+                           " & itemNames2 & "," & itemNames3 & " as [Total Sale],
+                        QuantityBag as [Total BagSale]
+                          FROM       (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+                                   sum(xx.Quantity)Quantity,sum(xx.QuantityBag)QuantityBag,Cust_Group_Code FROM 
+             ( SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
+                                    max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
+                                         sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
+                                         Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,
+                                         Cust_Group_Code								   
 								   FROM TSPL_SD_SALE_RETURN_DETAIL
 								     left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
@@ -723,16 +794,44 @@ QuantityBag as [Total BagSale]
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
-                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL' 
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_BAG ON  TSPL_ITEM_UOM_BAG.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		 left outer join TSPL_SD_SALE_RETURN_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
                                      and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
 
-                    qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,
-                             TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location )Tab1
-                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN ([UNION],[DEALER],[GOSHAL],[DCS],[GOV],[KVSS],[AGENCY],[RETAIL],[CFP],[MISC]))AS Tab2)tmp"
+                    qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,Location 
+
+union all
+
+                                    SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
+                                    max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) as Document_Date,
+                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
+									Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,
+									Cust_Group_Code								   
+								   FROM TSPL_SCRAPSALE_DETAIL_RETURN
+								     left outer join TSPL_SCRAPSALE_HEAD_RETURN on TSPL_SCRAPSALE_HEAD_RETURN.Document_No =TSPL_SCRAPSALE_DETAIL_RETURN.Document_No
+                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPSALE_HEAD_RETURN.cust_Code
+                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'  
+									  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_BAG ON  TSPL_ITEM_UOM_BAG.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
+						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code
+                                     WHERE convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  And TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+
+                    qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
+                    qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),Cust_Group_Code,Loc_Code)XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location  "
+
+                    qry += " )Tab1
+                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2)tmp group by location "
                 End If
 
 
@@ -814,7 +913,7 @@ QuantityBag as [Total BagSale]
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
-            Gv1.Columns(ii).IsVisible = False
+            Gv1.Columns(ii).IsVisible = True
         Next
 
         Gv1.Columns("Location Description").Width = 100
@@ -833,103 +932,112 @@ QuantityBag as [Total BagSale]
         Gv1.Columns("Add1").IsVisible = False
         Gv1.Columns("Add1").HeaderText = "Add1"
 
-        Gv1.Columns("Location").Width = 100
-        Gv1.Columns("Location").IsVisible = True
-        Gv1.Columns("Location").HeaderText = "Location"
+        Gv1.Columns("Add4").Width = 100
+        Gv1.Columns("Add4").IsVisible = False
+        Gv1.Columns("Add4").HeaderText = "Add4"
 
-        Gv1.Columns("Document_Date").Width = 100
-        Gv1.Columns("Document_Date").IsVisible = True
         Gv1.Columns("Document_Date").HeaderText = "Invoice Date"
 
-        Gv1.Columns("MILKUNION").Width = 150
-        Gv1.Columns("MILKUNION").IsVisible = True
-        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(Qtl)"
+        'Gv1.Columns("Location").Width = 100
+        'Gv1.Columns("Location").IsVisible = True
+        'Gv1.Columns("Location").HeaderText = "Location"
 
-        If rbnCustgroup.Checked Then
-            Gv1.Columns("DEALER").Width = 150
-            Gv1.Columns("DEALER").IsVisible = True
-            Gv1.Columns("DEALER").HeaderText = "DEALER(Qtl)"
+        'Gv1.Columns("Document_Date").Width = 100
+        'Gv1.Columns("Document_Date").IsVisible = True
+        'Gv1.Columns("Document_Date").HeaderText = "Invoice Date"
 
-            Gv1.Columns("AGENCY").Width = 150
-            Gv1.Columns("AGENCY").IsVisible = True
-            Gv1.Columns("AGENCY").HeaderText = "AGENCY(Qtl)"
+        'Gv1.Columns("MILKUNION").Width = 150
+        'Gv1.Columns("MILKUNION").IsVisible = True
+        'Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(Qtl)"
 
-            Gv1.Columns("RETAIL").Width = 150
-            Gv1.Columns("RETAIL").IsVisible = True
-            Gv1.Columns("RETAIL").HeaderText = "RETAIL(Qtl)"
+        'If rbnCustgroup.Checked Then
+        '    Gv1.Columns("DEALER").Width = 150
+        '    Gv1.Columns("DEALER").IsVisible = True
+        '    Gv1.Columns("DEALER").HeaderText = "DEALER(Qtl)"
 
-            Gv1.Columns("CFP").Width = 150
-            Gv1.Columns("CFP").IsVisible = True
-            Gv1.Columns("CFP").HeaderText = "CFP(Qtl)"
-        End If
+        '    Gv1.Columns("AGENCY").Width = 150
+        '    Gv1.Columns("AGENCY").IsVisible = True
+        '    Gv1.Columns("AGENCY").HeaderText = "AGENCY(Qtl)"
 
-        Gv1.Columns("GOSHALA").Width = 150
-        Gv1.Columns("GOSHALA").IsVisible = True
-        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(Qtl)"
+        '    Gv1.Columns("RETAIL").Width = 150
+        '    Gv1.Columns("RETAIL").IsVisible = True
+        '    Gv1.Columns("RETAIL").HeaderText = "RETAIL(Qtl)"
 
-        Gv1.Columns("DCS").Width = 150
-        Gv1.Columns("DCS").IsVisible = True
-        Gv1.Columns("DCS").HeaderText = "DCS(Qtl)"
+        '    Gv1.Columns("CFP").Width = 150
+        '    Gv1.Columns("CFP").IsVisible = True
+        '    Gv1.Columns("CFP").HeaderText = "CFP(Qtl)"
+        'End If
 
-        Gv1.Columns("GOVT").Width = 150
-        Gv1.Columns("GOVT").IsVisible = True
-        Gv1.Columns("GOVT").HeaderText = "GOVT(Qtl)"
+        'Gv1.Columns("GOSHALA").Width = 150
+        'Gv1.Columns("GOSHALA").IsVisible = True
+        'Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(Qtl)"
 
-        Gv1.Columns("KVSS").Width = 150
-        Gv1.Columns("KVSS").IsVisible = True
-        Gv1.Columns("KVSS").HeaderText = "KVSS(Qtl)"
+        'Gv1.Columns("DCS").Width = 150
+        'Gv1.Columns("DCS").IsVisible = True
+        'Gv1.Columns("DCS").HeaderText = "DCS(Qtl)"
 
-        Gv1.Columns("OTHER").Width = 150
-        Gv1.Columns("OTHER").IsVisible = True
-        Gv1.Columns("OTHER").HeaderText = "OTHER(Qtl)"
+        'Gv1.Columns("GOVT").Width = 150
+        'Gv1.Columns("GOVT").IsVisible = True
+        'Gv1.Columns("GOVT").HeaderText = "GOVT(Qtl)"
 
-        Gv1.Columns("Total Sale").Width = 150
-        Gv1.Columns("Total Sale").IsVisible = True
-        Gv1.Columns("Total Sale").HeaderText = "Total Sale(Qtl)"
+        'Gv1.Columns("KVSS").Width = 150
+        'Gv1.Columns("KVSS").IsVisible = True
+        'Gv1.Columns("KVSS").HeaderText = "KVSS(Qtl)"
 
-        Gv1.Columns("Total BagSale").Width = 150
-        Gv1.Columns("Total BagSale").IsVisible = True
-        Gv1.Columns("Total BagSale").HeaderText = "Total Sale(Bag)"
+        'Gv1.Columns("OTHER").Width = 150
+        'Gv1.Columns("OTHER").IsVisible = True
+        'Gv1.Columns("OTHER").HeaderText = "OTHER(Qtl)"
+
+        'Gv1.Columns("Total Sale").Width = 150
+        'Gv1.Columns("Total Sale").IsVisible = True
+        'Gv1.Columns("Total Sale").HeaderText = "Total Sale(Qtl)"
+
+        'Gv1.Columns("Total BagSale").Width = 150
+        'Gv1.Columns("Total BagSale").IsVisible = True
+        'Gv1.Columns("Total BagSale").HeaderText = "Total Sale(Bag)"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        Dim item1 As New GridViewSummaryItem("Total Sale", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
+        'Dim item1 As New GridViewSummaryItem("Total Sale", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("OTHER", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item2)
+        'Dim item2 As New GridViewSummaryItem("OTHER", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("KVSS", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item3)
+        'Dim item3 As New GridViewSummaryItem("KVSS", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("GOVT", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item4)
+        'Dim item4 As New GridViewSummaryItem("GOVT", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem("DCS", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item5)
+        'Dim item5 As New GridViewSummaryItem("DCS", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem("GOSHALA", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item6)
+        'Dim item6 As New GridViewSummaryItem("GOSHALA", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item6)
 
-        Dim item7 As New GridViewSummaryItem("MILKUNION", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item7)
+        'Dim item7 As New GridViewSummaryItem("MILKUNION", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item7)
 
-        Dim item8 As New GridViewSummaryItem("Total BagSale", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item8)
-        If rbnCustgroup.Checked = True Then
-            Dim item11 As New GridViewSummaryItem("DEALER", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item11)
+        'Dim item8 As New GridViewSummaryItem("Total BagSale", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item8)
+        'If rbnCustgroup.Checked = True Then
+        '    Dim item11 As New GridViewSummaryItem("DEALER", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item11)
 
-            Dim item12 As New GridViewSummaryItem("AGENCY", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item12)
+        '    Dim item12 As New GridViewSummaryItem("AGENCY", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item12)
 
-            Dim item13 As New GridViewSummaryItem("RETAIL", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item13)
+        '    Dim item13 As New GridViewSummaryItem("RETAIL", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item13)
 
-            Dim item14 As New GridViewSummaryItem("CFP", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item14)
-        End If
-
+        '    Dim item14 As New GridViewSummaryItem("CFP", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item14)
+        'End If
+        Dim index As Integer = 5
+        For ii As Integer = index To Gv1.Columns.Count - 1
+            summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub

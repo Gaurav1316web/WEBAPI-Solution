@@ -821,7 +821,7 @@ Public Class frmPriceMasterPlan
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceComponentRate + "10").Value = objtr.Price_Rate10
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceComponentAmount + "10").Value = objtr.Price_Amount10
 
-                AddPriceComonent(isAddMasterCode)
+                AddPriceComonent(isAddMasterCode, False)
 
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxGroupCode).Value = objtr.Tax_group
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBasicPrice).Value = objtr.Item_Basic_Price
@@ -1018,8 +1018,29 @@ Public Class frmPriceMasterPlan
         Try
             Dim qry As String = "Select Distinct Price_Code as Code, Price_Code_Desc as [Description] ,isnull(Transfer,0) as Transfer from TSPL_PRICE_COMPONENT_MAPPING"
             gv1.CurrentRow.Cells(colPriceCode).Value = clsCommon.ShowSelectForm("PriceCode@PriceMaster", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceCode).Value), "", isButtonClick)
-            ''BlankPriceColumns()
-            AddPriceComonent(True)
+            If clsCommon.myLen(gv1.CurrentRow.Cells(colPriceCode).Value) > 0 AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 Then
+                qry = "select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where 2=2   "
+                If clsCommon.myCBool(gv1.CurrentRow.Cells(colItemTaxable).Value) Then
+                    Dim intDefaultType As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select top 1 Default_Type from TSPL_PRICE_COMPONENT_MAPPING where price_code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceCode).Value) + "'"))
+                    If intDefaultType = 0 Then
+                        gv1.CurrentRow.Cells(colPriceCode).Value = ""
+                        Throw New Exception("Please define Default Type of Price component mapping [" + gv1.CurrentRow.Cells(colPriceCode).Value + "]")
+                    ElseIf intDefaultType = 1 Then
+                        qry += " and Default_Type=2"
+                    ElseIf intDefaultType = 2 Then
+                        qry += " and Default_Type=3"
+                    Else
+                        Throw New Exception("Wrong Default Type of Price component mapping [" + gv1.CurrentRow.Cells(colPriceCode).Value + "]")
+                    End If
+                Else
+                    qry += " and Default_Type=1"
+                End If
+                AddPriceComonent(True, True)
+                gv1.CurrentRow.Cells(colTaxGroupCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                BlankTaxGroup()
+                AddTaxGroupAuthority(True, False)
+            End If
+
         Catch ex As Exception
             gv1.CurrentRow.Cells(colPriceCode).Value = ""
             BlankPriceColumns()
@@ -1027,10 +1048,10 @@ Public Class frmPriceMasterPlan
         End Try
     End Sub
 
-    Sub AddPriceComonent(ByVal isAddCurrentCode As Boolean)
-        Dim qry As String = "SELECT [Price_code] as [Price Code] ,[Price_Code_Desc] as [Desc] ,[Remarks] as [Remarks] ,[Price_Comp_Code] as [Price Componant Code]  " & _
-           ",[Price_Comp_Desc] as [Description], 0 as [Amount]" & _
-           ",PRICE_CALCULATION_METHOD AS [Price Type],Transfer " & _
+    Sub AddPriceComonent(ByVal isAddCurrentCode As Boolean, ByVal isAddRate As Boolean)
+        Dim qry As String = "SELECT [Price_code] as [Price Code] ,[Price_Code_Desc] as [Desc] ,[Remarks] as [Remarks] ,[Price_Comp_Code] as [Price Componant Code]  " &
+           ",[Price_Comp_Desc] as [Description], TSPL_PRICE_COMPONENT_MAPPING.Amount " &
+           ",PRICE_CALCULATION_METHOD AS [Price Type],Transfer " &
            " FROM [TSPL_PRICE_COMPONENT_MAPPING] where Price_code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceCode).Value) + "' order by Price_Component_Map_Code Asc"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1045,6 +1066,9 @@ Public Class frmPriceMasterPlan
                 End If
                 gv1.CurrentRow.Cells(colPriceComponentDesc + clsCommon.myCstr(ii + 1)).Value = clsCommon.myCstr(dt.Rows(ii)("Description"))
                 gv1.CurrentRow.Cells(colPriceComponentCalculationMethod + clsCommon.myCstr(ii + 1)).Value = clsCommon.myCstr(dt.Rows(ii)("Price Type"))
+                If isAddRate Then
+                    gv1.CurrentRow.Cells(colPriceComponentRate + clsCommon.myCstr(ii + 1)).Value = clsCommon.myCstr(dt.Rows(ii)("Amount"))
+                End If
             Next
         End If
     End Sub

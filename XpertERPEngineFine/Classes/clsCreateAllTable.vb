@@ -15103,6 +15103,7 @@ Public Class clsCreateAllTable
             coll.Add("Customer_Name_Hindi", "nvarchar(400) NULL")
             coll.Add("Display_Seq", "decimal (18,2) NULL")
             coll.Add("IsReorder", "int null default 0")
+
             'KUNAL >DATE 9-DEC-2016
             coll.Add("Cast_Category_Code", "varchar(30) null references TSPL_CAST_CATEGORY_MASTER(CAST_CATEGORY_CODE)")
             coll.Add("Distict_Code", "varchar(30)  null references TSPL_DISTRICT_MASTER(Code)")
@@ -15124,7 +15125,8 @@ Public Class clsCreateAllTable
             coll.Add("CFP_Unit", "int null default 0")
             coll.Add("Display_SeqM", "decimal (18,2) NULL")
             coll.Add("Display_SeqE", "decimal (18,2) NULL")
-
+            coll.Add("SkipTaxableInvoice", "int null default 0")
+            coll.Add("SkipNonTaxableInvoice", "int null default 0")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)

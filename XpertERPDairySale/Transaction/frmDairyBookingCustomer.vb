@@ -2770,6 +2770,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblCreatedDateAndTime.Text = ""
         chkDistributor.Checked = True
         chkDCS.Checked = False
+        chkDCS.Visible = False
         chkSampling.Enabled = True
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False

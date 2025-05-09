@@ -9593,6 +9593,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDairyFreshDispatchMultiple
                         frm = New frmDairyFreshDispatchMultiple
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmMultipleInvoice
+                        frm = New frmMultipleInvoice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmItemProjection
                     '    frm = New FrmItemProjection
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -10285,7 +10288,9 @@ Public Class MDI
                         frm = New frmShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                    Case clsUserMgtCode.rptShareRegister
+                        frm = New rptShareRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '---------------MIS------------------
                     Case clsUserMgtCode.MISitemGroups
                         frm = New frmMISItemGroup

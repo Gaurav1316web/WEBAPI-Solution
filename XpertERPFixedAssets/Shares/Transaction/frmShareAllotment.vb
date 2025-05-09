@@ -90,10 +90,11 @@ Public Class frmShareAllotment
     Private Sub fndDCSCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDCSCode._MYValidating
         Try
             Dim qry As String = " Select TSPL_VENDOR_MASTER.Vendor_Code As [DCS Code], TSPL_VENDOR_MASTER.Vendor_Name As [DCS Name],TSPL_VENDOR_MASTER.RegistrationNo As [DCS Registration],(TSPL_VENDOR_MASTER.Add1+','+TSPL_VENDOR_MASTER.Add2+','+TSPL_VENDOR_MASTER.Add3) As [Address], TSPL_VENDOR_MASTER.City_Code As [City],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader Code] from TSPL_VENDOR_MASTER
-                                  Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code "
-            fndDCSCode.Value = clsCommon.ShowSelectForm("ShareDCS", qry, "DCS Code", "", fndDCSCode.Value, "", isButtonClicked)
+                                  Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code"
+            Dim whrcls As String = " Form_Type='VSP'"
+            fndDCSCode.Value = clsCommon.ShowSelectForm("ShareDCS", qry, "DCS Code", whrcls, fndDCSCode.Value, "", isButtonClicked)
             If clsCommon.myLen(clsCommon.myCstr(fndDCSCode.Value)) > 0 Then
-                qry += " Where TSPL_VENDOR_MASTER.Vendor_Code='" + clsCommon.myCstr(fndDCSCode.Value) + "'"
+                qry += " where  TSPL_VENDOR_MASTER.Vendor_Code='" + clsCommon.myCstr(fndDCSCode.Value) + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count > 0 Then
                     lblRegistration.Text = clsCommon.myCstr(dt.Rows(0)("DCS Registration"))
